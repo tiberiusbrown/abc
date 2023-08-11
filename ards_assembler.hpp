@@ -1,0 +1,72 @@
+#pragma once
+
+#include <istream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+#include <limits.h>
+
+#include "ards_error.hpp"
+#include "ards_vm/ards_instr.hpp"
+
+namespace ards
+{
+
+struct assembler_t
+{
+    assembler_t()
+        : byte_count{}
+        , error{}
+    {}
+    error_t assemble(std::istream& f);
+    error_t link();
+    std::vector<uint8_t> const& data() { return linked_data; }
+private:
+    std::vector<uint8_t> linked_data;
+    
+    // convert label name to node index
+    std::unordered_map<std::string, size_t> labels;
+    
+    enum node_type_t : uint8_t
+    {
+        INSTR, // instruction opcode
+        LABEL, // label reference
+        IMM,   // immediate value
+    };
+    
+    struct node_t
+    {
+        size_t offset;
+        node_type_t type;
+        instr_t instr;
+        uint16_t size; // size of object in bytes
+        uint32_t imm;
+        std::string label;
+    };
+    
+    std::vector<node_t> nodes;
+    size_t byte_count;
+    error_t error;
+    
+    void push_instr(instr_t i)
+    {
+        nodes.push_back({ byte_count, INSTR, i, 1 });
+        byte_count += 1;
+    }
+
+    void push_imm(uint32_t i, uint16_t size)
+    {
+        nodes.push_back({ byte_count, IMM, I_NOP, size, i });
+        byte_count += size;
+    }
+
+    void push_label(std::string const& label)
+    {
+        nodes.push_back({ byte_count, LABEL, I_NOP, 3, 0, label });
+        byte_count += 3;
+    }
+
+};
+    
+}

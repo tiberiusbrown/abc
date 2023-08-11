@@ -1,0 +1,22 @@
+    push 00
+    push 00
+    
+    push 40
+    sys  set_frame_rate
+    
+frame:
+    sys  next_frame
+    bz   frame
+    
+    getl2 02
+    push 00
+    push 00
+    push 01
+    sys  draw_pixel
+    
+    push 01
+    push 00
+    add2
+    
+    sys  display
+    jmp  frame
