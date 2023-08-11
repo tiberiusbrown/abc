@@ -9,11 +9,12 @@ namespace ards
 
 static std::unordered_map<std::string, uint16_t> const sys_names =
 {
-    { "display",        0 },
-    { "draw_pixel",     1 },
-    { "set_frame_rate", 2 },
-    { "next_frame",     3 },
-    { "idle",           4 },
+    { "display",          0 },
+    { "draw_pixel",       1 },
+    { "draw_filled_rect", 2 },
+    { "set_frame_rate",   3 },
+    { "next_frame",       4 },
+    { "idle",             5 },
 };
 
 static bool isdigit(char c)
@@ -180,6 +181,13 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_JMP);
             push_label(read_label(f, error));
         }
+        else if(t == "call")
+        {
+            push_instr(I_CALL);
+            push_label(read_label(f, error));
+        }
+        else if(t == "ret")
+            push_instr(I_RET);
         else if(t == "sys")
         {
             push_instr(I_SYS);
@@ -197,6 +205,14 @@ error_t assembler_t::assemble(std::istream& f)
 
 error_t assembler_t::link()
 {
+    linked_data.clear();
+
+    // add signature: 0xABC00ABC in big-endian order
+    linked_data.push_back(0xAB);
+    linked_data.push_back(0xC0);
+    linked_data.push_back(0x0A);
+    linked_data.push_back(0xBC);
+
     for(size_t i = 0; i < nodes.size(); ++i)
     {
         auto const& n = nodes[i];

@@ -16,7 +16,7 @@ namespace ards
 struct assembler_t
 {
     assembler_t()
-        : byte_count{}
+        : byte_count(4) // start after 4 byte signature
         , error{}
     {}
     error_t assemble(std::istream& f);

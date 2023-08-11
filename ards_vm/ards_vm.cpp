@@ -3,6 +3,11 @@
 
 #include <Arduboy2.h>
 
+#define SPRITESU_IMPLEMENTATION
+#define SPRITESU_FX
+#define SPRITESU_RECT
+#include "SpritesU.hpp"
+
 #define VM_ASSEMBLY 1
 
 namespace ards
@@ -82,6 +87,16 @@ static sys_draw_pixel()
     Arduboy2Base::drawPixel(x, y, color);
 }
 
+static sys_draw_filled_rect()
+{
+    uint8_t color = vm_pop<uint8_t>();
+    uint8_t h = vm_pop<uint8_t>();
+    uint8_t w = vm_pop<uint8_t>();
+    int16_t y = vm_pop<int16_t>();
+    int16_t x = vm_pop<int16_t>();
+    SpritesU::fillRect(x, y, w, h, color);
+}
+
 static sys_set_frame_rate()
 {
     uint8_t fr = vm_pop<uint8_t>();
@@ -103,34 +118,46 @@ static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
     sys_draw_pixel,
+    sys_draw_filled_rect,
     sys_set_frame_rate,
     sys_next_frame,
     sys_idle,
 };
 
 #if VM_ASSEMBLY
-/*
 
-Registers
+// main assembly method containing optimized implementations for each instruction
+// the alignment of 512 allows optimized dispatch: the prog address for ijmp can
+// be computed by adding to the high byte only instead of adding a 2-byte offset
 
-    r0:1         - scratch regs
-    r2           - constant value 0
-    r3           - constant value 32
-    r4           - constant value 1
-    r5           - constant value hi8(vm_execute) TODO :/
-    r6:7:8       - pc
-    r16:17:18:19 - scratch regs
-    r28:29       - &vm.stack[sp] (sp is r28)
-
-*/
-   
 static void __attribute__((used, naked, aligned(512))) vm_execute()
 {
     asm volatile(
-
-    "vm_execute:\n"
     
-R"( 
+R"(
+
+vm_execute:
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; Registers
+; 
+;     r0:1         - scratch regs
+;     r2           - constant value 0
+;     r3           - constant value 32
+;     r4           - constant value 1
+;     r5           - constant value hi8(vm_execute) TODO :/
+;     r6:7:8       - pc
+;     r16:17:18:19 - scratch regs
+;     r28:29       - &vm.stack[sp] (sp is r28)
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; helper macros
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     .macro dispatch_delay
     lpm
     lpm
@@ -177,6 +204,10 @@ R"(
     ijmp
     .align 6
     .endm
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; instructions
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 I_NONE:
     dispatch_delay
@@ -328,6 +359,29 @@ I_JMP:
     call jump_to_pc
     dispatch
 
+I_CALL:
+    lds  r26, 0x0664
+    ldi  r27, 0x06
+    call read_3_bytes_end_nodelay
+    st   X+, r6
+    st   X+, r7
+    st   X+, r8
+    sts  0x0664, r26
+    movw r6, r16
+    mov  r8, r18
+    call jump_to_pc
+    dispatch
+
+I_RET:
+    lds  r26, 0x0664
+    ldi  r27, 0x06
+    ld   r8, -X
+    ld   r7, -X
+    ld   r6, -X
+    sts  0x0664, r26
+    call jump_to_pc
+    dispatch
+
 I_SYS:
     dispatch_delay
     read_byte
@@ -344,9 +398,10 @@ I_SYS:
     call restore_vm_state
     jmp  dispatch_func
     .align 6
-)"
-    
-R"(
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; helper methods
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 read_3_bytes:
     lpm
@@ -366,6 +421,7 @@ read_3_bytes:
 
 read_3_bytes_end:
     lpm
+read_3_bytes_end_nodelay:
     in   r16, %[spdr]
     out  %[spdr], r2
     ldi  r17, 3
@@ -485,14 +541,24 @@ void vm_run()
 {
     memset(&vm, 0, sizeof(vm));
     
+    // read signature and refuse to run if it's not present
+    {
+        FX::seekData(0);
+        uint32_t sig = FX::readPendingLastUInt32();
+        if(sig != 0xABC00ABC)
+            asm volatile("rjmp .-2\n"); // TODO: show a nice error screen
+    }
+    
+    // skip signature
+    *(volatile uint24_t*)&vm.pc = 4;
+    
 #if VM_ASSEMBLY
 
     asm volatile(R"(
     
         call restore_vm_state
         call jump_to_pc
-        jmp  dispatch_func
-    
+        call dispatch_func
     )"
     :
     : [spdr]       "i" (_SFR_IO_ADDR(SPDR))
@@ -586,6 +652,20 @@ void vm_run()
         case I_JMP:
             vm.pc = read_u24();
             (void)FX::readEnd();
+            FX::seekData(vm.pc);
+            break;
+        case I_CALL:
+        {
+            uint24_t tpc = read_u24();
+            (void)FX::readEnd();
+            vm.calls[vm.csp++] = vm.pc;
+            vm.pc = tpc;
+            FX::seekData(vm.pc);
+            break;
+        }
+        case I_RET:
+            (void)FX::readEnd();
+            vm.pc = vm.calls[--vm.csp];
             FX::seekData(vm.pc);
             break;
         case I_SYS:

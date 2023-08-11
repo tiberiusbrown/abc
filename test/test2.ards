@@ -11,12 +11,19 @@ frame:
     getl2 02
     push 00
     push 00
+    push 10
+    push 10
     push 01
-    sys  draw_pixel
+    sys  draw_filled_rect
     
     push 01
     push 00
     add2
     
+    call test_func
+    
     sys  display
     jmp  frame
+
+test_func:
+    ret

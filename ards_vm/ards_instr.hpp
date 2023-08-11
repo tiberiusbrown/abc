@@ -21,6 +21,8 @@ enum instr_t : uint8_t
     I_BNZ,   // pop, branch if nonzero to imm3
     I_BNEG,  // pop, branch if negative
     I_JMP,   // jmp imm3
+    I_CALL,
+    I_RET,
     I_SYS,   // call sys2
 };
 

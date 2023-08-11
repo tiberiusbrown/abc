@@ -33,7 +33,7 @@ add_library(ards_compiler STATIC
     )
 target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_CURRENT_SOURCE_DIR}/deps/cpp-peglib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
     )
 
 add_executable(ards_as ards_as.cpp)
