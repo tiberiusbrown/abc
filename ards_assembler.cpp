@@ -154,9 +154,9 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETL);
             push_imm(read_imm(f, error), 1);
         }
-        else if(t == "getl2")
+        else if(t == "getln")
         {
-            push_instr(I_GETL2);
+            push_instr(I_GETLN);
             push_imm(read_imm(f, error), 1);
         }
         else if(t == "setl")
@@ -164,9 +164,9 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETL);
             push_imm(read_imm(f, error), 1);
         }
-        else if(t == "setl2")
+        else if(t == "setln")
         {
-            push_instr(I_SETL2);
+            push_instr(I_SETLN);
             push_imm(read_imm(f, error), 1);
         }
         else if(t == "getg")
@@ -174,9 +174,9 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETG);
             push_global(f);
         }
-        else if(t == "getg2")
+        else if(t == "getgn")
         {
-            push_instr(I_GETG2);
+            push_instr(I_GETGN);
             push_global(f);
         }
         else if(t == "setg")
@@ -184,9 +184,9 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETG);
             push_global(f);
         }
-        else if(t == "setg2")
+        else if(t == "setgn")
         {
-            push_instr(I_SETG2);
+            push_instr(I_SETGN);
             push_global(f);
         }
         else if(t == "pop")

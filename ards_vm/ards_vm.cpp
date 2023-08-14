@@ -232,16 +232,16 @@ I_GETL:
     nop
     dispatch
 
-I_GETL2:
+I_GETLN:
     dispatch_delay
     read_byte
+    ld   r16, -Y
     movw r26, r28
     sub  r26, r0
-    ld   r0, X
+1:  ld   r0, X+
     st   Y+, r0
-    ld   r0, -X
-    st   Y+, r0
-    lpm
+    dec  r16
+    brne 1b
     dispatch
 
 I_SETL:
@@ -256,16 +256,16 @@ I_SETL:
     nop
     dispatch
  
-I_SETL2:
+I_SETLN:
     dispatch_delay
     read_byte
-    ld   r17, -Y
     ld   r16, -Y
     movw r26, r28
     sub  r26, r0
-    st   X+, r16
-    st   X, r17
-    lpm
+1:  ld   r0, -Y
+    st   -X, r0
+    dec  r16
+    brne 1b
     dispatch
 
 I_GETG:
@@ -277,17 +277,15 @@ I_GETG:
     call delay_11
     dispatch
 
-I_GETG2:
+I_GETGN:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
-    ld   r16, X+
-    ld   r17, X
-    st   Y+, r16
-    st   Y+, r17
-    lpm
-    lpm
-    nop
+    ld   r16, -Y
+1:  ld   r0, X+
+    st   Y+, r0
+    dec  r16
+    brne 1b
     dispatch
 
 I_SETG:
@@ -299,17 +297,17 @@ I_SETG:
     call delay_11
     dispatch
 
-I_SETG2:
+I_SETGN:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
-    adiw r26, 2
-    ld   r17, -Y
     ld   r16, -Y
-    st   -X, r17
-    st   -X, r16
-    lpm
-    rjmp .+0
+    add  r26, r16
+    adc  r27, r2
+1:  ld   r0, -Y
+    st   -X, r0
+    dec  r16
+    brne 1b
     dispatch
 
 I_POP:

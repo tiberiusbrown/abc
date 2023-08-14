@@ -21,13 +21,13 @@ enum instr_t : uint8_t
 
     I_PUSH,  // push imm
     I_GETL,  // push stack[top - imm] (imm=1 is TOS)
-    I_GETL2, // same as GETL but push 2 bytes
+    I_GETLN, // pop N then same as GETL but push N bytes
     I_SETL,  // pop, then store to stack[top - imm]
-    I_SETL2, // same as SETL but pop/store 2 bytes
+    I_SETLN, // pop N then same as SETL but pop/store N bytes
     I_GETG,  // push globals[imm]
-    I_GETG2, // same as GETG but push 2 bytes
+    I_GETGN, // pop N then same as GETG but push N bytes
     I_SETG,  // pop, then store to globals[imm]
-    I_SETG2, // same as SETG but pop/store 2 bytes
+    I_SETGN, // pop N then same as SETG but pop/store N bytes
     I_POP,   // a |
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1

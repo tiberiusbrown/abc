@@ -7,7 +7,8 @@ frame:
     sys  next_frame
     bz   frame
     
-    getg2 x
+    push 2
+    getgn x
     push 0
     push 0
     push 16
@@ -21,9 +22,11 @@ frame:
     jmp  frame
 
 increment_x:
-    getg2 x
+    push 2
+    getgn x
     push 1
     push 0
     add2
-    setg2 x
+    push 2
+    setgn x
     ret
