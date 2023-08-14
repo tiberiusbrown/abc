@@ -3,6 +3,18 @@
 namespace ards
 {
 
+enum sysfunc_t : uint16_t
+{
+    SYS_DISPLAY,
+    SYS_DRAW_PIXEL,
+    SYS_DRAW_FILLED_RECT,
+    SYS_SET_FRAME_RATE,
+    SYS_NEXT_FRAME,
+    SYS_IDLE,
+
+    SYS_NUM
+};
+
 enum instr_t : uint8_t
 {
     I_NOP,
@@ -12,18 +24,22 @@ enum instr_t : uint8_t
     I_GETL2, // same as GETL but push 2 bytes
     I_SETL,  // pop, then store to stack[top - imm]
     I_SETL2, // same as SETL but pop/store 2 bytes
-    I_POP,   // pop one element
+    I_GETG,  // push globals[imm]
+    I_GETG2, // same as GETG but push 2 bytes
+    I_SETG,  // pop, then store to globals[imm]
+    I_SETG2, // same as SETG but pop/store 2 bytes
+    I_POP,   // a |
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1
     I_SUB,   // a b | a-b
     I_SUB2,  // a0 a1 b0 b1 | (a-b)0 (a-b)1
+    I_NOT,   // a | !a
     I_BZ,    // pop, branch if zero to imm3
     I_BNZ,   // pop, branch if nonzero to imm3
-    I_BNEG,  // pop, branch if negative
     I_JMP,   // jmp imm3
     I_CALL,
     I_RET,
-    I_SYS,   // call sys2
+    I_SYS,   // call sysfunc
 };
 
 }

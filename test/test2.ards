@@ -1,29 +1,29 @@
-    push 00
-    push 00
+.global x 2
     
-    push 40
+    push 30
     sys  set_frame_rate
     
 frame:
     sys  next_frame
     bz   frame
     
-    getl2 02
-    push 00
-    push 00
-    push 10
-    push 10
-    push 01
+    getg2 x
+    push 0
+    push 0
+    push 16
+    push 16
+    push 1
     sys  draw_filled_rect
     
-    push 01
-    push 00
-    add2
-    
-    call test_func
+    call increment_x
     
     sys  display
     jmp  frame
 
-test_func:
+increment_x:
+    getg2 x
+    push 1
+    push 0
+    add2
+    setg2 x
     ret

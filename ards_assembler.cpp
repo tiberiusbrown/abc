@@ -1,20 +1,19 @@
 #include "ards_assembler.hpp"
 
-#include "ards_countstream.hpp"
-
+#include <sstream>
 #include <assert.h>
 
 namespace ards
 {
 
-static std::unordered_map<std::string, uint16_t> const sys_names =
+std::unordered_map<std::string, uint16_t> const sys_names =
 {
-    { "display",          0 },
-    { "draw_pixel",       1 },
-    { "draw_filled_rect", 2 },
-    { "set_frame_rate",   3 },
-    { "next_frame",       4 },
-    { "idle",             5 },
+    { "display",          SYS_DISPLAY          },
+    { "draw_pixel",       SYS_DRAW_PIXEL       },
+    { "draw_filled_rect", SYS_DRAW_FILLED_RECT },
+    { "set_frame_rate",   SYS_SET_FRAME_RATE   },
+    { "next_frame",       SYS_NEXT_FRAME       },
+    { "idle",             SYS_IDLE             },
 };
 
 static bool isdigit(char c)
@@ -81,6 +80,10 @@ static int hex2val(char c)
 
 uint32_t read_imm(std::istream& f, error_t& e)
 {
+#if 1
+    int64_t x;
+    f >> x;
+#else
     std::string t;
     f >> t;
     if(t.size() != 2 && t.size() != 4 && t.size() != 6)
@@ -101,7 +104,22 @@ uint32_t read_imm(std::istream& f, error_t& e)
         x <<= 8;
         x += (v0 * 16 + v1);
     }
+#endif
     return x;
+}
+
+void assembler_t::push_global(std::istream& f)
+{
+    std::string label = read_label(f, error);
+    if(!error.msg.empty()) return;
+    uint32_t offset = 0;
+    if(f.peek() == '+')
+    {
+        f.get();
+        offset = read_imm(f, error);
+    }
+    nodes.push_back({ byte_count, GLOBAL, I_NOP, 3, offset, label });
+    byte_count += 2;
 }
 
 error_t assembler_t::assemble(std::istream& f)
@@ -151,6 +169,26 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETL2);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "getg")
+        {
+            push_instr(I_GETG);
+            push_global(f);
+        }
+        else if(t == "getg2")
+        {
+            push_instr(I_GETG2);
+            push_global(f);
+        }
+        else if(t == "setg")
+        {
+            push_instr(I_SETG);
+            push_global(f);
+        }
+        else if(t == "setg2")
+        {
+            push_instr(I_SETG2);
+            push_global(f);
+        }
         else if(t == "pop")
             push_instr(I_POP);
         else if(t == "add")
@@ -161,6 +199,8 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SUB);
         else if(t == "sub2")
             push_instr(I_SUB2);
+        else if(t == "not")
+            push_instr(I_NOT);
         else if(t == "bz")
         {
             push_instr(I_BZ);
@@ -169,11 +209,6 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "bnz")
         {
             push_instr(I_BNZ);
-            push_label(read_label(f, error));
-        }
-        else if(t == "bneg")
-        {
-            push_instr(I_BNEG);
             push_label(read_label(f, error));
         }
         else if(t == "jmp")
@@ -193,6 +228,29 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SYS);
             push_imm(read_sys(f, error) * 2, 2);
         }
+        else if(t == ".global")
+        {
+            std::string label = read_label(f, error);
+            if(!error.msg.empty()) break;
+            if(globals.count(label) != 0)
+            {
+                error.msg = "Duplicate global \"" + label + "\"";
+                break;
+            }
+            uint32_t t = read_imm(f, error);
+            if(!error.msg.empty()) break;
+            if(t == 0)
+            {
+                error.msg = "Global \"" + label + "\" has zero size";
+                break;
+            }
+            globals[label] = globals_bytes;
+            globals_bytes += t;
+        }
+        else if(t == ".b")
+        {
+            push_imm(read_imm(f, error), 1);
+        }
         else
         {
             error.msg = "Unknown instruction or directive \"" + t + "\"";
@@ -206,6 +264,14 @@ error_t assembler_t::assemble(std::istream& f)
 error_t assembler_t::link()
 {
     linked_data.clear();
+
+    if(globals_bytes > 1024)
+    {
+        std::ostringstream ss;
+        ss << "Too much global data: " << globals_bytes << " bytes (1024 max)";
+        error.msg = ss.str();
+        return error;
+    }
 
     // add signature: 0xABC00ABC in big-endian order
     linked_data.push_back(0xAB);
@@ -226,6 +292,18 @@ error_t assembler_t::link()
             if(n.size >= 2) linked_data.push_back(uint8_t(n.imm >> 8));
             if(n.size >= 3) linked_data.push_back(uint8_t(n.imm >> 16));
         }
+        else if(n.type == GLOBAL)
+        {
+            auto it = globals.find(n.label);
+            if(it == globals.end())
+            {
+                error.msg = "Global not found: \"" + n.label + "\"";
+                return error;
+            }
+            size_t offset = it->second;
+            linked_data.push_back(uint8_t(offset >> 0));
+            linked_data.push_back(uint8_t(offset >> 8));
+        }
         else if(n.type == LABEL)
         {
             auto it = labels.find(n.label);
@@ -234,21 +312,18 @@ error_t assembler_t::link()
                 error.msg = "Label not found: \"" + n.label + "\"";
                 return error;
             }
-            if(it != labels.end())
+            size_t index = it->second;
+            if(index < nodes.size())
             {
-                size_t index = it->second;
-                if(index < nodes.size())
-                {
-                    auto offset = nodes[index].offset;
-                    linked_data.push_back(uint8_t(offset >> 0));
-                    linked_data.push_back(uint8_t(offset >> 8));
-                    linked_data.push_back(uint8_t(offset >> 16));
-                }
-                else
-                {
-                    error.msg = "Label \"" + n.label + "\" has no associated code";
-                    return error;
-                }
+                auto offset = nodes[index].offset;
+                linked_data.push_back(uint8_t(offset >> 0));
+                linked_data.push_back(uint8_t(offset >> 8));
+                linked_data.push_back(uint8_t(offset >> 16));
+            }
+            else
+            {
+                error.msg = "Label \"" + n.label + "\" has no associated code";
+                return error;
             }
         }
     }

@@ -209,7 +209,7 @@ vm_execute:
 ; instructions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-I_NONE:
+I_NOP:
     dispatch_delay
     dispatch
 
@@ -268,6 +268,50 @@ I_SETL2:
     lpm
     dispatch
 
+I_GETG:
+    call read_2_bytes
+    movw r26, r16
+    subi r27, -2
+    ld   r16, X
+    st   Y+, r16
+    call delay_11
+    dispatch
+
+I_GETG2:
+    call read_2_bytes
+    movw r26, r16
+    subi r27, -2
+    ld   r16, X+
+    ld   r17, X
+    st   Y+, r16
+    st   Y+, r17
+    lpm
+    lpm
+    nop
+    dispatch
+
+I_SETG:
+    call read_2_bytes
+    movw r26, r16
+    subi r27, -2
+    ld   r16, -Y
+    st   X, 16
+    call delay_11
+    dispatch
+
+I_SETG2:
+    call read_2_bytes
+    movw r26, r16
+    subi r27, -2
+    adiw r26, 2
+    ld   r17, -Y
+    ld   r16, -Y
+    st   -X, r17
+    st   -X, r16
+    lpm
+    rjmp .+0
+    dispatch
+
 I_POP:
     dec  r28
     lpm
@@ -310,6 +354,14 @@ I_SUB2:
     st   Y+, r17
     dispatch
 
+I_NOT:
+    ld   r0, -Y
+    ldi  r16, 1
+    cpse r0, r2
+    clr  r16
+    st   Y+, r16
+    dispatch
+
 I_BZ:
     call read_3_bytes_end
     ld   r0, -Y
@@ -329,20 +381,6 @@ I_BNZ:
     ld   r0, -Y
     cp   r0, r2
     breq 2f
-    movw r6, r16
-    mov  r8, r18
-    call jump_to_pc
-1:  jmp dispatch_func
-2:  out  %[spdr], r2
-    call delay_10
-    rjmp 1b
-    .align 6
-
-I_BNEG:
-    call read_3_bytes_end
-    ld   r0, -Y
-    sbrs r0, 7
-    rjmp 2f
     movw r6, r16
     mov  r8, r18
     call jump_to_pc
@@ -433,6 +471,19 @@ read_3_bytes_end_nodelay:
     out  %[spdr], r2
     call delay_16
     in   r18, %[spdr]
+    ret
+
+read_2_bytes:
+    lpm
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    call delay_12
+    in   r17, %[spdr]
+    out  %[spdr], r2
     ret
 
     ; these two methods are used by the SYS instruction
@@ -586,9 +637,21 @@ void vm_run()
         case I_GETL2:
         {
             uint8_t t = read_u8();
-            vm.stack[vm.sp] = vm.stack[vm.sp - t];
+            vm.stack[vm.sp + 0] = vm.stack[vm.sp - t + 0];
             vm.stack[vm.sp + 1] = vm.stack[vm.sp - t + 1];
             vm.sp += 2;
+            break;
+        }
+        case I_SETL:
+            --vm.sp;
+            vm.stack[vm.sp - read_u8()] = vm.stack[vm.sp];
+            break;
+        case I_SETL2:
+        {
+            uint8_t t = read_u8();
+            vm.sp -= 2;
+            vm.stack[vm.sp - t + 0] = vm.stack[vm.sp + 0];
+            vm.stack[vm.sp - t + 1] = vm.stack[vm.sp + 1];
             break;
         }
         case I_POP:

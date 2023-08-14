@@ -15,7 +15,7 @@ void compiler_t::parse(std::istream& fi)
     peg::parser p;
 
     p.set_logger([&](size_t line, size_t column, std::string const& msg) {
-        errs.push_back({ msg, line, column });
+        errs.push_back({ msg, { line, column } });
     });
     p.load_grammar(
 #if 0
@@ -102,21 +102,30 @@ func_stmt           <- type_name ident '(' ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
                        decl_stmt     /
+                       while_stmt    /
                        expr_stmt
+while_stmt          <- 'while' '(' expr ')' stmt
 expr_stmt           <- ';' / expr ';'
 
 # right-associative binary assignment operator
-expr                <- primary_expr assignment_op expr / additive_expr
+expr                <- postfix_expr assignment_op expr / additive_expr
 
 # left-associative binary operators
-additive_expr       <- primary_expr (additive_op primary_expr)*
+additive_expr       <- cast_expr (additive_op cast_expr)*
 
+cast_expr           <- unary_expr / '(' type_name ')' cast_expr
+unary_expr          <- postfix_expr / unary_op cast_expr
+postfix_expr        <- primary_expr postfix*
 primary_expr        <- ident / decimal_literal / '(' expr ')'
 
+postfix             <- '(' arg_expr_list? ')'
+
 type_name           <- ident
+arg_expr_list       <- expr (',' expr)*
 
 additive_op         <- < [+-] >
 assignment_op       <- < '=' >
+unary_op            <- < [!-] >
 decimal_literal     <- < [0-9]+ >
 ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
 
@@ -137,10 +146,60 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     p["type_name"] = [](peg::SemanticValues const& v) {
         return ast_node_t{ v.line_info(), AST::TYPE, v.token() };
     };
+    p["cast_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        if(v.choice() == 0)
+            return std::any_cast<ast_node_t>(v[0]);
+        return {
+            v.line_info(), AST::OP_CAST, v.token(),
+            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+        };
+    };
+    p["unary_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        if(v.choice() == 0)
+            return std::any_cast<ast_node_t>(v[0]);
+        return {
+            v.line_info(), AST::OP_UNARY, v.token(),
+            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+        };
+    };
+
+    // form a left-associative binary tree
+    p["postfix_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a = std::any_cast<ast_node_t>(v[0]);
+        if(v.size() == 1) return a;
+        for(size_t i = 1; i < v.size(); ++i)
+        {
+            ast_node_t b = std::any_cast<ast_node_t>(v[i]);
+            ast_node_t pair{ v.line_info(), AST::NONE, v.token() };
+            pair.children.emplace_back(std::move(a));
+            pair.children.emplace_back(std::move(b));
+            a = std::move(pair);
+        }
+        return a;
+    };
+
+    p["postfix"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        // only function call supported now
+        ast_node_t a = { v.line_info(), AST::FUNC_ARGS, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
+
+    p["arg_expr_list"] = [](peg::SemanticValues const& v) {
+        ast_node_t a = { v.line_info(), AST::LIST, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
+
     p["primary_expr"] = [](peg::SemanticValues const& v) {
         return std::any_cast<ast_node_t>(v[0]);
     };
     p["additive_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return { v.line_info(), AST::TOKEN, v.token() };
+    };
+    p["unary_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::TOKEN, v.token() };
     };
     p["additive_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
@@ -164,8 +223,17 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         auto type = AST::OP_ASSIGN;
         return { v.line_info(), type, v.token(), { std::move(child0), std::move(child2) } };
     };
+    p["while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return {
+            v.line_info(), AST::WHILE_STMT, v.token(),
+            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+        };
+    };
     p["expr_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return { v.line_info(), AST::EXPR_STMT, v.token(), { std::any_cast<ast_node_t>(v[0]) } };
+        if(v.empty()) return { v.line_info(), AST::EMPTY_STMT, v.token() };
+        ast_node_t a{ v.line_info(), AST::EXPR_STMT, v.token() };
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
+        return a;
     };
     p["compound_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::BLOCK, v.token() };
@@ -188,6 +256,12 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     };
     p["global_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return std::any_cast<ast_node_t>(v[0]);
+    };
+    p["while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::WHILE_STMT, v.token() };
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
+        return a;
     };
     p["program"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::PROGRAM, v.token() };
