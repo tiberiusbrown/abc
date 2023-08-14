@@ -30,7 +30,7 @@ static std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "s32",  TYPE_S32  },
 };
 
-static std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
+std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
     { SYS_DISPLAY,          { TYPE_VOID, {} } },
     { SYS_DRAW_PIXEL,       { TYPE_VOID, { TYPE_S16, TYPE_S16, TYPE_U8 } } },
@@ -75,6 +75,36 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     return TYPE_NONE;
 }
 
+void compiler_t::transform_left_assoc_infix(ast_node_t& n)
+{
+    if(!errs.empty()) return;
+    // transform left-associative infix chains into left binary trees
+    for(auto& child : n.children)
+        transform_left_assoc_infix(child);
+    switch(n.type)
+    {
+    case AST::OP_ADDITIVE:
+    {
+        assert(n.children.size() >= 3);
+        assert(n.children.size() % 2 == 1);
+        ast_node_t a = std::move(n.children[0]);
+        for(size_t i = 1; i < n.children.size(); i += 2)
+        {
+            ast_node_t op = std::move(n.children[i]);
+            ast_node_t b = std::move(n.children[i + 1]);
+            op.type = n.type;
+            op.children.emplace_back(std::move(a));
+            op.children.emplace_back(std::move(b));
+            a = std::move(op);
+        }
+        n = std::move(a);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void compiler_t::compile(std::istream& fi, std::ostream& fo)
 {
     assert(sysfunc_decls.size() == SYS_NUM);
@@ -95,7 +125,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
 
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);
-    for(auto const& n : ast.children)
+    for(auto& n : ast.children)
     {
         if(!errs.empty()) return;
         assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
@@ -122,18 +152,42 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             assert(n.children[1].type == AST::IDENT);
             assert(n.children[2].type == AST::BLOCK);
             std::string name(n.children[1].data);
-            auto it = funcs.find(name);
-            if(it != funcs.end())
             {
-                errs.push_back({
-                    "Duplicate function \"" + name + "\"",
-                    n.children[1].line_info });
-                return;
+                auto it = sys_names.find(name);
+                if(it != sys_names.end())
+                {
+                    errs.push_back({
+                        "Function \"" + name + "\" is a system method",
+                        n.children[1].line_info });
+                    return;
+                }
+            }
+            {
+                auto it = funcs.find(name);
+                if(it != funcs.end())
+                {
+                    errs.push_back({
+                        "Duplicate function \"" + name + "\"",
+                        n.children[1].line_info });
+                    return;
+                }
             }
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
+            f.block = std::move(n.children[2]);
         }
+    }
+
+    // transform left-associative infix exprs into binary trees
+    for(auto& [k, v] : funcs)
+        transform_left_assoc_infix(v.block);
+
+    // generate code for all functions
+    for(auto& [n, f] : funcs)
+    {
+        if(!errs.empty()) return;
+        codegen_function(f);
     }
 }
 

@@ -206,7 +206,7 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         size_t num_ops = v.size() / 2;
         if(num_ops == 0)
             return std::any_cast<ast_node_t>(v[0]);
-        ast_node_t a{ v.line_info(), AST::OP_ADDITIVE };
+        ast_node_t a{ v.line_info(), AST::OP_ADDITIVE, v.token()};
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;

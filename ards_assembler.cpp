@@ -6,7 +6,7 @@
 namespace ards
 {
 
-std::unordered_map<std::string, uint16_t> const sys_names =
+std::unordered_map<std::string, sysfunc_t> const sys_names =
 {
     { "display",          SYS_DISPLAY          },
     { "draw_pixel",       SYS_DRAW_PIXEL       },

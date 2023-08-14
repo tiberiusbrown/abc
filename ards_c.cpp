@@ -23,7 +23,7 @@ s16 x;
 
 void increment_x()
 {
-    x = x + 1;
+    x = x + 2 + 1;
 }
 
 void main()

@@ -14,7 +14,7 @@ namespace ards
 {
 
 // map from sys function names to indices
-extern std::unordered_map<std::string, uint16_t> const sys_names;
+extern std::unordered_map<std::string, sysfunc_t> const sys_names;
 
 struct assembler_t
 {
