@@ -20,6 +20,9 @@ void main()
     std::string si = R"(
 void main()
 {
+    u16 x;
+    x = x + 1;
+
     draw_filled_rect(0, 0, 16, 16, 1);
     display();
 }

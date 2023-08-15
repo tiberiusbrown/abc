@@ -281,6 +281,27 @@ error_t assembler_t::link()
     linked_data.push_back(0x0A);
     linked_data.push_back(0xBC);
 
+    linked_data.push_back(I_CALL);
+    {
+        auto it = labels.find("main");
+        if(it == labels.end())
+        {
+            error.msg = "No entry point \"main\" found";
+            return error;
+        }
+        size_t index = it->second;
+        assert(index < nodes.size());
+        auto offset = nodes[index].offset;
+        linked_data.push_back(uint8_t(offset >> 0));
+        linked_data.push_back(uint8_t(offset >> 8));
+        linked_data.push_back(uint8_t(offset >> 16));
+    }
+
+    linked_data.push_back(I_JMP);
+    linked_data.push_back(4);
+    linked_data.push_back(0);
+    linked_data.push_back(0);
+
     for(size_t i = 0; i < nodes.size(); ++i)
     {
         auto const& n = nodes[i];

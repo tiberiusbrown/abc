@@ -173,7 +173,9 @@ private:
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
     void codegen_store_lvalue(compiler_func_t& f, compiler_lvalue_t const& lvalue);
-    void codegen_convert(compiler_func_t& f, compiler_type_t const& to, compiler_type_t const& from);
+    void codegen_convert(
+        compiler_func_t& f, compiler_frame_t& frame,
+        compiler_type_t const& to, compiler_type_t const& from);
 
     // parse data
     std::string input_data;

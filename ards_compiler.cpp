@@ -12,10 +12,10 @@ constexpr compiler_type_t TYPE_U8   = { 1, false };
 constexpr compiler_type_t TYPE_U16  = { 2, false };
 constexpr compiler_type_t TYPE_U24  = { 3, false };
 constexpr compiler_type_t TYPE_U32  = { 4, false };
-constexpr compiler_type_t TYPE_S8   = { 1, true  };
-constexpr compiler_type_t TYPE_S16  = { 2, true  };
-constexpr compiler_type_t TYPE_S24  = { 3, true  };
-constexpr compiler_type_t TYPE_S32  = { 4, true };
+constexpr compiler_type_t TYPE_I8   = { 1, true  };
+constexpr compiler_type_t TYPE_I16  = { 2, true  };
+constexpr compiler_type_t TYPE_I24  = { 3, true  };
+constexpr compiler_type_t TYPE_I32  = { 4, true };
 
 static std::unordered_map<std::string, compiler_type_t> const primitive_types
 {
@@ -24,17 +24,17 @@ static std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "u16",  TYPE_U16  },
     { "u24",  TYPE_U24  },
     { "u32",  TYPE_U32  },
-    { "s8",   TYPE_S8   },
-    { "s16",  TYPE_S16  },
-    { "s24",  TYPE_S24  },
-    { "s32",  TYPE_S32  },
+    { "i8",   TYPE_I8   },
+    { "i16",  TYPE_I16  },
+    { "i24",  TYPE_I24  },
+    { "i32",  TYPE_I32  },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
     { SYS_DISPLAY,          { TYPE_VOID, {} } },
-    { SYS_DRAW_PIXEL,       { TYPE_VOID, { TYPE_S16, TYPE_S16, TYPE_U8 } } },
-    { SYS_DRAW_FILLED_RECT, { TYPE_VOID, { TYPE_S16, TYPE_S16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
+    { SYS_DRAW_PIXEL,       { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8 } } },
+    { SYS_DRAW_FILLED_RECT, { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
     { SYS_NEXT_FRAME,       { TYPE_U8,   {} } },
     { SYS_IDLE,             { TYPE_VOID, {} } },

@@ -20,7 +20,11 @@ struct assembler_t
 {
     assembler_t()
         : globals_bytes(0)
-        , byte_count(4) // start after 4 byte signature
+        , byte_count(
+            4 + // signature
+            4 + // CALL main
+            4 + // JMP 0x000004
+            0)
         , error{}
     {}
     error_t assemble(std::istream& f);
