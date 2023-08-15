@@ -18,12 +18,12 @@ void main()
 )";
 #else
     std::string si = R"(
+u8 width;
 void main()
 {
-    u16 x;
-    x = x + 1;
-
-    draw_filled_rect(0, 0, 16, 16, 1);
+    u8 w;
+    w = width;
+    draw_filled_rect(0, 0, w, w, 1);
     display();
 }
 )";
@@ -42,9 +42,8 @@ void main()
 //}
 #endif
 
-    std::string so;
     std::istringstream fi(si);
-    std::ostringstream fo(so);
+    std::ostringstream fo;
 
     c.compile(fi, fo);
     for(auto const& e : c.errors())
@@ -55,6 +54,8 @@ void main()
     }
     if(!c.errors().empty())
         return 1;
+
+    std::cout << fo.str() << std::endl;
 
     return 0;
 }

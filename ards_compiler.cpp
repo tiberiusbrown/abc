@@ -221,6 +221,8 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
         if(!errs.empty()) return;
         codegen_function(f);
     }
+
+    write(fo);
 }
 
 }

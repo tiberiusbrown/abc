@@ -103,9 +103,11 @@ compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
                        decl_stmt     /
                        while_stmt    /
+                       return_stmt   /
                        expr_stmt
 while_stmt          <- 'while' '(' expr ')' stmt
 expr_stmt           <- ';' / expr ';'
+return_stmt         <- 'return' expr? ';'
 
 # right-associative binary assignment operator
 expr                <- postfix_expr assignment_op expr / additive_expr
@@ -255,6 +257,9 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v.back())));
+        auto& block = a.children.back();
+        if(block.children.empty() || block.children.back().type != AST::RETURN_STMT)
+            block.children.push_back({ {}, AST::RETURN_STMT, "<internal return>" });
         return a;
     };
     p["decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
@@ -270,6 +275,12 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         ast_node_t a{ v.line_info(), AST::WHILE_STMT, v.token() };
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
+        return a;
+    };
+    p["return_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::RETURN_STMT, v.token() };
+        if(!v.empty())
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
         return a;
     };
     p["program"] = [](peg::SemanticValues const& v) -> ast_node_t {

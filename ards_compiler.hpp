@@ -26,13 +26,14 @@ enum class AST
     // program/statement nodes
     //
 
-    PROGRAM, // children are global declarations and functions
-    BLOCK, // children are child statements
+    PROGRAM,     // children are global declarations and functions
+    BLOCK,       // children are child statements
     EMPTY_STMT,
-    EXPR_STMT, // child is expr
-    DECL_STMT, // children are type, ident
-    FUNC_STMT, // children are type, ident, block
-    WHILE_STMT, // children are expr and stmt
+    EXPR_STMT,   // child is expr
+    DECL_STMT,   // children are type, ident
+    FUNC_STMT,   // children are type, ident, block
+    WHILE_STMT,  // children are expr and stmt
+    RETURN_STMT, // child is expr if it exists
 
     //
     // expression nodes
@@ -165,9 +166,10 @@ private:
 
     compiler_type_t resolve_type(ast_node_t const& n);
     compiler_func_t resolve_func(ast_node_t const& n);
+    compiler_lvalue_t resolve_lvalue(ast_node_t const& n, compiler_frame_t const& frame);
+    compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
     void transform_left_assoc_infix(ast_node_t& n);
-    compiler_lvalue_t resolve_lvalue(ast_node_t const& n, compiler_frame_t const& frame);
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
@@ -176,6 +178,9 @@ private:
     void codegen_convert(
         compiler_func_t& f, compiler_frame_t& frame,
         compiler_type_t const& to, compiler_type_t const& from);
+    void codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n);
+
+    void write(std::ostream& f);
 
     // parse data
     std::string input_data;

@@ -30,6 +30,7 @@ add_library(ards_compiler STATIC
     ards_compiler_codegen.cpp
     ards_compiler_parse.cpp
     ards_compiler_type.cpp
+    ards_compiler_write.cpp
     ards_error.hpp
     deps/peglib/peglib.h
     )

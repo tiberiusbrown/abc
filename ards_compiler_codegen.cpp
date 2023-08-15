@@ -27,6 +27,39 @@ compiler_lvalue_t compiler_t::resolve_lvalue(ast_node_t const& n, compiler_frame
     return {};
 }
 
+compiler_lvalue_t compiler_t::return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame)
+{
+    compiler_lvalue_t t{};
+    t.size = f.decl.return_type.prim_size;
+    t.stack_index = frame.size + t.size;
+    return t;
+}
+
+void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n)
+{
+    // store return value
+    auto lvalue = return_lvalue(f, frame);
+    if(!n.children.empty())
+    {
+        codegen_expr(f, frame, n.children[0]);
+        codegen_convert(f, frame, f.decl.return_type, n.children[0].comp_type);
+        codegen_store_lvalue(f, lvalue);
+        frame.size -= lvalue.size;
+    }
+    else if(f.decl.return_type.prim_size != 0)
+    {
+        errs.push_back({ "Missing return value", n.line_info });
+        return;
+    }
+
+    // pop remaining func args
+    for(size_t i = 0; i < frame.size; ++i)
+        f.instrs.push_back({ I_POP });
+    frame.pop();
+
+    f.instrs.push_back({ I_RET });
+}
+
 void compiler_t::codegen_function(compiler_func_t& f)
 {
     compiler_frame_t frame{};
@@ -38,10 +71,8 @@ void compiler_t::codegen_function(compiler_func_t& f)
 
     codegen(f, frame, f.block);
 
-    // pop func args
-    for(size_t i = 0; i < frame.size; ++i)
-        f.instrs.push_back({ I_POP });
-    frame.pop();
+    // all function blocks are guaranteed to end with a return statement
+    //codegen_return(f, frame, nullptr);
 }
 
 void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a)
@@ -59,6 +90,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             f.instrs.push_back({ I_POP });
         frame.pop();
         assert(frame.size == prev_size);
+        break;
+    }
+    case AST::RETURN_STMT:
+    {
+        if(!a.children.empty())
+            type_annotate(a.children[0], frame);
+        codegen_return(f, frame, a);
         break;
     }
     case AST::EXPR_STMT:
