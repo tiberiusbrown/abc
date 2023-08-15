@@ -18,29 +18,25 @@ void main()
 )";
 #else
     std::string si = R"(
-
-s16 x;
-
-void increment_x()
-{
-    x = x + 2 + 1;
-}
-
 void main()
 {
-    set_frame_rate(30);
-
-    while(1)
-    {
-        while(!next_frame())
-            ;
-        draw_filled_rect(x, 0, 16, 16, 1);
-        increment_x();
-        display();
-    }
+    draw_filled_rect(0, 0, 16, 16, 1);
+    display();
 }
-
 )";
+//void main()
+//{
+//    set_frame_rate(30);
+//
+//    while(1)
+//    {
+//        while(!next_frame())
+//            ;
+//        draw_filled_rect(x, 0, 16, 16, 1);
+//        increment_x();
+//        display();
+//    }
+//}
 #endif
 
     std::string so;

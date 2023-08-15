@@ -220,6 +220,15 @@ I_PUSH:
     call delay_11
     dispatch
 
+I_SEXT:
+    ld   r0, -Y
+    adiw r28, 1
+    ldi  r16, 0xff
+    sbrs r0, 7
+    ldi  r16, 0x00
+    st   Y+, r16
+    dispatch
+    
 I_GETL:
     dispatch_delay
     read_byte
@@ -242,6 +251,7 @@ I_GETLN:
     st   Y+, r0
     dec  r16
     brne 1b
+    call delay_8 ; TODO: remove this when GETLN(1) is not allowed
     dispatch
 
 I_SETL:
@@ -266,6 +276,7 @@ I_SETLN:
     st   -X, r0
     dec  r16
     brne 1b
+    call delay_8 ; TODO: remove this when SETLN(1) is not allowed
     dispatch
 
 I_GETG:
@@ -286,6 +297,7 @@ I_GETGN:
     st   Y+, r0
     dec  r16
     brne 1b
+    call delay_8 ; TODO: remove this when GETGN(1) is not allowed
     dispatch
 
 I_SETG:
@@ -308,6 +320,7 @@ I_SETGN:
     st   -X, r0
     dec  r16
     brne 1b
+    call delay_8 ; TODO: remove this when SETGN(1) is not allowed
     dispatch
 
 I_POP:

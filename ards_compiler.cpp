@@ -75,6 +75,38 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     return TYPE_NONE;
 }
 
+compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
+{
+    assert(n.type == AST::IDENT);
+    std::string name(n.data);
+
+    {
+        auto it = sys_names.find(name);
+        if(it != sys_names.end())
+        {
+            compiler_func_t f{};
+            f.sys = it->second;
+            f.is_sys = true;
+            f.name = name;
+            auto jt = sysfunc_decls.find(it->second);
+            assert(jt != sysfunc_decls.end());
+            f.decl = jt->second;
+            return f;
+        }
+    }
+
+    {
+        auto it = funcs.find(name);
+        if(it != funcs.end())
+        {
+            return it->second;
+        }
+    }
+
+    errs.push_back({ "Undefined function: \"" + name + "\"", n.line_info });
+    return {};
+}
+
 void compiler_t::transform_left_assoc_infix(ast_node_t& n)
 {
     if(!errs.empty()) return;

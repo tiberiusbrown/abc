@@ -171,6 +171,8 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         {
             ast_node_t b = std::any_cast<ast_node_t>(v[i]);
             ast_node_t pair{ v.line_info(), AST::NONE, v.token() };
+            if(b.type == AST::FUNC_ARGS)
+                pair.type = AST::FUNC_CALL;
             pair.children.emplace_back(std::move(a));
             pair.children.emplace_back(std::move(b));
             a = std::move(pair);
@@ -179,11 +181,18 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     };
 
     p["postfix"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        // only function call supported now
-        ast_node_t a = { v.line_info(), AST::FUNC_ARGS, v.token() };
-        for(auto& child : v)
-            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
-        return a;
+        if(v.choice() == 0)
+        {
+            // function call args
+            ast_node_t a = { v.line_info(), AST::FUNC_ARGS, v.token() };
+            if(v.size() == 1)
+            {
+                auto child = std::any_cast<ast_node_t>(v[0]);
+                a.children = std::move(child.children);
+            }
+            return a;
+        }
+        return {};
     };
 
     p["arg_expr_list"] = [](peg::SemanticValues const& v) {

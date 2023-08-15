@@ -34,10 +34,8 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     }
     case AST::INT_CONST:
     {
-        int64_t* vp = std::get_if<int64_t>(&a.value);
-        assert(vp);
-        int64_t v = *vp;
-        uint8_t prim_size = 1;
+        int64_t v = a.value;
+        size_t prim_size = 1;
         a.comp_type.prim_signed = (v < 0);
         if(v < 0)
         {
@@ -77,31 +75,11 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     }
     case AST::FUNC_CALL:
     {
-        assert(a.children.size() >= 1);
-        for(size_t i = 1; i < a.children.size(); ++i)
-            type_annotate(a.children[i], frame);
-        auto const& ident = a.children[0];
-        assert(ident.type == AST::IDENT);
-        std::string name(ident.data);
-        {
-            auto it = sys_names.find(name);
-            if(it != sys_names.end())
-            {
-                auto jt = sysfunc_decls.find(it->second);
-                assert(jt != sysfunc_decls.end());
-                a.comp_type = jt->second.return_type;
-                return;
-            }
-        }
-        {
-            auto it = funcs.find(name);
-            if(it != funcs.end())
-            {
-                a.comp_type = it->second.decl.return_type;
-                return;
-            }
-        }
-        errs.push_back({ "Undefined function \"" + name + "\"", a.line_info });
+        assert(a.children.size() == 2);
+        for(size_t i = 0; i < a.children[1].children.size(); ++i)
+            type_annotate(a.children[1].children[i], frame);
+        auto f = resolve_func(a.children[0]);
+        a.comp_type = f.decl.return_type;
         break;
     }
     default:

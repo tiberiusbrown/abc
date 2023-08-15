@@ -20,6 +20,9 @@ enum instr_t : uint8_t
     I_NOP,
 
     I_PUSH,  // push imm
+
+    I_SEXT,  // push 0x00 or 0xff to sign extend TOS
+
     I_GETL,  // push stack[top - imm] (imm=1 is TOS)
     I_GETLN, // pop N then same as GETL but push N bytes
     I_SETL,  // pop, then store to stack[top - imm]

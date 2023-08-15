@@ -48,7 +48,7 @@ enum class AST
 
     OP_UNARY, // children are op and expr,
 
-    FUNC_CALL, // children are func-expr and args...
+    FUNC_CALL, // children are func-expr and FUNC_ARGS
 
     //
     // atoms
@@ -62,14 +62,14 @@ enum class AST
 struct compiler_instr_t
 {
     instr_t instr;
-    bool is_label;
     uint32_t imm;
-    std::string label;
+    std::string label; // can also be label arg of instr
+    bool is_label;
 };
 
 struct compiler_type_t
 {
-    uint8_t prim_size; // 0 means void
+    size_t prim_size; // 0 means void
     bool prim_signed;
 };
 
@@ -114,6 +114,7 @@ struct compiler_frame_t
 
 struct compiler_lvalue_t
 {
+    size_t size;
     bool is_global;
     uint8_t stack_index;
     std::string global_name;
@@ -125,7 +126,7 @@ struct ast_node_t
     AST type;
     std::string_view data;
     std::vector<ast_node_t> children;
-    std::variant<int64_t> value;
+    int64_t value;
     compiler_type_t comp_type;
 
     template<class F>
@@ -144,6 +145,8 @@ struct compiler_func_t
     std::string name;
     std::vector<std::string> arg_names;
     std::vector<compiler_instr_t> instrs;
+    sysfunc_t sys;
+    bool is_sys;
 };
 
 extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
@@ -161,6 +164,7 @@ private:
     void parse(std::istream& fi);
 
     compiler_type_t resolve_type(ast_node_t const& n);
+    compiler_func_t resolve_func(ast_node_t const& n);
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
     void transform_left_assoc_infix(ast_node_t& n);
     compiler_lvalue_t resolve_lvalue(ast_node_t const& n, compiler_frame_t const& frame);
@@ -169,6 +173,7 @@ private:
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
     void codegen_store_lvalue(compiler_func_t& f, compiler_lvalue_t const& lvalue);
+    void codegen_convert(compiler_func_t& f, compiler_type_t const& to, compiler_type_t const& from);
 
     // parse data
     std::string input_data;
