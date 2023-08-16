@@ -61,18 +61,32 @@ enum class AST
     TYPE,
 };
 
+struct compiler_type_t
+{
+    size_t prim_size; // 0 means void
+    bool prim_signed;
+    bool is_bool;
+};
+
+constexpr compiler_type_t TYPE_NONE = { 0, true };
+
+constexpr compiler_type_t TYPE_VOID = { 0, false };
+constexpr compiler_type_t TYPE_BOOL = { 1, false, true };
+constexpr compiler_type_t TYPE_U8 = { 1, false };
+constexpr compiler_type_t TYPE_U16 = { 2, false };
+constexpr compiler_type_t TYPE_U24 = { 3, false };
+constexpr compiler_type_t TYPE_U32 = { 4, false };
+constexpr compiler_type_t TYPE_I8 = { 1, true };
+constexpr compiler_type_t TYPE_I16 = { 2, true };
+constexpr compiler_type_t TYPE_I24 = { 3, true };
+constexpr compiler_type_t TYPE_I32 = { 4, true };
+
 struct compiler_instr_t
 {
     instr_t instr;
     uint32_t imm;
     std::string label; // can also be label arg of instr
     bool is_label;
-};
-
-struct compiler_type_t
-{
-    size_t prim_size; // 0 means void
-    bool prim_signed;
 };
 
 struct compiler_func_decl_t
@@ -131,6 +145,8 @@ struct ast_node_t
     int64_t value;
     compiler_type_t comp_type;
 
+    ast_node_t* parent;
+
     template<class F>
     void recurse(F&& f)
     {
@@ -147,6 +163,7 @@ struct compiler_func_t
     std::string name;
     std::vector<std::string> arg_names;
     std::vector<compiler_instr_t> instrs;
+    size_t label_count;
     sysfunc_t sys;
     bool is_sys;
 };
@@ -180,6 +197,7 @@ private:
         compiler_func_t& f, compiler_frame_t& frame,
         compiler_type_t const& to, compiler_type_t const& from);
     void codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n);
+    std::string codegen_label(compiler_func_t& f);
 
     void write(std::ostream& f);
 

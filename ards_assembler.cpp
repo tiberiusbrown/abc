@@ -39,10 +39,10 @@ static char tolower(char c)
 bool check_label(std::string const& t, error_t& e)
 {
     if(t.empty()) e.msg = "Expected label";
-    if(!isalpha(t[0])) e.msg = "Label \"" + t + "\" must begin with[a - zA - Z_]";
-    for(auto c : t)
+    if(!isalpha(t[0]) && t[0] != '$') e.msg = "Label \"" + t + "\" must begin with[a - zA - Z_]";
+    for(size_t i = 1; i < t.size(); ++i)
     {
-        if(!isalnum(c))
+        if(!isalnum(t[i]))
         {
             e.msg = "Label \"" + t + "\" has an invalid character";
             break;
@@ -55,6 +55,8 @@ std::string read_label(std::istream& f, error_t& e)
 {
     std::string t;
     f >> t;
+    for(char& c : t)
+        c = tolower(c);
     return check_label(t, e) ? t : "";
 }
 
@@ -201,6 +203,14 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SUB);
         else if(t == "sub2")
             push_instr(I_SUB2);
+        else if(t == "cpeq")
+            push_instr(I_CPEQ);
+        else if(t == "cpeq2")
+            push_instr(I_CPEQ2);
+        else if(t == "cpeq3")
+            push_instr(I_CPEQ3);
+        else if(t == "cpeq4")
+            push_instr(I_CPEQ4);
         else if(t == "not")
             push_instr(I_NOT);
         else if(t == "bz")

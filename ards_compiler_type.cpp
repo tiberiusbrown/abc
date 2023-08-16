@@ -11,6 +11,19 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::OP_UNARY:
+    {
+        assert(a.children.size() == 2);
+        auto op = a.children[0].data;
+        if(op == "!")
+            a.comp_type = TYPE_BOOL;
+        else
+        {
+            assert(false);
+        }
+        type_annotate(a.children[1], frame);
+        break;
+    }
     case AST::OP_ASSIGN:
     {
         for(auto& child : a.children)

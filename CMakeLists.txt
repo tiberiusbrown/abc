@@ -29,6 +29,8 @@ add_library(ards_compiler STATIC
     ards_compiler.hpp
     ards_compiler_codegen.cpp
     ards_compiler_parse.cpp
+    ards_compiler_peephole.cpp
+    ards_compiler_transforms.cpp
     ards_compiler_type.cpp
     ards_compiler_write.cpp
     ards_error.hpp

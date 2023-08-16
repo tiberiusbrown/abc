@@ -5,21 +5,10 @@
 namespace ards
 {
 
-constexpr compiler_type_t TYPE_NONE = { 0, true };
-
-constexpr compiler_type_t TYPE_VOID = { 0, false };
-constexpr compiler_type_t TYPE_U8   = { 1, false };
-constexpr compiler_type_t TYPE_U16  = { 2, false };
-constexpr compiler_type_t TYPE_U24  = { 3, false };
-constexpr compiler_type_t TYPE_U32  = { 4, false };
-constexpr compiler_type_t TYPE_I8   = { 1, true  };
-constexpr compiler_type_t TYPE_I16  = { 2, true  };
-constexpr compiler_type_t TYPE_I24  = { 3, true  };
-constexpr compiler_type_t TYPE_I32  = { 4, true };
-
 static std::unordered_map<std::string, compiler_type_t> const primitive_types
 {
     { "void", TYPE_VOID },
+    { "bool", TYPE_BOOL },
     { "u8",   TYPE_U8   },
     { "u16",  TYPE_U16  },
     { "u24",  TYPE_U24  },
@@ -225,9 +214,25 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
         }
     }
 
+    //
+    // transforms
+    //
+
     // transform left-associative infix exprs into binary trees
     for(auto& [k, v] : funcs)
         transform_left_assoc_infix(v.block);
+
+    // transforms TODO
+    // - remove root ops in expr statements that have no side effects
+
+    // transforms are done: set parent pointers
+    for(auto& [k, v] : funcs)
+    {
+        v.block.recurse([](ast_node_t& a) {
+            for(auto& child : a.children)
+                child.parent = &a;
+        });
+    }
 
     // generate code for all functions
     for(auto& [n, f] : funcs)

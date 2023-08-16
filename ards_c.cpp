@@ -19,14 +19,28 @@ void main()
 )";
 #else
     std::string si = R"(
-u8 blah(u8 x, u8 y)
+u8 x;
+
+void setup()
 {
-    return x + x + y;
+    set_frame_rate(30);
 }
+
+void loop()
+{
+    while(!next_frame())
+        ;
+    draw_filled_rect(x, 0, 16, 16, 1);
+    draw_filled_rect(x + 8, 8, 8, 8, 0);
+    x = x + 1;
+    display();
+}
+
 void main()
 {
-    draw_filled_rect(0, 0, blah(1, 14), blah(7, 2), 1);
-    display();
+    setup();
+    while(1)
+        loop();
 }
 )";
 //void main()

@@ -365,11 +365,31 @@ I_SUB2:
     st   Y+, r17
     dispatch
 
+I_CPEQ:
+    ld   r0, -Y
+    ldi  r16, 0
+    cpse r0, r2
+    ldi  r16, 1
+    st   Y+, r16
+    dispatch
+
+I_CPEQ2:
+    dispatch_delay
+    dispatch
+
+I_CPEQ3:
+    dispatch_delay
+    dispatch
+
+I_CPEQ4:
+    dispatch_delay
+    dispatch
+
 I_NOT:
     ld   r0, -Y
     ldi  r16, 1
     cpse r0, r2
-    clr  r16
+    ldi  r16, 0
     st   Y+, r16
     dispatch
 

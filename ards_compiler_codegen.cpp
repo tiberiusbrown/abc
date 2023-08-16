@@ -1,5 +1,6 @@
 #include "ards_compiler.hpp"
 
+#include <sstream>
 #include <assert.h>
 
 namespace ards
@@ -90,11 +91,40 @@ void compiler_t::codegen_function(compiler_func_t& f)
     assert(f.block.children.back().type == AST::RETURN_STMT);
 }
 
+std::string compiler_t::codegen_label(compiler_func_t& f)
+{
+    std::ostringstream ss;
+    ss << f.label_count;
+    f.label_count += 1;
+    std::string label = "$L_" + f.name + "_" + ss.str();
+    f.instrs.push_back({ I_NOP, 0, label, true });
+    return label;
+}
+
 void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a)
 {
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::EMPTY_STMT:
+        break;
+    case AST::WHILE_STMT:
+    {
+        assert(a.children.size() == 2);
+        type_annotate(a.children[0], frame);
+        auto start = codegen_label(f);
+        codegen_expr(f, frame, a.children[0]);
+        // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
+        codegen_convert(f, frame, TYPE_BOOL, a.children[0].comp_type);
+        size_t cond_index = f.instrs.size();
+        f.instrs.push_back({ I_BZ });
+        frame.size -= 1;
+        codegen(f, frame, a.children[1]);
+        f.instrs.push_back({ I_JMP, 0, start });
+        auto end = codegen_label(f);
+        f.instrs[cond_index].label = end;
+        break;
+    }
     case AST::BLOCK:
     {
         size_t prev_size = frame.size;
@@ -120,10 +150,9 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(a.children.size() == 1);
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0]);
-        frame.size -= a.children[0].comp_type.prim_size;
-        for(size_t i = 0; i < a.children[0].comp_type.prim_size; ++i)
+        for(size_t i = prev_size; i < frame.size; ++i)
             f.instrs.push_back({ I_POP });
-        assert(frame.size == prev_size);
+        frame.size = prev_size;
         break;
     }
     case AST::DECL_STMT:
@@ -171,6 +200,17 @@ void compiler_t::codegen_convert(
     compiler_type_t const& to, compiler_type_t const& from)
 {
     assert(from.prim_size != 0);
+    if(to.is_bool)
+    {
+        if(from.is_bool) return;
+        int n = int(from.prim_size - 1);
+        frame.size -= n;
+        static_assert(I_CPEQ2 == I_CPEQ + 1);
+        static_assert(I_CPEQ3 == I_CPEQ + 2);
+        static_assert(I_CPEQ4 == I_CPEQ + 3);
+        f.instrs.push_back({ instr_t(I_CPEQ + n) });
+        return;
+    }
     if(to.prim_size == from.prim_size) return;
     if(to.prim_size < from.prim_size)
     {
@@ -198,6 +238,22 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::OP_UNARY:
+    {
+        assert(a.children.size() == 2);
+        auto op = a.children[0].data;
+        codegen_expr(f, frame, a.children[1]);
+        if(op == "!")
+        {
+            codegen_convert(f, frame, TYPE_BOOL, a.children[1].comp_type);
+            f.instrs.push_back({ I_NOT });
+        }
+        else
+        {
+            assert(false);
+        }
+        return;
+    }
     case AST::INT_CONST:
     {
         uint32_t x = (uint32_t)a.value;
@@ -237,12 +293,16 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         assert(a.children.size() == 2);
         assert(a.children[0].type == AST::IDENT);
 
-        // reserve space for return value
-        frame.size += a.comp_type.prim_size;
-        for(size_t i = 0; i < a.comp_type.prim_size; ++i)
-            f.instrs.push_back({ I_PUSH, 0 });
-
         auto func = resolve_func(a.children[0]);
+        
+        // system functions don't need space reserved for return value
+        if(!func.is_sys)
+        {
+            // reserve space for return value
+            frame.size += func.decl.return_type.prim_size;
+            for(size_t i = 0; i < func.decl.return_type.prim_size; ++i)
+                f.instrs.push_back({ I_PUSH, 0 });
+        }
 
         assert(a.children[1].type == AST::FUNC_ARGS);
         if(a.children[1].children.size() != func.decl.arg_types.size())
@@ -267,6 +327,11 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
             f.instrs.push_back({ I_SYS, func.sys });
         else
             f.instrs.push_back({ I_CALL, 0, std::string(a.children[0].data) });
+
+        // system functions push return value onto stack
+        if(func.is_sys)
+            frame.size += func.decl.return_type.prim_size;
+
         return;
     }
     case AST::OP_ASSIGN:
@@ -276,10 +341,18 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         codegen_expr(f, frame, a.children[1]);
         codegen_convert(f, frame, a.children[0].comp_type, a.children[1].comp_type);
 
-        // dup value
-        frame.size += (uint8_t)a.children[0].comp_type.prim_size;
-        f.instrs.push_back({ I_PUSH, (uint8_t)a.children[0].comp_type.prim_size });
-        f.instrs.push_back({ I_GETLN, (uint8_t)a.children[0].comp_type.prim_size });
+        // dup value if not the root op
+        switch(a.parent->type)
+        {
+        case AST::EXPR_STMT:
+        case AST::LIST:
+            break;
+        default:
+            frame.size += (uint8_t)a.children[0].comp_type.prim_size;
+            f.instrs.push_back({ I_PUSH, (uint8_t)a.children[0].comp_type.prim_size });
+            f.instrs.push_back({ I_GETLN, (uint8_t)a.children[0].comp_type.prim_size });
+            break;
+        }
 
         auto lvalue = resolve_lvalue(a.children[0], frame);
         codegen_store_lvalue(f, lvalue);
