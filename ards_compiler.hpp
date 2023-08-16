@@ -41,7 +41,8 @@ enum class AST
     //
 
     // left-associative chained infix operators
-    OP_ADDITIVE, // chain of ops and infix plus / minus tokens
+    OP_EQUALITY, // chain of ops and infix == / != tokens
+    OP_ADDITIVE, // chain of ops and infix + / - tokens
 
     // right-associative assignment operators
     OP_ASSIGN,

@@ -28,6 +28,7 @@ void setup()
 
 void loop()
 {
+    x = (1 != 256);
     while(!next_frame())
         ;
     draw_filled_rect(x, 0, 16, 16, 1);

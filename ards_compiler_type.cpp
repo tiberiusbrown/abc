@@ -32,6 +32,14 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         a.comp_type = a.children[0].comp_type;
         break;
     }
+    case AST::OP_EQUALITY:
+    {
+        assert(a.children.size() == 2);
+        for(auto& child : a.children)
+            type_annotate(child, frame);
+        a.comp_type = TYPE_BOOL;
+        break;
+    }
     case AST::OP_ADDITIVE:
     {
         assert(a.children.size() == 2);

@@ -8,8 +8,6 @@
 #define SPRITESU_RECT
 #include "SpritesU.hpp"
 
-#define VM_ASSEMBLY 1
-
 namespace ards
 {
 
@@ -124,8 +122,6 @@ static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_idle,
 };
 
-#if VM_ASSEMBLY
-
 // main assembly method containing optimized implementations for each instruction
 // the alignment of 512 allows optimized dispatch: the prog address for ijmp can
 // be computed by adding to the high byte only instead of adding a 2-byte offset
@@ -142,14 +138,15 @@ vm_execute:
 ;
 ; Registers
 ; 
-;     r0:1         - scratch regs
+;     r0-r1        - scratch regs
 ;     r2           - constant value 0
-;     r3           - constant value 32
+;     r3           - constant value 32 (used for dispatch)
 ;     r4           - constant value 1
 ;     r5           - constant value hi8(vm_execute) TODO :/
-;     r6:7:8       - pc
-;     r16:17:18:19 - scratch regs
+;     r6-r8        - pc
+;     r9-r27       - scratch regs
 ;     r28:29       - &vm.stack[sp] (sp is r28)
+;     r30-r31      - scratch regs
 ;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -360,12 +357,12 @@ I_SUB2:
     ld   r17, -Y
     ld   r16, -Y
     sub  r16, r0
-    adc  r17, r1
+    sbc  r17, r1
     st   Y+, r16
     st   Y+, r17
     dispatch
 
-I_CPEQ:
+I_CPNE:
     ld   r0, -Y
     ldi  r16, 0
     cpse r0, r2
@@ -373,16 +370,40 @@ I_CPEQ:
     st   Y+, r16
     dispatch
 
-I_CPEQ2:
-    dispatch_delay
+I_CPNE2:
+    ld   r0, -Y
+    ld   r1, -Y
+    or   r0, r1
+    ldi  r16, 0
+    cpse r0, r2
+    ldi  r16, 1
+    st   Y+, r16
     dispatch
 
-I_CPEQ3:
-    dispatch_delay
+I_CPNE3:
+    ld   r0, -Y
+    ld   r1, -Y
+    or   r0, r1
+    ld   r1, -Y
+    or   r0, r1
+    ldi  r16, 0
+    cpse r0, r2
+    ldi  r16, 1
+    st   Y+, r16
     dispatch
 
-I_CPEQ4:
-    dispatch_delay
+I_CPNE4:
+    ld   r0, -Y
+    ld   r1, -Y
+    or   r0, r1
+    ld   r1, -Y
+    or   r0, r1
+    ld   r1, -Y
+    or   r0, r1
+    ldi  r16, 0
+    cpse r0, r2
+    ldi  r16, 1
+    st   Y+, r16
     dispatch
 
 I_NOT:
@@ -617,10 +638,11 @@ dispatch_func:
     , [sys_funcs]  ""  (&SYS_FUNCS[0])
     );
 }
-#endif
 
 void vm_run()
 {
+    Arduboy2Base::setFrameDuration(16);
+    
     memset(&vm, 0, sizeof(vm));
     
     // read signature and refuse to run if it's not present
@@ -633,9 +655,8 @@ void vm_run()
     
     // skip signature
     *(volatile uint24_t*)&vm.pc = 4;
-    
-#if VM_ASSEMBLY
 
+    // kick off execution
     asm volatile(R"(
     
         call restore_vm_state
@@ -650,124 +671,6 @@ void vm_run()
     , [data_page]  ""  (&FX::programDataPage)
     );
 
-#else    
-    FX::seekData(0);
-    for(;;)
-    {
-        instr_t i = (instr_t)read_u8();
-        
-        switch(i)
-        {
-        case I_PUSH:
-            vm.stack[vm.sp++] = read_u8();
-            break;
-        case I_GETL:
-            vm.stack[vm.sp] = vm.stack[vm.sp - read_u8()];
-            ++vm.sp;
-            break;
-        case I_GETL2:
-        {
-            uint8_t t = read_u8();
-            vm.stack[vm.sp + 0] = vm.stack[vm.sp - t + 0];
-            vm.stack[vm.sp + 1] = vm.stack[vm.sp - t + 1];
-            vm.sp += 2;
-            break;
-        }
-        case I_SETL:
-            --vm.sp;
-            vm.stack[vm.sp - read_u8()] = vm.stack[vm.sp];
-            break;
-        case I_SETL2:
-        {
-            uint8_t t = read_u8();
-            vm.sp -= 2;
-            vm.stack[vm.sp - t + 0] = vm.stack[vm.sp + 0];
-            vm.stack[vm.sp - t + 1] = vm.stack[vm.sp + 1];
-            break;
-        }
-        case I_POP:
-            --vm.sp;
-            break;
-        case I_ADD:
-            --vm.sp;
-            vm.stack[vm.sp - 1] += vm.stack[vm.sp];
-            break;
-        case I_ADD2:
-        {
-            int16_t b = vm_pop<int16_t>();
-            int16_t a = vm_pop<int16_t>();
-            vm_push<int16_t>(a + b);
-            break;
-        }
-        case I_SUB:
-            --vm.sp;
-            vm.stack[vm.sp - 1] -= vm.stack[vm.sp];
-            break;
-        case I_SUB2:
-        {
-            int16_t b = vm_pop<int16_t>();
-            int16_t a = vm_pop<int16_t>();
-            vm_push<int16_t>(a - b);
-            break;
-        }
-        case I_BZ:
-        {
-            uint24_t branch_pc = read_u24();
-            if(vm_pop<uint8_t>() == 0)
-            {
-                vm.pc = branch_pc;
-                (void)FX::readEnd();
-                FX::seekData(branch_pc);
-            }
-            break;
-        }
-        case I_BNZ:
-        {
-            uint24_t branch_pc = read_u24();
-            if(vm_pop<uint8_t>() != 0)
-            {
-                vm.pc = branch_pc;
-                (void)FX::readEnd();
-                FX::seekData(branch_pc);
-            }
-            break;
-        }
-        case I_BNEG:
-        {
-            uint24_t branch_pc = read_u24();
-            if(vm_pop<int8_t>() < 0)
-            {
-                vm.pc = branch_pc;
-                (void)FX::readEnd();
-                FX::seekData(branch_pc);
-            }
-            break;
-        }
-        case I_JMP:
-            vm.pc = read_u24();
-            (void)FX::readEnd();
-            FX::seekData(vm.pc);
-            break;
-        case I_CALL:
-        {
-            uint24_t tpc = read_u24();
-            (void)FX::readEnd();
-            vm.calls[vm.csp++] = vm.pc;
-            vm.pc = tpc;
-            FX::seekData(vm.pc);
-            break;
-        }
-        case I_RET:
-            (void)FX::readEnd();
-            vm.pc = vm.calls[--vm.csp];
-            FX::seekData(vm.pc);
-            break;
-        case I_SYS:
-            (*(sys_func_t)pgm_read_ptr(&SYS_FUNCS[read_u16() >> 1]))();
-            break;
-        }
-    }
-#endif
 }
 
 }

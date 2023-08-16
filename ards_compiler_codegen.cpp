@@ -205,10 +205,10 @@ void compiler_t::codegen_convert(
         if(from.is_bool) return;
         int n = int(from.prim_size - 1);
         frame.size -= n;
-        static_assert(I_CPEQ2 == I_CPEQ + 1);
-        static_assert(I_CPEQ3 == I_CPEQ + 2);
-        static_assert(I_CPEQ4 == I_CPEQ + 3);
-        f.instrs.push_back({ instr_t(I_CPEQ + n) });
+        static_assert(I_CPNE2 == I_CPNE + 1);
+        static_assert(I_CPNE3 == I_CPNE + 2);
+        static_assert(I_CPNE4 == I_CPNE + 3);
+        f.instrs.push_back({ instr_t(I_CPNE + n) });
         return;
     }
     if(to.prim_size == from.prim_size) return;
@@ -359,6 +359,46 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         frame.size -= lvalue.size;
         return;
     }
+    case AST::OP_EQUALITY:
+    {
+        assert(a.data == "==" || a.data == "!=");
+        assert(a.children.size() == 2);
+        compiler_type_t conv{};
+        conv.prim_size = std::max(
+            a.children[0].comp_type.prim_size,
+            a.children[1].comp_type.prim_size);
+        conv.prim_signed =
+            a.children[0].comp_type.prim_signed &&
+            a.children[1].comp_type.prim_signed;
+        assert(conv.prim_size >= 1 && conv.prim_size <= 4);
+        codegen_expr(f, frame, a.children[0]);
+        codegen_convert(f, frame, conv, a.children[0].comp_type);
+        codegen_expr(f, frame, a.children[1]);
+        codegen_convert(f, frame, conv, a.children[1].comp_type);
+        switch(conv.prim_size)
+        {
+        case 1:
+            frame.size -= 1;
+            f.instrs.push_back({ I_SUB });
+            frame.size -= 0;
+            f.instrs.push_back({ I_CPNE });
+            break;
+        case 2:
+            frame.size -= 2;
+            f.instrs.push_back({ I_SUB2 });
+            frame.size -= 1;
+            f.instrs.push_back({ I_CPNE2 });
+            break;
+        case 3:
+        case 4:
+        default:
+            assert(false);
+            break;
+        }
+        if(a.data == "==")
+            f.instrs.push_back({ I_NOT });
+        break;
+    }
     case AST::OP_ADDITIVE:
     {
         assert(a.data == "+" || a.data == "-");
@@ -377,6 +417,8 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
             frame.size -= 2;
             f.instrs.push_back({ a.data == "+" ? I_ADD2 : I_SUB2 });
             break;
+        case 3:
+        case 4:
         default:
             assert(false);
             break;

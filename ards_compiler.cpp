@@ -25,7 +25,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_DRAW_PIXEL,       { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8 } } },
     { SYS_DRAW_FILLED_RECT, { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
-    { SYS_NEXT_FRAME,       { TYPE_U8,   {} } },
+    { SYS_NEXT_FRAME,       { TYPE_BOOL, {} } },
     { SYS_IDLE,             { TYPE_VOID, {} } },
 };
 
@@ -104,6 +104,7 @@ void compiler_t::transform_left_assoc_infix(ast_node_t& n)
         transform_left_assoc_infix(child);
     switch(n.type)
     {
+    case AST::OP_EQUALITY:
     case AST::OP_ADDITIVE:
     {
         assert(n.children.size() >= 3);

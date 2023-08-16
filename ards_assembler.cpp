@@ -203,14 +203,14 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SUB);
         else if(t == "sub2")
             push_instr(I_SUB2);
-        else if(t == "cpeq")
-            push_instr(I_CPEQ);
-        else if(t == "cpeq2")
-            push_instr(I_CPEQ2);
-        else if(t == "cpeq3")
-            push_instr(I_CPEQ3);
-        else if(t == "cpeq4")
-            push_instr(I_CPEQ4);
+        else if(t == "cpne")
+            push_instr(I_CPNE);
+        else if(t == "cpne2")
+            push_instr(I_CPNE2);
+        else if(t == "cpne3")
+            push_instr(I_CPNE3);
+        else if(t == "cpne4")
+            push_instr(I_CPNE4);
         else if(t == "not")
             push_instr(I_NOT);
         else if(t == "bz")

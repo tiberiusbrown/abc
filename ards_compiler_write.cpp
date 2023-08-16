@@ -31,10 +31,10 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_ADD2:  f << "add2"; break;
     case I_SUB:   f << "sub"; break;
     case I_SUB2:  f << "sub2"; break;
-    case I_CPEQ:  f << "cpeq"; break;
-    case I_CPEQ2: f << "cpeq2"; break;
-    case I_CPEQ3: f << "cpeq3"; break;
-    case I_CPEQ4: f << "cpeq4"; break;
+    case I_CPNE:  f << "cpne"; break;
+    case I_CPNE2: f << "cpne2"; break;
+    case I_CPNE3: f << "cpne3"; break;
+    case I_CPNE4: f << "cpne4"; break;
     case I_NOT:   f << "not"; break;
     case I_BZ:    f << "bz    " << instr.label; break;
     case I_BNZ:   f << "bnz   " << instr.label; break;

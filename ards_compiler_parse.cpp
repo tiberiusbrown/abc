@@ -110,9 +110,10 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 
 # right-associative binary assignment operator
-expr                <- postfix_expr assignment_op expr / additive_expr
+expr                <- postfix_expr assignment_op expr / equality_expr
 
 # left-associative binary operators
+equality_expr       <- additive_expr (equality_op additive_expr)*
 additive_expr       <- cast_expr (additive_op cast_expr)*
 
 cast_expr           <- unary_expr / '(' type_name ')' cast_expr
@@ -126,6 +127,7 @@ type_name           <- ident
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
+equality_op         <- < '==' / '!=' >
 additive_op         <- < [+-] >
 assignment_op       <- < '=' >
 unary_op            <- < [!-] >
@@ -215,11 +217,23 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     p["primary_expr"] = [](peg::SemanticValues const& v) {
         return std::any_cast<ast_node_t>(v[0]);
     };
+    p["equality_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return { v.line_info(), AST::TOKEN, v.token() };
+    };
     p["additive_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::TOKEN, v.token() };
     };
     p["unary_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::TOKEN, v.token() };
+    };
+    p["equality_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        size_t num_ops = v.size() / 2;
+        if(num_ops == 0)
+            return std::any_cast<ast_node_t>(v[0]);
+        ast_node_t a{ v.line_info(), AST::OP_EQUALITY, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
     };
     p["additive_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
         size_t num_ops = v.size() / 2;
