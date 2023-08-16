@@ -8,6 +8,7 @@ int main(int argc, char** argv)
 {
 
     ards::compiler_t c;
+    ards::assembler_t a;
 
 #if 0
     std::string si = R"(
@@ -18,12 +19,17 @@ void main()
 )";
 #else
     std::string si = R"(
-u8 width;
+u8 x;
+void increment_x()
+{
+    x = x + 1;
+}
 void main()
 {
-    u8 w;
-    w = width;
-    draw_filled_rect(0, 0, w, w, 1);
+    i16 blah;
+    increment_x();
+    blah = x;
+    draw_filled_rect(0, 0, x, blah, 1);
     display();
 }
 )";
@@ -43,9 +49,9 @@ void main()
 #endif
 
     std::istringstream fi(si);
-    std::ostringstream fo;
+    std::stringstream fasm;
 
-    c.compile(fi, fo);
+    c.compile(fi, fasm);
     for(auto const& e : c.errors())
     {
         std::cerr << "Compiler Error" << std::endl;
@@ -55,7 +61,35 @@ void main()
     if(!c.errors().empty())
         return 1;
 
-    std::cout << fo.str() << std::endl;
+    {
+        auto e = a.assemble(fasm);
+        if(!e.msg.empty())
+        {
+            std::cerr << "Assembler Error" << std::endl;
+            std::cerr << e.msg << std::endl;
+            return 1;
+        }
+    }
+
+    {
+        auto e = a.link();
+        if(!e.msg.empty())
+        {
+            std::cerr << "Linker Error" << std::endl;
+            std::cerr << e.msg << std::endl;
+            return 1;
+        }
+    }
+
+    {
+        std::ofstream fbin(argv[1], std::ios::out | std::ios::binary);
+        if(!fbin)
+        {
+            std::cerr << "Unable to open file: \"" << argv[1] << "\"" << std::endl;
+            return 1;
+        }
+        fbin.write((char const*)a.data().data(), a.data().size());
+    }
 
     return 0;
 }
