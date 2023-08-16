@@ -98,7 +98,7 @@ program             <- global_stmt*
 
 global_stmt         <- decl_stmt / func_stmt
 decl_stmt           <- type_name ident ';'
-func_stmt           <- type_name ident '(' ')' compound_stmt
+func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
                        decl_stmt     /
@@ -123,6 +123,7 @@ primary_expr        <- ident / decimal_literal / '(' expr ')'
 postfix             <- '(' arg_expr_list? ')'
 
 type_name           <- ident
+arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
 additive_op         <- < [+-] >
@@ -197,6 +198,13 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         return {};
     };
 
+    p["arg_decl_list"] = [](peg::SemanticValues const& v) {
+        assert(v.size() % 2 == 0);
+        ast_node_t a = { v.line_info(), AST::LIST, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
     p["arg_expr_list"] = [](peg::SemanticValues const& v) {
         ast_node_t a = { v.line_info(), AST::LIST, v.token() };
         for(auto& child : v)
@@ -259,7 +267,16 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v.back())));
         auto& block = a.children.back();
         if(block.children.empty() || block.children.back().type != AST::RETURN_STMT)
-            block.children.push_back({ {}, AST::RETURN_STMT, "<internal return>" });
+            block.children.push_back({ {}, AST::RETURN_STMT, "" });
+        if(v.size() == 4)
+        {
+            // arg decls
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[2])));
+        }
+        else
+        {
+            a.children.push_back({ {}, AST::LIST, "" });
+        }
         return a;
     };
     p["decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {

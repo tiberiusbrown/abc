@@ -38,11 +38,11 @@ compiler_lvalue_t compiler_t::return_lvalue(compiler_func_t const& f, compiler_f
 void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n)
 {
     // store return value
-    auto lvalue = return_lvalue(f, frame);
     if(!n.children.empty())
     {
         codegen_expr(f, frame, n.children[0]);
         codegen_convert(f, frame, f.decl.return_type, n.children[0].comp_type);
+        auto lvalue = return_lvalue(f, frame);
         codegen_store_lvalue(f, lvalue);
         frame.size -= lvalue.size;
     }
@@ -66,13 +66,28 @@ void compiler_t::codegen_function(compiler_func_t& f)
 
     frame.push();
 
-    assert(f.decl.arg_types.size() == 0);
-    // TODO: add return value and func args to scope here
+    // add func args to scope here
+    assert(f.arg_names.size() == f.decl.arg_types.size());
+    auto& scope = frame.scopes.back();
+    for(size_t i = 0; i < f.arg_names.size(); ++i)
+    {
+        auto const& name = f.arg_names[i];
+        auto const& type = f.decl.arg_types[i];
+        auto& local = scope.locals[name];
+        size_t size = type.prim_size;
+        local.frame_offset = frame.size;
+        local.type = type;
+        scope.size += size;
+        frame.size += size;
+    }
+
+    frame.push();
 
     codegen(f, frame, f.block);
 
+    // no need to call codegen_return here
     // all function blocks are guaranteed to end with a return statement
-    //codegen_return(f, frame, nullptr);
+    assert(f.block.children.back().type == AST::RETURN_STMT);
 }
 
 void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a)

@@ -19,17 +19,13 @@ void main()
 )";
 #else
     std::string si = R"(
-u8 x;
-void increment_x()
+u8 blah(u8 x, u8 y)
 {
-    x = x + 1;
+    return x + x + y;
 }
 void main()
 {
-    i16 blah;
-    increment_x();
-    blah = x;
-    draw_filled_rect(0, 0, x, blah, 1);
+    draw_filled_rect(0, 0, blah(1, 14), blah(7, 2), 1);
     display();
 }
 )";
@@ -61,6 +57,8 @@ void main()
     if(!c.errors().empty())
         return 1;
 
+    std::cout << fasm.str() << std::endl;
+
     {
         auto e = a.assemble(fasm);
         if(!e.msg.empty())
@@ -81,6 +79,7 @@ void main()
         }
     }
 
+    if(argc > 1)
     {
         std::ofstream fbin(argv[1], std::ios::out | std::ios::binary);
         if(!fbin)

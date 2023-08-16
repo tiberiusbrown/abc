@@ -180,9 +180,10 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
         }
         else if(n.type == AST::FUNC_STMT)
         {
-            assert(n.children.size() == 3);
+            assert(n.children.size() == 4);
             assert(n.children[1].type == AST::IDENT);
             assert(n.children[2].type == AST::BLOCK);
+            assert(n.children[3].type == AST::LIST);
             std::string name(n.children[1].data);
             {
                 auto it = sys_names.find(name);
@@ -208,6 +209,19 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
             f.block = std::move(n.children[2]);
+
+            // decl args
+            auto const& decls = n.children[3].children;
+            assert(decls.size() % 2 == 0);
+            for(size_t i = 0; i < decls.size(); i += 2)
+            {
+                auto const& type = decls[i + 0];
+                auto const& name = decls[i + 1];
+                assert(type.type == AST::TYPE);
+                assert(name.type == AST::IDENT);
+                f.arg_names.push_back(std::string(name.data));
+                f.decl.arg_types.push_back(resolve_type(type));
+            }
         }
     }
 

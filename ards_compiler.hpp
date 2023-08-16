@@ -18,9 +18,10 @@ enum class AST
     // pseudo-nodes
     //
 
-    TOKEN,     // pseudo-node used to pass through token    
-    LIST,      // pseudo-node used to pass through list of nodes
-    FUNC_ARGS, // pseudo-node for function call argument list
+    TOKEN,      // used to pass through token    
+    LIST,       // used to pass through list of nodes
+    FUNC_ARGS,  // for function call arg list
+    FUNC_DECLS, // for function decl arg list
 
     //
     // program/statement nodes
@@ -31,7 +32,7 @@ enum class AST
     EMPTY_STMT,
     EXPR_STMT,   // child is expr
     DECL_STMT,   // children are type, ident
-    FUNC_STMT,   // children are type, ident, block
+    FUNC_STMT,   // children are type, ident, block, args
     WHILE_STMT,  // children are expr and stmt
     RETURN_STMT, // child is expr if it exists
 
