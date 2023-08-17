@@ -10,14 +10,6 @@ int main(int argc, char** argv)
     ards::compiler_t c;
     ards::assembler_t a;
 
-#if 0
-    std::string si = R"(
-void main()
-{
-    set_frame_rate(30);
-}
-)";
-#else
     std::string si = R"(
 u8 x;
 
@@ -28,12 +20,13 @@ void setup()
 
 void loop()
 {
-    x = (1 != 256);
     while(!next_frame())
         ;
     draw_filled_rect(x, 0, 16, 16, 1);
     draw_filled_rect(x + 8, 8, 8, 8, 0);
     x = x + 1;
+    if(x == 128 - 16)
+        x = 0;
     display();
 }
 
@@ -44,20 +37,6 @@ void main()
         loop();
 }
 )";
-//void main()
-//{
-//    set_frame_rate(30);
-//
-//    while(1)
-//    {
-//        while(!next_frame())
-//            ;
-//        draw_filled_rect(x, 0, 16, 16, 1);
-//        increment_x();
-//        display();
-//    }
-//}
-#endif
 
     std::istringstream fi(si);
     std::stringstream fasm;

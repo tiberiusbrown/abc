@@ -108,6 +108,30 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     {
     case AST::EMPTY_STMT:
         break;
+    case AST::IF_STMT:
+    {
+        assert(a.children.size() == 3);
+        type_annotate(a.children[0], frame);
+        codegen_expr(f, frame, a.children[0]);
+        // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
+        codegen_convert(f, frame, TYPE_BOOL, a.children[0].comp_type);
+        size_t cond_index = f.instrs.size();
+        f.instrs.push_back({ I_BZ });
+        frame.size -= 1;
+        codegen(f, frame, a.children[1]);
+        size_t jmp_index = f.instrs.size();
+        if(a.children[2].type != AST::EMPTY_STMT)
+            f.instrs.push_back({ I_JMP });
+        auto else_label = codegen_label(f);
+        f.instrs[cond_index].label = else_label;
+        if(a.children[2].type != AST::EMPTY_STMT)
+        {
+            codegen(f, frame, a.children[2]);
+            auto end_label = codegen_label(f);
+            f.instrs[jmp_index].label = end_label;
+        }
+        break;
+    }
     case AST::WHILE_STMT:
     {
         assert(a.children.size() == 2);

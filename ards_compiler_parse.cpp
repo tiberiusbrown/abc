@@ -102,9 +102,11 @@ func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
                        decl_stmt     /
+                       if_stmt       /
                        while_stmt    /
                        return_stmt   /
                        expr_stmt
+if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
 while_stmt          <- 'while' '(' expr ')' stmt
 expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
@@ -255,6 +257,19 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         assert(child1.type == AST::TOKEN);
         auto type = AST::OP_ASSIGN;
         return { v.line_info(), type, v.token(), { std::move(child0), std::move(child2) } };
+    };
+    p["if_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{
+            v.line_info(), AST::IF_STMT, v.token(),
+            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+        };
+        // always include else clause, even if only an empty statement
+        ast_node_t else_stmt{};
+        if(v.size() >= 3)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[2])));
+        else
+            a.children.push_back({ {}, AST::EMPTY_STMT, "" });
+        return a;
     };
     p["while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return {

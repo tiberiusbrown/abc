@@ -33,6 +33,7 @@ enum class AST
     EXPR_STMT,   // child is expr
     DECL_STMT,   // children are type, ident
     FUNC_STMT,   // children are type, ident, block, args
+    IF_STMT,     // children are expr, stmt, stmt (for else)
     WHILE_STMT,  // children are expr and stmt
     RETURN_STMT, // child is expr if it exists
 
