@@ -34,8 +34,12 @@ enum instr_t : uint8_t
     I_POP,   // a |
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1
+    I_ADD3,  //
+    I_ADD4,  //
     I_SUB,   // a b | a-b
     I_SUB2,  // a0 a1 b0 b1 | (a-b)0 (a-b)1
+    I_SUB3,  //
+    I_SUB4,  //
     I_CPNE,  // a | (a!=0)
     I_CPNE2, // a b | (a!=0 && b!=0)
     I_CPNE3, // a b c | (a!=0 && b!=0 && c!=0)

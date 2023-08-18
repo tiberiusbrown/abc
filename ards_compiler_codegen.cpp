@@ -401,26 +401,17 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         codegen_convert(f, frame, conv, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1]);
         codegen_convert(f, frame, conv, a.children[1].comp_type);
-        switch(conv.prim_size)
-        {
-        case 1:
-            frame.size -= 1;
-            f.instrs.push_back({ I_SUB });
-            frame.size -= 0;
-            f.instrs.push_back({ I_CPNE });
-            break;
-        case 2:
-            frame.size -= 2;
-            f.instrs.push_back({ I_SUB2 });
-            frame.size -= 1;
-            f.instrs.push_back({ I_CPNE2 });
-            break;
-        case 3:
-        case 4:
-        default:
-            assert(false);
-            break;
-        }
+        static_assert(I_CPNE2 == I_CPNE + 1);
+        static_assert(I_CPNE3 == I_CPNE + 2);
+        static_assert(I_CPNE4 == I_CPNE + 3);
+        static_assert(I_SUB2 == I_SUB + 1);
+        static_assert(I_SUB3 == I_SUB + 2);
+        static_assert(I_SUB4 == I_SUB + 3);
+        assert(conv.prim_size >= 1 && conv.prim_size <= 4);
+        frame.size -= conv.prim_size;
+        f.instrs.push_back({ instr_t(I_SUB + conv.prim_size - 1) });
+        frame.size -= (conv.prim_size - 1);
+        f.instrs.push_back({ instr_t(I_CPNE + conv.prim_size - 1) });
         if(a.data == "==")
             f.instrs.push_back({ I_NOT });
         break;
@@ -433,22 +424,15 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         codegen_convert(f, frame, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1]);
         codegen_convert(f, frame, a.comp_type, a.children[1].comp_type);
-        switch(a.comp_type.prim_size)
-        {
-        case 1:
-            frame.size -= 1;
-            f.instrs.push_back({ a.data == "+" ? I_ADD : I_SUB });
-            break;
-        case 2:
-            frame.size -= 2;
-            f.instrs.push_back({ a.data == "+" ? I_ADD2 : I_SUB2 });
-            break;
-        case 3:
-        case 4:
-        default:
-            assert(false);
-            break;
-        }
+        static_assert(I_ADD2 == I_ADD + 1);
+        static_assert(I_ADD3 == I_ADD + 2);
+        static_assert(I_ADD4 == I_ADD + 3);
+        static_assert(I_SUB2 == I_SUB + 1);
+        static_assert(I_SUB3 == I_SUB + 2);
+        static_assert(I_SUB4 == I_SUB + 3);
+        assert(a.comp_type.prim_size >= 1 && a.comp_type.prim_size <= 4);
+        frame.size -= a.comp_type.prim_size;
+        f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + a.comp_type.prim_size - 1) });
         return;
     }
     default:

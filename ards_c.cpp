@@ -11,7 +11,7 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u8 x;
+u32 x;
 
 void setup()
 {

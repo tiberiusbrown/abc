@@ -199,10 +199,18 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_ADD);
         else if(t == "add2")
             push_instr(I_ADD2);
+        else if(t == "add3")
+            push_instr(I_ADD3);
+        else if(t == "add4")
+            push_instr(I_ADD4);
         else if(t == "sub")
             push_instr(I_SUB);
         else if(t == "sub2")
             push_instr(I_SUB2);
+        else if(t == "sub3")
+            push_instr(I_SUB3);
+        else if(t == "sub4")
+            push_instr(I_SUB4);
         else if(t == "cpne")
             push_instr(I_CPNE);
         else if(t == "cpne2")

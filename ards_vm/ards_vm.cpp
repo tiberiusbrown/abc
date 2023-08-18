@@ -327,37 +327,105 @@ I_POP:
     dispatch
 
 I_ADD:
-    ld   r0, -Y
-    ld   r1, -Y
-    add  r1, r0
-    st   Y+, r1
+    ld   r10, -Y
+    ld   r14, -Y
+    add  r14, r10
+    st   Y+, r14
     dispatch
 
 I_ADD2:
-    ld   r1, -Y
-    ld   r0, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    add  r14, r10
+    adc  r15, r11
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+
+I_ADD3:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    add  r14, r10
+    adc  r15, r11
+    adc  r16, r12
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    dispatch
+
+I_ADD4:
+    ld   r13, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r17, -Y
     ld   r16, -Y
-    add  r16, r0
-    adc  r17, r1
+    ld   r15, -Y
+    ld   r14, -Y
+    add  r14, r10
+    adc  r15, r11
+    adc  r16, r12
+    adc  r17, r13
+    st   Y+, r14
+    st   Y+, r15
     st   Y+, r16
     st   Y+, r17
     dispatch
 
 I_SUB:
-    ld   r0, -Y
-    ld   r1, -Y
-    sub  r1, r0
-    st   Y+, r1
+    ld   r10, -Y
+    ld   r14, -Y
+    sub  r14, r10
+    st   Y+, r14
     dispatch
 
 I_SUB2:
-    ld   r1, -Y
-    ld   r0, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    sub  r14, r10
+    sbc  r15, r11
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+
+I_SUB3:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    sub  r14, r10
+    sbc  r15, r11
+    sbc  r16, r12
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    dispatch
+
+I_SUB4:
+    ld   r13, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r17, -Y
     ld   r16, -Y
-    sub  r16, r0
-    sbc  r17, r1
+    ld   r15, -Y
+    ld   r14, -Y
+    sub  r14, r10
+    sbc  r15, r11
+    sbc  r16, r12
+    sbc  r17, r13
+    st   Y+, r14
+    st   Y+, r15
     st   Y+, r16
     st   Y+, r17
     dispatch

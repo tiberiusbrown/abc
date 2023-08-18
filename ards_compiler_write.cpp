@@ -29,8 +29,12 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_POP:   f << "pop"; break;
     case I_ADD:   f << "add"; break;
     case I_ADD2:  f << "add2"; break;
+    case I_ADD3:  f << "add3"; break;
+    case I_ADD4:  f << "add4"; break;
     case I_SUB:   f << "sub"; break;
     case I_SUB2:  f << "sub2"; break;
+    case I_SUB3:  f << "sub3"; break;
+    case I_SUB4:  f << "sub4"; break;
     case I_CPNE:  f << "cpne"; break;
     case I_CPNE2: f << "cpne2"; break;
     case I_CPNE3: f << "cpne3"; break;
