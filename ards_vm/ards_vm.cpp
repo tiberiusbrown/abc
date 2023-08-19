@@ -112,6 +112,11 @@ static sys_idle()
     Arduboy2Base::idle();
 }
 
+static sys_debug_break()
+{
+    asm volatile("break\n");
+}
+
 static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -120,6 +125,7 @@ static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_set_frame_rate,
     sys_next_frame,
     sys_idle,
+    sys_debug_break,
 };
 
 // main assembly method containing optimized implementations for each instruction

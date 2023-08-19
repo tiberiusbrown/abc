@@ -186,6 +186,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(a.children[0].type == AST::TYPE);
         assert(a.children[1].type == AST::IDENT);
         auto type = resolve_type(a.children[0]);
+        if(type.prim_size == 0)
+        {
+            errs.push_back({
+                "Local variable \"" + std::string(a.children[1].data) + "\" has zero size",
+                a.line_info });
+            return;
+        }
         auto& scope = frame.scopes.back();
         auto& local = scope.locals[std::string(a.children[1].data)];
         local.type = type;

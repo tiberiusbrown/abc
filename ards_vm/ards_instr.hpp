@@ -11,6 +11,7 @@ enum sysfunc_t : uint16_t
     SYS_SET_FRAME_RATE,
     SYS_NEXT_FRAME,
     SYS_IDLE,
+    SYS_DEBUG_BREAK,
 
     SYS_NUM
 };

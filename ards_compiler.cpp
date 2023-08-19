@@ -7,16 +7,24 @@ namespace ards
 
 static std::unordered_map<std::string, compiler_type_t> const primitive_types
 {
-    { "void", TYPE_VOID },
-    { "bool", TYPE_BOOL },
-    { "u8",   TYPE_U8   },
-    { "u16",  TYPE_U16  },
-    { "u24",  TYPE_U24  },
-    { "u32",  TYPE_U32  },
-    { "i8",   TYPE_I8   },
-    { "i16",  TYPE_I16  },
-    { "i24",  TYPE_I24  },
-    { "i32",  TYPE_I32  },
+    { "void",   TYPE_VOID },
+    { "bool",   TYPE_BOOL },
+    { "u8",     TYPE_U8   },
+    { "u16",    TYPE_U16  },
+    { "u24",    TYPE_U24  },
+    { "u32",    TYPE_U32  },
+    { "i8",     TYPE_I8   },
+    { "i16",    TYPE_I16  },
+    { "i24",    TYPE_I24  },
+    { "i32",    TYPE_I32  },
+    { "uchar",  TYPE_U8   },
+    { "ushort", TYPE_U16  },
+    { "uint",   TYPE_U16  },
+    { "ulong",  TYPE_U32  },
+    { "char",   TYPE_I8   },
+    { "short",  TYPE_I16  },
+    { "int",    TYPE_I16  },
+    { "long",   TYPE_I32  },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
@@ -27,6 +35,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
     { SYS_NEXT_FRAME,       { TYPE_BOOL, {} } },
     { SYS_IDLE,             { TYPE_VOID, {} } },
+    { SYS_DEBUG_BREAK,      { TYPE_VOID, {} } },
 };
 
 static bool isspace(char c)
@@ -168,6 +177,13 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             auto& g = globals[name];
             g.name = name;
             g.type = resolve_type(n.children[0]);
+            if(g.type.prim_size == 0)
+            {
+                errs.push_back({
+                    "Global variable \"" + name + "\" has zero size",
+                    n.line_info });
+                return;
+            }
         }
         else if(n.type == AST::FUNC_STMT)
         {
