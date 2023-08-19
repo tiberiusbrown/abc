@@ -40,10 +40,26 @@ enum instr_t : uint8_t
     I_SUB2,  // a0 a1 b0 b1 | (a-b)0 (a-b)1
     I_SUB3,  //
     I_SUB4,  //
-    I_CPNE,  // a | (a!=0)
-    I_CPNE2, // a b | (a!=0 && b!=0)
-    I_CPNE3, // a b c | (a!=0 && b!=0 && c!=0)
-    I_CPNE4, // a b c d | (a!=0 && b!=0 && c!=0 && d!=0)
+    I_BOOL,  // a | (a!=0)
+    I_BOOL2, // a b | (a!=0 && b!=0)
+    I_BOOL3, // a b c | (a!=0 && b!=0 && c!=0)
+    I_BOOL4, // a b c d | (a!=0 && b!=0 && c!=0 && d!=0)
+    I_CULT,  // a b | a < b (unsigned)
+    I_CULT2,
+    I_CULT3,
+    I_CULT4,
+    I_CSLT,  // a b | a < b (signed)
+    I_CSLT2,
+    I_CSLT3,
+    I_CSLT4,
+    I_CULE,  // a b | a <= b (unsigned)
+    I_CULE2,
+    I_CULE3,
+    I_CULE4,
+    I_CSLE,  // a b | a <= b (signed)
+    I_CSLE2,
+    I_CSLE3,
+    I_CSLE4,
     I_NOT,   // a | !a
     I_BZ,    // pop, branch if zero to imm3
     I_BNZ,   // pop, branch if nonzero to imm3

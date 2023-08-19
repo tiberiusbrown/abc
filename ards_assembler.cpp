@@ -193,34 +193,36 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETGN);
             push_global(f);
         }
-        else if(t == "pop")
-            push_instr(I_POP);
-        else if(t == "add")
-            push_instr(I_ADD);
-        else if(t == "add2")
-            push_instr(I_ADD2);
-        else if(t == "add3")
-            push_instr(I_ADD3);
-        else if(t == "add4")
-            push_instr(I_ADD4);
-        else if(t == "sub")
-            push_instr(I_SUB);
-        else if(t == "sub2")
-            push_instr(I_SUB2);
-        else if(t == "sub3")
-            push_instr(I_SUB3);
-        else if(t == "sub4")
-            push_instr(I_SUB4);
-        else if(t == "cpne")
-            push_instr(I_CPNE);
-        else if(t == "cpne2")
-            push_instr(I_CPNE2);
-        else if(t == "cpne3")
-            push_instr(I_CPNE3);
-        else if(t == "cpne4")
-            push_instr(I_CPNE4);
-        else if(t == "not")
-            push_instr(I_NOT);
+        else if(t == "pop"  ) push_instr(I_POP);
+        else if(t == "add"  ) push_instr(I_ADD);
+        else if(t == "add2" ) push_instr(I_ADD2);
+        else if(t == "add3" ) push_instr(I_ADD3);
+        else if(t == "add4" ) push_instr(I_ADD4);
+        else if(t == "sub"  ) push_instr(I_SUB);
+        else if(t == "sub2" ) push_instr(I_SUB2);
+        else if(t == "sub3" ) push_instr(I_SUB3);
+        else if(t == "sub4" ) push_instr(I_SUB4);
+        else if(t == "bool" ) push_instr(I_BOOL);
+        else if(t == "bool2") push_instr(I_BOOL2);
+        else if(t == "bool3") push_instr(I_BOOL3);
+        else if(t == "bool4") push_instr(I_BOOL4);
+        else if(t == "cult" ) push_instr(I_CULT);
+        else if(t == "cult2") push_instr(I_CULT2);
+        else if(t == "cult3") push_instr(I_CULT3);
+        else if(t == "cult4") push_instr(I_CULT4);
+        else if(t == "cule" ) push_instr(I_CULE);
+        else if(t == "cule2") push_instr(I_CULE2);
+        else if(t == "cule3") push_instr(I_CULE3);
+        else if(t == "cule4") push_instr(I_CULE4);
+        else if(t == "cslt" ) push_instr(I_CSLT);
+        else if(t == "cslt2") push_instr(I_CSLT2);
+        else if(t == "cslt3") push_instr(I_CSLT3);
+        else if(t == "cslt4") push_instr(I_CSLT4);
+        else if(t == "csle" ) push_instr(I_CSLE);
+        else if(t == "csle2") push_instr(I_CSLE2);
+        else if(t == "csle3") push_instr(I_CSLE3);
+        else if(t == "csle4") push_instr(I_CSLE4);
+        else if(t == "not"  ) push_instr(I_NOT);
         else if(t == "bz")
         {
             push_instr(I_BZ);

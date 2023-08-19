@@ -105,6 +105,7 @@ void compiler_t::transform_left_assoc_infix(ast_node_t& n)
     switch(n.type)
     {
     case AST::OP_EQUALITY:
+    case AST::OP_RELATIONAL:
     case AST::OP_ADDITIVE:
     {
         assert(n.children.size() >= 3);

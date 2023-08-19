@@ -9,6 +9,17 @@
 namespace ards
 {
 
+template<AST T> ast_node_t infix(peg::SemanticValues const& v)
+{
+    size_t num_ops = v.size() / 2;
+    if(num_ops == 0)
+        return std::any_cast<ast_node_t>(v[0]);
+    ast_node_t a{ v.line_info(), T, v.token() };
+    for(auto& child : v)
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+    return a;
+};
+
 void compiler_t::parse(std::istream& fi)
 {
     error_t e;
@@ -115,8 +126,9 @@ return_stmt         <- 'return' expr? ';'
 expr                <- postfix_expr assignment_op expr / equality_expr
 
 # left-associative binary operators
-equality_expr       <- additive_expr (equality_op additive_expr)*
-additive_expr       <- cast_expr (additive_op cast_expr)*
+equality_expr       <- relational_expr (equality_op   relational_expr)*
+relational_expr     <- additive_expr   (relational_op additive_expr  )*
+additive_expr       <- cast_expr       (additive_op   cast_expr      )*
 
 cast_expr           <- unary_expr / '(' type_name ')' cast_expr
 unary_expr          <- postfix_expr / unary_op cast_expr
@@ -131,6 +143,7 @@ arg_expr_list       <- expr (',' expr)*
 
 equality_op         <- < '==' / '!=' >
 additive_op         <- < [+-] >
+relational_op       <- < '<=' / '>=' / '<' / '>' >
 assignment_op       <- < '=' >
 unary_op            <- < [!-] >
 decimal_literal     <- < [0-9]+ >
@@ -219,33 +232,19 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     p["primary_expr"] = [](peg::SemanticValues const& v) {
         return std::any_cast<ast_node_t>(v[0]);
     };
-    p["equality_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return { v.line_info(), AST::TOKEN, v.token() };
+
+    const auto token = [](peg::SemanticValues const& v) {
+        return ast_node_t{ v.line_info(), AST::TOKEN, v.token() };
     };
-    p["additive_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return { v.line_info(), AST::TOKEN, v.token() };
-    };
-    p["unary_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return { v.line_info(), AST::TOKEN, v.token() };
-    };
-    p["equality_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        size_t num_ops = v.size() / 2;
-        if(num_ops == 0)
-            return std::any_cast<ast_node_t>(v[0]);
-        ast_node_t a{ v.line_info(), AST::OP_EQUALITY, v.token() };
-        for(auto& child : v)
-            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
-        return a;
-    };
-    p["additive_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        size_t num_ops = v.size() / 2;
-        if(num_ops == 0)
-            return std::any_cast<ast_node_t>(v[0]);
-        ast_node_t a{ v.line_info(), AST::OP_ADDITIVE, v.token()};
-        for(auto& child : v)
-            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
-        return a;
-    };
+    p["equality_op"  ] = token;
+    p["relational_op"] = token;
+    p["additive_op"  ] = token;
+    p["unary_op"     ] = token;
+
+    p["equality_expr"  ] = infix<AST::OP_EQUALITY>;
+    p["relational_expr"] = infix<AST::OP_RELATIONAL>;
+    p["additive_expr"  ] = infix<AST::OP_ADDITIVE>;
+
     p["assignment_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::TOKEN, v.token() };
     };

@@ -231,10 +231,10 @@ void compiler_t::codegen_convert(
         if(from.is_bool) return;
         int n = int(from.prim_size - 1);
         frame.size -= n;
-        static_assert(I_CPNE2 == I_CPNE + 1);
-        static_assert(I_CPNE3 == I_CPNE + 2);
-        static_assert(I_CPNE4 == I_CPNE + 3);
-        f.instrs.push_back({ instr_t(I_CPNE + n) });
+        static_assert(I_BOOL2 == I_BOOL + 1);
+        static_assert(I_BOOL3 == I_BOOL + 2);
+        static_assert(I_BOOL4 == I_BOOL + 3);
+        f.instrs.push_back({ instr_t(I_BOOL + n) });
         return;
     }
     if(to.prim_size == from.prim_size) return;
@@ -386,8 +386,8 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         return;
     }
     case AST::OP_EQUALITY:
+    case AST::OP_RELATIONAL:
     {
-        assert(a.data == "==" || a.data == "!=");
         assert(a.children.size() == 2);
         compiler_type_t conv{};
         conv.prim_size = std::max(
@@ -397,23 +397,36 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
             a.children[0].comp_type.prim_signed &&
             a.children[1].comp_type.prim_signed;
         assert(conv.prim_size >= 1 && conv.prim_size <= 4);
-        codegen_expr(f, frame, a.children[0]);
-        codegen_convert(f, frame, conv, a.children[0].comp_type);
-        codegen_expr(f, frame, a.children[1]);
-        codegen_convert(f, frame, conv, a.children[1].comp_type);
-        static_assert(I_CPNE2 == I_CPNE + 1);
-        static_assert(I_CPNE3 == I_CPNE + 2);
-        static_assert(I_CPNE4 == I_CPNE + 3);
-        static_assert(I_SUB2 == I_SUB + 1);
-        static_assert(I_SUB3 == I_SUB + 2);
-        static_assert(I_SUB4 == I_SUB + 3);
+        size_t i0 = 0, i1 = 1;
+        if(a.data == ">" || a.data == ">=")
+            std::swap(i0, i1);
+        codegen_expr(f, frame, a.children[i0]);
+        codegen_convert(f, frame, conv, a.children[i0].comp_type);
+        codegen_expr(f, frame, a.children[i1]);
+        codegen_convert(f, frame, conv, a.children[i1].comp_type);
+
         assert(conv.prim_size >= 1 && conv.prim_size <= 4);
-        frame.size -= conv.prim_size;
-        f.instrs.push_back({ instr_t(I_SUB + conv.prim_size - 1) });
-        frame.size -= (conv.prim_size - 1);
-        f.instrs.push_back({ instr_t(I_CPNE + conv.prim_size - 1) });
-        if(a.data == "==")
-            f.instrs.push_back({ I_NOT });
+        frame.size -= conv.prim_size;       // comparison
+        frame.size -= (conv.prim_size - 1); // conversion to bool
+        if(a.data == "==" || a.data == "!=")
+        {
+            f.instrs.push_back({ instr_t(I_SUB + conv.prim_size - 1) });
+            f.instrs.push_back({ instr_t(I_BOOL + conv.prim_size - 1) });
+            if(a.data == "==")
+                f.instrs.push_back({ I_NOT });
+        }
+        else if(a.data == "<=" || a.data == ">=")
+        {
+            instr_t i = (conv.prim_signed ? I_CSLE : I_CULE);
+            f.instrs.push_back({ instr_t(i + conv.prim_size - 1) });
+        }
+        else if(a.data == "<" || a.data == ">")
+        {
+            instr_t i = (conv.prim_signed ? I_CSLT : I_CULT);
+            f.instrs.push_back({ instr_t(i + conv.prim_size - 1) });
+        }
+        else
+            assert(false);
         break;
     }
     case AST::OP_ADDITIVE:

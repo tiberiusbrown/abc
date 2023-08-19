@@ -25,7 +25,9 @@ void loop()
     draw_filled_rect(x, 0, 16, 16, 1);
     draw_filled_rect(x + 8, 8, 8, 8, 0);
     x = x + 1;
-    if(x == 128 - 16)
+    if(x < 56)
+        x = x + 1;
+    if(x >= 128 - 16)
         x = 0;
     display();
 }

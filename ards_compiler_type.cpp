@@ -33,6 +33,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         break;
     }
     case AST::OP_EQUALITY:
+    case AST::OP_RELATIONAL:
     {
         assert(a.children.size() == 2);
         for(auto& child : a.children)
