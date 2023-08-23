@@ -8,7 +8,7 @@
 #include <limits.h>
 
 #include "ards_error.hpp"
-#include "ards_vm/ards_instr.hpp"
+#include <ards_instr.hpp>
 
 namespace ards
 {

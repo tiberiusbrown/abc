@@ -3,46 +3,97 @@ cmake_minimum_required(VERSION 3.15)
 project(ardscript)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(EXE_TYPE)
 if(MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Zc:__cplusplus /utf-8 /D_CRT_SECURE_NO_DEPRECATE")
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    #set(EXE_TYPE WIN32)
+    add_link_options(
+        /DEBUG
+        /INCREMENTAL:NO                     # Disable incremental linking.
+        $<$<NOT:$<CONFIG:DEBUG>>:/OPT:REF>  # Remove unreferenced functions and data.
+        $<$<NOT:$<CONFIG:DEBUG>>:/OPT:ICF>  # Identical COMDAT folding.
+        $<$<NOT:$<CONFIG:DEBUG>>:/LTCG>     # Link-Time Code Generation.
+        $<$<CONFIG:DEBUG>:/OPT:NOREF>       # No unreferenced data elimination.
+        $<$<CONFIG:DEBUG>:/OPT:NOICF>       # No Identical COMDAT folding.
+    )
+    add_compile_options(
+        /Zc:__cplusplus
+        /utf-8
+        /D_CRT_SECURE_NO_DEPRECATE
+        $<$<NOT:$<CONFIG:DEBUG>>:/GL>
+        $<$<NOT:$<CONFIG:DEBUG>>:/Gy>
+        $<$<NOT:$<CONFIG:DEBUG>>:/Gw>
+        $<$<NOT:$<CONFIG:DEBUG>>:/GF>
+        $<$<NOT:$<CONFIG:DEBUG>>:/Oy>
+        $<$<NOT:$<CONFIG:DEBUG>>:/Ot>
+        $<$<NOT:$<CONFIG:DEBUG>>:/Ox>
+    )
 else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+    add_compile_options(-Wall -Wextra)
 endif()
 
 add_library(ards_assembler STATIC
     .editorconfig
     ards_vm/ards_instr.hpp
-    ards_assembler.cpp
-    ards_assembler.hpp
-    ards_error.hpp
+    src/ards_assembler.cpp
+    src/ards_assembler.hpp
+    src/ards_error.hpp
     )
-target_include_directories(ards_assembler PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
+target_include_directories(ards_assembler PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ards_vm"
+    )
 
 add_library(ards_compiler STATIC
     .editorconfig
     ards_vm/ards_instr.hpp
-    ards_assembler.hpp
-    ards_assembler.cpp
-    ards_compiler.cpp
-    ards_compiler.hpp
-    ards_compiler_codegen.cpp
-    ards_compiler_parse.cpp
-    ards_compiler_peephole.cpp
-    ards_compiler_transforms.cpp
-    ards_compiler_type.cpp
-    ards_compiler_write.cpp
-    ards_error.hpp
+    src/ards_assembler.hpp
+    src/ards_assembler.cpp
+    src/ards_compiler.cpp
+    src/ards_compiler.hpp
+    src/ards_compiler_codegen.cpp
+    src/ards_compiler_parse.cpp
+    src/ards_compiler_peephole.cpp
+    src/ards_compiler_transforms.cpp
+    src/ards_compiler_type.cpp
+    src/ards_compiler_write.cpp
+    src/ards_error.hpp
     deps/peglib/peglib.h
     )
 target_include_directories(ards_compiler PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+    "${CMAKE_CURRENT_SOURCE_DIR}/ards_vm"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
     )
 
-add_executable(ards_as ards_as.cpp)
+add_executable(ards_as src/ards_as.cpp)
 target_link_libraries(ards_as ards_assembler)
 
-add_executable(ards_c ards_c.cpp)
+add_executable(ards_c src/ards_c.cpp)
 target_link_libraries(ards_c ards_compiler)
+
+set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
+set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
+set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
+set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
+set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
+add_subdirectory(deps/Ardens)
+
+file(GLOB IMGUI_SOURCES deps/imgui/*.h deps/imgui/*.cpp)
+file(GLOB SOKOL_SOURCES deps/sokol/*.h)
+file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
+
+add_executable(abc_ide ${EXE_TYPE}
+    src/ide_common.hpp
+    src/ide_common.cpp
+    src/ide_main.cpp
+    src/font.cpp
+    ${IMGUI_SOURCES}
+    ${SOKOL_SOURCES}
+    ${TEXTEDIT_SOURCES}
+    )
+target_link_libraries(abc_ide ardenslib)
+target_include_directories(abc_ide PRIVATE deps/sokol deps/imgui deps/ImGuiColorTextEdit)
