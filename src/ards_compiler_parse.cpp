@@ -247,8 +247,16 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         a.comp_type.prim_signed = prim_signed;
         return a;
     };
-    p["ident"] = [](peg::SemanticValues const& v) {
-        return ast_node_t{ v.line_info(), AST::IDENT, v.token() };
+    p["ident"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        if(v.token() == "true" || v.token() == "false")
+        {
+            ast_node_t a{ v.line_info(), AST::INT_CONST, v.token() };
+            a.comp_type = TYPE_BOOL;
+            if(v.token() == "true")
+                a.value = 1;
+            return a;
+        }
+        return { v.line_info(), AST::IDENT, v.token() };
     };
     p["type_name"] = [](peg::SemanticValues const& v) {
         return ast_node_t{ v.line_info(), AST::TYPE, v.token() };

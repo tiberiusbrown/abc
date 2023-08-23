@@ -158,7 +158,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         for(size_t i = 0; i < frame.scopes.back().size; ++i)
             f.instrs.push_back({ I_POP });
         frame.pop();
-        assert(frame.size == prev_size);
+        assert(!errs.empty() || frame.size == prev_size);
         break;
     }
     case AST::RETURN_STMT:
@@ -217,7 +217,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         errs.push_back({ "(codegen) Unimplemented AST node", a.line_info });
         return;
     }
-    if(a.type != AST::DECL_STMT)
+    if(a.type != AST::DECL_STMT && errs.empty())
         assert(frame.size == prev_size);
 }
 
@@ -241,6 +241,7 @@ void compiler_t::codegen_convert(
     compiler_func_t& f, compiler_frame_t& frame,
     compiler_type_t const& to, compiler_type_t const& from)
 {
+    if(!errs.empty()) return;
     assert(from.prim_size != 0);
     if(to == from) return;
     if(to.is_bool)
@@ -431,7 +432,7 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         codegen_expr(f, frame, a.children[i0]);
         codegen_expr(f, frame, a.children[i1]);
         
-        auto size = a.comp_type.prim_size;
+        auto size = a.children[0].comp_type.prim_size;
         assert(size >= 1 && size <= 4);
         frame.size -= size;       // comparison
         frame.size -= (size - 1); // conversion to bool

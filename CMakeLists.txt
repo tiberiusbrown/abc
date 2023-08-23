@@ -89,11 +89,13 @@ file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*
 add_executable(abc_ide ${EXE_TYPE}
     src/ide_common.hpp
     src/ide_common.cpp
+    src/ide_compile.cpp
+    src/ide_editor.cpp
     src/ide_main.cpp
     src/font.cpp
     ${IMGUI_SOURCES}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
     )
-target_link_libraries(abc_ide ardenslib)
+target_link_libraries(abc_ide ardenslib ards_compiler)
 target_include_directories(abc_ide PRIVATE deps/sokol deps/imgui deps/ImGuiColorTextEdit)

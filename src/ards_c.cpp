@@ -21,7 +21,8 @@ u16 x;
 
 void main()
 {
-    for(u8 i = 1; i < 10; i = i + 1)
+    bool blah = false;
+    for(int i = 1; i < 10; i = i + 1)
         x = x + i;
     debug_break();
     x = fib(20);

@@ -18,11 +18,9 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "i24",    TYPE_I24  },
     { "i32",    TYPE_I32  },
     { "uchar",  TYPE_U8   },
-    { "ushort", TYPE_U16  },
     { "uint",   TYPE_U16  },
     { "ulong",  TYPE_U32  },
     { "char",   TYPE_I8   },
-    { "short",  TYPE_I16  },
     { "int",    TYPE_I16  },
     { "long",   TYPE_I32  },
 };

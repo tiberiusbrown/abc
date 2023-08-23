@@ -15,16 +15,24 @@ extern unsigned char const ProggyVector[198188];
 
 void frame_logic()
 {
+    if(ImGui::IsKeyPressed(ImGuiKey_F5, false))
+        compile_all();
 }
 
 void imgui_content()
 {
     using namespace ImGui;
 
-    if(Begin("Test"))
+    for(auto& [k, v] : editors)
     {
-        TextUnformatted("Hello World!");
-        End();
+        v.update();
+    }
+    for(auto it = editors.begin(); it != editors.end();)
+    {
+        if(!it->second.open)
+            it = editors.erase(it);
+        else
+            ++it;
     }
 }
 
@@ -40,13 +48,14 @@ void define_font()
 {
     ImGuiIO& io = ImGui::GetIO();
     ImFontConfig cfg;
+    float font_size = DEFAULT_FONT_SIZE * pixel_ratio;
     cfg.FontDataOwnedByAtlas = false;
     cfg.RasterizerMultiply = 1.5f;
     cfg.OversampleH = 2;
     cfg.OversampleV = 2;
     io.Fonts->Clear();
     io.Fonts->AddFontFromMemoryTTF(
-        (void*)ProggyVector, sizeof(ProggyVector), 13.f * pixel_ratio, &cfg);
+        (void*)ProggyVector, sizeof(ProggyVector), font_size, &cfg);
 }
 
 void rebuild_fonts()
@@ -85,23 +94,17 @@ void init()
 
     arduboy = std::make_unique<absim::arduboy_t>();
 
-#ifndef ARDENS_NO_DEBUGGER
-    ImPlot::CreateContext();
-#endif
-
-#ifndef ARDENS_NO_SAVED_SETTINGS
-    init_settings();
-#endif
+    //init_settings();
 
     ImGuiIO& io = ImGui::GetIO();
-#if !defined(__EMSCRIPTEN__) && !defined(ARDENS_NO_SAVED_SETTINGS)
+#if !defined(__EMSCRIPTEN__)
     ImGui::LoadIniSettingsFromDisk(io.IniFilename);
-    settings_loaded = true;
+    //settings_loaded = true;
 #endif
 
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-#if defined(__EMSCRIPTEN__) || defined(ARDENS_NO_SAVED_SETTINGS)
+#if defined(__EMSCRIPTEN__)
     io.IniFilename = nullptr;
 #endif
 
@@ -118,4 +121,6 @@ void init()
     arduboy->reset();
     arduboy->fx.min_page = 0xffff;
     arduboy->fx.max_page = 0xffff;
+
+    editors["test.abc"] = editor_t("test.abc");
 }
