@@ -45,13 +45,14 @@ enum class AST
     OP_EQUALITY,   // chain of ops and infix == / != tokens
     OP_RELATIONAL, // chain of ops and infix <= / >= / < / > tokens
     OP_ADDITIVE,   // chain of ops and infix + / - tokens
+    OP_MULTIPLICATIVE,
 
     // right-associative assignment operators
     OP_ASSIGN,
 
-    OP_CAST, // children are type and expr
+    OP_UNARY, // children are op and expr
 
-    OP_UNARY, // children are op and expr,
+    OP_CAST, // children are type and expr
 
     FUNC_CALL, // children are func-expr and FUNC_ARGS
 
@@ -69,6 +70,9 @@ struct compiler_type_t
     size_t prim_size; // 0 means void
     bool prim_signed;
     bool is_bool;
+    auto tie() const { return std::tie(prim_size, prim_signed, is_bool); }
+    bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
+    bool operator!=(compiler_type_t const& t) const { return tie() != t.tie(); }
 };
 
 constexpr compiler_type_t TYPE_NONE = { 0, true };
@@ -172,6 +176,7 @@ struct compiler_func_t
 };
 
 extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
+extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
 
 struct compiler_t
 {
@@ -190,7 +195,9 @@ private:
     compiler_lvalue_t resolve_lvalue(ast_node_t const& n, compiler_frame_t const& frame);
     compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
+
     void transform_left_assoc_infix(ast_node_t& n);
+    void transform_casts(ast_node_t& n);
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
@@ -201,6 +208,9 @@ private:
         compiler_type_t const& to, compiler_type_t const& from);
     void codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n);
     std::string codegen_label(compiler_func_t& f);
+
+    // returns true if any optimization happened
+    bool peephole(compiler_func_t& f);
 
     void write(std::ostream& f);
 

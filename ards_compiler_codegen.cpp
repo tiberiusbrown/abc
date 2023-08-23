@@ -182,7 +182,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     case AST::DECL_STMT:
     {
         // add local var to frame
-        assert(a.children.size() == 2);
+        assert(a.children.size() == 2 || a.children.size() == 3);
         assert(a.children[0].type == AST::TYPE);
         assert(a.children[1].type == AST::IDENT);
         auto type = resolve_type(a.children[0]);
@@ -197,10 +197,19 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         auto& local = scope.locals[std::string(a.children[1].data)];
         local.type = type;
         local.frame_offset = frame.size;
-        frame.size += type.prim_size;
+        if(a.children.size() == 3)
+        {
+            type_annotate(a.children[2], frame);
+            codegen_expr(f, frame, a.children[2]);
+            codegen_convert(f, frame, type, a.children[2].comp_type);
+        }
+        else
+        {
+            frame.size += type.prim_size;
+            for(size_t i = 0; i < type.prim_size; ++i)
+                f.instrs.push_back({ I_PUSH, 0 });
+        }
         scope.size += type.prim_size;
-        for(size_t i = 0; i < type.prim_size; ++i)
-            f.instrs.push_back({ I_PUSH, 0 });
         break;
     }
     default:
@@ -233,6 +242,7 @@ void compiler_t::codegen_convert(
     compiler_type_t const& to, compiler_type_t const& from)
 {
     assert(from.prim_size != 0);
+    if(to == from) return;
     if(to.is_bool)
     {
         if(from.is_bool) return;
@@ -271,15 +281,32 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::OP_CAST:
+    {
+        assert(a.children.size() == 2);
+        codegen_expr(f, frame, a.children[1]);
+        codegen_convert(f, frame, a.children[0].comp_type, a.children[1].comp_type);
+        return;
+    }
     case AST::OP_UNARY:
     {
         assert(a.children.size() == 2);
         auto op = a.children[0].data;
-        codegen_expr(f, frame, a.children[1]);
         if(op == "!")
         {
+            codegen_expr(f, frame, a.children[1]);
             codegen_convert(f, frame, TYPE_BOOL, a.children[1].comp_type);
             f.instrs.push_back({ I_NOT });
+        }
+        else if(op == "-")
+        {
+            auto size = a.children[1].comp_type.prim_size;
+            for(size_t i = 0; i < size; ++i)
+                f.instrs.push_back({ I_PUSH, 0 });
+            frame.size += size;
+            codegen_expr(f, frame, a.children[1]);
+            frame.size -= size;
+            f.instrs.push_back({ instr_t(I_SUB + size - 1) });
         }
         else
         {
@@ -396,41 +423,34 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
     case AST::OP_RELATIONAL:
     {
         assert(a.children.size() == 2);
-        compiler_type_t conv{};
-        conv.prim_size = std::max(
-            a.children[0].comp_type.prim_size,
-            a.children[1].comp_type.prim_size);
-        conv.prim_signed =
-            a.children[0].comp_type.prim_signed &&
-            a.children[1].comp_type.prim_signed;
-        assert(conv.prim_size >= 1 && conv.prim_size <= 4);
+        assert(a.children[0].comp_type == a.children[1].comp_type);
+        assert(a.comp_type == TYPE_BOOL);
         size_t i0 = 0, i1 = 1;
         if(a.data == ">" || a.data == ">=")
             std::swap(i0, i1);
         codegen_expr(f, frame, a.children[i0]);
-        codegen_convert(f, frame, conv, a.children[i0].comp_type);
         codegen_expr(f, frame, a.children[i1]);
-        codegen_convert(f, frame, conv, a.children[i1].comp_type);
-
-        assert(conv.prim_size >= 1 && conv.prim_size <= 4);
-        frame.size -= conv.prim_size;       // comparison
-        frame.size -= (conv.prim_size - 1); // conversion to bool
+        
+        auto size = a.comp_type.prim_size;
+        assert(size >= 1 && size <= 4);
+        frame.size -= size;       // comparison
+        frame.size -= (size - 1); // conversion to bool
         if(a.data == "==" || a.data == "!=")
         {
-            f.instrs.push_back({ instr_t(I_SUB + conv.prim_size - 1) });
-            f.instrs.push_back({ instr_t(I_BOOL + conv.prim_size - 1) });
+            f.instrs.push_back({ instr_t(I_SUB + size - 1) });
+            f.instrs.push_back({ instr_t(I_BOOL + size - 1) });
             if(a.data == "==")
                 f.instrs.push_back({ I_NOT });
         }
         else if(a.data == "<=" || a.data == ">=")
         {
-            instr_t i = (conv.prim_signed ? I_CSLE : I_CULE);
-            f.instrs.push_back({ instr_t(i + conv.prim_size - 1) });
+            instr_t i = (a.comp_type.prim_signed ? I_CSLE : I_CULE);
+            f.instrs.push_back({ instr_t(i + size - 1) });
         }
         else if(a.data == "<" || a.data == ">")
         {
-            instr_t i = (conv.prim_signed ? I_CSLT : I_CULT);
-            f.instrs.push_back({ instr_t(i + conv.prim_size - 1) });
+            instr_t i = (a.comp_type.prim_signed ? I_CSLT : I_CULT);
+            f.instrs.push_back({ instr_t(i + size - 1) });
         }
         else
             assert(false);
@@ -440,19 +460,39 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
     {
         assert(a.data == "+" || a.data == "-");
         assert(a.children.size() == 2);
+        assert(a.children[0].comp_type == a.comp_type);
+        assert(a.children[1].comp_type == a.comp_type);
         codegen_expr(f, frame, a.children[0]);
-        codegen_convert(f, frame, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1]);
-        codegen_convert(f, frame, a.comp_type, a.children[1].comp_type);
         static_assert(I_ADD2 == I_ADD + 1);
         static_assert(I_ADD3 == I_ADD + 2);
         static_assert(I_ADD4 == I_ADD + 3);
         static_assert(I_SUB2 == I_SUB + 1);
         static_assert(I_SUB3 == I_SUB + 2);
         static_assert(I_SUB4 == I_SUB + 3);
-        assert(a.comp_type.prim_size >= 1 && a.comp_type.prim_size <= 4);
-        frame.size -= a.comp_type.prim_size;
-        f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + a.comp_type.prim_size - 1) });
+        auto size = a.comp_type.prim_size;
+        assert(size >= 1 && size <= 4);
+        frame.size -= size;
+        f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + size - 1) });
+        return;
+    }
+    case AST::OP_MULTIPLICATIVE:
+    {
+        assert(a.children.size() == 2);
+        assert(a.children[0].comp_type == a.comp_type);
+        assert(a.children[1].comp_type == a.comp_type);
+        codegen_expr(f, frame, a.children[0]);
+        codegen_expr(f, frame, a.children[1]);
+        static_assert(I_MUL2 == I_MUL + 1);
+        static_assert(I_MUL3 == I_MUL + 2);
+        static_assert(I_MUL4 == I_MUL + 3);
+        auto size = a.comp_type.prim_size;
+        assert(size >= 1 && size <= 4);
+        frame.size -= size;
+        if(a.data == "*")
+            f.instrs.push_back({ instr_t(I_MUL + size - 1) });
+        else
+            assert(false);
         return;
     }
     default:

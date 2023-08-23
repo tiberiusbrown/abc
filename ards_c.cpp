@@ -11,32 +11,21 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u32 x;
-
-void setup()
+u16 fib(u8 x)
 {
-    set_frame_rate(30);
+    if(x <= 1) return x;
+    return fib(x - 1) + fib(x - 2);
 }
 
-void loop()
-{
-    while(!next_frame())
-        ;
-    draw_filled_rect(x, 0, 16, 16, 1);
-    draw_filled_rect(x + 8, 8, 8, 8, 0);
-    x = x + 1;
-    if(x < 56)
-        x = x + 1;
-    if(x >= 128 - 16)
-        x = 0;
-    display();
-}
+u16 x;
 
 void main()
 {
-    setup();
-    while(1)
-        loop();
+    for(u8 i = 1; i < 10; i = i + 1)
+        x = x + i;
+    debug_break();
+    x = fib(20);
+    debug_break();
 }
 )";
 
@@ -47,7 +36,7 @@ void main()
     for(auto const& e : c.errors())
     {
         std::cerr << "Compiler Error" << std::endl;
-        std::cerr << argv[2] << ":" << e.line_info.first << ":" << e.line_info.second << std::endl;
+        std::cerr << /* argv[2] << ":" << */ e.line_info.first << ":" << e.line_info.second << std::endl;
         std::cerr << e.msg << std::endl;
     }
     if(!c.errors().empty())

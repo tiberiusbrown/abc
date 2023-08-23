@@ -108,17 +108,20 @@ R"(
 program             <- global_stmt*
 
 global_stmt         <- decl_stmt / func_stmt
-decl_stmt           <- type_name ident ';'
+decl_stmt           <- type_name ident ('=' expr)? ';'
 func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
-                       decl_stmt     /
+                       return_stmt   /
                        if_stmt       /
                        while_stmt    /
-                       return_stmt   /
+                       for_stmt      /
+                       decl_stmt     /
                        expr_stmt
 if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
 while_stmt          <- 'while' '(' expr ')' stmt
+for_stmt            <- 'for' '(' for_init_stmt expr ';' expr ')' stmt
+for_init_stmt       <- decl_stmt / expr_stmt
 expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 
@@ -126,14 +129,14 @@ return_stmt         <- 'return' expr? ';'
 expr                <- postfix_expr assignment_op expr / equality_expr
 
 # left-associative binary operators
-equality_expr       <- relational_expr (equality_op   relational_expr)*
-relational_expr     <- additive_expr   (relational_op additive_expr  )*
-additive_expr       <- cast_expr       (additive_op   cast_expr      )*
+equality_expr       <- relational_expr     (equality_op       relational_expr    )*
+relational_expr     <- additive_expr       (relational_op     additive_expr      )*
+additive_expr       <- multiplicative_expr (additive_op       multiplicative_expr)*
+multiplicative_expr <- unary_expr          (multiplicative_op unary_expr         )*
 
-cast_expr           <- unary_expr / '(' type_name ')' cast_expr
-unary_expr          <- postfix_expr / unary_op cast_expr
+unary_expr          <- unary_op unary_expr / postfix_expr
 postfix_expr        <- primary_expr postfix*
-primary_expr        <- ident / decimal_literal / '(' expr ')'
+primary_expr        <- ident / hex_literal / decimal_literal / '(' expr ')'
 
 postfix             <- '(' arg_expr_list? ')'
 
@@ -143,13 +146,18 @@ arg_expr_list       <- expr (',' expr)*
 
 equality_op         <- < '==' / '!=' >
 additive_op         <- < [+-] >
+multiplicative_op   <- < [*] >
 relational_op       <- < '<=' / '>=' / '<' / '>' >
 assignment_op       <- < '=' >
 unary_op            <- < [!-] >
-decimal_literal     <- < [0-9]+ >
+decimal_literal     <- < [0-9]+'u'? >
+hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
 ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
 
-%whitespace         <- [ \t\r\n]*
+%whitespace         <- ([ \t\r\n] / comment / multiline_comment)*
+comment             <- '//' (! linebreak .)* linebreak
+linebreak           <- [\n\r]
+multiline_comment   <- '/*' (! '*/' .)* '*/'
 
 )"
 #endif
@@ -157,8 +165,87 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
 
     if(!errs.empty()) return;
 
+    /*
+    * 
+    At the AST level, for statements are transformed:
+
+        for(A; B; C)
+            D;
+
+    is transformed into
+
+        {
+            A;
+            while(B)
+            {
+                D;
+                C;
+            }
+        }
+
+    */
+    p["for_stmt"] = [](peg::SemanticValues const& v) {
+        ast_node_t a{ v.line_info(), AST::BLOCK, v.token() };
+        auto A = std::any_cast<ast_node_t>(v[0]);
+        auto B = std::any_cast<ast_node_t>(v[1]);
+        auto C = std::any_cast<ast_node_t>(v[2]);
+        auto D = std::any_cast<ast_node_t>(v[3]);
+        a.children.push_back(A);
+        a.children.push_back({ v.line_info(), AST::WHILE_STMT, v.token() });
+        auto& w = a.children.back();
+        w.children.push_back(B);
+        w.children.push_back({ v.line_info(), AST::BLOCK, v.token() });
+        auto& wb = w.children.back();
+        wb.children.push_back(D);
+        wb.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
+        return a;
+    };
+    p["for_init_stmt"] = [](peg::SemanticValues const& v) {
+        return std::any_cast<ast_node_t>(v[0]);
+    };
+
     p["decimal_literal"] = [](peg::SemanticValues const& v) {
-        return ast_node_t{ v.line_info(), AST::INT_CONST, v.token(), {}, v.token_to_number<int64_t>() };
+        int64_t x = 0;
+        std::from_chars(v.token().data(), v.token().data() + v.token().size(), x, 10);
+        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
+        size_t prim_size = 1;
+        bool prim_signed = (a.data.back() != 'u');
+        if(prim_signed)
+        {
+            if(x < (1 << 7)) prim_size = 1;
+            else if(x < (1 << 15)) prim_size = 2;
+            else if(x < (1 << 23)) prim_size = 3;
+            else prim_size = 4;
+        }
+        else
+        {
+            if(x < (1 << 8)) prim_size = 1;
+            else if(x < (1 << 16)) prim_size = 2;
+            else if(x < (1 << 24)) prim_size = 3;
+            else prim_size = 4;
+        }
+        a.comp_type.prim_size = prim_size;
+        a.comp_type.prim_signed = prim_signed;
+        return a;
+    };
+    p["hex_literal"] = [](peg::SemanticValues const& v) {
+        int64_t x = 0;
+        auto t = v.token().substr(2);
+        std::from_chars(t.data(), t.data() + t.size(), x, 16);
+        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
+        size_t prim_size = 1;
+        bool prim_signed = (a.data.back() != 'u');
+        if(x < (1 << 7)) prim_size = 1;
+        else if(x < (1 << 8)) prim_size = 1, prim_signed = false;
+        else if(x < (1 << 15)) prim_size = 2;
+        else if(x < (1 << 16)) prim_size = 2, prim_signed = false;
+        else if(x < (1 << 23)) prim_size = 3;
+        else if(x < (1 << 24)) prim_size = 3, prim_signed = false;
+        else if(x < (1ll << 31)) prim_size = 4;
+        else prim_size = 4, prim_signed = false;
+        a.comp_type.prim_size = prim_size;
+        a.comp_type.prim_signed = prim_signed;
+        return a;
     };
     p["ident"] = [](peg::SemanticValues const& v) {
         return ast_node_t{ v.line_info(), AST::IDENT, v.token() };
@@ -166,16 +253,8 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     p["type_name"] = [](peg::SemanticValues const& v) {
         return ast_node_t{ v.line_info(), AST::TYPE, v.token() };
     };
-    p["cast_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.choice() == 0)
-            return std::any_cast<ast_node_t>(v[0]);
-        return {
-            v.line_info(), AST::OP_CAST, v.token(),
-            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
-        };
-    };
     p["unary_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.choice() == 0)
+        if(v.choice() == 1)
             return std::any_cast<ast_node_t>(v[0]);
         return {
             v.line_info(), AST::OP_UNARY, v.token(),
@@ -236,14 +315,16 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
     const auto token = [](peg::SemanticValues const& v) {
         return ast_node_t{ v.line_info(), AST::TOKEN, v.token() };
     };
-    p["equality_op"  ] = token;
-    p["relational_op"] = token;
-    p["additive_op"  ] = token;
-    p["unary_op"     ] = token;
+    p["equality_op"      ] = token;
+    p["relational_op"    ] = token;
+    p["additive_op"      ] = token;
+    p["multiplicative_op"] = token;
+    p["unary_op"         ] = token;
 
-    p["equality_expr"  ] = infix<AST::OP_EQUALITY>;
-    p["relational_expr"] = infix<AST::OP_RELATIONAL>;
-    p["additive_expr"  ] = infix<AST::OP_ADDITIVE>;
+    p["equality_expr"      ] = infix<AST::OP_EQUALITY>;
+    p["relational_expr"    ] = infix<AST::OP_RELATIONAL>;
+    p["additive_expr"      ] = infix<AST::OP_ADDITIVE>;
+    p["multiplicative_expr"] = infix<AST::OP_MULTIPLICATIVE>;
 
     p["assignment_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::TOKEN, v.token() };
@@ -311,6 +392,8 @@ ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
         ast_node_t a{ v.line_info(), AST::DECL_STMT, v.token() };
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
+        if(v.size() >= 3)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[2])));
         return a;
     };
     p["global_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
