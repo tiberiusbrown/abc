@@ -11,22 +11,26 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u16 fib(u8 x)
+u8 x;
+
+void setup()
 {
-    if(x <= 1) return x;
-    return fib(x - 1) + fib(x - 2);
 }
 
-u16 x;
+void loop()
+{
+    draw_filled_rect(x, 0, 16, 16, 1);
+    x = x + 1;
+    if(x == 112)
+        x = 0;
+    display();
+}
 
 void main()
 {
-    bool blah = false;
-    for(int i = 1; i < 10; i = i + 1)
-        x = x + i;
-    debug_break();
-    x = fib(20);
-    debug_break();
+    setup();
+    while(true)
+        loop();
 }
 )";
 

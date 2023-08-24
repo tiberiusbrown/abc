@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -14,8 +15,10 @@ constexpr uint32_t AUDIO_FREQ = 16000000 / absim::atmega32u4_t::SOUND_CYCLES;
 
 using texture_t = void*;
 
+extern char const* const abc_version;
 extern std::unique_ptr<absim::arduboy_t> arduboy;
 extern float pixel_ratio;
+extern std::filesystem::path project_path;
 
 void init();
 void shutdown();
@@ -28,6 +31,9 @@ void rescale_style();
 
 // ide_compile.cpp
 void compile_all();
+
+// ide_new_project.cpp
+void new_project();
 
 // platform-specific functionality
 void platform_destroy_texture(texture_t t);
@@ -48,11 +54,13 @@ void platform_toggle_fullscreen();
 struct editor_t
 {
     TextEditor editor;
-    std::string title;
+    std::string filename;
+    bool dirty;
     bool open;
 
-    explicit editor_t(std::string const& name);
+    explicit editor_t(std::string const& fname);
     editor_t() : editor_t("<unknown>") {}
     void update();
+    void save();
 };
 extern std::unordered_map<std::string, editor_t> editors;

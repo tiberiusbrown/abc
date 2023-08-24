@@ -1,5 +1,7 @@
 #include "ide_common.hpp"
 
+#include <fstream>
+
 #include "ards_compiler.hpp"
 #include "ards_assembler.hpp"
 
@@ -40,9 +42,10 @@ static TextEditor::LanguageDefinition const& ABC()
     return abc;
 }
 
-editor_t::editor_t(std::string const& name)
+editor_t::editor_t(std::string const& fname)
     : editor()
-    , title(name)
+    , filename(fname)
+    , dirty(false)
     , open(true)
 {
     editor.SetColorizerEnable(true);
@@ -53,9 +56,29 @@ editor_t::editor_t(std::string const& name)
 
 void editor_t::update()
 {
-    if(ImGui::Begin(title.c_str(), &open))
+    if(editor.IsTextChanged())
+        dirty = true;
+    std::string id = filename;
+    if(dirty) id += "*";
+    id += "###file_" + filename;
+    ImGui::SetNextWindowSize(
+        { 400 * pixel_ratio, 400 * pixel_ratio },
+        ImGuiCond_FirstUseEver);
+    if(ImGui::Begin(id.c_str(), &open))
     {
-        editor.Render(title.c_str());
+        editor.Render("###file");
         ImGui::End();
     }
+}
+
+void editor_t::save()
+{
+    if(!dirty) return;
+    if(project_path.empty()) return;
+    std::ofstream fout(project_path / filename, std::ios::out);
+    if(!fout) return;
+
+    auto t = editor.GetText();
+    fout.write(t.c_str(), t.size());
+    dirty = false;
 }

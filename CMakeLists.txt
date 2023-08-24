@@ -50,8 +50,8 @@ target_include_directories(ards_assembler PUBLIC
 add_library(ards_compiler STATIC
     .editorconfig
     ards_vm/ards_instr.hpp
-    src/ards_assembler.hpp
     src/ards_assembler.cpp
+    src/ards_assembler.hpp
     src/ards_compiler.cpp
     src/ards_compiler.hpp
     src/ards_compiler_codegen.cpp
@@ -87,12 +87,15 @@ file(GLOB SOKOL_SOURCES deps/sokol/*.h)
 file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
 
 add_executable(abc_ide ${EXE_TYPE}
-    src/ide_common.hpp
     src/ide_common.cpp
+    src/ide_common.hpp
     src/ide_compile.cpp
     src/ide_editor.cpp
     src/ide_main.cpp
+    src/ide_new_project.cpp
     src/font.cpp
+    src/font_icons.cpp
+    src/font_icons.hpp
     ${IMGUI_SOURCES}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
