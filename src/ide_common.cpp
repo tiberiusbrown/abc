@@ -11,13 +11,23 @@ char const* const abc_version = ABC_VERSION;
 
 std::unique_ptr<absim::arduboy_t> arduboy;
 float pixel_ratio;
-std::filesystem::path project_path;
+ImGuiID selected_dockid{};
+project_t project;
 
 static ImGuiStyle default_style;
+ImGuiID dockspace_id;
+ImGuiID dockid_project;
 
 extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
+
+project_file_t* project_t::get_file(std::string const& filename)
+{
+    if(auto it = code_files.find(filename); it != code_files.end())
+        return &it->second;
+    return nullptr;
+}
 
 void frame_logic()
 {
@@ -62,7 +72,7 @@ void imgui_content()
     //DockSpace(dockspace_id, {}, ImGuiDockNodeFlags_PassthruCentralNode);
     //End();
 
-    ImGuiID dockspace_id = DockSpaceOverViewport(viewport);
+    dockspace_id = DockSpaceOverViewport(viewport);
     {
         ImGuiDockNode* node = ImGui::DockBuilderGetCentralNode(dockspace_id);
         ImGuiWindowClass centralAlways = {};
@@ -76,27 +86,31 @@ void imgui_content()
         End();
     }
 
+    static bool firstinit = false;
+    if(!firstinit)
+    {
+        //ImGuiID tid, tid2;
+        //DockBuilderRemoveNodeChildNodes(dockspace_id);
+        //DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.20f, &dockid_project, &tid);
+        //ImGuiDockNode* project = ImGui::DockBuilderGetNode(dockid_project);
+        //project->LocalFlags |=
+        //    ImGuiDockNodeFlags_NoTabBar |
+        //    ImGuiDockNodeFlags_NoDockingOverMe |
+        //    ImGuiDockNodeFlags_NoDockingSplitMe;
+        //ImGuiDockNode* root = ImGui::DockBuilderGetNode(dockspace_id);
+        //root->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplitMe;
+
+        new_project();
+        firstinit = true;
+    }
+
     //ShowDemoWindow();
 
-    static bool init_dock = false;
-    if(!init_dock)
+    SetNextWindowDockID(dockid_project, ImGuiCond_Always);
+    if(Begin("Project"))
     {
-        ImGuiID c0{}, c1{};
-        DockBuilderSplitNode(dockspace_id, ImGuiDir_Right, 0.25f, &c1, &c0);
-        DockBuilderDockWindow("Project", c0);
-
-        ImGuiDockNode* project = ImGui::DockBuilderGetNode(c0);
-        project->LocalFlags |=
-            ImGuiDockNodeFlags_NoTabBar |
-            ImGuiDockNodeFlags_NoDocking |
-            ImGuiDockNodeFlags_NoDockingSplitMe |
-            ImGuiDockNodeFlags_NoDockingOverMe;
-    
-        init_dock = true;
+        TextUnformatted("Project Info Here");
     }
-    
-    Begin("Project");
-    Text("Hello!");
     End();
 
     for(auto& [k, v] : editors)
@@ -206,6 +220,4 @@ void init()
     arduboy->reset();
     arduboy->fx.min_page = 0xffff;
     arduboy->fx.max_page = 0xffff;
-
-    new_project();
 }

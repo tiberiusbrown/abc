@@ -9,9 +9,6 @@
 
 void compile_all()
 {
-    if(project_path.empty())
-        return;
-
     ards::compiler_t c{};
     ards::assembler_t a{};
 
@@ -20,7 +17,6 @@ void compile_all()
 
     for(auto& [k, v] : editors)
     {
-        v.save();
         std::stringstream ss(v.editor.GetText());
         std::stringstream sout;
         c.compile(ss, sout);
@@ -53,8 +49,5 @@ void compile_all()
             return;
     }
 
-    std::ofstream fbin(project_path / "fxdata.bin", std::ios::out | std::ios::binary);
-    if(!fbin)
-        return;
-    fbin.write((char*)a.data().data(), a.data().size());
+    // a.data();
 }

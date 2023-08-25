@@ -1,6 +1,5 @@
 #pragma once
 
-#include <filesystem>
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -18,8 +17,33 @@ using texture_t = void*;
 extern char const* const abc_version;
 extern std::unique_ptr<absim::arduboy_t> arduboy;
 extern float pixel_ratio;
-extern std::filesystem::path project_path;
+extern ImGuiID dockspace_id;
+extern ImGuiID dockid_project;
+extern ImGuiID selected_dockid;
 
+enum ftype_t
+{
+    FTYPE_NONE,
+    FTYPE_CODE,
+};
+struct project_file_t
+{
+    std::string filename;
+    std::vector<uint8_t> bytes;
+    ftype_t type;
+};
+struct project_t
+{
+    std::string name;
+    std::string author;
+
+    std::unordered_map<std::string, project_file_t> code_files;
+    project_file_t* get_file(std::string const& filename);
+};
+
+extern project_t project;
+
+// ide_common.cpp
 void init();
 void shutdown();
 void frame_logic();
@@ -61,6 +85,6 @@ struct editor_t
     explicit editor_t(std::string const& fname);
     editor_t() : editor_t("<unknown>") {}
     void update();
-    void save();
+    std::string window_name();
 };
 extern std::unordered_map<std::string, editor_t> editors;

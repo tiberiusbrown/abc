@@ -52,33 +52,35 @@ editor_t::editor_t(std::string const& fname)
     editor.SetPalette(editor.GetDarkPalette());
     editor.SetShowWhitespaces(false);
     editor.SetLanguageDefinition(ABC());
+    if(auto const* f = project.get_file(fname))
+    {
+        auto const& b = f->bytes;
+        editor.SetText(std::string((char const*)b.data(), b.size()));
+    }
+}
+
+std::string editor_t::window_name()
+{
+    std::string id = filename;
+    if(dirty) id += "*";
+    id += "###file_" + filename;
+    return id;
 }
 
 void editor_t::update()
 {
-    if(editor.IsTextChanged())
-        dirty = true;
-    std::string id = filename;
-    if(dirty) id += "*";
-    id += "###file_" + filename;
+    bool was_changed = editor.IsTextChanged();
     ImGui::SetNextWindowSize(
         { 400 * pixel_ratio, 400 * pixel_ratio },
         ImGuiCond_FirstUseEver);
-    if(ImGui::Begin(id.c_str(), &open))
+    if(ImGui::Begin(window_name().c_str(), &open))
     {
+        if(ImGui::IsWindowFocused(ImGuiHoveredFlags_ChildWindows))
+            selected_dockid = ImGui::GetWindowDockID();
         editor.Render("###file");
-        ImGui::End();
     }
-}
+    ImGui::End();
 
-void editor_t::save()
-{
-    if(!dirty) return;
-    if(project_path.empty()) return;
-    std::ofstream fout(project_path / filename, std::ios::out);
-    if(!fout) return;
-
-    auto t = editor.GetText();
-    fout.write(t.c_str(), t.size());
-    dirty = false;
+    if(editor.IsTextChanged() && !was_changed)
+        dirty = true;
 }
