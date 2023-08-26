@@ -5,7 +5,18 @@
 #include "ards_compiler.hpp"
 #include "ards_assembler.hpp"
 
-std::unordered_map<std::string, editor_t> editors;
+struct open_code_file_t : public open_file_t
+{
+    TextEditor editor;
+    open_code_file_t(std::string const& filename);
+    void save_impl() override;
+    void window_contents() override;
+};
+
+std::unique_ptr<open_file_t> create_code_file(std::string const& filename)
+{
+    return std::make_unique<open_code_file_t>(filename);
+}
 
 static TextEditor::LanguageDefinition const& ABC()
 {
@@ -42,45 +53,47 @@ static TextEditor::LanguageDefinition const& ABC()
     return abc;
 }
 
-editor_t::editor_t(std::string const& fname)
-    : editor()
-    , filename(fname)
-    , dirty(false)
-    , open(true)
+open_code_file_t::open_code_file_t(std::string const& filename)
+    : open_file_t(filename)
+    , editor()
 {
     editor.SetColorizerEnable(true);
     editor.SetPalette(editor.GetDarkPalette());
     editor.SetShowWhitespaces(false);
     editor.SetLanguageDefinition(ABC());
-    if(auto const* f = project.get_file(fname))
+    if(auto f = file.lock())
     {
-        auto const& b = f->bytes;
-        editor.SetText(std::string((char const*)b.data(), b.size()));
+        editor.SetText(f->content_as_string());
     }
 }
 
-std::string editor_t::window_name()
-{
-    std::string id = filename;
-    if(dirty) id += "*";
-    id += "###file_" + filename;
-    return id;
-}
-
-void editor_t::update()
+void open_code_file_t::window_contents()
 {
     bool was_changed = editor.IsTextChanged();
-    ImGui::SetNextWindowSize(
-        { 400 * pixel_ratio, 400 * pixel_ratio },
-        ImGuiCond_FirstUseEver);
-    if(ImGui::Begin(window_name().c_str(), &open))
+
+    if(ImGui::IsWindowFocused(ImGuiHoveredFlags_ChildWindows))
+        selected_dockid = ImGui::GetWindowDockID();
+
+    TextEditor::ErrorMarkers errors{};
+    if(auto it = project.errors.find(filename()); it != project.errors.end())
     {
-        if(ImGui::IsWindowFocused(ImGuiHoveredFlags_ChildWindows))
-            selected_dockid = ImGui::GetWindowDockID();
-        editor.Render("###file");
+        for(auto const& e : it->second)
+            errors[(int)e.line_info.first] = e.msg;
     }
-    ImGui::End();
+    editor.SetErrorMarkers(errors);
+
+    editor.Render("###file");
 
     if(editor.IsTextChanged() && !was_changed)
         dirty = true;
+}
+
+void open_code_file_t::save_impl()
+{
+    if(auto f = file.lock())
+    {
+        f->set_content(editor.GetText());
+        if(!f->content.empty())
+            f->content.pop_back();
+    }
 }

@@ -13,6 +13,7 @@ std::unique_ptr<absim::arduboy_t> arduboy;
 float pixel_ratio;
 ImGuiID selected_dockid{};
 project_t project;
+std::unordered_map<std::string, std::unique_ptr<open_file_t>> open_files;
 
 static ImGuiStyle default_style;
 ImGuiID dockspace_id;
@@ -22,10 +23,71 @@ extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
 
-project_file_t* project_t::get_file(std::string const& filename)
+std::string project_file_t::content_as_string() const
 {
-    if(auto it = code_files.find(filename); it != code_files.end())
-        return &it->second;
+    return std::string(content.begin(), content.end());
+}
+
+void project_file_t::set_content(std::string const& s)
+{
+    content = std::vector<uint8_t>(s.begin(), s.end());
+}
+
+void open_file_t::save()
+{
+    if(!dirty) return;
+    save_impl();
+    dirty = false;
+}
+
+void open_file_t::window()
+{
+    using namespace ImGui;
+    if(!open) return;
+    //if(move_to_front)
+    //{
+    //    ImGuiWindow* window = FindWindowByName("Project Info");
+    //    if(!window)
+    //        SetNextWindowDockID(selected_dockid, ImGuiCond_Always);
+    //}
+    ImGui::SetNextWindowSize(
+        { 400 * pixel_ratio, 400 * pixel_ratio },
+        ImGuiCond_FirstUseEver);
+    if(Begin(window_id().c_str(), &open))
+    {
+        window_contents();
+    }
+    //if(move_to_front)
+    //{
+    //    make_tab_visible("Project Info");
+    //    move_to_front = false;
+    //}
+    End();
+}
+
+std::string open_file_t::filename() const
+{
+    if(auto f = file.lock())
+        return f->filename;
+    return "<deleted>";
+}
+
+std::string open_file_t::window_title()
+{
+    std::string title = filename();
+    if(dirty) title += "*";
+    return title;
+}
+
+std::string open_file_t::window_id()
+{
+    return window_title() + "###file_" + filename();
+}
+
+std::shared_ptr<project_file_t> project_t::get_file(std::string const& filename)
+{
+    if(auto it = files.find(filename); it != files.end())
+        return it->second;
     return nullptr;
 }
 
@@ -50,56 +112,21 @@ void imgui_content()
         EndMainMenuBar();
     }
 
-    ImGuiViewport* viewport = GetMainViewport();
-    //SetNextWindowPos(viewport->WorkPos);
-    //SetNextWindowSize(viewport->WorkSize);
-    //SetNextWindowViewport(viewport->ID);
-    //PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-    //PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    //PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-    //Begin("##dockspace_window", nullptr,
-    //    ImGuiWindowFlags_NoTitleBar |
-    //    ImGuiWindowFlags_NoCollapse |
-    //    ImGuiWindowFlags_NoResize |
-    //    ImGuiWindowFlags_NoMove |
-    //    ImGuiWindowFlags_NoDocking |
-    //    ImGuiWindowFlags_NoBringToFrontOnFocus |
-    //    ImGuiWindowFlags_NoNavFocus |
-    //    ImGuiWindowFlags_NoBackground);
-    //PopStyleVar(3);
-    //ImGuiID dockspace_id = ImGui::GetID("dockspace");
-    //DockBuilderGetNode(dockspace_id);
-    //DockSpace(dockspace_id, {}, ImGuiDockNodeFlags_PassthruCentralNode);
-    //End();
-
-    dockspace_id = DockSpaceOverViewport(viewport);
+    dockspace_id = DockSpaceOverViewport(GetMainViewport());
     {
         ImGuiDockNode* node = ImGui::DockBuilderGetCentralNode(dockspace_id);
         ImGuiWindowClass centralAlways = {};
         centralAlways.DockNodeFlagsOverrideSet |= ImGuiDockNodeFlags_NoTabBar | ImGuiDockNodeFlags_NoDockingOverMe;
         SetNextWindowClass(&centralAlways);
         SetNextWindowDockID(node->ID, ImGuiCond_Always);
-        //PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
         Begin("Display");
-        //PopStyleVar();
-        Text("Display: " ICON_FA_HEART);
+        player_window_contents();
         End();
     }
 
     static bool firstinit = false;
     if(!firstinit)
     {
-        //ImGuiID tid, tid2;
-        //DockBuilderRemoveNodeChildNodes(dockspace_id);
-        //DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.20f, &dockid_project, &tid);
-        //ImGuiDockNode* project = ImGui::DockBuilderGetNode(dockid_project);
-        //project->LocalFlags |=
-        //    ImGuiDockNodeFlags_NoTabBar |
-        //    ImGuiDockNodeFlags_NoDockingOverMe |
-        //    ImGuiDockNodeFlags_NoDockingSplitMe;
-        //ImGuiDockNode* root = ImGui::DockBuilderGetNode(dockspace_id);
-        //root->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplitMe;
-
         new_project();
         firstinit = true;
     }
@@ -109,18 +136,18 @@ void imgui_content()
     SetNextWindowDockID(dockid_project, ImGuiCond_Always);
     if(Begin("Project"))
     {
-        TextUnformatted("Project Info Here");
+        project_window_contents();
     }
     End();
 
-    for(auto& [k, v] : editors)
+    for(auto& [k, v] : open_files)
     {
-        v.update();
+        v->window();
     }
-    for(auto it = editors.begin(); it != editors.end();)
+    for(auto it = open_files.begin(); it != open_files.end();)
     {
-        if(!it->second.open)
-            it = editors.erase(it);
+        if(!it->second->open)
+            it = open_files.erase(it);
         else
             ++it;
     }
@@ -146,9 +173,10 @@ void define_font()
     io.Fonts->Clear();
     io.Fonts->AddFontFromMemoryTTF(
         (void*)ProggyVector, sizeof(ProggyVector), font_size, &cfg);
-    //cfg.GlyphMinAdvanceX = font_size;
     cfg.MergeMode = true;
-    //cfg.GlyphOffset = { 0, -1 };
+    cfg.GlyphOffset = { 0, 1.5f * pixel_ratio };
+    cfg.GlyphMinAdvanceX = font_size;
+    cfg.RasterizerMultiply = 1.2f;
     static ImWchar const icon_ranges[] =
     {
         0xf004, 0xf35b,
@@ -220,4 +248,13 @@ void init()
     arduboy->reset();
     arduboy->fx.min_page = 0xffff;
     arduboy->fx.max_page = 0xffff;
+}
+
+void make_tab_visible(std::string const& window_name)
+{
+    //ImGuiWindow* window = ImGui::FindWindowByName(window_name.c_str());
+    //if(window == NULL || window->DockNode == NULL || window->DockNode->TabBar == NULL)
+    //    return;
+    //window->DockNode->TabBar->NextSelectedTabId = window->TabId;
+    ImGui::SetWindowFocus(window_name.c_str());
 }

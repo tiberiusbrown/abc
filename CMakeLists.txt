@@ -87,15 +87,18 @@ file(GLOB SOKOL_SOURCES deps/sokol/*.h)
 file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
 
 add_executable(abc_ide ${EXE_TYPE}
+    src/font.cpp
+    src/font_icons.cpp
+    src/font_icons.hpp
     src/ide_common.cpp
     src/ide_common.hpp
     src/ide_compile.cpp
     src/ide_editor.cpp
     src/ide_main.cpp
     src/ide_new_project.cpp
-    src/font.cpp
-    src/font_icons.cpp
-    src/font_icons.hpp
+    src/ide_player.cpp
+    src/ide_project.cpp
+    src/ide_project_info.cpp
     ${IMGUI_SOURCES}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}

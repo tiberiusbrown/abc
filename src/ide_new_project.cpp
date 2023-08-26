@@ -5,6 +5,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
+static std::string const main_name = "main.abc";
 static std::string const main_prog = R"(u8 x;
 
 void setup()
@@ -27,16 +28,29 @@ void main()
         loop();
 })";
 
+static std::string const info_json = R"({
+    "name": "My Game",
+    "author": "Unknown",
+    "desc": "A totally awesome game!"
+})";
+
 void new_project()
 {
     project = {};
-    editors.clear();
 
-    auto& f = project.code_files["main.abc"];
-    f.filename = "main.abc";
-    f.bytes = std::vector<uint8_t>(main_prog.begin(), main_prog.end());
+    {
+        auto f = project.files[INFO_FILENAME] = std::make_shared<project_file_t>();
+        f->filename = INFO_FILENAME;
+        f->set_content(info_json);
+    }
 
-    auto& e = editors["main.abc"] = editor_t("main.abc");
+    {
+        auto f = project.files[main_name] = std::make_shared<project_file_t>();
+        f->filename = main_name;
+        f->set_content(main_prog);
+    }
+
+    open_files[main_name] = create_code_file(main_name);
 
     // set up docking
     {
@@ -52,6 +66,6 @@ void new_project()
         root->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplitMe;
 
         DockBuilderSplitNode(t0, ImGuiDir_Left, 0.50f, &t0, &t1);
-        DockBuilderDockWindow(e.window_name().c_str(), t0);
+        DockBuilderDockWindow(open_files[main_name]->window_id().c_str(), t0);
     }
 }
