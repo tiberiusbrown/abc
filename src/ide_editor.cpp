@@ -71,9 +71,6 @@ void open_code_file_t::window_contents()
 {
     bool was_changed = editor.IsTextChanged();
 
-    if(ImGui::IsWindowFocused(ImGuiHoveredFlags_ChildWindows))
-        selected_dockid = ImGui::GetWindowDockID();
-
     TextEditor::ErrorMarkers errors{};
     if(auto it = project.errors.find(filename()); it != project.errors.end())
     {

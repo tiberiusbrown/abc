@@ -121,7 +121,7 @@ static void app_event(sapp_event const* e)
 
 static void app_cleanup()
 {
-    //shutdown();
+    shutdown();
     saudio_shutdown();
     simgui_shutdown();
     //platform_destroy_texture(display_texture);
@@ -174,45 +174,6 @@ sapp_desc sokol_main(int argc, char** argv)
     //}
 
     return desc;
-}
-
-
-void platform_destroy_texture(texture_t t)
-{
-    sg_destroy_image({ (uint32_t)(uintptr_t)t });
-}
-
-texture_t platform_create_texture(int w, int h)
-{
-    sg_image_desc desc{};
-    desc.width = w;
-    desc.height = h;
-    desc.pixel_format = SG_PIXELFORMAT_RGBA8;
-    desc.min_filter = SG_FILTER_LINEAR;
-    desc.mag_filter = SG_FILTER_NEAREST;
-    desc.wrap_u = SG_WRAP_CLAMP_TO_EDGE;
-    desc.wrap_v = SG_WRAP_CLAMP_TO_EDGE;
-    desc.usage = SG_USAGE_STREAM;
-    auto t = sg_make_image(&desc);
-
-    return (texture_t)(uintptr_t)t.id;
-}
-
-void platform_update_texture(texture_t t, void const* data, size_t n)
-{
-    sg_image_data idata{};
-    idata.subimage[0][0] = { data, n };
-    sg_update_image({ (uint32_t)(uintptr_t)t }, &idata);
-}
-
-void platform_texture_scale_linear(texture_t t)
-{
-    // not supported by sokol_gfx
-}
-
-void platform_texture_scale_nearest(texture_t t)
-{
-    // not supported by sokol_gfx
 }
 
 void platform_set_clipboard_text(char const* str)

@@ -6,6 +6,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+include(cmake/cmake-bin2h/bin2h.cmake)
+set(GENHEADER_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin2h_headers")
+file(MAKE_DIRECTORY "${GENHEADER_DIR}")
+bin2h(
+    SOURCE_FILE   ards_vm/ards_vm.ino-arduboy-fx.hex
+    HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
+    VARIABLE_NAME VM_HEX_ARDUBOYFX
+    )
+
 set(EXE_TYPE)
 if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -94,14 +103,24 @@ add_executable(abc_ide ${EXE_TYPE}
     src/ide_common.hpp
     src/ide_compile.cpp
     src/ide_editor.cpp
+    src/ide_hexdata.cpp
     src/ide_main.cpp
     src/ide_new_project.cpp
     src/ide_player.cpp
     src/ide_project.cpp
     src/ide_project_info.cpp
+    src/ide_texture.cpp
+
+    "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
+
     ${IMGUI_SOURCES}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
     )
 target_link_libraries(abc_ide ardenslib ards_compiler)
-target_include_directories(abc_ide PRIVATE deps/sokol deps/imgui deps/ImGuiColorTextEdit)
+target_include_directories(abc_ide PRIVATE
+    deps/sokol
+    deps/imgui
+    deps/ImGuiColorTextEdit
+    "${GENHEADER_DIR}"
+    )

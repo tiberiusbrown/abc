@@ -14,15 +14,23 @@ constexpr float DEFAULT_FONT_SIZE = 16.f;
 
 constexpr uint32_t AUDIO_FREQ = 16000000 / absim::atmega32u4_t::SOUND_CYCLES;
 
-using texture_t = void*;
-
 const std::string INFO_FILENAME = "abc.json";
 extern char const* const abc_version;
 extern std::unique_ptr<absim::arduboy_t> arduboy;
 extern float pixel_ratio;
 extern ImGuiID dockspace_id;
 extern ImGuiID dockid_project;
-extern ImGuiID selected_dockid;
+
+// ide_texture.cpp
+struct texture_t
+{
+    int w, h;
+    uintptr_t id;
+    ImTextureID imgui_id() const { return reinterpret_cast<ImTextureID>(id); }
+    void update(std::vector<uint8_t> const& rgba);
+    texture_t(int w, int h);
+    ~texture_t();
+};
 
 struct project_file_t
 {
@@ -47,7 +55,9 @@ struct open_file_t
     bool dirty;
     bool open;
     open_file_t(std::string const& filename)
-        : file(project.get_file(filename)), dirty(false), open(true)
+        : file(project.get_file(filename))
+        , dirty(false)
+        , open(true)
     {}
     void save();
     void window();
@@ -82,14 +92,11 @@ void new_project();
 void project_window_contents();
 
 // ide_player.cpp
-void player_window_contents();
+void player_window_contents(uint64_t dt);
+void player_shutdown();
+void player_run();
 
 // platform-specific functionality
-void platform_destroy_texture(texture_t t);
-texture_t platform_create_texture(int w, int h);
-void platform_update_texture(texture_t t, void const* data, size_t n);
-void platform_texture_scale_linear(texture_t t);
-void platform_texture_scale_nearest(texture_t t);
 void platform_set_clipboard_text(char const* str);
 void platform_send_sound();
 uint64_t platform_get_ms_dt();
@@ -104,3 +111,7 @@ std::unique_ptr<open_file_t> create_code_file(std::string const& filename);
 
 // ide_project_info.cpp
 std::unique_ptr<open_file_t> create_project_info_file(std::string const& filename);
+
+// ide_hexdata.cpp
+extern const unsigned char VM_HEX_ARDUBOYFX[];
+extern const size_t VM_HEX_ARDUBOYFX_SIZE;

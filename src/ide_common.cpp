@@ -1,5 +1,7 @@
 #include "ide_common.hpp"
 
+#include <strstream>
+
 #include <imgui.h>
 #include <imgui_internal.h>
 
@@ -11,7 +13,6 @@ char const* const abc_version = ABC_VERSION;
 
 std::unique_ptr<absim::arduboy_t> arduboy;
 float pixel_ratio;
-ImGuiID selected_dockid{};
 project_t project;
 std::unordered_map<std::string, std::unique_ptr<open_file_t>> open_files;
 
@@ -44,12 +45,6 @@ void open_file_t::window()
 {
     using namespace ImGui;
     if(!open) return;
-    //if(move_to_front)
-    //{
-    //    ImGuiWindow* window = FindWindowByName("Project Info");
-    //    if(!window)
-    //        SetNextWindowDockID(selected_dockid, ImGuiCond_Always);
-    //}
     ImGui::SetNextWindowSize(
         { 400 * pixel_ratio, 400 * pixel_ratio },
         ImGuiCond_FirstUseEver);
@@ -57,11 +52,6 @@ void open_file_t::window()
     {
         window_contents();
     }
-    //if(move_to_front)
-    //{
-    //    make_tab_visible("Project Info");
-    //    move_to_front = false;
-    //}
     End();
 }
 
@@ -94,12 +84,19 @@ std::shared_ptr<project_file_t> project_t::get_file(std::string const& filename)
 void frame_logic()
 {
     if(ImGui::IsKeyPressed(ImGuiKey_F5, false))
-        compile_all();
+    {
+        if(compile_all())
+        {
+            player_run();
+        }
+    }
 }
 
 void imgui_content()
 {
     using namespace ImGui;
+
+    uint64_t dt = platform_get_ms_dt();
 
     if(BeginMainMenuBar())
     {
@@ -120,7 +117,7 @@ void imgui_content()
         SetNextWindowClass(&centralAlways);
         SetNextWindowDockID(node->ID, ImGuiCond_Always);
         Begin("Display");
-        player_window_contents();
+        player_window_contents(dt);
         End();
     }
 
@@ -202,9 +199,7 @@ void rescale_style()
 
 void shutdown()
 {
-#ifndef ARDENS_NO_DEBUGGER
-    ImPlot::DestroyContext();
-#endif
+    player_shutdown();
 }
 
 void init()
@@ -219,8 +214,6 @@ void init()
     FS.syncfs(true, function(err) { ccall('postsyncfs', 'v'); });
     );
 #endif
-
-    arduboy = std::make_unique<absim::arduboy_t>();
 
     //init_settings();
 
@@ -244,8 +237,15 @@ void init()
 
     default_style = style;
 
+    arduboy = std::make_unique<absim::arduboy_t>();
+    {
+        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, VM_HEX_ARDUBOYFX_SIZE);
+        auto t = arduboy->load_file("vm.hex", ss);
+        assert(t.empty());
+    }
     arduboy->fx.erase_all_data();
     arduboy->reset();
+    arduboy->paused = true;
     arduboy->fx.min_page = 0xffff;
     arduboy->fx.max_page = 0xffff;
 }

@@ -6,18 +6,31 @@
 #include <imgui_internal.h>
 
 static std::string const main_name = "main.abc";
-static std::string const main_prog = R"(u8 x;
+static std::string const main_prog = R"(int x;
+bool dir;
 
 void setup()
 {
+	//dir = true;
 }
 
 void loop()
 {
+    while(!next_frame())
+        ;
     draw_filled_rect(x, 0, 16, 16, 1);
-    x = x + 1;
-    if(x == 112)
-        x = 0;
+    if(dir)
+    {
+    	x = x + 1;
+    	if(x >= 112)
+    		dir = false;
+    }
+    else
+    {
+    	x = x - 1;
+    	if(x <= 0)
+    		dir = true;
+    }
     display();
 }
 

@@ -445,12 +445,12 @@ void compiler_t::codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_n
         }
         else if(a.data == "<=" || a.data == ">=")
         {
-            instr_t i = (a.comp_type.prim_signed ? I_CSLE : I_CULE);
+            instr_t i = (a.children[0].comp_type.prim_signed ? I_CSLE : I_CULE);
             f.instrs.push_back({ instr_t(i + size - 1) });
         }
         else if(a.data == "<" || a.data == ">")
         {
-            instr_t i = (a.comp_type.prim_signed ? I_CSLT : I_CULT);
+            instr_t i = (a.children[0].comp_type.prim_signed ? I_CSLT : I_CULT);
             f.instrs.push_back({ instr_t(i + size - 1) });
         }
         else
