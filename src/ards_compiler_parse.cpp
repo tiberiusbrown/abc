@@ -152,7 +152,7 @@ assignment_op       <- < '=' >
 unary_op            <- < [!-] >
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
-ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
+ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
 
 %whitespace         <- ([ \t\r\n] / comment / multiline_comment)*
 comment             <- '//' (! linebreak .)* linebreak

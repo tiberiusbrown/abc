@@ -75,9 +75,11 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
 {
     assert(n.type == AST::IDENT);
     std::string name(n.data);
+    assert(!name.empty());
 
+    if(name[0] == '$')
     {
-        auto it = sys_names.find(name);
+        auto it = sys_names.find(name.substr(1));
         if(it != sys_names.end())
         {
             compiler_func_t f{};
@@ -88,6 +90,11 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
             assert(jt != sysfunc_decls.end());
             f.decl = jt->second;
             return f;
+        }
+        else
+        {
+            errs.push_back({ "Undefined system function: \"" + name + "\"", n.line_info });
+            return {};
         }
     }
 

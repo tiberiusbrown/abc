@@ -6,13 +6,24 @@
 #include <strstream>
 
 #include <imgui.h>
+#include <imgui_internal.h>
 
 #include "font_icons.hpp"
 
 static std::unique_ptr<texture_t> display_texture;
+bool player_active;
 
 void player_run()
 {
+    if(player_active)
+    {
+        arduboy->reset();
+        arduboy->paused = true;
+        player_active = false;
+        return;
+    }
+    if(!compile_all())
+        return;
     if(!arduboy || project.binary.empty())
         return;
     std::istrstream ss(
@@ -23,6 +34,7 @@ void player_run()
     if(!t.empty())
         return;
     arduboy->paused = false;
+    player_active = true;
 }
 
 void player_window_contents(uint64_t dt)
@@ -32,7 +44,7 @@ void player_window_contents(uint64_t dt)
     if(!display_texture)
         display_texture = std::make_unique<texture_t>(128, 64);
 
-    if(arduboy && arduboy->cpu.decoded && !arduboy->paused)
+    if(arduboy && arduboy->cpu.decoded && !arduboy->paused && player_active)
     {
         arduboy->cpu.enabled_autobreaks.reset();
         arduboy->allow_nonstep_breakpoints = false;
@@ -77,40 +89,108 @@ void player_window_contents(uint64_t dt)
 
     if(display_texture && arduboy && arduboy->cpu.decoded)
     {
-        std::vector<uint8_t> pixels;
-        pixels.resize(128 * 64 * 4);
-        for(size_t i = 0; i < 128 * 64; ++i)
+        if(player_active)
         {
-            auto t = arduboy->display.filtered_pixels[i];
-            pixels[i * 4 + 0] = t;
-            pixels[i * 4 + 1] = t;
-            pixels[i * 4 + 2] = t;
-            pixels[i * 4 + 3] = 255;
+            std::vector<uint8_t> pixels;
+            pixels.resize(128 * 64 * 4);
+            for(size_t i = 0; i < 128 * 64; ++i)
+            {
+                auto t = arduboy->display.filtered_pixels[i];
+                pixels[i * 4 + 0] = t;
+                pixels[i * 4 + 1] = t;
+                pixels[i * 4 + 2] = t;
+                pixels[i * 4 + 3] = 255;
+            }
+            display_texture->update(pixels);
         }
-        display_texture->update(pixels);
 
         auto avail = GetContentRegionAvail();
+        avail.x -= 2.f;
+        avail.y -= 2.f;
         int z = 1;
         while(128 * z <= avail.x && 64 * z <= avail.y)
             ++z;
-        --z;
+        if(z > 1) --z;
         ImVec2 size = { 128.f * z, 64.f * z };
         float offset = std::round((avail.x - size.x) * 0.5f);
         constexpr float C = 0.5f;
+        constexpr ImVec4 COLOR = { C, C, C, 1 };
 
         SetCursorPosX(GetCursorPosX() + offset);
-        Image(
-            display_texture->imgui_id(),
-            size,
-            { 0, 0 }, { 1, 1 },
-            { 1, 1, 1, 1 },
-            { C, C, C, 1 });
+        if(player_active)
+        {
+            Image(
+                display_texture->imgui_id(),
+                size,
+                { 0, 0 }, { 1, 1 },
+                { 1, 1, 1, 1 },
+                COLOR);
+        }
+        else
+        {
+            auto* d = GetWindowDrawList();
+            ImVec2 a = GetCursorScreenPos();
+            ImVec2 b = { a.x + size.x + 2.f, a.y + size.y + 2.f };
+            ImRect bb = { a, b };
+            ItemSize(bb);
+            ItemAdd(bb, 0);
+            d->AddRect(a, b, GetColorU32(COLOR));
+            d->AddRectFilled(
+                { a.x + 1.f, a.y + 1.f },
+                { b.x - 1.f, b.y - 1.f },
+                IM_COL32(30, 30, 30, 255));
+        }
     }
 
-    Button("Debug " ICON_FA_PLAY_CIRCLE);
-    Button("Pause " ICON_FA_PAUSE_CIRCLE);
-    Button("Stop " ICON_FA_STOP_CIRCLE);
+    ImVec2 button_size = {
+        150.f * pixel_ratio,
+        30.f * pixel_ratio
+    };
+    SetCursorPosX((GetWindowSize().x - button_size.x) * 0.5f);
+    if(player_active)
+    {
+        if(Button(ICON_FA_STOP_CIRCLE " Stop (F5)", button_size))
+            player_run();
+    }
+    else
+    {
+        if(Button(ICON_FA_PLAY_CIRCLE " Debug (F5)", button_size))
+            player_run();
+    }
 
+    if(!project.errors.empty())
+    {
+        constexpr auto flags =
+            ImGuiTableFlags_SizingFixedFit |
+            ImGuiTableFlags_BordersInner |
+            0;
+        Separator();
+        PushStyleColor(ImGuiCol_Text, IM_COL32(200, 0, 0, 255));
+        TextUnformatted("Some errors occurred during compilation:");
+        PopStyleColor();
+        float w = GetContentRegionAvail().x;
+        if(BeginTable("##errorstable", 3, flags))
+        {
+            TableSetupColumn("File", ImGuiTableColumnFlags_WidthFixed);
+            TableSetupColumn("Line", ImGuiTableColumnFlags_WidthFixed);
+            TableSetupColumn("Message", ImGuiTableColumnFlags_WidthStretch);
+            //TableHeadersRow();
+            for(auto const& [f, errs] : project.errors)
+            {
+                for(auto const& e : errs)
+                {
+                    TableNextRow();
+                    TableSetColumnIndex(0);
+                    TextUnformatted(f.c_str());
+                    TableSetColumnIndex(1);
+                    Text("%d", e.line_info.first);
+                    TableSetColumnIndex(2);
+                    TextWrapped("%s", e.msg.c_str());
+                }
+            }
+            EndTable();
+        }
+    }
 }
 
 void player_shutdown()

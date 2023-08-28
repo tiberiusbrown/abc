@@ -85,10 +85,7 @@ void frame_logic()
 {
     if(ImGui::IsKeyPressed(ImGuiKey_F5, false))
     {
-        if(compile_all())
-        {
-            player_run();
-        }
+        player_run();
     }
 }
 

@@ -45,7 +45,7 @@ static TextEditor::LanguageDefinition const& ABC()
     {
         TextEditor::Identifier id{};
         id.mDeclaration = "System function";
-        abc.mIdentifiers.insert(std::make_pair(k.c_str(), id));
+        abc.mIdentifiers.insert(std::make_pair(k, id));
     }
 
     abc.mName = "ABC";

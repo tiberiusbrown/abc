@@ -77,9 +77,9 @@ static void export_arduboy()
         w.Key("title");
         w.String(project.info.name.c_str());
         w.Key("filename");
-        w.String("abc_interpreter.hex");
+        w.String("interp.hex");
         w.Key("flashdata");
-        w.String("abc_data.bin");
+        w.String("game.bin");
         w.Key("device");
         w.String("ArduboyFX");
         w.EndObject();
@@ -94,22 +94,34 @@ static void export_arduboy()
     zip.m_pWrite = zip_write_data;
     zip.m_pIO_opaque = &zipdata;
 
+    constexpr auto compression = MZ_DEFAULT_COMPRESSION;
+
     mz_zip_writer_init(&zip, 0);
 
     mz_zip_writer_add_mem(
         &zip, "info.json",
         info_json.data(), info_json.size(),
-        MZ_DEFAULT_COMPRESSION);
+        compression);
 
     mz_zip_writer_add_mem(
-        &zip, "abc_interpreter.hex",
+        &zip, "interp.hex",
         VM_HEX_ARDUBOYFX, VM_HEX_ARDUBOYFX_SIZE,
-        MZ_DEFAULT_COMPRESSION);
+        compression);
 
     mz_zip_writer_add_mem(
-        &zip, "abc_data.bin",
+        &zip, "game.bin",
         project.binary.data(), project.binary.size(),
-        MZ_DEFAULT_COMPRESSION);
+        compression);
+
+    // add project files
+    mz_zip_writer_add_mem(&zip, "abc/", nullptr, 0, compression);
+    for(auto const& [n, f] : project.files)
+    {
+        mz_zip_writer_add_mem(
+            &zip, ("abc/" + n).c_str(),
+            f->content.data(), f->content.size(),
+            compression);
+    }
 
     mz_zip_writer_finalize_archive(&zip);
     mz_zip_writer_end(&zip);

@@ -16,9 +16,9 @@ void setup()
 
 void loop()
 {
-    while(!next_frame())
+    while(!$next_frame())
         ;
-    draw_filled_rect(x, 0, 16, 16, 1);
+    $draw_filled_rect(x, 0, 16, 16, 1);
     if(dir)
     {
     	x = x + 1;
@@ -31,7 +31,7 @@ void loop()
     	if(x <= 0)
     		dir = true;
     }
-    display();
+    $display();
 }
 
 void main()

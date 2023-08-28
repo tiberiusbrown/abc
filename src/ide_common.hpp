@@ -20,6 +20,7 @@ extern std::unique_ptr<absim::arduboy_t> arduboy;
 extern float pixel_ratio;
 extern ImGuiID dockspace_id;
 extern ImGuiID dockid_project;
+extern bool player_active;
 
 // ide_texture.cpp
 struct texture_t
@@ -50,7 +51,7 @@ struct project_t
 {
     project_info_t info;
     std::map<std::string, std::shared_ptr<project_file_t>> files;
-    std::unordered_map<std::string, std::vector<ards::error_t>> errors;
+    std::map<std::string, std::vector<ards::error_t>> errors;
     std::vector<uint8_t> binary;
 
     std::shared_ptr<project_file_t> get_file(std::string const& filename);
