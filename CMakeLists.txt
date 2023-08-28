@@ -130,3 +130,10 @@ if(WIN32 OR APPLE OR UNIX)
     add_subdirectory(deps/nativefiledialog-extended)
     target_link_libraries(abc_ide PRIVATE nfd)
 endif()
+
+add_executable(abc_benchmarks benchmarks/abc_benchmarks.cpp)
+target_link_libraries(abc_benchmarks PRIVATE ardenslib ards_compiler)
+target_include_directories(abc_benchmarks PRIVATE "${GENHEADER_DIR}")
+target_compile_definitions(abc_benchmarks PRIVATE
+    -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
+    )
