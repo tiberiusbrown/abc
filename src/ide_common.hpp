@@ -32,6 +32,13 @@ struct texture_t
     ~texture_t();
 };
 
+struct project_info_t
+{
+    std::string name;
+    std::string author;
+    std::string desc;
+};
+
 struct project_file_t
 {
     std::string filename;
@@ -41,6 +48,7 @@ struct project_file_t
 };
 struct project_t
 {
+    project_info_t info;
     std::map<std::string, std::shared_ptr<project_file_t>> files;
     std::unordered_map<std::string, std::vector<ards::error_t>> errors;
     std::vector<uint8_t> binary;
@@ -84,6 +92,9 @@ void make_tab_visible(std::string const& window_name);
 
 // ide_compile.cpp
 bool compile_all();
+
+// ide_export.cpp
+void export_menu_items();
 
 // ide_new_project.cpp
 void new_project();

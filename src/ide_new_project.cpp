@@ -63,6 +63,12 @@ void new_project()
         f->set_content(main_prog);
     }
 
+    {
+        auto f = create_project_info_file(INFO_FILENAME);
+        f->dirty = true;
+        f->save();
+    }
+
     open_files[main_name] = create_code_file(main_name);
 
     // set up docking

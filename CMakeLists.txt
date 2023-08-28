@@ -103,6 +103,7 @@ add_executable(abc_ide ${EXE_TYPE}
     src/ide_common.hpp
     src/ide_compile.cpp
     src/ide_editor.cpp
+    src/ide_export.cpp
     src/ide_hexdata.cpp
     src/ide_main.cpp
     src/ide_new_project.cpp
@@ -117,10 +118,15 @@ add_executable(abc_ide ${EXE_TYPE}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
     )
-target_link_libraries(abc_ide ardenslib ards_compiler)
+target_link_libraries(abc_ide PRIVATE ardenslib ards_compiler)
 target_include_directories(abc_ide PRIVATE
     deps/sokol
     deps/imgui
     deps/ImGuiColorTextEdit
     "${GENHEADER_DIR}"
     )
+
+if(WIN32 OR APPLE OR UNIX)
+    add_subdirectory(deps/nativefiledialog-extended)
+    target_link_libraries(abc_ide PRIVATE nfd)
+endif()

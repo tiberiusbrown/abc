@@ -8,23 +8,23 @@
 
 struct open_project_info_file_t : public open_file_t
 {
-    std::string name;
-    std::string author;
-    std::string desc;
+    project_info_t info;
 
     open_project_info_file_t();
 
     void load();
 
-    std::string window_title() override
-    {
-        std::string title = "Project Info";
-        if(dirty) title += "*";
-        return title;
-    }
+    std::string window_title() override;
     void save_impl() override;
     void window_contents() override;
 };
+
+std::string open_project_info_file_t::window_title()
+{
+    std::string title = "Project Info";
+    if(dirty) title += "*";
+    return title;
+}
 
 std::unique_ptr<open_file_t> create_project_info_file(std::string const& filename)
 {
@@ -39,9 +39,7 @@ open_project_info_file_t::open_project_info_file_t()
 
 void open_project_info_file_t::load()
 {
-    name.clear();
-    author.clear();
-    desc.clear();
+    info = {};
 
     auto f = file.lock();
     if(!f) return;
@@ -56,19 +54,19 @@ void open_project_info_file_t::load()
     {
         auto const& j = doc["name"];
         if(j.IsString())
-            name = j.GetString();
+            info.name = j.GetString();
     }
     if(doc.HasMember("author"))
     {
         auto const& j = doc["author"];
         if(j.IsString())
-            author = j.GetString();
+            info.author = j.GetString();
     }
     if(doc.HasMember("desc"))
     {
         auto const& j = doc["desc"];
         if(j.IsString())
-            desc = j.GetString();
+            info.desc = j.GetString();
     }
 }
 
@@ -80,19 +78,19 @@ void open_project_info_file_t::window_contents()
 
     TextUnformatted("       Name:");
     SameLine();
-    if(InputText("##Name", &name))
+    if(InputText("##Name", &info.name))
         dirty = true;
 
     TextUnformatted("     Author:");
     SameLine();
-    if(InputText("##Author", &author))
+    if(InputText("##Author", &info.author))
         dirty = true;
 
     PopItemWidth();
 
     TextUnformatted("Description:");
     SameLine();
-    if(InputTextMultiline("##Desc", &desc, { -1, 0 }))
+    if(InputTextMultiline("##Desc", &info.desc, { -1, 0 }))
         dirty = true;
 }
 
@@ -106,12 +104,14 @@ void open_project_info_file_t::save_impl()
 
     w.StartObject();
     w.Key("name");
-    w.String(name.c_str());
+    w.String(info.name.c_str());
     w.Key("author");
-    w.String(author.c_str());
+    w.String(info.author.c_str());
     w.Key("desc");
-    w.String(desc.c_str());
+    w.String(info.desc.c_str());
     w.EndObject();
 
     f->set_content(s.GetString());
+
+    project.info = info;
 }

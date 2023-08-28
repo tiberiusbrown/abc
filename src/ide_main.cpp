@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <imgui.h>
+#include <nfd.hpp>
 
 #if defined(__EMSCRIPTEN__)
 #define SOKOL_GLES2
@@ -54,6 +55,7 @@ static void app_frame()
 static void app_init()
 {
     stm_setup();
+    NFD::Init();
 
     {
         sg_desc desc{};
@@ -121,6 +123,7 @@ static void app_event(sapp_event const* e)
 
 static void app_cleanup()
 {
+    NFD::Quit();
     shutdown();
     saudio_shutdown();
     simgui_shutdown();
