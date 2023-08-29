@@ -57,16 +57,29 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     {
         std::string name(n.data);
         auto it = primitive_types.find(name);
-        if(it != primitive_types.end())
-        {
-            return it->second;
-        }
-        else
+        if(it == primitive_types.end())
         {
             errs.push_back({
                 "Unknown type \"" + name + "\"",
                 n.line_info });
+            return TYPE_NONE;
         }
+        if(n.children.empty())
+            return it->second;
+        // array
+        auto num = n.children[0].value;
+        if(num <= 0)
+        {
+            errs.push_back({
+                   "Array type \"" + name + "\" does not have a positive size",
+                   n.line_info });
+            return TYPE_NONE;
+        }
+        compiler_type_t t{};
+        t.prim_size = it->second.prim_size * num;
+        t.type = compiler_type_t::ARRAY;
+        t.children.push_back(it->second);
+        return t;
     }
     return TYPE_NONE;
 }
@@ -150,6 +163,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             auto& g = globals[name];
             g.name = name;
             g.type = resolve_type(n.children[0]);
+            if(!errs.empty()) return;
             if(g.type.prim_size == 0)
             {
                 errs.push_back({
@@ -197,7 +211,6 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             {
                 auto const& type = decls[i + 0];
                 auto const& name = decls[i + 1];
-                assert(type.type == AST::TYPE);
                 assert(name.type == AST::IDENT);
                 f.arg_names.push_back(std::string(name.data));
                 f.decl.arg_types.push_back(resolve_type(type));

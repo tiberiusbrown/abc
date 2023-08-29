@@ -138,9 +138,10 @@ unary_expr          <- unary_op unary_expr / postfix_expr
 postfix_expr        <- primary_expr postfix*
 primary_expr        <- ident / hex_literal / decimal_literal / '(' expr ')'
 
-postfix             <- '(' arg_expr_list? ')'
+postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
 
-type_name           <- ident
+# TODO: replace decimal_literal with some form of expr
+type_name           <- ident ('[' decimal_literal ']')?
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
@@ -209,8 +210,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         std::from_chars(v.token().data(), v.token().data() + v.token().size(), x, 10);
         ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
         size_t prim_size = 1;
-        bool prim_signed = (a.data.back() != 'u');
-        if(prim_signed)
+        bool is_signed = (a.data.back() != 'u');
+        if(is_signed)
         {
             if(x < (1 << 7)) prim_size = 1;
             else if(x < (1 << 15)) prim_size = 2;
@@ -225,7 +226,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             else prim_size = 4;
         }
         a.comp_type.prim_size = prim_size;
-        a.comp_type.prim_signed = prim_signed;
+        a.comp_type.is_signed = is_signed;
         return a;
     };
     p["hex_literal"] = [](peg::SemanticValues const& v) {
@@ -234,17 +235,17 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         std::from_chars(t.data(), t.data() + t.size(), x, 16);
         ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
         size_t prim_size = 1;
-        bool prim_signed = (a.data.back() != 'u');
+        bool is_signed = (a.data.back() != 'u');
         if(x < (1 << 7)) prim_size = 1;
-        else if(x < (1 << 8)) prim_size = 1, prim_signed = false;
+        else if(x < (1 << 8)) prim_size = 1, is_signed = false;
         else if(x < (1 << 15)) prim_size = 2;
-        else if(x < (1 << 16)) prim_size = 2, prim_signed = false;
+        else if(x < (1 << 16)) prim_size = 2, is_signed = false;
         else if(x < (1 << 23)) prim_size = 3;
-        else if(x < (1 << 24)) prim_size = 3, prim_signed = false;
+        else if(x < (1 << 24)) prim_size = 3, is_signed = false;
         else if(x < (1ll << 31)) prim_size = 4;
-        else prim_size = 4, prim_signed = false;
+        else prim_size = 4, is_signed = false;
         a.comp_type.prim_size = prim_size;
-        a.comp_type.prim_signed = prim_signed;
+        a.comp_type.is_signed = is_signed;
         return a;
     };
     p["ident"] = [](peg::SemanticValues const& v) -> ast_node_t {
@@ -259,7 +260,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return { v.line_info(), AST::IDENT, v.token() };
     };
     p["type_name"] = [](peg::SemanticValues const& v) {
-        return ast_node_t{ v.line_info(), AST::TYPE, v.token() };
+        auto ident = std::any_cast<ast_node_t>(v[0]);
+        ast_node_t a{ v.line_info(), AST::TYPE, ident.data };
+        if(v.size() == 2)
+            a.children.push_back(std::any_cast<ast_node_t>(v[1]));
+        return a;
     };
     p["unary_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
         if(v.choice() == 1)
@@ -280,6 +285,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             ast_node_t pair{ v.line_info(), AST::NONE, v.token() };
             if(b.type == AST::FUNC_ARGS)
                 pair.type = AST::FUNC_CALL;
+            else if(b.type == AST::ARRAY_INDEX)
+            {
+                pair.type = AST::ARRAY_INDEX;
+                b = b.children[0];
+            }
             pair.children.emplace_back(std::move(a));
             pair.children.emplace_back(std::move(b));
             a = std::move(pair);
@@ -297,6 +307,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
                 auto child = std::any_cast<ast_node_t>(v[0]);
                 a.children = std::move(child.children);
             }
+            return a;
+        }
+        else if(v.choice() == 1)
+        {
+            // array indexing
+            ast_node_t a = { v.line_info(), AST::ARRAY_INDEX, v.token() };
+            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
             return a;
         }
         return {};

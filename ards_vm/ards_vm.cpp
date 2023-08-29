@@ -365,10 +365,56 @@ I_SETGN:
     call delay_8 ; TODO: remove this when SETGN(1) is not allowed
     dispatch
 
+I_GETRN:
+    dispatch_delay
+    read_byte
+    ld   r27, -Y
+    ld   r26, -Y
+1:  ld   r1, X+
+    st   Y+, r1
+    dec  r0
+    brne 1b
+    lpm ; TODO: remove this when GETRN(1) is not allowed
+    dispatch
+
+I_SETRN:
+    dispatch_delay
+    read_byte
+    ld   r27, -Y
+    ld   r26, -Y
+1:  ld   r1, -Y
+    st   X+, r1
+    dec  r0
+    brne 1b
+    lpm ; TODO: remove this when SETRN(1) is not allowed
+    dispatch
+
 I_POP:
     dec  r28
     lpm
     lpm
+    dispatch
+
+I_REFL:
+    dispatch_delay
+    read_byte
+    movw r16, r28
+    sub  r16, r0
+    st   Y+, r16
+    st   Y+, r17
+    lpm
+    lpm
+    nop
+    dispatch
+
+I_REFG:
+    call read_2_bytes
+    subi r17, -2
+    st   Y+, r16
+    st   Y+, r17
+    lpm
+    lpm
+    nop
     dispatch
 
 I_ADD:

@@ -11,39 +11,10 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-int x;
-bool dir;
-
-void setup()
-{
-	//dir = true;
-}
-
-void loop()
-{
-    while(!next_frame())
-        ;
-    draw_filled_rect(x, 0, 16, 16, 1);
-    if(dir)
-    {
-    	x = x + 1;
-    	if(x >= 112)
-    		dir = false;
-    }
-    else
-    {
-    	x = x - 1;
-    	if(x <= 0)
-    		dir = true;
-    }
-    display();
-}
-
+u16 x;
 void main()
 {
-    setup();
-    while(true)
-        loop();
+    x = 2;
 }
 )";
 

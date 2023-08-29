@@ -242,6 +242,16 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETGN);
             push_global(f);
         }
+        else if(t == "getrn")
+        {
+            push_instr(I_GETRN);
+            push_imm(read_imm(f, error), 1);
+        }
+        else if(t == "setrn")
+        {
+            push_instr(I_GETRN);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "bz")
         {
             push_instr(I_BZ);

@@ -38,7 +38,14 @@ enum instr_t : uint8_t
     I_GETGN, // pop N then same as GETG but push N bytes
     I_SETG,  // pop, then store to globals[imm]
     I_SETGN, // pop N then same as SETG but pop/store N bytes
+
+    I_GETRN, // ref | (imm8 bytes *ref)
+    I_SETRN, // (imm8 bytes data) ref |
+
     I_POP,   // a |
+
+    I_REFL,  // imm8 -> pointer to local var
+    I_REFG,  // imm16 -> pointer to global var
     
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1

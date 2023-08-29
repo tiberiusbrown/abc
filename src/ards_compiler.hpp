@@ -56,6 +56,8 @@ enum class AST
 
     FUNC_CALL, // children are func-expr and FUNC_ARGS
 
+    ARRAY_INDEX, // children are array and index
+
     //
     // atoms
     //
@@ -67,26 +69,49 @@ enum class AST
 
 struct compiler_type_t
 {
-    size_t prim_size; // 0 means void
-    bool prim_signed;
+    // size of type in bytes (0 means void)
+    size_t prim_size;
+    bool is_signed;
     bool is_bool;
-    auto tie() const { return std::tie(prim_size, prim_signed, is_bool); }
+    enum type_t
+    {
+        PRIM,
+        STRUCT,
+        ARRAY,
+        REF,
+        ARRAY_REF,
+    } type;
+
+    // empty for primitives
+    // element type for arrays
+    std::vector<compiler_type_t> children;
+
+    type_t ref_type() const
+    {
+        return type == REF ? children[0].type : type;
+    }
+    bool is_prim() const
+    {
+        return ref_type() == PRIM;
+    }
+
+    auto tie() const { return std::tie(prim_size, is_signed, is_bool, children); }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
-    bool operator!=(compiler_type_t const& t) const { return tie() != t.tie(); }
+    bool operator!=(compiler_type_t const& t) const { return !operator==(t); }
 };
 
-constexpr compiler_type_t TYPE_NONE = { 0, true };
+const compiler_type_t TYPE_NONE = { 0, true };
 
-constexpr compiler_type_t TYPE_VOID = { 0, false };
-constexpr compiler_type_t TYPE_BOOL = { 1, false, true };
-constexpr compiler_type_t TYPE_U8 = { 1, false };
-constexpr compiler_type_t TYPE_U16 = { 2, false };
-constexpr compiler_type_t TYPE_U24 = { 3, false };
-constexpr compiler_type_t TYPE_U32 = { 4, false };
-constexpr compiler_type_t TYPE_I8 = { 1, true };
-constexpr compiler_type_t TYPE_I16 = { 2, true };
-constexpr compiler_type_t TYPE_I24 = { 3, true };
-constexpr compiler_type_t TYPE_I32 = { 4, true };
+const compiler_type_t TYPE_VOID = { 0, false };
+const compiler_type_t TYPE_BOOL = { 1, false, true };
+const compiler_type_t TYPE_U8 = { 1, false };
+const compiler_type_t TYPE_U16 = { 2, false };
+const compiler_type_t TYPE_U24 = { 3, false };
+const compiler_type_t TYPE_U32 = { 4, false };
+const compiler_type_t TYPE_I8 = { 1, true };
+const compiler_type_t TYPE_I16 = { 2, true };
+const compiler_type_t TYPE_I24 = { 3, true };
+const compiler_type_t TYPE_I32 = { 4, true };
 
 struct compiler_instr_t
 {
@@ -135,14 +160,6 @@ struct compiler_frame_t
     }
 };
 
-struct compiler_lvalue_t
-{
-    size_t size;
-    bool is_global;
-    uint8_t stack_index;
-    std::string global_name;
-};
-
 struct ast_node_t
 {
     std::pair<size_t, size_t> line_info;
@@ -161,6 +178,15 @@ struct ast_node_t
             child.recurse(std::forward<F>(f));
         f(*this);
     }
+};
+
+struct compiler_lvalue_t
+{
+    compiler_type_t type;
+    bool is_global;
+    uint8_t stack_index;
+    std::string global_name;
+    ast_node_t const* ref_ast;
 };
 
 struct compiler_func_t
@@ -192,7 +218,9 @@ private:
 
     compiler_type_t resolve_type(ast_node_t const& n);
     compiler_func_t resolve_func(ast_node_t const& n);
-    compiler_lvalue_t resolve_lvalue(ast_node_t const& n, compiler_frame_t const& frame);
+    compiler_lvalue_t resolve_lvalue(
+        compiler_func_t const& f, compiler_frame_t const& frame,
+        ast_node_t const& n);
     compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
 
@@ -201,7 +229,7 @@ private:
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
-    void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
+    void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);
     void codegen_store_lvalue(compiler_func_t& f, compiler_lvalue_t const& lvalue);
     void codegen_convert(
         compiler_func_t& f, compiler_frame_t& frame,
