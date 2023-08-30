@@ -108,7 +108,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         assert(n.children.size() == 2);
         assert(n.children[0].type == AST::INT_CONST);
         compiler_type_t t{};
-        t.type = compiler_type_t::ARRAY_REF;
+        t.type = compiler_type_t::ARRAY;
         t.children.push_back(resolve_type(n.children[1]));
         t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
         return t;

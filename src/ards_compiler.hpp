@@ -94,6 +94,10 @@ struct compiler_type_t
     {
         return type == REF ? children[0].type : type;
     }
+    const compiler_type_t& without_ref() const
+    {
+        return type == REF ? children[0] : *this;
+    }
     bool is_prim() const
     {
         return ref_type() == PRIM;

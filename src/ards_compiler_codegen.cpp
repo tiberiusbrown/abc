@@ -271,7 +271,13 @@ void compiler_t::codegen_store_lvalue(
     else if(lvalue.type.type == compiler_type_t::REF)
     {
         // assign to reference variable
-        assert(false);
+        auto size = lvalue.type.children[0].prim_size;
+        assert(size < 256);
+        assert(lvalue.type.prim_size == 2); // ref size is 2
+        f.instrs.push_back({ I_PUSH, 2 });
+        f.instrs.push_back({ I_GETLN, (uint8_t)(lvalue.stack_index) });
+        f.instrs.push_back({ I_SETRN, (uint8_t)size });
+        frame.size -= size;
     }
     else if(lvalue.is_global)
     {
@@ -296,7 +302,20 @@ void compiler_t::codegen_convert(
 
     auto* pfrom = &orig_from;
     assert(orig_from.type != compiler_type_t::ARRAY_REF);
-    assert(orig_from.type != compiler_type_t::ARRAY);
+    assert(orig_to.type != compiler_type_t::ARRAY_REF);
+    if(orig_from.type == compiler_type_t::ARRAY)
+    {
+        if(orig_to.type != compiler_type_t::ARRAY)
+        {
+            errs.push_back({ "Cannot convert array to non-array", n.line_info });
+            return;
+        }
+        if(orig_from.children[0] != orig_to.children[0])
+        {
+            errs.push_back({ "Cannot implicitly convert array elements", n.line_info });
+            return;
+        }
+    }
     if(pfrom->type == compiler_type_t::REF)
     {
         pfrom = &pfrom->children[0];
@@ -376,8 +395,9 @@ void compiler_t::codegen_expr(
                 f.instrs.push_back({ I_PUSH, 0 });
             frame.size += size;
             codegen_expr(f, frame, a.children[1], false);
-            frame.size -= size;
+            codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
             f.instrs.push_back({ instr_t(I_SUB + size - 1) });
+            frame.size -= size;
         }
         else
         {
@@ -402,7 +422,7 @@ void compiler_t::codegen_expr(
         {
             uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
             uint8_t size = (uint8_t)local->type.prim_size;
-            if(ref)
+            if(ref && local->type.type != compiler_type_t::REF)
             {
                 f.instrs.push_back({ I_REFL, offset });
                 frame.size += 2;
@@ -437,6 +457,8 @@ void compiler_t::codegen_expr(
         assert(a.children[0].type == AST::IDENT);
 
         auto func = resolve_func(a.children[0]);
+
+        // TODO: test for reference return type (not allowed)
         
         // system functions don't need space reserved for return value
         if(!func.is_sys)
@@ -460,10 +482,19 @@ void compiler_t::codegen_expr(
         {
             auto const& type = func.decl.arg_types[i];
             auto const& expr = a.children[1].children[i];
-            // TODO: handle reference function arguments here
-            assert(type.type != compiler_type_t::REF);
-            codegen_expr(f, frame, expr, false);
-            codegen_convert(f, frame, a, type, expr.comp_type);
+            // handle reference function arguments
+            bool ref = (type.type == compiler_type_t::REF);
+            if(ref && type.without_ref() != expr.comp_type.without_ref())
+            {
+                errs.push_back({
+                    "Cannot create reference to incompatible type: " +
+                    std::string(expr.data),
+                    expr.line_info });
+                return;
+            }
+            codegen_expr(f, frame, expr, ref);
+            if(!ref)
+                codegen_convert(f, frame, a, type, expr.comp_type);
         }
         // called function should pop stack
         frame.size = prev_size;
@@ -564,7 +595,9 @@ void compiler_t::codegen_expr(
         assert(a.children[0].comp_type == a.comp_type);
         assert(a.children[1].comp_type == a.comp_type);
         codegen_expr(f, frame, a.children[0], false);
+        codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
         static_assert(I_ADD2 == I_ADD + 1);
         static_assert(I_ADD3 == I_ADD + 2);
         static_assert(I_ADD4 == I_ADD + 3);
@@ -584,7 +617,9 @@ void compiler_t::codegen_expr(
         assert(a.children[0].comp_type == a.comp_type);
         assert(a.children[1].comp_type == a.comp_type);
         codegen_expr(f, frame, a.children[0], false);
+        codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
         static_assert(I_MUL2 == I_MUL + 1);
         static_assert(I_MUL3 == I_MUL + 2);
         static_assert(I_MUL4 == I_MUL + 3);

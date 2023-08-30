@@ -34,7 +34,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         assert(a.children.size() == 2);
         type_annotate(a.children[1], frame);
         auto op = a.children[0].data;
-        if(!a.children[0].comp_type.is_prim())
+        if(!a.children[0].comp_type.without_ref().is_prim())
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) + "\" is not a primitive type",
@@ -43,8 +43,8 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         }
         if(op == "!")
             a.comp_type = TYPE_BOOL;
-        else if(op == "-")
-            a.comp_type = a.children[1].comp_type;
+        //else if(op == "-")
+        //    a.comp_type = a.children[1].comp_type.without_ref();
         else
         {
             assert(false);
@@ -56,7 +56,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         for(auto& child : a.children)
             type_annotate(child, frame);
         assert(a.children.size() == 2);
-        a.comp_type = a.children[0].comp_type;
+        a.comp_type = a.children[0].comp_type.without_ref();
         break;
     }
     case AST::OP_EQUALITY:
@@ -68,8 +68,8 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         assert(a.children.size() == 2);
         for(auto& child : a.children)
             type_annotate(child, frame);
-        auto t0 = a.children[0].comp_type;
-        auto t1 = a.children[1].comp_type;
+        auto t0 = a.children[0].comp_type.without_ref();
+        auto t1 = a.children[1].comp_type.without_ref();
         if(!t0.is_prim())
         {
             errs.push_back({
@@ -113,7 +113,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)
             a.comp_type = TYPE_BOOL;
         else
-            a.comp_type = a.children[0].comp_type;
+            a.comp_type = a.children[0].comp_type.without_ref();
         break;
     }
     {
@@ -121,11 +121,11 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         for(auto& child : a.children)
             type_annotate(child, frame);
         a.comp_type.is_signed =
-            a.children[0].comp_type.is_signed ||
-            a.children[1].comp_type.is_signed;
+            a.children[0].comp_type.without_ref().is_signed ||
+            a.children[1].comp_type.without_ref().is_signed;
         a.comp_type.prim_size = std::max(
-            a.children[0].comp_type.prim_size,
-            a.children[1].comp_type.prim_size);
+            a.children[0].comp_type.without_ref().prim_size,
+            a.children[1].comp_type.without_ref().prim_size);
         break;
     }
     case AST::INT_CONST:
@@ -169,17 +169,16 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         auto t0 = a.children[0].comp_type;
         auto t1 = a.children[1].comp_type;
         auto tt = t0.ref_type();
-        if(tt != compiler_type_t::ARRAY &&
-            tt != compiler_type_t::ARRAY_REF)
+        if(tt != compiler_type_t::ARRAY)
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) +
-                "\" is not an array or array reference", a.line_info });
+                "\" is not an array", a.line_info });
             break;
         }
         a.comp_type.type = compiler_type_t::REF;
         a.comp_type.prim_size = 2;
-        a.comp_type.children.push_back(t0.children[0]);
+        a.comp_type.children.push_back(t0.without_ref().children[0]);
         break;
     }
     default:
