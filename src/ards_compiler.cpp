@@ -52,7 +52,11 @@ static bool isspace(char c)
 
 compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
 {
-    assert(n.type == AST::TYPE);
+    assert(
+        n.type == AST::TYPE ||
+        n.type == AST::TYPE_REF ||
+        n.type == AST::TYPE_AREF ||
+        n.type == AST::TYPE_ARRAY);
     if(n.type == AST::TYPE)
     {
         std::string name(n.data);
@@ -79,6 +83,34 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.prim_size = it->second.prim_size * num;
         t.type = compiler_type_t::ARRAY;
         t.children.push_back(it->second);
+        return t;
+    }
+    else if(n.type == AST::TYPE_REF)
+    {
+        assert(n.children.size() == 1);
+        compiler_type_t t{};
+        t.type = compiler_type_t::REF;
+        t.prim_size = 2;
+        t.children.push_back(resolve_type(n.children[0]));
+        return t;
+    }
+    else if(n.type == AST::TYPE_AREF)
+    {
+        assert(n.children.size() == 1);
+        compiler_type_t t{};
+        t.type = compiler_type_t::ARRAY_REF;
+        t.prim_size = 4;
+        t.children.push_back(resolve_type(n.children[0]));
+        return t;
+    }
+    else if(n.type == AST::TYPE_ARRAY)
+    {
+        assert(n.children.size() == 2);
+        assert(n.children[0].type == AST::INT_CONST);
+        compiler_type_t t{};
+        t.type = compiler_type_t::ARRAY_REF;
+        t.children.push_back(resolve_type(n.children[1]));
+        t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
         return t;
     }
     return TYPE_NONE;

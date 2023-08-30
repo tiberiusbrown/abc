@@ -27,15 +27,15 @@ enum class AST
     // program/statement nodes
     //
 
-    PROGRAM,     // children are global declarations and functions
-    BLOCK,       // children are child statements
+    PROGRAM,      // children are global declarations and functions
+    BLOCK,        // children are child statements
     EMPTY_STMT,
-    EXPR_STMT,   // child is expr
-    DECL_STMT,   // children are type, ident
-    FUNC_STMT,   // children are type, ident, block, args
-    IF_STMT,     // children are expr, stmt, stmt (for else)
-    WHILE_STMT,  // children are expr and stmt
-    RETURN_STMT, // child is expr if it exists
+    EXPR_STMT,    // child is expr
+    DECL_STMT,    // children are type, ident
+    FUNC_STMT,    // children are type, ident, block, args
+    IF_STMT,      // children are expr, stmt, stmt (for else)
+    WHILE_STMT,   // children are expr and stmt
+    RETURN_STMT,  // child is expr if it exists
 
     //
     // expression nodes
@@ -64,7 +64,11 @@ enum class AST
 
     INT_CONST,
     IDENT,
+
     TYPE,
+    TYPE_REF,   // reference (child is type*)
+    TYPE_AREF,  // array reference (child is type*)
+    TYPE_ARRAY, // sized array (children are size and type*)
 };
 
 struct compiler_type_t
@@ -216,6 +220,9 @@ private:
 
     void parse(std::istream& fi);
 
+    compiler_local_t const* resolve_local(compiler_frame_t const& frame, ast_node_t const& n);
+    compiler_global_t const* resolve_global(ast_node_t const& n);
+
     compiler_type_t resolve_type(ast_node_t const& n);
     compiler_func_t resolve_func(ast_node_t const& n);
     compiler_lvalue_t resolve_lvalue(
@@ -230,12 +237,17 @@ private:
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);
-    void codegen_store_lvalue(compiler_func_t& f, compiler_lvalue_t const& lvalue);
+    void codegen_store_lvalue(
+        compiler_func_t& f, compiler_frame_t& frame, compiler_lvalue_t const& lvalue);
     void codegen_convert(
         compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& n,
         compiler_type_t const& to, compiler_type_t const& from);
     void codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n);
     std::string codegen_label(compiler_func_t& f);
+    void codegen_dereference(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& n, compiler_type_t const& t);
 
     // returns true if any optimization happened
     bool peephole(compiler_func_t& f);

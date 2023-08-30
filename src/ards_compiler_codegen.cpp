@@ -6,6 +6,32 @@
 namespace ards
 {
 
+compiler_local_t const* compiler_t::resolve_local(compiler_frame_t const& frame, ast_node_t const& n)
+{
+    std::string name(n.data);
+    for(auto it = frame.scopes.rbegin(); it != frame.scopes.rend(); ++it)
+    {
+        auto jt = it->locals.find(name);
+        if(jt != it->locals.end())
+        {
+            size_t offset = frame.size - jt->second.frame_offset;
+            if(offset >= 256)
+                errs.push_back({ "Stack frame exceeded 256 bytes", n.line_info });
+            return &jt->second;
+        }
+    }
+    return nullptr;
+}
+
+compiler_global_t const* compiler_t::resolve_global(ast_node_t const& n)
+{
+    std::string name(n.data);
+    auto it = globals.find(name);
+    if(it != globals.end())
+        return &it->second;
+    return nullptr;
+}
+
 compiler_lvalue_t compiler_t::resolve_lvalue(
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n)
@@ -18,21 +44,11 @@ compiler_lvalue_t compiler_t::resolve_lvalue(
         t.ref_ast = &n;
         return t;
     }
+    if(auto* local = resolve_local(frame, n))
+        return { local->type, false, uint8_t(frame.size - local->frame_offset) };
     std::string name(n.data);
-    for(auto it = frame.scopes.rbegin(); it != frame.scopes.rend(); ++it)
-    {
-        auto jt = it->locals.find(name);
-        if(jt != it->locals.end())
-        {
-            size_t offset = frame.size - jt->second.frame_offset;
-            if(offset >= 256)
-                errs.push_back({ "Stack frame exceeded 256 bytes", n.line_info });
-            return { jt->second.type, false, uint8_t(offset) };
-        }
-    }
-    auto it = globals.find(name);
-    if(it != globals.end())
-        return { it->second.type, true, 0, name };
+    if(auto* global = resolve_global(n))
+        return { global->type, true, 0, name };
     errs.push_back({ "Undefined variable \"" + name + "\"", n.line_info });
     return {};
 }
@@ -51,9 +67,9 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
     if(!n.children.empty())
     {
         codegen_expr(f, frame, n.children[0], false);
-        codegen_convert(f, frame, f.decl.return_type, n.children[0].comp_type);
+        codegen_convert(f, frame, n, f.decl.return_type, n.children[0].comp_type);
         auto lvalue = return_lvalue(f, frame);
-        codegen_store_lvalue(f, lvalue);
+        codegen_store_lvalue(f, frame, lvalue);
         frame.size -= lvalue.type.prim_size;
     }
     else if(f.decl.return_type.prim_size != 0)
@@ -123,7 +139,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
         // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
-        codegen_convert(f, frame, TYPE_BOOL, a.children[0].comp_type);
+        codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
         size_t cond_index = f.instrs.size();
         f.instrs.push_back({ I_BZ });
         frame.size -= 1;
@@ -148,7 +164,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         auto start = codegen_label(f);
         codegen_expr(f, frame, a.children[0], false);
         // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
-        codegen_convert(f, frame, TYPE_BOOL, a.children[0].comp_type);
+        codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
         size_t cond_index = f.instrs.size();
         f.instrs.push_back({ I_BZ });
         frame.size -= 1;
@@ -164,8 +180,12 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         frame.push();
         for(auto& child : a.children)
             codegen(f, frame, child);
-        for(size_t i = 0; i < frame.scopes.back().size; ++i)
-            f.instrs.push_back({ I_POP });
+        // don't need to pop locals after final return statement
+        if(&a != &f.block)
+        {
+            for(size_t i = 0; i < frame.scopes.back().size; ++i)
+                f.instrs.push_back({ I_POP });
+        }
         frame.pop();
         assert(!errs.empty() || frame.size == prev_size);
         break;
@@ -211,8 +231,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             // TODO: handle array reference initializers
             assert(type.type != compiler_type_t::ARRAY_REF);
             bool ref = (type.type == compiler_type_t::REF);
-            codegen_expr(f, frame, a.children[2], type.type == compiler_type_t::REF);
-            codegen_convert(f, frame, type, a.children[2].comp_type);
+            codegen_expr(f, frame, a.children[2], ref);
+            codegen_convert(f, frame, a, type, a.children[2].comp_type);
         }
         else
         {
@@ -232,13 +252,21 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(frame.size == prev_size);
 }
 
-void compiler_t::codegen_store_lvalue(compiler_func_t& f, compiler_lvalue_t const& lvalue)
+void compiler_t::codegen_store_lvalue(
+    compiler_func_t& f, compiler_frame_t& frame, compiler_lvalue_t const& lvalue)
 {
+    assert(lvalue.type.prim_size < 256);
     if(!errs.empty()) return;
     if(lvalue.ref_ast)
     {
         // assign to reference which needs to be constructed now
-        assert(false);
+        // happens for statements like: x[2] = 42;
+        auto size = lvalue.type.children[0].prim_size;
+        assert(size < 256);
+        codegen_expr(f, frame, *lvalue.ref_ast, false);
+        f.instrs.push_back({ I_SETRN, (uint8_t)size });
+        frame.size -= 2;
+        frame.size -= size;
     }
     else if(lvalue.type.type == compiler_type_t::REF)
     {
@@ -247,23 +275,41 @@ void compiler_t::codegen_store_lvalue(compiler_func_t& f, compiler_lvalue_t cons
     }
     else if(lvalue.is_global)
     {
-        assert(lvalue.type.prim_size < 256);
         f.instrs.push_back({ I_PUSH, (uint8_t)lvalue.type.prim_size });
         f.instrs.push_back({ I_SETGN, 0, lvalue.global_name });
+        frame.size -= lvalue.type.prim_size;
     }
     else
     {
         f.instrs.push_back({ I_PUSH, (uint8_t)lvalue.type.prim_size });
         f.instrs.push_back({ I_SETLN, (uint8_t)(lvalue.stack_index - lvalue.type.prim_size) });
+        frame.size -= lvalue.type.prim_size;
     }
 }
 
 void compiler_t::codegen_convert(
     compiler_func_t& f, compiler_frame_t& frame,
-    compiler_type_t const& to, compiler_type_t const& from)
+    ast_node_t const& n,
+    compiler_type_t const& orig_to, compiler_type_t const& orig_from)
 {
     if(!errs.empty()) return;
+
+    auto* pfrom = &orig_from;
+    assert(orig_from.type != compiler_type_t::ARRAY_REF);
+    assert(orig_from.type != compiler_type_t::ARRAY);
+    if(pfrom->type == compiler_type_t::REF)
+    {
+        pfrom = &pfrom->children[0];
+        codegen_dereference(f, frame, n, *pfrom);
+    }
+    auto const& from = *pfrom;
     assert(from.prim_size != 0);
+
+    auto* pto = &orig_to;
+    if(pto->type == compiler_type_t::REF)
+        pto = &pto->children[0];
+    auto const& to = *pto;
+
     if(to == from) return;
     if(to.is_bool)
     {
@@ -304,13 +350,15 @@ void compiler_t::codegen_expr(
     if(!errs.empty()) return;
     switch(a.type)
     {
+
     case AST::OP_CAST:
     {
         assert(a.children.size() == 2);
         codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(f, frame, a.children[0].comp_type, a.children[1].comp_type);
+        codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
         return;
     }
+
     case AST::OP_UNARY:
     {
         assert(a.children.size() == 2);
@@ -318,7 +366,7 @@ void compiler_t::codegen_expr(
         if(op == "!")
         {
             codegen_expr(f, frame, a.children[1], false);
-            codegen_convert(f, frame, TYPE_BOOL, a.children[1].comp_type);
+            codegen_convert(f, frame, a, TYPE_BOOL, a.children[1].comp_type);
             f.instrs.push_back({ I_NOT });
         }
         else if(op == "-")
@@ -337,6 +385,7 @@ void compiler_t::codegen_expr(
         }
         return;
     }
+
     case AST::INT_CONST:
     {
         uint32_t x = (uint32_t)a.value;
@@ -345,42 +394,43 @@ void compiler_t::codegen_expr(
             f.instrs.push_back({ I_PUSH, (uint8_t)x });
         return;
     }
+
     case AST::IDENT:
     {
         std::string name(a.data);
-        for(auto it = frame.scopes.rbegin(); it != frame.scopes.rend(); ++it)
+        if(auto* local = resolve_local(frame, a))
         {
-            auto jt = it->locals.find(name);
-            if(jt != it->locals.end())
+            uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
+            uint8_t size = (uint8_t)local->type.prim_size;
+            if(ref)
             {
-                if(ref)
-                {
-                    // TODO: generate reference
-                    assert(false);
-                }
-                f.instrs.push_back({ I_PUSH, (uint8_t)jt->second.type.prim_size });
-                f.instrs.push_back({ I_GETLN, (uint8_t)(frame.size - jt->second.frame_offset) });
-                frame.size += (uint8_t)jt->second.type.prim_size;
+                f.instrs.push_back({ I_REFL, offset });
+                frame.size += 2;
                 return;
             }
+            f.instrs.push_back({ I_PUSH, size });
+            f.instrs.push_back({ I_GETLN, offset });
+            frame.size += (uint8_t)local->type.prim_size;
+            return;
         }
-        auto it = globals.find(name);
-        if(it != globals.end())
+        if(auto* global = resolve_global(a))
         {
             if(ref)
             {
-                // TODO: generate reference
-                assert(false);
+                f.instrs.push_back({ I_REFG, 0, global->name });
+                frame.size += 2;
+                return;
             }
-            assert(it->second.type.prim_size < 256);
-            frame.size += (uint8_t)it->second.type.prim_size;
-            f.instrs.push_back({ I_PUSH, (uint8_t)it->second.type.prim_size });
-            f.instrs.push_back({ I_GETGN, 0, it->second.name });
+            assert(global->type.prim_size < 256);
+            frame.size += (uint8_t)global->type.prim_size;
+            f.instrs.push_back({ I_PUSH, (uint8_t)global->type.prim_size });
+            f.instrs.push_back({ I_GETGN, 0, global->name });
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
         return;
     }
+
     case AST::FUNC_CALL:
     {
         assert(a.children.size() == 2);
@@ -413,7 +463,7 @@ void compiler_t::codegen_expr(
             // TODO: handle reference function arguments here
             assert(type.type != compiler_type_t::REF);
             codegen_expr(f, frame, expr, false);
-            codegen_convert(f, frame, type, expr.comp_type);
+            codegen_convert(f, frame, a, type, expr.comp_type);
         }
         // called function should pop stack
         frame.size = prev_size;
@@ -429,19 +479,19 @@ void compiler_t::codegen_expr(
 
         return;
     }
+
     case AST::OP_ASSIGN:
     {
         assert(a.children.size() == 2);
         assert(a.children[0].comp_type.prim_size != 0);
-        if(a.children[0].comp_type.type == compiler_type_t::REF ||
-            a.children[0].comp_type.type == compiler_type_t::ARRAY_REF ||
+        if(a.children[0].comp_type.type == compiler_type_t::ARRAY_REF ||
             a.children[0].comp_type.type == compiler_type_t::ARRAY)
         {
             // TODO: nice error message
             assert(false);
         }
         codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(f, frame, a.children[0].comp_type, a.children[1].comp_type);
+        codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
 
         // dup value if not the root op
         switch(a.parent->type)
@@ -465,10 +515,10 @@ void compiler_t::codegen_expr(
             errs.push_back({ "Assignment to non-primitive type", a.line_info });
             return;
         }
-        codegen_store_lvalue(f, lvalue);
-        frame.size -= lvalue.type.prim_size;
+        codegen_store_lvalue(f, frame, lvalue);
         return;
     }
+
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
     {
@@ -506,6 +556,7 @@ void compiler_t::codegen_expr(
             assert(false);
         break;
     }
+
     case AST::OP_ADDITIVE:
     {
         assert(a.data == "+" || a.data == "-");
@@ -526,6 +577,7 @@ void compiler_t::codegen_expr(
         f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + size - 1) });
         return;
     }
+
     case AST::OP_MULTIPLICATIVE:
     {
         assert(a.children.size() == 2);
@@ -545,11 +597,40 @@ void compiler_t::codegen_expr(
             assert(false);
         return;
     }
+
+    case AST::ARRAY_INDEX:
+    {
+        // TODO: optimize the case where children[0] is an ident and children[1] is
+        //       an integer constant, directly adjust offset given to REFL/REFG
+        //       instruction instead of below code path
+        codegen_expr(f, frame, a.children[0], true);
+        codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a, TYPE_U16, a.children[1].comp_type);
+        f.instrs.push_back({ I_ADD2 });
+        frame.size -= 2;
+        return;
+    }
+
     default:
         assert(false);
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });
         return;
     }
+}
+
+void compiler_t::codegen_dereference(
+    compiler_func_t& f, compiler_frame_t& frame,
+    ast_node_t const& n, compiler_type_t const& t)
+{
+    size_t size = t.prim_size;
+    if(t.prim_size >= 256)
+    {
+        errs.push_back({ "Expression too large (256 bytes or more)", n.line_info });
+        return;
+    }
+    f.instrs.push_back({ I_GETRN, (uint8_t)size });
+    frame.size -= 2;
+    frame.size += size;
 }
 
 }

@@ -25,6 +25,17 @@ bool compiler_t::peephole(compiler_func_t& f)
 
         auto& i1 = f.instrs[i + 1];
 
+        // replace PUSH N; SEXT with PUSH N; PUSH <0 or 255>
+        if(i0.instr == I_PUSH && i1.instr == I_SEXT)
+        {
+            if(i0.imm < 128)
+                i1 = { I_PUSH, 0 };
+            else
+                i1 = { I_PUSH, 255 };
+            t = true;
+            break;
+        }
+
         // replace PUSH 1; GETLN <N> with GETL <N>
         if(i0.instr == I_PUSH && i0.imm == 1)
         {
@@ -33,28 +44,28 @@ bool compiler_t::peephole(compiler_func_t& f)
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETL;
                 t = true;
-                continue;
+                break;
             }
             if(i1.instr == I_SETLN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_SETL;
                 t = true;
-                continue;
+                break;
             }
             if(i1.instr == I_GETGN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETG;
                 t = true;
-                continue;
+                break;
             }
             if(i1.instr == I_SETGN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_SETG;
                 t = true;
-                continue;
+                break;
             }
         }
 
@@ -66,7 +77,7 @@ bool compiler_t::peephole(compiler_func_t& f)
                 i0.instr = I_P00;
                 i1.instr = I_REMOVE;
                 t = true;
-                continue;
+                break;
             }
             static std::unordered_map<uint32_t, instr_t> const push_instrs =
             {
@@ -81,7 +92,7 @@ bool compiler_t::peephole(compiler_func_t& f)
             {
                 i0.instr = it->second;
                 t = true;
-                continue;
+                break;
             }
         }
     }

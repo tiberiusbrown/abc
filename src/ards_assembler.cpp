@@ -252,6 +252,16 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETRN);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "refl")
+        {
+            push_instr(I_REFL);
+            push_imm(read_imm(f, error), 1);
+        }
+        else if(t == "refg")
+        {
+            push_instr(I_REFG);
+            push_imm(read_imm(f, error), 2);
+        }
         else if(t == "bz")
         {
             push_instr(I_BZ);
