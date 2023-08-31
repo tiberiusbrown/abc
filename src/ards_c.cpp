@@ -11,27 +11,11 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-i16[100] A;
-i16 total;
-
-void swap(i16& a, i16& b)
-{
-    i16 t = a;
-    a = b;
-    b = t;
-}
+u8[4][4] a;
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = i + 1;
-
-    $debug_break();
-    
-    for(u8 i = 0; i < 100; i = i + 1)
-        total = total + A[i];
-
-    $debug_break();
+    a[2][3] = 42;
 }
 )";
 

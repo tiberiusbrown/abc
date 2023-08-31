@@ -647,17 +647,16 @@ void compiler_t::codegen_expr(
         codegen_expr(f, frame, a.children[0], true);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, TYPE_U16, a.children[1].comp_type);
-        //f.instrs.push_back({ I_ADD2 });
-        //frame.size -= 2;
-        size_t elem_size = a.children[0].comp_type.children[0].prim_size;
-        size_t size = a.children[0].comp_type.prim_size;
+        auto const& t = a.children[0].comp_type.without_ref();
+        size_t elem_size = t.children[0].prim_size;
+        size_t size = t.prim_size;
         f.instrs.push_back({ I_AIDX, (uint16_t)elem_size, (uint16_t)(size / elem_size) });
         frame.size -= 2;
         return;
     }
 
     default:
-        assert(false);
+        assert(false); 
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });
         return;
     }
