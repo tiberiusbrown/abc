@@ -13,10 +13,9 @@ int main(int argc, char** argv)
     std::string si = R"(
 void main()
 {
-    bool color = false;
-    
     $debug_break();
     
+    bool color = false;
     for(u8 y = 0; y < 8; y = y + 1)
     {
         for(u8 x = 0; x < 16; x = x + 1)

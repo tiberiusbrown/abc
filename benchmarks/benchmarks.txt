@@ -1,3 +1,3 @@
 bubble                    518794    25858302       49.84x
 fibonacci                 602026    15038878       24.98x
-tilesrect                 257725      159593        0.62x
+tilesrect                 257725      136115        0.53x

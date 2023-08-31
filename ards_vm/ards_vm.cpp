@@ -49,13 +49,22 @@ static inline uint24_t conv3(uint8_t a, uint8_t b, uint8_t c)
 template<class T>
 inline T vm_pop()
 {
-    T r = 0;
+    union
+    {
+        T r;
+        uint8_t b[sizeof(T)];
+    } u;
+    uint8_t* ptr = &vm.stack[vm.sp];
     for(size_t i = 0; i < sizeof(T); ++i)
     {
-        r <<= 8;
-        r |= vm.stack[--vm.sp];
+        asm volatile(
+            "ld %[t], -%a[ptr]\n"
+            : [t] "=&r" (u.b[sizeof(T) - i - 1])
+            , [ptr] "+&z" (ptr)
+            );
     }
-    return r;
+    vm.sp = (uint8_t)(uintptr_t)ptr;
+    return u.r;
 }
 
 template<class T>
@@ -1328,7 +1337,7 @@ dispatch_func:
 
 void vm_run()
 {
-    Arduboy2Base::setFrameDuration(16);
+    Arduboy2Base::setFrameDuration(32);
     
     memset(&vm, 0, sizeof(vm));
     
