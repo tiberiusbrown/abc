@@ -11,7 +11,7 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-i16[100] A;
+i16[200] A;
 
 void swap(i16& a, i16& b)
 {
@@ -22,12 +22,12 @@ void swap(i16& a, i16& b)
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 200; i = i + 1)
+        A[i] = 199 - i;
 
     $debug_break();
     
-    u8 n = 100;
+    u8 n = 200;
     while(n > 1)
     {
         u8 n2 = 0;

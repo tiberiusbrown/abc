@@ -281,8 +281,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
     for(auto& [n, f] : funcs)
     {
         if(!errs.empty()) return;
-        while(peephole(f))
-            ;
+        peephole(f);
     }
 
     write(fo);

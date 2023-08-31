@@ -26,7 +26,9 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_P4:    f << "p4"; break;
     case I_P00:   f << "p00"; break;
     case I_SEXT:  f << "sext"; break;
+    case I_DUP:   f << "dup"; break;
     case I_GETL:  f << "getl  " << instr.imm; break;
+    case I_GETL2: f << "getl2 " << instr.imm; break;
     case I_GETLN: f << "getln " << instr.imm; break;
     case I_SETL:  f << "setl  " << instr.imm; break;
     case I_SETLN: f << "setln " << instr.imm; break;
@@ -34,10 +36,18 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_GETGN: f << "getgn " << instr.label; break;
     case I_SETG:  f << "setg  " << instr.label; break;
     case I_SETGN: f << "setgn " << instr.label; break;
+    case I_GETR:  f << "getr"; break;
+    case I_GETR2: f << "getr2"; break;
     case I_GETRN: f << "getrn " << instr.imm; break;
+    case I_SETR:  f << "setr"; break;
+    case I_SETR2: f << "setr2"; break;
     case I_SETRN: f << "setrn " << instr.imm; break;
     case I_POP:   f << "pop"; break;
+    case I_POP2:  f << "pop2"; break;
+    case I_POP3:  f << "pop3"; break;
+    case I_POP4:  f << "pop4"; break;
 
+    case I_AIDXB: f << "aidxb " << instr.imm << " " << instr.imm2; break;
     case I_AIDX:  f << "aidx  " << instr.imm << " " << instr.imm2; break;
 
     case I_REFL:  f << "refl  " << instr.imm; break;

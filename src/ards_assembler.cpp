@@ -134,7 +134,15 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "p4", I_P4 },
     { "p00", I_P00 },
     { "sext", I_SEXT },
+    { "dup", I_DUP },
+    { "getr", I_GETR },
+    { "getr2", I_GETR2 },
+    { "setr", I_SETR },
+    { "setr2", I_SETR2 },
     { "pop", I_POP },
+    { "pop2", I_POP2 },
+    { "pop3", I_POP3 },
+    { "pop4", I_POP4 },
     { "add", I_ADD },
     { "add2", I_ADD2 },
     { "add3", I_ADD3 },
@@ -207,6 +215,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETL);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "getl2")
+        {
+            push_instr(I_GETL2);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "getln")
         {
             push_instr(I_GETLN);
@@ -250,6 +263,12 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "setrn")
         {
             push_instr(I_SETRN);
+            push_imm(read_imm(f, error), 1);
+        }
+        else if(t == "aidxb")
+        {
+            push_instr(I_AIDXB);
+            push_imm(read_imm(f, error), 1);
             push_imm(read_imm(f, error), 1);
         }
         else if(t == "aidx")

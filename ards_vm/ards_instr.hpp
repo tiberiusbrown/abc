@@ -30,7 +30,10 @@ enum instr_t : uint8_t
 
     I_SEXT,  // push 0x00 or 0xff to sign extend TOS
 
+    I_DUP,   // a | a a
+
     I_GETL,  // push stack[top - imm] (imm=1 is TOS)
+    I_GETL2,
     I_GETLN, // pop N then same as GETL but push N bytes
     I_SETL,  // pop, then store to stack[top - imm]
     I_SETLN, // pop N then same as SETL but pop/store N bytes
@@ -39,11 +42,19 @@ enum instr_t : uint8_t
     I_SETG,  // pop, then store to globals[imm]
     I_SETGN, // pop N then same as SETG but pop/store N bytes
 
+    I_GETR,  // ref | (1 byte *ref)
+    I_GETR2, // ref | (2 bytes *ref)
     I_GETRN, // ref | (imm8 bytes *ref)
+    I_SETR,  // (1 byte data) ref |
+    I_SETR2, // (2 bytes data) ref |
     I_SETRN, // (imm8 bytes data) ref |
 
     I_POP,   // a |
+    I_POP2,  // a b |
+    I_POP3,  // a b c |
+    I_POP4,  // a b c d |
 
+    I_AIDXB, // ref i | (ref+i*imm) with bounds checking with imm2 (8-bit)
     I_AIDX,  // ref i | (ref+i*imm) with bounds checking with imm2 (16-bit)
 
     I_REFL,  // imm8 -> pointer to local var

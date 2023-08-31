@@ -5,7 +5,7 @@ using i16 = int16_t;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-i16 A[100];
+i16 A[200];
 
 void swap(i16& a, i16& b)
 {
@@ -16,12 +16,12 @@ void swap(i16& a, i16& b)
 
 int main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 200; i = i + 1)
+        A[i] = 199 - i;
 
     debug_break();
     
-    u8 n = 100;
+    u8 n = 200;
     while(n > 1)
     {
         u8 n2 = 0;

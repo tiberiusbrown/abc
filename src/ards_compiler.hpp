@@ -254,8 +254,10 @@ private:
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
 
-    // returns true if any optimization happened
-    bool peephole(compiler_func_t& f);
+    // perform a series of peephole optimizations on a function
+    void peephole(compiler_func_t& f);
+    bool peephole_pre_push_compress(compiler_func_t& f);
+    bool peephole_compress_push_pop(compiler_func_t& f);
 
     void write(std::ostream& f);
 

@@ -270,7 +270,14 @@ I_SEXT:
     ldi  r16, 0x00
     st   Y+, r16
     dispatch
-    
+ 
+I_DUP:
+    ld   r0, -Y
+    st   Y+, r0
+    st   Y+, r0
+    nop
+    dispatch
+   
 I_GETL:
     dispatch_delay
     read_byte
@@ -281,6 +288,18 @@ I_GETL:
     lpm
     lpm
     nop
+    dispatch
+    
+I_GETL2:
+    dispatch_delay
+    read_byte
+    movw r26, r28
+    sub  r26, r0
+    ld   r0, X+
+    ld   r1, X
+    st   Y+, r0
+    st   Y+, r1
+    lpm
     dispatch
 
 I_GETLN:
@@ -365,6 +384,22 @@ I_SETGN:
     call delay_8 ; TODO: remove this when SETGN(1) is not allowed
     dispatch
 
+I_GETR:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r1, X+
+    st   Y+, r1
+    dispatch
+
+I_GETR2:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r1, X+
+    st   Y+, r1
+    ld   r1, X+
+    st   Y+, r1
+    dispatch
+
 I_GETRN:
     dispatch_delay
     read_byte
@@ -375,6 +410,22 @@ I_GETRN:
     dec  r0
     brne 1b
     lpm ; TODO: remove this when GETRN(1) is not allowed
+    dispatch
+
+I_SETR:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r1, -Y
+    st   X, r1
+    dispatch
+
+I_SETR2:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r1, -Y
+    ld   r0, -Y
+    st   X+, r0
+    st   X, r1
     dispatch
 
 I_SETRN:
@@ -395,6 +446,43 @@ I_POP:
     dec  r28
     lpm
     lpm
+    dispatch
+
+I_POP2:
+    subi r28, 2
+    lpm
+    lpm
+    dispatch
+
+I_POP3:
+    subi r28, 3
+    lpm
+    lpm
+    dispatch
+
+I_POP4:
+    subi r28, 4
+    lpm
+    lpm
+    dispatch
+
+I_AIDXB:
+    call read_2_bytes
+    ld   r20, -Y
+    ; r16: elem size
+    ; r17: num elems
+    ; r20: index
+    cp   r20, r17
+    brlo 1f
+    rjmp .-2 ; TODO: actual error jump
+1:  mul  r16, r20
+    movw r22, r0
+    ld   r21, -Y
+    ld   r20, -Y
+    add  r22, r20
+    adc  r23, r21
+    st   Y+, r22
+    st   Y+, r23
     dispatch
 
 I_AIDX:
@@ -688,10 +776,10 @@ I_CULT:
     dispatch
 
 I_CULT2:
-    ld   r10, -Y
     ld   r11, -Y
-    ld   r14, -Y
+    ld   r10, -Y
     ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
@@ -701,12 +789,12 @@ I_CULT2:
     dispatch
 
 I_CULT3:
-    ld   r10, -Y
-    ld   r11, -Y
     ld   r12, -Y
-    ld   r14, -Y
-    ld   r15, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
@@ -717,14 +805,14 @@ I_CULT3:
     dispatch
 
 I_CULT4:
-    ld   r10, -Y
-    ld   r11, -Y
-    ld   r12, -Y
     ld   r13, -Y
-    ld   r14, -Y
-    ld   r15, -Y
-    ld   r16, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
@@ -746,10 +834,10 @@ I_CSLT:
     dispatch
 
 I_CSLT2:
-    ld   r10, -Y
     ld   r11, -Y
-    ld   r14, -Y
+    ld   r10, -Y
     ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
@@ -759,12 +847,12 @@ I_CSLT2:
     dispatch
 
 I_CSLT3:
-    ld   r10, -Y
-    ld   r11, -Y
     ld   r12, -Y
-    ld   r14, -Y
-    ld   r15, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
@@ -775,14 +863,14 @@ I_CSLT3:
     dispatch
 
 I_CSLT4:
-    ld   r10, -Y
-    ld   r11, -Y
-    ld   r12, -Y
     ld   r13, -Y
-    ld   r14, -Y
-    ld   r15, -Y
-    ld   r16, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
