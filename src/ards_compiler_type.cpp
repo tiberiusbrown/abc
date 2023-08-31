@@ -70,6 +70,8 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
             type_annotate(child, frame);
         auto t0 = a.children[0].comp_type.without_ref();
         auto t1 = a.children[1].comp_type.without_ref();
+        bool ref0 = a.children[0].comp_type.type == compiler_type_t::REF;
+        bool ref1 = a.children[1].comp_type.type == compiler_type_t::REF;
         if(!t0.is_prim())
         {
             errs.push_back({
@@ -86,12 +88,12 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         }
         t0.is_bool = false;
         t1.is_bool = false;
-        if(t0 != t1)
+        if(t0 != t1 || ref0 || ref1)
         {
             implicit_conversion(t0, t1);
             implicit_conversion(t1, t0);
 
-            if(t0 != a.children[0].comp_type)
+            if(ref0 || t0 != a.children[0].comp_type)
             {
                 auto child = std::move(a.children[0]);
                 a.children[0] = { {}, AST::OP_CAST };
@@ -100,7 +102,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
                 a.children[0].children.back().comp_type = t0;
                 a.children[0].children.emplace_back(std::move(child));
             }
-            if(t1 != a.children[1].comp_type)
+            if(ref1 || t1 != a.children[1].comp_type)
             {
                 auto child = std::move(a.children[1]);
                 a.children[1] = { {}, AST::OP_CAST };
@@ -110,6 +112,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
                 a.children[1].children.emplace_back(std::move(child));
             }
         }
+
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)
             a.comp_type = TYPE_BOOL;
         else

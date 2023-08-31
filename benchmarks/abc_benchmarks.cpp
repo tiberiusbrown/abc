@@ -97,7 +97,7 @@ int main()
 {
     arduboy = std::make_unique<absim::arduboy_t>();
 
-    //bench("bubble");
+    bench("bubble");
     bench("fibonacci");
 
     return 0;
