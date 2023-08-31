@@ -1027,39 +1027,37 @@ I_NOT:
     dispatch
 
 I_BZ:
-    call read_3_bytes_end
     ld   r0, -Y
+    nop
+    call read_3_bytes_end_nodelay
     cp   r0, r2
-    brne 2f
+    brne 1f
     movw r6, r16
     mov  r8, r18
-    call jump_to_pc
-1:  jmp dispatch_func
-2:  out  %[spdr], r2
-    call delay_10
-    rjmp 1b
-    .align 6
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    call delay_17
+    dispatch
 
 I_BNZ:
-    call read_3_bytes_end
     ld   r0, -Y
+    nop
+    call read_3_bytes_end_nodelay
     cp   r0, r2
-    breq 2f
+    breq 1f
     movw r6, r16
     mov  r8, r18
-    call jump_to_pc
-1:  jmp dispatch_func
-2:  out  %[spdr], r2
-    call delay_10
-    rjmp 1b
-    .align 6
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    call delay_17
+    dispatch
 
 I_JMP:
     call read_3_bytes_end
     movw r6, r16
     mov  r8, r18
-    call jump_to_pc
-    dispatch
+    jmp  jump_to_pc
+    .align 6
 
 I_CALL:
     lds  r26, 0x0664
@@ -1071,8 +1069,8 @@ I_CALL:
     sts  0x0664, r26
     movw r6, r16
     mov  r8, r18
-    call jump_to_pc
-    dispatch
+    jmp  jump_to_pc
+    .align 6
 
 I_RET:
     lds  r26, 0x0664
@@ -1081,8 +1079,8 @@ I_RET:
     ld   r7, -X
     ld   r6, -X
     sts  0x0664, r26
-    call jump_to_pc
-    dispatch
+    jmp  jump_to_pc
+    .align 6
 
 I_SYS:
     dispatch_delay
@@ -1310,8 +1308,8 @@ jump_to_pc:
     out  %[spdr], r6
     call delay_17
     out  %[spdr], r2
-    call delay_13
-    ret
+    call delay_17
+    dispatch
     
 dispatch_func:
     dispatch_noalign
