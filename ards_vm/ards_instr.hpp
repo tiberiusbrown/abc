@@ -44,6 +44,8 @@ enum instr_t : uint8_t
 
     I_POP,   // a |
 
+    I_AIDX,  // ref i | (ref+i*imm) with bounds checking with imm2 (16-bit)
+
     I_REFL,  // imm8 -> pointer to local var
     I_REFG,  // imm16 -> pointer to global var
     

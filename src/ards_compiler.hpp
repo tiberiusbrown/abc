@@ -125,6 +125,7 @@ struct compiler_instr_t
 {
     instr_t instr;
     uint32_t imm;
+    uint32_t imm2;
     std::string label; // can also be label arg of instr
     bool is_label;
 };

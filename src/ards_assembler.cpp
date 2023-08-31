@@ -249,8 +249,14 @@ error_t assembler_t::assemble(std::istream& f)
         }
         else if(t == "setrn")
         {
-            push_instr(I_GETRN);
+            push_instr(I_SETRN);
             push_imm(read_imm(f, error), 1);
+        }
+        else if(t == "aidx")
+        {
+            push_instr(I_AIDX);
+            push_imm(read_imm(f, error), 2);
+            push_imm(read_imm(f, error), 2);
         }
         else if(t == "refl")
         {

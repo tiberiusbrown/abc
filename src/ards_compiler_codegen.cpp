@@ -70,7 +70,6 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
         codegen_convert(f, frame, n, f.decl.return_type, n.children[0].comp_type);
         auto lvalue = return_lvalue(f, frame);
         codegen_store_lvalue(f, frame, lvalue);
-        frame.size -= lvalue.type.prim_size;
     }
     else if(f.decl.return_type.prim_size != 0)
     {
@@ -121,7 +120,7 @@ std::string compiler_t::codegen_label(compiler_func_t& f)
     ss << f.label_count;
     f.label_count += 1;
     std::string label = "$L_" + f.name + "_" + ss.str();
-    f.instrs.push_back({ I_NOP, 0, label, true });
+    f.instrs.push_back({ I_NOP, 0, 0, label, true });
     return label;
 }
 
@@ -169,7 +168,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         f.instrs.push_back({ I_BZ });
         frame.size -= 1;
         codegen(f, frame, a.children[1]);
-        f.instrs.push_back({ I_JMP, 0, start });
+        f.instrs.push_back({ I_JMP, 0, 0, start });
         auto end = codegen_label(f);
         f.instrs[cond_index].label = end;
         break;
@@ -282,7 +281,7 @@ void compiler_t::codegen_store_lvalue(
     else if(lvalue.is_global)
     {
         f.instrs.push_back({ I_PUSH, (uint8_t)lvalue.type.prim_size });
-        f.instrs.push_back({ I_SETGN, 0, lvalue.global_name });
+        f.instrs.push_back({ I_SETGN, 0, 0, lvalue.global_name });
         frame.size -= lvalue.type.prim_size;
     }
     else
@@ -372,6 +371,7 @@ void compiler_t::codegen_expr(
 
     case AST::OP_CAST:
     {
+        if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
@@ -380,6 +380,7 @@ void compiler_t::codegen_expr(
 
     case AST::OP_UNARY:
     {
+        if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
         auto op = a.children[0].data;
         if(op == "!")
@@ -408,6 +409,7 @@ void compiler_t::codegen_expr(
 
     case AST::INT_CONST:
     {
+        if(ref) goto rvalue_error;
         uint32_t x = (uint32_t)a.value;
         frame.size += a.comp_type.prim_size;
         for(size_t i = 0; i < a.comp_type.prim_size; ++i, x >>= 8)
@@ -437,14 +439,14 @@ void compiler_t::codegen_expr(
         {
             if(ref)
             {
-                f.instrs.push_back({ I_REFG, 0, global->name });
+                f.instrs.push_back({ I_REFG, 0, 0, global->name });
                 frame.size += 2;
                 return;
             }
             assert(global->type.prim_size < 256);
             frame.size += (uint8_t)global->type.prim_size;
             f.instrs.push_back({ I_PUSH, (uint8_t)global->type.prim_size });
-            f.instrs.push_back({ I_GETGN, 0, global->name });
+            f.instrs.push_back({ I_GETGN, 0, 0, global->name });
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
@@ -453,6 +455,7 @@ void compiler_t::codegen_expr(
 
     case AST::FUNC_CALL:
     {
+        if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
         assert(a.children[0].type == AST::IDENT);
 
@@ -502,7 +505,7 @@ void compiler_t::codegen_expr(
         if(func.is_sys)
             f.instrs.push_back({ I_SYS, func.sys });
         else
-            f.instrs.push_back({ I_CALL, 0, std::string(a.children[0].data) });
+            f.instrs.push_back({ I_CALL, 0, 0, std::string(a.children[0].data) });
 
         // system functions push return value onto stack
         if(func.is_sys)
@@ -553,6 +556,7 @@ void compiler_t::codegen_expr(
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
     {
+        if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
         assert(a.children[0].comp_type == a.children[1].comp_type);
         assert(a.comp_type == TYPE_BOOL);
@@ -585,15 +589,16 @@ void compiler_t::codegen_expr(
         }
         else
             assert(false);
-        break;
+        return;
     }
 
     case AST::OP_ADDITIVE:
     {
+        if(ref) goto rvalue_error;
         assert(a.data == "+" || a.data == "-");
         assert(a.children.size() == 2);
-        assert(a.children[0].comp_type == a.comp_type);
-        assert(a.children[1].comp_type == a.comp_type);
+        //assert(a.children[0].comp_type == a.comp_type);
+        //assert(a.children[1].comp_type == a.comp_type);
         codegen_expr(f, frame, a.children[0], false);
         codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
@@ -613,6 +618,7 @@ void compiler_t::codegen_expr(
 
     case AST::OP_MULTIPLICATIVE:
     {
+        if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
         assert(a.children[0].comp_type == a.comp_type);
         assert(a.children[1].comp_type == a.comp_type);
@@ -641,7 +647,11 @@ void compiler_t::codegen_expr(
         codegen_expr(f, frame, a.children[0], true);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, TYPE_U16, a.children[1].comp_type);
-        f.instrs.push_back({ I_ADD2 });
+        //f.instrs.push_back({ I_ADD2 });
+        //frame.size -= 2;
+        size_t elem_size = a.children[0].comp_type.children[0].prim_size;
+        size_t size = a.children[0].comp_type.prim_size;
+        f.instrs.push_back({ I_AIDX, (uint16_t)elem_size, (uint16_t)(size / elem_size) });
         frame.size -= 2;
         return;
     }
@@ -651,6 +661,11 @@ void compiler_t::codegen_expr(
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });
         return;
     }
+
+rvalue_error:
+    errs.push_back({
+        "Cannot create reference to lvalue expression: \"" + std::string(a.data) + "\"",
+        a.line_info });
 }
 
 void compiler_t::codegen_dereference(

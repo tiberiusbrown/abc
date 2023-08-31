@@ -16,7 +16,7 @@ template<AST T> ast_node_t infix(peg::SemanticValues const& v)
         return std::any_cast<ast_node_t>(v[0]);
     ast_node_t a{ v.line_info(), T, v.token() };
     for(auto& child : v)
-        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        a.children.push_back(std::any_cast<ast_node_t>(child));
     return a;
 };
 
@@ -320,7 +320,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             else if(b.type == AST::ARRAY_INDEX)
             {
                 pair.type = AST::ARRAY_INDEX;
-                b = b.children[0];
+                auto t = std::move(b.children[0]);
+                b = std::move(t);
             }
             pair.children.emplace_back(std::move(a));
             pair.children.emplace_back(std::move(b));
@@ -471,7 +472,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["program"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::PROGRAM, v.token() };
         for(auto& child : v)
-            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+            a.children.push_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
     };
     input_data = std::string(

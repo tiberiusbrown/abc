@@ -382,17 +382,54 @@ I_SETRN:
     read_byte
     ld   r27, -Y
     ld   r26, -Y
+    add  r26, r0
+    adc  r26, r2
 1:  ld   r1, -Y
-    st   X+, r1
+    st   -X, r1
     dec  r0
     brne 1b
-    lpm ; TODO: remove this when SETRN(1) is not allowed
+    nop ; TODO: remove this when SETRN(1) is not allowed
     dispatch
 
 I_POP:
     dec  r28
     lpm
     lpm
+    dispatch
+
+I_AIDX:
+    call read_4_bytes
+    ld   r21, -Y
+    ld   r20, -Y
+    cp   r20, r18
+    cpc  r21, r19
+    brlo 1f
+    rjmp .-2 ; TODO: actual error jump
+    ; A1 A0 : r21 r20
+    ; B1 B0 : r17 r16
+    ; C1 C0 : r23 r22
+    ;
+    ;    A1 A0
+    ;    B1 B0
+    ;    =====
+    ;    A0*B0
+    ; A1*B0
+    ; A0*B1
+    ; ========
+    ;    C1 C0
+    ;
+1:  mul  r16, r20
+    movw r22, r0
+    mul  r16, r21
+    add  r23, r0
+    mul  r17, r20
+    add  r23, r0
+    ld   r21, -Y
+    ld   r20, -Y
+    add  r22, r20
+    adc  r23, r21
+    st   Y+, r22
+    st   Y+, r23
     dispatch
 
 I_REFL:
@@ -1017,6 +1054,25 @@ instr_mul4:
     st   Y+, r21
     dispatch_noalign
 
+read_4_bytes:
+    lpm
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 4
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    call delay_12
+    in   r17, %[spdr]
+    out  %[spdr], r2
+    call delay_16
+    in   r18, %[spdr]
+    out  %[spdr], r2
+    call delay_16
+    in   r19, %[spdr]
+    out  %[spdr], r2
+    ret
+
 read_3_bytes:
     lpm
     in   r16, %[spdr]
@@ -1186,6 +1242,7 @@ void vm_run()
         call restore_vm_state
         call jump_to_pc
         call dispatch_func
+        jmp  0x0000
     )"
     :
     : [spdr]       "i" (_SFR_IO_ADDR(SPDR))
