@@ -6,12 +6,26 @@
 #include <cassert>
 #include <cinttypes>
 #include <cstdio>
+#include <cstdarg>
 #include <fstream>
 #include <sstream>
 #include <string>
 #include <strstream>
 
 static std::unique_ptr<absim::arduboy_t> arduboy;
+
+static FILE* fout;
+
+static void out(char const* fmt, ...)
+{
+    va_list v;
+    va_start(v, fmt);
+    vprintf(fmt, v);
+    va_end(v);
+    va_start(v, fmt);
+    vfprintf(fout, fmt, v);
+    va_end(v);
+}
 
 static void bench(char const* name)
 {
@@ -88,7 +102,7 @@ static void bench(char const* name)
 
     cycles_native = cycle_b - cycle_a;
 
-    printf("%-20s%12" PRIu64 "%12" PRIu64 "%12.2fx\n",
+    out("%-20s%12" PRIu64 "%12" PRIu64 "%12.2fx\n",
         name, cycles_native, cycles_abc,
         double(cycles_abc) / cycles_native);
 }
@@ -97,8 +111,14 @@ int main()
 {
     arduboy = std::make_unique<absim::arduboy_t>();
 
+    fout = fopen(BENCHMARKS_DIR "/benchmarks.txt", "w");
+    if(!fout) return 1;
+
     bench("bubble");
     bench("fibonacci");
+    bench("tilesrect");
+
+    fclose(fout);
 
     return 0;
 }

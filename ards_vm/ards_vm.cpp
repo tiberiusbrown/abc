@@ -150,7 +150,8 @@ vm_execute:
 ;     r4           - constant value 1
 ;     r5           - constant value hi8(vm_execute) TODO :/
 ;     r6-r8        - pc
-;     r9-r27       - scratch regs
+;     r9           - reserved for TOS (TODO)
+;     r10-r27      - scratch regs
 ;     r28:29       - &vm.stack[sp] (sp is r28)
 ;     r30-r31      - scratch regs
 ;
@@ -264,7 +265,7 @@ I_P00:
 
 I_SEXT:
     ld   r0, -Y
-    adiw r28, 1
+    inc  r28
     ldi  r16, 0xff
     sbrs r0, 7
     ldi  r16, 0x00
@@ -279,9 +280,10 @@ I_DUP:
     dispatch
    
 I_GETL:
-    dispatch_delay
-    read_byte
+    lpm
+    lpm
     movw r26, r28
+    read_byte
     sub  r26, r0
     ld   r0, X
     st   Y+, r0
@@ -291,9 +293,10 @@ I_GETL:
     dispatch
     
 I_GETL2:
-    dispatch_delay
-    read_byte
+    lpm
+    lpm
     movw r26, r28
+    read_byte
     sub  r26, r0
     ld   r0, X+
     ld   r1, X

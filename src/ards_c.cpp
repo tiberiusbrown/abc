@@ -11,35 +11,20 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-i16[200] A;
-
-void swap(i16& a, i16& b)
-{
-    i16 t = a;
-    a = b;
-    b = t;
-}
-
 void main()
 {
-    for(u8 i = 0; i < 200; i = i + 1)
-        A[i] = 199 - i;
-
+    bool color = false;
+    
     $debug_break();
     
-    u8 n = 200;
-    while(n > 1)
+    for(u8 y = 0; y < 8; y = y + 1)
     {
-        u8 n2 = 0;
-        for(u8 i = 1; i < n; i = i + 1)
+        for(u8 x = 0; x < 16; x = x + 1)
         {
-            if(A[i - 1] > A[i])
-            {
-                swap(A[i - 1], A[i]);
-                n2 = i;
-            }
+            $draw_filled_rect(x * 8, y * 8, 8, 8, color);
+            color = !color;
         }
-        n = n2;
+        color = !color;
     }
 
     $debug_break();
