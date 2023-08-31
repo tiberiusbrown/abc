@@ -141,8 +141,8 @@ primary_expr        <- ident / hex_literal / decimal_literal / '(' expr ')'
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
 
 # TODO: replace decimal_literal with some form of expr
-type_name           <- ident type_name_postfix*
-type_name_postfix   <- '&' / '[' ']' / '[' decimal_literal ']'
+type_name           <- ident ('[' decimal_literal ']')* type_name_ref?
+type_name_ref       <- '&' / '[' ']'
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
@@ -267,16 +267,18 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         for(size_t i = 1; i < v.size(); ++i)
         {
             ast_node_t b = std::any_cast<ast_node_t>(v[i]);
-            assert(
-                b.type == AST::TYPE_REF ||
-                b.type == AST::TYPE_AREF ||
-                b.type == AST::TYPE_ARRAY);
+            if(!(b.type == AST::TYPE_REF || b.type == AST::TYPE_AREF))
+            {
+                ast_node_t t{ b.line_info, AST::TYPE_ARRAY, b.data };
+                t.children.emplace_back(std::move(b));
+                b = std::move(t);
+            }
             b.children.emplace_back(std::move(a));
             a = std::move(b);
         }
         return a;
     };
-    p["type_name_postfix"] = [](peg::SemanticValues const& v) -> ast_node_t {
+    p["type_name_ref"] = [](peg::SemanticValues const& v) -> ast_node_t {
         if(v.choice() == 0)
         {
             // reference
@@ -286,13 +288,6 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         {
             // array reference
             return { v.line_info(), AST::TYPE_AREF, v.token() };
-        }
-        else if(v.choice() == 2)
-        {
-            assert(v.size() == 1);
-            ast_node_t a{ v.line_info(), AST::TYPE_ARRAY, v.token() };
-            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
-            return a;
         }
         assert(false);
         return {};
