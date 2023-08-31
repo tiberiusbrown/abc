@@ -231,7 +231,19 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             assert(type.type != compiler_type_t::ARRAY_REF);
             bool ref = (type.type == compiler_type_t::REF);
             codegen_expr(f, frame, a.children[2], ref);
-            codegen_convert(f, frame, a, type, a.children[2].comp_type);
+            if(!errs.empty()) return;
+            if(ref)
+            {
+                if(type.without_ref() != a.children[2].comp_type.without_ref())
+                {
+                    errs.push_back({
+                        "Incorrect type for reference \"" + std::string(a.children[1].data) + "\"",
+                        a.line_info });
+                    return;
+                }
+            }
+            else
+                codegen_convert(f, frame, a, type, a.children[2].comp_type);
         }
         else
         {

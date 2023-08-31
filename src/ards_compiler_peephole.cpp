@@ -78,6 +78,15 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
+        // remove PUSH N; POP
+        if(i0.instr == I_PUSH && i1.instr == I_POP)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // replace PUSH N; SEXT with PUSH N; PUSH <0 or 255>
         if(i0.instr == I_PUSH && i1.instr == I_SEXT)
         {

@@ -61,7 +61,7 @@ static void bench(char const* name)
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;
-    arduboy->advance(60'000'000'000'000ull); // up to 60 seconds
+    arduboy->advance(10'000'000'000'000ull); // up to 10 seconds
     assert(arduboy->paused);
     cycle_b = arduboy->cpu.cycle_count;
 
