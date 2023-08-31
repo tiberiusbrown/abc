@@ -61,6 +61,8 @@ enum instr_t : uint8_t
     I_REFG,  // imm16 -> pointer to global var
     I_REFGB, // imm8 -> pointer to global var
     
+    I_INC,
+
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1
     I_ADD3,  //

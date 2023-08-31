@@ -54,6 +54,8 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_REFG:  f << "refg  " << instr.imm; break;
     case I_REFGB: f << "refgb " << instr.imm; break;
 
+    case I_INC:   f << "inc"; break;
+
     case I_ADD:   f << "add"; break;
     case I_ADD2:  f << "add2"; break;
     case I_ADD3:  f << "add3"; break;

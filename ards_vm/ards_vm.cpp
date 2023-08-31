@@ -556,6 +556,13 @@ I_REFGB:
     rjmp .+0
     dispatch
 
+I_INC:
+    ld   r0, -Y
+    inc  r0
+    st   Y+, r0
+    rjmp .+0
+    dispatch
+
 I_ADD:
     ld   r10, -Y
     ld   r14, -Y
