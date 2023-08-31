@@ -77,6 +77,14 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
+        // replace REFG N with REFGB N (N < 256)
+        if(i0.instr == I_REFG && i0.imm < 256)
+        {
+            i0.instr = I_REFGB;
+            t = true;
+            continue;
+        }
+
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
@@ -101,6 +109,9 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         }
 
         // replace PUSH 1; GETLN <N> with GETL <N>
+        // replace PUSH 1; SETLN <N> with SETL <N>
+        // replace PUSH 1; GETGN <N> with GETG <N>
+        // replace PUSH 1; SETGN <N> with SETG <N>
         if(i0.instr == I_PUSH && i0.imm == 1)
         {
             if(i1.instr == I_GETLN)

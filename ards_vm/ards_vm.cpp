@@ -545,6 +545,17 @@ I_REFG:
     nop
     dispatch
 
+I_REFGB:
+    dispatch_delay
+    read_byte
+    ldi  r17, 2
+    st   Y+, r0
+    st   Y+, r17
+    lpm
+    lpm
+    rjmp .+0
+    dispatch
+
 I_ADD:
     ld   r10, -Y
     ld   r14, -Y
