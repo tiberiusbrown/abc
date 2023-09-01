@@ -1081,11 +1081,10 @@ I_BZ1:
     brne 1f
     mov  r1, r0
     lsl  r1
-    sbc  r17, r17
-    sbc  r18, r18
+    sbc  r1, r1
     add  r6, r0
-    adc  r7, r17
-    adc  r8, r18
+    adc  r7, r1
+    adc  r8, r1
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     call delay_14
@@ -1116,11 +1115,10 @@ I_BNZ1:
     breq 1f
     mov  r1, r0
     lsl  r1
-    sbc  r17, r17
-    sbc  r18, r18
+    sbc  r1, r1
     add  r6, r0
-    adc  r7, r17
-    adc  r8, r18
+    adc  r7, r1
+    adc  r8, r1
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     call delay_14
