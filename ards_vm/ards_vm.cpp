@@ -48,7 +48,13 @@ static inline uint24_t conv3(uint8_t a, uint8_t b, uint8_t c)
 
 inline uint8_t* vm_pop_begin()
 {
-    return &vm.stack[vm.sp];
+    uint8_t* r;
+    asm volatile(
+        "lds  %A[r], 0x0660\n"
+        "ldi  %B[r], 1\n"
+        : [r] "=&d" (r));
+    return r;
+    //return &vm.stack[vm.sp];
 }
 
 inline void vm_pop_end(uint8_t* ptr)
@@ -173,8 +179,9 @@ vm_execute:
 ;     r4           - constant value 1
 ;     r5           - constant value hi8(vm_execute) TODO :/
 ;     r6-r8        - pc
-;     r9           - reserved for TOS (TODO)
-;     r10-r27      - scratch regs
+;     r9-r24       - scratch regs
+;     r25          - reserved for TOS (TODO)
+;     r26-r27      - scratch regs
 ;     r28:29       - &vm.stack[sp] (sp is r28)
 ;     r30-r31      - scratch regs
 ;
