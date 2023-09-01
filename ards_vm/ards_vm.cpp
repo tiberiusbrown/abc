@@ -46,24 +46,32 @@ static inline uint24_t conv3(uint8_t a, uint8_t b, uint8_t c)
     return uint24_t(a) + (uint24_t(b) << 8) + (uint24_t(c) << 16);
 }
 
+inline uint8_t* vm_pop_begin()
+{
+    return &vm.stack[vm.sp];
+}
+
+inline void vm_pop_end(uint8_t* ptr)
+{
+    vm.sp = (uint8_t)(uintptr_t)ptr;
+}
+
 template<class T>
-inline T vm_pop()
+__attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
 {
     union
     {
         T r;
         uint8_t b[sizeof(T)];
     } u;
-    uint8_t* ptr = &vm.stack[vm.sp];
     for(size_t i = 0; i < sizeof(T); ++i)
     {
         asm volatile(
             "ld %[t], -%a[ptr]\n"
             : [t] "=&r" (u.b[sizeof(T) - i - 1])
-            , [ptr] "+&z" (ptr)
+            , [ptr] "+&e" (ptr)
             );
     }
-    vm.sp = (uint8_t)(uintptr_t)ptr;
     return u.r;
 }
 
@@ -88,25 +96,31 @@ static sys_display()
 
 static sys_draw_pixel()
 {
-    uint8_t color = vm_pop<uint8_t>();
-    int16_t y = vm_pop<int16_t>();
-    int16_t x = vm_pop<int16_t>();
+    auto ptr = vm_pop_begin();
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    int16_t x = vm_pop<int16_t>(ptr);
+    vm_pop_end(ptr);
     Arduboy2Base::drawPixel(x, y, color);
 }
 
 static sys_draw_filled_rect()
 {
-    uint8_t color = vm_pop<uint8_t>();
-    uint8_t h = vm_pop<uint8_t>();
-    uint8_t w = vm_pop<uint8_t>();
-    int16_t y = vm_pop<int16_t>();
-    int16_t x = vm_pop<int16_t>();
+    auto ptr = vm_pop_begin();
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    int16_t x = vm_pop<int16_t>(ptr);
+    vm_pop_end(ptr);
     SpritesU::fillRect(x, y, w, h, color);
 }
 
 static sys_set_frame_rate()
 {
-    uint8_t fr = vm_pop<uint8_t>();
+    auto ptr = vm_pop_begin();
+    uint8_t fr = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
     Arduboy2Base::setFrameRate(fr);
 }
 
