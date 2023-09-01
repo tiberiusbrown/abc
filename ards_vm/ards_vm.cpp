@@ -1177,7 +1177,7 @@ I_CALL1:
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    jmp  jump_to_pc
+    rjmp jump_to_pc
     .align 6
 
 I_RET:
@@ -1187,7 +1187,7 @@ I_RET:
     ld   r7, -X
     ld   r6, -X
     sts  0x0664, r26
-    jmp  jump_to_pc
+    rjmp jump_to_pc
     .align 6
 
 I_SYS:
