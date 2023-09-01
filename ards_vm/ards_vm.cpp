@@ -500,8 +500,9 @@ I_POP4:
     dispatch
 
 I_AIDXB:
-    call read_2_bytes
     ld   r20, -Y
+    nop
+    call read_2_bytes_nodelay
     ; r16: elem size
     ; r17: num elems
     ; r20: index
@@ -519,9 +520,9 @@ I_AIDXB:
     dispatch
 
 I_AIDX:
-    call read_4_bytes
     ld   r21, -Y
     ld   r20, -Y
+    call read_4_bytes_nodelay
     cp   r20, r18
     cpc  r21, r19
     brlo 1f
@@ -1193,6 +1194,7 @@ instr_mul4:
 
 read_4_bytes:
     lpm
+read_4_bytes_nodelay:
     in   r16, %[spdr]
     out  %[spdr], r2
     ldi  r17, 4
@@ -1244,6 +1246,7 @@ read_3_bytes_end_nodelay:
 
 read_2_bytes:
     lpm
+read_2_bytes_nodelay:
     in   r16, %[spdr]
     out  %[spdr], r2
     ldi  r17, 2
