@@ -1105,6 +1105,28 @@ I_BNZ:
     call delay_17
     dispatch
 
+I_BNZ1:
+    ld   r16, -Y
+    add  r6, r4
+    adc  r7, r2
+    adc  r7, r2
+    rjmp .+0
+    in   r0, %[spdr]
+    cp   r16, r2
+    breq 1f
+    mov  r1, r0
+    lsl  r1
+    sbc  r17, r17
+    sbc  r18, r18
+    add  r6, r0
+    adc  r7, r17
+    adc  r8, r18
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    call delay_14
+    jmp  dispatch_func
+    .align 6
+
 I_JMP:
     call read_3_bytes_end
     movw r6, r16
@@ -1396,14 +1418,14 @@ delay_8:
     
 jump_to_pc:
     fx_disable
+    ldi  r18, 3
+    fx_enable
+    out  %[spdr], r18
     lds  r16, %[data_page]+0
     lds  r17, %[data_page]+1
     add  r16, r7
     adc  r17, r8
-    fx_enable
-    ldi  r18, 3
-    out  %[spdr], r18
-    call delay_17
+    call delay_11
     out  %[spdr], r17
     call delay_17
     out  %[spdr], r16

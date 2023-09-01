@@ -364,10 +364,10 @@ void assembler_t::relax_jumps()
     for(size_t i = 0; i < nodes.size(); ++i)
     {
         auto& n = nodes[i];
-        if(
-            n.instr != I_JMP &&
+        if( n.instr != I_JMP &&
             n.instr != I_CALL &&
             n.instr != I_BZ &&
+            n.instr != I_BNZ &&
             true) continue;
         assert(i + 1 < nodes.size());
         auto& label = nodes[i + 1];

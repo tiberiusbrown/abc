@@ -103,7 +103,7 @@ enum instr_t : uint8_t
     I_BZ1,   // imm8 rel offset
     //I_BZ2,   // imm16 rel offset
     I_BNZ,   // pop, branch if nonzero to imm3
-    //I_BNZ1,  // imm8 rel offset
+    I_BNZ1,  // imm8 rel offset
     //I_BNZ2,  // imm16 rel offset
     I_JMP,   // jmp imm3
     I_JMP1,  // imm8 rel offset
