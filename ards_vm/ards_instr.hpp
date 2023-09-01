@@ -98,12 +98,15 @@ enum instr_t : uint8_t
     I_CSLE3,
     I_CSLE4,
     I_NOT,   // a | !a
+
     I_BZ,    // pop, branch if zero to imm3
     I_BNZ,   // pop, branch if nonzero to imm3
     I_JMP,   // jmp imm3
     I_CALL,
     I_RET,
-    I_SYS,   // call sysfunc
+
+    I_SYS,   // call sysfunc (imm16)
+    I_SYSB,  // call sysfunc (imm8)
 
     I_REMOVE, // dummy value used to indicate an optimized-out instruction
 };

@@ -1130,6 +1130,21 @@ I_SYS:
     jmp  dispatch_func
     .align 6
 
+I_SYSB:
+    ldi  r31, hi8(%[sys_funcs])
+    lpm
+    lpm
+    read_byte
+    mov  r30, r0
+    lpm  r0, Z+
+    lpm  r31, Z
+    mov  r30, r0
+    call store_vm_state
+    icall
+    call restore_vm_state
+    jmp  dispatch_func
+    .align 6
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; helper methods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

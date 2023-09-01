@@ -97,10 +97,11 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_CALL:  f << "call  " << instr.label; break;
     case I_RET:   f << "ret"; break;
     case I_SYS:
+    case I_SYSB:
     {
-        // TODO: make this faster?
-        f << "sys   ";
+        f << (instr.instr == I_SYS ? "sys   " : "sysb  ");
         std::string_view sys = "???";
+        // TODO: make this faster?
         for(auto const& [k, v] : sys_names)
             if(instr.imm == v)
                 sys = k;

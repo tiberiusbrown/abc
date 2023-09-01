@@ -315,8 +315,17 @@ error_t assembler_t::assemble(std::istream& f)
         }
         else if(t == "sys")
         {
-            push_instr(I_SYS);
-            push_imm(read_sys(f, error) * 2, 2);
+            auto i = read_sys(f, error) * 2;
+            if(i < 256)
+            {
+                push_instr(I_SYSB);
+                push_imm(i, 1);
+            }
+            else
+            {
+                push_instr(I_SYS);
+                push_imm(i, 2);
+            }
         }
         else if(t == ".global")
         {
