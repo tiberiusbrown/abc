@@ -1191,21 +1191,18 @@ I_RET:
     .align 6
 
 I_SYS:
-    dispatch_delay
-    read_byte
-    mov  r30, r0
     ldi  r31, hi8(%[sys_funcs])
-    call delay_11
-    read_byte
-    add  r31, r0
+    rjmp .+0
+    call read_2_bytes_nodelay
+    mov  r30, r16
+    add  r31, r17
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
     call store_vm_state
     icall
     call restore_vm_state
-    jmp  dispatch_func
-    .align 6
+    dispatch
 
 I_SYSB:
     ldi  r31, hi8(%[sys_funcs])
@@ -1219,8 +1216,7 @@ I_SYSB:
     call store_vm_state
     icall
     call restore_vm_state
-    jmp  dispatch_func
-    .align 6
+    dispatch
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; helper methods
@@ -1472,9 +1468,7 @@ void vm_run()
     asm volatile(R"(
     
         call restore_vm_state
-        call jump_to_pc
-        call dispatch_func
-        jmp  0x0000
+        jmp  jump_to_pc
     )"
     :
     : [spdr]       "i" (_SFR_IO_ADDR(SPDR))
