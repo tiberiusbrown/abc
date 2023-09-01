@@ -63,6 +63,8 @@ private:
     std::vector<node_t> nodes;
     size_t byte_count;
     error_t error;
+
+    void relax_jumps();
     
     void push_instr(instr_t i)
     {

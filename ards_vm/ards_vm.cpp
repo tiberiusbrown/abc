@@ -1090,6 +1090,19 @@ I_JMP:
     jmp  jump_to_pc
     .align 6
 
+I_JMP1:
+    dispatch_delay
+    read_byte
+    mov  r1, r0
+    lsl  r1
+    sbc  r17, r17
+    sbc  r18, r18
+    add  r6, r0
+    adc  r7, r17
+    adc  r8, r18
+    jmp  jump_to_pc
+    .align 6
+
 I_CALL:
     lds  r26, 0x0664
     ldi  r27, 0x06
@@ -1100,6 +1113,26 @@ I_CALL:
     sts  0x0664, r26
     movw r6, r16
     mov  r8, r18
+    jmp  jump_to_pc
+    .align 6
+
+I_CALL1:
+    lds  r26, 0x0664
+    ldi  r27, 0x06
+    rjmp .+0
+    rjmp .+0
+    read_byte
+    st   X+, r6
+    st   X+, r7
+    st   X+, r8
+    sts  0x0664, r26
+    mov  r1, r0
+    lsl  r1
+    sbc  r17, r17
+    sbc  r18, r18
+    add  r6, r0
+    adc  r7, r17
+    adc  r8, r18
     jmp  jump_to_pc
     .align 6
 

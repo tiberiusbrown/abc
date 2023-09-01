@@ -359,10 +359,44 @@ error_t assembler_t::assemble(std::istream& f)
     return error;
 }
 
+void assembler_t::relax_jumps()
+{
+    for(size_t i = 0; i < nodes.size(); ++i)
+    {
+        auto& n = nodes[i];
+        if(n.instr != I_JMP && n.instr != I_CALL) continue;
+        assert(i + 1 < nodes.size());
+        auto& label = nodes[i + 1];
+
+        auto it = labels.find(label.label);
+        if(it == labels.end()) return;
+        size_t addr = it->second;
+
+        int32_t offset = int32_t(addr) - int32_t(n.offset);
+        int32_t abs_offset = offset < 0 ? -offset : offset;
+
+        if(abs_offset < 124)
+        {
+            n.instr = instr_t(n.instr + 1);
+            label.size = 1;
+        }
+
+        int bytes_shortened = 3 - label.size;
+        if(bytes_shortened)
+        {
+            for(size_t j = i + 1; j < nodes.size(); ++j)
+            {
+                nodes[j].offset -= bytes_shortened;
+            }
+        }
+    }
+}
 
 error_t assembler_t::link()
 {
     linked_data.clear();
+
+    relax_jumps();
 
     if(globals_bytes > 1024)
     {
@@ -436,9 +470,14 @@ error_t assembler_t::link()
             if(index < nodes.size())
             {
                 auto offset = nodes[index].offset;
-                linked_data.push_back(uint8_t(offset >> 0));
-                linked_data.push_back(uint8_t(offset >> 8));
-                linked_data.push_back(uint8_t(offset >> 16));
+                if(n.size < 3)
+                {
+                    offset -= n.offset;
+                    offset -= (n.size + 2);
+                }
+                if(n.size >= 1) linked_data.push_back(uint8_t(offset >> 0));
+                if(n.size >= 2) linked_data.push_back(uint8_t(offset >> 8));
+                if(n.size >= 3) linked_data.push_back(uint8_t(offset >> 16));
             }
             else
             {
