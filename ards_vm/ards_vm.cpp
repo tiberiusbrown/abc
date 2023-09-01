@@ -1199,9 +1199,9 @@ I_SYS:
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
-    call store_vm_state
+    rcall store_vm_state
     icall
-    call restore_vm_state
+    rcall restore_vm_state
     dispatch
 
 I_SYSB:
@@ -1213,9 +1213,9 @@ I_SYSB:
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
-    call store_vm_state
+    rcall store_vm_state
     icall
-    call restore_vm_state
+    rcall restore_vm_state
     dispatch
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -77,7 +77,7 @@ target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/ards_vm"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
     )
-
+    
 add_executable(ards_as src/ards_as.cpp)
 target_link_libraries(ards_as ards_assembler)
 
