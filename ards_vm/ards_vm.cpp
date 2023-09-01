@@ -1163,20 +1163,20 @@ I_CALL:
 I_CALL1:
     lds  r26, 0x0664
     ldi  r27, 0x06
-    rjmp .+0
-    rjmp .+0
-    read_byte
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     st   X+, r6
     st   X+, r7
     st   X+, r8
     sts  0x0664, r26
+    in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
-    sbc  r17, r17
-    sbc  r18, r18
+    sbc  r1, r1
     add  r6, r0
-    adc  r7, r17
-    adc  r8, r18
+    adc  r7, r1
+    adc  r8, r1
     jmp  jump_to_pc
     .align 6
 
