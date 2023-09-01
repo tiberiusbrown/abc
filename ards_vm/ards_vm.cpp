@@ -1136,14 +1136,14 @@ I_JMP:
 
 I_JMP1:
     dispatch_delay
-    read_byte
+    in   r0, %[spdr]
+    inc  r0
     mov  r1, r0
     lsl  r1
-    sbc  r17, r17
-    sbc  r18, r18
+    sbc  r1, r1
     add  r6, r0
-    adc  r7, r17
-    adc  r8, r18
+    adc  r7, r1
+    adc  r8, r1
     jmp  jump_to_pc
     .align 6
 
