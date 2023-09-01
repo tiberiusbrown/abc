@@ -15,16 +15,9 @@ void main()
 {
     $debug_break();
     
-    bool color = false;
-    for(u8 y = 0; y < 8; y = y + 1)
-    {
-        for(u8 x = 0; x < 16; x = x + 1)
-        {
-            $draw_filled_rect(x * 8, y * 8, 8, 8, color);
-            color = !color;
-        }
-        color = !color;
-    }
+    u8 i = 0;
+    while(i < 10)
+        i = i + 1;
 
     $debug_break();
 }

@@ -1070,6 +1070,28 @@ I_BZ:
     call delay_17
     dispatch
 
+I_BZ1:
+    ld   r16, -Y
+    add  r6, r4
+    adc  r7, r2
+    adc  r7, r2
+    rjmp .+0
+    in   r0, %[spdr]
+    cp   r16, r2
+    brne 1f
+    mov  r1, r0
+    lsl  r1
+    sbc  r17, r17
+    sbc  r18, r18
+    add  r6, r0
+    adc  r7, r17
+    adc  r8, r18
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    call delay_14
+    jmp  dispatch_func
+    .align 6
+
 I_BNZ:
     ld   r0, -Y
     nop
