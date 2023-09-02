@@ -130,7 +130,8 @@ expr                <- postfix_expr assignment_op expr / equality_expr
 
 # left-associative binary operators
 equality_expr       <- relational_expr     (equality_op       relational_expr    )*
-relational_expr     <- additive_expr       (relational_op     additive_expr      )*
+relational_expr     <- shift_expr          (relational_op     shift_expr         )*
+shift_expr          <- additive_expr       (shift_op          additive_expr      )*
 additive_expr       <- multiplicative_expr (additive_op       multiplicative_expr)*
 multiplicative_expr <- unary_expr          (multiplicative_op unary_expr         )*
 
@@ -147,6 +148,7 @@ arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
 equality_op         <- < '==' / '!=' >
+shift_op            <- < '<<' / '>>' >
 additive_op         <- < [+-] >
 multiplicative_op   <- < [*/%] >
 relational_op       <- < '<=' / '>=' / '<' / '>' >
@@ -370,12 +372,14 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
     p["equality_op"      ] = token;
     p["relational_op"    ] = token;
+    p["shift_op"         ] = token;
     p["additive_op"      ] = token;
     p["multiplicative_op"] = token;
     p["unary_op"         ] = token;
 
     p["equality_expr"      ] = infix<AST::OP_EQUALITY>;
     p["relational_expr"    ] = infix<AST::OP_RELATIONAL>;
+    p["shift_expr"         ] = infix<AST::OP_SHIFT>;
     p["additive_expr"      ] = infix<AST::OP_ADDITIVE>;
     p["multiplicative_expr"] = infix<AST::OP_MULTIPLICATIVE>;
 

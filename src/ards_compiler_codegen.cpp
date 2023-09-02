@@ -669,6 +669,27 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::OP_SHIFT:
+    {
+        codegen_expr(f, frame, a.children[0], false);
+        codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a, TYPE_U8, a.children[1].comp_type);
+        frame.size -= 1;
+        auto index = a.comp_type.prim_size - 1;
+        if(a.data == "<<")
+            f.instrs.push_back({ instr_t(I_LSL + index) });
+        else if(a.data == ">>")
+        {
+            if(a.comp_type.is_signed)
+                f.instrs.push_back({ instr_t(I_ASR + index) });
+            else
+                f.instrs.push_back({ instr_t(I_LSR + index) });
+        }
+        else
+            assert(false);
+        return;
+    }
+
     case AST::ARRAY_INDEX:
     {
         // TODO: optimize the case where children[0] is an ident and children[1] is

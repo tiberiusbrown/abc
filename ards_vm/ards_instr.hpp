@@ -87,6 +87,21 @@ enum instr_t : uint8_t
     I_MOD2,
     I_MOD4,
 
+    I_LSL,
+    I_LSL2,
+    I_LSL3,
+    I_LSL4,
+
+    I_LSR,
+    I_LSR2,
+    I_LSR3,
+    I_LSR4,
+
+    I_ASR,
+    I_ASR2,
+    I_ASR3,
+    I_ASR4,
+
     I_BOOL,  // a | (a!=0)
     I_BOOL2, // a b | (a!=0 && b!=0)
     I_BOOL3, // a b c | (a!=0 && b!=0 && c!=0)

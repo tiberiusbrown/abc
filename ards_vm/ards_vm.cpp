@@ -916,6 +916,162 @@ I_MOD4:
     st   Y+, r25
     dispatch
 
+I_LSL:
+    ld   r20, -Y
+    ld   r16, -Y
+    andi r20, 7
+    rjmp 2f
+1:  lsl  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSL2:
+    ld   r20, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 15
+    rjmp 2f
+1:  lsl  r17
+    rol  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSL3:
+    ld   r20, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 31
+    rjmp 2f
+1:  lsl  r18
+    rol  r17
+    rol  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSL4:
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 31
+    rjmp 2f
+1:  lsl  r19
+    rol  r18
+    rol  r17
+    rol  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSR:
+    ld   r20, -Y
+    ld   r16, -Y
+    andi r20, 7
+    rjmp 2f
+1:  lsr  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSR2:
+    ld   r20, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 15
+    rjmp 2f
+1:  lsr  r17
+    ror  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSR3:
+    ld   r20, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 31
+    rjmp 2f
+1:  lsr  r18
+    ror  r17
+    ror  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_LSR4:
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 31
+    rjmp 2f
+1:  lsr  r19
+    ror  r18
+    ror  r17
+    ror  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_ASR:
+    ld   r20, -Y
+    ld   r16, -Y
+    andi r20, 7
+    rjmp 2f
+1:  asr  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_ASR2:
+    ld   r20, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 15
+    rjmp 2f
+1:  asr  r17
+    ror  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_ASR3:
+    ld   r20, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 31
+    rjmp 2f
+1:  asr  r18
+    ror  r17
+    ror  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
+I_ASR4:
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    andi r20, 31
+    rjmp 2f
+1:  asr  r19
+    ror  r18
+    ror  r17
+    ror  r16
+2:  dec  r20
+    brpl 1b
+    dispatch
+
 I_BOOL:
     ld   r0, -Y
     ldi  r16, 0

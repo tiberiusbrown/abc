@@ -11,12 +11,12 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u16 c;
+u24 c;
 void main()
 {
-    i24 a = 100000;
+    u32 x = 0x12345678;
     $debug_break();
-    c = a / 7;
+    c = x >> 8;
     $debug_break();
 }
 )";

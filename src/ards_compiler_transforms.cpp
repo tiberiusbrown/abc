@@ -43,6 +43,20 @@ void compiler_t::transform_constexprs(ast_node_t& n)
                 assert(false);
         }
         break;
+    case AST::OP_SHIFT:
+        assert(n.children.size() == 2);
+        if(n.data == "<<")
+            n.value = n.children[0].value << (uint8_t)n.children[1].value;
+        else if(n.data == ">>")
+        {
+            if(n.children[0].comp_type.is_signed)
+                n.value = n.children[0].value >> (uint8_t)n.children[1].value;
+            else
+                n.value = (uint64_t)n.children[0].value >> (uint8_t)n.children[1].value;
+        }
+        else
+            assert(false);
+        break;
     case AST::OP_UNARY:
         assert(n.children.size() == 1);
         if(n.data == "!")
@@ -89,6 +103,7 @@ void compiler_t::transform_left_assoc_infix(ast_node_t& n)
     {
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
+    case AST::OP_SHIFT:
     case AST::OP_ADDITIVE:
     case AST::OP_MULTIPLICATIVE:
     {

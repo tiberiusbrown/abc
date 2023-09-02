@@ -24,6 +24,24 @@ static void implicit_conversion(compiler_type_t& ta, compiler_type_t& tb)
     }
 }
 
+static bool check_prim(
+    compiler_type_t const& t, ast_node_t const& a, std::vector<error_t> errs)
+{
+    if(!t.is_prim())
+    {
+        errs.push_back({
+            "\"" + std::string(a.data) + "\" is not a primitive type",
+            a.line_info });
+        return false;
+    }
+    return true;
+}
+
+static bool check_prim(ast_node_t const& a, std::vector<error_t> errs)
+{
+    return check_prim(a.comp_type.without_ref(), a, errs);
+}
+
 void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;
@@ -53,12 +71,20 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     }
     case AST::OP_ASSIGN:
     {
+        assert(a.children.size() == 2);
         for(auto& child : a.children)
             type_annotate(child, frame);
-        assert(a.children.size() == 2);
         a.comp_type = a.children[0].comp_type.without_ref();
         break;
     }
+    case AST::OP_SHIFT:
+        assert(a.children.size() == 2);
+        for(auto& child : a.children)
+            type_annotate(child, frame);
+        if(!check_prim(a.children[0], errs)) break;
+        if(!check_prim(a.children[1], errs)) break;
+        a.comp_type = a.children[0].comp_type.without_ref();
+        break;
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
     case AST::OP_ADDITIVE:
@@ -75,20 +101,8 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         bool is_divmod = (
             a.type == AST::OP_MULTIPLICATIVE && (
             a.data == "/" || a.data == "%"));
-        if(!t0.is_prim())
-        {
-            errs.push_back({
-                "\"" + std::string(a.children[0].data) + "\" is not a primitive type",
-                a.children[0].line_info });
-            break;
-        }
-        if(!t1.is_prim())
-        {
-            errs.push_back({
-                "\"" + std::string(a.children[1].data) + "\" is not a primitive type",
-                a.children[1].line_info });
-            break;
-        }
+        if(!check_prim(t0, a.children[0], errs)) break;
+        if(!check_prim(t1, a.children[1], errs)) break;
 
         t0.is_bool = false;
         t1.is_bool = false;

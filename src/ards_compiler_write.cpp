@@ -80,6 +80,21 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_MOD2:  f << "mod2"; break;
     case I_MOD4:  f << "mod4"; break;
 
+    case I_LSL:   f << "lsl"; break;
+    case I_LSL2:  f << "lsl2"; break;
+    case I_LSL3:  f << "lsl3"; break;
+    case I_LSL4:  f << "lsl4"; break;
+
+    case I_LSR:   f << "lsr"; break;
+    case I_LSR2:  f << "lsr2"; break;
+    case I_LSR3:  f << "lsr3"; break;
+    case I_LSR4:  f << "lsr4"; break;
+
+    case I_ASR:   f << "asr"; break;
+    case I_ASR2:  f << "asr2"; break;
+    case I_ASR3:  f << "asr3"; break;
+    case I_ASR4:  f << "asr4"; break;
+
     case I_BOOL:  f << "bool"; break;
     case I_BOOL2: f << "bool2"; break;
     case I_BOOL3: f << "bool3"; break;
