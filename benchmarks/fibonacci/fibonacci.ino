@@ -6,11 +6,11 @@ uint16_t fib(uint8_t n)
     return fib(n - 1) + fib(n - 2);
 }
 
-volatile uint16_t fib20;
+volatile uint16_t f;
 
 int main()
 {
     asm volatile("break\n");
-    fib20 = fib(20);
+    f = fib(18);
     asm volatile("break\n");
 }

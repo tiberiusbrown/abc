@@ -1204,9 +1204,12 @@ I_SYS:
 
 I_SYSB:
     ldi  r31, hi8(%[sys_funcs])
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     lpm
-    lpm
-    read_byte
+    in   r0, %[spdr]
+    out  %[spdr], r2
     mov  r30, r0
     lpm  r0, Z+
     lpm  r31, Z

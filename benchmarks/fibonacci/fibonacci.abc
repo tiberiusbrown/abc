@@ -4,11 +4,11 @@ u16 fib(u8 n)
     return fib(n - 1) + fib(n - 2);
 }
 
-u16 fib20;
+u16 f;
 
 void main()
 {
     $debug_break();
-    fib20 = fib(20);
+    f = fib(18);
     $debug_break();
 }
