@@ -345,7 +345,7 @@ I_GETLN:
     st   Y+, r0
     dec  r16
     brne 1b
-    call delay_8 ; TODO: remove this when GETLN(1) is not allowed
+    ; call delay_8 ; TODO: remove this when GETLN(1) is not allowed
     dispatch
 
 I_SETL:
@@ -361,16 +361,20 @@ I_SETL:
     dispatch
  
 I_SETLN:
-    dispatch_delay
-    read_byte
     ld   r16, -Y
+    dec  r16
+    rjmp .+0
+    rjmp .+0
+    read_byte
     movw r26, r28
     sub  r26, r0
+    ld   r0, -Y
+    st   -X, r0
 1:  ld   r0, -Y
     st   -X, r0
     dec  r16
     brne 1b
-    call delay_8 ; TODO: remove this when SETLN(1) is not allowed
+    ; call delay_8 ; TODO: remove this when SETLN(1) is not allowed
     dispatch
 
 I_GETG:
@@ -391,7 +395,7 @@ I_GETGN:
     st   Y+, r0
     dec  r16
     brne 1b
-    call delay_8 ; TODO: remove this when GETGN(1) is not allowed
+    ; call delay_8 ; TODO: remove this when GETGN(1) is not allowed
     dispatch
 
 I_SETG:
@@ -414,7 +418,7 @@ I_SETGN:
     st   -X, r0
     dec  r16
     brne 1b
-    call delay_8 ; TODO: remove this when SETGN(1) is not allowed
+    ; call delay_8 ; TODO: remove this when SETGN(1) is not allowed
     dispatch
 
 I_GETR:
