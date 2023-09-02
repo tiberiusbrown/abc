@@ -336,11 +336,15 @@ I_GETL2:
     dispatch
 
 I_GETLN:
-    dispatch_delay
-    read_byte
     ld   r16, -Y
+    dec  r16
+    rjmp .+0
+    rjmp .+0
+    read_byte
     movw r26, r28
     sub  r26, r0
+    ld   r0, X+
+    st   Y+, r0
 1:  ld   r0, X+
     st   Y+, r0
     dec  r16
