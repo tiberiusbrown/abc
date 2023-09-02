@@ -173,6 +173,15 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
         n.data.remove_suffix(i);
     });
 
+    //
+    // transforms
+    //
+
+    // transform left-associative infix exprs into binary trees
+    transform_left_assoc_infix(ast);
+    // reduce constant expressions
+    transform_constexprs(ast);
+
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);
     for(auto& n : ast.children)
@@ -249,14 +258,6 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             }
         }
     }
-
-    //
-    // transforms
-    //
-
-    // transform left-associative infix exprs into binary trees
-    for(auto& [k, v] : funcs)
-        transform_left_assoc_infix(v.block);
 
     // transforms TODO
     // - remove root ops in expr statements that have no side effects

@@ -237,7 +237,7 @@ private:
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
 
     void transform_left_assoc_infix(ast_node_t& n);
-    void transform_casts(ast_node_t& n);
+    void transform_constexprs(ast_node_t& n);
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);

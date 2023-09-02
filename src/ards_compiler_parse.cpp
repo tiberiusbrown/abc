@@ -141,7 +141,7 @@ primary_expr        <- ident / hex_literal / decimal_literal / '(' expr ')'
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
 
 # TODO: replace decimal_literal with some form of expr
-type_name           <- ident ('[' decimal_literal ']')* type_name_ref?
+type_name           <- ident ('[' expr ']')* type_name_ref?
 type_name_ref       <- '&' / '[' ']'
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*

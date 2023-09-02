@@ -5,6 +5,80 @@
 namespace ards
 {
 
+void compiler_t::transform_constexprs(ast_node_t& n)
+{
+    if(!errs.empty()) return;
+    for(auto& child : n.children)
+        transform_constexprs(child);
+    for(auto const& child : n.children)
+        if(child.type != AST::INT_CONST || child.comp_type.type != compiler_type_t::PRIM)
+            return;
+    switch(n.type)
+    {
+    case AST::OP_ADDITIVE:
+        assert(n.children.size() == 2);
+        if(n.data == "+")
+            n.value = n.children[0].value + n.children[1].value;
+        else if(n.data == "-")
+            n.value = n.children[0].value - n.children[1].value;
+        else
+            assert(false);
+        break;
+    case AST::OP_MULTIPLICATIVE:
+        assert(n.children.size() == 2);
+        if(n.data == "*")
+            n.value = n.children[0].value * n.children[1].value;
+        else
+        {
+            if(n.children[1].value == 0)
+            {
+                errs.push_back({ "Division by zero in constant expression", n.line_info });
+                return;
+            }
+            if(n.data == "/")
+                n.value = n.children[0].value / n.children[1].value;
+            else if(n.data == "%")
+                n.value = n.children[0].value % n.children[1].value;
+            else
+                assert(false);
+        }
+        break;
+    case AST::OP_UNARY:
+        assert(n.children.size() == 1);
+        if(n.data == "!")
+            n.value = int64_t(!n.children[0].value);
+        else if(n.data == "-")
+            n.value = -n.children[0].value;
+        else
+            assert(false);
+        break;
+    case AST::OP_EQUALITY:
+    case AST::OP_RELATIONAL:
+        assert(n.children.size() == 2);
+        if(n.data == "==")
+            n.value = int64_t(n.children[0].value == n.children[1].value);
+        else if(n.data == "!=")
+            n.value = int64_t(n.children[0].value != n.children[1].value);
+        else if(n.data == "<=")
+            n.value = int64_t(n.children[0].value <= n.children[1].value);
+        else if(n.data == ">=")
+            n.value = int64_t(n.children[0].value >= n.children[1].value);
+        else if(n.data == "<")
+            n.value = int64_t(n.children[0].value < n.children[1].value);
+        else if(n.data == ">")
+            n.value = int64_t(n.children[0].value > n.children[1].value);
+        else
+            assert(false);
+        break;
+    default:
+        return;
+    }
+
+    // if we got here, the node was simplified
+    n.type = AST::INT_CONST;
+    n.children.clear();
+}
+
 void compiler_t::transform_left_assoc_infix(ast_node_t& n)
 {
     if(!errs.empty()) return;
