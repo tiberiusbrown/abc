@@ -70,6 +70,16 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_MUL3:  f << "mul3"; break;
     case I_MUL4:  f << "mul4"; break;
 
+    case I_UDIV2: f << "udiv2"; break;
+    case I_UDIV4: f << "udiv4"; break;
+    case I_DIV2:  f << "div2"; break;
+    case I_DIV4:  f << "div4"; break;
+
+    case I_UMOD2: f << "umod2"; break;
+    case I_UMOD4: f << "umod4"; break;
+    case I_MOD2:  f << "mod2"; break;
+    case I_MOD4:  f << "mod4"; break;
+
     case I_BOOL:  f << "bool"; break;
     case I_BOOL2: f << "bool2"; break;
     case I_BOOL3: f << "bool3"; break;

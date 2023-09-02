@@ -179,9 +179,8 @@ vm_execute:
 ;     r4           - constant value 1
 ;     r5           - constant value hi8(vm_execute) TODO :/
 ;     r6-r8        - pc
-;     r9-r24       - scratch regs
-;     r25          - reserved for TOS (TODO)
-;     r26-r27      - scratch regs
+;     r9           - reserved for TOS (future optimization)
+;     r10-r27      - scratch regs
 ;     r28:29       - &vm.stack[sp] (sp is r28)
 ;     r30-r31      - scratch regs
 ;
@@ -780,6 +779,142 @@ I_MUL3:
 I_MUL4:
     jmp  instr_mul4
     .align 6
+
+I_UDIV2:
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ; dividend / remainder: r24:r25
+    ; divisor  / quotient:  r22:r23
+    ; clobbers:             r21, r26:r27
+    call __udivmodhi4
+    st   Y+, r22
+    st   Y+, r23
+    dispatch
+
+I_UDIV4:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    movw r16, r28
+    ; dividend / remainder: r22:r25
+    ; divisor  / quotient:  r18:r21
+    ; clobbers:             r21, r26:r31
+    call __udivmodsi4
+    movw r28, r16
+    st   Y+, r18
+    st   Y+, r19
+    st   Y+, r20
+    st   Y+, r21
+    dispatch
+
+I_DIV2:
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ; dividend / remainder: r24:r25
+    ; divisor  / quotient:  r22:r23
+    ; clobbers:             r21, r26:r27
+    call __divmodhi4
+    st   Y+, r22
+    st   Y+, r23
+    dispatch
+
+I_DIV4:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    movw r16, r28
+    ; dividend / remainder: r22:r25
+    ; divisor  / quotient:  r18:r21
+    ; clobbers:             r21, r26:r31
+    call __divmodsi4
+    movw r28, r16
+    st   Y+, r18
+    st   Y+, r19
+    st   Y+, r20
+    st   Y+, r21
+    dispatch
+
+I_UMOD2:
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ; dividend / remainder: r24:r25
+    ; divisor  / quotient:  r22:r23
+    ; clobbers:             r21, r26:r27
+    call __udivmodhi4
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_UMOD4:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    movw r16, r28
+    ; dividend / remainder: r22:r25
+    ; divisor  / quotient:  r18:r21
+    ; clobbers:             r21, r26:r31
+    call __udivmodsi4
+    movw r28, r16
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_MOD2:
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ; dividend / remainder: r24:r25
+    ; divisor  / quotient:  r22:r23
+    ; clobbers:             r21, r26:r27
+    call __divmodhi4
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_MOD4:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    movw r16, r28
+    ; dividend / remainder: r22:r25
+    ; divisor  / quotient:  r18:r21
+    ; clobbers:             r21, r26:r31
+    call __divmodsi4
+    movw r28, r16
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
 
 I_BOOL:
     ld   r0, -Y

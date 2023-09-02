@@ -646,6 +646,24 @@ void compiler_t::codegen_expr(
         frame.size -= size;
         if(a.data == "*")
             f.instrs.push_back({ instr_t(I_MUL + size - 1) });
+        else if(a.data == "/")
+        {
+            auto size = a.comp_type.prim_size;
+            assert(size == 2 || size == 4);
+            if(a.comp_type.is_signed)
+                f.instrs.push_back({ size == 2 ? I_DIV2 : I_DIV4 });
+            else
+                f.instrs.push_back({ size == 2 ? I_UDIV2 : I_UDIV4 });
+        }
+        else if(a.data == "%")
+        {
+            auto size = a.comp_type.prim_size;
+            assert(size == 2 || size == 4);
+            if(a.comp_type.is_signed)
+                f.instrs.push_back({ size == 2 ? I_MOD2 : I_MOD4 });
+            else
+                f.instrs.push_back({ size == 2 ? I_UMOD2 : I_UMOD4 });
+        }
         else
             assert(false);
         return;

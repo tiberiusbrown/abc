@@ -148,7 +148,7 @@ arg_expr_list       <- expr (',' expr)*
 
 equality_op         <- < '==' / '!=' >
 additive_op         <- < [+-] >
-multiplicative_op   <- < [*] >
+multiplicative_op   <- < [*/%] >
 relational_op       <- < '<=' / '>=' / '<' / '>' >
 assignment_op       <- < '=' >
 unary_op            <- < [!-] >

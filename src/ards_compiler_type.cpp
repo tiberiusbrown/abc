@@ -72,6 +72,9 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         auto t1 = a.children[1].comp_type.without_ref();
         bool ref0 = a.children[0].comp_type.type == compiler_type_t::REF;
         bool ref1 = a.children[1].comp_type.type == compiler_type_t::REF;
+        bool is_divmod = (
+            a.type == AST::OP_MULTIPLICATIVE && (
+            a.data == "/" || a.data == "%"));
         if(!t0.is_prim())
         {
             errs.push_back({
@@ -86,31 +89,40 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
                 a.children[1].line_info });
             break;
         }
+
         t0.is_bool = false;
         t1.is_bool = false;
         if(t0 != t1 || ref0 || ref1)
         {
             implicit_conversion(t0, t1);
             implicit_conversion(t1, t0);
+        }
 
-            if(ref0 || t0 != a.children[0].comp_type)
-            {
-                auto child = std::move(a.children[0]);
-                a.children[0] = { {}, AST::OP_CAST };
-                a.children[0].comp_type = t0;
-                a.children[0].children.push_back({});
-                a.children[0].children.back().comp_type = t0;
-                a.children[0].children.emplace_back(std::move(child));
-            }
-            if(ref1 || t1 != a.children[1].comp_type)
-            {
-                auto child = std::move(a.children[1]);
-                a.children[1] = { {}, AST::OP_CAST };
-                a.children[1].comp_type = t1;
-                a.children[1].children.push_back({});
-                a.children[1].children.back().comp_type = t1;
-                a.children[1].children.emplace_back(std::move(child));
-            }
+        if(is_divmod)
+        {
+            if(t0.prim_size < 2 && t1.prim_size < 2)
+                t0.prim_size = t1.prim_size = 2;
+            else if(t0.prim_size < 4 && t1.prim_size < 4)
+                t0.prim_size = t1.prim_size = 4;
+        }
+
+        if(ref0 || t0 != a.children[0].comp_type)
+        {
+            auto child = std::move(a.children[0]);
+            a.children[0] = { {}, AST::OP_CAST };
+            a.children[0].comp_type = t0;
+            a.children[0].children.push_back({});
+            a.children[0].children.back().comp_type = t0;
+            a.children[0].children.emplace_back(std::move(child));
+        }
+        if(ref1 || t1 != a.children[1].comp_type)
+        {
+            auto child = std::move(a.children[1]);
+            a.children[1] = { {}, AST::OP_CAST };
+            a.children[1].comp_type = t1;
+            a.children[1].children.push_back({});
+            a.children[1].children.back().comp_type = t1;
+            a.children[1].children.emplace_back(std::move(child));
         }
 
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)

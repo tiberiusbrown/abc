@@ -77,6 +77,16 @@ enum instr_t : uint8_t
     I_MUL3,
     I_MUL4,
 
+    I_UDIV2,
+    I_UDIV4,
+    I_DIV2,
+    I_DIV4,
+
+    I_UMOD2,
+    I_UMOD4,
+    I_MOD2,
+    I_MOD4,
+
     I_BOOL,  // a | (a!=0)
     I_BOOL2, // a b | (a!=0 && b!=0)
     I_BOOL3, // a b c | (a!=0 && b!=0 && c!=0)
