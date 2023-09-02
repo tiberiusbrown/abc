@@ -15,8 +15,17 @@
 static std::unique_ptr<absim::arduboy_t> arduboy;
 
 static FILE* fout;
+static FILE* fmd;
 
 static void out(char const* fmt, ...)
+{
+    va_list v;
+    va_start(v, fmt);
+    vfprintf(fmd, fmt, v);
+    va_end(v);
+}
+
+static void out_txt(char const* fmt, ...)
 {
     va_list v;
     va_start(v, fmt);
@@ -31,7 +40,7 @@ static void bench(char const* name)
 {
     arduboy->reset();
     
-    std::string asm_out;
+    std::string abc_asm;
     std::vector<uint8_t> binary;
 
     {
@@ -44,12 +53,12 @@ static void bench(char const* name)
         assert(fi);
         c.compile(fi, fo);
         assert(c.errors().empty());
-        asm_out = fo.str();
+        abc_asm = fo.str();
     }
 
     {
         ards::assembler_t a{};
-        std::istrstream ss(asm_out.data(), asm_out.size());
+        std::istrstream ss(abc_asm.data(), abc_asm.size());
         auto e = a.assemble(ss);
         assert(e.msg.empty());
         e = a.link();
@@ -102,7 +111,41 @@ static void bench(char const* name)
 
     cycles_native = cycle_b - cycle_a;
 
-    out("%-20s%12" PRIu64 "%12" PRIu64 "%12.2fx\n",
+    out("<details><summary>%s: %.2f%% slowdown</summary>\n",
+        name, double(cycles_abc) / cycles_native);
+    out("<table>\n");
+    out("<tr><th>Native</th><th>ABC</th></tr>\n");
+    out("<tr><td>Cycles: %" PRIu64 "</td><td>Cycles: %" PRIu64 "</td></tr>\n",
+        cycles_native, cycles_abc);
+    out("<tr>\n");
+
+    out("<td>\n\n```c\n");
+    {
+        std::string filename =
+            std::string(BENCHMARKS_DIR) + "/" + name + "/" +
+            name + ".ino";
+        std::ifstream fi(filename.c_str());
+        std::ostringstream ss;
+        ss << fi.rdbuf();
+        out("%s\n", ss.str().c_str());
+    }
+    out("```\n\n</td>\n");
+
+    out("<td>\n\n```c\n");
+    {
+        std::string filename =
+            std::string(BENCHMARKS_DIR) + "/" + name + "/" +
+            name + ".abc";
+        std::ifstream fi(filename.c_str());
+        std::ostringstream ss;
+        ss << fi.rdbuf();
+        out("%s\n", ss.str().c_str());
+    }
+    out("```\n\n</td>\n");
+
+    out("</tr>\n</table>\n</details>\n\n");
+
+    out_txt("%-20s%12" PRIu64 "%12" PRIu64 "%12.2fx\n",
         name, cycles_native, cycles_abc,
         double(cycles_abc) / cycles_native);
 }
@@ -113,6 +156,16 @@ int main()
 
     fout = fopen(BENCHMARKS_DIR "/benchmarks.txt", "w");
     if(!fout) return 1;
+    fmd = fopen(BENCHMARKS_DIR "/benchmarks.md", "w");
+    if(!fmd)
+    {
+        fclose(fout);
+        return 1;
+    }
+
+    printf("\nRunning benchmarks...\n\n");
+
+    out("## Benchmarks\n\n");
 
     bench("bubble1");
     bench("bubble2");
@@ -122,6 +175,7 @@ int main()
     bench("tilesrect");
 
     fclose(fout);
+    fclose(fmd);
 
     return 0;
 }
