@@ -434,15 +434,15 @@ I_GETR2:
     dispatch
 
 I_GETRN:
-    dispatch_delay
-    read_byte
     ld   r27, -Y
     ld   r26, -Y
+    lpm
+    read_byte
 1:  ld   r1, X+
     st   Y+, r1
     dec  r0
     brne 1b
-    lpm ; TODO: remove this when GETRN(1) is not allowed
+    ; lpm ; TODO: remove this when GETRN(1) is not allowed
     dispatch
 
 I_SETR:
@@ -462,17 +462,17 @@ I_SETR2:
     dispatch
 
 I_SETRN:
-    dispatch_delay
-    read_byte
     ld   r27, -Y
     ld   r26, -Y
+    lpm
+    read_byte
     add  r26, r0
     adc  r27, r2
 1:  ld   r1, -Y
     st   -X, r1
     dec  r0
     brne 1b
-    nop ; TODO: remove this when SETRN(1) is not allowed
+    ; nop ; TODO: remove this when SETRN(1) is not allowed
     dispatch
 
 I_POP:
