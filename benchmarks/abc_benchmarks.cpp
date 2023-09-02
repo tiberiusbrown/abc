@@ -114,7 +114,10 @@ int main()
     fout = fopen(BENCHMARKS_DIR "/benchmarks.txt", "w");
     if(!fout) return 1;
 
-    bench("bubble");
+    bench("bubble1");
+    bench("bubble2");
+    bench("bubble3");
+    bench("bubble4");
     bench("fibonacci");
     bench("tilesrect");
 

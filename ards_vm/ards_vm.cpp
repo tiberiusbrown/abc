@@ -467,7 +467,7 @@ I_SETRN:
     ld   r27, -Y
     ld   r26, -Y
     add  r26, r0
-    adc  r26, r2
+    adc  r27, r2
 1:  ld   r1, -Y
     st   -X, r1
     dec  r0
