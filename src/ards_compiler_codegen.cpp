@@ -220,6 +220,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                 a.line_info });
             return;
         }
+        if(type.prim_size >= 256)
+        {
+            errs.push_back({
+                "Local variable \"" + std::string(a.children[1].data) + "\" is too large",
+                a.line_info });
+            return;
+        }
         auto& scope = frame.scopes.back();
         auto& local = scope.locals[std::string(a.children[1].data)];
         local.type = type;

@@ -15,6 +15,57 @@ namespace ards
 
 vm_t vm;
 
+enum error_t : uint8_t
+{
+    ERR_SIG, // signature error
+    ERR_IDX, // array index out of bounds
+    ERR_DIV, // division by zero
+    ERR_ASS, // assertion failed
+    ERR_DST, // data stack overflow
+    ERR_CST, // call stack overflow
+    NUM_ERR,
+};
+
+static uint8_t const IMG_ERR[33] PROGMEM =
+{
+    0xff, 0xff, 0xdb, 0xdb, 0xc3, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee,
+    0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 0x00, 0x7e, 0xff, 0xc3, 0xc3,
+    0xff, 0x7e, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 
+};
+
+static char const ERRC_SIG[] PROGMEM = "Game data not found";
+static char const ERRC_IDX[] PROGMEM = "Array index out of bounds";
+static char const ERRC_DIV[] PROGMEM = "Division by zero";
+static char const ERRC_ASS[] PROGMEM = "Assertion failed";
+static char const ERRC_DST[] PROGMEM = "Data stack overflow";
+static char const ERRC_CST[] PROGMEM = "Call stack overflow";
+static char const* const ERRC[NUM_ERR] PROGMEM =
+{
+    ERRC_SIG,
+    ERRC_IDX,
+    ERRC_DIV,
+    ERRC_ASS,
+    ERRC_DST,
+    ERRC_CST,
+};
+
+extern "C" __attribute__((used)) void vm_error(error_t e)
+{
+    (void)FX::readEnd();
+    Arduboy2Base::clear();
+    memcpy_P(&Arduboy2Base::sBuffer[0], IMG_ERR, sizeof(IMG_ERR));
+    for(uint8_t i = 0; i < 128; ++i)
+        Arduboy2Base::sBuffer[128+i] = 0x0c;
+
+    char const* t = pgm_read_ptr(&ERRC[e]);
+    uint8_t w = draw_text(0, 64, t);
+    draw_text(0, 16, t);
+
+    FX::display();
+    for(;;)
+        Arduboy2Base::idle();
+}
+
 static inline uint8_t read_u8()
 {
     vm.pc += 1;
@@ -148,6 +199,14 @@ static sys_debug_break()
     asm volatile("break\n");
 }
 
+static sys_assert()
+{
+    auto ptr = vm_pop_begin();
+    uint8_t b = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    if(!b) vm_error(ERR_ASS);
+}
+
 static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -157,49 +216,8 @@ static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_next_frame,
     sys_idle,
     sys_debug_break,
+    sys_assert,
 };
-
-enum error_t : uint8_t
-{
-    ERR_SIG, // signature error
-    ERR_IDX, // array index out of bounds
-    ERR_DIV, // division by zero
-    NUM_ERR,
-};
-
-static uint8_t const IMG_ERR[33] PROGMEM =
-{
-    0xff, 0xff, 0xdb, 0xdb, 0xc3, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee,
-    0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 0x00, 0x7e, 0xff, 0xc3, 0xc3,
-    0xff, 0x7e, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 
-};
-
-static char const ERRC_SIG[] PROGMEM = "Game data not found";
-static char const ERRC_IDX[] PROGMEM = "Array index out of bounds";
-static char const ERRC_DIV[] PROGMEM = "Division by zero";
-static char const* const ERRC[NUM_ERR] PROGMEM =
-{
-    ERRC_SIG,
-    ERRC_IDX,
-    ERRC_DIV,
-};
-
-extern "C" __attribute__((used)) void vm_error(error_t e)
-{
-    (void)FX::readEnd();
-    Arduboy2Base::clear();
-    memcpy_P(&Arduboy2Base::sBuffer[0], IMG_ERR, sizeof(IMG_ERR));
-    for(uint8_t i = 0; i < 128; ++i)
-        Arduboy2Base::sBuffer[128+i] = 0x0c;
-
-    char const* t = pgm_read_ptr(&ERRC[e]);
-    uint8_t w = draw_text(0, 64, t);
-    draw_text(0, 16, t);
-
-    FX::display();
-    for(;;)
-        Arduboy2Base::idle();
-}
 
 // main assembly method containing optimized implementations for each instruction
 // the alignment of 512 allows optimized dispatch: the prog address for ijmp can
@@ -292,52 +310,78 @@ I_NOP:
 I_PUSH:
     dispatch_delay
     read_byte
-    st   Y+, r0
-    call delay_11
+    call delay_8
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  st   Y+, r0
     dispatch
 
 I_P0:
-    st   Y+, r2
-    lpm
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  st   Y+, r2
     rjmp .+0
     dispatch
 
 I_P1:
-    ldi  r16, 1
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  ldi  r16, 1
     st   Y+, r16
-    rjmp .+0
-    rjmp .+0
+    nop
     dispatch
 
 I_P2:
-    ldi  r16, 2
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  ldi  r16, 2
     st   Y+, r16
-    rjmp .+0
-    rjmp .+0
+    nop
     dispatch
 
 I_P3:
-    ldi  r16, 3
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  ldi  r16, 3
     st   Y+, r16
-    rjmp .+0
-    rjmp .+0
+    nop
     dispatch
 
 I_P4:
-    ldi  r16, 4
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  ldi  r16, 4
     st   Y+, r16
-    rjmp .+0
-    rjmp .+0
+    nop
     dispatch
 
 I_P00:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  st   Y+, r2
     st   Y+, r2
-    st   Y+, r2
-    lpm
     dispatch
 
 I_SEXT:
-    ld   r0, -Y
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  ld   r0, -Y
     inc  r28
     ldi  r16, 0xff
     sbrs r0, 7
@@ -346,15 +390,22 @@ I_SEXT:
     dispatch
  
 I_DUP:
+    cpi  r28, 255
+    breq 1f
     ld   r0, -Y
     st   Y+, r0
     st   Y+, r0
-    nop
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 4
+    jmp  call_vm_error
+    .align 6
    
 I_GETL:
-    lpm
-    lpm
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  lpm
     movw r26, r28
     read_byte
     sub  r26, r0
@@ -366,8 +417,11 @@ I_GETL:
     dispatch
     
 I_GETL2:
-    lpm
-    lpm
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  lpm
     movw r26, r28
     read_byte
     sub  r26, r0
@@ -380,18 +434,21 @@ I_GETL2:
 
 I_GETLN:
     ld   r16, -Y
-    dec  r16
-    rjmp .+0
-    rjmp .+0
+    mov  r17, r16
+    add  r17, r28
+    brcc 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  dec  r16
     read_byte
     movw r26, r28
     sub  r26, r0
     ld   r0, X+
     st   Y+, r0
-1:  ld   r0, X+
+2:  ld   r0, X+
     st   Y+, r0
     dec  r16
-    brne 1b
+    brne 2b
     ; call delay_8 ; TODO: remove this when GETLN(1) is not allowed
     dispatch
 
@@ -425,7 +482,11 @@ I_SETLN:
     dispatch
 
 I_GETG:
-    call read_2_bytes
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  call read_2_bytes_nodelay
     movw r26, r16
     subi r27, -2
     ld   r16, X
@@ -437,10 +498,10 @@ I_GETGN:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
-    ld   r16, -Y
+    ld   r18, -Y
 1:  ld   r0, X+
     st   Y+, r0
-    dec  r16
+    dec  r18
     brne 1b
     ; call delay_8 ; TODO: remove this when GETGN(1) is not allowed
     dispatch
