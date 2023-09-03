@@ -52,7 +52,7 @@ static void insert_cast(ast_node_t& a, compiler_type_t const& t)
     a.children.emplace_back(std::move(ta));
 };
 
-void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
+void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;
     switch(a.type)
@@ -219,6 +219,11 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     default:
         break;
     }
+}
+
+void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
+{
+    type_annotate_recurse(a, frame);
     transform_constexprs(a);
 }
 

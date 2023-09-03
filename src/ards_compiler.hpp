@@ -235,6 +235,7 @@ private:
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n);
     compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
+    void type_annotate_recurse(ast_node_t& n, compiler_frame_t const& frame);
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
 
     void transform_left_assoc_infix(ast_node_t& n);
