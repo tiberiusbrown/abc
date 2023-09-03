@@ -52,6 +52,7 @@ static char const* const ERRC[NUM_ERR] PROGMEM =
 extern "C" __attribute__((used)) void vm_error(error_t e)
 {
     (void)FX::readEnd();
+    vm.error = (uint8_t)e;
     Arduboy2Base::clear();
     memcpy_P(&Arduboy2Base::sBuffer[0], IMG_ERR, sizeof(IMG_ERR));
     for(uint8_t i = 0; i < 128; ++i)

@@ -41,6 +41,7 @@ extern __attribute__((section(".beforedata"))) struct vm_t
     uint8_t sp;            // 0x660
     uint24_t pc;           // 0x661
     uint8_t csp;           // 0x664
+    uint8_t error;         // 0x665
 } vm;
 
 void vm_run();
