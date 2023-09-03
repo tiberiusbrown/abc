@@ -34,6 +34,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_NEXT_FRAME,       { TYPE_BOOL, {} } },
     { SYS_IDLE,             { TYPE_VOID, {} } },
     { SYS_DEBUG_BREAK,      { TYPE_VOID, {} } },
+    { SYS_ASSERT,           { TYPE_VOID, { TYPE_BOOL } } },
 };
 
 static bool isspace(char c)

@@ -15,6 +15,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "next_frame",       SYS_NEXT_FRAME       },
     { "idle",             SYS_IDLE             },
     { "debug_break",      SYS_DEBUG_BREAK      },
+    { "assert",           SYS_ASSERT           },
 };
 
 static bool isdigit(char c)

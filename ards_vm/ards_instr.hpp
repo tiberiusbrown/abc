@@ -12,6 +12,7 @@ enum sysfunc_t : uint16_t
     SYS_NEXT_FRAME,
     SYS_IDLE,
     SYS_DEBUG_BREAK,
+    SYS_ASSERT,
 
     SYS_NUM
 };
