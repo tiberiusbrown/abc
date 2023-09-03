@@ -137,6 +137,8 @@ __attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
 template<class T>
 inline void vm_push(T x)
 {
+    if(vm.sp + sizeof(T) >= 256)
+        vm_error(ERR_DST);
     for(size_t i = 0; i < sizeof(T); ++i)
     {
         vm.stack[vm.sp++] = uint8_t(x);
@@ -495,14 +497,19 @@ I_GETG:
     dispatch
 
 I_GETGN:
-    call read_2_bytes
+    ld   r18, -Y
+    mov  r19, r18
+    add  r19, r28
+    brcc 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  call read_2_bytes_nodelay
     movw r26, r16
     subi r27, -2
-    ld   r18, -Y
-1:  ld   r0, X+
+2:  ld   r0, X+
     st   Y+, r0
     dec  r18
-    brne 1b
+    brne 2b
     ; call delay_8 ; TODO: remove this when GETGN(1) is not allowed
     dispatch
 
@@ -548,8 +555,13 @@ I_GETR2:
 I_GETRN:
     ld   r27, -Y
     ld   r26, -Y
-    lpm
+    mov  r18, r28
+    rjmp .+0
     read_byte
+    add  r18, r0
+    brcc 1f
+    ldi  r24, 4
+    jmp  call_vm_error
 1:  ld   r1, X+
     st   Y+, r1
     dec  r0
@@ -669,7 +681,12 @@ I_AIDX:
     dispatch
 
 I_REFL:
-    dispatch_delay
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  rjmp .+0
+    rjmp .+0
     read_byte
     movw r16, r28
     sub  r16, r0
@@ -681,7 +698,11 @@ I_REFL:
     dispatch
 
 I_REFG:
-    call read_2_bytes
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  call read_2_bytes_nodelay
     subi r17, -2
     st   Y+, r16
     st   Y+, r17
@@ -691,7 +712,12 @@ I_REFG:
     dispatch
 
 I_REFGB:
-    dispatch_delay
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 4
+    jmp  call_vm_error
+1:  rjmp .+0
+    rjmp .+0
     read_byte
     ldi  r17, 2
     st   Y+, r0
