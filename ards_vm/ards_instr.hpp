@@ -76,12 +76,10 @@ enum instr_t : uint8_t
     I_MUL2,
     I_MUL3,
     I_MUL4,
-
     I_UDIV2,
     I_UDIV4,
     I_DIV2,
     I_DIV4,
-
     I_UMOD2,
     I_UMOD4,
     I_MOD2,
@@ -91,12 +89,10 @@ enum instr_t : uint8_t
     I_LSL2,
     I_LSL3,
     I_LSL4,
-
     I_LSR,
     I_LSR2,
     I_LSR3,
     I_LSR4,
-
     I_ASR,
     I_ASR2,
     I_ASR3,

@@ -8,6 +8,8 @@
 #define SPRITESU_RECT
 #include "SpritesU.hpp"
 
+extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t);
+
 namespace ards
 {
 
@@ -156,6 +158,48 @@ static sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_idle,
     sys_debug_break,
 };
+
+enum error_t : uint8_t
+{
+    ERR_SIG, // signature error
+    ERR_IDX, // array index out of bounds
+    ERR_DIV, // division by zero
+    NUM_ERR,
+};
+
+static uint8_t const IMG_ERR[33] PROGMEM =
+{
+    0xff, 0xff, 0xdb, 0xdb, 0xc3, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee,
+    0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 0x00, 0x7e, 0xff, 0xc3, 0xc3,
+    0xff, 0x7e, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 
+};
+
+static char const ERRC_SIG[] PROGMEM = "Game data not found";
+static char const ERRC_IDX[] PROGMEM = "Array index out of bounds";
+static char const ERRC_DIV[] PROGMEM = "Division by zero";
+static char const* const ERRC[NUM_ERR] PROGMEM =
+{
+    ERRC_SIG,
+    ERRC_IDX,
+    ERRC_DIV,
+};
+
+extern "C" __attribute__((used)) void vm_error(error_t e)
+{
+    (void)FX::readEnd();
+    Arduboy2Base::clear();
+    memcpy_P(&Arduboy2Base::sBuffer[0], IMG_ERR, sizeof(IMG_ERR));
+    for(uint8_t i = 0; i < 128; ++i)
+        Arduboy2Base::sBuffer[128+i] = 0x0c;
+
+    char const* t = pgm_read_ptr(&ERRC[e]);
+    uint8_t w = draw_text(0, 64, t);
+    draw_text(0, 16, t);
+
+    FX::display();
+    for(;;)
+        Arduboy2Base::idle();
+}
 
 // main assembly method containing optimized implementations for each instruction
 // the alignment of 512 allows optimized dispatch: the prog address for ijmp can
@@ -515,7 +559,8 @@ I_AIDXB:
     ; r20: index
     cp   r20, r17
     brlo 1f
-    rjmp .-2 ; TODO: actual error jump
+    ldi  r24, 1
+    jmp  call_vm_error
 1:  mul  r16, r20
     movw r22, r0
     ld   r21, -Y
@@ -533,7 +578,8 @@ I_AIDX:
     cp   r20, r18
     cpc  r21, r19
     brlo 1f
-    rjmp .-2 ; TODO: actual error jump
+    ldi  r24, 1
+    jmp  call_vm_error
     ; A1 A0 : r21 r20
     ; B1 B0 : r17 r16
     ; C1 C0 : r23 r22
@@ -785,10 +831,15 @@ I_UDIV2:
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
+    cp   r22, r2
+    cpc  r23, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-    call __udivmodhi4
+1:  call __udivmodhi4
     st   Y+, r22
     st   Y+, r23
     dispatch
@@ -802,7 +853,14 @@ I_UDIV4:
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
-    movw r16, r28
+    cp   r18, r2
+    cpc  r19, r2
+    cpc  r20, r2
+    cpc  r21, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
+1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -812,17 +870,23 @@ I_UDIV4:
     st   Y+, r19
     st   Y+, r20
     st   Y+, r21
-    dispatch
+    jmp dispatch_func
+    .align 6
 
 I_DIV2:
     ld   r23, -Y
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
+    cp   r22, r2
+    cpc  r23, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-    call __divmodhi4
+1:  call __divmodhi4
     st   Y+, r22
     st   Y+, r23
     dispatch
@@ -836,7 +900,14 @@ I_DIV4:
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
-    movw r16, r28
+    cp   r18, r2
+    cpc  r19, r2
+    cpc  r20, r2
+    cpc  r21, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
+1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -846,17 +917,23 @@ I_DIV4:
     st   Y+, r19
     st   Y+, r20
     st   Y+, r21
-    dispatch
+    jmp dispatch_func
+    .align 6
 
 I_UMOD2:
     ld   r23, -Y
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
+    cp   r22, r2
+    cpc  r23, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-    call __udivmodhi4
+1:  call __udivmodhi4
     st   Y+, r24
     st   Y+, r25
     dispatch
@@ -870,7 +947,14 @@ I_UMOD4:
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
-    movw r16, r28
+    cp   r18, r2
+    cpc  r19, r2
+    cpc  r20, r2
+    cpc  r21, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
+1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -880,17 +964,23 @@ I_UMOD4:
     st   Y+, r23
     st   Y+, r24
     st   Y+, r25
-    dispatch
+    jmp dispatch_func
+    .align 6
 
 I_MOD2:
     ld   r23, -Y
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
+    cp   r22, r2
+    cpc  r23, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-    call __divmodhi4
+1:  call __divmodhi4
     st   Y+, r24
     st   Y+, r25
     dispatch
@@ -904,7 +994,14 @@ I_MOD4:
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
-    movw r16, r28
+    cp   r18, r2
+    cpc  r19, r2
+    cpc  r20, r2
+    cpc  r21, r2
+    brne 1f
+    ldi  r24, 2
+    jmp  call_vm_error
+1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -914,7 +1011,8 @@ I_MOD4:
     st   Y+, r23
     st   Y+, r24
     st   Y+, r25
-    dispatch
+    jmp dispatch_func
+    .align 6
 
 I_LSL:
     ld   r20, -Y
@@ -1735,6 +1833,11 @@ jump_to_pc:
 dispatch_func:
     dispatch_noalign
 
+call_vm_error:
+    rcall store_vm_state
+    call vm_error
+    jmp  0x0000
+
 )"
 
     :
@@ -1758,7 +1861,7 @@ void vm_run()
         FX::seekData(0);
         uint32_t sig = FX::readPendingLastUInt32();
         if(sig != 0xABC00ABC)
-            asm volatile("rjmp .-2\n"); // TODO: show a nice error screen
+            vm_error(ERR_SIG);
     }
     
     // skip signature
