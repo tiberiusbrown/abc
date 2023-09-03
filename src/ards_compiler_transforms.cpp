@@ -90,6 +90,25 @@ void compiler_t::transform_constexprs(ast_node_t& n)
 
     // if we got here, the node was simplified
     n.type = AST::INT_CONST;
+
+    // mask value according to size
+    {
+        assert(n.comp_type.prim_size >= 1);
+        assert(n.comp_type.prim_size <= 4);
+        constexpr uint32_t MASKS[4] =
+        {
+            0xffffffffffffff00ull,
+            0xffffffffffff0000ull,
+            0xffffffffff000000ull,
+            0xffffffff00000000ull,
+        };
+        uint64_t mask = MASKS[n.comp_type.prim_size - 1];
+        if(n.comp_type.is_signed && n.value < 0)
+            n.value = int64_t(uint64_t(n.value) | mask);
+        else
+            n.value = int64_t(uint64_t(n.value) & ~mask);
+    }
+
     n.children.clear();
 }
 

@@ -11,15 +11,13 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-void f()
-{
-    int[100] b;
-    b[0];
-}
 void main()
 {
-    int[100] a;
-    f();
+    $debug_break();
+    
+    $assert(100 + 28 == 128);
+    
+    $debug_break();
 }
 )";
 

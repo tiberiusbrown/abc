@@ -616,8 +616,6 @@ void compiler_t::codegen_expr(
         if(ref) goto rvalue_error;
         assert(a.data == "+" || a.data == "-");
         assert(a.children.size() == 2);
-        //assert(a.children[0].comp_type == a.comp_type);
-        //assert(a.children[1].comp_type == a.comp_type);
         codegen_expr(f, frame, a.children[0], false);
         codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);

@@ -137,3 +137,10 @@ target_include_directories(abc_benchmarks PRIVATE "${GENHEADER_DIR}")
 target_compile_definitions(abc_benchmarks PRIVATE
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
     )
+
+add_executable(abc_tests tests/abc_tests.cpp)
+target_link_libraries(abc_tests PRIVATE ardenslib ards_compiler)
+target_include_directories(abc_tests PRIVATE "${GENHEADER_DIR}")
+target_compile_definitions(abc_tests PRIVATE
+    -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"
+    )

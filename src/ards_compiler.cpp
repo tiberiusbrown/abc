@@ -180,8 +180,10 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
 
     // transform left-associative infix exprs into binary trees
     transform_left_assoc_infix(ast);
+
     // reduce constant expressions
-    transform_constexprs(ast);
+    // this is now done after type annotation
+    //transform_constexprs(ast);
 
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);

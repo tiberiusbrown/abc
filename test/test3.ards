@@ -1,7 +1,0 @@
-    push 20
-    sys  set_frame_rate
-frame:
-    sys  next_frame
-    bz   frame
-    sys  display
-    jmp  frame

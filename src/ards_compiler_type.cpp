@@ -61,8 +61,8 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
         }
         if(op == "!")
             a.comp_type = TYPE_BOOL;
-        //else if(op == "-")
-        //    a.comp_type = a.children[1].comp_type.without_ref();
+        else if(op == "-")
+            a.comp_type = a.children[1].comp_type.without_ref();
         else
         {
             assert(false);
@@ -213,6 +213,7 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     default:
         break;
     }
+    transform_constexprs(a);
 }
 
 }

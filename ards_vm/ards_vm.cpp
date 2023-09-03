@@ -17,6 +17,7 @@ vm_t vm;
 
 enum error_t : uint8_t
 {
+    ERR_NONE,
     ERR_SIG, // signature error
     ERR_IDX, // array index out of bounds
     ERR_DIV, // division by zero
@@ -58,7 +59,7 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
     for(uint8_t i = 0; i < 128; ++i)
         Arduboy2Base::sBuffer[128+i] = 0x0c;
 
-    char const* t = pgm_read_ptr(&ERRC[e]);
+    char const* t = pgm_read_ptr(&ERRC[e - 1]);
     uint8_t w = draw_text(0, 64, t);
     draw_text(0, 16, t);
 
@@ -316,7 +317,7 @@ I_PUSH:
     call delay_8
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  st   Y+, r0
     dispatch
@@ -324,7 +325,7 @@ I_PUSH:
 I_P0:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  st   Y+, r2
     rjmp .+0
@@ -333,7 +334,7 @@ I_P0:
 I_P1:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 1
     st   Y+, r16
@@ -343,7 +344,7 @@ I_P1:
 I_P2:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 2
     st   Y+, r16
@@ -353,7 +354,7 @@ I_P2:
 I_P3:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 3
     st   Y+, r16
@@ -363,7 +364,7 @@ I_P3:
 I_P4:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 4
     st   Y+, r16
@@ -373,7 +374,7 @@ I_P4:
 I_P00:
     cpi  r28, 254
     brlo 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  st   Y+, r2
     st   Y+, r2
@@ -382,7 +383,7 @@ I_P00:
 I_SEXT:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  ld   r0, -Y
     inc  r28
@@ -399,14 +400,14 @@ I_DUP:
     st   Y+, r0
     st   Y+, r0
     dispatch_noalign
-1:  ldi  r24, 4
+1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
    
 I_GETL:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  lpm
     movw r26, r28
@@ -422,7 +423,7 @@ I_GETL:
 I_GETL2:
     cpi  r28, 254
     brlo 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  lpm
     movw r26, r28
@@ -440,7 +441,7 @@ I_GETLN:
     mov  r17, r16
     add  r17, r28
     brcc 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  dec  r16
     read_byte
@@ -487,7 +488,7 @@ I_SETLN:
 I_GETG:
     cpi  r28, 255
     brne 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  call read_2_bytes_nodelay
     movw r26, r16
@@ -502,7 +503,7 @@ I_GETGN:
     mov  r19, r18
     add  r19, r28
     brcc 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  call read_2_bytes_nodelay
     movw r26, r16
@@ -561,7 +562,7 @@ I_GETRN:
     read_byte
     add  r18, r0
     brcc 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  ld   r1, X+
     st   Y+, r1
@@ -633,7 +634,7 @@ I_AIDXB:
     ; r20: index
     cp   r20, r17
     brlo 1f
-    ldi  r24, 1
+    ldi  r24, 2
     jmp  call_vm_error
 1:  mul  r16, r20
     movw r22, r0
@@ -652,7 +653,7 @@ I_AIDX:
     cp   r20, r18
     cpc  r21, r19
     brlo 1f
-    ldi  r24, 1
+    ldi  r24, 2
     jmp  call_vm_error
     ; A1 A0 : r21 r20
     ; B1 B0 : r17 r16
@@ -684,7 +685,7 @@ I_AIDX:
 I_REFL:
     cpi  r28, 254
     brlo 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  rjmp .+0
     rjmp .+0
@@ -701,7 +702,7 @@ I_REFL:
 I_REFG:
     cpi  r28, 254
     brlo 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  call read_2_bytes_nodelay
     subi r17, -2
@@ -715,7 +716,7 @@ I_REFG:
 I_REFGB:
     cpi  r28, 254
     brlo 1f
-    ldi  r24, 4
+    ldi  r24, 5
     jmp  call_vm_error
 1:  rjmp .+0
     rjmp .+0
@@ -922,7 +923,7 @@ I_UDIV2:
     cp   r22, r2
     cpc  r23, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
@@ -946,7 +947,7 @@ I_UDIV4:
     cpc  r20, r2
     cpc  r21, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
@@ -969,7 +970,7 @@ I_DIV2:
     cp   r22, r2
     cpc  r23, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
@@ -993,7 +994,7 @@ I_DIV4:
     cpc  r20, r2
     cpc  r21, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
@@ -1016,7 +1017,7 @@ I_UMOD2:
     cp   r22, r2
     cpc  r23, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
@@ -1040,7 +1041,7 @@ I_UMOD4:
     cpc  r20, r2
     cpc  r21, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
@@ -1063,7 +1064,7 @@ I_MOD2:
     cp   r22, r2
     cpc  r23, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
@@ -1087,7 +1088,7 @@ I_MOD4:
     cpc  r20, r2
     cpc  r21, r2
     brne 1f
-    ldi  r24, 2
+    ldi  r24, 3
     jmp  call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
@@ -1634,7 +1635,7 @@ I_CALL:
     lds  r26, 0x0664
     cpi  r26, 93
     brlo 1f
-    ldi  r24, 5
+    ldi  r24, 6
     jmp  call_vm_error
 1:  ldi  r27, 0x06
     call read_3_bytes_end_nodelay
@@ -1651,7 +1652,7 @@ I_CALL1:
     lds  r26, 0x0664
     cpi  r26, 93
     brlo 1f
-    ldi  r24, 5
+    ldi  r24, 6
     jmp  call_vm_error
 1:  ldi  r27, 0x06
     add  r6, r4

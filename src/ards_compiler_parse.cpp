@@ -137,7 +137,7 @@ multiplicative_expr <- unary_expr          (multiplicative_op unary_expr        
 
 unary_expr          <- unary_op unary_expr / postfix_expr
 postfix_expr        <- primary_expr postfix*
-primary_expr        <- ident / hex_literal / decimal_literal / '(' expr ')'
+primary_expr        <- hex_literal / decimal_literal / bool_literal / ident / '(' expr ')'
 
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
 
@@ -156,6 +156,7 @@ assignment_op       <- < '=' >
 unary_op            <- < [!-] >
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
+bool_literal        <- < 'true' / 'false' >
 ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
 
 %whitespace         <- ([ \t\r\n] / comment / multiline_comment)*
@@ -252,15 +253,20 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return a;
     };
 
-    p["ident"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.token() == "true" || v.token() == "false")
+    p["bool_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token() };
+        a.comp_type = TYPE_BOOL;
+        if(v.token() == "true")
+            a.value = 1;
+        else
         {
-            ast_node_t a{ v.line_info(), AST::INT_CONST, v.token() };
-            a.comp_type = TYPE_BOOL;
-            if(v.token() == "true")
-                a.value = 1;
-            return a;
+            assert(v.token() == "false");
+            a.value = 0;
         }
+        return a;
+    };
+
+    p["ident"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::IDENT, v.token() };
     };
     p["type_name"] = [](peg::SemanticValues const& v) -> ast_node_t {
