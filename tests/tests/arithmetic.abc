@@ -1,0 +1,35 @@
+void test_u8()
+{
+    u8 a = 45;
+    u8 b = 7;
+    $assert(a + b == 52);
+    $assert(b + a == 52);
+    $assert(a - b == 38);
+    $assert(b - a == -38);
+    $assert(a * b == 59); // non-widening multiplication
+    $assert(a / b == 6);
+    $assert(a % b == 3);
+}
+
+void test_i8()
+{
+    i8 a = 45;
+    i8 b = 7;
+    $assert(a + b == 52);
+    $assert(b + a == 52);
+    $assert(a - b == 38);
+    $assert(b - a == -38);
+    $assert(a * b == 59); // non-widening multiplication
+    $assert(a / b == 6);
+    $assert(a % b == 3);
+}
+
+void main()
+{
+    $debug_break();
+    
+    test_u8();
+    test_i8();
+    
+    $debug_break();
+}

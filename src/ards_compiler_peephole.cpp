@@ -88,6 +88,58 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
+        // replace NOT; NOT with BOOL
+        if(i0.instr == I_NOT && i1.instr == I_NOT)
+        {
+            i1.instr = I_REMOVE;
+            i0.instr = I_BOOL;
+            t = true;
+            continue;
+        }
+
+        // replace BOOL; NOT with NOT
+        if(i0.instr == I_BOOL && i1.instr == I_NOT)
+        {
+            i0.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace BOOL; BZ|BNZ with BZ|BNZ
+        if(i0.instr == I_BOOL && (i1.instr == I_BZ || i1.instr == I_BNZ))
+        {
+            i0.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace NOT; BZ with BNZ
+        // replace NOT; BNZ with BZ
+        if(i0.instr == I_NOT && (i1.instr == I_BZ || i1.instr == I_BNZ))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = (i1.instr == I_BZ ? I_BNZ : I_BZ);
+            t = true;
+            continue;
+        }
+
+        // replace PUSH N; BOOL with PUSH N (N == 0 or 1)
+        if(i0.instr == I_PUSH && i0.imm <= 1 && i1.instr == I_BOOL)
+        {
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH N; NOT with PUSH !N
+        if(i0.instr == I_PUSH && i1.instr == I_NOT)
+        {
+            i1.instr = I_REMOVE;
+            i0.imm = (i0.imm == 0 ? 1 : 0);
+            t = true;
+            continue;
+        }
+
         // remove PUSH N; POP
         if(i0.instr == I_PUSH && i1.instr == I_POP)
         {

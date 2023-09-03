@@ -430,8 +430,9 @@ void compiler_t::codegen_expr(
     {
         if(ref) goto rvalue_error;
         uint32_t x = (uint32_t)a.value;
-        frame.size += a.comp_type.prim_size;
-        for(size_t i = 0; i < a.comp_type.prim_size; ++i, x >>= 8)
+        auto size = a.comp_type.prim_size;
+        frame.size += size;
+        for(size_t i = 0; i < size; ++i, x >>= 8)
             f.instrs.push_back({ I_PUSH, (uint8_t)x });
         return;
     }

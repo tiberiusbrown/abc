@@ -42,6 +42,16 @@ static bool check_prim(ast_node_t const& a, std::vector<error_t> errs)
     return check_prim(a.comp_type.without_ref(), a, errs);
 }
 
+static void insert_cast(ast_node_t& a, compiler_type_t const& t)
+{
+    auto ta = std::move(a);
+    a = { {}, AST::OP_CAST };
+    a.comp_type = t;
+    a.children.push_back({});
+    a.children.back().comp_type = t;
+    a.children.emplace_back(std::move(ta));
+};
+
 void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;
@@ -122,21 +132,11 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
 
         if(ref0 || t0 != a.children[0].comp_type)
         {
-            auto child = std::move(a.children[0]);
-            a.children[0] = { {}, AST::OP_CAST };
-            a.children[0].comp_type = t0;
-            a.children[0].children.push_back({});
-            a.children[0].children.back().comp_type = t0;
-            a.children[0].children.emplace_back(std::move(child));
+            insert_cast(a.children[0], t0);
         }
         if(ref1 || t1 != a.children[1].comp_type)
         {
-            auto child = std::move(a.children[1]);
-            a.children[1] = { {}, AST::OP_CAST };
-            a.children[1].comp_type = t1;
-            a.children[1].children.push_back({});
-            a.children[1].children.back().comp_type = t1;
-            a.children[1].children.emplace_back(std::move(child));
+            insert_cast(a.children[1], t1);
         }
 
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)
@@ -184,9 +184,15 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
     case AST::FUNC_CALL:
     {
         assert(a.children.size() == 2);
-        for(size_t i = 0; i < a.children[1].children.size(); ++i)
-            type_annotate(a.children[1].children[i], frame);
         auto f = resolve_func(a.children[0]);
+        for(size_t i = 0; i < a.children[1].children.size(); ++i)
+        {
+            auto& c = a.children[1].children[i];
+            auto const& t = f.decl.arg_types[i];
+            type_annotate(c, frame);
+            if(c.comp_type != t)
+                insert_cast(c, t);
+        }
         a.comp_type = f.decl.return_type;
         break;
     }
