@@ -1631,7 +1631,11 @@ I_JMP1:
 
 I_CALL:
     lds  r26, 0x0664
-    ldi  r27, 0x06
+    cpi  r26, 93
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r27, 0x06
     call read_3_bytes_end_nodelay
     st   X+, r6
     st   X+, r7
@@ -1644,7 +1648,11 @@ I_CALL:
 
 I_CALL1:
     lds  r26, 0x0664
-    ldi  r27, 0x06
+    cpi  r26, 93
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r27, 0x06
     add  r6, r4
     adc  r7, r2
     adc  r8, r2

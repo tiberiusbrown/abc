@@ -360,10 +360,10 @@ void main()
 </table>
 </details>
 
-<details><summary>fibonacci: 21.19% slowdown</summary>
+<details><summary>fibonacci: 21.30% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 229951</td><td>Cycles: 4873497</td></tr>
+<tr><td>Cycles: 229951</td><td>Cycles: 4898770</td></tr>
 <tr>
 <td>
 
