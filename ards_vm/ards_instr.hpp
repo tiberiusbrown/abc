@@ -99,6 +99,19 @@ enum instr_t : uint8_t
     I_ASR3,
     I_ASR4,
 
+    I_AND,
+    I_AND2,
+    I_AND3,
+    I_AND4,
+    I_OR,
+    I_OR2,
+    I_OR3,
+    I_OR4,
+    I_XOR,
+    I_XOR2,
+    I_XOR3,
+    I_XOR4,
+
     I_BOOL,  // a | (a!=0)
     I_BOOL2, // a b | (a!=0 && b!=0)
     I_BOOL3, // a b c | (a!=0 && b!=0 && c!=0)

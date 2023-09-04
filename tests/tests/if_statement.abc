@@ -1,0 +1,25 @@
+void main()
+{
+    $debug_break();
+    
+    if(true) ;
+    else $assert(false);
+    
+    if(false) $assert(false);
+    
+    bool f = false;
+    bool t = true;
+    
+    if(t) ;
+    else $assert(false);
+    if(!t) $assert(false);
+    if(!!t) ;
+    else $assert(false);
+    
+    if(f) $assert(false);
+    if(!f) ;
+    else $assert(false);
+    if(!!f) $assert(false);
+    
+    $debug_break();
+}

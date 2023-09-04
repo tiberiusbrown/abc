@@ -69,6 +69,18 @@ void compiler_t::transform_constexprs(ast_node_t& n)
         else
             assert(false);
         break;
+    case AST::OP_BITWISE_AND:
+        assert(n.children.size() == 2);
+        n.value = int64_t(uint64_t(n.children[0].value) & uint64_t(n.children[1].value));
+        break;
+    case AST::OP_BITWISE_OR:
+        assert(n.children.size() == 2);
+        n.value = int64_t(uint64_t(n.children[0].value) | uint64_t(n.children[1].value));
+        break;
+    case AST::OP_BITWISE_XOR:
+        assert(n.children.size() == 2);
+        n.value = int64_t(uint64_t(n.children[0].value) ^ uint64_t(n.children[1].value));
+        break;
     case AST::OP_UNARY:
     {
         assert(n.children.size() == 2);
@@ -77,6 +89,8 @@ void compiler_t::transform_constexprs(ast_node_t& n)
             n.value = int64_t(!n.children[1].value);
         else if(op == "-")
             n.value = -n.children[1].value;
+        else if(op == "~")
+            n.value = int64_t(~uint64_t(n.children[1].value));
         else
             assert(false);
         break;
@@ -145,6 +159,24 @@ void compiler_t::transform_left_assoc_infix(ast_node_t& n)
         transform_left_assoc_infix(child);
     switch(n.type)
     {
+    case AST::OP_BITWISE_AND:
+    case AST::OP_BITWISE_OR:
+    case AST::OP_BITWISE_XOR:
+    {
+        assert(n.children.size() >= 2);
+        ast_node_t a = std::move(n.children[0]);
+        ast_node_t op{ n.line_info, n.type, n.data };
+        for(size_t i = 1; i < n.children.size(); ++i)
+        {
+            ast_node_t b = std::move(n.children[i]);
+            ast_node_t top = op;
+            top.children.emplace_back(std::move(a));
+            top.children.emplace_back(std::move(b));
+            a = std::move(top);
+        }
+        n = std::move(a);
+        break;
+    }
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
     case AST::OP_SHIFT:

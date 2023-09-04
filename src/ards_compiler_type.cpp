@@ -100,6 +100,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(!check_prim(a.children[1], errs)) break;
         a.comp_type = a.children[0].comp_type.without_ref();
         break;
+    case AST::OP_BITWISE_AND:
+    case AST::OP_BITWISE_OR:
+    case AST::OP_BITWISE_XOR:
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
     case AST::OP_ADDITIVE:
@@ -251,6 +254,9 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         a.children[0].comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[1], min_size);
         break;
+    case AST::OP_BITWISE_AND:
+    case AST::OP_BITWISE_OR:
+    case AST::OP_BITWISE_XOR:
     case AST::OP_ADDITIVE:
     case AST::OP_MULTIPLICATIVE:
         if(a.type == AST::OP_MULTIPLICATIVE && a.data != "*")

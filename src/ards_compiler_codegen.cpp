@@ -696,6 +696,25 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::OP_BITWISE_AND:
+    case AST::OP_BITWISE_OR:
+    case AST::OP_BITWISE_XOR:
+    {
+        codegen_expr(f, frame, a.children[0], false);
+        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+        codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+        auto size = a.comp_type.prim_size;
+        frame.size -= size;
+        if(a.type == AST::OP_BITWISE_AND)
+            f.instrs.push_back({ instr_t(I_AND + size - 1) });
+        else if(a.type == AST::OP_BITWISE_OR)
+            f.instrs.push_back({ instr_t(I_OR + size - 1) });
+        else if(a.type == AST::OP_BITWISE_XOR)
+            f.instrs.push_back({ instr_t(I_XOR + size - 1) });
+        return;
+    }
+
     case AST::ARRAY_INDEX:
     {
         // TODO: optimize the case where children[0] is an ident and children[1] is

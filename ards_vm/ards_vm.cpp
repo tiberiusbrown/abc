@@ -1259,6 +1259,162 @@ I_ASR4:
     brpl 1b
     dispatch
 
+I_AND:
+    ld   r10, -Y
+    ld   r14, -Y
+    and  r14, r10
+    st   Y+, r14
+    dispatch
+
+I_AND2:
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    and  r14, r10
+    and  r15, r11
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+
+I_AND3:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    and  r14, r10
+    and  r15, r11
+    and  r16, r12
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    dispatch
+
+I_AND4:
+    ld   r13, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    and  r14, r10
+    and  r15, r11
+    and  r16, r12
+    and  r17, r13
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    st   Y+, r17
+    dispatch
+
+I_OR:
+    ld   r10, -Y
+    ld   r14, -Y
+    or   r14, r10
+    st   Y+, r14
+    dispatch
+
+I_OR2:
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    or   r14, r10
+    or   r15, r11
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+
+I_OR3:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    or   r14, r10
+    or   r15, r11
+    or   r16, r12
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    dispatch
+
+I_OR4:
+    ld   r13, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    or   r14, r10
+    or   r15, r11
+    or   r16, r12
+    or   r17, r13
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    st   Y+, r17
+    dispatch
+
+I_XOR:
+    ld   r10, -Y
+    ld   r14, -Y
+    eor  r14, r10
+    st   Y+, r14
+    dispatch
+
+I_XOR2:
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    eor  r14, r10
+    eor  r15, r11
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+
+I_XOR3:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    eor  r14, r10
+    eor  r15, r11
+    eor  r16, r12
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    dispatch
+
+I_XOR4:
+    ld   r13, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    eor  r14, r10
+    eor  r15, r11
+    eor  r16, r12
+    eor  r17, r13
+    st   Y+, r14
+    st   Y+, r15
+    st   Y+, r16
+    st   Y+, r17
+    dispatch
+
 I_BOOL:
     ld   r0, -Y
     ldi  r16, 0
