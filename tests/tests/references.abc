@@ -1,0 +1,53 @@
+u8 [4] a1;
+u16[4] a2;
+u24[4] a3;
+u32[4] a4;
+
+u32 g;
+
+void main()
+{
+    $debug_break();
+    
+    $assert(a1[2] == 0);
+    $assert(a2[2] == 0);
+    $assert(a3[2] == 0);
+    $assert(a4[2] == 0);
+    
+    for(u8 i = 0; i < 4; i = i + 1)
+    {
+        a1[i] = 0x42;
+        a2[i] = 0x4200;
+        a3[i] = 0x420000;
+        a4[i] = 0x42000000;
+    }
+    
+    $assert(a1[2] == 0x42);
+    $assert(a2[2] == 0x4200);
+    $assert(a3[2] == 0x420000);
+    $assert(a4[2] == 0x42000000);
+    
+    {
+        u32 loc = 0;
+        u32& r = loc;
+        $assert(loc == 0);
+        r = 0xcafebabe;
+        $assert(loc == 0xcafebabe);
+        $assert(r   == 0xcafebabe);
+        $assert((loc & 0xff00ff00) == 0xca00ba00);
+        $assert((r   & 0xff00ff00) == 0xca00ba00);
+    }
+    
+    {
+        a3[1] = 0;
+        u24& r = a3[1];
+        $assert(a3[1] == 0);
+        r = 0x123456;
+        $assert(a3[1] == 0x123456);
+        $assert(r     == 0x123456);
+        $assert((a3[1] & 0x0ffff0) == 0x023450);
+        $assert((r     & 0x0ffff0) == 0x023450);
+    }
+    
+    $debug_break();
+}

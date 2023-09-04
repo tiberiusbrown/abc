@@ -84,7 +84,7 @@ private:
         byte_count += 3;
     }
 
-    void push_global(std::istream& f);
+    void push_global(std::istream& f, size_t size = 2);
 
 };
     

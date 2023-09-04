@@ -41,7 +41,8 @@ static char tolower(char c)
 bool check_label(std::string const& t, error_t& e)
 {
     if(t.empty()) e.msg = "Expected label";
-    if(!isalpha(t[0]) && t[0] != '$') e.msg = "Label \"" + t + "\" must begin with[a - zA - Z_]";
+    if(!isalpha(t[0]) && t[0] != '$')
+        e.msg = "Label \"" + t + "\" must begin with[a - zA - Z_]";
     for(size_t i = 1; i < t.size(); ++i)
     {
         if(!isalnum(t[i]))
@@ -112,7 +113,7 @@ uint32_t read_imm(std::istream& f, error_t& e)
     return x;
 }
 
-void assembler_t::push_global(std::istream& f)
+void assembler_t::push_global(std::istream& f, size_t size)
 {
     std::string label = read_label(f, error);
     if(!error.msg.empty()) return;
@@ -122,8 +123,8 @@ void assembler_t::push_global(std::istream& f)
         f.get();
         offset = read_imm(f, error);
     }
-    nodes.push_back({ byte_count, GLOBAL, I_NOP, 3, offset, label });
-    byte_count += 2;
+    nodes.push_back({ byte_count, GLOBAL, I_NOP, (uint16_t)size, offset, label });
+    byte_count += size;
 }
 
 static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
@@ -223,7 +224,8 @@ error_t assembler_t::assemble(std::istream& f)
     while(error.msg.empty() && !f.eof())
     {
         t.clear();
-        f >> t;
+        if(!(f >> t))
+            break;
         if(t.empty()) continue;
         for(char& c : t)
             c = tolower(c);
@@ -319,12 +321,12 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "refg")
         {
             push_instr(I_REFG);
-            push_imm(read_imm(f, error), 2);
+            push_global(f, 2);
         }
         else if(t == "refgb")
         {
             push_instr(I_REFGB);
-            push_imm(read_imm(f, error), 1);
+            push_global(f, 1);
         }
         else if(t == "bz")
         {
@@ -494,7 +496,8 @@ error_t assembler_t::link()
             }
             size_t offset = it->second;
             linked_data.push_back(uint8_t(offset >> 0));
-            linked_data.push_back(uint8_t(offset >> 8));
+            if(n.size >= 2)
+                linked_data.push_back(uint8_t(offset >> 8));
         }
         else if(n.type == LABEL)
         {
