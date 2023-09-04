@@ -14,12 +14,12 @@ Consider the following conditional.
 if(x & 7 == 0)
     f();
 ```
-Despite the obvious intention behind the code, due to operator precedence, this conditional always evaluates as false -- it's equivalent to the form below.
+Despite the obvious intention behind the code, this conditional always evaluates as false. Due to operator precedence, it's equivalent to the form below.
 ```c
 if(x & (7 == 0))
     f();
 ```
-To avoid this mistake, ABC could adjust operator precedence to differ from C. However, this would prove poor training for someone who is learning with ABC and will eventually move to C. Instead, ABC disallows performing bitwise operations with boolean types, so the original code would produce a compiler error. The programmer is forced to insert parentheses to reflect the intent appropriately, as would be done in C.
+To avoid this mistake, ABC could adjust operator precedence to differ from C. However, this would prove poor training for someone who is learning with ABC and will eventually move to C. Instead, ABC disallows performing bitwise operations with boolean types, so the original code would produce a compiler error (since it tries to bitwise AND `x` with `7 == 0`, which is of type `bool`). Thus the programmer is forced to insert parentheses to reflect the intent appropriately, as would be done in C.
 ```c
 if((x & 7) == 0)
     f();
