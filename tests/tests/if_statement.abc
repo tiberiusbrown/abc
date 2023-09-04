@@ -12,6 +12,19 @@ void test_logical_or(bool a, bool b, bool result)
     $assert(t == result);
 }
 
+bool dont_call_me()
+{
+    $assert(false);
+    return true;
+}
+
+bool gf;
+bool call_me()
+{
+    gf = true;
+    return true;
+}
+
 void main()
 {
     $debug_break();
@@ -44,6 +57,34 @@ void main()
     test_logical_or (true , false, true );
     test_logical_or (false, true , true );
     test_logical_or (false, false, false);
+    
+    //
+    // short-cirtuit tests
+    //
+    
+    {
+        bool t = true;
+        t || dont_call_me();
+    }
+    
+    {
+        bool t = false;
+        t && dont_call_me();
+    }
+    
+    {
+        bool t = true;
+        gf = false;
+        t && call_me();
+        $assert(gf);
+    }
+    
+    {
+        bool t = false;
+        gf = false;
+        t || call_me();
+        $assert(gf);
+    }
     
     $debug_break();
 }
