@@ -114,13 +114,19 @@ void compiler_t::codegen_function(compiler_func_t& f)
     assert(f.block.children.back().type == AST::RETURN_STMT);
 }
 
-std::string compiler_t::codegen_label(compiler_func_t& f)
+std::string compiler_t::new_label(compiler_func_t& f)
 {
     std::ostringstream ss;
     ss << f.label_count;
     f.label_count += 1;
     std::string label = "$L_" + f.name + "_" + ss.str();
-    f.instrs.push_back({ I_NOP, 0, 0, label, true });
+    return label;
+}
+
+std::string compiler_t::codegen_label(compiler_func_t& f)
+{
+    std::string label = new_label(f);
+    f.instrs.push_back({ I_NOP, 0, 0, label, true});
     return label;
 }
 
@@ -756,6 +762,15 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::OP_LOGICAL_AND:
+    case AST::OP_LOGICAL_OR:
+    {
+        std::string sc_label = new_label(f);
+        codegen_expr_logical(f, frame, a, sc_label);
+        f.instrs.push_back({ I_NOP, 0, 0, sc_label, true });
+        return;
+    }
+
     default:
         assert(false); 
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });
@@ -766,6 +781,30 @@ rvalue_error:
     errs.push_back({
         "Cannot create reference to lvalue expression: \"" + std::string(a.data) + "\"",
         a.line_info });
+}
+
+void compiler_t::codegen_expr_logical(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a, std::string const& sc_label)
+{
+    if(a.children[0].type == a.type)
+        codegen_expr_logical(f, frame, a.children[0], sc_label);
+    else
+        codegen_expr(f, frame, a.children[0], false);
+    codegen_convert(f, frame, a.children[0], TYPE_BOOL, a.children[0].comp_type);
+    // TODO: special versions of BZ and BNZ to replace following sequence
+    //       of DUP; B[N]Z; POP
+    f.instrs.push_back({ I_DUP });
+    f.instrs.push_back({
+        a.type == AST::OP_LOGICAL_AND ? I_BZ : I_BNZ,
+        0, 0, sc_label });
+    frame.size -= 1;
+    f.instrs.push_back({ I_POP });
+    if(a.children[1].type == a.type)
+        codegen_expr_logical(f, frame, a.children[1], sc_label);
+    else
+        codegen_expr(f, frame, a.children[1], false);
+    codegen_convert(f, frame, a.children[1], TYPE_BOOL, a.children[1].comp_type);
 }
 
 void compiler_t::codegen_dereference(

@@ -81,6 +81,14 @@ void compiler_t::transform_constexprs(ast_node_t& n)
         assert(n.children.size() == 2);
         n.value = int64_t(uint64_t(n.children[0].value) ^ uint64_t(n.children[1].value));
         break;
+    case AST::OP_LOGICAL_AND:
+        assert(n.children.size() == 2);
+        n.value = int64_t(n.children[0].value && n.children[1].value);
+        break;
+    case AST::OP_LOGICAL_OR:
+        assert(n.children.size() == 2);
+        n.value = int64_t(n.children[0].value || n.children[1].value);
+        break;
     case AST::OP_UNARY:
     {
         assert(n.children.size() == 2);
@@ -159,6 +167,8 @@ void compiler_t::transform_left_assoc_infix(ast_node_t& n)
         transform_left_assoc_infix(child);
     switch(n.type)
     {
+    case AST::OP_LOGICAL_AND:
+    case AST::OP_LOGICAL_OR:
     case AST::OP_BITWISE_AND:
     case AST::OP_BITWISE_OR:
     case AST::OP_BITWISE_XOR:

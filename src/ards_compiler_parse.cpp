@@ -126,9 +126,11 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 
 # right-associative binary assignment operator
-expr                <- postfix_expr assignment_op expr / bitwise_or_expr
+expr                <- postfix_expr assignment_op expr / logical_or_expr
 
 # left-associative binary operators
+logical_or_expr     <- logical_and_expr    ('||'              logical_and_expr   )*
+logical_and_expr    <- bitwise_or_expr     ('&&'              bitwise_or_expr    )*
 bitwise_or_expr     <- bitwise_xor_expr    ('|'               bitwise_xor_expr   )*
 bitwise_xor_expr    <- bitwise_and_expr    ('^'               bitwise_and_expr   )*
 bitwise_and_expr    <- equality_expr       ('&'               equality_expr      )*
@@ -388,6 +390,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
     p["bitwise_or_expr"    ] = infix<AST::OP_BITWISE_OR>;
+    p["logical_and_expr"   ] = infix<AST::OP_LOGICAL_AND>;
+    p["logical_or_expr"    ] = infix<AST::OP_LOGICAL_OR>;
     p["bitwise_xor_expr"   ] = infix<AST::OP_BITWISE_XOR>;
     p["equality_expr"      ] = infix<AST::OP_EQUALITY>;
     p["relational_expr"    ] = infix<AST::OP_RELATIONAL>;

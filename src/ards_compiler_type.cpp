@@ -84,6 +84,13 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
         break;
     }
+    case AST::OP_LOGICAL_AND:
+    case AST::OP_LOGICAL_OR:
+        assert(a.children.size() == 2);
+        for(auto& child : a.children)
+            type_annotate_recurse(child, frame);
+        a.comp_type = TYPE_BOOL;
+        break;
     case AST::OP_ASSIGN:
     {
         assert(a.children.size() == 2);
@@ -249,6 +256,8 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         type_reduce_recurse(a.children[1], std::min<size_t>(2, min_size));
         break;
     case AST::OP_CAST:
+        if(a.children[0].comp_type.is_bool)
+            break;
         min_size = std::min(min_size, a.children[0].comp_type.prim_size);
         a.comp_type.prim_size = min_size;
         a.children[0].comp_type.prim_size = min_size;

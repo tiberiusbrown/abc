@@ -47,6 +47,8 @@ enum class AST
 
     // left-associative chained infix operators
     OP_EQUALITY,   // chain of ops and infix == / != tokens
+    OP_LOGICAL_AND,
+    OP_LOGICAL_OR,
     OP_BITWISE_AND,
     OP_BITWISE_OR,
     OP_BITWISE_XOR,
@@ -260,6 +262,9 @@ private:
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);
+    void codegen_expr_logical(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a, std::string const& sc_label);
     void codegen_store_lvalue(
         compiler_func_t& f, compiler_frame_t& frame, compiler_lvalue_t const& lvalue);
     void codegen_convert(
@@ -267,6 +272,7 @@ private:
         ast_node_t const& n,
         compiler_type_t const& to, compiler_type_t const& from);
     void codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n);
+    std::string new_label(compiler_func_t& f);
     std::string codegen_label(compiler_func_t& f);
     void codegen_dereference(
         compiler_func_t& f, compiler_frame_t& frame,

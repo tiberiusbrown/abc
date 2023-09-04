@@ -1,3 +1,17 @@
+void test_logical_and(bool a, bool b, bool result)
+{
+    bool t = false;
+    if(a && b) t = true;
+    $assert(t == result);
+}
+
+void test_logical_or(bool a, bool b, bool result)
+{
+    bool t = false;
+    if(a || b) t = true;
+    $assert(t == result);
+}
+
 void main()
 {
     $debug_break();
@@ -20,6 +34,16 @@ void main()
     if(!f) ;
     else $assert(false);
     if(!!f) $assert(false);
+    
+    test_logical_and(true , true , true );
+    test_logical_and(true , false, false);
+    test_logical_and(false, true , false);
+    test_logical_and(false, false, false);
+     
+    test_logical_or (true , true , true );
+    test_logical_or (true , false, true );
+    test_logical_or (false, true , true );
+    test_logical_or (false, false, false);
     
     $debug_break();
 }

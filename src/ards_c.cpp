@@ -11,10 +11,15 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+
+u8 f(bool a, bool b)
+{
+    if(a || b) return 42;
+    return 0;
+}
+
 void main()
 {
-    while(true)
-        ;
 }
 )";
 

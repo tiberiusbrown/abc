@@ -132,6 +132,7 @@ enum instr_t : uint8_t
     I_CSLE2,
     I_CSLE3,
     I_CSLE4,
+
     I_NOT,   // a | !a
 
     I_BZ,    // pop, branch if zero to imm3
