@@ -136,6 +136,21 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     {
         assert(a.children.size() == 3);
         type_annotate(a.children[0], frame);
+
+        if(a.children[0].type == AST::INT_CONST && a.children[0].value != 0)
+        {
+            // only codegen main statement body
+            codegen(f, frame, a.children[1]);
+            break;
+        }
+
+        if(a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
+        {
+            // only codegen else statement
+            codegen(f, frame, a.children[2]);
+            break;
+        }
+
         codegen_expr(f, frame, a.children[0], false);
         // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
         codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
@@ -160,17 +175,27 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     {
         assert(a.children.size() == 2);
         type_annotate(a.children[0], frame);
+        if(a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
+            break;
+        bool nocond = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
         auto start = codegen_label(f);
-        codegen_expr(f, frame, a.children[0], false);
-        // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
-        codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
-        size_t cond_index = f.instrs.size();
-        f.instrs.push_back({ I_BZ });
-        frame.size -= 1;
+        size_t cond_index = -1;
+        if(!nocond)
+        {
+            codegen_expr(f, frame, a.children[0], false);
+            // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
+            codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
+            cond_index = f.instrs.size();
+            f.instrs.push_back({ I_BZ });
+            frame.size -= 1;
+        }
         codegen(f, frame, a.children[1]);
         f.instrs.push_back({ I_JMP, 0, 0, start });
-        auto end = codegen_label(f);
-        f.instrs[cond_index].label = end;
+        if(!nocond)
+        {
+            auto end = codegen_label(f);
+            f.instrs[cond_index].label = end;
+        }
         break;
     }
     case AST::BLOCK:

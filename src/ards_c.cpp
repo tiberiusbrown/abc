@@ -13,10 +13,8 @@ int main(int argc, char** argv)
     std::string si = R"(
 void main()
 {
-    u8  a = 0xfe;
-    u16 b = 0xca00;
-
-    u16 c = a | b;
+    while(true)
+        ;
 }
 )";
 

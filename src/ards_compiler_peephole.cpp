@@ -123,6 +123,42 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
+        // remove PUSH <N>; BZ (N != 0)
+        if(i0.instr == I_PUSH && i0.imm != 0 && i1.instr == I_BZ)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // remove PUSH 0; BNZ
+        if(i0.instr == I_PUSH && i0.imm == 0 && i1.instr == I_BNZ)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH <N>; BNZ with JMP (N != 0)
+        if(i0.instr == I_PUSH && i0.imm != 0 && i1.instr == I_BNZ)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_JMP;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH 0; BZ with JMP
+        if(i0.instr == I_PUSH && i0.imm == 0 && i1.instr == I_BZ)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_JMP;
+            t = true;
+            continue;
+        }
+
         // replace PUSH N; BOOL with PUSH N (N == 0 or 1)
         if(i0.instr == I_PUSH && i0.imm <= 1 && i1.instr == I_BOOL)
         {
