@@ -57,10 +57,15 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::OP_CAST:
+        assert(a.children.size() == 2);
+        type_annotate_recurse(a.children[1], frame);
+        a.comp_type = a.children[0].comp_type;
+        break;
     case AST::OP_UNARY:
     {
         assert(a.children.size() == 2);
-        type_annotate(a.children[1], frame);
+        type_annotate_recurse(a.children[1], frame);
         auto op = a.children[0].data;
         if(!a.children[0].comp_type.without_ref().is_prim())
         {
@@ -83,14 +88,14 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         for(auto& child : a.children)
-            type_annotate(child, frame);
+            type_annotate_recurse(child, frame);
         a.comp_type = a.children[0].comp_type.without_ref();
         break;
     }
     case AST::OP_SHIFT:
         assert(a.children.size() == 2);
         for(auto& child : a.children)
-            type_annotate(child, frame);
+            type_annotate_recurse(child, frame);
         if(!check_prim(a.children[0], errs)) break;
         if(!check_prim(a.children[1], errs)) break;
         a.comp_type = a.children[0].comp_type.without_ref();
@@ -103,7 +108,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         // C-style implicit conversion rules
         assert(a.children.size() == 2);
         for(auto& child : a.children)
-            type_annotate(child, frame);
+            type_annotate_recurse(child, frame);
         auto t0 = a.children[0].comp_type.without_ref();
         auto t1 = a.children[1].comp_type.without_ref();
         bool ref0 = a.children[0].comp_type.type == compiler_type_t::REF;
@@ -116,7 +121,20 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
 
         t0.is_bool = false;
         t1.is_bool = false;
-        if(t0 != t1 || ref0 || ref1)
+
+        if(a.type == AST::OP_ADDITIVE)
+        {
+            t0.prim_size = t1.prim_size = std::min<size_t>(4, 
+                std::max(t0.prim_size, t1.prim_size) + 1);
+            t0.is_signed = t1.is_signed = (t0.is_signed || t1.is_signed);
+        }
+        else if(a.type == AST::OP_MULTIPLICATIVE && a.data == "*")
+        {
+            t0.prim_size = t1.prim_size = std::min<size_t>(4,
+                t0.prim_size + t1.prim_size);
+            t0.is_signed = t1.is_signed = (t0.is_signed || t1.is_signed);
+        }
+        else if(t0 != t1 || ref0 || ref1)
         {
             implicit_conversion(t0, t1);
             implicit_conversion(t1, t0);
@@ -131,13 +149,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
 
         if(ref0 || t0 != a.children[0].comp_type)
-        {
             insert_cast(a.children[0], t0);
-        }
         if(ref1 || t1 != a.children[1].comp_type)
-        {
             insert_cast(a.children[1], t1);
-        }
 
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)
             a.comp_type = TYPE_BOOL;
@@ -148,7 +162,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         for(auto& child : a.children)
-            type_annotate(child, frame);
+            type_annotate_recurse(child, frame);
         a.comp_type.is_signed =
             a.children[0].comp_type.without_ref().is_signed ||
             a.children[1].comp_type.without_ref().is_signed;
@@ -185,11 +199,12 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         auto f = resolve_func(a.children[0]);
+        if(f.name.empty()) break;
         for(size_t i = 0; i < a.children[1].children.size(); ++i)
         {
             auto& c = a.children[1].children[i];
             auto const& t = f.decl.arg_types[i];
-            type_annotate(c, frame);
+            type_annotate_recurse(c, frame);
             if(c.comp_type != t)
                 insert_cast(c, t);
         }
@@ -199,8 +214,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     case AST::ARRAY_INDEX:
     {
         assert(a.children.size() == 2);
-        type_annotate(a.children[0], frame);
-        type_annotate(a.children[1], frame);
+        type_annotate_recurse(a.children[0], frame);
+        type_annotate_recurse(a.children[1], frame);
         auto t0 = a.children[0].comp_type;
         auto t1 = a.children[1].comp_type;
         auto tt = t0.ref_type();
@@ -221,10 +236,59 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     }
 }
 
-void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame)
+void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
+{
+    if(!errs.empty()) return;
+    auto min_size = std::min(a.comp_type.prim_size, size);
+    switch(a.type)
+    {
+    case AST::ARRAY_INDEX:
+        type_reduce_recurse(a.children[1], std::min<size_t>(2, min_size));
+        break;
+    case AST::OP_CAST:
+        min_size = std::min(min_size, a.children[0].comp_type.prim_size);
+        a.comp_type.prim_size = min_size;
+        a.children[0].comp_type.prim_size = min_size;
+        type_reduce_recurse(a.children[1], min_size);
+        break;
+    case AST::OP_ADDITIVE:
+    case AST::OP_MULTIPLICATIVE:
+        if(a.type == AST::OP_MULTIPLICATIVE && a.data != "*")
+            break;
+        a.comp_type.prim_size = min_size;
+        type_reduce_recurse(a.children[0], min_size);
+        type_reduce_recurse(a.children[1], min_size);
+        break;
+    case AST::OP_ASSIGN:
+        a.comp_type.prim_size = min_size;
+        type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);
+        break;
+    case AST::FUNC_CALL:
+    {
+        auto func = resolve_func(a.children[0]);
+        for(size_t i = 0; i < func.decl.arg_types.size(); ++i)
+        {
+            auto const& type = func.decl.arg_types[i];
+            auto& expr = a.children[1].children[i];
+            if(type.type != compiler_type_t::PRIM)
+                continue;
+            type_reduce_recurse(expr, std::min(size, type.prim_size));
+        }
+        break;
+    }
+    case AST::IDENT:
+    case AST::INT_CONST:
+        if(a.comp_type.type == compiler_type_t::PRIM && size != a.comp_type.prim_size)
+            insert_cast(a, a.comp_type.sized_to(size));
+        break;
+    }
+}
+
+void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame, size_t size)
 {
     type_annotate_recurse(a, frame);
     transform_constexprs(a);
+    type_reduce_recurse(a, size);
 }
 
 }

@@ -19,7 +19,7 @@ void main()
     $assert(0xff == -1);
     $assert(1 + 2 == 3);
     $assert(1 + 2 == 2 + 1);
-    
+
     $assert(1 < 2);
     $assert(2 > 1);
     $assert(1 <= 2);
@@ -33,9 +33,7 @@ void main()
     $assert((1 == 0) == false);
     
     // integer promotion / implicit conversion
-    $assert(100 + 28 != 128);
-    $assert(100 + 28 == -128);
-    $assert(100 + 29 == -127);
+    $assert(100 + 28 == 128);
     $assert(100u + 28u == 128);
     
     $debug_break();

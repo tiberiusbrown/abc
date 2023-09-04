@@ -8,8 +8,9 @@ namespace ards
 void compiler_t::transform_constexprs(ast_node_t& n)
 {
     if(!errs.empty()) return;
-    for(auto& child : n.children)
-        transform_constexprs(child);
+    //if(n.type >= AST::EXPR_BEGIN)
+        for(auto& child : n.children)
+            transform_constexprs(child);
     if(!(
         n.type == AST::OP_UNARY && n.children[1].type == AST::INT_CONST ||
         n.type == AST::OP_CAST && n.children[1].type == AST::INT_CONST))

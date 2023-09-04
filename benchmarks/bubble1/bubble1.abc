@@ -13,7 +13,7 @@ void main()
         u8 n2 = 0;
         for(u8 i = 1; i < n; i = i + 1)
         {
-            i8& a = A[i - 1];
+            i8& a = A[u8(i - 1)];
             i8& b = A[i];
             if(a > b)
             {

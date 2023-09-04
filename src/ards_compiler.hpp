@@ -4,6 +4,8 @@
 #include <variant>
 #include <vector>
 
+#include <cassert>
+
 #include "ards_assembler.hpp"
 #include "ards_error.hpp"
 
@@ -20,7 +22,6 @@ enum class AST
 
     TOKEN,      // used to pass through token    
     LIST,       // used to pass through list of nodes
-    FUNC_ARGS,  // for function call arg list
     FUNC_DECLS, // for function decl arg list
 
     //
@@ -40,6 +41,9 @@ enum class AST
     //
     // expression nodes
     //
+    EXPR_BEGIN,
+
+    FUNC_ARGS,  // for function call arg list
 
     // left-associative chained infix operators
     OP_EQUALITY,   // chain of ops and infix == / != tokens
@@ -98,6 +102,13 @@ struct compiler_type_t
     const compiler_type_t& without_ref() const
     {
         return type == REF ? children[0] : *this;
+    }
+    compiler_type_t sized_to(size_t size) const
+    {
+        assert(type == PRIM);
+        compiler_type_t t = *this;
+        t.prim_size = size;
+        return t;
     }
     bool is_prim() const
     {
@@ -235,8 +246,10 @@ private:
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n);
     compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
+    
     void type_annotate_recurse(ast_node_t& n, compiler_frame_t const& frame);
-    void type_annotate(ast_node_t& n, compiler_frame_t const& frame);
+    void type_reduce_recurse(ast_node_t& a, size_t size);
+    void type_annotate(ast_node_t& n, compiler_frame_t const& frame, size_t size = 4);
 
     void transform_left_assoc_infix(ast_node_t& n);
     void transform_constexprs(ast_node_t& n);

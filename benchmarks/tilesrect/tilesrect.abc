@@ -8,7 +8,8 @@ void main()
     {
         for(u8 x = 0; x < 16; x = x + 1)
         {
-            $draw_filled_rect(x * 8, y * 8, 8, 8, color);
+            $draw_filled_rect(
+                u8(x * 8), u8(y * 8), 8, 8, color);
             color = !color;
         }
         color = !color;

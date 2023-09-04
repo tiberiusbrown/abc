@@ -67,7 +67,7 @@ void main()
         u8 n2 = 0;
         for(u8 i = 1; i < n; i = i + 1)
         {
-            i8& a = A[i - 1];
+            i8& a = A[u8(i - 1)];
             i8& b = A[i];
             if(a > b)
             {
@@ -93,7 +93,7 @@ void main()
 <details><summary>bubble2: 45.15% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 129394</td><td>Cycles: 5842060</td></tr>
+<tr><td>Cycles: 129394</td><td>Cycles: 5841965</td></tr>
 <tr>
 <td>
 
@@ -157,7 +157,7 @@ void main()
         u8 n2 = 0;
         for(u8 i = 1; i < n; i = i + 1)
         {
-            i16& a = A[i - 1];
+            i16& a = A[u8(i - 1)];
             i16& b = A[i];
             if(a > b)
             {
@@ -247,7 +247,7 @@ void main()
         u8 n2 = 0;
         for(u8 i = 1; i < n; i = i + 1)
         {
-            i24& a = A[i - 1];
+            i24& a = A[u8(i - 1)];
             i24& b = A[i];
             if(a > b)
             {
@@ -337,7 +337,7 @@ void main()
         u8 n2 = 0;
         for(u8 i = 1; i < n; i = i + 1)
         {
-            i32& a = A[i - 1];
+            i32& a = A[u8(i - 1)];
             i32& b = A[i];
             if(a > b)
             {
@@ -463,7 +463,8 @@ void main()
     {
         for(u8 x = 0; x < 16; x = x + 1)
         {
-            $draw_filled_rect(x * 8, y * 8, 8, 8, color);
+            $draw_filled_rect(
+                u8(x * 8), u8(y * 8), 8, 8, color);
             color = !color;
         }
         color = !color;

@@ -185,6 +185,26 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
     // this is now done after type annotation
     //transform_constexprs(ast);
 
+    // transforms TODO
+    // - remove root ops in expr statements that have no side effects
+
+    // transform function calls with type names to casts
+    ast.recurse([&](ast_node_t& a) {
+        if(a.type != AST::FUNC_CALL) return;
+        std::string name(a.children[0].data);
+        auto it = primitive_types.find(name);
+        if(it == primitive_types.end()) return;
+        a.children[0].comp_type = it->second;
+        if(a.children[1].children.size() != 1)
+        {
+            errs.push_back({ "Multiple arguments to cast", a.line_info });
+            return;
+        }
+        ast_node_t t = std::move(a.children[1].children[0]);
+        a.children[1] = std::move(t);
+        a.type = AST::OP_CAST;
+    });
+
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);
     for(auto& n : ast.children)
@@ -261,9 +281,6 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             }
         }
     }
-
-    // transforms TODO
-    // - remove root ops in expr statements that have no side effects
 
     // transforms are done: set parent pointers
     for(auto& [k, v] : funcs)

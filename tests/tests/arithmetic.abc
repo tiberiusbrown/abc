@@ -6,7 +6,7 @@ void test_u8()
     $assert(b + a == 52);
     $assert(a - b == 38);
     $assert(b - a == -38);
-    $assert(a * b == 59); // non-widening multiplication
+    $assert(a * b == 315);
     $assert(a / b == 6);
     $assert(a % b == 3);
 }
@@ -19,7 +19,7 @@ void test_i8()
     $assert(b + a == 52);
     $assert(a - b == 38);
     $assert(b - a == -38);
-    $assert(a * b == 59); // non-widening multiplication
+    $assert(a * b == 315);
     $assert(a / b == 6);
     $assert(a % b == 3);
 }
