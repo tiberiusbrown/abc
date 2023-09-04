@@ -121,6 +121,18 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             type_annotate_recurse(child, frame);
         auto t0 = a.children[0].comp_type.without_ref();
         auto t1 = a.children[1].comp_type.without_ref();
+
+        if((a.type == AST::OP_BITWISE_AND ||
+            a.type == AST::OP_BITWISE_OR  ||
+            a.type == AST::OP_BITWISE_XOR) &&
+            (t0.is_bool || t1.is_bool))
+        {
+            errs.push_back({
+                "Bitwise and, or, and xor may not operate on boolean types.",
+                a.line_info });
+            return;
+        }
+
         bool ref0 = a.children[0].comp_type.type == compiler_type_t::REF;
         bool ref1 = a.children[1].comp_type.type == compiler_type_t::REF;
         bool is_divmod = (
