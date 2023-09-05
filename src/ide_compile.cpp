@@ -31,7 +31,7 @@ bool compile_all()
             continue;
         std::stringstream ss(f->content_as_string());
         std::stringstream sout;
-        c.compile(ss, sout);
+        c.compile(ss, sout, n);
         asms.push_back(sout.str());
         for(auto const& e : c.errors())
             project.errors[n].push_back(e);

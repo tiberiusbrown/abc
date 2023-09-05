@@ -141,6 +141,7 @@ const compiler_type_t TYPE_I32 = { 4, true };
 struct compiler_instr_t
 {
     instr_t instr;
+    uint16_t line;
     uint32_t imm;
     uint32_t imm2;
     std::string label; // can also be label arg of instr
@@ -197,6 +198,8 @@ struct ast_node_t
 
     ast_node_t* parent;
 
+    uint16_t line() const { return (uint16_t)line_info.first; }
+
     template<class F>
     void recurse(F&& f)
     {
@@ -211,6 +214,7 @@ struct compiler_lvalue_t
     compiler_type_t type;
     bool is_global;
     uint8_t stack_index;
+    uint16_t line;
     std::string global_name;
     ast_node_t const* ref_ast;
 };
@@ -220,6 +224,7 @@ struct compiler_func_t
     ast_node_t block;
     compiler_func_decl_t decl;
     std::string name;
+    std::string filename;
     std::vector<std::string> arg_names;
     std::vector<compiler_instr_t> instrs;
     size_t label_count;
@@ -234,7 +239,7 @@ struct compiler_t
 {
     compiler_t() {};
 
-    void compile(std::istream& fi, std::ostream& fo);
+    void compile(std::istream& fi, std::ostream& fo, std::string const& filename);
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
 

@@ -13,7 +13,7 @@
 
 static std::unique_ptr<absim::arduboy_t> arduboy;
 
-static bool test(std::string const& filename)
+static bool test(std::string const& filename, std::string const& short_filename)
 {
     std::string abc_asm;
     std::vector<uint8_t> binary;
@@ -23,7 +23,7 @@ static bool test(std::string const& filename)
         std::ifstream fi(filename.c_str());
         std::ostringstream fo;
         assert(fi);
-        c.compile(fi, fo);
+        c.compile(fi, fo, short_filename);
         assert(c.errors().empty());
         abc_asm = fo.str();
     }
@@ -73,7 +73,7 @@ int main()
     for(auto const& entry : fs::recursive_directory_iterator(TESTS_DIR))
     {
         char const* status = "Pass";
-        if(!test(entry.path().string()))
+        if(!test(entry.path().string(), entry.path().filename().string()))
             status = "fail", r = 1;
         printf("%-20s %s\n", entry.path().filename().string().c_str(), status);
     }

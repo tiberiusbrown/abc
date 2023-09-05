@@ -8,7 +8,7 @@
 #define SPRITESU_RECT
 #include "SpritesU.hpp"
 
-extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t);
+extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog);
 
 namespace ards
 {
@@ -60,8 +60,71 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
         Arduboy2Base::sBuffer[128+i] = 0x0c;
 
     char const* t = pgm_read_ptr(&ERRC[e - 1]);
-    uint8_t w = draw_text(0, 64, t);
-    draw_text(0, 16, t);
+    uint8_t w = draw_text(0, 64, t, true);
+    draw_text(0, 16, t, true);
+    
+    // find and display file/line info
+    {
+        uint24_t pc = vm.pc;
+        pc -= 1; // ensure we land on the correct instruction
+        uint8_t num_files = 0;
+        uint24_t file_table = 0;
+        uint24_t line_table = 0;
+        FX::seekData(12);
+        num_files = FX::readPendingUInt8();
+        file_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
+        file_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
+        file_table |= ((uint24_t)FX::readPendingUInt8()     << 16);
+        line_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
+        line_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
+        line_table |= ((uint24_t)FX::readPendingLastUInt8() << 16);
+        uint8_t file = 0;
+        uint16_t line = 0;
+        uint24_t tpc = 0;
+        FX::seekData(line_table);
+        while(tpc < pc)
+        {
+            uint8_t t = FX::readPendingUInt8();
+            if(t < 128)
+                tpc += t + 1;
+            else if(t < 253)
+                line += (t - 127);
+            else if(t == 253)
+                file = FX::readPendingUInt8();
+            else if(t == 254)
+            {
+                line = FX::readPendingUInt8();
+                line |= ((uint16_t)FX::readPendingUInt8() << 8);
+            }
+            else if(t == 255)
+            {
+                tpc = FX::readPendingUInt8();
+                tpc |= ((uint16_t)FX::readPendingUInt8() << 8);
+                tpc |= ((uint16_t)FX::readPendingUInt8() << 16);
+            }
+        }
+        (void)FX::readEnd();
+        if(file < num_files)
+        {
+            static char const STR_FILE[] PROGMEM = "File:";
+            static char const STR_LINE[] PROGMEM = "Line:";
+            char fname[32];
+            FX::readDataBytes(file_table + file * 32, fname, 32);
+            draw_text(0, 32, STR_FILE, true);
+            draw_text(20, 32, fname, false);
+            draw_text(0, 40, STR_LINE, true);
+            for(uint8_t i = 0; i < 5; ++i)
+            {
+                fname[4 - i] = char('0' + line % 10);
+                line /= 10;
+            }
+            fname[5] = '\0';
+            uint8_t i = 0;
+            while(fname[i] == '0')
+                ++i;
+            draw_text(20, 40, &fname[i], false);
+        }
+    }
 
     FX::display();
     for(;;)
@@ -1413,6 +1476,49 @@ I_XOR4:
     st   Y+, r15
     st   Y+, r16
     st   Y+, r17
+    dispatch
+
+I_COMP:
+    ld   r10, -Y
+    com  r10
+    st   Y+, r10
+    rjmp .+0
+    dispatch
+
+I_COMP2:
+    ld   r11, -Y
+    ld   r10, -Y
+    com  r10
+    com  r11
+    st   Y+, r10
+    st   Y+, r11
+    dispatch
+
+I_COMP3:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    com  r10
+    com  r11
+    com  r12
+    st   Y+, r10
+    st   Y+, r11
+    st   Y+, r12
+    dispatch
+
+I_COMP4:
+    ld   r13, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    com  r10
+    com  r11
+    com  r12
+    com  r13
+    st   Y+, r10
+    st   Y+, r11
+    st   Y+, r12
+    st   Y+, r13
     dispatch
 
 I_BOOL:

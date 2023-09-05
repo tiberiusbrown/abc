@@ -51,7 +51,7 @@ static void bench(char const* name)
         std::ifstream fi(filename.c_str());
         std::ostringstream fo;
         assert(fi);
-        c.compile(fi, fo);
+        c.compile(fi, fo, std::string(name) + ".abc");
         assert(c.errors().empty());
         abc_asm = fo.str();
     }

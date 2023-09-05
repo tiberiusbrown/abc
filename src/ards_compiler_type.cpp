@@ -76,7 +76,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
         if(op == "!")
             a.comp_type = TYPE_BOOL;
-        else if(op == "-")
+        else if(op == "-" || op == "~")
             a.comp_type = a.children[1].comp_type.without_ref();
         else
         {
@@ -156,7 +156,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 t0.prim_size + t1.prim_size);
             t0.is_signed = t1.is_signed = (t0.is_signed || t1.is_signed);
         }
-        else if(t0 != t1 || ref0 || ref1)
+        else if(is_divmod && t0.is_signed != t1.is_signed)
+        {
+            t0.prim_size = t1.prim_size = std::max(t0.prim_size, t1.prim_size) + 1;
+        }
+        if(t0 != t1 || ref0 || ref1)
         {
             implicit_conversion(t0, t1);
             implicit_conversion(t1, t0);

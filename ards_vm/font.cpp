@@ -131,11 +131,11 @@ uint8_t draw_char(uint8_t x, uint8_t y, char c)
     return n;
 }
 
-uint8_t draw_text(uint8_t x, uint8_t y, char const* t)
+uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog)
 {
     for(;;)
     {
-        char c = pgm_read_byte(t++);
+        char c = prog ? pgm_read_byte(t++) : *t++;
         if(c == '\0') return x;
         if(c == ' ')
         {

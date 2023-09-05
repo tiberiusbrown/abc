@@ -156,7 +156,7 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
     return {};
 }
 
-void compiler_t::compile(std::istream& fi, std::ostream& fo)
+void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& filename)
 {
     assert(sysfunc_decls.size() == SYS_NUM);
 
@@ -213,6 +213,13 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
         assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
         if(n.type == AST::DECL_STMT)
         {
+            if(n.children.size() > 2)
+            {
+                errs.push_back({
+                    "Global variables cannot be initialized",
+                    n.line_info });
+                return;
+            }
             assert(n.children.size() == 2);
             assert(n.children[1].type == AST::IDENT);
             std::string name(n.children[1].data);
@@ -266,6 +273,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo)
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
+            f.filename = filename;
             f.block = std::move(n.children[2]);
 
             // decl args

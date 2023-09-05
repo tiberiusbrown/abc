@@ -113,6 +113,12 @@ uint32_t read_imm(std::istream& f, error_t& e)
     return x;
 }
 
+void assembler_t::push_instr(instr_t i)
+{
+    nodes.push_back({ byte_count, INSTR, i, 1 });
+    byte_count += 1;
+}
+
 void assembler_t::push_global(std::istream& f, size_t size)
 {
     std::string label = read_label(f, error);
@@ -186,6 +192,10 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "xor2", I_XOR2 },
     { "xor3", I_XOR3 },
     { "xor4", I_XOR4 },
+    { "comp",  I_COMP },
+    { "comp2", I_COMP2 },
+    { "comp3", I_COMP3 },
+    { "comp4", I_COMP4 },
     { "asr", I_ASR },
     { "asr2", I_ASR2 },
     { "asr3", I_ASR3 },
@@ -216,7 +226,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
 
 error_t assembler_t::assemble(std::istream& f)
 {
-	std::string t;
+    std::string t;
 
     //counting_stream_buffer counting_buf(f_orig.rdbuf(), error);
     //std::istream f(&counting_buf);
@@ -385,11 +395,36 @@ error_t assembler_t::assemble(std::istream& f)
         {
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == ".file")
+        {
+            std::string filename;
+            uint8_t file = 0;
+            f >> filename;
+            auto it = file_table.find(filename);
+            if(it == file_table.end())
+            {
+                file = (uint8_t)file_table.size();
+                if(file_table.size() >= 256)
+                {
+                    error.msg = "Too many input files";
+                    return error;
+                }
+                file_table[filename] = file;
+            }
+            else file = it->second;
+            push_file(file);
+        }
+        else if(t == ".line")
+        {
+            uint16_t line;
+            f >> line;
+            push_line(line);
+        }
         else
         {
             error.msg = "Unknown instruction or directive \"" + t + "\"";
         }
-	}
+    }
 
     return error;
 }
@@ -399,7 +434,7 @@ void assembler_t::relax_jumps()
     for(size_t i = 0; i < nodes.size(); ++i)
     {
         auto& n = nodes[i];
-        if( n.instr != I_JMP &&
+        if(n.instr != I_JMP &&
             n.instr != I_CALL &&
             n.instr != I_BZ &&
             n.instr != I_BNZ &&
@@ -446,12 +481,13 @@ error_t assembler_t::link()
         return error;
     }
 
-    // add signature: 0xABC00ABC in big-endian order
+    // offset 0: signature 0xABC00ABC in big-endian order
     linked_data.push_back(0xAB);
     linked_data.push_back(0xC0);
     linked_data.push_back(0x0A);
     linked_data.push_back(0xBC);
 
+    // offset 4: call to main and loop
     linked_data.push_back(I_CALL);
     {
         auto it = labels.find("main");
@@ -473,20 +509,39 @@ error_t assembler_t::link()
     linked_data.push_back(0);
     linked_data.push_back(0);
 
+    // offset 12: file table size (1 byte) and offset (3 bytes)
+    linked_data.push_back(0);
+    linked_data.push_back(0);
+    linked_data.push_back(0);
+    linked_data.push_back(0);
+
+    // offset 16: line table offset (3 bytes)
+    linked_data.push_back(0);
+    linked_data.push_back(0);
+    linked_data.push_back(0);
+
+    // header size is fixed at 256 bytes
+    linked_data.resize(256);
+
+    prev_pc_offset = 0;
+    uint8_t current_file = 0;
+    uint16_t current_line = 0;
+
     for(size_t i = 0; i < nodes.size(); ++i)
     {
         auto const& n = nodes[i];
-        if(n.type == INSTR)
+
+        switch(n.type)
         {
+        case INSTR:
             linked_data.push_back(n.instr);
-        }
-        else if(n.type == IMM)
-        {
+            break;
+        case IMM:
             if(n.size >= 1) linked_data.push_back(uint8_t(n.imm >> 0));
             if(n.size >= 2) linked_data.push_back(uint8_t(n.imm >> 8));
             if(n.size >= 3) linked_data.push_back(uint8_t(n.imm >> 16));
-        }
-        else if(n.type == GLOBAL)
+            break;
+        case GLOBAL:
         {
             auto it = globals.find(n.label);
             if(it == globals.end())
@@ -498,8 +553,9 @@ error_t assembler_t::link()
             linked_data.push_back(uint8_t(offset >> 0));
             if(n.size >= 2)
                 linked_data.push_back(uint8_t(offset >> 8));
+            break;
         }
-        else if(n.type == LABEL)
+        case LABEL:
         {
             auto it = labels.find(n.label);
             if(it == labels.end())
@@ -525,10 +581,74 @@ error_t assembler_t::link()
                 error.msg = "Label \"" + n.label + "\" has no associated code";
                 return error;
             }
+            break;
+        }
+        case FILE:
+        {
+            uint8_t file = (uint8_t)n.imm;
+            if(file == current_file)
+                break;
+            advance_pc_offset();
+            line_table.push_back(253);
+            line_table.push_back(file);
+            current_file = file;
+            break;
+        }
+        case LINE:
+        {
+            uint16_t line = (uint16_t)n.imm;
+            if(line == current_line)
+                break;
+            advance_pc_offset();
+            if(line > current_line && line < current_line + 126)
+            {
+                uint32_t t = line - current_line + 127;
+                assert(t >= 128 && t <= 252);
+                line_table.push_back((uint8_t)t);
+            }
+            else
+            {
+                line_table.push_back(254);
+                line_table.push_back(uint8_t(line >> 0));
+                line_table.push_back(uint8_t(line >> 8));
+            }
+            current_line = line;
+            break;
+        }
+        default:
+            break;
+        }
+
+    }
+
+    // add file table info (offset 12)
+    linked_data[12] = file_table.size();
+    linked_data[13] = uint8_t(linked_data.size() >> 0);
+    linked_data[14] = uint8_t(linked_data.size() >> 8);
+    linked_data[15] = uint8_t(linked_data.size() >> 16);
+    {
+        std::vector<std::string> files(file_table.size());
+        for(auto const& [k, v] : file_table)
+            files[v] = k;
+        for(auto const& f : files)
+        {
+            for(size_t i = 0; i < FILE_TABLE_STRING_LENGTH; ++i)
+            {
+                if(i >= f.size() || i == FILE_TABLE_STRING_LENGTH - 1)
+                    linked_data.push_back(0);
+                else
+                    linked_data.push_back((uint8_t)f[i]);
+            }
         }
     }
 
-    // insert dev length at end
+    // add line table info (offset 16)
+    linked_data[16] = uint8_t(linked_data.size() >> 0);
+    linked_data[17] = uint8_t(linked_data.size() >> 8);
+    linked_data[18] = uint8_t(linked_data.size() >> 16);
+    linked_data.insert(linked_data.end(), line_table.begin(), line_table.end());
+
+    // page-align and insert dev length at end
     size_t pages = (linked_data.size() + 255 + 2) / 256;
     size_t size = pages * 256;
     linked_data.resize(size);
@@ -537,6 +657,27 @@ error_t assembler_t::link()
     linked_data[size - 1] = uint8_t(pages >> 8);
 
     return error;
+}
+
+void assembler_t::advance_pc_offset()
+{
+    uint32_t offset = (uint32_t)linked_data.size();
+    if(offset == prev_pc_offset)
+        return;
+    if(offset > prev_pc_offset && offset < prev_pc_offset + 129)
+    {
+        uint32_t t = offset - prev_pc_offset - 1;
+        assert(t >= 0 && t <= 127);
+        line_table.push_back((uint8_t)t);
+    }
+    else
+    {
+        line_table.push_back(255);
+        line_table.push_back(uint8_t(offset >> 0));
+        line_table.push_back(uint8_t(offset >> 8));
+        line_table.push_back(uint8_t(offset >> 16));
+    }
+    prev_pc_offset = offset;
 }
 
 }

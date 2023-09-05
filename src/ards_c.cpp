@@ -11,54 +11,16 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u8 [4] a1;
-u16[4] a2;
-u24[4] a3;
-u32[4] a4;
-
-u32 g;
-
 void main()
 {
-    $debug_break();
-    
-    $assert(a1[2] == 0);
-    $assert(a2[2] == 0);
-    $assert(a3[2] == 0);
-    $assert(a4[2] == 0);
-    
-    for(u8 i = 0; i < 4; i = i + 1)
-    {
-        a1[i] = 0x42;
-        a2[i] = 0x4200;
-        a3[i] = 0x420000;
-        a4[i] = 0x42000000;
-    }
-    
-    $assert(a1[2] == 0x42);
-    $assert(a2[2] == 0x4200);
-    $assert(a3[2] == 0x420000);
-    $assert(a4[2] == 0x42000000);
-    
-    {
-        u32 loc = 0;
-        u32& r = loc;
-        $assert(loc == 0);
-        r = 0xcafebabe;
-        $assert(loc == 0xcafebabe);
-        $assert(r   == 0xcafebabe);
-        //$assert((loc & 0xff00ff00) == 0xca00ba00);
-        $assert((r   & 0xff00ff00) == 0xca00ba00);
-    }
-    
-    $debug_break();
+    $assert(false);
 }
 )";
 
     std::istringstream fi(si);
     std::stringstream fasm;
 
-    c.compile(fi, fasm);
+    c.compile(fi, fasm, "internal.abc");
     for(auto const& e : c.errors())
     {
         std::cerr << "Compiler Error" << std::endl;

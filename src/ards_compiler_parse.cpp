@@ -158,7 +158,7 @@ additive_op         <- < [+-] >
 multiplicative_op   <- < [*/%] >
 relational_op       <- < '<=' / '>=' / '<' / '>' >
 assignment_op       <- < '=' >
-unary_op            <- < [!-] >
+unary_op            <- < '!' / '-' / '~' >
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
 bool_literal        <- < 'true' / 'false' >

@@ -37,18 +37,20 @@ compiler_lvalue_t compiler_t::resolve_lvalue(
         ast_node_t const& n)
 {
     assert(n.type == AST::IDENT || n.type == AST::ARRAY_INDEX);
+    uint16_t line = n.line();
     if(n.type == AST::ARRAY_INDEX)
     {
         compiler_lvalue_t t{};
         t.type = n.comp_type;
         t.ref_ast = &n;
+        t.line = line;
         return t;
     }
     if(auto* local = resolve_local(frame, n))
-        return { local->type, false, uint8_t(frame.size - local->frame_offset) };
+        return { local->type, false, uint8_t(frame.size - local->frame_offset), line };
     std::string name(n.data);
     if(auto* global = resolve_global(n))
-        return { global->type, true, 0, name };
+        return { global->type, true, 0, line, name };
     errs.push_back({ "Undefined variable \"" + name + "\"", n.line_info });
     return {};
 }
@@ -79,9 +81,9 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
 
     // pop remaining func args
     for(size_t i = 0; i < frame.size; ++i)
-        f.instrs.push_back({ I_POP });
+        f.instrs.push_back({ I_POP, n.line() });
 
-    f.instrs.push_back({ I_RET });
+    f.instrs.push_back({ I_RET, n.line() });
 }
 
 void compiler_t::codegen_function(compiler_func_t& f)
@@ -126,7 +128,7 @@ std::string compiler_t::new_label(compiler_func_t& f)
 std::string compiler_t::codegen_label(compiler_func_t& f)
 {
     std::string label = new_label(f);
-    f.instrs.push_back({ I_NOP, 0, 0, label, true});
+    f.instrs.push_back({ I_NOP, 0, 0, 0, label, true});
     return label;
 }
 
@@ -161,12 +163,12 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
         codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
         size_t cond_index = f.instrs.size();
-        f.instrs.push_back({ I_BZ });
+        f.instrs.push_back({ I_BZ, a.line() });
         frame.size -= 1;
         codegen(f, frame, a.children[1]);
         size_t jmp_index = f.instrs.size();
         if(a.children[2].type != AST::EMPTY_STMT)
-            f.instrs.push_back({ I_JMP });
+            f.instrs.push_back({ I_JMP, a.line() });
         auto else_label = codegen_label(f);
         f.instrs[cond_index].label = else_label;
         if(a.children[2].type != AST::EMPTY_STMT)
@@ -192,11 +194,11 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
             cond_index = f.instrs.size();
-            f.instrs.push_back({ I_BZ });
+            f.instrs.push_back({ I_BZ, a.children[0].line() });
             frame.size -= 1;
         }
         codegen(f, frame, a.children[1]);
-        f.instrs.push_back({ I_JMP, 0, 0, start });
+        f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
         if(!nocond)
         {
             auto end = codegen_label(f);
@@ -213,8 +215,9 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         // don't need to pop locals after final return statement
         if(&a != &f.block)
         {
+            uint16_t line = f.instrs.empty() ? 0 : f.instrs.back().line;
             for(size_t i = 0; i < frame.scopes.back().size; ++i)
-                f.instrs.push_back({ I_POP });
+                f.instrs.push_back({ I_POP, line });
         }
         frame.pop();
         assert(!errs.empty() || frame.size == prev_size);
@@ -234,7 +237,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
         for(size_t i = prev_size; i < frame.size; ++i)
-            f.instrs.push_back({ I_POP });
+            f.instrs.push_back({ I_POP, a.line() });
         frame.size = prev_size;
         break;
     }
@@ -287,7 +290,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         {
             frame.size += type.prim_size;
             for(size_t i = 0; i < type.prim_size; ++i)
-                f.instrs.push_back({ I_PUSH, 0 });
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
         }
         scope.size += type.prim_size;
         break;
@@ -313,7 +316,7 @@ void compiler_t::codegen_store_lvalue(
         auto size = lvalue.type.children[0].prim_size;
         assert(size < 256);
         codegen_expr(f, frame, *lvalue.ref_ast, false);
-        f.instrs.push_back({ I_SETRN, (uint8_t)size });
+        f.instrs.push_back({ I_SETRN, lvalue.line, (uint8_t)size });
         frame.size -= 2;
         frame.size -= size;
     }
@@ -323,21 +326,21 @@ void compiler_t::codegen_store_lvalue(
         auto size = lvalue.type.children[0].prim_size;
         assert(size < 256);
         assert(lvalue.type.prim_size == 2); // ref size is 2
-        f.instrs.push_back({ I_PUSH, 2 });
-        f.instrs.push_back({ I_GETLN, (uint8_t)(lvalue.stack_index) });
-        f.instrs.push_back({ I_SETRN, (uint8_t)size });
+        f.instrs.push_back({ I_PUSH, lvalue.line, 2 });
+        f.instrs.push_back({ I_GETLN, lvalue.line, (uint8_t)(lvalue.stack_index) });
+        f.instrs.push_back({ I_SETRN, lvalue.line, (uint8_t)size });
         frame.size -= size;
     }
     else if(lvalue.is_global)
     {
-        f.instrs.push_back({ I_PUSH, (uint8_t)lvalue.type.prim_size });
-        f.instrs.push_back({ I_SETGN, 0, 0, lvalue.global_name });
+        f.instrs.push_back({ I_PUSH, lvalue.line, (uint8_t)lvalue.type.prim_size });
+        f.instrs.push_back({ I_SETGN, lvalue.line, 0, 0, lvalue.global_name });
         frame.size -= lvalue.type.prim_size;
     }
     else
     {
-        f.instrs.push_back({ I_PUSH, (uint8_t)lvalue.type.prim_size });
-        f.instrs.push_back({ I_SETLN, (uint8_t)(lvalue.stack_index - lvalue.type.prim_size) });
+        f.instrs.push_back({ I_PUSH, lvalue.line, (uint8_t)lvalue.type.prim_size });
+        f.instrs.push_back({ I_SETLN, lvalue.line, (uint8_t)(lvalue.stack_index - lvalue.type.prim_size) });
         frame.size -= lvalue.type.prim_size;
     }
 }
@@ -382,32 +385,32 @@ void compiler_t::codegen_convert(
     if(to.is_bool)
     {
         if(from.is_bool) return;
-        int n = int(from.prim_size - 1);
-        frame.size -= n;
+        int num = int(from.prim_size - 1);
+        frame.size -= num;
         static_assert(I_BOOL2 == I_BOOL + 1);
         static_assert(I_BOOL3 == I_BOOL + 2);
         static_assert(I_BOOL4 == I_BOOL + 3);
-        f.instrs.push_back({ instr_t(I_BOOL + n) });
+        f.instrs.push_back({ instr_t(I_BOOL + num), n.line() });
         return;
     }
     if(to.prim_size == from.prim_size) return;
     if(to.prim_size < from.prim_size)
     {
-        int n = from.prim_size - to.prim_size;
-        frame.size -= n;
-        for(int i = 0; i < n; ++i)
-            f.instrs.push_back({ I_POP });
+        int num = from.prim_size - to.prim_size;
+        frame.size -= num;
+        for(int i = 0; i < num; ++i)
+            f.instrs.push_back({ I_POP, n.line() });
     }
     if(to.prim_size > from.prim_size)
     {
-        int n = to.prim_size - from.prim_size;
-        frame.size += n;
+        int num = to.prim_size - from.prim_size;
+        frame.size += num;
         compiler_instr_t instr;
         if(from.is_signed)
-            instr = { I_SEXT };
+            instr = { I_SEXT, n.line() };
         else
-            instr = { I_PUSH, 0 };
-        for(int i = 0; i < n; ++i)
+            instr = { I_PUSH, n.line(), 0 };
+        for(int i = 0; i < num; ++i)
             f.instrs.push_back(instr);
     }
 }
@@ -437,18 +440,24 @@ void compiler_t::codegen_expr(
         {
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[1].comp_type);
-            f.instrs.push_back({ I_NOT });
+            f.instrs.push_back({ I_NOT, a.children[1].line() });
         }
         else if(op == "-")
         {
             auto size = a.children[1].comp_type.prim_size;
             for(size_t i = 0; i < size; ++i)
-                f.instrs.push_back({ I_PUSH, 0 });
+                f.instrs.push_back({ I_PUSH, a.children[1].line(), 0 });
             frame.size += size;
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
-            f.instrs.push_back({ instr_t(I_SUB + size - 1) });
+            f.instrs.push_back({ instr_t(I_SUB + size - 1), a.children[1].line() });
             frame.size -= size;
+        }
+        else if(op == "~")
+        {
+            auto size = a.children[1].comp_type.prim_size;
+            codegen_expr(f, frame, a.children[1], false);
+            f.instrs.push_back({ instr_t(I_COMP + size - 1), a.children[1].line() });
         }
         else
         {
@@ -464,7 +473,7 @@ void compiler_t::codegen_expr(
         auto size = a.comp_type.prim_size;
         frame.size += size;
         for(size_t i = 0; i < size; ++i, x >>= 8)
-            f.instrs.push_back({ I_PUSH, (uint8_t)x });
+            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x});
         return;
     }
 
@@ -477,12 +486,12 @@ void compiler_t::codegen_expr(
             uint8_t size = (uint8_t)local->type.prim_size;
             if(ref && local->type.type != compiler_type_t::REF)
             {
-                f.instrs.push_back({ I_REFL, offset });
+                f.instrs.push_back({ I_REFL, a.line(), offset });
                 frame.size += 2;
                 return;
             }
-            f.instrs.push_back({ I_PUSH, size });
-            f.instrs.push_back({ I_GETLN, offset });
+            f.instrs.push_back({ I_PUSH, a.line(), size });
+            f.instrs.push_back({ I_GETLN, a.line(), offset });
             frame.size += (uint8_t)local->type.prim_size;
             return;
         }
@@ -490,14 +499,14 @@ void compiler_t::codegen_expr(
         {
             if(ref)
             {
-                f.instrs.push_back({ I_REFG, 0, 0, global->name });
+                f.instrs.push_back({ I_REFG, a.line(), 0, 0, global->name});
                 frame.size += 2;
                 return;
             }
             assert(global->type.prim_size < 256);
             frame.size += (uint8_t)global->type.prim_size;
-            f.instrs.push_back({ I_PUSH, (uint8_t)global->type.prim_size });
-            f.instrs.push_back({ I_GETGN, 0, 0, global->name });
+            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)global->type.prim_size });
+            f.instrs.push_back({ I_GETGN, a.line(), 0, 0, global->name });
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
@@ -520,7 +529,7 @@ void compiler_t::codegen_expr(
             // reserve space for return value
             frame.size += func.decl.return_type.prim_size;
             for(size_t i = 0; i < func.decl.return_type.prim_size; ++i)
-                f.instrs.push_back({ I_PUSH, 0 });
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
         }
 
         assert(a.children[1].type == AST::FUNC_ARGS);
@@ -554,9 +563,9 @@ void compiler_t::codegen_expr(
         frame.size = prev_size;
 
         if(func.is_sys)
-            f.instrs.push_back({ I_SYS, func.sys });
+            f.instrs.push_back({ I_SYS, a.line(), func.sys });
         else
-            f.instrs.push_back({ I_CALL, 0, 0, std::string(a.children[0].data) });
+            f.instrs.push_back({ I_CALL, a.line(), 0, 0, std::string(a.children[0].data) });
 
         // system functions push return value onto stack
         if(func.is_sys)
@@ -586,8 +595,8 @@ void compiler_t::codegen_expr(
             break;
         default:
             frame.size += (uint8_t)a.children[0].comp_type.prim_size;
-            f.instrs.push_back({ I_PUSH, (uint8_t)a.children[0].comp_type.prim_size });
-            f.instrs.push_back({ I_GETLN, (uint8_t)a.children[0].comp_type.prim_size });
+            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)a.children[0].comp_type.prim_size });
+            f.instrs.push_back({ I_GETLN, a.line(), (uint8_t)a.children[0].comp_type.prim_size });
             break;
         }
 
@@ -623,20 +632,20 @@ void compiler_t::codegen_expr(
         frame.size -= (size - 1); // conversion to bool
         if(a.data == "==" || a.data == "!=")
         {
-            f.instrs.push_back({ instr_t(I_SUB + size - 1) });
-            f.instrs.push_back({ instr_t(I_BOOL + size - 1) });
+            f.instrs.push_back({ instr_t(I_SUB + size - 1), a.line() });
+            f.instrs.push_back({ instr_t(I_BOOL + size - 1), a.line() });
             if(a.data == "==")
-                f.instrs.push_back({ I_NOT });
+                f.instrs.push_back({ I_NOT, a.line() });
         }
         else if(a.data == "<=" || a.data == ">=")
         {
             instr_t i = (a.children[0].comp_type.is_signed ? I_CSLE : I_CULE);
-            f.instrs.push_back({ instr_t(i + size - 1) });
+            f.instrs.push_back({ instr_t(i + size - 1), a.line() });
         }
         else if(a.data == "<" || a.data == ">")
         {
             instr_t i = (a.children[0].comp_type.is_signed ? I_CSLT : I_CULT);
-            f.instrs.push_back({ instr_t(i + size - 1) });
+            f.instrs.push_back({ instr_t(i + size - 1), a.line() });
         }
         else
             assert(false);
@@ -661,7 +670,7 @@ void compiler_t::codegen_expr(
         auto size = a.comp_type.prim_size;
         assert(size >= 1 && size <= 4);
         frame.size -= size;
-        f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + size - 1) });
+        f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + size - 1), a.line() });
         return;
     }
 
@@ -682,24 +691,24 @@ void compiler_t::codegen_expr(
         assert(size >= 1 && size <= 4);
         frame.size -= size;
         if(a.data == "*")
-            f.instrs.push_back({ instr_t(I_MUL + size - 1) });
+            f.instrs.push_back({ instr_t(I_MUL + size - 1), a.line() });
         else if(a.data == "/")
         {
             auto size = a.comp_type.prim_size;
             assert(size == 2 || size == 4);
             if(a.comp_type.is_signed)
-                f.instrs.push_back({ size == 2 ? I_DIV2 : I_DIV4 });
+                f.instrs.push_back({ size == 2 ? I_DIV2 : I_DIV4, a.line() });
             else
-                f.instrs.push_back({ size == 2 ? I_UDIV2 : I_UDIV4 });
+                f.instrs.push_back({ size == 2 ? I_UDIV2 : I_UDIV4, a.line() });
         }
         else if(a.data == "%")
         {
             auto size = a.comp_type.prim_size;
             assert(size == 2 || size == 4);
             if(a.comp_type.is_signed)
-                f.instrs.push_back({ size == 2 ? I_MOD2 : I_MOD4 });
+                f.instrs.push_back({ size == 2 ? I_MOD2 : I_MOD4, a.line() });
             else
-                f.instrs.push_back({ size == 2 ? I_UMOD2 : I_UMOD4 });
+                f.instrs.push_back({ size == 2 ? I_UMOD2 : I_UMOD4, a.line() });
         }
         else
             assert(false);
@@ -714,13 +723,13 @@ void compiler_t::codegen_expr(
         frame.size -= 1;
         auto index = a.comp_type.prim_size - 1;
         if(a.data == "<<")
-            f.instrs.push_back({ instr_t(I_LSL + index) });
+            f.instrs.push_back({ instr_t(I_LSL + index), a.line() });
         else if(a.data == ">>")
         {
             if(a.comp_type.is_signed)
-                f.instrs.push_back({ instr_t(I_ASR + index) });
+                f.instrs.push_back({ instr_t(I_ASR + index), a.line() });
             else
-                f.instrs.push_back({ instr_t(I_LSR + index) });
+                f.instrs.push_back({ instr_t(I_LSR + index), a.line() });
         }
         else
             assert(false);
@@ -738,11 +747,11 @@ void compiler_t::codegen_expr(
         auto size = a.comp_type.prim_size;
         frame.size -= size;
         if(a.type == AST::OP_BITWISE_AND)
-            f.instrs.push_back({ instr_t(I_AND + size - 1) });
+            f.instrs.push_back({ instr_t(I_AND + size - 1), a.line() });
         else if(a.type == AST::OP_BITWISE_OR)
-            f.instrs.push_back({ instr_t(I_OR + size - 1) });
+            f.instrs.push_back({ instr_t(I_OR + size - 1), a.line() });
         else if(a.type == AST::OP_BITWISE_XOR)
-            f.instrs.push_back({ instr_t(I_XOR + size - 1) });
+            f.instrs.push_back({ instr_t(I_XOR + size - 1), a.line() });
         return;
     }
 
@@ -757,7 +766,7 @@ void compiler_t::codegen_expr(
         auto const& t = a.children[0].comp_type.without_ref();
         size_t elem_size = t.children[0].prim_size;
         size_t size = t.prim_size;
-        f.instrs.push_back({ I_AIDX, (uint16_t)elem_size, (uint16_t)(size / elem_size) });
+        f.instrs.push_back({ I_AIDX, a.line(), (uint16_t)elem_size, (uint16_t)(size / elem_size) });
         frame.size -= 2;
         return;
     }
@@ -767,7 +776,7 @@ void compiler_t::codegen_expr(
     {
         std::string sc_label = new_label(f);
         codegen_expr_logical(f, frame, a, sc_label);
-        f.instrs.push_back({ I_NOP, 0, 0, sc_label, true });
+        f.instrs.push_back({ I_NOP, 0, 0, 0, sc_label, true });
         return;
     }
 
@@ -794,10 +803,10 @@ void compiler_t::codegen_expr_logical(
     codegen_convert(f, frame, a.children[0], TYPE_BOOL, a.children[0].comp_type);
     // TODO: special versions of BZ and BNZ to replace following sequence
     //       of DUP; B[N]Z; POP
-    f.instrs.push_back({ I_DUP });
+    f.instrs.push_back({ I_DUP, a.line() });
     f.instrs.push_back({
         a.type == AST::OP_LOGICAL_AND ? I_BZ : I_BNZ,
-        0, 0, sc_label });
+        a.line(), 0, 0, sc_label });
     frame.size -= 1;
     f.instrs.push_back({ I_POP });
     if(a.children[1].type == a.type)
@@ -817,7 +826,7 @@ void compiler_t::codegen_dereference(
         errs.push_back({ "Expression too large (256 bytes or more)", n.line_info });
         return;
     }
-    f.instrs.push_back({ I_GETRN, (uint8_t)size });
+    f.instrs.push_back({ I_GETRN, n.line(), (uint8_t)size });
     frame.size -= 2;
     frame.size += size;
 }

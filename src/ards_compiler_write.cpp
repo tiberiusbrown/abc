@@ -5,7 +5,7 @@
 namespace ards
 {
 
-static void write_instr(std::ostream& f, compiler_instr_t const& instr)
+static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t& line)
 {
     if(instr.instr == I_REMOVE)
         return;
@@ -13,6 +13,11 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     {
         f << instr.label << ":\n";
         return;
+    }
+    if(line != instr.line && instr.line != 0)
+    {
+        line = instr.line;
+        f << "  .line " << instr.line << "\n";
     }
     f << "  ";
     switch(instr.instr)
@@ -105,6 +110,10 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr)
     case I_XOR2:  f << "xor2"; break;
     case I_XOR3:  f << "xor3"; break;
     case I_XOR4:  f << "xor4"; break;
+    case I_COMP:  f << "comp"; break;
+    case I_COMP2: f << "comp2"; break;
+    case I_COMP3: f << "comp3"; break;
+    case I_COMP4: f << "comp4"; break;
 
     case I_BOOL:  f << "bool"; break;
     case I_BOOL2: f << "bool2"; break;
@@ -163,9 +172,11 @@ void compiler_t::write(std::ostream& f)
 
     for(auto const& [name, func] : funcs)
     {
+        uint16_t line = 0;
         f << name << ":\n";
+        f << "  .file " << func.filename << "\n";
         for(auto const& instr : func.instrs)
-            write_instr(f, instr);
+            write_instr(f, instr, line);
         f << "\n";
     }
 }
