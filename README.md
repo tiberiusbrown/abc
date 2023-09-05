@@ -4,7 +4,13 @@ ABC is a scripting language with an associated interpreter available for the Ard
 
 ## ABC: Differences from C
 
-ABC differs from C in several aspects, sometimes to simplify the language and sometimes to disallow common coding mistakes to occur.
+ABC differs from C in several aspects, both to simplify the language and to avoid inheriting some "gotchas" from C.
+
+### Global variables cannot be initialized
+
+Suppose you declare global variable `a` in one file, `int a = 4;` and global variable `b` in another file, `int b = a + 1;`. In C, what value `b` will be initialized to is undefined, because the order of initialization of global variables in different translation units is undefined in C.
+
+In ABC, global variables cannot be initialized (they zero-initialize like other uninitialized variable declarations in ABC).
 
 ### No bitwise operations with `bool`
 
