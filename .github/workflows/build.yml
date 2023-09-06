@@ -71,7 +71,7 @@ jobs:
     - name: Build
       run: |
         export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
-        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target abc_ide
+        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target abc
         
     - name: Create zip file
       run: |

@@ -118,7 +118,7 @@ file(GLOB IMGUI_SOURCES deps/imgui/*.h deps/imgui/*.cpp)
 file(GLOB SOKOL_SOURCES deps/sokol/*.h)
 file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
 
-add_executable(abc_ide ${EXE_TYPE}
+add_executable(abc ${EXE_TYPE}
     src/font.cpp
     src/font_icons.cpp
     src/font_icons.hpp
@@ -141,8 +141,8 @@ add_executable(abc_ide ${EXE_TYPE}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
     )
-target_link_libraries(abc_ide PRIVATE ardenslib ards_compiler)
-target_include_directories(abc_ide PRIVATE
+target_link_libraries(abc PRIVATE ardenslib ards_compiler)
+target_include_directories(abc PRIVATE
     deps/sokol
     deps/imgui
     deps/ImGuiColorTextEdit
@@ -151,7 +151,7 @@ target_include_directories(abc_ide PRIVATE
 
 if((WIN32 OR APPLE OR UNIX) AND NOT EMSCRIPTEN)
     add_subdirectory(deps/nativefiledialog-extended)
-    target_link_libraries(abc_ide PRIVATE nfd)
+    target_link_libraries(abc PRIVATE nfd)
 endif()
 
 add_executable(abc_benchmarks benchmarks/abc_benchmarks.cpp)

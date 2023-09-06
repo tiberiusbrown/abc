@@ -184,7 +184,7 @@ void player_window_contents(uint64_t dt)
                     TableSetColumnIndex(0);
                     TextUnformatted(f.c_str());
                     TableSetColumnIndex(1);
-                    Text("%d", e.line_info.first);
+                    Text("%d", (int)e.line_info.first);
                     TableSetColumnIndex(2);
                     TextWrapped("%s", e.msg.c_str());
                 }
