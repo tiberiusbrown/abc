@@ -281,11 +281,11 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
             assert(decls.size() % 2 == 0);
             for(size_t i = 0; i < decls.size(); i += 2)
             {
-                auto const& type = decls[i + 0];
-                auto const& name = decls[i + 1];
-                assert(name.type == AST::IDENT);
-                f.arg_names.push_back(std::string(name.data));
-                f.decl.arg_types.push_back(resolve_type(type));
+                auto const& ttype = decls[i + 0];
+                auto const& tname = decls[i + 1];
+                assert(tname.type == AST::IDENT);
+                f.arg_names.push_back(std::string(tname.data));
+                f.decl.arg_types.push_back(resolve_type(ttype));
             }
         }
     }

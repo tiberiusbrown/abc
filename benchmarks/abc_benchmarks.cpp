@@ -1,3 +1,5 @@
+#define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
+
 #include <absim.hpp>
 #include <ards_assembler.hpp>
 #include <ards_compiler.hpp>
@@ -58,7 +60,7 @@ static void bench(char const* name)
 
     {
         ards::assembler_t a{};
-        std::istrstream ss(abc_asm.data(), abc_asm.size());
+        std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
         auto e = a.assemble(ss);
         assert(e.msg.empty());
         e = a.link();
@@ -67,12 +69,12 @@ static void bench(char const* name)
     }
 
     {
-        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, VM_HEX_ARDUBOYFX_SIZE);
+        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
         auto t = arduboy->load_file("vm.hex", ss);
         assert(t.empty());
     }
     {
-        std::istrstream ss((char const*)binary.data(), binary.size());
+        std::istrstream ss((char const*)binary.data(), (int)binary.size());
         auto t = arduboy->load_file("fxdata.bin", ss);
         assert(t.empty());
     }

@@ -18,11 +18,6 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "assert",           SYS_ASSERT           },
 };
 
-static bool isdigit(char c)
-{
-    return c >= '0' && c <= '9';
-}
-
 static bool isalpha(char c)
 {
     return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_';
@@ -76,16 +71,10 @@ uint16_t read_sys(std::istream& f, error_t& e)
     return it->second;
 }
 
-static int hex2val(char c)
-{
-    if(c >= '0' && c <= '9') return c - '0';
-    if(c >= 'a' && c <= 'f') return c + (10 - 'a');
-    return -1;
-}
-
 uint32_t read_imm(std::istream& f, error_t& e)
 {
 #if 1
+    (void)e;
     int64_t x;
     f >> x;
 #else
@@ -110,7 +99,7 @@ uint32_t read_imm(std::istream& f, error_t& e)
         x += (v0 * 16 + v1);
     }
 #endif
-    return x;
+    return (uint32_t)x;
 }
 
 void assembler_t::push_instr(instr_t i)
@@ -381,15 +370,15 @@ error_t assembler_t::assemble(std::istream& f)
                 error.msg = "Duplicate global \"" + label + "\"";
                 break;
             }
-            uint32_t t = read_imm(f, error);
+            uint32_t ti = read_imm(f, error);
             if(!error.msg.empty()) break;
-            if(t == 0)
+            if(ti == 0)
             {
                 error.msg = "Global \"" + label + "\" has zero size";
                 break;
             }
             globals[label] = globals_bytes;
-            globals_bytes += t;
+            globals_bytes += ti;
         }
         else if(t == ".b")
         {
@@ -400,8 +389,8 @@ error_t assembler_t::assemble(std::istream& f)
             std::string filename;
             uint8_t file = 0;
             f >> filename;
-            auto it = file_table.find(filename);
-            if(it == file_table.end())
+            auto fit = file_table.find(filename);
+            if(fit == file_table.end())
             {
                 file = (uint8_t)file_table.size();
                 if(file_table.size() >= 256)
@@ -411,7 +400,7 @@ error_t assembler_t::assemble(std::istream& f)
                 }
                 file_table[filename] = file;
             }
-            else file = it->second;
+            else file = fit->second;
             push_file(file);
         }
         else if(t == ".line")
@@ -622,7 +611,7 @@ error_t assembler_t::link()
     }
 
     // add file table info (offset 12)
-    linked_data[12] = file_table.size();
+    linked_data[12] = (uint8_t)file_table.size();
     linked_data[13] = uint8_t(linked_data.size() >> 0);
     linked_data[14] = uint8_t(linked_data.size() >> 8);
     linked_data[15] = uint8_t(linked_data.size() >> 16);

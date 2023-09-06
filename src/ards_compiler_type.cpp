@@ -185,18 +185,6 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             a.comp_type = a.children[0].comp_type.without_ref();
         break;
     }
-    {
-        assert(a.children.size() == 2);
-        for(auto& child : a.children)
-            type_annotate_recurse(child, frame);
-        a.comp_type.is_signed =
-            a.children[0].comp_type.without_ref().is_signed ||
-            a.children[1].comp_type.without_ref().is_signed;
-        a.comp_type.prim_size = std::max(
-            a.children[0].comp_type.without_ref().prim_size,
-            a.children[1].comp_type.without_ref().prim_size);
-        break;
-    }
     case AST::INT_CONST:
         // already done during parsing
         break;

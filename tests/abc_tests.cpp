@@ -1,3 +1,5 @@
+#define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
+
 #include <absim.hpp>
 #include <ards_assembler.hpp>
 #include <ards_compiler.hpp>
@@ -30,7 +32,7 @@ static bool test(std::string const& filename, std::string const& short_filename)
 
     {
         ards::assembler_t a{};
-        std::istrstream ss(abc_asm.data(), abc_asm.size());
+        std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
         auto e = a.assemble(ss);
         assert(e.msg.empty());
         e = a.link();

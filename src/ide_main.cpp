@@ -3,7 +3,10 @@
 #include <memory>
 
 #include <imgui.h>
+
+#ifndef __EMSCRIPTEN__
 #include <nfd.hpp>
+#endif
 
 #if defined(__EMSCRIPTEN__)
 #define SOKOL_GLES2
@@ -55,7 +58,10 @@ static void app_frame()
 static void app_init()
 {
     stm_setup();
+
+#ifndef __EMSCRIPTEN__
     NFD::Init();
+#endif
 
     {
         sg_desc desc{};
@@ -82,22 +88,6 @@ static void app_init()
     update_pixel_ratio();
     rescale_style();
     rebuild_fonts();
-
-    //{
-    //    sg_image_desc desc{};
-    //    desc.width = 128;
-    //    desc.height = 64;
-    //    desc.pixel_format = SG_PIXELFORMAT_RGBA8;
-    //    desc.min_filter = SG_FILTER_LINEAR;
-    //    desc.mag_filter = SG_FILTER_NEAREST;
-    //    desc.wrap_u = SG_WRAP_CLAMP_TO_EDGE;
-    //    desc.wrap_v = SG_WRAP_CLAMP_TO_EDGE;
-    //    desc.usage = SG_USAGE_STREAM;
-    //    auto img = sg_make_image(&desc);
-    //    display_texture = (texture_t)(uintptr_t)img.id;
-    //    img = sg_make_image(&desc);
-    //    display_buffer_texture = (texture_t)(uintptr_t)img.id;
-    //}
 }
 
 static void app_event(sapp_event const* e)
@@ -123,11 +113,12 @@ static void app_event(sapp_event const* e)
 
 static void app_cleanup()
 {
+#ifndef __EMSCRIPTEN__
     NFD::Quit();
+#endif
     shutdown();
     saudio_shutdown();
     simgui_shutdown();
-    //platform_destroy_texture(display_texture);
 #ifndef ARDENS_NO_DEBUGGER
     platform_destroy_texture(display_buffer_texture);
 #endif

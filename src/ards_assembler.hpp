@@ -21,7 +21,7 @@ extern std::unordered_map<std::string, sysfunc_t> const sys_names;
 struct assembler_t
 {
     assembler_t()
-        : file_table{ { "", 0 } }
+        : file_table{ { "", (uint8_t)0 } }
         , prev_pc_offset(0)
         , globals_bytes(0)
         , byte_count(256) // header page

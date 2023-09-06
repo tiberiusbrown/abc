@@ -29,6 +29,7 @@ if(MSVC)
         $<$<CONFIG:DEBUG>:/OPT:NOICF>       # No Identical COMDAT folding.
     )
     add_compile_options(
+        /W4
         /Zc:__cplusplus
         /utf-8
         /D_CRT_SECURE_NO_DEPRECATE

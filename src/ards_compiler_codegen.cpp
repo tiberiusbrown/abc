@@ -37,6 +37,7 @@ compiler_lvalue_t compiler_t::resolve_lvalue(
         ast_node_t const& n)
 {
     assert(n.type == AST::IDENT || n.type == AST::ARRAY_INDEX);
+    (void)f;
     uint16_t line = n.line();
     if(n.type == AST::ARRAY_INDEX)
     {
@@ -59,7 +60,7 @@ compiler_lvalue_t compiler_t::return_lvalue(compiler_func_t const& f, compiler_f
 {
     compiler_lvalue_t t{};
     t.type = f.decl.return_type;
-    t.stack_index = frame.size + t.type.prim_size;
+    t.stack_index = uint8_t(frame.size + t.type.prim_size);
     return t;
 }
 
@@ -187,7 +188,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             break;
         bool nocond = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
         auto start = codegen_label(f);
-        size_t cond_index = -1;
+        size_t cond_index = size_t(-1);
         if(!nocond)
         {
             codegen_expr(f, frame, a.children[0], false);
@@ -208,7 +209,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     }
     case AST::BLOCK:
     {
-        size_t prev_size = frame.size;
+        size_t block_prev_size = frame.size;
         frame.push();
         for(auto& child : a.children)
             codegen(f, frame, child);
@@ -220,7 +221,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                 f.instrs.push_back({ I_POP, line });
         }
         frame.pop();
-        assert(!errs.empty() || frame.size == prev_size);
+        (void)block_prev_size;
+        assert(!errs.empty() || frame.size == block_prev_size);
         break;
     }
     case AST::RETURN_STMT:
@@ -232,13 +234,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     }
     case AST::EXPR_STMT:
     {
-        size_t prev_size = frame.size;
+        size_t expr_prev_size = frame.size;
         assert(a.children.size() == 1);
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
-        for(size_t i = prev_size; i < frame.size; ++i)
+        for(size_t i = expr_prev_size; i < frame.size; ++i)
             f.instrs.push_back({ I_POP, a.line() });
-        frame.size = prev_size;
+        frame.size = expr_prev_size;
         break;
     }
     case AST::DECL_STMT:
@@ -300,6 +302,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         errs.push_back({ "(codegen) Unimplemented AST node", a.line_info });
         return;
     }
+    (void)prev_size;
     if(a.type != AST::DECL_STMT && errs.empty())
         assert(frame.size == prev_size);
 }
@@ -396,21 +399,21 @@ void compiler_t::codegen_convert(
     if(to.prim_size == from.prim_size) return;
     if(to.prim_size < from.prim_size)
     {
-        int num = from.prim_size - to.prim_size;
+        size_t num = from.prim_size - to.prim_size;
         frame.size -= num;
-        for(int i = 0; i < num; ++i)
+        for(size_t i = 0; i < num; ++i)
             f.instrs.push_back({ I_POP, n.line() });
     }
     if(to.prim_size > from.prim_size)
     {
-        int num = to.prim_size - from.prim_size;
+        size_t num = to.prim_size - from.prim_size;
         frame.size += num;
         compiler_instr_t instr;
         if(from.is_signed)
             instr = { I_SEXT, n.line() };
         else
             instr = { I_PUSH, n.line(), 0 };
-        for(int i = 0; i < num; ++i)
+        for(size_t i = 0; i < num; ++i)
             f.instrs.push_back(instr);
     }
 }
@@ -546,8 +549,8 @@ void compiler_t::codegen_expr(
             auto const& type = func.decl.arg_types[i];
             auto const& expr = a.children[1].children[i];
             // handle reference function arguments
-            bool ref = (type.type == compiler_type_t::REF);
-            if(ref && type.without_ref() != expr.comp_type.without_ref())
+            bool tref = (type.type == compiler_type_t::REF);
+            if(tref && type.without_ref() != expr.comp_type.without_ref())
             {
                 errs.push_back({
                     "Cannot create reference to incompatible type: " +
@@ -555,8 +558,8 @@ void compiler_t::codegen_expr(
                     expr.line_info });
                 return;
             }
-            codegen_expr(f, frame, expr, ref);
-            if(!ref)
+            codegen_expr(f, frame, expr, tref);
+            if(!tref)
                 codegen_convert(f, frame, a, type, expr.comp_type);
         }
         // called function should pop stack
@@ -694,21 +697,21 @@ void compiler_t::codegen_expr(
             f.instrs.push_back({ instr_t(I_MUL + size - 1), a.line() });
         else if(a.data == "/")
         {
-            auto size = a.comp_type.prim_size;
-            assert(size == 2 || size == 4);
+            auto tsize = a.comp_type.prim_size;
+            assert(tsize == 2 || tsize == 4);
             if(a.comp_type.is_signed)
-                f.instrs.push_back({ size == 2 ? I_DIV2 : I_DIV4, a.line() });
+                f.instrs.push_back({ tsize == 2 ? I_DIV2 : I_DIV4, a.line() });
             else
-                f.instrs.push_back({ size == 2 ? I_UDIV2 : I_UDIV4, a.line() });
+                f.instrs.push_back({ tsize == 2 ? I_UDIV2 : I_UDIV4, a.line() });
         }
         else if(a.data == "%")
         {
-            auto size = a.comp_type.prim_size;
-            assert(size == 2 || size == 4);
+            auto tsize = a.comp_type.prim_size;
+            assert(tsize == 2 || tsize == 4);
             if(a.comp_type.is_signed)
-                f.instrs.push_back({ size == 2 ? I_MOD2 : I_MOD4, a.line() });
+                f.instrs.push_back({ tsize == 2 ? I_MOD2 : I_MOD4, a.line() });
             else
-                f.instrs.push_back({ size == 2 ? I_UMOD2 : I_UMOD4, a.line() });
+                f.instrs.push_back({ tsize == 2 ? I_UMOD2 : I_UMOD4, a.line() });
         }
         else
             assert(false);
