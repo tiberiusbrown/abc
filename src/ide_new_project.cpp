@@ -7,30 +7,23 @@
 
 static std::string const main_name = "main.abc";
 static std::string const main_prog = R"(int x;
-bool dir;
+int y;
 
 void setup()
 {
-	//dir = true;
+	x = 56;
+	y = 24;
 }
 
 void loop()
 {
     while(!$next_frame())
         ;
-    $draw_filled_rect(x, 0, 16, 16, 1);
-    if(dir)
-    {
-    	x = x + 1;
-    	if(x >= 112)
-    		dir = false;
-    }
-    else
-    {
-    	x = x - 1;
-    	if(x <= 0)
-    		dir = true;
-    }
+    if($pressed( 64)) x = x + 1;
+    if($pressed( 32)) x = x - 1;
+    if($pressed( 16)) y = y + 1;
+    if($pressed(128)) y = y - 1;
+    $draw_filled_rect(x, y, 16, 16, 1);
     $display();
 }
 

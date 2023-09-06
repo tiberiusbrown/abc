@@ -16,6 +16,12 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "idle",             SYS_IDLE             },
     { "debug_break",      SYS_DEBUG_BREAK      },
     { "assert",           SYS_ASSERT           },
+    { "poll_buttons",     SYS_POLL_BUTTONS     },
+    { "just_pressed",     SYS_JUST_PRESSED     },
+    { "just_released",    SYS_JUST_RELEASED    },
+    { "pressed",          SYS_PRESSED          },
+    { "any_pressed",      SYS_ANY_PRESSED      },
+    { "not_pressed",      SYS_NOT_PRESSED      },
 };
 
 static bool isalpha(char c)
@@ -476,7 +482,19 @@ error_t assembler_t::link()
     linked_data.push_back(0x0A);
     linked_data.push_back(0xBC);
 
-    // offset 4: call to main and loop
+    // offset 4: eight dummy bytes
+    for(int i = 0; i < 8; ++i)
+        linked_data.push_back(0);
+
+    // offset 12: file table size (1 byte) and offset (3 bytes)
+    for(int i = 0; i < 4; ++i)
+        linked_data.push_back(0);
+
+    // offset 16: line table offset (3 bytes + 1 dummy byte)
+    for(int i = 0; i < 4; ++i)
+        linked_data.push_back(0);
+
+    // offset 20: call to main and loop
     linked_data.push_back(I_CALL);
     {
         auto it = labels.find("main");
@@ -492,20 +510,8 @@ error_t assembler_t::link()
         linked_data.push_back(uint8_t(offset >> 8));
         linked_data.push_back(uint8_t(offset >> 16));
     }
-
     linked_data.push_back(I_JMP);
-    linked_data.push_back(4);
-    linked_data.push_back(0);
-    linked_data.push_back(0);
-
-    // offset 12: file table size (1 byte) and offset (3 bytes)
-    linked_data.push_back(0);
-    linked_data.push_back(0);
-    linked_data.push_back(0);
-    linked_data.push_back(0);
-
-    // offset 16: line table offset (3 bytes)
-    linked_data.push_back(0);
+    linked_data.push_back(20);
     linked_data.push_back(0);
     linked_data.push_back(0);
 

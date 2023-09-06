@@ -1446,7 +1446,10 @@ void TextEditor::SetSelection(const Coordinates & aStart, const Coordinates & aE
 		const auto lineNo = mState.mSelectionEnd.mLine;
 		//const auto lineSize = (size_t)lineNo < mLines.size() ? mLines[lineNo].size() : 0;
 		mState.mSelectionStart = Coordinates(mState.mSelectionStart.mLine, 0);
-		mState.mSelectionEnd = Coordinates(lineNo, GetLineMaxColumn(lineNo));
+        if(lineNo + 1 < mLines.size())
+		    mState.mSelectionEnd = Coordinates(lineNo + 1, 0);
+        else
+		    mState.mSelectionEnd = Coordinates(lineNo, GetLineMaxColumn(lineNo));
 		break;
 	}
 	default:

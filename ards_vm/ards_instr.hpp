@@ -13,6 +13,12 @@ enum sysfunc_t : uint16_t
     SYS_IDLE,
     SYS_DEBUG_BREAK,
     SYS_ASSERT,
+    SYS_POLL_BUTTONS,
+    SYS_JUST_PRESSED,
+    SYS_JUST_RELEASED,
+    SYS_PRESSED,
+    SYS_ANY_PRESSED,
+    SYS_NOT_PRESSED,
 
     SYS_NUM
 };

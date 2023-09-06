@@ -5,6 +5,18 @@
 namespace ards
 {
 
+enum error_t : uint8_t
+{
+    ERR_NONE,
+    ERR_SIG, // signature error
+    ERR_IDX, // array index out of bounds
+    ERR_DIV, // division by zero
+    ERR_ASS, // assertion failed
+    ERR_DST, // data stack overflow
+    ERR_CST, // call stack overflow
+    NUM_ERR,
+};
+
 /*
 
 building this requires a modified linker script:
