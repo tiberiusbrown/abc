@@ -4,7 +4,12 @@
 #include <cassert>
 
 #include <imgui.h>
+
+#ifdef __EMSCRIPTEN__
+// TODO: file download...
+#else
 #include <nfd.hpp>
+#endif
 
 #include <miniz.h>
 #include <miniz_zip.h>
@@ -22,14 +27,20 @@ static void export_fxdata()
 {
     if(!compile_all())
         return;
+    std::string filename;
 
+#ifdef __EMSCRIPTEN__
+    filename = "fxdata.bin";
+#else
     NFD::UniquePath path;
     nfdfilteritem_t filterItem[1] = { { "FX Data", "bin" } };
     auto result = NFD::SaveDialog(path, filterItem, 1, nullptr, "fxdata.bin");
     if(result != NFD_OKAY)
         return;
+    filename = path.get();
+#endif
 
-    export_compiled_fxdata(path.get());
+    export_compiled_fxdata(filename);
 }
 
 static size_t zip_write_data(
@@ -48,13 +59,18 @@ static void export_arduboy()
 {
     if(!compile_all())
         return;
+    std::string filename;
 
+#ifdef __EMSCRIPTEN__
+    filename = "game.arduboy";
+#else
     NFD::UniquePath path;
     nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "arduboy" } };
     auto result = NFD::SaveDialog(path, filterItem, 1, nullptr, "game.arduboy");
     if(result != NFD_OKAY)
         return;
-    std::string filename = path.get();
+    filename = path.get();
+#endif
 
     std::string info_json;
     {
