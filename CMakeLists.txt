@@ -40,8 +40,21 @@ if(MSVC)
         $<$<NOT:$<CONFIG:DEBUG>>:/Ot>
         $<$<NOT:$<CONFIG:DEBUG>>:/Ox>
     )
-else()
-    add_compile_options(-Wall -Wextra)
+endif()
+
+if(EMSCRIPTEN)
+    set(EXTRA_FLAGS "${EXTRA_FLAGS} -O3")
+    set(EXTRA_FLAGS "${EXTRA_FLAGS} -flto")
+    add_link_options("--closure 1")
+    add_link_options("-s MODULARIZE=1")
+    add_link_options("-flto")
+    
+    set(EXTRA_FLAGS "${EXTRA_FLAGS} -fno-rtti -fno-exceptions")
+    set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   ${EXTRA_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_FLAGS}")
+    add_link_options("-sALLOW_MEMORY_GROWTH")
+    add_link_options("-sINITIAL_MEMORY=24MB")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$autoResumeAudioContext','$dynCall']")
 endif()
 
 add_library(ards_assembler STATIC
