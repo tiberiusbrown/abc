@@ -403,10 +403,10 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return { v.line_info(), AST::TOKEN, v.token() };
     };
     p["expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        auto& child0 = std::any_cast<ast_node_t>(v[0]);
+        auto child0 = std::any_cast<ast_node_t>(v[0]);
         if(v.choice() == 1) return child0;
-        auto& child1 = std::any_cast<ast_node_t>(v[1]);
-        auto& child2 = std::any_cast<ast_node_t>(v[2]);
+        auto child1 = std::any_cast<ast_node_t>(v[1]);
+        auto child2 = std::any_cast<ast_node_t>(v[2]);
         assert(child1.type == AST::TOKEN);
         auto type = AST::OP_ASSIGN;
         return { v.line_info(), type, v.token(), { std::move(child0), std::move(child2) } };

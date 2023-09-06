@@ -3882,7 +3882,9 @@ private:
   bool apply_precedence_instruction(Definition &rule,
                                     const PrecedenceClimbing::BinOpeInfo &info,
                                     const char *s, Log log) {
+#ifndef __EMSCRIPTEN__
     try {
+#endif
       auto &seq = dynamic_cast<Sequence &>(*rule.get_core_operator());
       auto atom = seq.opes_[0];
       auto &rep = dynamic_cast<Repetition &>(*seq.opes_[1]);
@@ -3907,6 +3909,7 @@ private:
 
       rule.holder_->ope_ = pre(atom, binop, info, rule);
       rule.disable_action = true;
+#ifndef __EMSCRIPTEN__
     } catch (...) {
       if (log) {
         auto line = line_info(s, rule.s_);
@@ -3917,6 +3920,7 @@ private:
       }
       return false;
     }
+#endif
     return true;
   }
 
