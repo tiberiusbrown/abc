@@ -19,7 +19,7 @@
 static void export_compiled_fxdata(std::string const& filename)
 {
 #ifdef __EMSCRIPTEN__
-    download(
+    emscripten_browser_file::download(
         filename.c_str(), "application/octet-stream",
         project.binary.data(), project.binary.size());
 #else
@@ -149,7 +149,7 @@ static void export_arduboy()
     mz_zip_writer_end(&zip);
     
 #ifdef __EMSCRIPTEN__
-    download(
+    emscripten_browser_file::download(
         filename.c_str(), "application/octet-stream",
         zipdata.data(), zipdata.size());
 #else
