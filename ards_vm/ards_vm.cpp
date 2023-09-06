@@ -66,7 +66,6 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
     // find and display file/line info
     {
         uint24_t pc = vm.pc;
-        pc -= 1; // ensure we land on the correct instruction
         uint8_t num_files = 0;
         uint24_t file_table = 0;
         uint24_t line_table = 0;
@@ -82,6 +81,15 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
         uint16_t line = 0;
         uint24_t tpc = 0;
         FX::seekData(line_table);
+        /*
+        Line Table Command Encoding
+        =========================================================
+            0-127     Advance pc by N+1 bytes
+            128-252   Advance line counter by N-127 lines
+            253       Set file to next byte
+            254       Set line counter to next two bytes
+            255       Set pc to next three bytes
+        */
         while(tpc < pc)
         {
             uint8_t t = FX::readPendingUInt8();
