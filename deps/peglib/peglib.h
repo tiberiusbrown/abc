@@ -287,7 +287,7 @@ inline std::string resolve_escape_sequence(const char *s, size_t n) {
     auto ch = s[i];
     if (ch == '\\') {
       i++;
-      if (i == n) { throw std::runtime_error("Invalid escape sequence..."); }
+      assert(i != n);
       switch (s[i]) {
       case 'f':
         r += '\f';
@@ -2722,9 +2722,7 @@ inline size_t TokenBoundary::parse_core(const char *s, size_t n,
 
 inline size_t Holder::parse_core(const char *s, size_t n, SemanticValues &vs,
                                  Context &c, std::any &dt) const {
-  if (!ope_) {
-    throw std::logic_error("Uninitialized definition ope was used...");
-  }
+  assert(ope_);
 
   // Macro reference
   if (outer_->is_macro) {

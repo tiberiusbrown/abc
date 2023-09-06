@@ -312,6 +312,8 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         if(a.comp_type.type == compiler_type_t::PRIM && min_size != a.comp_type.prim_size)
             insert_cast(a, a.comp_type.sized_to(min_size));
         break;
+    default:
+        break;
     }
 }
 
