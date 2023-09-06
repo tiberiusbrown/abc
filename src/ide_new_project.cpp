@@ -1,6 +1,6 @@
 #include "ide_common.hpp"
 
-#include<algorithm>
+#include <algorithm>
 
 #include <imgui.h>
 #include <imgui_internal.h>

@@ -1,3 +1,5 @@
+#define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
+
 #include "ide_common.hpp"
 
 #include <strstream>
@@ -232,7 +234,7 @@ void init()
 
     arduboy = std::make_unique<absim::arduboy_t>();
     {
-        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, VM_HEX_ARDUBOYFX_SIZE);
+        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
         auto t = arduboy->load_file("vm.hex", ss);
         assert(t.empty());
     }
