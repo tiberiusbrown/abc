@@ -67,6 +67,11 @@ if(EMSCRIPTEN)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$autoResumeAudioContext','$dynCall']")
 endif()
 
+set(EM_FILE_BROWSER_SOURCES)
+if(EMSCRIPTEN)
+    set(EM_FILE_BROWSER_SOURCES deps/emscripten-browser-file/emscripten_browser_file.h)
+endif()
+
 add_library(ards_assembler STATIC
     .editorconfig
     ards_vm/ards_instr.hpp
@@ -137,6 +142,7 @@ add_executable(abc ${EXE_TYPE}
 
     "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     
+    ${EM_FILE_BROWSER_SOURCES}
     ${IMGUI_SOURCES}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
@@ -146,6 +152,7 @@ target_include_directories(abc PRIVATE
     deps/sokol
     deps/imgui
     deps/ImGuiColorTextEdit
+    deps/emscripten-browser-file
     "${GENHEADER_DIR}"
     )
 

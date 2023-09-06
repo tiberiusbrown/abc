@@ -28,6 +28,7 @@ std::string open_project_info_file_t::window_title()
 
 std::unique_ptr<open_file_t> create_project_info_file(std::string const& filename)
 {
+    (void)filename;
     return std::make_unique<open_project_info_file_t>();
 }
 

@@ -6,7 +6,7 @@
 #include <imgui.h>
 
 #ifdef __EMSCRIPTEN__
-// TODO: file download...
+#include <emscripten_browser_file.h>
 #else
 #include <nfd.hpp>
 #endif
@@ -18,9 +18,15 @@
 
 static void export_compiled_fxdata(std::string const& filename)
 {
+#ifdef __EMSCRIPTEN__
+    download(
+        filename.c_str(), "application/octet-stream",
+        project.binary.data(), project.binary.size());
+#else
     std::ofstream f(filename.c_str(), std::ios::out | std::ios::binary);
     if(!f) return;
     f.write((char const*)project.binary.data(), project.binary.size());
+#endif
 }
 
 static void export_fxdata()
@@ -141,10 +147,16 @@ static void export_arduboy()
 
     mz_zip_writer_finalize_archive(&zip);
     mz_zip_writer_end(&zip);
-
+    
+#ifdef __EMSCRIPTEN__
+    download(
+        filename.c_str(), "application/octet-stream",
+        zipdata.data(), zipdata.size());
+#else
     std::ofstream f(filename.c_str(), std::ios::out | std::ios::binary);
     if(!f) return;
     f.write((char const*)zipdata.data(), zipdata.size());
+#endif
 }
 
 void export_menu_items()
