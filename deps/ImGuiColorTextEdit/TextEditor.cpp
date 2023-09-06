@@ -702,10 +702,10 @@ void TextEditor::HandleKeyboardInputs()
 	auto ctrl = io.ConfigMacOSXBehaviors ? io.KeySuper : io.KeyCtrl;
 	auto alt = io.ConfigMacOSXBehaviors ? io.KeyCtrl : io.KeyAlt;
 
+	if (ImGui::IsWindowHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_TextInput);
 	if (ImGui::IsWindowFocused())
 	{
-		if (ImGui::IsWindowHovered())
-			ImGui::SetMouseCursor(ImGuiMouseCursor_TextInput);
 		//ImGui::CaptureKeyboardFromApp(true);
 
 		io.WantCaptureKeyboard = true;
@@ -781,8 +781,10 @@ void TextEditor::HandleMouseInputs()
 	auto shift = io.KeyShift;
 	auto ctrl = io.ConfigMacOSXBehaviors ? io.KeySuper : io.KeyCtrl;
 	auto alt = io.ConfigMacOSXBehaviors ? io.KeyCtrl : io.KeyAlt;
+    bool hover = ImGui::IsWindowHovered();
+    bool focus = ImGui::IsWindowFocused();
 
-	if (ImGui::IsWindowHovered())
+	if (focus || hover)
 	{
 		if (!shift && !alt)
 		{
@@ -795,7 +797,7 @@ void TextEditor::HandleMouseInputs()
 			Left mouse button triple click
 			*/
 
-			if (tripleClick)
+			if (hover && tripleClick)
 			{
 				if (!ctrl)
 				{
@@ -811,7 +813,7 @@ void TextEditor::HandleMouseInputs()
 			Left mouse button double click
 			*/
 
-			else if (doubleClick)
+			else if (hover && doubleClick)
 			{
 				if (!ctrl)
 				{
@@ -829,7 +831,7 @@ void TextEditor::HandleMouseInputs()
 			/*
 			Left mouse button click
 			*/
-			else if (click)
+			else if (hover && click)
 			{
 				mState.mCursorPosition = mInteractiveStart = mInteractiveEnd = ScreenPosToCoordinates(ImGui::GetMousePos());
 				if (ctrl)
@@ -974,7 +976,7 @@ void TextEditor::Render()
 				}
 
 				// Render the cursor
-				if (focused)
+				if (focused && !HasSelection())
 				{
 					auto timeEnd = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 					auto elapsed = timeEnd - mStartTime;
@@ -1442,7 +1444,7 @@ void TextEditor::SetSelection(const Coordinates & aStart, const Coordinates & aE
 	case TextEditor::SelectionMode::Line:
 	{
 		const auto lineNo = mState.mSelectionEnd.mLine;
-		const auto lineSize = (size_t)lineNo < mLines.size() ? mLines[lineNo].size() : 0;
+		//const auto lineSize = (size_t)lineNo < mLines.size() ? mLines[lineNo].size() : 0;
 		mState.mSelectionStart = Coordinates(mState.mSelectionStart.mLine, 0);
 		mState.mSelectionEnd = Coordinates(lineNo, GetLineMaxColumn(lineNo));
 		break;
@@ -2218,8 +2220,8 @@ void TextEditor::ColorizeRange(int aFromLine, int aToLine)
 					id.assign(token_begin, token_end);
 
 					// todo : allmost all language definitions use lower case to specify keywords, so shouldn't this use ::tolower ?
-					if (!mLanguageDefinition.mCaseSensitive)
-						std::transform(id.begin(), id.end(), id.begin(), ::toupper);
+                    if(!mLanguageDefinition.mCaseSensitive)
+                        std::transform(id.begin(), id.end(), id.begin(), [](char c) { return (char)::toupper(c); });
 
 					if (!line[first - bufferBegin].mPreprocessor)
 					{
