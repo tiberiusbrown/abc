@@ -115,7 +115,8 @@ R"(
 program             <- global_stmt*
 
 global_stmt         <- decl_stmt / func_stmt
-decl_stmt           <- type_name ident ('=' expr)? ';'
+decl_stmt           <- 'constexpr' type_name ident '=' expr ';' /
+                       type_name ident ('=' expr)? ';'
 func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
@@ -474,6 +475,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
         if(v.size() >= 3)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[2])));
+        if(v.choice() == 0)
+            a.children[0].comp_type.is_constexpr = true;
         return a;
     };
     p["global_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {

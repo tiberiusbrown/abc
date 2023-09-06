@@ -11,9 +11,16 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+constexpr u32 x = 2;
+constexpr u32 y = x + 4;
+int f()
+{
+    return y + 3;
+}
 void main()
 {
-    $assert(false);
+    constexpr u32 z = y * 2;
+    $assert(z);
 }
 )";
 

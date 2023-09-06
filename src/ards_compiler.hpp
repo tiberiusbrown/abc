@@ -87,6 +87,7 @@ struct compiler_type_t
     size_t prim_size;
     bool is_signed;
     bool is_bool;
+    bool is_constexpr;
     enum type_t
     {
         PRIM,
@@ -251,6 +252,8 @@ private:
 
     void parse(std::istream& fi);
 
+    bool check_identifier(ast_node_t const& n);
+
     compiler_local_t const* resolve_local(compiler_frame_t const& frame, ast_node_t const& n);
     compiler_global_t const* resolve_global(ast_node_t const& n);
 
@@ -266,7 +269,7 @@ private:
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame, size_t size = 4);
 
     void transform_left_assoc_infix(ast_node_t& n);
-    void transform_constexprs(ast_node_t& n);
+    void transform_constexprs(ast_node_t& n, compiler_frame_t const& frame);
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);

@@ -5,12 +5,12 @@
 namespace ards
 {
 
-void compiler_t::transform_constexprs(ast_node_t& n)
+void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;
     //if(n.type >= AST::EXPR_BEGIN)
         for(auto& child : n.children)
-            transform_constexprs(child);
+            transform_constexprs(child, frame);
     if(!(
         n.type == AST::OP_UNARY && n.children[1].type == AST::INT_CONST ||
         n.type == AST::OP_CAST && n.children[1].type == AST::INT_CONST))
@@ -23,6 +23,18 @@ void compiler_t::transform_constexprs(ast_node_t& n)
     }
     switch(n.type)
     {
+    case AST::IDENT:
+        if(auto* l = resolve_local(frame, n); l && l->is_constexpr)
+        {
+            n.value = l->value;
+            break;
+        }
+        if(auto* g = resolve_global(n); g && g->is_constexpr)
+        {
+            n.value = g->value;
+            break;
+        }
+        return;
     case AST::OP_CAST:
         assert(n.children.size() == 2);
         n.value = n.children[1].value;

@@ -308,7 +308,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
 void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame, size_t size)
 {
     type_annotate_recurse(a, frame);
-    transform_constexprs(a);
+    transform_constexprs(a, frame);
     type_reduce_recurse(a, size);
 }
 

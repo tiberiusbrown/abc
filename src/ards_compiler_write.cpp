@@ -165,6 +165,7 @@ void compiler_t::write(std::ostream& f)
 {
     for(auto const& [name, global] : globals)
     {
+        if(global.is_constexpr) continue;
         f << ".global " << name << " " << global.type.prim_size << "\n";
     }
 

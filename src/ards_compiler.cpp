@@ -1,5 +1,7 @@
 #include "ards_compiler.hpp"
 
+#include <unordered_set>
+
 #include <assert.h>
 
 namespace ards
@@ -75,8 +77,13 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
                 n.line_info });
             return TYPE_NONE;
         }
+        compiler_type_t t{};
         if(n.children.empty())
-            return it->second;
+        {
+            t = it->second;
+            t.is_constexpr = n.comp_type.is_constexpr;
+            return t;
+        }
         // array
         auto num = n.children[0].value;
         if(num <= 0)
@@ -86,13 +93,20 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
                    n.line_info });
             return TYPE_NONE;
         }
-        compiler_type_t t{};
         t.prim_size = it->second.prim_size * num;
         t.type = compiler_type_t::ARRAY;
         t.children.push_back(it->second);
+        t.is_constexpr = n.comp_type.is_constexpr;
         return t;
     }
-    else if(n.type == AST::TYPE_REF)
+
+    if(n.comp_type.is_constexpr)
+    {
+        errs.push_back({ "Only primitive types may be declared 'constexpr'", n.line_info });
+        return TYPE_NONE;
+    }
+
+    if(n.type == AST::TYPE_REF)
     {
         assert(n.children.size() == 1);
         compiler_type_t t{};
@@ -101,7 +115,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.children.push_back(resolve_type(n.children[0]));
         return t;
     }
-    else if(n.type == AST::TYPE_AREF)
+    if(n.type == AST::TYPE_AREF)
     {
         assert(n.children.size() == 1);
         compiler_type_t t{};
@@ -110,7 +124,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.children.push_back(resolve_type(n.children[0]));
         return t;
     }
-    else if(n.type == AST::TYPE_ARRAY)
+    if(n.type == AST::TYPE_ARRAY)
     {
         assert(n.children.size() == 2);
         assert(n.children[0].type == AST::INT_CONST);
@@ -160,6 +174,26 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
 
     errs.push_back({ "Undefined function: \"" + name + "\"", n.line_info });
     return {};
+}
+
+bool compiler_t::check_identifier(ast_node_t const& n)
+{
+    static std::unordered_set<std::string> const KEYWORDS =
+    {
+        "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
+        "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
+        "if", "else", "while", "for", "return", "break", "continue",
+    };
+    assert(n.type == AST::IDENT);
+    std::string ident(n.data);
+    if(KEYWORDS.count(ident) != 0)
+    {
+        errs.push_back({
+            "\"" + ident + "\" is a keyword and cannot be used as an identifier",
+            n.line_info });
+        return false;
+    }
+    return true;
 }
 
 void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& filename)
@@ -219,15 +253,15 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
         if(n.type == AST::DECL_STMT)
         {
-            if(n.children.size() > 2)
+            if(n.children.size() > 2 && !n.children[0].comp_type.is_constexpr)
             {
                 errs.push_back({
-                    "Global variables cannot be initialized",
+                    "Only constexpr global variables can be initialized",
                     n.line_info });
                 return;
             }
-            assert(n.children.size() == 2);
             assert(n.children[1].type == AST::IDENT);
+            if(!check_identifier(n.children[1])) return;
             std::string name(n.children[1].data);
             auto it = globals.find(name);
             if(it != globals.end())
@@ -237,6 +271,8 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     n.children[1].line_info });
                 return;
             }
+            if(n.children[0].comp_type.is_constexpr)
+                type_annotate(n.children[2], {});
             auto& g = globals[name];
             g.name = name;
             g.type = resolve_type(n.children[0]);
@@ -247,6 +283,20 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     "Global variable \"" + name + "\" has zero size",
                     n.line_info });
                 return;
+            }
+            if(n.children[0].comp_type.is_constexpr)
+            {
+                g.is_constexpr = true;
+                if(n.children[2].type == AST::INT_CONST)
+                    g.value = n.children[2].value;
+                else
+                {
+                    errs.push_back({
+                        "\"" + std::string(n.children[2].data) +
+                        "\" is not a constant expression",
+                        n.children[2].line_info });
+                    return;
+                }
             }
         }
         else if(n.type == AST::FUNC_STMT)

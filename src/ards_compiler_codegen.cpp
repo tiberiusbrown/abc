@@ -248,6 +248,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         // add local var to frame
         assert(a.children.size() == 2 || a.children.size() == 3);
         assert(a.children[1].type == AST::IDENT);
+        if(!check_identifier(a.children[1])) return;
         auto type = resolve_type(a.children[0]);
         if(type.prim_size == 0)
         {
@@ -267,7 +268,24 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         auto& local = scope.locals[std::string(a.children[1].data)];
         local.type = type;
         local.frame_offset = frame.size;
-        if(a.children.size() == 3)
+        if(type.is_constexpr)
+        {
+            type_annotate(a.children[2], frame);
+            if(a.children[2].type == AST::INT_CONST)
+            {
+                local.is_constexpr = true;
+                local.value = a.children[2].value;
+            }
+            else
+            {
+                errs.push_back({
+                    "\"" + std::string(a.children[2].data) +
+                    "\" is not a constant expression",
+                    a.children[2].line_info });
+                return;
+            }
+        }
+        else if(a.children.size() == 3)
         {
             type_annotate(a.children[2], frame);
             // TODO: handle array reference initializers
@@ -294,7 +312,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             for(size_t i = 0; i < type.prim_size; ++i)
                 f.instrs.push_back({ I_PUSH, a.line(), 0 });
         }
-        scope.size += type.prim_size;
+        if(!type.is_constexpr)
+            scope.size += type.prim_size;
         break;
     }
     default:
@@ -485,6 +504,7 @@ void compiler_t::codegen_expr(
         std::string name(a.data);
         if(auto* local = resolve_local(frame, a))
         {
+            assert(!local->is_constexpr);
             uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
             uint8_t size = (uint8_t)local->type.prim_size;
             if(ref && local->type.type != compiler_type_t::REF)
@@ -500,6 +520,7 @@ void compiler_t::codegen_expr(
         }
         if(auto* global = resolve_global(a))
         {
+            assert(!global->is_constexpr);
             if(ref)
             {
                 f.instrs.push_back({ I_REFG, a.line(), 0, 0, global->name});
