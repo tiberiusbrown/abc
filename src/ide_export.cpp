@@ -110,7 +110,7 @@ static void export_arduboy()
     zip.m_pWrite = zip_write_data;
     zip.m_pIO_opaque = &zipdata;
 
-    constexpr auto compression = MZ_DEFAULT_COMPRESSION;
+    constexpr mz_uint compression = (mz_uint)MZ_DEFAULT_COMPRESSION;
 
     mz_zip_writer_init(&zip, 0);
 

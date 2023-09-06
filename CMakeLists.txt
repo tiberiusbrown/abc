@@ -14,7 +14,15 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )
-    
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+include(GetGitRevisionDescription)
+git_describe(ABC_VERSION)
+message(STATUS "ABC_VERSION: ${ABC_VERSION}")
+string(REGEX REPLACE "^v" "" ABC_VERSION_SHORT ${ABC_VERSION})
+string(REGEX REPLACE "-.*" "" ABC_VERSION_SHORT ${ABC_VERSION_SHORT})
+message(STATUS "ABC_VERSION_SHORT: ${ABC_VERSION_SHORT}")
+
 set(EXE_TYPE)
 if(MSVC)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -158,4 +166,10 @@ target_link_libraries(abc_tests PRIVATE ardenslib ards_compiler)
 target_include_directories(abc_tests PRIVATE "${GENHEADER_DIR}")
 target_compile_definitions(abc_tests PRIVATE
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"
+    )
+
+set_source_files_properties(
+    src/ide_common.cpp
+    PROPERTIES
+        COMPILE_OPTIONS "-DABC_VERSION=\"${ABC_VERSION}\""
     )

@@ -76,8 +76,8 @@ void new_project()
         using namespace ImGui;
         ImGuiID t0, t1;
         DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.20f, &dockid_project, &t0);
-        ImGuiDockNode* project = ImGui::DockBuilderGetNode(dockid_project);
-        project->LocalFlags |=
+        ImGuiDockNode* p = ImGui::DockBuilderGetNode(dockid_project);
+        p->LocalFlags |=
             ImGuiDockNodeFlags_NoTabBar |
             ImGuiDockNodeFlags_NoDockingOverMe |
             ImGuiDockNodeFlags_NoDockingSplitMe;

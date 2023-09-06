@@ -1,3 +1,5 @@
+#define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
+
 #include "ide_common.hpp"
 
 #include <algorithm>
@@ -28,7 +30,7 @@ void player_run()
         return;
     std::istrstream ss(
         (char const*)project.binary.data(),
-        project.binary.size());
+        (int)project.binary.size());
     auto t = arduboy->load_file("fxdata.bin", ss);
     arduboy->paused = true;
     if(!t.empty())
@@ -168,7 +170,6 @@ void player_window_contents(uint64_t dt)
         PushStyleColor(ImGuiCol_Text, IM_COL32(200, 0, 0, 255));
         TextUnformatted("Some errors occurred during compilation:");
         PopStyleColor();
-        float w = GetContentRegionAvail().x;
         if(BeginTable("##errorstable", 3, flags))
         {
             TableSetupColumn("File", ImGuiTableColumnFlags_WidthFixed);
