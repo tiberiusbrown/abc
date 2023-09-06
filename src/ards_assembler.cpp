@@ -439,8 +439,11 @@ void assembler_t::relax_jumps()
         assert(label.type == LABEL);
 
         auto it = labels.find(label.label);
-        if(it == labels.end()) return;
-        size_t addr = it->second;
+        if(it == labels.end())
+            return;
+        if(it->second >= nodes.size())
+            return;
+        size_t addr = nodes[it->second].offset;
 
         int32_t offset = int32_t(addr) - int32_t(n.offset);
         int32_t abs_offset = offset < 0 ? -offset : offset;
