@@ -206,16 +206,7 @@ void shutdown()
 
 void init()
 {
-    printf(
-        "ABC IDE " ABC_VERSION " by Peter Brown\n");
-
-#ifdef __EMSCRIPTEN__
-    EM_ASM(
-        FS.mkdir('/offline');
-    FS.mount(IDBFS, {}, '/offline');
-    FS.syncfs(true, function(err) { ccall('postsyncfs', 'v'); });
-    );
-#endif
+    printf("ABC IDE " ABC_VERSION " by Peter Brown\n");
 
     //init_settings();
 
