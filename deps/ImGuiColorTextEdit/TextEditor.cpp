@@ -708,6 +708,7 @@ void TextEditor::HandleKeyboardInputs()
 	{
 		//ImGui::CaptureKeyboardFromApp(true);
 
+        ImGui::SetNextFrameWantCaptureKeyboard(true);
 		io.WantCaptureKeyboard = true;
 		io.WantTextInput = true;
 

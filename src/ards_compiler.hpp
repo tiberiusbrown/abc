@@ -158,12 +158,16 @@ struct compiler_global_t
 {
     compiler_type_t type;
     std::string name;
+    int64_t value; // for contexprs
+    bool is_constexpr;
 };
 
 struct compiler_local_t
 {
     size_t frame_offset;
     compiler_type_t type;
+    int64_t value; // for contexprs
+    bool is_constexpr;
 };
 
 struct compiler_scope_t
