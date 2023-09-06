@@ -1,0 +1,95 @@
+name: Build
+
+on:
+  push:
+    tags:
+    - 'v*'
+  workflow_dispatch:
+    
+env:
+  BUILD_TYPE: Release
+
+jobs:
+
+  release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+      if: github.event_name != 'push'
+    - name: Set tag name
+      id: tag
+      run: |
+        if [[ "${{ github.event_name }}" != "push" ]]; then
+          tag=v$(date +%Y%m%d.%H%M%S)
+        else
+          tag=$(basename "${{ github.ref }}")
+        fi
+        echo "tag=$tag" >> $GITHUB_OUTPUT
+    - name: Create Release
+      env:
+        GH_TOKEN: ${{ github.token }}
+        GH_REPO: ${{ github.repository }}
+      run: |
+        tag="${{ steps.tag.outputs.tag }}"
+        body=""
+        gh release create --draft "$tag" --title "$tag" --notes "$body"
+
+  build_web:
+  
+    name: Build (Web)
+    needs: [release]
+    runs-on: ubuntu-latest
+  
+    steps:
+        
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        
+    - name: Install prerequisites
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libpulse-dev libgl1-mesa-dev
+      
+    - name: Set up emsdk
+      run: |
+        git clone https://github.com/emscripten-core/emsdk.git ${{github.workspace}}/emsdk
+        ${{github.workspace}}/emsdk/emsdk install 3.1.31
+        ${{github.workspace}}/emsdk/emsdk activate 3.1.31
+  
+    - name: Configure
+      run: |
+        source ${{github.workspace}}/emsdk/emsdk_env.sh
+        emcmake cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    
+    - name: Build
+      run: |
+        export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
+        cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target abc_ide
+        
+    - name: Create zip file
+      run: |
+        mkdir ${{github.workspace}}/abc_web
+        cp ${{github.workspace}}/build/abc.js ${{github.workspace}}/abc_web
+        cp ${{github.workspace}}/build/abc.wasm ${{github.workspace}}/abc_web
+        cp ${{github.workspace}}/resources/abc.html ${{github.workspace}}/abc_web/index.html
+        cd ${{github.workspace}}/abc_web
+        zip -r ${{github.workspace}}/abc_web.zip *
+        
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        folder: ${{github.workspace}}/abc_web
+  
+    - name: Release
+      env:
+        GH_TOKEN: ${{ github.token }}
+        GH_REPO: ${{ github.repository }}
+      run: gh release upload "${{ needs.release.outputs.tag }}" "${{github.workspace}}/abc_web.zip"
