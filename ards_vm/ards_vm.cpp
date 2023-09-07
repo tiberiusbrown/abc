@@ -441,6 +441,14 @@ I_SETGN:
     ; call delay_8 ; TODO: remove this when SETGN(1) is not allowed
     dispatch
 
+I_GETP:
+    dispatch_delay
+    dispatch
+
+I_GETPN:
+    dispatch_delay
+    dispatch
+
 I_GETR:
     ld   r27, -Y
     ld   r26, -Y
@@ -583,6 +591,14 @@ I_AIDX:
     adc  r23, r21
     st   Y+, r22
     st   Y+, r23
+    dispatch
+
+I_PIDXB:
+    dispatch_delay
+    dispatch
+
+I_PIDX:
+    dispatch_delay
     dispatch
 
 I_REFL:

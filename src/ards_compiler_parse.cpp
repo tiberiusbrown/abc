@@ -134,7 +134,9 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 
 # right-associative binary assignment operator
-expr                <- postfix_expr assignment_op expr / logical_or_expr
+expr                <- type_name '{' expr (',' expr)* '}' /
+                       postfix_expr assignment_op expr /
+                       logical_or_expr
 
 # left-associative binary operators
 logical_or_expr     <- logical_and_expr    ('||'              logical_and_expr   )*
@@ -411,8 +413,15 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return { v.line_info(), AST::TOKEN, v.token() };
     };
     p["expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        if(v.choice() == 0)
+        {
+            ast_node_t a{ v.line_info(), AST::COMPOUND_LITERAL, v.token() };
+            for(auto& child : v)
+                a.children.push_back(std::move(std::any_cast<ast_node_t>(child)));
+            return a;
+        }
         auto child0 = std::any_cast<ast_node_t>(v[0]);
-        if(v.choice() == 1) return child0;
+        if(v.choice() == 2) return child0;
         auto child1 = std::any_cast<ast_node_t>(v[1]);
         auto child2 = std::any_cast<ast_node_t>(v[2]);
         assert(child1.type == AST::TOKEN);
@@ -478,6 +487,9 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         if(v.choice() == 0)
             a.children[0].comp_type.is_constexpr = true;
         return a;
+    };
+    p["decl_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return std::any_cast<ast_node_t>(v[0]);
     };
     p["global_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return std::any_cast<ast_node_t>(v[0]);

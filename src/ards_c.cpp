@@ -11,12 +11,12 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+u8[4] a1;
+u8[4] m;
+
 void main()
 {
-    constexpr int y = 10;
-    int[y - 20] b;
-    for(u8 i = 0; i < y; i = i + 1)
-        b[i] = i + 65;
+    a1 = m;
 }
 )";
 

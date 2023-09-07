@@ -41,6 +41,8 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_GETGN: f << "getgn " << instr.label; break;
     case I_SETG:  f << "setg  " << instr.label; break;
     case I_SETGN: f << "setgn " << instr.label; break;
+    case I_GETP:  f << "getp"; break;
+    case I_GETPN: f << "getpn " << instr.imm; break;
     case I_GETR:  f << "getr"; break;
     case I_GETR2: f << "getr2"; break;
     case I_GETRN: f << "getrn " << instr.imm; break;

@@ -296,6 +296,15 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETGN);
             push_global(f);
         }
+        else if(t == "getp")
+        {
+            push_instr(I_GETP);
+        }
+        else if(t == "getpn")
+        {
+            push_instr(I_GETPN);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "getrn")
         {
             push_instr(I_GETRN);
@@ -317,6 +326,18 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_AIDX);
             push_imm(read_imm(f, error), 2);
             push_imm(read_imm(f, error), 2);
+        }
+        else if(t == "pidxb")
+        {
+            push_instr(I_AIDXB);
+            push_imm(read_imm(f, error), 1);
+            push_imm(read_imm(f, error), 1);
+        }
+        else if(t == "pidx")
+        {
+            push_instr(I_AIDX);
+            push_imm(read_imm(f, error), 3);
+            push_imm(read_imm(f, error), 3);
         }
         else if(t == "refl")
         {

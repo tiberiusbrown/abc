@@ -49,6 +49,9 @@ enum instr_t : uint8_t
     I_SETG,  // pop, then store to globals[imm]
     I_SETGN, // pop N then same as SETG but pop/store N bytes
 
+    I_GETP,  // pop addr24 then push 1 byte from prog address
+    I_GETPN, // pop addr24 then push imm8 bytes from prog address
+
     I_GETR,  // ref | (1 byte *ref)
     I_GETR2, // ref | (2 bytes *ref)
     I_GETRN, // ref | (imm8 bytes *ref)
@@ -63,6 +66,9 @@ enum instr_t : uint8_t
 
     I_AIDXB, // ref i | (ref+i*imm) with bounds checking with imm2 (8-bit)
     I_AIDX,  // ref i | (ref+i*imm) with bounds checking with imm2 (16-bit)
+
+    I_PIDXB, // pref i | (pref+i*imm) with bounds checking with imm2 (8-bit)
+    I_PIDX,  // pref i | (pref+i*imm) with bounds checking with imm2 (24-bit)
 
     I_REFL,  // imm8 -> pointer to local var
     I_REFG,  // imm16 -> pointer to global var

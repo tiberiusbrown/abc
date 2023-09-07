@@ -68,6 +68,8 @@ enum class AST
 
     ARRAY_INDEX, // children are array and index
 
+    COMPOUND_LITERAL, // children are type and elements
+
     //
     // atoms
     //

@@ -9,6 +9,8 @@ static std::string const main_name = "main.abc";
 static std::string const main_prog = R"(int x;
 int y;
 
+constexpr int MOVE_SPEED = 1;
+
 void setup()
 {
 	x = 56;
@@ -19,10 +21,10 @@ void loop()
 {
     while(!$next_frame())
         ;
-    if($pressed( 64)) x = x + 1;
-    if($pressed( 32)) x = x - 1;
-    if($pressed( 16)) y = y + 1;
-    if($pressed(128)) y = y - 1;
+    if($pressed( 64)) x = x + MOVE_SPEED;
+    if($pressed( 32)) x = x - MOVE_SPEED;
+    if($pressed( 16)) y = y + MOVE_SPEED;
+    if($pressed(128)) y = y - MOVE_SPEED;
     $draw_filled_rect(x, y, 16, 16, 1);
     $display();
 }

@@ -611,14 +611,23 @@ void compiler_t::codegen_expr(
     {
         assert(a.children.size() == 2);
         assert(a.children[0].comp_type.prim_size != 0);
-        if(a.children[0].comp_type.type == compiler_type_t::ARRAY_REF ||
-            a.children[0].comp_type.type == compiler_type_t::ARRAY)
+        if(a.children[0].comp_type.without_ref().type == compiler_type_t::PRIM)
         {
-            // TODO: nice error message
-            assert(false);
+            codegen_expr(f, frame, a.children[1], false);
+            codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
         }
-        codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
+        else if(a.children[0].comp_type.type == compiler_type_t::ARRAY)
+        {
+            if(a.children[0].comp_type != a.children[0].comp_type.without_ref())
+            {
+                errs.push_back({
+                    "Incompatible types in assignment to \"" +
+                    std::string(a.children[0].data) + "\"",
+                    a.line_info });
+                return;
+            }
+            codegen_expr(f, frame, a.children[1], false);
+        }
 
         // dup value if not the root op
         switch(a.parent->type)
@@ -634,14 +643,6 @@ void compiler_t::codegen_expr(
         }
 
         auto lvalue = resolve_lvalue(f, frame, a.children[0]);
-        if((lvalue.type.type != compiler_type_t::PRIM &&
-            lvalue.type.type != compiler_type_t::REF) ||
-           (lvalue.type.type == compiler_type_t::REF &&
-            lvalue.type.children[0].type != compiler_type_t::PRIM))
-        {
-            errs.push_back({ "Assignment to non-primitive type", a.line_info });
-            return;
-        }
         codegen_store_lvalue(f, frame, lvalue);
         return;
     }
