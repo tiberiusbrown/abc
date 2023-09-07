@@ -300,6 +300,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             // TODO: handle array reference initializers
             assert(type.type != compiler_type_t::ARRAY_REF);
             bool ref = (type.type == compiler_type_t::REF);
+            if(ref && a.children[2].type == AST::COMPOUND_LITERAL)
+            {
+                errs.push_back({
+                    "Cannot create reference to expression",
+                    a.line_info });
+                return;
+            }
             if(a.children[2].type == AST::COMPOUND_LITERAL)
                 codegen_expr_compound(f, frame, a.children[2], type);
             else
@@ -586,8 +593,7 @@ void compiler_t::codegen_expr(
             if(tref && type.without_ref() != expr.comp_type.without_ref())
             {
                 errs.push_back({
-                    "Cannot create reference to incompatible type: " +
-                    std::string(expr.data),
+                    "Cannot create reference to expression",
                     expr.line_info });
                 return;
             }
@@ -833,7 +839,7 @@ void compiler_t::codegen_expr(
 
 rvalue_error:
     errs.push_back({
-        "Cannot create reference to lvalue expression: \"" + std::string(a.data) + "\"",
+        "Cannot create reference to expression",
         a.line_info });
 }
 
@@ -856,8 +862,13 @@ void compiler_t::codegen_expr_compound(
         bool ref = (t.type == compiler_type_t::REF);
         for(auto const& child : a.children)
         {
-            codegen_expr(f, frame, child, ref);
-            codegen_convert(f, frame, child, t, child.comp_type);
+            if(child.type == AST::COMPOUND_LITERAL)
+                codegen_expr_compound(f, frame, child, t);
+            else
+            {
+                codegen_expr(f, frame, child, ref);
+                codegen_convert(f, frame, child, t, child.comp_type);
+            }
         }
     }
     else assert(false);
