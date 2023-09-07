@@ -1,11 +1,17 @@
 #include "ards_compiler.hpp"
 
-#include <unordered_set>
-
 #include <assert.h>
 
 namespace ards
 {
+
+std::unordered_set<std::string> const keywords =
+{
+    "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
+    "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
+    "if", "else", "while", "for", "return", "break", "continue",
+    "constexpr", "prog",
+};
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
 {
@@ -109,6 +115,11 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     if(n.type == AST::TYPE_REF)
     {
         assert(n.children.size() == 1);
+        if(n.children[0].type == AST::TYPE_REF || n.children[0].type == AST::TYPE_AREF)
+        {
+            errs.push_back({ "Cannot create reference to reference", n.line_info });
+            return TYPE_NONE;
+        }
         compiler_type_t t{};
         t.type = compiler_type_t::REF;
         t.prim_size = 2;
@@ -118,6 +129,11 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     if(n.type == AST::TYPE_AREF)
     {
         assert(n.children.size() == 1);
+        if(n.children[0].type == AST::TYPE_REF || n.children[0].type == AST::TYPE_AREF)
+        {
+            errs.push_back({ "Cannot create reference to reference", n.line_info });
+            return TYPE_NONE;
+        }
         compiler_type_t t{};
         t.type = compiler_type_t::ARRAY_REF;
         t.prim_size = 4;
@@ -192,16 +208,9 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
 
 bool compiler_t::check_identifier(ast_node_t const& n)
 {
-    static std::unordered_set<std::string> const KEYWORDS =
-    {
-        "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
-        "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
-        "if", "else", "while", "for", "return", "break", "continue",
-        "constexpr", "prog",
-    };
     assert(n.type == AST::IDENT);
     std::string ident(n.data);
-    if(KEYWORDS.count(ident) != 0)
+    if(keywords.count(ident) != 0)
     {
         errs.push_back({
             "\"" + ident + "\" is a keyword and cannot be used as an identifier",

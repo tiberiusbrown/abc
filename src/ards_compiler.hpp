@@ -1,7 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include <variant>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include <cassert>
@@ -68,7 +69,7 @@ enum class AST
 
     ARRAY_INDEX, // children are array and index
 
-    COMPOUND_LITERAL, // children are type and elements
+    COMPOUND_LITERAL, // children are elements
 
     //
     // atoms
@@ -239,6 +240,7 @@ struct compiler_func_t
     bool is_sys;
 };
 
+extern std::unordered_set<std::string> const keywords;
 extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
 extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
 
@@ -276,6 +278,9 @@ private:
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);
+    void codegen_expr_compound(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a, ast_node_t const& dst);
     void codegen_expr_logical(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& a, std::string const& sc_label);

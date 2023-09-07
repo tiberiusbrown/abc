@@ -616,9 +616,9 @@ void compiler_t::codegen_expr(
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
         }
-        else if(a.children[0].comp_type.type == compiler_type_t::ARRAY)
+        else if(a.children[0].comp_type.without_ref().type == compiler_type_t::ARRAY)
         {
-            if(a.children[0].comp_type != a.children[0].comp_type.without_ref())
+            if(a.children[0].comp_type.without_ref() != a.children[0].comp_type.without_ref())
             {
                 errs.push_back({
                     "Incompatible types in assignment to \"" +

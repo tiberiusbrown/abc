@@ -26,15 +26,8 @@ static TextEditor::LanguageDefinition const& ABC()
 
     abc = TextEditor::LanguageDefinition::C();
 
-    static const char* const keywords[] =
-    {
-        "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
-        "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
-        "if", "else", "while", "for", "return", "break", "continue",
-        "constexpr", "prog",
-    };
     abc.mKeywords.clear();
-    for(auto k : keywords)
+    for(auto const& k : ards::keywords)
         abc.mKeywords.insert(k);
 
     abc.mIdentifiers.clear();

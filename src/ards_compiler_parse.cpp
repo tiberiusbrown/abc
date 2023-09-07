@@ -134,7 +134,7 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 
 # right-associative binary assignment operator
-expr                <- type_name '{' expr (',' expr)* '}' /
+expr                <- '{' expr (',' expr)* '}' /
                        postfix_expr assignment_op expr /
                        logical_or_expr
 
@@ -157,8 +157,8 @@ primary_expr        <- hex_literal / decimal_literal / bool_literal / ident / '(
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
 
 # TODO: replace decimal_literal with some form of expr
-type_name           <- ident ('[' expr ']')* type_name_ref?
-type_name_ref       <- '&' / '[' ']'
+type_name           <- ident type_name_postfix*
+type_name_postfix   <- '[' expr ']' / '&' / '[' ']' '&' / 'prog'
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
@@ -290,26 +290,28 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         for(size_t i = 1; i < v.size(); ++i)
         {
             ast_node_t b = std::any_cast<ast_node_t>(v[i]);
-            if(!(b.type == AST::TYPE_REF || b.type == AST::TYPE_AREF))
-            {
-                ast_node_t t{ b.line_info, AST::TYPE_ARRAY, b.data };
-                t.children.emplace_back(std::move(b));
-                b = std::move(t);
-            }
             b.children.emplace_back(std::move(a));
             a = std::move(b);
         }
         return a;
     };
-    p["type_name_ref"] = [](peg::SemanticValues const& v) -> ast_node_t {
+    p["type_name_postfix"] = [](peg::SemanticValues const& v) -> ast_node_t {
         if(v.choice() == 0)
+        {
+            // sized array
+            return {
+                v.line_info(), AST::TYPE_ARRAY, v.token(),
+                { std::any_cast<ast_node_t>(v[0]) }
+            };
+        }
+        else if(v.choice() == 1)
         {
             // reference
             return { v.line_info(), AST::TYPE_REF, v.token() };
         }
-        else if(v.choice() == 1)
+        else if(v.choice() == 2)
         {
-            // array reference
+            // unsized array reference
             return { v.line_info(), AST::TYPE_AREF, v.token() };
         }
         assert(false);
