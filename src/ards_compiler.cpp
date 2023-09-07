@@ -197,6 +197,7 @@ bool compiler_t::check_identifier(ast_node_t const& n)
         "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
         "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
         "if", "else", "while", "for", "return", "break", "continue",
+        "constexpr", "prog",
     };
     assert(n.type == AST::IDENT);
     std::string ident(n.data);

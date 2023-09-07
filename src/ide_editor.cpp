@@ -28,13 +28,10 @@ static TextEditor::LanguageDefinition const& ABC()
 
     static const char* const keywords[] =
     {
-        "u8", "u16", "u24", "u32",
-        "i8", "i16", "i24", "i32",
-        "uchar", "uint", "ulong",
-        "char", "int", "long",
-        "void", "bool",
-        "if", "else", "for", "while", "return",
-        "true", "false",
+        "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
+        "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
+        "if", "else", "while", "for", "return", "break", "continue",
+        "constexpr", "prog",
     };
     abc.mKeywords.clear();
     for(auto k : keywords)
