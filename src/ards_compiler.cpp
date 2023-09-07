@@ -127,7 +127,21 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     if(n.type == AST::TYPE_ARRAY)
     {
         assert(n.children.size() == 2);
-        assert(n.children[0].type == AST::INT_CONST);
+        if(n.children[0].type != AST::INT_CONST)
+        {
+            errs.push_back({
+                "\"" + std::string(n.children[0].data) +
+                "\" is not a constant expression",
+                n.children[0].line_info });
+            return TYPE_NONE;
+        }
+        if(n.children[0].value <= 0)
+        {
+            errs.push_back({
+                "Array dimensions must be greater than zero",
+                n.children[0].line_info });
+            return TYPE_NONE;
+        }
         compiler_type_t t{};
         t.type = compiler_type_t::ARRAY;
         t.children.push_back(resolve_type(n.children[1]));
@@ -275,6 +289,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                 type_annotate(n.children[2], {});
             auto& g = globals[name];
             g.name = name;
+            type_annotate(n.children[0], {});
             g.type = resolve_type(n.children[0]);
             if(!errs.empty()) return;
             if(g.type.prim_size == 0)

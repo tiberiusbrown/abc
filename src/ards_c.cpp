@@ -11,14 +11,12 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u16 fib(u8 n)
-{
-    if(n <= 1) return n;
-    return fib(n - 1) + fib(n - 2);
-}
-
 void main()
 {
+    constexpr int y = 10;
+    int[y - 20] b;
+    for(u8 i = 0; i < y; i = i + 1)
+        b[i] = i + 65;
 }
 )";
 

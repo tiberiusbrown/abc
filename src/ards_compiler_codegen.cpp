@@ -36,6 +36,13 @@ compiler_lvalue_t compiler_t::resolve_lvalue(
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n)
 {
+    if(n.type != AST::IDENT && n.type != AST::ARRAY_INDEX)
+    {
+        errs.push_back({
+            "\"" + std::string(n.data) + "\" cannot be assigned to",
+            n.line_info });
+        return {};
+    }
     assert(n.type == AST::IDENT || n.type == AST::ARRAY_INDEX);
     (void)f;
     uint16_t line = n.line();
@@ -249,7 +256,9 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(a.children.size() == 2 || a.children.size() == 3);
         assert(a.children[1].type == AST::IDENT);
         if(!check_identifier(a.children[1])) return;
+        type_annotate(a.children[0], frame);
         auto type = resolve_type(a.children[0]);
+        if(!errs.empty()) return;
         if(type.prim_size == 0)
         {
             errs.push_back({

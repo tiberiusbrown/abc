@@ -1,0 +1,23 @@
+constexpr int x = 30;
+
+int[x] a;
+
+void main()
+{
+    $debug_break();
+    
+    {
+        constexpr int y = x / 3;
+        int z = y + 1;
+        $assert(z == 11);
+        
+        int[y] b;
+        for(u8 i = 0; i < y; i = i + 1)
+            b[i] = i + 65;
+    }
+    
+    for(u8 i = 0; i < x; i = i + 1)
+        a[i] = i + 42;
+    
+    $debug_break();
+}

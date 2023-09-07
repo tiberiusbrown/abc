@@ -27,11 +27,15 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
         if(auto* l = resolve_local(frame, n); l && l->is_constexpr)
         {
             n.value = l->value;
+            n.comp_type = l->type;
+            n.comp_type.is_constexpr = false;
             break;
         }
         if(auto* g = resolve_global(n); g && g->is_constexpr)
         {
             n.value = g->value;
+            n.comp_type = g->type;
+            n.comp_type.is_constexpr = false;
             break;
         }
         return;
