@@ -280,7 +280,7 @@ private:
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);
     void codegen_expr_compound(
         compiler_func_t& f, compiler_frame_t& frame,
-        ast_node_t const& a, ast_node_t const& dst);
+        ast_node_t const& a, compiler_type_t const& type);
     void codegen_expr_logical(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& a, std::string const& sc_label);

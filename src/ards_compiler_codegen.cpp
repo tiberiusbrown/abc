@@ -300,7 +300,10 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             // TODO: handle array reference initializers
             assert(type.type != compiler_type_t::ARRAY_REF);
             bool ref = (type.type == compiler_type_t::REF);
-            codegen_expr(f, frame, a.children[2], ref);
+            if(a.children[2].type == AST::COMPOUND_LITERAL)
+                codegen_expr_compound(f, frame, a.children[2], type);
+            else
+                codegen_expr(f, frame, a.children[2], ref);
             if(!errs.empty()) return;
             if(ref)
             {
@@ -312,7 +315,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                     return;
                 }
             }
-            else
+            else if(a.children[2].type != AST::COMPOUND_LITERAL)
                 codegen_convert(f, frame, a, type, a.children[2].comp_type);
         }
         else
@@ -618,7 +621,9 @@ void compiler_t::codegen_expr(
         }
         else if(a.children[0].comp_type.without_ref().type == compiler_type_t::ARRAY)
         {
-            if(a.children[0].comp_type.without_ref() != a.children[0].comp_type.without_ref())
+            if(a.children[1].type == AST::COMPOUND_LITERAL)
+                codegen_expr_compound(f, frame, a.children[1], a.children[0].comp_type.without_ref());
+            else if(a.children[0].comp_type.without_ref() != a.children[1].comp_type.without_ref())
             {
                 errs.push_back({
                     "Incompatible types in assignment to \"" +
@@ -626,7 +631,8 @@ void compiler_t::codegen_expr(
                     a.line_info });
                 return;
             }
-            codegen_expr(f, frame, a.children[1], false);
+            else
+                codegen_expr(f, frame, a.children[1], false);
         }
 
         // dup value if not the root op
@@ -824,6 +830,32 @@ rvalue_error:
     errs.push_back({
         "Cannot create reference to lvalue expression: \"" + std::string(a.data) + "\"",
         a.line_info });
+}
+
+void compiler_t::codegen_expr_compound(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a, compiler_type_t const& type)
+{
+    assert(a.type == AST::COMPOUND_LITERAL);
+    if(type.type == compiler_type_t::ARRAY)
+    {
+        const auto& t = type.children[0];
+        size_t num_elems = type.prim_size / t.prim_size;
+        if(num_elems != a.children.size())
+        {
+            errs.push_back({
+                "Incorrect number of array elements in initializer",
+                a.line_info });
+            return;
+        }
+        bool ref = (t.type == compiler_type_t::REF);
+        for(auto const& child : a.children)
+        {
+            codegen_expr(f, frame, child, ref);
+            codegen_convert(f, frame, child, t, child.comp_type);
+        }
+    }
+    else assert(false);
 }
 
 void compiler_t::codegen_expr_logical(

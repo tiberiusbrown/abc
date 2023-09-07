@@ -57,6 +57,10 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::COMPOUND_LITERAL:
+        for(auto& child : a.children)
+            type_annotate_recurse(child, frame);
+        break;
     case AST::TYPE_ARRAY:
         type_annotate_recurse(a.children[0], frame);
         break;
