@@ -242,7 +242,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             auto& c = a.children[1].children[i];
             auto const& t = f.decl.arg_types[i];
             type_annotate_recurse(c, frame);
-            if(c.comp_type != t)
+            if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
                 insert_cast(c, t);
         }
         a.comp_type = f.decl.return_type;

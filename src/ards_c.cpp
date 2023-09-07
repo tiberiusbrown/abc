@@ -11,8 +11,12 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+void f(int[4] x)
+{
+}
 void main()
 {
+    f({ 1, 2, 3, 4 });
 }
 )";
 

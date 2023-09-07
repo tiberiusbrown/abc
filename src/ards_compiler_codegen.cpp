@@ -591,9 +591,14 @@ void compiler_t::codegen_expr(
                     expr.line_info });
                 return;
             }
-            codegen_expr(f, frame, expr, tref);
-            if(!tref)
-                codegen_convert(f, frame, a, type, expr.comp_type);
+            if(expr.type == AST::COMPOUND_LITERAL)
+                codegen_expr_compound(f, frame, expr, type);
+            else
+            {
+                codegen_expr(f, frame, expr, tref);
+                if(!tref)
+                    codegen_convert(f, frame, a, type, expr.comp_type);
+            }
         }
         // called function should pop stack
         frame.size = prev_size;
