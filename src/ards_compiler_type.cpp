@@ -216,8 +216,24 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         auto f = resolve_func(a.children[0]);
+        size_t used_args = a.children[1].children.size();
+        size_t func_args = f.decl.arg_types.size();
+        if(used_args > func_args)
+        {
+            errs.push_back({
+                "Too many arguments to function \"" + f.name + "\"",
+                a.line_info });
+            return;
+        }
+        if(used_args < func_args)
+        {
+            errs.push_back({
+                "Too few arguments to function \"" + f.name + "\"",
+                a.line_info });
+            return;
+        }
         if(f.name.empty()) break;
-        for(size_t i = 0; i < a.children[1].children.size(); ++i)
+        for(size_t i = 0; i < func_args; ++i)
         {
             auto& c = a.children[1].children[i];
             auto const& t = f.decl.arg_types[i];
