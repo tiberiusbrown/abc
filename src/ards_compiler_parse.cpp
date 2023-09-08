@@ -296,23 +296,29 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return a;
     };
     p["type_name_postfix"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.choice() == 0)
+        switch(v.choice())
         {
+        case 0:
             // sized array
             return {
                 v.line_info(), AST::TYPE_ARRAY, v.token(),
                 { std::any_cast<ast_node_t>(v[0]) }
             };
-        }
-        else if(v.choice() == 1)
-        {
+        case 1:
             // reference
             return { v.line_info(), AST::TYPE_REF, v.token() };
-        }
-        else if(v.choice() == 2)
-        {
+        case 2:
             // unsized array reference
             return { v.line_info(), AST::TYPE_AREF, v.token() };
+        case 3:
+        {
+            // prog
+            ast_node_t a{ v.line_info(), AST::TYPE_PROG, v.token() };
+            a.comp_type.is_prog = true;
+            return a;
+        }
+        default:
+            break;
         }
         assert(false);
         return {};

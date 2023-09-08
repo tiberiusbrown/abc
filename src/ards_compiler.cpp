@@ -67,11 +67,15 @@ static bool isspace(char c)
 
 compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
 {
-    assert(
-        n.type == AST::TYPE ||
-        n.type == AST::TYPE_REF ||
-        n.type == AST::TYPE_AREF ||
-        n.type == AST::TYPE_ARRAY);
+
+    if(n.type == AST::TYPE_PROG)
+    {
+        assert(n.children.size() == 1);
+        compiler_type_t t = resolve_type(n.children[0]);
+        t.is_prog = true;
+        return t;
+    }
+
     if(n.type == AST::TYPE)
     {
         std::string name(n.data);
@@ -164,6 +168,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
         return t;
     }
+
     return TYPE_NONE;
 }
 
@@ -277,10 +282,12 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
         if(n.type == AST::DECL_STMT)
         {
-            if(n.children.size() > 2 && !n.children[0].comp_type.is_constexpr)
+            if(n.children.size() > 2 &&
+                !n.children[0].comp_type.is_constexpr &&
+                !n.children[0].comp_type.is_prog)
             {
                 errs.push_back({
-                    "Only constexpr global variables can be initialized",
+                    "Only constexpr and prog global variables can be initialized",
                     n.line_info });
                 return;
             }
@@ -300,9 +307,9 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
             auto& g = globals[name];
             g.name = name;
             type_annotate(n.children[0], {});
-            g.type = resolve_type(n.children[0]);
+            g.var.type = resolve_type(n.children[0]);
             if(!errs.empty()) return;
-            if(g.type.prim_size == 0)
+            if(g.var.type.prim_size == 0)
             {
                 errs.push_back({
                     "Global variable \"" + name + "\" has zero size",
@@ -311,9 +318,9 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
             }
             if(n.children[0].comp_type.is_constexpr)
             {
-                g.is_constexpr = true;
+                g.var.is_constexpr = true;
                 if(n.children[2].type == AST::INT_CONST)
-                    g.value = n.children[2].value;
+                    g.var.value = n.children[2].value;
                 else
                 {
                     errs.push_back({

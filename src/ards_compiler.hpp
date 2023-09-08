@@ -79,9 +79,10 @@ enum class AST
     IDENT,
 
     TYPE,
-    TYPE_REF,   // reference (child is type*)
-    TYPE_AREF,  // array reference (child is type*)
+    TYPE_REF,   // reference (child is type)
+    TYPE_AREF,  // array reference (child is type)
     TYPE_ARRAY, // sized array (children are size and type*)
+    TYPE_PROG,  // sized array (child is type)
 };
 
 struct compiler_type_t
@@ -91,6 +92,7 @@ struct compiler_type_t
     bool is_signed;
     bool is_bool;
     bool is_constexpr;
+    bool is_prog;
     enum type_t
     {
         PRIM,
@@ -158,20 +160,23 @@ struct compiler_func_decl_t
     std::vector<compiler_type_t> arg_types;
 };
 
-struct compiler_global_t
+struct compiler_var_t
 {
     compiler_type_t type;
-    std::string name;
     int64_t value; // for contexprs
     bool is_constexpr;
+};
+
+struct compiler_global_t
+{
+    std::string name;
+    compiler_var_t var;
 };
 
 struct compiler_local_t
 {
     size_t frame_offset;
-    compiler_type_t type;
-    int64_t value; // for contexprs
-    bool is_constexpr;
+    compiler_var_t var;
 };
 
 struct compiler_scope_t

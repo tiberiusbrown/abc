@@ -203,14 +203,14 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             auto jt = it->locals.find(name);
             if(jt != it->locals.end())
             {
-                a.comp_type = jt->second.type;
+                a.comp_type = jt->second.var.type;
                 return;
             }
         }
         auto it = globals.find(name);
         if(it != globals.end())
         {
-            a.comp_type = it->second.type;
+            a.comp_type = it->second.var.type;
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });

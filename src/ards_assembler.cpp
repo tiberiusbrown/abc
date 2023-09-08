@@ -251,6 +251,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_PUSH);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "pushl")
+        {
+            push_instr(I_PUSHL);
+            push_label(read_label(f, error));
+        }
         else if(t == "getl")
         {
             push_instr(I_GETL);

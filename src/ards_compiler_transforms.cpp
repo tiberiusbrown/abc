@@ -24,17 +24,17 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
     switch(n.type)
     {
     case AST::IDENT:
-        if(auto* l = resolve_local(frame, n); l && l->is_constexpr)
+        if(auto* l = resolve_local(frame, n); l && l->var.is_constexpr)
         {
-            n.value = l->value;
-            n.comp_type = l->type;
+            n.value = l->var.value;
+            n.comp_type = l->var.type;
             n.comp_type.is_constexpr = false;
             break;
         }
-        if(auto* g = resolve_global(n); g && g->is_constexpr)
+        if(auto* g = resolve_global(n); g && g->var.is_constexpr)
         {
-            n.value = g->value;
-            n.comp_type = g->type;
+            n.value = g->var.value;
+            n.comp_type = g->var.type;
             n.comp_type.is_constexpr = false;
             break;
         }

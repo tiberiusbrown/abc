@@ -283,6 +283,22 @@ I_P00:
     st   Y+, r2
     dispatch
 
+I_PUSHL:
+    dispatch_delay
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    dispatch
+
 I_SEXT:
     cpi  r28, 255
     brne 1f

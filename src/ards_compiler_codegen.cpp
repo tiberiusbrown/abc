@@ -55,10 +55,10 @@ compiler_lvalue_t compiler_t::resolve_lvalue(
         return t;
     }
     if(auto* local = resolve_local(frame, n))
-        return { local->type, false, uint8_t(frame.size - local->frame_offset), line };
+        return { local->var.type, false, uint8_t(frame.size - local->frame_offset), line };
     std::string name(n.data);
     if(auto* global = resolve_global(n))
-        return { global->type, true, 0, line, name };
+        return { global->var.type, true, 0, line, name };
     errs.push_back({ "Undefined variable \"" + name + "\"", n.line_info });
     return {};
 }
@@ -110,7 +110,7 @@ void compiler_t::codegen_function(compiler_func_t& f)
         auto& local = scope.locals[name];
         size_t size = type.prim_size;
         local.frame_offset = frame.size;
-        local.type = type;
+        local.var.type = type;
         scope.size += size;
         frame.size += size;
     }
@@ -275,15 +275,15 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         auto& scope = frame.scopes.back();
         auto& local = scope.locals[std::string(a.children[1].data)];
-        local.type = type;
+        local.var.type = type;
         local.frame_offset = frame.size;
         if(type.is_constexpr)
         {
             type_annotate(a.children[2], frame);
             if(a.children[2].type == AST::INT_CONST)
             {
-                local.is_constexpr = true;
-                local.value = a.children[2].value;
+                local.var.is_constexpr = true;
+                local.var.value = a.children[2].value;
             }
             else
             {
@@ -523,10 +523,10 @@ void compiler_t::codegen_expr(
         std::string name(a.data);
         if(auto* local = resolve_local(frame, a))
         {
-            assert(!local->is_constexpr);
+            assert(!local->var.is_constexpr);
             uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
-            uint8_t size = (uint8_t)local->type.prim_size;
-            if(ref && local->type.type != compiler_type_t::REF)
+            uint8_t size = (uint8_t)local->var.type.prim_size;
+            if(ref && local->var.type.type != compiler_type_t::REF)
             {
                 f.instrs.push_back({ I_REFL, a.line(), offset });
                 frame.size += 2;
@@ -534,21 +534,21 @@ void compiler_t::codegen_expr(
             }
             f.instrs.push_back({ I_PUSH, a.line(), size });
             f.instrs.push_back({ I_GETLN, a.line(), offset });
-            frame.size += (uint8_t)local->type.prim_size;
+            frame.size += (uint8_t)local->var.type.prim_size;
             return;
         }
         if(auto* global = resolve_global(a))
         {
-            assert(!global->is_constexpr);
+            assert(!global->var.is_constexpr);
             if(ref)
             {
                 f.instrs.push_back({ I_REFG, a.line(), 0, 0, global->name});
                 frame.size += 2;
                 return;
             }
-            assert(global->type.prim_size < 256);
-            frame.size += (uint8_t)global->type.prim_size;
-            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)global->type.prim_size });
+            assert(global->var.type.prim_size < 256);
+            frame.size += (uint8_t)global->var.type.prim_size;
+            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)global->var.type.prim_size });
             f.instrs.push_back({ I_GETGN, a.line(), 0, 0, global->name });
             return;
         }

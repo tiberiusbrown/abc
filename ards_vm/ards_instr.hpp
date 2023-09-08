@@ -34,6 +34,7 @@ enum instr_t : uint8_t
     I_P3,    // push 3
     I_P4,    // push 4
     I_P00,   // push 0; push 0
+    I_PUSHL, // push imm24
 
     I_SEXT,  // push 0x00 or 0xff to sign extend TOS
 
