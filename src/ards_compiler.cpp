@@ -65,6 +65,16 @@ static bool isspace(char c)
     }
 }
 
+static void make_prog(compiler_type_t& t)
+{
+    t.is_prog = true;
+    if(t.type == compiler_type_t::REF)
+        return;
+    assert(t.type != compiler_type_t::ARRAY_REF);
+    for(auto& child : t.children)
+        make_prog(child);
+}
+
 compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
 {
 
@@ -72,7 +82,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     {
         assert(n.children.size() == 1);
         compiler_type_t t = resolve_type(n.children[0]);
-        t.is_prog = true;
+        make_prog(t);
         return t;
     }
 
@@ -126,8 +136,8 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         }
         compiler_type_t t{};
         t.type = compiler_type_t::REF;
-        t.prim_size = 2;
         t.children.push_back(resolve_type(n.children[0]));
+        t.prim_size = t.children[0].is_prog ? 3 : 2;
         return t;
     }
     if(n.type == AST::TYPE_AREF)
@@ -302,7 +312,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     n.children[1].line_info });
                 return;
             }
-            if(n.children[0].comp_type.is_constexpr)
+            if(n.children.size() == 3)
                 type_annotate(n.children[2], {});
             auto& g = globals[name];
             g.name = name;
@@ -316,6 +326,8 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     n.line_info });
                 return;
             }
+            if(n.children[0].comp_type.is_prog)
+                add_progdata(name, g.var.type, n.children[2]);
             if(n.children[0].comp_type.is_constexpr)
             {
                 g.var.is_constexpr = true;

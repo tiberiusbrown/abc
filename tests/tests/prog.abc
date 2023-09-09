@@ -1,0 +1,30 @@
+u8  prog x1 = 0x12;
+u16 prog x2 = 0x1234;
+u24 prog x3 = 0x123456;
+u32 prog x4 = 0x12345678;
+
+u8 [4] prog a1 = { 0x10, 0x20, 0x30, 0x40 };
+u16[4] prog a2 = { 0x1000, 0x2000, 0x3000, 0x4000 };
+u24[4] prog a3 = { 0x100000, 0x200000, 0x300000, 0x400000 };
+u32[4] prog a4 = { 0x10000000, 0x20000000, 0x30000000, 0x40000000 };
+
+void main()
+{
+    $debug_break();
+    
+    $assert(x1 == 0x12);
+    $assert(x2 == 0x1234);
+    $assert(x3 == 0x123456);
+    $assert(x4 == 0x12345678);
+    
+    for(u8 i = 0; i < 4; i = i + 1)
+    {
+        u8 j = i + 1;
+        $assert(a1[i] == j * 0x10);
+        //$assert(a2[i] == j * 0x1000);
+        //$assert(a3[i] == j * 0x100000);
+        //$assert(a4[i] == j * 0x10000000);
+    }
+    
+    $debug_break();
+}

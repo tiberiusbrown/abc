@@ -26,6 +26,8 @@ static bool test(std::string const& filename, std::string const& short_filename)
         std::ostringstream fo;
         assert(fi);
         c.compile(fi, fo, short_filename);
+        for(auto const& e : c.errors())
+            printf("Line %d: %s\n", (int)e.line_info.first, e.msg.c_str());
         assert(c.errors().empty());
         abc_asm = fo.str();
     }

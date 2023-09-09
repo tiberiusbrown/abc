@@ -245,6 +245,13 @@ struct compiler_func_t
     bool is_sys;
 };
 
+struct compiler_progdata_t
+{
+    std::vector<uint8_t> data;
+    std::vector<std::pair<size_t, std::string>> relocs_prog;
+    std::vector<std::pair<size_t, std::string>> relocs_glob;
+};
+
 extern std::unordered_set<std::string> const keywords;
 extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
 extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
@@ -302,6 +309,9 @@ private:
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
 
+    void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
+    void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
+
     // perform a series of peephole optimizations on a function
     void peephole(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
@@ -317,6 +327,8 @@ private:
     // codegen data
     std::unordered_map<std::string, compiler_func_t> funcs;
     std::unordered_map<std::string, compiler_global_t> globals;
+
+    std::unordered_map<std::string, compiler_progdata_t> progdata;
 
     std::vector<error_t> errs;
     std::vector<error_t> warns;

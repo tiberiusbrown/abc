@@ -58,6 +58,9 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_AIDXB: f << "aidxb " << instr.imm << " " << instr.imm2; break;
     case I_AIDX:  f << "aidx  " << instr.imm << " " << instr.imm2; break;
 
+    case I_PIDXB: f << "pidxb " << instr.imm << " " << instr.imm2; break;
+    case I_PIDX:  f << "pidx  " << instr.imm << " " << instr.imm2; break;
+
     case I_REFL:  f << "refl  " << instr.imm; break;
     case I_REFG:  f << "refg  " << instr.label; break;
     case I_REFGB: f << "refgb " << instr.label; break;
@@ -170,6 +173,33 @@ void compiler_t::write(std::ostream& f)
     {
         if(global.var.is_constexpr || global.var.type.is_prog) continue;
         f << ".global " << name << " " << global.var.type.prim_size << "\n";
+    }
+
+    f << "\n";
+
+    for(auto const& [label, pd] : progdata)
+    {
+        f << label << ":\n";
+        size_t rp = 0;
+        size_t rg = 0;
+        for(size_t i = 0; i < pd.data.size(); ++i)
+        {
+            if(rp < pd.relocs_prog.size() && pd.relocs_prog[rp].first == i)
+            {
+                f << "  .rp " << pd.relocs_prog[rp].second << "\n";
+                rp += 1;
+                i += 2;
+                continue;
+            }
+            if(rg < pd.relocs_glob.size() && pd.relocs_glob[rg].first == i)
+            {
+                f << "  .rg " << pd.relocs_glob[rg].second << "\n";
+                rg += 1;
+                i += 1;
+                continue;
+            }
+            f << "  .b " << (int)pd.data[i] << "\n";
+        }
     }
 
     f << "\n";

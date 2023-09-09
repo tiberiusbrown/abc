@@ -296,7 +296,11 @@ I_PUSHL:
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    ldi  r16, 3
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
+    call delay_10
     dispatch
 
 I_SEXT:
@@ -458,12 +462,35 @@ I_SETGN:
     dispatch
 
 I_GETP:
-    dispatch_delay
-    dispatch
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    call seek_to_addr
+    call delay_12
+    in   r0, %[spdr]
+    st   Y+, r0
+    jmp  jump_to_pc
+    .align 6
 
 I_GETPN:
-    dispatch_delay
-    dispatch
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    nop
+    in   r1, %[spdr]
+    call seek_to_addr
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+1:  call delay_11
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    dec  r1
+    brne 1b
+    call delay_9
+    jmp  jump_to_pc
+    .align 6
 
 I_GETR:
     ld   r27, -Y
@@ -614,8 +641,8 @@ I_PIDXB:
     dispatch
 
 I_PIDX:
-    dispatch_delay
-    dispatch
+    jmp pidx_impl
+    .align 6
 
 I_REFL:
     cpi  r28, 254
@@ -1931,6 +1958,7 @@ read_4_bytes_nodelay:
 
 read_3_bytes:
     lpm
+read_3_bytes_nodelay:
     in   r16, %[spdr]
     out  %[spdr], r2
     ldi  r17, 3
@@ -2041,6 +2069,71 @@ delay_9:
 delay_8:
     ret
     
+pidx_impl:
+    
+    ; load elem size into r20:r21
+    call read_2_bytes_nodelay
+    movw r20, r16
+
+    ; load index into r10:r12
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    
+    ; load progref into r13:r15
+    ld   r15, -Y
+    ld   r14, -Y
+    ld   r13, -Y
+    
+    ; load elem count into r16:r18
+    call read_3_bytes_nodelay
+    
+    ; bounds check index against elem count
+    cp   r10, r16
+    cpc  r11, r17
+    cpc  r12, r18
+    brlo 1f
+    ldi  r24, 2
+    rjmp call_vm_error
+    
+    ; compute prog ref + index * elem_size
+    ;
+    ; A2 A1 A0 : r12 r11 r10  index
+    ;    B1 B0 :     r21 r20  elem size
+    ; C2 C1 C0 : r15 r14 r13  progref
+    ;
+    ;    A2 A1 A0
+    ;       B1 B0
+    ;    ========
+    ;       A0*B0
+    ;    A0*B1
+    ;    A1*B0
+    ; A1*B1
+    ; A2*B0
+    ;    ========
+    ;    C2 C1 C0
+    ;
+1:  mul  r10, r20 ; A0*B0
+    add  r13, r0
+    adc  r14, r1
+    adc  r15, r2
+    mul  r10, r21 ; A0*B1
+    add  r14, r0
+    adc  r15, r1
+    mul  r11, r20 ; A1*B0
+    add  r14, r0
+    adc  r15, r1
+    mul  r11, r21 ; A1*B1
+    add  r15, r0
+    mul  r12, r20 ; A2*B0
+    add  r15, r0
+    
+    ; push prog ref
+    st   Y+, r13
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+    
 jump_to_pc:
     fx_disable
     ldi  r18, 3
@@ -2060,6 +2153,26 @@ jump_to_pc:
     out  %[spdr], r2
     call delay_17
     dispatch
+    
+    ; addr to seek to in r16:r18
+seek_to_addr:
+    fx_disable
+    ldi  r19, 3
+    fx_enable
+    out  %[spdr], r19
+    lds  r10, %[data_page]+0
+    lds  r11, %[data_page]+1
+    add  r10, r17
+    adc  r11, r18
+    call delay_11
+    out  %[spdr], r11
+    call delay_17
+    out  %[spdr], r10
+    call delay_17
+    out  %[spdr], r16
+    call delay_17
+    out  %[spdr], r2
+    ret
     
 dispatch_func:
     dispatch_noalign

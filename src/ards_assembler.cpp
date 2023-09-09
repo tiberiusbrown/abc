@@ -334,14 +334,14 @@ error_t assembler_t::assemble(std::istream& f)
         }
         else if(t == "pidxb")
         {
-            push_instr(I_AIDXB);
+            push_instr(I_PIDXB);
             push_imm(read_imm(f, error), 1);
             push_imm(read_imm(f, error), 1);
         }
         else if(t == "pidx")
         {
-            push_instr(I_AIDX);
-            push_imm(read_imm(f, error), 3);
+            push_instr(I_PIDX);
+            push_imm(read_imm(f, error), 2);
             push_imm(read_imm(f, error), 3);
         }
         else if(t == "refl")
@@ -415,6 +415,14 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == ".b")
         {
             push_imm(read_imm(f, error), 1);
+        }
+        else if(t == ".rg")
+        {
+            push_global(f, 2);
+        }
+        else if(t == ".rp")
+        {
+            push_label(read_label(f, error));
         }
         else if(t == ".file")
         {
