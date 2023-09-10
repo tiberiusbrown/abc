@@ -77,6 +77,7 @@ enum class AST
 
     INT_CONST,
     IDENT,
+    SPRITES,    // children are w, h, row+ (rows are TOKEN)
 
     TYPE,
     TYPE_REF,   // reference (child is type)

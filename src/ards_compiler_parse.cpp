@@ -152,11 +152,15 @@ multiplicative_expr <- unary_expr          (multiplicative_op unary_expr        
 
 unary_expr          <- unary_op unary_expr / postfix_expr
 postfix_expr        <- primary_expr postfix*
-primary_expr        <- hex_literal / decimal_literal / bool_literal / ident / '(' expr ')'
-
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
 
-# TODO: replace decimal_literal with some form of expr
+primary_expr        <- hex_literal /
+                       decimal_literal /
+                       bool_literal /
+                       sprites_literal /
+                       ident /
+                       '(' expr ')'
+
 type_name           <- ident type_name_postfix*
 type_name_postfix   <- '[' expr ']' / '&' / '[' ']' '&' / 'prog'
 arg_decl_list       <- type_name ident (',' type_name ident)*
@@ -169,6 +173,10 @@ multiplicative_op   <- < [*/%] >
 relational_op       <- < '<=' / '>=' / '<' / '>' >
 assignment_op       <- < '=' >
 unary_op            <- < '!' / '-' / '~' >
+
+sprites_literal     <- 'sprites' '{' decimal_literal 'x' decimal_literal sprite_row+ '}'
+sprite_row          <- < [-.X]+ >
+
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
 bool_literal        <- < 'true' / 'false' >
@@ -399,12 +407,14 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     const auto token = [](peg::SemanticValues const& v) {
         return ast_node_t{ v.line_info(), AST::TOKEN, v.token() };
     };
+    p["assignment_op"    ] = token;
     p["equality_op"      ] = token;
     p["relational_op"    ] = token;
     p["shift_op"         ] = token;
     p["additive_op"      ] = token;
     p["multiplicative_op"] = token;
     p["unary_op"         ] = token;
+    p["sprite_row"       ] = token;
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
     p["bitwise_or_expr"    ] = infix<AST::OP_BITWISE_OR>;
@@ -417,9 +427,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["additive_expr"      ] = infix<AST::OP_ADDITIVE>;
     p["multiplicative_expr"] = infix<AST::OP_MULTIPLICATIVE>;
 
-    p["assignment_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return { v.line_info(), AST::TOKEN, v.token() };
+    p["sprites_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::SPRITES, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
     };
+
     p["expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
         if(v.choice() == 0)
         {

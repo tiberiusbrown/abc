@@ -326,6 +326,13 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     n.line_info });
                 return;
             }
+            if(n.children.size() <= 2 && g.var.type.has_child_ref())
+            {
+                errs.push_back({
+                    "Uninitialized child reference(s) in \"" + std::string(n.children[1].data) + "\"",
+                    n.line_info });
+                return;
+            }
             if(!errs.empty()) return;
             if(g.var.type.prim_size == 0)
             {

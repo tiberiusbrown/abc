@@ -260,11 +260,25 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         auto type = resolve_type(a.children[0]);
         if(!errs.empty()) return;
+        if(type.is_prog)
+        {
+            errs.push_back({
+                "Prog variables must be global",
+                a.line_info });
+            return;
+        }
         if(a.children.size() <= 2 && type.is_ref())
         {
             errs.push_back({
                 "Uninitialized reference \"" + std::string(a.children[1].data) + "\"",
                 a.line_info});
+            return;
+        }
+        if(a.children.size() <= 2 && type.has_child_ref())
+        {
+            errs.push_back({
+                "Uninitialized child reference(s) in \"" + std::string(a.children[1].data) + "\"",
+                a.line_info });
             return;
         }
         if(type.prim_size == 0)
