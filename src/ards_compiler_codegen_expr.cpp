@@ -190,6 +190,13 @@ void compiler_t::codegen_expr(
     {
         assert(a.children.size() == 2);
         assert(a.children[0].comp_type.prim_size != 0);
+        if(a.children[0].comp_type.has_child_ref())
+        {
+            errs.push_back({
+                "\"" + std::string(a.children[0].data) + "\" contains references "
+                "and thus cannot be reassigned", a.children[0].line_info });
+            return;
+        }
         if(a.children[0].comp_type.without_ref().type == compiler_type_t::PRIM)
         {
             codegen_expr(f, frame, a.children[1], false);

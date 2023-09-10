@@ -100,11 +100,13 @@ struct compiler_type_t
         ARRAY,
         REF,
         ARRAY_REF,
+        SPRITES,
     } type;
 
     bool is_ref() const { return type == REF || type == ARRAY_REF; }
     bool is_prim() const { return type == PRIM; }
     bool is_array() const { return type == ARRAY; }
+    bool is_sprites() const { return type == SPRITES; }
 
     // empty for primitives
     // element type for arrays
@@ -126,6 +128,13 @@ struct compiler_type_t
         return t;
     }
 
+    bool has_child_ref() const
+    {
+        if(type == ARRAY)
+            return children[0].is_ref() || children[0].has_child_ref();
+        return false;
+    }
+
     auto tie() const { return std::tie(prim_size, is_signed, is_bool, is_prog, children); }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
     bool operator!=(compiler_type_t const& t) const { return !operator==(t); }
@@ -143,6 +152,8 @@ const compiler_type_t TYPE_I8 = { 1, true };
 const compiler_type_t TYPE_I16 = { 2, true };
 const compiler_type_t TYPE_I24 = { 3, true };
 const compiler_type_t TYPE_I32 = { 4, true };
+
+const compiler_type_t TYPE_SPRITES = { 3, false, false, false, false, compiler_type_t::SPRITES };
 
 struct compiler_instr_t
 {
