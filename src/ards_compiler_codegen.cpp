@@ -245,6 +245,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(a.children.size() == 1);
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
+        assert(frame.size < 256);
         for(size_t i = expr_prev_size; i < frame.size; ++i)
             f.instrs.push_back({ I_POP, a.line() });
         frame.size = expr_prev_size;
@@ -259,6 +260,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         auto type = resolve_type(a.children[0]);
         if(!errs.empty()) return;
+        if(a.children.size() <= 2 && type.is_ref())
+        {
+            errs.push_back({
+                "Uninitialized reference \"" + std::string(a.children[1].data) + "\"",
+                a.line_info});
+            return;
+        }
         if(type.prim_size == 0)
         {
             errs.push_back({

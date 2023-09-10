@@ -102,6 +102,10 @@ struct compiler_type_t
         ARRAY_REF,
     } type;
 
+    bool is_ref() const { return type == REF || type == ARRAY_REF; }
+    bool is_prim() const { return type == PRIM; }
+    bool is_array() const { return type == ARRAY; }
+
     // empty for primitives
     // element type for arrays
     std::vector<compiler_type_t> children;
@@ -112,7 +116,7 @@ struct compiler_type_t
     }
     const compiler_type_t& without_ref() const
     {
-        return type == REF ? children[0] : *this;
+        return type == REF ? children[0].without_ref() : *this;
     }
     compiler_type_t sized_to(size_t size) const
     {
@@ -121,12 +125,8 @@ struct compiler_type_t
         t.prim_size = size;
         return t;
     }
-    bool is_prim() const
-    {
-        return ref_type() == PRIM;
-    }
 
-    auto tie() const { return std::tie(prim_size, is_signed, is_bool, children); }
+    auto tie() const { return std::tie(prim_size, is_signed, is_bool, is_prog, children); }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
     bool operator!=(compiler_type_t const& t) const { return !operator==(t); }
 };

@@ -59,12 +59,13 @@ private:
     
     enum node_type_t : uint8_t
     {
-        INSTR,  // instruction opcode
-        LABEL,  // label reference
-        GLOBAL, // global label reference
-        IMM,    // immediate value
-        FILE,   // file directive
-        LINE,   // line directive (imm)
+        INSTR,      // instruction opcode
+        LABEL,      // label reference
+        GLOBAL,     // global label reference
+        GLOBAL_REF, // global label reference (raw address)
+        IMM,        // immediate value
+        FILE,       // file directive
+        LINE,       // line directive (imm)
     };
     
     struct node_t

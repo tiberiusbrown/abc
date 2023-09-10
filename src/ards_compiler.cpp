@@ -318,6 +318,13 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
             g.name = name;
             type_annotate(n.children[0], {});
             g.var.type = resolve_type(n.children[0]);
+            if(n.children.size() <= 2 && g.var.type.is_ref())
+            {
+                errs.push_back({
+                    "Uninitialized global reference \"" + std::string(n.children[1].data) + "\"",
+                    n.line_info });
+                return;
+            }
             if(!errs.empty()) return;
             if(g.var.type.prim_size == 0)
             {

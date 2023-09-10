@@ -419,6 +419,7 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == ".rg")
         {
             push_global(f, 2);
+            nodes.back().type = GLOBAL_REF;
         }
         else if(t == ".rp")
         {
@@ -574,6 +575,7 @@ error_t assembler_t::link()
             if(n.size >= 3) linked_data.push_back(uint8_t(n.imm >> 16));
             break;
         case GLOBAL:
+        case GLOBAL_REF:
         {
             auto it = globals.find(n.label);
             if(it == globals.end())
@@ -582,6 +584,8 @@ error_t assembler_t::link()
                 return error;
             }
             size_t offset = it->second;
+            if(n.type == GLOBAL_REF)
+                offset += 0x200;
             linked_data.push_back(uint8_t(offset >> 0));
             if(n.size >= 2)
                 linked_data.push_back(uint8_t(offset >> 8));

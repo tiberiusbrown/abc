@@ -389,6 +389,10 @@ void compiler_t::codegen_expr(
             t.is_prog ? I_PIDX : I_AIDX, a.line(),
             (uint16_t)elem_size, (uint16_t)(size / elem_size) });
         frame.size -= t.is_prog ? 3 : 2;
+        // if the child type is a reference, dereference it now
+        // for example, a[i] where a is T&[N]
+        if(t.children[0].is_ref())
+            codegen_dereference(f, frame, a, t.children[0]);
         return;
     }
 

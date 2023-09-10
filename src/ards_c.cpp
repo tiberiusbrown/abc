@@ -11,11 +11,8 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u8 [4] prog a1 = { 0x10, 0x20, 0x30, 0x40 };
-
 void main()
 {
-    $assert(a1[0] == 0x10); 
 }
 )";
 

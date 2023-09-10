@@ -8,6 +8,19 @@ u16[4] prog a2 = { 0x1000, 0x2000, 0x3000, 0x4000 };
 u24[4] prog a3 = { 0x100000, 0x200000, 0x300000, 0x400000 };
 u32[4] prog a4 = { 0x10000000, 0x20000000, 0x30000000, 0x40000000 };
 
+u16 ua;
+u16 ub;
+u16 uc;
+u16 ud;
+
+u16 prog pua = 1;
+u16 prog pub = 2;
+u16 prog puc = 3;
+u16 prog pud = 4;
+
+u16&[4] prog grs = { ua, ub, uc, ud };
+u16 prog&[4] prog prs = { pua, pub, puc, pud };
+
 void main()
 {
     $debug_break();
@@ -21,10 +34,30 @@ void main()
     {
         u8 j = i + 1;
         $assert(a1[i] == j * 0x10);
-        //$assert(a2[i] == j * 0x1000);
-        //$assert(a3[i] == j * 0x100000);
-        //$assert(a4[i] == j * 0x10000000);
+        $assert(a2[i] == j * 0x1000);
+        $assert(a3[i] == j * 0x100000);
+        $assert(a4[i] == j * 0x10000000);
     }
+    
+    $assert(ua == 0);
+    $assert(ub == 0);
+    $assert(uc == 0);
+    $assert(ud == 0);
+    
+    grs[0] = 1;
+    grs[1] = 2;
+    grs[2] = 3;
+    grs[3] = 4;
+    
+    $assert(ua == 1);
+    $assert(ub == 2);
+    $assert(uc == 3);
+    $assert(ud == 4);
+    
+    $assert(prs[0] == 1);
+    $assert(prs[1] == 2);
+    $assert(prs[2] == 3);
+    $assert(prs[3] == 4);
     
     $debug_break();
 }
