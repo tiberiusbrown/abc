@@ -88,6 +88,7 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
     }
 
     // pop remaining func args
+    assert(frame.size < 256);
     for(size_t i = 0; i < frame.size; ++i)
         f.instrs.push_back({ I_POP, n.line() });
 

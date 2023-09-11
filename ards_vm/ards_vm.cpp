@@ -283,6 +283,22 @@ I_P00:
     st   Y+, r2
     dispatch
 
+I_PUSHG:
+    dispatch_delay
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    ldi  r16, 2
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
+    call delay_10
+    dispatch
+
 I_PUSHL:
     dispatch_delay
     in   r0, %[spdr]

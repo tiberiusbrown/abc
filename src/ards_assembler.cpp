@@ -251,6 +251,12 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_PUSH);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "pushg")
+        {
+            push_instr(I_PUSHG);
+            push_global(f);
+            nodes.back().type = GLOBAL_REF;
+        }
         else if(t == "pushl")
         {
             push_instr(I_PUSHL);

@@ -336,6 +336,14 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     n.line_info });
                 return;
             }
+            if(g.var.type.is_ref() &&
+                g.var.type.without_ref() != n.children[2].comp_type.without_ref())
+            {
+                errs.push_back({
+                    "Incorrect type for reference \"" + std::string(n.children[1].data) + "\"",
+                    n.line_info });
+                return;
+            }
             if(n.children.size() <= 2 && g.var.type.has_child_ref())
             {
                 errs.push_back({
@@ -353,6 +361,8 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
             }
             if(n.children[0].comp_type.is_prog)
                 add_progdata(name, g.var.type, n.children[2]);
+
+            // constexpr primitive
             if(n.children[0].comp_type.is_constexpr)
             {
                 g.var.is_constexpr = true;
@@ -367,7 +377,17 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     return;
                 }
             }
+
+            // constexpr reference
+            else if(g.var.type.is_ref() &&
+                n.children[2].type == AST::IDENT)
+            {
+                g.constexpr_ref = std::string(n.children[2].data);
+            }
+            
+            // add to $globinit
             else if(n.children.size() == 3 &&
+                !g.var.type.is_ref() && 
                 !n.children[0].comp_type.is_prog &&
                 !n.children[0].comp_type.is_constexpr)
             {

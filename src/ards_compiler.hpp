@@ -183,6 +183,8 @@ struct compiler_global_t
 {
     std::string name;
     compiler_var_t var;
+    std::string constexpr_ref;
+    bool is_constexpr_ref() const { return !constexpr_ref.empty(); }
 };
 
 struct compiler_local_t
@@ -262,6 +264,12 @@ struct compiler_progdata_t
     std::vector<uint8_t> data;
     std::vector<std::pair<size_t, std::string>> relocs_prog;
     std::vector<std::pair<size_t, std::string>> relocs_glob;
+};
+
+struct compiler_constexpr_ref_t
+{
+    std::string label;
+    size_t offset;
 };
 
 extern std::unordered_set<std::string> const keywords;

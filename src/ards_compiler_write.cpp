@@ -30,6 +30,7 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_P3:    f << "p3"; break;
     case I_P4:    f << "p4"; break;
     case I_P00:   f << "p00"; break;
+    case I_PUSHG: f << "pushg " << instr.label; break;
     case I_PUSHL: f << "pushl " << instr.label; break;
     case I_SEXT:  f << "sext"; break;
     case I_DUP:   f << "dup"; break;
@@ -171,7 +172,9 @@ void compiler_t::write(std::ostream& f)
 {
     for(auto const& [name, global] : globals)
     {
-        if(global.var.is_constexpr || global.var.type.is_prog) continue;
+        if(global.is_constexpr_ref() ||
+            global.var.is_constexpr ||
+            global.var.type.is_prog) continue;
         f << ".global " << name << " " << global.var.type.prim_size << "\n";
     }
 

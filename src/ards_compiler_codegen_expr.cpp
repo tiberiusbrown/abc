@@ -91,6 +91,15 @@ void compiler_t::codegen_expr(
         {
             assert(!global->var.is_constexpr);
             bool prog = global->var.type.is_prog;
+            if(global->is_constexpr_ref())
+            {
+                if(prog)
+                    f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, global->constexpr_ref });
+                else
+                    f.instrs.push_back({ I_PUSHG, a.line(), 0, 0, global->constexpr_ref });
+                frame.size += (prog ? 3 : 2);
+                return;
+            }
             if(ref && prog)
             {
                 f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, global->name });
