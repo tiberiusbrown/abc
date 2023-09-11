@@ -18,10 +18,60 @@ void compiler_t::peephole(compiler_func_t& f)
 {
     while(peephole_pre_push_compress(f))
         ;
+    while(peephole_linc(f))
+        ;
+    while(peephole_dup(f))
+        ;
     while(peephole_compress_push_pop(f))
         ;
     while(peephole_compress_duplicate_pushes(f))
         ;
+}
+
+bool compiler_t::peephole_linc(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 2 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+        auto& i2 = f.instrs[i + 2];
+
+        if(i0.instr == I_GETL && i1.instr == I_INC && i2.instr == I_SETL &&
+            i0.imm == i2.imm)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_LINC;
+            t = true;
+            continue;
+        }
+    }
+
+    return t;
+}
+
+bool compiler_t::peephole_dup(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+
+        // replace GETL 1 with DUP
+        if(i0.instr == I_GETL && i0.imm == 1)
+        {
+            i0.instr = I_DUP;
+            t = true;
+            continue;
+        }
+    }
+
+    return t;
 }
 
 bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
@@ -78,14 +128,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
-        }
-
-        // replace GETL 1 with DUP
-        if(i0.instr == I_GETL && i0.imm == 1)
-        {
-            i0.instr = I_DUP;
-            t = true;
-            continue;
         }
 
         // replace REFG N with REFGB N (N < 256)

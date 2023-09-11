@@ -346,6 +346,8 @@ private:
     // perform a series of peephole optimizations on a function
     void peephole(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
+    bool peephole_linc(compiler_func_t& f);
+    bool peephole_dup(compiler_func_t& f);
     bool peephole_compress_push_pop(compiler_func_t& f);
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
 
