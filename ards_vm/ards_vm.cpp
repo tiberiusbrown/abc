@@ -374,7 +374,7 @@ I_SEXT:
     ldi  r16, 0x00
     st   Y+, r16
     dispatch
- 
+
 I_DUP:
     cpi  r28, 255
     breq 1f
@@ -421,7 +421,63 @@ I_DUP4:
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
-   
+
+I_DUPW:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 2
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW2:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 3
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW3:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 4
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW4:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 5
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
 I_GETL:
     cpi  r28, 255
     brne 1f

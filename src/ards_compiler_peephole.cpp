@@ -62,10 +62,10 @@ bool compiler_t::peephole_dup(compiler_func_t& f)
     {
         auto& i0 = f.instrs[i + 0];
 
-        // replace GETL 1 with DUP
-        if(i0.instr == I_GETL && i0.imm == 1)
+        // replace GETL <N> with DUP<N>
+        if(i0.instr == I_GETL && i0.imm >= 1 && i0.imm <= 4)
         {
-            i0.instr = I_DUP;
+            i0.instr = instr_t(I_DUP + i0.imm - 1);
             t = true;
             continue;
         }

@@ -11,30 +11,32 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-constexpr sprites SPRITE = sprites{
-    8x8
-    ..XXXX..
-    .XXXXXX.
-    XX.XX.XX
-    XXXXXXXX
-    XXXXXXXX
-    XX.XX.XX
-    .XX..XX.
-    ..XXXX..
-};
+i8[100] A;
 
 void main()
 {
-    
+    for(u8 i = 0; i < 100; i = i + 1)
+        A[i] = 99 - i;
+
     $debug_break();
     
-    for(u8 y = 0; y < 8; y = y + 1)
+    u8 n = 100;
+    while(n > 1)
     {
-        for(u8 x = 0; x < 16; x = x + 1)
+        u8 n2 = 0;
+        for(u8 i = 1; i < n; i = i + 1)
         {
-            $draw_sprite(
-                u8(x * 8), u8(y * 8), SPRITE, 0);
+            i8& a = A[u8(i - 1)];
+            i8& b = A[i];
+            if(a > b)
+            {
+                i8 t = a;
+                a = b;
+                b = t;
+                n2 = i;
+            }
         }
+        n = n2;
     }
 
     $debug_break();

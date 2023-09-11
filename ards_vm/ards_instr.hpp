@@ -49,6 +49,11 @@ enum instr_t : uint8_t
     I_DUP3,
     I_DUP4,
 
+    I_DUPW,
+    I_DUPW2,
+    I_DUPW3,
+    I_DUPW4,
+
     I_GETL,  // push stack[top - imm] (imm=1 is TOS)
     I_GETL2,
     I_GETLN, // pop N then same as GETL but push N bytes
