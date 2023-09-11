@@ -69,6 +69,14 @@ bool compiler_t::peephole_dup(compiler_func_t& f)
             t = true;
             continue;
         }
+
+        // replace GETL2 <N> with DUPW<N-1>
+        if(i0.instr == I_GETL2 && i0.imm >= 2 && i0.imm <= 5)
+        {
+            i0.instr = instr_t(I_DUPW + i0.imm - 2);
+            t = true;
+            continue;
+        }
     }
 
     return t;
