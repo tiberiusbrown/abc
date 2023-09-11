@@ -29,10 +29,6 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
             n.line_info });
         return;
     }
-    data.push_back(uint8_t(uint16_t(w) >> 0));
-    //data.push_back(uint8_t(uint16_t(w) >> 8));
-    data.push_back(uint8_t(uint16_t(h) >> 0));
-    //data.push_back(uint8_t(uint16_t(h) >> 8));
 
     size_t num_rows = n.children.size() - 2;
     if(num_rows % h != 0)
@@ -74,6 +70,11 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
             }
         }
     }
+
+    data.push_back(uint8_t(uint16_t(w) >> 0));
+    //data.push_back(uint8_t(uint16_t(w) >> 8));
+    data.push_back(uint8_t(uint16_t(actual_h) >> 0));
+    //data.push_back(uint8_t(uint16_t(actual_h) >> 8));
 
     data.push_back(uint8_t(num_sprites >> 0));
     data.push_back(uint8_t(num_sprites >> 8));
