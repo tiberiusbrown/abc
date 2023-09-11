@@ -12,7 +12,7 @@ using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern "C" void vm_error(ards::error_t e);
 
-inline uint8_t* vm_pop_begin()
+__attribute__((always_inline)) inline uint8_t* vm_pop_begin()
 {
     uint8_t* r;
     asm volatile(

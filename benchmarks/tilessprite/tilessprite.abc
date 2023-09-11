@@ -1,0 +1,28 @@
+constexpr sprites SPRITE = sprites{
+    8x8
+    ..XXXX..
+    .XXXXXX.
+    XX.XX.XX
+    XXXXXXXX
+    XXXXXXXX
+    XX.XX.XX
+    .XX..XX.
+    ..XXXX..
+};
+
+void main()
+{
+    
+    $debug_break();
+    
+    for(u8 y = 0; y < 8; y = y + 1)
+    {
+        for(u8 x = 0; x < 16; x = x + 1)
+        {
+            $draw_sprite(
+                u8(x * 8), u8(y * 8), SPRITE, 0);
+        }
+    }
+
+    $debug_break();
+}
