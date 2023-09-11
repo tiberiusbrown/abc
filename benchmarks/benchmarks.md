@@ -492,6 +492,96 @@ void main()
 </table>
 </details>
 
+<details><summary>tilessprite16: 2.98% slowdown</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 22654</td><td>Cycles: 67482</td></tr>
+<tr>
+<td>
+
+```c
+#include <stdint.h>
+#include <Arduboy2.h>
+
+using u8 = uint8_t;
+
+inline void debug_break() { asm volatile("break\n"); }
+
+static constexpr uint8_t SPRITE[] PROGMEM = {
+    16, 16,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
+
+int main()
+{
+
+    debug_break();
+    
+    bool color = false;
+    for(u8 y = 0; y < 4; y = y + 1)
+    {
+        for(u8 x = 0; x < 8; x = x + 1)
+        {
+            Sprites::drawOverwrite(x * 16, y * 16, SPRITE, 0);
+        }
+    }
+
+    debug_break();
+}
+
+```
+
+</td>
+<td>
+
+```c
+constexpr sprites SPRITE = sprites{
+    16x16
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+};
+
+void main()
+{
+    
+    $debug_break();
+    
+    for(u8 y = 0; y < 4; y = y + 1)
+    {
+        for(u8 x = 0; x < 8; x = x + 1)
+        {
+            $draw_sprite(
+                u8(x * 16), u8(y * 16), SPRITE, 0);
+        }
+    }
+
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
 <details><summary>tilesrect: 0.49% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>

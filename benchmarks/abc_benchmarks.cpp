@@ -175,6 +175,7 @@ int main()
     bench("bubble4");
     bench("fibonacci");
     bench("tilessprite");
+    bench("tilessprite16");
     bench("tilesrect");
 
     fclose(fout);

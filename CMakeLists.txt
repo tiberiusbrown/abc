@@ -64,6 +64,8 @@ if(EMSCRIPTEN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_FLAGS}")
     add_link_options("-sALLOW_MEMORY_GROWTH")
     add_link_options("-sINITIAL_MEMORY=24MB")
+    add_link_options("-sEXPORTED_FUNCTIONS=_main,_malloc,_free")
+    add_link_options("-sEXPORTED_RUNTIME_METHODS=ccall")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$autoResumeAudioContext','$dynCall']")
 endif()
 
@@ -136,6 +138,7 @@ add_executable(abc ${EXE_TYPE}
     src/ide_editor.cpp
     src/ide_export.cpp
     src/ide_hexdata.cpp
+    src/ide_import.cpp
     src/ide_main.cpp
     src/ide_new_project.cpp
     src/ide_player.cpp
