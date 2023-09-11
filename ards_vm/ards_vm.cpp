@@ -52,6 +52,7 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
     draw_text(0, 16, t, true);
     
     // find and display file/line info
+    if(e > ERR_SIG)
     {
         uint24_t pc = vm.pc;
         uint8_t num_files = 0;
