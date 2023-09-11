@@ -169,6 +169,29 @@ static void sys_not_pressed()
     vm_push((uint8_t)b);
 }
 
+static void sys_draw_sprite()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t frame = vm_pop<uint16_t>(ptr);
+    uint24_t image = vm_pop<uint24_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    int16_t x = vm_pop<int16_t>(ptr);
+    vm_pop_end(ptr);
+    (void)FX::readEnd();
+    FX::seekData(image);
+    uint8_t w = FX::readPendingUInt8();
+    uint8_t h = FX::readPendingUInt8();
+    uint16_t num = FX::readPendingUInt8();
+    num += ((uint16_t)FX::readPendingUInt8() << 8);
+    uint8_t masked = FX::readPendingLastUInt8();
+    if(frame >= num)
+        vm_error(ards::ERR_FRM);
+    SpritesU::drawBasic(
+        x, y, w, h, image + 5, frame,
+        masked ? SpritesU::MODE_PLUSMASKFX : SpritesU::MODE_OVERWRITEFX);
+    FX::seekData(ards::vm.pc);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -185,4 +208,5 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_pressed,
     sys_any_pressed,
     sys_not_pressed,
+    sys_draw_sprite,
 };

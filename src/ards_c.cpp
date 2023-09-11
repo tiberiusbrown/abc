@@ -11,17 +11,20 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-
-int[4] prog x = { 1, 2, 3, 4 };
-
-int f()
-{
-    return x[1];
-}
-
+constexpr sprites MY_SPRITE = sprites{
+    8x8
+    ..XXXX..
+    .XXXXXX.
+    XXXXXXXX
+    XXXXXXXX
+    XXXXXXXX
+    XXXXXXXX
+    .XXXXXX.
+    ..XXXX..
+};
 void main()
 {
-    $assert(f() == 2);
+    $draw_sprite(0, 0, MY_SPRITE, 0);
 }
 )";
 

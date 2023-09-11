@@ -26,6 +26,7 @@ static char const ERRC_DIV[] PROGMEM = "Division by zero";
 static char const ERRC_ASS[] PROGMEM = "Assertion failed";
 static char const ERRC_DST[] PROGMEM = "Data stack overflow";
 static char const ERRC_CST[] PROGMEM = "Call stack overflow";
+static char const ERRC_FRM[] PROGMEM = "Sprite frame outside of set";
 static char const* const ERRC[NUM_ERR] PROGMEM =
 {
     ERRC_SIG,
@@ -34,6 +35,7 @@ static char const* const ERRC[NUM_ERR] PROGMEM =
     ERRC_ASS,
     ERRC_DST,
     ERRC_CST,
+    ERRC_FRM,
 };
 
 extern "C" __attribute__((used)) void vm_error(error_t e)

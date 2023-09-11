@@ -1,9 +1,26 @@
 #include "ards_compiler.hpp"
 
+#include <sstream>
+
 #include <cassert>
 
 namespace ards
 {
+
+std::string compiler_t::progdata_label()
+{
+    std::ostringstream ss;
+    ss << "$PD_" << progdata_label_index;
+    ++progdata_label_index;
+    return ss.str();
+}
+
+void compiler_t::add_custom_progdata(std::string const& label, std::vector<uint8_t>& data)
+{
+    auto& pdata = progdata[label];
+    assert(pdata.data.empty());
+    pdata.data = std::move(data);
+}
 
 void compiler_t::add_progdata(
     std::string const& label, compiler_type_t const& t, ast_node_t const& n)
@@ -20,6 +37,11 @@ void compiler_t::progdata_expr(
 
     switch(t.type)
     {
+    case compiler_type_t::SPRITES:
+    {
+        encode_sprites(pd.data, n);
+        break;
+    }
     case compiler_type_t::PRIM:
     {
         if(n.type != AST::INT_CONST)

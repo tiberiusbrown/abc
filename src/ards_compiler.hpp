@@ -24,6 +24,7 @@ enum class AST
     TOKEN,      // used to pass through token    
     LIST,       // used to pass through list of nodes
     FUNC_DECLS, // for function decl arg list
+    LABEL_REF,  // used for constexpr label ref types like sprites
 
     //
     // program/statement nodes
@@ -109,6 +110,8 @@ struct compiler_type_t
     bool is_array() const { return type == ARRAY; }
     bool is_sprites() const { return type == SPRITES; }
 
+    bool is_label_ref() const { return is_sprites(); }
+
     // empty for primitives
     // element type for arrays
     std::vector<compiler_type_t> children;
@@ -175,7 +178,8 @@ struct compiler_func_decl_t
 struct compiler_var_t
 {
     compiler_type_t type;
-    int64_t value; // for contexprs
+    int64_t value;         // for constexprs
+    std::string label_ref; // for constexprs
     bool is_constexpr;
 };
 
@@ -290,6 +294,9 @@ private:
 
     bool check_identifier(ast_node_t const& n);
 
+    std::string resolve_label_ref(
+        compiler_frame_t const& frame, ast_node_t const& n, compiler_type_t const& t);
+
     compiler_local_t const* resolve_local(compiler_frame_t const& frame, ast_node_t const& n);
     compiler_global_t const* resolve_global(ast_node_t const& n);
 
@@ -329,8 +336,12 @@ private:
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
 
+    std::string progdata_label();
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
+    void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
     void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
+
+    void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 
     // perform a series of peephole optimizations on a function
     void peephole(compiler_func_t& f);
@@ -348,6 +359,7 @@ private:
     std::unordered_map<std::string, compiler_func_t> funcs;
     std::unordered_map<std::string, compiler_global_t> globals;
 
+    size_t progdata_label_index;
     std::unordered_map<std::string, compiler_progdata_t> progdata;
 
     std::vector<error_t> errs;

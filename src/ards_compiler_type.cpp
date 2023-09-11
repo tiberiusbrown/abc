@@ -57,6 +57,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     if(!errs.empty()) return;
     switch(a.type)
     {
+    case AST::SPRITES:
+        a.comp_type = TYPE_SPRITES;
+        break;
     case AST::COMPOUND_LITERAL:
         for(auto& child : a.children)
             type_annotate_recurse(child, frame);
@@ -145,6 +148,13 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         bool is_divmod = (
             a.type == AST::OP_MULTIPLICATIVE && (
             a.data == "/" || a.data == "%"));
+
+        if(t0.is_sprites() && t1.is_sprites())
+        {
+            a.comp_type = TYPE_BOOL;
+            break;
+        }
+
         if(!check_prim(t0, a.children[0], errs)) break;
         if(!check_prim(t1, a.children[1], errs)) break;
 

@@ -67,6 +67,13 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::LABEL_REF:
+    {
+        f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, std::string(a.data) });
+        frame.size += 3;
+        return;
+    }
+
     case AST::IDENT:
     {
         std::string name(a.data);
@@ -206,16 +213,17 @@ void compiler_t::codegen_expr(
                 "and thus cannot be reassigned", a.children[0].line_info });
             return;
         }
-        if(a.children[0].comp_type.without_ref().type == compiler_type_t::PRIM)
+        auto const& type_noref = a.children[0].comp_type.without_ref();
+        if(type_noref.is_prim() || type_noref.is_sprites())
         {
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
         }
-        else if(a.children[0].comp_type.without_ref().type == compiler_type_t::ARRAY)
+        else if(type_noref.type == compiler_type_t::ARRAY)
         {
             if(a.children[1].type == AST::COMPOUND_LITERAL)
-                codegen_expr_compound(f, frame, a.children[1], a.children[0].comp_type.without_ref());
-            else if(a.children[0].comp_type.without_ref() != a.children[1].comp_type.without_ref())
+                codegen_expr_compound(f, frame, a.children[1], type_noref);
+            else if(type_noref != a.children[1].comp_type.without_ref())
             {
                 errs.push_back({
                     "Incompatible types in assignment to \"" +
@@ -250,7 +258,11 @@ void compiler_t::codegen_expr(
     {
         if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
-        assert(a.children[0].comp_type == a.children[1].comp_type);
+        if(a.children[0].comp_type != a.children[1].comp_type)
+        {
+            errs.push_back({ "Incompatible types in comparison", a.line_info });
+            return;
+        }
         assert(a.comp_type == TYPE_BOOL);
         size_t i0 = 0, i1 = 1;
         if(a.data == ">" || a.data == ">=")
@@ -418,6 +430,15 @@ void compiler_t::codegen_expr(
         std::string sc_label = new_label(f);
         codegen_expr_logical(f, frame, a, sc_label);
         f.instrs.push_back({ I_NOP, 0, 0, 0, sc_label, true });
+        return;
+    }
+
+    case AST::SPRITES:
+    {
+        std::string label = progdata_label();
+        add_progdata(label, TYPE_SPRITES, a);
+        f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
+        frame.size += 3;
         return;
     }
 

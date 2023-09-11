@@ -9,6 +9,18 @@ static std::string const main_name = "main.abc";
 static std::string const main_prog = R"(int x;
 int y;
 
+constexpr sprites MY_SPRITE = sprites{
+    8x8
+    ..XXXX..
+    .XXXXXX.
+    XXXXXXXX
+    XXXXXXXX
+    XXXXXXXX
+    XXXXXXXX
+    .XXXXXX.
+    ..XXXX..
+};
+
 constexpr int MOVE_SPEED = 1;
 
 void setup()
@@ -26,6 +38,10 @@ void loop()
     if($pressed( 16)) y = y + MOVE_SPEED;
     if($pressed(128)) y = y - MOVE_SPEED;
     $draw_filled_rect(x, y, 16, 16, 1);
+    $draw_sprite(x -  8, y +  4, MY_SPRITE, 0);
+    $draw_sprite(x +  4, y -  8, MY_SPRITE, 0);
+    $draw_sprite(x + 16, y +  4, MY_SPRITE, 0);
+    $draw_sprite(x +  4, y + 16, MY_SPRITE, 0);
     $display();
 }
 

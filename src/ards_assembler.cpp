@@ -22,6 +22,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "pressed",          SYS_PRESSED          },
     { "any_pressed",      SYS_ANY_PRESSED      },
     { "not_pressed",      SYS_NOT_PRESSED      },
+    { "draw_sprite",      SYS_DRAW_SPRITE      },
 };
 
 static bool isalpha(char c)
@@ -59,8 +60,6 @@ std::string read_label(std::istream& f, error_t& e)
 {
     std::string t;
     f >> t;
-    for(char& c : t)
-        c = tolower(c);
     return check_label(t, e) ? t : "";
 }
 
@@ -232,8 +231,6 @@ error_t assembler_t::assemble(std::istream& f)
         if(!(f >> t))
             break;
         if(t.empty()) continue;
-        for(char& c : t)
-            c = tolower(c);
         if(t.back() == ':')
         {
             t.pop_back();
@@ -241,8 +238,11 @@ error_t assembler_t::assemble(std::istream& f)
                 error.msg = "Duplicate label: \"" + t + "\"";
             else if(check_label(t, error))
                 labels[t] = nodes.size();
+            continue;
         }
-        else if(auto it = SINGLE_INSTR_NAMES.find(t); it != SINGLE_INSTR_NAMES.end())
+        for(char& c : t)
+            c = tolower(c);
+        if(auto it = SINGLE_INSTR_NAMES.find(t); it != SINGLE_INSTR_NAMES.end())
         {
             push_instr(it->second);
         }

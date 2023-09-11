@@ -26,16 +26,28 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
     case AST::IDENT:
         if(auto* l = resolve_local(frame, n); l && l->var.is_constexpr)
         {
-            n.value = l->var.value;
             n.comp_type = l->var.type;
             n.comp_type.is_constexpr = false;
+            if(l->var.type.is_label_ref())
+            {
+                n.type = AST::LABEL_REF;
+                n.data = l->var.label_ref;
+                return;
+            }
+            n.value = l->var.value;
             break;
         }
         if(auto* g = resolve_global(n); g && g->var.is_constexpr)
         {
-            n.value = g->var.value;
             n.comp_type = g->var.type;
             n.comp_type.is_constexpr = false;
+            if(g->var.type.is_label_ref())
+            {
+                n.type = AST::LABEL_REF;
+                n.data = g->var.label_ref;
+                return;
+            }
+            n.value = g->var.value;
             break;
         }
         return;

@@ -14,6 +14,7 @@ enum error_t : uint8_t
     ERR_ASS, // assertion failed
     ERR_DST, // data stack overflow
     ERR_CST, // call stack overflow
+    ERR_FRM, // sprite frame outside of set
     NUM_ERR,
 };
 

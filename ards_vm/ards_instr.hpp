@@ -19,6 +19,7 @@ enum sysfunc_t : uint16_t
     SYS_PRESSED,
     SYS_ANY_PRESSED,
     SYS_NOT_PRESSED,
+    SYS_DRAW_SPRITE,
 
     SYS_NUM
 };
