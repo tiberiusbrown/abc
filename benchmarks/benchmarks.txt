@@ -3,6 +3,6 @@ bubble2                   129394     5672810       43.84x
 bubble3                   173944     6499165       37.36x
 bubble4                   218494     6768080       30.98x
 fibonacci                 229951     4898770       21.30x
-tilessprite                29206      204992        7.02x
-tilessprite16              22654       67482        2.98x
-tilesrect                 257725      126104        0.49x
+tilessprite                29206      200252        6.86x
+tilessprite16              22654       66859        2.95x
+tilesrect                 257725      118807        0.46x

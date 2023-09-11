@@ -34,6 +34,10 @@ enum instr_t : uint8_t
     I_P2,    // push 2
     I_P3,    // push 3
     I_P4,    // push 4
+    I_P5,    // push 4
+    I_P6,    // push 4
+    I_P7,    // push 4
+    I_P8,    // push 4
     I_P00,   // push 0; push 0
     I_PUSHG, // push imm16
     I_PUSHL, // push imm24
@@ -41,6 +45,9 @@ enum instr_t : uint8_t
     I_SEXT,  // push 0x00 or 0xff to sign extend TOS
 
     I_DUP,   // a | a a
+    I_DUP2,
+    I_DUP3,
+    I_DUP4,
 
     I_GETL,  // push stack[top - imm] (imm=1 is TOS)
     I_GETL2,

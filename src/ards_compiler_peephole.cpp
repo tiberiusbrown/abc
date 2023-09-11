@@ -362,6 +362,10 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
                 { 2, I_P2 },
                 { 3, I_P3 },
                 { 4, I_P4 },
+                { 5, I_P5 },
+                { 6, I_P6 },
+                { 7, I_P7 },
+                { 8, I_P8 },
             };
             auto it = push_instrs.find(i0.imm);
             if(it != push_instrs.end())
