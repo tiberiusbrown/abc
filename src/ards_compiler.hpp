@@ -331,7 +331,7 @@ private:
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
 
     void write(std::ostream& f);
-
+    
     // parse data
     std::string input_data;
     ast_node_t ast;

@@ -46,7 +46,7 @@ bool check_label(std::string const& t, error_t& e)
         e.msg = "Label \"" + t + "\" must begin with[a - zA - Z_]";
     for(size_t i = 1; i < t.size(); ++i)
     {
-        if(!isalnum(t[i]))
+        if(!isalnum(t[i]) && t[i] != '$' && t[i] != '.')
         {
             e.msg = "Label \"" + t + "\" has an invalid character";
             break;
@@ -532,7 +532,18 @@ error_t assembler_t::link()
     for(int i = 0; i < 4; ++i)
         linked_data.push_back(0);
 
-    // offset 20: call to main and loop
+    // offset 20: call $globinit, call main and loop
+    linked_data.push_back(I_CALL);
+    {
+        auto it = labels.find("$globinit");
+        assert(it != labels.end());
+        size_t index = it->second;
+        assert(index < nodes.size());
+        auto offset = nodes[index].offset;
+        linked_data.push_back(uint8_t(offset >> 0));
+        linked_data.push_back(uint8_t(offset >> 8));
+        linked_data.push_back(uint8_t(offset >> 16));
+    }
     linked_data.push_back(I_CALL);
     {
         auto it = labels.find("main");

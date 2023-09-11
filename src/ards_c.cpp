@@ -11,6 +11,8 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+
+int x = 4;
 void main()
 {
 }

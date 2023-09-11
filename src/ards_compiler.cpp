@@ -5,6 +5,9 @@
 namespace ards
 {
 
+static std::string const GLOBINIT_FUNC = "$globinit";
+static std::string const FILE_INTERNAL = "<internal>";
+
 std::unordered_set<std::string> const keywords =
 {
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
@@ -240,6 +243,13 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
 {
     assert(sysfunc_decls.size() == SYS_NUM);
 
+    funcs.clear();
+    {
+        auto& f = funcs[GLOBINIT_FUNC];
+        f.name = GLOBINIT_FUNC;
+        f.filename = FILE_INTERNAL;
+    }
+
     parse(fi);
     if(!errs.empty()) return;
 
@@ -293,15 +303,15 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
         if(n.type == AST::DECL_STMT)
         {
-            if(n.children.size() > 2 &&
-                !n.children[0].comp_type.is_constexpr &&
-                !n.children[0].comp_type.is_prog)
-            {
-                errs.push_back({
-                    "Only constexpr and prog global variables can be initialized",
-                    n.line_info });
-                return;
-            }
+            //if(n.children.size() > 2 &&
+            //    !n.children[0].comp_type.is_constexpr &&
+            //    !n.children[0].comp_type.is_prog)
+            //{
+            //    errs.push_back({
+            //        "Only constexpr and prog global variables can be initialized",
+            //        n.line_info });
+            //    return;
+            //}
             assert(n.children[1].type == AST::IDENT);
             if(!check_identifier(n.children[1])) return;
             std::string name(n.children[1].data);
@@ -357,6 +367,25 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                     return;
                 }
             }
+            else if(n.children.size() == 3 &&
+                !n.children[0].comp_type.is_prog &&
+                !n.children[0].comp_type.is_constexpr)
+            {
+                compiler_frame_t frame{};
+                frame.push();
+                auto& f = funcs[GLOBINIT_FUNC];
+                //codegen(f, frame, n);
+                if(n.children[2].type == AST::COMPOUND_LITERAL)
+                    codegen_expr_compound(f, frame, n.children[2], g.var.type);
+                else
+                    codegen_expr(f, frame, n.children[2], false);
+                auto lvalue = resolve_lvalue(f, frame, n.children[1]);
+                if(n.children[2].type != AST::COMPOUND_LITERAL)
+                    codegen_convert(f, frame, n.children[2], lvalue.type, n.children[2].comp_type);
+                codegen_store_lvalue(f, frame, lvalue);
+                for(size_t i = 0; i < frame.size; ++i)
+                    f.instrs.push_back({ I_POP });
+            }
         }
         else if(n.type == AST::FUNC_STMT)
         {
@@ -405,9 +434,13 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         }
     }
 
+    // add final ret to global constructor
+    funcs[GLOBINIT_FUNC].instrs.push_back({I_RET});
+
     // transforms are done: set parent pointers
     for(auto& [k, v] : funcs)
     {
+        if(v.block.type == AST::NONE) continue;
         v.block.recurse([](ast_node_t& a) {
             for(auto& child : a.children)
                 child.parent = &a;
@@ -418,6 +451,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
     for(auto& [n, f] : funcs)
     {
         if(!errs.empty()) return;
+        if(f.block.type == AST::NONE) continue;
         codegen_function(f);
     }
 
