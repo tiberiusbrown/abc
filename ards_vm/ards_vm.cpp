@@ -422,6 +422,54 @@ I_DUP4:
     jmp  call_vm_error
     .align 6
 
+I_DUP5:
+    cpi  r28, 255
+    breq 1f
+    movw r26, r28
+    subi r26, 5
+    ld   r0, X
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUP6:
+    cpi  r28, 255
+    breq 1f
+    movw r26, r28
+    subi r26, 6
+    ld   r0, X
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUP7:
+    cpi  r28, 255
+    breq 1f
+    movw r26, r28
+    subi r26, 7
+    ld   r0, X
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUP8:
+    cpi  r28, 255
+    breq 1f
+    movw r26, r28
+    subi r26, 8
+    ld   r0, X
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
 I_DUPW:
     cpi  r28, 254
     brsh 1f
@@ -469,6 +517,62 @@ I_DUPW4:
     brsh 1f
     movw r26, r28
     subi r26, 5
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW5:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 6
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW6:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 7
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW7:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 8
+    ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
+    st   Y+, r0
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_DUPW8:
+    cpi  r28, 254
+    brsh 1f
+    movw r26, r28
+    subi r26, 9
     ld   r0, X+
     st   Y+, r0
     ld   r0, X+

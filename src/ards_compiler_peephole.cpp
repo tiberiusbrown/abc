@@ -63,7 +63,7 @@ bool compiler_t::peephole_dup(compiler_func_t& f)
         auto& i0 = f.instrs[i + 0];
 
         // replace GETL <N> with DUP<N>
-        if(i0.instr == I_GETL && i0.imm >= 1 && i0.imm <= 4)
+        if(i0.instr == I_GETL && i0.imm >= 1 && i0.imm <= 8)
         {
             i0.instr = instr_t(I_DUP + i0.imm - 1);
             t = true;
@@ -71,7 +71,7 @@ bool compiler_t::peephole_dup(compiler_func_t& f)
         }
 
         // replace GETL2 <N> with DUPW<N-1>
-        if(i0.instr == I_GETL2 && i0.imm >= 2 && i0.imm <= 5)
+        if(i0.instr == I_GETL2 && i0.imm >= 2 && i0.imm <= 9)
         {
             i0.instr = instr_t(I_DUPW + i0.imm - 2);
             t = true;
