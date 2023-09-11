@@ -653,7 +653,30 @@ I_AIDX:
     dispatch
 
 I_PIDXB:
-    dispatch_delay
+    ; load index into r10
+    ld   r10, -Y
+    ; load progref into r13:r15
+    ld   r15, -Y
+    ld   r14, -Y
+    nop
+    ; load elem size into r16
+    ; load elem count into r17
+    call read_2_bytes_nodelay
+    ld   r13, -Y
+    ; bounds check index against elem count
+    cp   r10, r17
+    brlo 1f
+    ldi  r24, 2
+    jmp call_vm_error
+    ; compute prog ref + index * elem_size
+1:  mul  r10, r16 ; index * elem size
+    add  r13, r0
+    adc  r14, r1
+    adc  r15, r2
+    ; push prog ref
+    st   Y+, r13
+    st   Y+, r14
+    st   Y+, r15
     dispatch
 
 I_PIDX:

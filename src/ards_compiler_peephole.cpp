@@ -33,6 +33,17 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
     {
         auto& i0 = f.instrs[i + 0];
 
+        // replace GETPN 1 with GETP
+        if(i0.instr == I_GETPN)
+        {
+            if(i0.imm == 1)
+            {
+                i0.instr = I_GETP;
+                t = true;
+                continue;
+            }
+        }
+
         // replace GETRN 1 with GETR
         // replace GETRN 2 with GETR2
         if(i0.instr == I_GETRN)
@@ -50,7 +61,7 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 continue;
             }
         }
-        
+
         // replace SETRN 1 with SETR
         // replace SETRN 2 with SETR2
         if(i0.instr == I_SETRN)
@@ -259,6 +270,21 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_AIDXB;
+            t = true;
+            continue;
+        }
+
+        if(i + 2 >= f.instrs.size()) continue;
+        auto& i2 = f.instrs[i + 2];
+
+        // replace PUSH 0; PUSH 0; PIDX M N (M,N < 256) with PIDXB M N
+        if( i0.instr == I_PUSH && i0.imm == 0 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_PIDX && i2.imm < 256 && i2.imm2 < 256)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_PIDXB;
             t = true;
             continue;
         }

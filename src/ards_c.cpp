@@ -11,19 +11,17 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-int x = 4;
-int& y = x;
+
+int[4] prog x = { 1, 2, 3, 4 };
 
 int f()
 {
-    return y;
+    return x[1];
 }
-int g()
-{
-    return x;
-}
+
 void main()
 {
+    $assert(f() == 2);
 }
 )";
 

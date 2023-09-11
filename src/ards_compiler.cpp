@@ -303,15 +303,15 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
         if(n.type == AST::DECL_STMT)
         {
-            //if(n.children.size() > 2 &&
-            //    !n.children[0].comp_type.is_constexpr &&
-            //    !n.children[0].comp_type.is_prog)
-            //{
-            //    errs.push_back({
-            //        "Only constexpr and prog global variables can be initialized",
-            //        n.line_info });
-            //    return;
-            //}
+            if(n.children.size() <= 2 &&
+                (n.children[0].comp_type.is_constexpr ||
+                n.children[0].comp_type.is_prog))
+            {
+                errs.push_back({
+                    "Prog and constexpr variables must be initialized",
+                    n.line_info });
+                return;
+            }
             assert(n.children[1].type == AST::IDENT);
             if(!check_identifier(n.children[1])) return;
             std::string name(n.children[1].data);
