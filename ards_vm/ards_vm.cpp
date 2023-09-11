@@ -739,6 +739,18 @@ I_INC:
     rjmp .+0
     dispatch
 
+I_LINC:
+    lpm
+    lpm
+    movw r26, r28
+    read_byte
+    sub  r26, r0
+    ld   r0, X
+    inc  r0
+    st   X, r0
+    call delay_10
+    dispatch
+
 I_ADD:
     ld   r10, -Y
     ld   r14, -Y
