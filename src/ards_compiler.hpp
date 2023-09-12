@@ -105,7 +105,9 @@ struct compiler_type_t
         SPRITES,
     } type;
 
-    bool is_ref() const { return type == REF || type == ARRAY_REF; }
+    bool is_ref() const { return type == REF; }
+    bool is_array_ref() const { return type == ARRAY_REF; }
+    bool is_any_ref() const { return is_ref() || is_array_ref(); }
     bool is_prim() const { return type == PRIM; }
     bool is_array() const { return type == ARRAY; }
     bool is_sprites() const { return type == SPRITES; }

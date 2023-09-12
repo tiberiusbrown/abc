@@ -155,8 +155,8 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         }
         compiler_type_t t{};
         t.type = compiler_type_t::ARRAY_REF;
-        t.prim_size = 4;
         t.children.push_back(resolve_type(n.children[0]));
+        t.prim_size = t.children[0].is_prog ? 6 : 4;
         return t;
     }
     if(n.type == AST::TYPE_ARRAY)

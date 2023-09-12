@@ -321,8 +321,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         {
             type_annotate(a.children[2], frame);
             // TODO: handle array reference initializers
-            assert(type.type != compiler_type_t::ARRAY_REF);
-            bool ref = (type.type == compiler_type_t::REF);
+            //assert(!type.is_array_ref());
+            bool ref = type.is_any_ref();
             if(ref && a.children[2].type == AST::COMPOUND_LITERAL)
             {
                 errs.push_back({
@@ -335,18 +335,31 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             else
                 codegen_expr(f, frame, a.children[2], ref);
             if(!errs.empty()) return;
+            auto const& t0 = type.without_ref();
+            auto const& t1 = a.children[2].comp_type.without_ref();
             if(ref)
             {
-                if(type.without_ref() != a.children[2].comp_type.without_ref())
+                if(t0 != t1)
                 {
                     errs.push_back({
-                        "Incorrect type for reference \"" + std::string(a.children[1].data) + "\"",
+                        "Incorrect type for reference \"" +
+                        std::string(a.children[1].data) + "\"",
                         a.line_info });
                     return;
                 }
             }
             else if(a.children[2].type != AST::COMPOUND_LITERAL)
+            {
+                if(type.is_array() && t0 != t1)
+                {
+                    errs.push_back({
+                        "Incompatible type for assignment to \"" +
+                        std::string(a.children[1].data) + "\"",
+                        a.line_info });
+                    return;
+                }
                 codegen_convert(f, frame, a, type, a.children[2].comp_type);
+            }
         }
         else
         {
