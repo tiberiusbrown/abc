@@ -3,7 +3,7 @@
 <details><summary>bubble1: 56.20% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 84844</td><td>Cycles: 4768356</td></tr>
+<tr><td>Cycles: 84844</td><td>Cycles: 4768355</td></tr>
 <tr>
 <td>
 
@@ -93,7 +93,7 @@ void main()
 <details><summary>bubble2: 38.12% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 129394</td><td>Cycles: 4932656</td></tr>
+<tr><td>Cycles: 129394</td><td>Cycles: 4932655</td></tr>
 <tr>
 <td>
 
@@ -183,7 +183,7 @@ void main()
 <details><summary>bubble3: 33.80% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 173944</td><td>Cycles: 5878666</td></tr>
+<tr><td>Cycles: 173944</td><td>Cycles: 5878665</td></tr>
 <tr>
 <td>
 
@@ -273,7 +273,7 @@ void main()
 <details><summary>bubble4: 28.77% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 218494</td><td>Cycles: 6286846</td></tr>
+<tr><td>Cycles: 218494</td><td>Cycles: 6286845</td></tr>
 <tr>
 <td>
 
@@ -363,7 +363,7 @@ void main()
 <details><summary>fibonacci: 20.72% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 229951</td><td>Cycles: 4764250</td></tr>
+<tr><td>Cycles: 229951</td><td>Cycles: 4764249</td></tr>
 <tr>
 <td>
 
@@ -413,10 +413,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 6.79% slowdown</summary>
+<details><summary>tilessprite: 6.78% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 29206</td><td>Cycles: 198190</td></tr>
+<tr><td>Cycles: 29206</td><td>Cycles: 198076</td></tr>
 <tr>
 <td>
 
@@ -495,7 +495,7 @@ void main()
 <details><summary>tilessprite16: 2.93% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 22654</td><td>Cycles: 66337</td></tr>
+<tr><td>Cycles: 22654</td><td>Cycles: 66289</td></tr>
 <tr>
 <td>
 
@@ -584,7 +584,7 @@ void main()
 <details><summary>tilesrect: 0.44% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 257725</td><td>Cycles: 114583</td></tr>
+<tr><td>Cycles: 257725</td><td>Cycles: 114454</td></tr>
 <tr>
 <td>
 

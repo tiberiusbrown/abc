@@ -2153,9 +2153,8 @@ I_SYSB:
     adc  r7, r2
     adc  r8, r2
     lpm
-    in   r0, %[spdr]
+    in   r30, %[spdr]
     out  %[spdr], r2
-    mov  r30, r0
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
