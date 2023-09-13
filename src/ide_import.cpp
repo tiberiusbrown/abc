@@ -16,6 +16,7 @@
 static void process_arduboy_file(std::vector<uint8_t> const& data)
 {
     std::map<std::string, std::shared_ptr<project_file_t>> files;
+    mz_zip_archive zip{};
 
     if(data.empty())
     {
@@ -23,7 +24,6 @@ static void process_arduboy_file(std::vector<uint8_t> const& data)
         goto error;
     }
 
-    mz_zip_archive zip{};
     if(MZ_FALSE == mz_zip_reader_init_mem(&zip, data.data(), data.size(), 0))
     {
         printf("ERROR: could not open zip file of size %u\n", (unsigned)data.size());
