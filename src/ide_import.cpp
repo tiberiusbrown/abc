@@ -15,13 +15,13 @@
 
 static void process_arduboy_file(std::vector<uint8_t> const& data)
 {
+    std::map<std::string, std::shared_ptr<project_file_t>> files;
+
     if(data.empty())
     {
         printf("Import .arduboy file: no data found\n");
         goto error;
     }
-
-    std::map<std::string, std::shared_ptr<project_file_t>> files;
 
     mz_zip_archive zip{};
     if(MZ_FALSE == mz_zip_reader_init_mem(&zip, data.data(), data.size(), 0))
