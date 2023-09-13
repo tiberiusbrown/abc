@@ -13,44 +13,12 @@
 #include <miniz_zip.h>
 #include <rapidjson/document.h>
 
-#ifdef __EMSCRIPTEN__
-static void web_upload_handler(
-    std::string const& filename,
-    std::string const& mime_type,
-    std::string_view buffer,
-    void* data)
+static void process_arduboy_file(std::vector<uint8_t> const& data)
 {
-    printf("CB: \"%s\"\n", filename.c_str());
-    printf("CB: \"%s\"\n", mime_type.c_str());
-    printf("CB: %u\n", (unsigned)buffer.size());
-    (void)filename;
-    (void)mime_type;
-    *(std::vector<uint8_t>*)data = std::vector<uint8_t>(buffer.begin(), buffer.end());
-}
-#endif
-
-static void import_arduboy_file()
-{
-    std::vector<uint8_t> data;
-    {
-#ifdef __EMSCRIPTEN__
-        emscripten_browser_file::upload(".arduboy", web_upload_handler, &data);
-#else
-        NFD::UniquePath path;
-        nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "arduboy" } };
-        auto result = NFD::OpenDialog(path, filterItem, 1, nullptr);
-        if(result != NFD_OKAY)
-            return;
-        std::ifstream f(path.get(), std::ios::in | std::ios::binary);
-        data = std::vector<uint8_t>(
-            (std::istreambuf_iterator<char>(f)),
-            std::istreambuf_iterator<char>());
-#endif
-    }
     if(data.empty())
     {
         printf("Import .arduboy file: no data found\n");
-        return;
+        goto error;
     }
 
     std::map<std::string, std::shared_ptr<project_file_t>> files;
@@ -112,6 +80,42 @@ error_close:
 error:
     // TODO
     return;
+}
+
+#ifdef __EMSCRIPTEN__
+static void web_upload_handler(
+    std::string const& filename,
+    std::string const& mime_type,
+    std::string_view buffer,
+    void* user)
+{
+    (void)filename;
+    (void)mime_type;
+    (void)user;
+    auto data = std::vector<uint8_t>(buffer.begin(), buffer.end());
+    process_arduboy_file(data);
+}
+#endif
+
+static void import_arduboy_file()
+{
+    std::vector<uint8_t> data;
+    {
+#ifdef __EMSCRIPTEN__
+        emscripten_browser_file::upload(".arduboy", web_upload_handler, nullptr);
+#else
+        NFD::UniquePath path;
+        nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "arduboy" } };
+        auto result = NFD::OpenDialog(path, filterItem, 1, nullptr);
+        if(result != NFD_OKAY)
+            return;
+        std::ifstream f(path.get(), std::ios::in | std::ios::binary);
+        std::vector<uint8_t> data = std::vector<uint8_t>(
+            (std::istreambuf_iterator<char>(f)),
+            std::istreambuf_iterator<char>());
+        process_arduboy_file(data);
+#endif
+    }
 }
 
 void import_menu_item()
