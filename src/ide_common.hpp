@@ -21,6 +21,7 @@ extern float pixel_ratio;
 extern ImGuiID dockspace_id;
 extern ImGuiID dockid_project;
 extern bool player_active;
+extern std::string const main_name;
 
 // ide_texture.cpp
 struct texture_t
@@ -97,7 +98,11 @@ bool compile_all();
 // ide_export.cpp
 void export_menu_items();
 
+// ide_import.cpp
+void import_menu_item();
+
 // ide_new_project.cpp
+void create_default_info_file();
 void new_project();
 
 // ide_project.cpp

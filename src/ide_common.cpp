@@ -101,6 +101,7 @@ void imgui_content()
     {
         if(BeginMenu("File"))
         {
+            import_menu_item();
             export_menu_items();
             EndMenu();
         }

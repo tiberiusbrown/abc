@@ -5,7 +5,7 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
-static std::string const main_name = "main.abc";
+std::string const main_name = "main.abc";
 static std::string const main_prog = R"(int x;
 int y;
 
@@ -58,15 +58,18 @@ static std::string const info_json = R"({
     "desc": "A totally awesome game!"
 })";
 
+void create_default_info_file()
+{
+    auto f = project.files[INFO_FILENAME] = std::make_shared<project_file_t>();
+    f->filename = INFO_FILENAME;
+    f->set_content(info_json);
+}
+
 void new_project()
 {
     project = {};
 
-    {
-        auto f = project.files[INFO_FILENAME] = std::make_shared<project_file_t>();
-        f->filename = INFO_FILENAME;
-        f->set_content(info_json);
-    }
+    create_default_info_file();
 
     {
         auto f = project.files[main_name] = std::make_shared<project_file_t>();
