@@ -20,6 +20,9 @@ static void web_upload_handler(
     std::string_view buffer,
     void* data)
 {
+    printf("CB: \"%s\"\n", filename.c_str());
+    printf("CB: \"%s\"\n", mime_type.c_str());
+    printf("CB: %u\n", (unsigned)buffer.size());
     (void)filename;
     (void)mime_type;
     *(std::vector<uint8_t>*)data = std::vector<uint8_t>(buffer.begin(), buffer.end());
@@ -44,7 +47,11 @@ static void import_arduboy_file()
             std::istreambuf_iterator<char>());
 #endif
     }
-    if(data.empty()) return;
+    if(data.empty())
+    {
+        printf("Import .arduboy file: no data found\n");
+        return;
+    }
 
     std::map<std::string, std::shared_ptr<project_file_t>> files;
 
