@@ -7,6 +7,7 @@
 #endif
 
 #include <fstream>
+#include <cstdio>
 
 #include <miniz.h>
 #include <miniz_zip.h>
@@ -49,7 +50,10 @@ static void import_arduboy_file()
 
     mz_zip_archive zip{};
     if(MZ_FALSE == mz_zip_reader_init_mem(&zip, data.data(), data.size(), 0))
+    {
+        printf("ERROR: could not open zip file of size %u\n", (unsigned)data.size());
         goto error;
+    }
 
     {
         auto n = mz_zip_reader_get_num_files(&zip);
@@ -57,7 +61,10 @@ static void import_arduboy_file()
         {
             mz_zip_archive_file_stat fstat{};
             if(MZ_FALSE == mz_zip_reader_file_stat(&zip, f, &fstat))
+            {
+                printf("ERROR: could not stat file index %u\n", (unsigned)f);
                 goto error_close;
+            }
             size_t fnamelen = strlen(fstat.m_filename);
             if(fstat.m_filename[fnamelen - 1] == '/')
                 continue;
@@ -68,7 +75,11 @@ static void import_arduboy_file()
             pfile->filename = filename;
             pfile->content.resize((size_t)fstat.m_uncomp_size);
             if(MZ_FALSE == mz_zip_reader_extract_to_mem(
-                &zip, f, pfile->content.data(), pfile->content.size(), 0)) goto error_close;
+                &zip, f, pfile->content.data(), pfile->content.size(), 0))
+            {
+                printf("ERROR: could not extract file \"%s\"\n", fstat.m_filename);
+                goto error_close;
+            }
             files[filename] = std::move(pfile);
         }
     }
