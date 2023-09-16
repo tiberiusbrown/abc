@@ -15,6 +15,9 @@ static constexpr uint8_t SPRITE[] PROGMEM = {
 
 int main()
 {
+    // for accurate comparison, prevent inlining with extra call here
+    // presumably real games would not have a single call to drawOverwrite
+    Sprites::drawOverwrite(0, 0, SPRITE, 0);
 
     debug_break();
     

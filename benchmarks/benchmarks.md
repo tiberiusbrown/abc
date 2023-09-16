@@ -413,10 +413,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 6.39% slowdown</summary>
+<details><summary>tilessprite: 4.20% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 29206</td><td>Cycles: 186705</td></tr>
+<tr><td>Cycles: 44482</td><td>Cycles: 186705</td></tr>
 <tr>
 <td>
 
@@ -435,6 +435,9 @@ static constexpr uint8_t SPRITE[] PROGMEM = {
 
 int main()
 {
+    // for accurate comparison, prevent inlining with extra call here
+    // presumably real games would not have a single call to drawOverwrite
+    Sprites::drawOverwrite(0, 0, SPRITE, 0);
 
     debug_break();
     
@@ -492,10 +495,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite16: 2.80% slowdown</summary>
+<details><summary>tilessprite16: 2.35% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 22654</td><td>Cycles: 63502</td></tr>
+<tr><td>Cycles: 26978</td><td>Cycles: 63502</td></tr>
 <tr>
 <td>
 
@@ -517,6 +520,9 @@ static constexpr uint8_t SPRITE[] PROGMEM = {
 
 int main()
 {
+    // for accurate comparison, prevent inlining with extra call here
+    // presumably real games would not have a single call to drawOverwrite
+    Sprites::drawOverwrite(0, 0, SPRITE, 0);
 
     debug_break();
     
