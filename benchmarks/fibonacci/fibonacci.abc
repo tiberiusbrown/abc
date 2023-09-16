@@ -9,6 +9,6 @@ u16 f;
 void main()
 {
     $debug_break();
-    f = fib(18);
+    f = fib(16);
     $debug_break();
 }

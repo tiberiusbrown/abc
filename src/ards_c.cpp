@@ -11,12 +11,35 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-i8[100] a;
+i8[100] A;
 
 void main()
 {
-    i8[10] b;
-    b = a;
+    for(u8 i = 0; i < 100; i = i + 1)
+        A[i] = 99 - i;
+
+    $debug_break();
+    
+    u8 n = 100;
+    while(n > 1)
+    {
+        u8 n2 = 0;
+        for(u8 i = 1; i < n; i = i + 1)
+        {
+            i8& a = A[u8(i - 1)];
+            i8& b = A[i];
+            if(a > b)
+            {
+                i8 t = a;
+                a = b;
+                b = t;
+                n2 = i;
+            }
+        }
+        n = n2;
+    }
+
+    $debug_break();
 }
 )";
 

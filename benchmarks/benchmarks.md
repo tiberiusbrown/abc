@@ -1,9 +1,9 @@
 ## Benchmarks
 
-<details><summary>bubble1: 56.20% slowdown</summary>
+<details><summary>bubble1: 56.30% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 84844</td><td>Cycles: 4768355</td></tr>
+<tr><td>Cycles: 34714</td><td>Cycles: 1954329</td></tr>
 <tr>
 <td>
 
@@ -15,16 +15,16 @@ using i8 = int8_t;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-i8 A[100];
+i8 A[64];
 
 int main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -52,16 +52,16 @@ int main()
 <td>
 
 ```c
-i8[100] A;
+i8[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     $debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -90,10 +90,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble2: 38.12% slowdown</summary>
+<details><summary>bubble2: 38.24% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 129394</td><td>Cycles: 4932655</td></tr>
+<tr><td>Cycles: 52858</td><td>Cycles: 2021237</td></tr>
 <tr>
 <td>
 
@@ -105,16 +105,16 @@ using i16 = int16_t;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-i16 A[100];
+i16 A[64];
 
 int main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -142,16 +142,16 @@ int main()
 <td>
 
 ```c
-i16[100] A;
+i16[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     $debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -180,10 +180,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble3: 33.80% slowdown</summary>
+<details><summary>bubble3: 33.89% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 173944</td><td>Cycles: 5878665</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 2406557</td></tr>
 <tr>
 <td>
 
@@ -195,16 +195,16 @@ using i24 = __int24;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-i24 A[100];
+i24 A[64];
 
 int main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -232,16 +232,16 @@ int main()
 <td>
 
 ```c
-i24[100] A;
+i24[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     $debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -270,10 +270,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble4: 28.77% slowdown</summary>
+<details><summary>bubble4: 28.86% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 218494</td><td>Cycles: 6286845</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2572819</td></tr>
 <tr>
 <td>
 
@@ -285,16 +285,16 @@ using i32 = int32_t;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-i32 A[100];
+i32 A[64];
 
 int main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -322,16 +322,16 @@ int main()
 <td>
 
 ```c
-i32[100] A;
+i32[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     $debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;
@@ -363,7 +363,7 @@ void main()
 <details><summary>fibonacci: 20.72% slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 229951</td><td>Cycles: 4764249</td></tr>
+<tr><td>Cycles: 87831</td><td>Cycles: 1819477</td></tr>
 <tr>
 <td>
 
@@ -381,7 +381,7 @@ volatile uint16_t f;
 int main()
 {
     asm volatile("break\n");
-    f = fib(18);
+    f = fib(16);
     asm volatile("break\n");
 }
 
@@ -402,7 +402,7 @@ u16 f;
 void main()
 {
     $debug_break();
-    f = fib(18);
+    f = fib(16);
     $debug_break();
 }
 

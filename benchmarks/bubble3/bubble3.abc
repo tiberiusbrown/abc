@@ -1,13 +1,13 @@
-i24[100] A;
+i24[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     $debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;

@@ -5,16 +5,16 @@ using i8 = int8_t;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-i8 A[100];
+i8 A[64];
 
 int main()
 {
-    for(u8 i = 0; i < 100; i = i + 1)
-        A[i] = 99 - i;
+    for(u8 i = 0; i < 64; i = i + 1)
+        A[i] = 64 - i;
 
     debug_break();
     
-    u8 n = 100;
+    u8 n = 64;
     while(n > 1)
     {
         u8 n2 = 0;

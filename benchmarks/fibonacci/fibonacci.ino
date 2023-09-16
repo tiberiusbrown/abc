@@ -11,6 +11,6 @@ volatile uint16_t f;
 int main()
 {
     asm volatile("break\n");
-    f = fib(18);
+    f = fib(16);
     asm volatile("break\n");
 }
