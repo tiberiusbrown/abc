@@ -11,14 +11,14 @@ int y;
 
 constexpr sprites MY_SPRITE = sprites{
     8x8
-    ..XXXX..
-    .XXXXXX.
-    XXXXXXXX
-    XXXXXXXX
-    XXXXXXXX
-    XXXXXXXX
-    .XXXXXX.
-    ..XXXX..
+    --XXXX--
+    -X....X-
+    X......X
+    X......X
+    X......X
+    X......X
+    -X....X-
+    --XXXX--
 };
 
 constexpr int MOVE_SPEED = 1;

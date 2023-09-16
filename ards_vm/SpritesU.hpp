@@ -57,7 +57,7 @@ struct SpritesU
     static void drawBasic(
         int16_t x, int16_t y, uint8_t w, uint8_t h,
         uint24_t image, uint16_t frame, uint8_t mode);
-    __attribute__((noinline)) static void drawBasicNoChecks(
+    static void drawBasicNoChecks(
         uint16_t w_and_h,
         uint24_t image, uint8_t mode,
         int16_t x, int16_t y);

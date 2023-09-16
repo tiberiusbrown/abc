@@ -14,7 +14,7 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )
-
+    
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(GetGitRevisionDescription)
 git_describe(ABC_VERSION)

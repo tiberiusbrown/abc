@@ -99,7 +99,6 @@ static void web_upload_handler(
 
 static void import_arduboy_file()
 {
-    std::vector<uint8_t> data;
     {
 #ifdef __EMSCRIPTEN__
         emscripten_browser_file::upload(".arduboy", web_upload_handler, nullptr);
