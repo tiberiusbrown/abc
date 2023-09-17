@@ -264,9 +264,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         type_annotate_recurse(a.children[0], frame);
         type_annotate_recurse(a.children[1], frame);
         auto t0 = a.children[0].comp_type;
-        auto t1 = a.children[1].comp_type;
-        auto tt = t0.ref_type();
-        if(tt != compiler_type_t::ARRAY)
+        if(!t0.without_ref().is_array())
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) +
@@ -276,6 +274,22 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         a.comp_type.type = compiler_type_t::REF;
         a.comp_type.prim_size = 2;
         a.comp_type.children.push_back(t0.without_ref().children[0]);
+        break;
+    }
+    case AST::STRUCT_MEMBER:
+    {
+        assert(a.children.size() == 2);
+        type_annotate_recurse(a.children[0], frame);
+        if(!a.children[0].comp_type.without_ref().is_struct())
+        {
+            assert(false);
+        }
+        std::string name = std::string(a.children[1].data);
+        auto* t0 = resolve_member(a.children[0], name);
+        if(!t0) break;
+        a.comp_type.type = compiler_type_t::REF;
+        a.comp_type.prim_size = 2;
+        a.comp_type.children.push_back(t0->without_ref());
         break;
     }
     default:

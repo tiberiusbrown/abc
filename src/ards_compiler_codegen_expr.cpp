@@ -424,6 +424,34 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::STRUCT_MEMBER:
+    {
+        std::string name = std::string(a.children[1].data);
+        size_t offset = 0;
+        auto const* t = resolve_member(a.children[0], name, &offset);
+        if(!t) return;
+        codegen_expr(f, frame, a.children[0], true);
+        if(offset != 0)
+        {
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(offset >> 0) });
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(offset >> 8) });
+            if(t->is_prog)
+            {
+                f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(offset >> 16) });
+                f.instrs.push_back({ I_ADD3, a.children[1].line() });
+            }
+            else
+            {
+                f.instrs.push_back({ I_ADD2, a.children[1].line() });
+            }
+        }
+        // if the child type is a reference, dereference it now
+        // for example, player.hp where hp is int&
+        if(t->is_ref())
+            codegen_dereference(f, frame, a, t->children[0]);
+        return;
+    }
+
     case AST::OP_LOGICAL_AND:
     case AST::OP_LOGICAL_OR:
     {

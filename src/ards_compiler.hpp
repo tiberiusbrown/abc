@@ -34,6 +34,7 @@ enum class AST
     BLOCK,        // children are child statements
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
+    STRUCT_STMT,  // children are ident and decl_stmt*
     DECL_STMT,    // children are type, ident
     FUNC_STMT,    // children are type, ident, block, args
     IF_STMT,      // children are expr, stmt, stmt (for else)
@@ -68,7 +69,8 @@ enum class AST
 
     FUNC_CALL, // children are func-expr and FUNC_ARGS
 
-    ARRAY_INDEX, // children are array and index
+    ARRAY_INDEX,   // children are array and index
+    STRUCT_MEMBER, // children are struct and member
 
     COMPOUND_LITERAL, // children are elements
 
@@ -110,13 +112,19 @@ struct compiler_type_t
     bool is_any_ref() const { return is_ref() || is_array_ref(); }
     bool is_prim() const { return type == PRIM; }
     bool is_array() const { return type == ARRAY; }
+    bool is_struct() const { return type == STRUCT; }
     bool is_sprites() const { return type == SPRITES; }
 
     bool is_label_ref() const { return is_sprites(); }
 
     // empty for primitives
     // element type for arrays
+    // members for structs
     std::vector<compiler_type_t> children;
+    
+    // only nonempty for structs
+    // data is name, offset
+    std::vector<std::pair<std::string, size_t>> members;
 
     type_t ref_type() const
     {
@@ -301,6 +309,8 @@ private:
 
     compiler_local_t const* resolve_local(compiler_frame_t const& frame, ast_node_t const& n);
     compiler_global_t const* resolve_global(ast_node_t const& n);
+    compiler_type_t const* resolve_member(
+        ast_node_t const& a, std::string const& name, size_t* offset = nullptr);
 
     compiler_type_t resolve_type(ast_node_t const& n);
     compiler_func_t resolve_func(ast_node_t const& n);
@@ -349,6 +359,7 @@ private:
     void peephole(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
     bool peephole_linc(compiler_func_t& f);
+    bool peephole_ref(compiler_func_t& f);
     bool peephole_dup(compiler_func_t& f);
     bool peephole_compress_push_pop(compiler_func_t& f);
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
@@ -362,6 +373,7 @@ private:
     // codegen data
     std::unordered_map<std::string, compiler_func_t> funcs;
     std::unordered_map<std::string, compiler_global_t> globals;
+    std::unordered_map<std::string, compiler_type_t> structs;
 
     size_t progdata_label_index;
     std::unordered_map<std::string, compiler_progdata_t> progdata;

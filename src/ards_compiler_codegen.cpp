@@ -32,21 +32,36 @@ compiler_global_t const* compiler_t::resolve_global(ast_node_t const& n)
     return nullptr;
 }
 
+compiler_type_t const* compiler_t::resolve_member(
+    ast_node_t const& a, std::string const& name, size_t* offset)
+{
+    auto const& t = a.comp_type.without_ref();
+    assert(t.is_struct());
+    assert(t.children.size() == t.members.size());
+    for(size_t i = 0; i < t.children.size(); ++i)
+    {
+        if(t.members[i].first != name) continue;
+        if(offset) *offset = t.members[i].second;
+        return &t.children[i];
+    }
+    errs.push_back({ "Unknown member \"" + name + "\"", a.line_info });
+    return nullptr;
+}
+
 compiler_lvalue_t compiler_t::resolve_lvalue(
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n)
 {
-    if(n.type != AST::IDENT && n.type != AST::ARRAY_INDEX)
+    if(n.type != AST::IDENT && n.type != AST::ARRAY_INDEX && n.type != AST::STRUCT_MEMBER)
     {
         errs.push_back({
             "\"" + std::string(n.data) + "\" cannot be assigned to",
             n.line_info });
         return {};
     }
-    assert(n.type == AST::IDENT || n.type == AST::ARRAY_INDEX);
     (void)f;
     uint16_t line = n.line();
-    if(n.type == AST::ARRAY_INDEX)
+    if(n.type == AST::ARRAY_INDEX || n.type == AST::STRUCT_MEMBER)
     {
         compiler_lvalue_t t{};
         t.type = n.comp_type;

@@ -94,18 +94,23 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     if(n.type == AST::TYPE)
     {
         std::string name(n.data);
-        auto it = primitive_types.find(name);
-        if(it == primitive_types.end())
+        compiler_type_t const* pt = nullptr;
+        if(auto it = structs.find(name); it != structs.end())
+            pt = &it->second;
+        else if(auto it2 = primitive_types.find(name); it2 != primitive_types.end())
+            pt = &it2->second;
+        else
         {
             errs.push_back({
-                "Unknown type \"" + name + "\"",
-                n.line_info });
+                    "Unknown type \"" + name + "\"",
+                    n.line_info });
             return TYPE_NONE;
         }
+        assert(pt != nullptr);
         compiler_type_t t{};
         if(n.children.empty())
         {
-            t = it->second;
+            t = *pt;
             t.is_constexpr = n.comp_type.is_constexpr;
             return t;
         }
@@ -118,9 +123,9 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
                    n.line_info });
             return TYPE_NONE;
         }
-        t.prim_size = it->second.prim_size * num;
+        t.prim_size = pt->prim_size * num;
         t.type = compiler_type_t::ARRAY;
-        t.children.push_back(it->second);
+        t.children.push_back(*pt);
         t.is_constexpr = n.comp_type.is_constexpr;
         return t;
     }
@@ -181,6 +186,21 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.type = compiler_type_t::ARRAY;
         t.children.push_back(resolve_type(n.children[1]));
         t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
+        return t;
+    }
+    if(n.type == AST::STRUCT_STMT)
+    {
+        compiler_type_t t{};
+        t.type = compiler_type_t::STRUCT;
+        size_t size = 0;
+        for(size_t i = 1; i < n.children.size(); ++i)
+        {
+            auto const& decl = n.children[i];
+            t.children.emplace_back(resolve_type(decl.children[0]));
+            t.members.push_back({ std::string(decl.children[1].data), size });
+            size += t.children.back().prim_size;
+        }
+        t.prim_size = size;
         return t;
     }
 
@@ -337,7 +357,10 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
     for(auto& n : ast.children)
     {
         if(!errs.empty()) return;
-        assert(n.type == AST::DECL_STMT || n.type == AST::FUNC_STMT);
+        assert(
+            n.type == AST::DECL_STMT ||
+            n.type == AST::FUNC_STMT ||
+            n.type == AST::STRUCT_STMT);
         if(n.type == AST::DECL_STMT)
         {
             if(n.children.size() <= 2 &&
@@ -494,6 +517,18 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
                 f.arg_names.push_back(std::string(tname.data));
                 f.decl.arg_types.push_back(resolve_type(ttype));
             }
+        }
+        else if(n.type == AST::STRUCT_STMT)
+        {
+            std::string name(n.children[0].data);
+            if(structs.count(name) != 0)
+            {
+                errs.push_back({
+                    "Duplicate struct \"" + name + "\"",
+                    n.line_info });
+                return;
+            }
+            structs[name] = resolve_type(n);
         }
     }
 

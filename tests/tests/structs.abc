@@ -1,0 +1,46 @@
+struct enemy_t
+{
+    int x;
+    int y;
+    char[12] attrs;
+};
+
+enemy_t e;
+enemy_t[4] enemies;
+
+void main()
+{
+    $debug_break();
+    
+    $assert(e.x == 0);
+    $assert(e.y == 0);
+    for(u8 i = 0; i < 12; i = i + 1)
+        $assert(e.attrs[i] == 0);
+    
+    e.attrs[4] = 42;
+    for(u8 i = 0; i < 12; i = i + 1)
+    {
+        if(i == 4)
+            $assert(e.attrs[i] == 42);
+        else
+            $assert(e.attrs[i] == 0);
+    }
+    
+    enemies[2].x = 42;
+    enemies[2].y = 65;
+    enemies[2].attrs[3] = 88;
+    for(u8 j = 0; j < 4; j = j + 1)
+    {
+        for(u8 i = 0; i < 12; i = i + 1)
+        {
+            if(j == 2 && i == 3)
+                $assert(enemies[j].attrs[i] == 88);
+            else
+                $assert(enemies[j].attrs[i] == 0);
+        }
+    }
+    $assert(enemies[2].x == 42);
+    $assert(enemies[2].y == 65);
+    
+    $debug_break();
+}

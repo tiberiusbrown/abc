@@ -92,12 +92,6 @@ private:
         byte_count += size;
     }
 
-    void push_label(std::string const& label)
-    {
-        nodes.push_back({ byte_count, LABEL, I_NOP, 3, 0, label });
-        byte_count += 3;
-    }
-
     void push_file(uint8_t file)
     {
         nodes.push_back({ byte_count, FILE, I_NOP, 0, file });
@@ -108,7 +102,9 @@ private:
         nodes.push_back({ byte_count, LINE, I_NOP, 0, line });
     }
 
-    void push_global(std::istream& f, size_t size = 2);
+    void push_label(std::istream& f);
+
+    void push_global(std::istream& f, bool has_offset = false);
 
 };
     

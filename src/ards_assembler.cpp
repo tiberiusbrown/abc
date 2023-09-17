@@ -113,7 +113,7 @@ void assembler_t::push_instr(instr_t i)
     byte_count += 1;
 }
 
-void assembler_t::push_global(std::istream& f, size_t size)
+void assembler_t::push_label(std::istream& f)
 {
     std::string label = read_label(f, error);
     if(!error.msg.empty()) return;
@@ -123,8 +123,19 @@ void assembler_t::push_global(std::istream& f, size_t size)
         f.get();
         offset = read_imm(f, error);
     }
-    nodes.push_back({ byte_count, GLOBAL, I_NOP, (uint16_t)size, offset, label });
-    byte_count += size;
+    nodes.push_back({ byte_count, LABEL, I_NOP, (uint16_t)3, offset, label });
+    byte_count += 3;
+}
+
+void assembler_t::push_global(std::istream& f, bool has_offset)
+{
+    std::string label = read_label(f, error);
+    if(!error.msg.empty()) return;
+    uint32_t offset = 0;
+    if(has_offset)
+        f >> offset;
+    nodes.push_back({ byte_count, GLOBAL, I_NOP, (uint16_t)2, offset, label });
+    byte_count += 2;
 }
 
 static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
@@ -279,7 +290,7 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "pushl")
         {
             push_instr(I_PUSHL);
-            push_label(read_label(f, error));
+            push_label(f);
         }
         else if(t == "getl")
         {
@@ -377,12 +388,25 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "refg")
         {
             push_instr(I_REFG);
-            push_global(f, 2);
+            push_global(f, true);
+            auto& g = nodes.back();
+            if(auto git = globals.find(g.label); git != globals.end())
+            {
+                g.imm += (uint32_t)git->second;
+                if(g.imm < 256)
+                {
+                    g.size = 1;
+                    byte_count -= 1;
+                    nodes[nodes.size() - 2].instr = I_REFGB;
+                }
+                g.label.clear();
+            }
+            else
+                return { "Unknown global \"" + g.label + "\"" };
         }
         else if(t == "refgb")
         {
-            push_instr(I_REFGB);
-            push_global(f, 1);
+            assert(false);
         }
         else if(t == "linc")
         {
@@ -392,22 +416,22 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "bz")
         {
             push_instr(I_BZ);
-            push_label(read_label(f, error));
+            push_label(f);
         }
         else if(t == "bnz")
         {
             push_instr(I_BNZ);
-            push_label(read_label(f, error));
+            push_label(f);
         }
         else if(t == "jmp")
         {
             push_instr(I_JMP);
-            push_label(read_label(f, error));
+            push_label(f);
         }
         else if(t == "call")
         {
             push_instr(I_CALL);
-            push_label(read_label(f, error));
+            push_label(f);
         }
         else if(t == "sys")
         {
@@ -448,12 +472,12 @@ error_t assembler_t::assemble(std::istream& f)
         }
         else if(t == ".rg")
         {
-            push_global(f, 2);
+            push_global(f);
             nodes.back().type = GLOBAL_REF;
         }
         else if(t == ".rp")
         {
-            push_label(read_label(f, error));
+            push_label(f);
         }
         else if(t == ".file")
         {
@@ -618,15 +642,21 @@ error_t assembler_t::link()
         case GLOBAL:
         case GLOBAL_REF:
         {
-            auto it = globals.find(n.label);
-            if(it == globals.end())
+            size_t offset = 0;
+            if(n.label.empty())
+                offset = n.imm;
+            else
             {
-                error.msg = "Global not found: \"" + n.label + "\"";
-                return error;
+                auto it = globals.find(n.label);
+                if(it == globals.end())
+                {
+                    error.msg = "Global not found: \"" + n.label + "\"";
+                    return error;
+                }
+                offset = it->second;
+                if(n.type == GLOBAL_REF)
+                    offset += 0x200;
             }
-            size_t offset = it->second;
-            if(n.type == GLOBAL_REF)
-                offset += 0x200;
             linked_data.push_back(uint8_t(offset >> 0));
             if(n.size >= 2)
                 linked_data.push_back(uint8_t(offset >> 8));

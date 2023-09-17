@@ -114,9 +114,11 @@ R"(
 
 program             <- global_stmt*
 
-global_stmt         <- decl_stmt / func_stmt
+global_stmt         <- decl_stmt / func_stmt / struct_stmt
 decl_stmt           <- 'constexpr' type_name ident '=' expr ';' /
                        type_name ident ('=' expr)? ';'
+struct_stmt         <- 'struct' ident '{' struct_decl_stmt* '}' ';'
+struct_decl_stmt    <- type_name ident ';'
 func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
@@ -152,7 +154,7 @@ multiplicative_expr <- unary_expr          (multiplicative_op unary_expr        
 
 unary_expr          <- unary_op unary_expr / postfix_expr
 postfix_expr        <- primary_expr postfix*
-postfix             <- '(' arg_expr_list? ')' / '[' expr ']'
+postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident
 
 primary_expr        <- hex_literal /
                        decimal_literal /
@@ -162,7 +164,8 @@ primary_expr        <- hex_literal /
                        '(' expr ')'
 
 type_name           <- ident type_name_postfix*
-type_name_postfix   <- '[' expr ']' / '&' / '[' ']' '&' / 'prog'
+#type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' '&'
+type_name_postfix   <- '[' expr ']' / '&' / 'prog'
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
@@ -316,15 +319,15 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             // reference
             return { v.line_info(), AST::TYPE_REF, v.token() };
         case 2:
-            // unsized array reference
-            return { v.line_info(), AST::TYPE_AREF, v.token() };
-        case 3:
         {
             // prog
             ast_node_t a{ v.line_info(), AST::TYPE_PROG, v.token() };
             a.comp_type.is_prog = true;
             return a;
         }
+        case 3:
+            // unsized array reference
+            return { v.line_info(), AST::TYPE_AREF, v.token() };
         default:
             break;
         }
@@ -351,9 +354,9 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             ast_node_t pair{ v.line_info(), AST::NONE, v.token() };
             if(b.type == AST::FUNC_ARGS)
                 pair.type = AST::FUNC_CALL;
-            else if(b.type == AST::ARRAY_INDEX)
+            else if(b.type == AST::ARRAY_INDEX || b.type == AST::STRUCT_MEMBER)
             {
-                pair.type = AST::ARRAY_INDEX;
+                pair.type = b.type;
                 auto t = std::move(b.children[0]);
                 b = std::move(t);
             }
@@ -380,6 +383,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         {
             // array indexing
             ast_node_t a = { v.line_info(), AST::ARRAY_INDEX, v.token() };
+            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
+            return a;
+        }
+        else if(v.choice() == 2)
+        {
+            // struct member
+            ast_node_t a = { v.line_info(), AST::STRUCT_MEMBER, v.token() };
             a.children.push_back(std::any_cast<ast_node_t>(v[0]));
             return a;
         }
@@ -498,6 +508,18 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         {
             a.children.push_back({ {}, AST::LIST, "" });
         }
+        return a;
+    };
+    p["struct_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::STRUCT_STMT, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
+    p["struct_decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::DECL_STMT, v.token() };
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
         return a;
     };
     p["decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
