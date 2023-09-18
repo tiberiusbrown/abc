@@ -487,7 +487,7 @@ void compiler_t::codegen_expr_compound(
         ast_node_t const& a, compiler_type_t const& type)
 {
     assert(a.type == AST::COMPOUND_LITERAL);
-    if(type.type == compiler_type_t::ARRAY)
+    if(type.is_array())
     {
         const auto& t = type.children[0];
         size_t num_elems = type.prim_size / t.prim_size;
@@ -507,6 +507,45 @@ void compiler_t::codegen_expr_compound(
             {
                 codegen_expr(f, frame, child, ref);
                 codegen_convert(f, frame, child, t, child.comp_type);
+            }
+        }
+    }
+    else if(type.is_struct())
+    {
+        if(type.children.size() < a.children.size())
+        {
+            errs.push_back({
+                "Too many elements in struct initializer",
+                a.line_info });
+            return;
+        }
+        for(size_t i = 0; i < a.children.size(); ++i)
+        {
+            auto const& child = a.children[i];
+            auto const& t = type.children[i];
+            bool ref = t.is_ref();
+            if(child.type == AST::COMPOUND_LITERAL)
+                codegen_expr_compound(f, frame, child, t);
+            else
+            {
+                codegen_expr(f, frame, child, ref);
+                codegen_convert(f, frame, child, t, child.comp_type);
+            }
+        }
+        for(size_t i = a.children.size(); i < type.children.size(); ++i)
+        {
+            auto const& t = type.children[i];
+            if(t.is_ref())
+            {
+                errs.push_back({
+                "Uninitialized reference in struct initializer",
+                a.line_info });
+                return;
+            }
+            for(size_t j = 0; j < type.children[i].prim_size; ++j)
+            {
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
+                frame.size += 1;
             }
         }
     }

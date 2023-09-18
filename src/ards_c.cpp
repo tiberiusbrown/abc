@@ -17,15 +17,10 @@ struct enemy_t
     int y;
 };
 
-//u8[300] x;
-
-enemy_t e;
-enemy_t[16] enemies;
-
 void main()
 {
-    e.y = 88;
-    enemies[4].y = 42;
+    enemy_t e = { };
+e.x;
 }
 )";
 

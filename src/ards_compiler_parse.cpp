@@ -136,7 +136,8 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 
 # right-associative binary assignment operator
-expr                <- '{' expr (',' expr)* '}' /
+expr                <- '{' '}' /
+                       '{' expr (',' expr)* ','? '}' /
                        postfix_expr assignment_op expr /
                        logical_or_expr
 
@@ -445,7 +446,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
 
     p["expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.choice() == 0)
+        if(v.choice() == 0 || v.choice() == 1)
         {
             ast_node_t a{ v.line_info(), AST::COMPOUND_LITERAL, v.token() };
             for(auto& child : v)
@@ -453,7 +454,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             return a;
         }
         auto child0 = std::any_cast<ast_node_t>(v[0]);
-        if(v.choice() == 2) return child0;
+        if(v.choice() == 3) return child0;
         auto child1 = std::any_cast<ast_node_t>(v[1]);
         auto child2 = std::any_cast<ast_node_t>(v[2]);
         assert(child1.type == AST::TOKEN);
