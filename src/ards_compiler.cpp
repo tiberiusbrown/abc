@@ -13,7 +13,7 @@ std::unordered_set<std::string> const keywords =
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
-    "constexpr", "prog", "sprites",
+    "constexpr", "prog", "sprites", "struct", "import",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types

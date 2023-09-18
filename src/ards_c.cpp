@@ -11,16 +11,18 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-struct enemy_t
-{
-    int x;
-    int y;
+
+constexpr sprites DIGITS = sprites{
+    3x5
+    .8. .8. 88. 88. 8.8 888 .8. 888 .8. .8.
+    8.8 88. ..8 ..8 8.8 8.. 8.. ..8 8.8 8.8
+    8.8 .8. .8. .8. 888 88. 88. ..8 .8. .88
+    8.8 .8. 8.. ..8 ..8 ..8 8.8 .8. 8.8 ..8
+    .8. 888 888 88. ..8 88. .8. .8. .8. .8.
 };
 
 void main()
 {
-    enemy_t e = { };
-e.x;
 }
 )";
 

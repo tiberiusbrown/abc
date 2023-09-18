@@ -1,5 +1,7 @@
 #include "ards_compiler.hpp"
 
+#include <cctype>
+
 namespace ards
 {
 
@@ -20,8 +22,8 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
     assert(n.children.size() > 2);
     assert(n.children[0].type == AST::INT_CONST);
     assert(n.children[1].type == AST::INT_CONST);
-    int64_t w = n.children[0].value;
-    int64_t h = n.children[1].value;
+    size_t w = (size_t)n.children[0].value;
+    size_t h = (size_t)n.children[1].value;
     if(w < 1 || w > 248 || h < 1 || h > 248)
     {
         errs.push_back({
@@ -30,43 +32,58 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
         return;
     }
 
-    size_t num_rows = n.children.size() - 2;
-    if(num_rows % h != 0)
+    std::vector<uint8_t> idata;
+    size_t iw = 0;
+    bool masked = false;
+    for(size_t i = 2; i < n.children.size(); ++i)
+    {
+        auto const& row = n.children[i];
+        assert(row.type == AST::TOKEN);
+        for(char c : row.data)
+        {
+            if(isspace(c)) continue;
+            if     (c == '-') idata.push_back(0), masked = true;
+            else if(c == '.') idata.push_back(1);
+            else              idata.push_back(2);
+        }
+        if(iw == 0)
+            iw = idata.size();
+    }
+    if(iw == 0)
     {
         errs.push_back({
-            "Sprite set total number of rows must be a multiple of sprite height",
+            "No sprite data found",
             n.line_info });
         return;
     }
-    for(size_t i = 2; i < n.children.size(); ++i)
+    size_t ih = idata.size() / iw;
+    if(ih % h != 0 || iw % w != 0)
     {
-        if(n.children[i].data.size() == (size_t)w)
-            continue;
-        errs.push_back({ "Row length must match sprite width", n.children[i].line_info });
+        errs.push_back({
+            "Sprites image width/height must be a multiple of sprite width/height",
+            n.line_info });
         return;
     }
 
-    size_t num_sprites = num_rows / h;
+    size_t numw = iw / w;
+    size_t numh = ih / h;
+    size_t num_sprites = numw * numh;
     size_t actual_h = size_t(h + 7) & 0xfff8;
     std::vector<std::vector<uint8_t>> sdata(num_sprites);
-    size_t ichild = 2;
-    bool masked = (actual_h != (size_t)h);
+    if(actual_h != (size_t)h)
+        masked = true;
     for(size_t si = 0; si < num_sprites; ++si)
     {
+        size_t ir = si / numw * h;
+        size_t ic = si % numw * w;
         auto& d = sdata[si];
         d.resize(size_t(w * actual_h));
-        for(size_t sr = 0, di = 0; sr < (size_t)h; ++sr, ++ichild)
+
+        for(size_t r = 0, di = 0; r < h; ++r)
         {
-            auto const& child = n.children[ichild];
-            assert(child.type == AST::TOKEN);
-            assert(child.data.size() == (size_t)w);
-            for(size_t ci = 0; ci < child.data.size(); ++ci, ++di)
+            for(size_t c = 0; c < w; ++c, ++di)
             {
-                char c = child.data[ci];
-                if     (c == '.') d[di] = 1;
-                else if(c == 'X') d[di] = 2;
-                else if(c == '-') d[di] = 0, masked = true;
-                else assert(false);
+                d[di] = idata[(ir + r) * iw + (ic + c)];
             }
         }
     }

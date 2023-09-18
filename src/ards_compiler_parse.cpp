@@ -42,7 +42,9 @@ R"(
         
 program             <- global_stmt*
 
-global_stmt         <- decl_stmt / func_stmt
+global_stmt         <- import_stmt / decl_stmt / func_stmt
+import_stmt         <- 'import' import_path ';'
+import_path         <- ident ('.' ident)*
 decl_stmt           <- type_name decl_list ';'
 func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
@@ -114,7 +116,9 @@ R"(
 
 program             <- global_stmt*
 
-global_stmt         <- decl_stmt / func_stmt / struct_stmt
+global_stmt         <- import_stmt / struct_stmt / decl_stmt / func_stmt
+import_stmt         <- 'import' import_path ';'
+import_path         <- ident ('.' ident)*
 decl_stmt           <- 'constexpr' type_name ident '=' expr ';' /
                        type_name ident ('=' expr)? ';'
 struct_stmt         <- 'struct' ident '{' struct_decl_stmt* '}' ';'
@@ -179,7 +183,7 @@ assignment_op       <- < '=' >
 unary_op            <- < '!' / '-' / '~' >
 
 sprites_literal     <- 'sprites' '{' decimal_literal 'x' decimal_literal sprite_row+ '}'
-sprite_row          <- < [-.X]+ >
+sprite_row          <- < [^\n}]+ >
 
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
@@ -538,6 +542,15 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
     p["global_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return std::any_cast<ast_node_t>(v[0]);
+    };
+    p["import_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return std::any_cast<ast_node_t>(v[0]);
+    };
+    p["import_path"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::IMPORT_STMT, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
     };
     p["while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::WHILE_STMT, v.token() };

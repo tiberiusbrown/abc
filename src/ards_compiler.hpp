@@ -31,6 +31,7 @@ enum class AST
     //
 
     PROGRAM,      // children are global declarations and functions
+    IMPORT_STMT,  // children are import path identifiers
     BLOCK,        // children are child statements
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
