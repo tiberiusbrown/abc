@@ -12,17 +12,13 @@ int main(int argc, char** argv)
 
     std::string si = R"(
 
-constexpr sprites DIGITS = sprites{
-    3x5
-    .8. .8. 88. 88. 8.8 888 .8. 888 .8. .8.
-    8.8 88. ..8 ..8 8.8 8.. 8.. ..8 8.8 8.8
-    8.8 .8. .8. .8. 888 88. 88. ..8 .8. .88
-    8.8 .8. 8.. ..8 ..8 ..8 8.8 .8. 8.8 ..8
-    .8. 888 888 88. ..8 88. .8. .8. .8. .8.
-};
+struct enemy_t { int x; int y; };
+
+enemy_t prog e = { 42, 86 };
 
 void main()
 {
+    e.x = 3;
 }
 )";
 

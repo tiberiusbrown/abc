@@ -90,6 +90,25 @@ void compiler_t::progdata_expr(
         }
         break;
     }
+    case compiler_type_t::STRUCT:
+    {
+        if(n.type != AST::COMPOUND_LITERAL)
+            goto error;
+        if(n.children.size() != t.children.size())
+        {
+            errs.push_back({
+                "Incorrect number of members in prog struct initializer",
+                n.line_info });
+            return;
+        }
+        for(size_t i = 0; i < n.children.size(); ++i)
+        {
+            auto const& child = n.children[i];
+            auto const& tt = t.children[i];
+            progdata_expr(child, tt, pd);
+        }
+        break;
+    }
     default:
         errs.push_back({
             "Prog variable not initialized to constant expression",

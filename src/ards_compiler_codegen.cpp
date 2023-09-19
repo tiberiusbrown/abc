@@ -401,6 +401,11 @@ void compiler_t::codegen_store_lvalue(
 {
     assert(lvalue.type.prim_size < 256);
     if(!errs.empty()) return;
+    if(lvalue.type.without_ref().is_prog)
+    {
+        errs.push_back({ "Prog data is not writable", { lvalue.line, 0 } });
+        return;
+    }
     if(lvalue.ref_ast)
     {
         // assign to reference which needs to be constructed now
@@ -412,7 +417,7 @@ void compiler_t::codegen_store_lvalue(
         frame.size -= 2;
         frame.size -= size;
     }
-    else if(lvalue.type.type == compiler_type_t::REF)
+    else if(lvalue.type.is_ref())
     {
         // assign to reference variable
         auto size = lvalue.type.children[0].prim_size;
