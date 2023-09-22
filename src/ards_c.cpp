@@ -11,11 +11,6 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-
-struct enemy_t { int x; int y; };
-
-enemy_t prog e = { 42, 86 };
-
 void main()
 {
     e.x = 3;
@@ -25,7 +20,11 @@ void main()
     std::istringstream fi(si);
     std::stringstream fasm;
 
-    c.compile(fi, fasm, "internal.abc");
+    c.compile("", "internal", [&](std::string const& fname, std::vector<char>& t) -> bool {
+        if(fname != "internal.abc") return false;
+        t = std::vector<char>(si.begin(), si.end());
+        return true;
+    }, fasm);
     for(auto const& e : c.errors())
     {
         std::cerr << "Compiler Error" << std::endl;

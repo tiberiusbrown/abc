@@ -25,17 +25,26 @@ bool compile_all()
     for(auto& [n, f] : open_files)
         f->save();
 
-    for(auto& [n, f] : project.files)
+    do
     {
-        if(!ends_with(n, ".abc"))
-            continue;
+        std::string n = "main.abc";
+        if(project.files.count(n) == 0)
+            break;
+        auto const& f = project.files[n];
         std::stringstream ss(f->content_as_string());
         std::stringstream sout;
-        c.compile(ss, sout, n);
+        auto loader = [&](std::string const& filename, std::vector<char>& t) -> bool {
+            auto it = project.files.find(filename);
+            if(it == project.files.end()) return false;
+            auto const& c = it->second->content;
+            t = std::vector<char>(c.begin(), c.end());
+            return true;
+        };
+        c.compile("", n.substr(0, n.size() - 4), loader, sout);
         asms.push_back(sout.str());
         for(auto const& e : c.errors())
             project.errors[n].push_back(e);
-    }
+    } while(0);
 
     if(!project.errors.empty())
         return false;

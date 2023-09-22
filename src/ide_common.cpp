@@ -170,15 +170,15 @@ void define_font()
     float font_size = DEFAULT_FONT_SIZE * pixel_ratio;
     cfg.FontDataOwnedByAtlas = false;
     cfg.RasterizerMultiply = 1.5f;
-    cfg.OversampleH = 2;
-    cfg.OversampleV = 2;
+    cfg.OversampleH = 3;
+    cfg.OversampleV = 1;
     io.Fonts->Clear();
     io.Fonts->AddFontFromMemoryTTF(
         (void*)ProggyVector, sizeof(ProggyVector), font_size, &cfg);
     cfg.MergeMode = true;
     cfg.GlyphOffset = { 0, 1.5f * pixel_ratio };
     cfg.GlyphMinAdvanceX = font_size;
-    cfg.RasterizerMultiply = 1.2f;
+    cfg.RasterizerMultiply = 1.0f;
     static ImWchar const icon_ranges[] =
     {
         0xf004, 0xf35b,
@@ -253,4 +253,27 @@ void make_tab_visible(std::string const& window_name)
     //    return;
     //window->DockNode->TabBar->NextSelectedTabId = window->TabId;
     ImGui::SetWindowFocus(window_name.c_str());
+}
+
+static bool ends_with(std::string const& str, std::string const& suffix)
+{
+    if(str.size() < suffix.size()) return false;
+    return std::equal(suffix.begin(), suffix.end(), str.end() - suffix.size());
+}
+
+bool open_file(std::string const& filename)
+{
+    if(project.files.count(filename) == 0)
+        return false;
+    if(open_files.count(filename) != 0)
+    {
+        make_tab_visible(open_files[filename]->window_id());
+        return true;
+    }
+    if(ends_with(filename, ".abc"))
+        open_files[filename] = create_code_file(filename);
+    else
+        return false;
+    make_tab_visible(open_files[filename]->window_id());
+    return true;
 }

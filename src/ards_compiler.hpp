@@ -1,6 +1,9 @@
 #pragma once
 
+#include <fstream>
+#include <functional>
 #include <iostream>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -293,15 +296,40 @@ extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
 
 struct compiler_t
 {
-    compiler_t() {};
+    compiler_t();
 
-    void compile(std::istream& fi, std::ostream& fo, std::string const& filename);
+    void compile(
+        std::string const& path,
+        std::string const& name,
+        std::function<bool(std::string const&, std::vector<char>&)> const& loader,
+        std::ostream& fo);
+
+    void compile(
+        std::string const& path,
+        std::string const& name,
+        std::ostream& fo)
+    {
+        compile(path, name, [](std::string const& fname, std::vector<char>& t) -> bool {
+            std::ifstream f(fname, std::ios::in | std::ios::binary);
+            if(f.fail()) return false;
+            t = std::vector<char>(
+                (std::istreambuf_iterator<char>(f)),
+                (std::istreambuf_iterator<char>()));
+            return true;
+        }, fo);
+    }
+
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
 
 private:
 
-    void parse(std::istream& fi);
+    void parse(std::vector<char> const& fi, ast_node_t& ast);
+
+    void compile_recurse(
+        std::string const& path,
+        std::string const& name,
+        std::function<bool(std::string const&, std::vector<char>&)> const& loader);
 
     bool check_identifier(ast_node_t const& n);
 
@@ -369,7 +397,6 @@ private:
     
     // parse data
     std::string input_data;
-    ast_node_t ast;
 
     // codegen data
     std::unordered_map<std::string, compiler_func_t> funcs;
@@ -381,6 +408,9 @@ private:
 
     std::vector<error_t> errs;
     std::vector<error_t> warns;
+
+    // track files already parsed
+    std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;
 };
 
 }

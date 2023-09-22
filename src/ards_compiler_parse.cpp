@@ -27,7 +27,7 @@ template<AST T> ast_node_t infix(peg::SemanticValues const& v)
     return a;
 };
 
-void compiler_t::parse(std::istream& fi)
+void compiler_t::parse(std::vector<char> const& input, ast_node_t& ast)
 {
     error_t e;
     peg::parser p;
@@ -570,11 +570,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             a.children.push_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
     };
-    input_data = std::string(
-        (std::istreambuf_iterator<char>(fi)),
-        (std::istreambuf_iterator<char>()));
     
-    if(!p.parse(input_data, ast) && errs.empty())
+    if(!p.parse({ input.data(), input.size() }, ast) && errs.empty())
         errs.push_back({ "An unknown parse error occurred." });
 }
 

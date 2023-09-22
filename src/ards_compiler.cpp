@@ -1,9 +1,15 @@
 #include "ards_compiler.hpp"
 
+#include <sstream>
+
 #include <assert.h>
 
 namespace ards
 {
+
+compiler_t::compiler_t()
+    : progdata_label_index(0)
+{}
 
 static std::string const GLOBINIT_FUNC = "$globinit";
 static std::string const FILE_INTERNAL = "<internal>";
@@ -294,11 +300,57 @@ non_ref_type:
     return "";
 }
 
-void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& filename)
+void compiler_t::compile(
+    std::string const& fpath,
+    std::string const& fname,
+    std::function<bool(std::string const&, std::vector<char>&)> const& loader,
+    std::ostream& fo)
 {
     assert(sysfunc_decls.size() == SYS_NUM);
 
-    progdata_label_index = 0;
+    compile_recurse(fpath, fname, loader);
+
+    // add final ret to global constructor
+    funcs[GLOBINIT_FUNC].instrs.push_back({ I_RET });
+
+    // generate code for all functions
+    for(auto& [n, f] : funcs)
+    {
+        if(!errs.empty()) return;
+        if(f.block.type == AST::NONE) continue;
+        codegen_function(f);
+    }
+
+    // peephole optimizations
+    for(auto& [n, f] : funcs)
+    {
+        if(!errs.empty()) return;
+        peephole(f);
+    }
+
+    write(fo);
+}
+
+void compiler_t::compile_recurse(
+    std::string const& fpath,
+    std::string const& fname,
+    std::function<bool(std::string const&, std::vector<char>&)> const& loader)
+{
+    std::vector<char> input;
+    std::string pathbase = fpath.empty() ? "" : fpath + "/";
+    std::string filename = pathbase + fname + ".abc";
+    if(compiled_files.count(filename) != 0)
+    {
+        return;
+    }
+
+    auto& compile_data = compiled_files[filename];
+    ast_node_t& ast = compile_data.second;
+    if(!loader(filename, compile_data.first))
+    {
+        errs.push_back({ "Unable to open module \"" + fname + "\"" });
+        return;
+    }
 
     funcs.clear();
     {
@@ -307,7 +359,7 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         f.filename = FILE_INTERNAL;
     }
 
-    parse(fi);
+    parse(compile_data.first, ast);
     if(!errs.empty()) return;
 
     // trim all token whitespace
@@ -352,6 +404,11 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         a.type = AST::OP_CAST;
     });
 
+    ast.recurse([](ast_node_t& a) {
+        for(auto& child : a.children)
+            child.parent = &a;
+    });
+
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);
     for(auto& n : ast.children)
@@ -360,7 +417,8 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
         assert(
             n.type == AST::DECL_STMT ||
             n.type == AST::FUNC_STMT ||
-            n.type == AST::STRUCT_STMT);
+            n.type == AST::STRUCT_STMT ||
+            n.type == AST::IMPORT_STMT);
         if(n.type == AST::DECL_STMT)
         {
             if(n.children.size() <= 2 &&
@@ -530,37 +588,18 @@ void compiler_t::compile(std::istream& fi, std::ostream& fo, std::string const& 
             }
             structs[name] = resolve_type(n);
         }
+        else if(n.type == AST::IMPORT_STMT)
+        {
+            std::string new_path = fpath;
+            for(size_t i = 0; i + 1 < n.children.size(); ++i)
+            {
+                new_path += "/";
+                new_path += n.children[i].data;
+            }
+            std::string new_file = std::string(n.children.back().data);
+            compile_recurse(new_path, new_file, loader);
+        }
     }
-
-    // add final ret to global constructor
-    funcs[GLOBINIT_FUNC].instrs.push_back({I_RET});
-
-    // transforms are done: set parent pointers
-    for(auto& [k, v] : funcs)
-    {
-        if(v.block.type == AST::NONE) continue;
-        v.block.recurse([](ast_node_t& a) {
-            for(auto& child : a.children)
-                child.parent = &a;
-        });
-    }
-
-    // generate code for all functions
-    for(auto& [n, f] : funcs)
-    {
-        if(!errs.empty()) return;
-        if(f.block.type == AST::NONE) continue;
-        codegen_function(f);
-    }
-
-    // peephole optimizations
-    for(auto& [n, f] : funcs)
-    {
-        if(!errs.empty()) return;
-        peephole(f);
-    }
-
-    write(fo);
 }
 
 }

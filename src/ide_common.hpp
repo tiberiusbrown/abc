@@ -91,6 +91,7 @@ void define_font();
 void rebuild_fonts();
 void rescale_style();
 void make_tab_visible(std::string const& window_name);
+bool open_file(std::string const& filename);
 
 // ide_compile.cpp
 bool compile_all();

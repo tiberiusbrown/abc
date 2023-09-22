@@ -47,13 +47,8 @@ static void bench(char const* name)
 
     {
         ards::compiler_t c{};
-        std::string filename =
-            std::string(BENCHMARKS_DIR) + "/" + name + "/" +
-            name + ".abc";
-        std::ifstream fi(filename.c_str());
         std::ostringstream fo;
-        assert(fi);
-        c.compile(fi, fo, std::string(name) + ".abc");
+        c.compile(std::string(BENCHMARKS_DIR) + "/" + name, name, fo);
         assert(c.errors().empty());
         abc_asm = fo.str();
     }
