@@ -308,6 +308,14 @@ void compiler_t::compile(
 {
     assert(sysfunc_decls.size() == SYS_NUM);
 
+    // create global constructor
+    funcs.clear();
+    {
+        auto& f = funcs[GLOBINIT_FUNC];
+        f.name = GLOBINIT_FUNC;
+        f.filename = FILE_INTERNAL;
+    }
+
     compile_recurse(fpath, fname, loader);
 
     // add final ret to global constructor
@@ -350,13 +358,6 @@ void compiler_t::compile_recurse(
     {
         errs.push_back({ "Unable to open module \"" + fname + "\"" });
         return;
-    }
-
-    funcs.clear();
-    {
-        auto& f = funcs[GLOBINIT_FUNC];
-        f.name = GLOBINIT_FUNC;
-        f.filename = FILE_INTERNAL;
     }
 
     parse(compile_data.first, ast);

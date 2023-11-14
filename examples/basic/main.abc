@@ -1,0 +1,79 @@
+int x;
+int y;
+
+constexpr sprites MY_SPRITE = sprites{
+    8x8
+    --XXXX--
+    -X....X-
+    X......X
+    X......X
+    X......X
+    X......X
+    -X....X-
+    --XXXX--
+};
+
+constexpr sprites DIGITS = sprites{
+    3x5
+    .X.  .X.  XX.  XX.  X.X  XXX  .X.  XXX  .X.  .X.
+    X.X  XX.  ..X  ..X  X.X  X..  X..  ..X  X.X  X.X
+    X.X  .X.  .X.  .X.  XXX  XX.  XX.  ..X  .X.  .XX
+    X.X  .X.  X..  ..X  ..X  ..X  X.X  .X.  X.X  ..X
+    .X.  XXX  XXX  XX.  ..X  XX.  .X.  .X.  .X.  .X.
+};
+
+void draw_num(i16 x, i16 y, u8 n)
+{
+	if(n < 10)
+		$draw_sprite(x, y, DIGITS, n);
+	else if(n < 100)
+	{
+		$draw_sprite(x, y, DIGITS, n / 10);
+		$draw_sprite(x + 4, y, DIGITS, n % 10);
+	}
+	else
+	{
+		if(n < 200)
+			$draw_sprite(x, y, DIGITS, 1);
+		else
+			$draw_sprite(x, y, DIGITS, 2);
+		n = n % 100;
+		$draw_sprite(x + 4, y, DIGITS, n / 10);
+		$draw_sprite(x + 8, y, DIGITS, n % 10);
+	}
+}
+
+constexpr int MOVE_SPEED = 1;
+
+void setup()
+{
+	x = 56;
+	y = 24;
+}
+
+void loop()
+{
+    while(!$next_frame())
+        ;
+    if($pressed( 64)) x = x + MOVE_SPEED;
+    if($pressed( 32)) x = x - MOVE_SPEED;
+    if($pressed( 16)) y = y + MOVE_SPEED;
+    if($pressed(128)) y = y - MOVE_SPEED;
+    
+    $draw_filled_rect(x, y, 16, 16, 1);
+    $draw_sprite(x -  8, y +  4, MY_SPRITE, 0);
+    $draw_sprite(x +  4, y -  8, MY_SPRITE, 0);
+    $draw_sprite(x + 16, y +  4, MY_SPRITE, 0);
+    $draw_sprite(x +  4, y + 16, MY_SPRITE, 0);
+    draw_num(0, 0, x);
+    draw_num(0, 6, y);
+    
+    $display();
+}
+
+void main()
+{
+    setup();
+    while(true)
+        loop();
+}

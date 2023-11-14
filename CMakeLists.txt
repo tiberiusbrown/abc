@@ -25,6 +25,7 @@ message(STATUS "ABC_VERSION_SHORT: ${ABC_VERSION_SHORT}")
 
 set(EXE_TYPE)
 if(MSVC)
+    set(EXE_TYPE WIN32)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     #set(EXE_TYPE WIN32)
     add_link_options(
