@@ -176,7 +176,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         if(n.children[0].type != AST::INT_CONST)
         {
             errs.push_back({
-                "\"" + std::string(n.children[0].data) +
+                "Array dimension \"" + std::string(n.children[0].data) +
                 "\" is not a constant expression",
                 n.children[0].line_info });
             return TYPE_NONE;
@@ -202,9 +202,12 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         for(size_t i = 1; i < n.children.size(); ++i)
         {
             auto const& decl = n.children[i];
-            t.children.emplace_back(resolve_type(decl.children[0]));
-            t.members.push_back({ std::string(decl.children[1].data), size });
-            size += t.children.back().prim_size;
+            for(size_t j = 1; j < decl.children.size(); ++j)
+            {
+                t.children.emplace_back(resolve_type(decl.children[0]));
+                t.members.push_back({ std::string(decl.children[j].data), size });
+                size += t.children.back().prim_size;
+            }
         }
         t.prim_size = size;
         return t;
@@ -377,6 +380,42 @@ void compiler_t::compile_recurse(
     //
     // transforms
     //
+
+    // transform all multivariable DECL_STMTs into multiple single variable
+    ast.recurse([&](ast_node_t& a) {
+        for(size_t i = 0; i < a.children.size(); ++i)
+        {
+            if(a.type == AST::STRUCT_STMT) continue;
+            if(a.children[i].type != AST::DECL_STMT) continue;
+            auto t = std::move(a.children[i]);
+            assert(t.children.size() >= 2);
+            a.children.insert(a.children.begin() + i, t.children.size() - 2, {});
+            for(size_t j = 1; j < t.children.size(); ++j)
+            {
+                auto& src = t.children[j];
+                assert(src.type == AST::DECL_ITEM);
+                if(src.children.size() < 2 && t.children[0].comp_type.is_constexpr)
+                {
+                    errs.push_back({
+                        "Constexpr variable \"" + std::string(src.children[0].data) +
+                        "\" must be initialized", t.line_info
+                    });
+                    return;
+                }
+                auto& v = a.children[i + j - 1];
+                v = {};
+                v.type = AST::DECL_STMT;
+                v.data = t.data;
+                v.line_info = t.line_info;
+                v.children.push_back(t.children[0]);
+                v.children.emplace_back(std::move(src.children[0]));
+                if(src.children.size() >= 2)
+                    v.children.emplace_back(std::move(src.children[1]));
+            }
+            i += (t.children.size() - 2);
+        }
+    });
+    if(!errs.empty()) return;
 
     // transform left-associative infix exprs into binary trees
     transform_left_assoc_infix(ast);

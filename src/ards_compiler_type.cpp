@@ -282,7 +282,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         type_annotate_recurse(a.children[0], frame);
         if(!a.children[0].comp_type.without_ref().is_struct())
         {
-            assert(false);
+            errs.push_back({
+                "\"" + std::string(a.children[0].data) +
+                "\" is not a struct", a.children[0].line_info
+            });
+            break;
         }
         std::string name = std::string(a.children[1].data);
         auto* t0 = resolve_member(a.children[0], name);

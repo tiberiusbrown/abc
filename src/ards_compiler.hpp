@@ -39,7 +39,9 @@ enum class AST
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
     STRUCT_STMT,  // children are ident and decl_stmt*
-    DECL_STMT,    // children are type, ident
+    DECL_STMT,    // after parse, children are type, DECL_ITEM*
+                  // before codegen, children are type, ident [, expr]
+    DECL_ITEM,    // children are ident [, expr]
     FUNC_STMT,    // children are type, ident, block, args
     IF_STMT,      // children are expr, stmt, stmt (for else)
     WHILE_STMT,   // children are expr and stmt

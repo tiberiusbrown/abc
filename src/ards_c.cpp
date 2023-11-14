@@ -13,7 +13,9 @@ int main(int argc, char** argv)
     std::string si = R"(
 void main()
 {
-    e.x = 3;
+    constexpr int x = 3, y = 4;
+    x = 1;
+    y = 2;
 }
 )";
 

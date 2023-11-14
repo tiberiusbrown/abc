@@ -119,10 +119,12 @@ program             <- global_stmt*
 global_stmt         <- import_stmt / struct_stmt / decl_stmt / func_stmt
 import_stmt         <- 'import' import_path ';'
 import_path         <- ident ('.' ident)*
-decl_stmt           <- 'constexpr' type_name ident '=' expr ';' /
-                       type_name ident ('=' expr)? ';'
+decl_stmt           <- 'constexpr' type_name decl_stmt_item_list ';' /
+                       type_name decl_stmt_item_list ';'
+decl_stmt_item_list <- decl_stmt_item (',' decl_stmt_item)*
+decl_stmt_item      <- ident ('=' expr)?
 struct_stmt         <- 'struct' ident '{' struct_decl_stmt* '}' ';'
-struct_decl_stmt    <- type_name ident ';'
+struct_decl_stmt    <- type_name ident (',' ident)* ';'
 func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
@@ -523,18 +525,30 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
     p["struct_decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::DECL_STMT, v.token() };
-        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
-        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
+        for(auto& t : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(t)));
         return a;
     };
     p["decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::DECL_STMT, v.token() };
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
-        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
-        if(v.size() >= 3)
-            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[2])));
         if(v.choice() == 0)
             a.children[0].comp_type.is_constexpr = true;
+        auto list = std::move(std::any_cast<ast_node_t>(v[1]));
+        for(auto& t : list.children)
+            a.children.emplace_back(std::move(t));
+        return a;
+    };
+    p["decl_stmt_item"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::DECL_ITEM, v.token() };
+        for(auto& t : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(t)));
+        return a;
+    };
+    p["decl_stmt_item_list"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::LIST, v.token() };
+        for(auto& t : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(t)));
         return a;
     };
     p["decl_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
