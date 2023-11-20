@@ -171,8 +171,7 @@ primary_expr        <- hex_literal /
                        '(' expr ')'
 
 type_name           <- ident type_name_postfix*
-#type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' '&'
-type_name_postfix   <- '[' expr ']' / '&' / 'prog'
+type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' '&'
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 

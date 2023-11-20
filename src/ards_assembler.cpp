@@ -380,6 +380,16 @@ error_t assembler_t::assemble(std::istream& f)
             push_imm(read_imm(f, error), 2);
             push_imm(read_imm(f, error), 3);
         }
+        else if(t == "uaidx")
+        {
+            push_instr(I_UAIDX);
+            push_imm(read_imm(f, error), 2);
+        }
+        else if(t == "upidx")
+        {
+            push_instr(I_UPIDX);
+            push_imm(read_imm(f, error), 2);
+        }
         else if(t == "refl")
         {
             push_instr(I_REFL);

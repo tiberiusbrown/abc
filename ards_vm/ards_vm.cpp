@@ -922,6 +922,49 @@ I_PIDX:
     jmp pidx_impl
     .align 6
 
+I_UAIDX:
+    ld   r21, -Y
+    ld   r20, -Y
+    call read_2_bytes_nodelay
+    ld   r19, -Y
+    ld   r18, -Y
+    cp   r20, r18
+    cpc  r21, r19
+    brlo 1f
+    ldi  r24, 2
+    jmp  call_vm_error
+    ; A1 A0 : r21 r20
+    ; B1 B0 : r17 r16
+    ; C1 C0 : r23 r22
+    ;
+    ;    A1 A0
+    ;    B1 B0
+    ;    =====
+    ;    A0*B0
+    ; A1*B0
+    ; A0*B1
+    ; ========
+    ;    C1 C0
+    ;
+1:  mul  r16, r20
+    movw r22, r0
+    mul  r16, r21
+    add  r23, r0
+    mul  r17, r20
+    add  r23, r0
+    ld   r21, -Y
+    ld   r20, -Y
+    add  r22, r20
+    adc  r23, r21
+    st   Y+, r22
+    st   Y+, r23
+    jmp  dispatch_func
+    .align 6
+
+I_UPIDX:
+    jmp upidx_impl
+    .align 6
+
 I_REFL:
     cpi  r28, 254
     brlo 1f
@@ -2376,6 +2419,73 @@ pidx_impl:
     
     ; load elem count into r16:r18
     call read_3_bytes_nodelay
+    
+    ; bounds check index against elem count
+    cp   r10, r16
+    cpc  r11, r17
+    cpc  r12, r18
+    brlo 1f
+    ldi  r24, 2
+    rjmp call_vm_error
+    
+    ; compute prog ref + index * elem_size
+    ;
+    ; A2 A1 A0 : r12 r11 r10  index
+    ;    B1 B0 :     r21 r20  elem size
+    ; C2 C1 C0 : r15 r14 r13  progref
+    ;
+    ;    A2 A1 A0
+    ;       B1 B0
+    ;    ========
+    ;       A0*B0
+    ;    A0*B1
+    ;    A1*B0
+    ; A1*B1
+    ; A2*B0
+    ;    ========
+    ;    C2 C1 C0
+    ;
+1:  mul  r10, r20 ; A0*B0
+    add  r13, r0
+    adc  r14, r1
+    adc  r15, r2
+    mul  r10, r21 ; A0*B1
+    add  r14, r0
+    adc  r15, r1
+    mul  r11, r20 ; A1*B0
+    add  r14, r0
+    adc  r15, r1
+    mul  r11, r21 ; A1*B1
+    add  r15, r0
+    mul  r12, r20 ; A2*B0
+    add  r15, r0
+    
+    ; push prog ref
+    st   Y+, r13
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+    
+upidx_impl:
+    
+    ; load elem size into r20:r21
+    call read_2_bytes_nodelay
+    movw r20, r16
+
+    ; load index into r10:r12
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    
+    ; load elem count into r16:r18
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    
+    ; load progref into r13:r15
+    ld   r15, -Y
+    ld   r14, -Y
+    ld   r13, -Y
     
     ; bounds check index against elem count
     cp   r10, r16

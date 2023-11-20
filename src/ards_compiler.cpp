@@ -24,22 +24,22 @@ std::unordered_set<std::string> const keywords =
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
 {
-    { "void", TYPE_VOID    },
-    { "bool",    TYPE_BOOL },
-    { "u8",      TYPE_U8 },
-    { "u16",     TYPE_U16 },
-    { "u24",     TYPE_U24 },
-    { "u32",     TYPE_U32 },
-    { "i8",      TYPE_I8 },
-    { "i16",     TYPE_I16 },
-    { "i24",     TYPE_I24 },
-    { "i32",     TYPE_I32 },
-    { "uchar",   TYPE_U8 },
-    { "uint",    TYPE_U16 },
-    { "ulong",   TYPE_U32 },
-    { "char",    TYPE_I8 },
-    { "int",     TYPE_I16 },
-    { "long",    TYPE_I32 },
+    { "void",    TYPE_VOID    },
+    { "bool",    TYPE_BOOL    },
+    { "u8",      TYPE_U8      },
+    { "u16",     TYPE_U16     },
+    { "u24",     TYPE_U24     },
+    { "u32",     TYPE_U32     },
+    { "i8",      TYPE_I8      },
+    { "i16",     TYPE_I16     },
+    { "i24",     TYPE_I24     },
+    { "i32",     TYPE_I32     },
+    { "uchar",   TYPE_U8      },
+    { "uint",    TYPE_U16     },
+    { "ulong",   TYPE_U32     },
+    { "char",    TYPE_I8      },
+    { "int",     TYPE_I16     },
+    { "long",    TYPE_I32     },
     { "sprites", TYPE_SPRITES },
 };
 
@@ -204,16 +204,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
             auto const& decl = n.children[i];
             for(size_t j = 1; j < decl.children.size(); ++j)
             {
-                auto type = resolve_type(decl.children[0]);
-                if(type.is_any_ref())
-                {
-                    errs.push_back({
-                        "Struct members cannot be references",
-                        decl.line_info
-                    });
-                    return TYPE_NONE;
-                }
-                t.children.emplace_back(std::move(type));
+                t.children.emplace_back(std::move(resolve_type(decl.children[0])));
                 t.members.push_back({ std::string(decl.children[j].data), size });
                 size += t.children.back().prim_size;
             }
@@ -496,7 +487,7 @@ void compiler_t::compile_recurse(
             g.name = name;
             type_annotate(n.children[0], {});
             g.var.type = resolve_type(n.children[0]);
-            if(n.children.size() <= 2 && g.var.type.is_ref())
+            if(n.children.size() <= 2 && g.var.type.is_any_ref())
             {
                 errs.push_back({
                     "Uninitialized global reference \"" + std::string(n.children[1].data) + "\"",

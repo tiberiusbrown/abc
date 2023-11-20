@@ -449,12 +449,23 @@ void compiler_t::codegen_convert(
 {
     if(!errs.empty()) return;
 
+    auto const& rfrom = orig_from.without_ref();
+    auto const& rto = orig_to.without_ref();
+
     auto* pfrom = &orig_from;
     assert(orig_from.type != compiler_type_t::ARRAY_REF);
     assert(orig_to.type != compiler_type_t::ARRAY_REF);
-    if(orig_from.type == compiler_type_t::ARRAY)
+    if(rto.is_array_ref())
     {
-        if(orig_to.type != compiler_type_t::ARRAY)
+        if(rfrom.is_array() || rfrom.is_array_ref())
+        {
+            errs.push_back({ "Cannot create unsized array reference from non-array", n.line_info });
+            return;
+        }
+    }
+    if(rfrom.is_array())
+    {
+        if(!rto.is_array())
         {
             errs.push_back({ "Cannot convert array to non-array", n.line_info });
             return;
@@ -465,7 +476,7 @@ void compiler_t::codegen_convert(
             return;
         }
     }
-    if(pfrom->type == compiler_type_t::REF)
+    if(pfrom->is_ref())
     {
         pfrom = &pfrom->children[0];
         codegen_dereference(f, frame, n, *pfrom);
@@ -474,7 +485,7 @@ void compiler_t::codegen_convert(
     assert(from.prim_size != 0);
 
     auto* pto = &orig_to;
-    if(pto->type == compiler_type_t::REF)
+    if(pto->is_ref())
         pto = &pto->children[0];
     auto const& to = *pto;
 

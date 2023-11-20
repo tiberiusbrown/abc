@@ -134,11 +134,11 @@ struct compiler_type_t
 
     type_t ref_type() const
     {
-        return type == REF ? children[0].type : type;
+        return is_ref() ? children[0].type : type;
     }
     const compiler_type_t& without_ref() const
     {
-        return type == REF ? children[0].without_ref() : *this;
+        return is_ref() ? children[0].without_ref() : *this;
     }
     compiler_type_t sized_to(size_t size) const
     {
@@ -150,8 +150,14 @@ struct compiler_type_t
 
     bool has_child_ref() const
     {
-        if(type == ARRAY)
-            return children[0].is_ref() || children[0].has_child_ref();
+        if(is_ref())
+            return children[0].has_child_ref();
+        if(is_array() || is_struct())
+        {
+            for(auto const& child : children)
+                if(child.is_any_ref() || child.has_child_ref())
+                    return true;
+        }
         return false;
     }
 

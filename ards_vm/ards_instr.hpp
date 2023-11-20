@@ -87,13 +87,21 @@ enum instr_t : uint8_t
     I_POP3,  // a b c |
     I_POP4,  // a b c d |
 
+    // array reference (RAM)
     I_AIDXB, // ref i | (ref+i*imm) with bounds checking with imm2 (8-bit)
     I_AIDX,  // ref i | (ref+i*imm) with bounds checking with imm2 (16-bit)
 
+    // array reference (prog)
     I_PIDXB, // pref i | (pref+i*imm) with bounds checking with imm2 (8-bit)
     I_PIDX,  // pref i | (pref+i*imm) with bounds checking with imm2
              //          imm:    16-bit
              //          i/imm2: 24-bit
+
+    // unsized array references
+    I_UAIDX, // aref i  | (aref+i*imm) with bounds checking
+    I_UPIDX, // apref i | (apref+i*imm) with bounds checking
+             //           imm: 16-bit
+             //           i:   24-bit
 
     I_REFL,  // imm8 -> pointer to local var
     I_REFG,  // imm16 -> pointer to global var

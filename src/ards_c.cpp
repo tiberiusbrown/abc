@@ -11,11 +11,10 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+int[2] a = { 1, 2 };
+int[]& b = a;
 void main()
 {
-    constexpr int x = 3, y = 4;
-    x = 1;
-    y = 2;
 }
 )";
 
