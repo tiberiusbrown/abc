@@ -204,7 +204,16 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
             auto const& decl = n.children[i];
             for(size_t j = 1; j < decl.children.size(); ++j)
             {
-                t.children.emplace_back(resolve_type(decl.children[0]));
+                auto type = resolve_type(decl.children[0]);
+                if(type.is_any_ref())
+                {
+                    errs.push_back({
+                        "Struct members cannot be references",
+                        decl.line_info
+                    });
+                    return TYPE_NONE;
+                }
+                t.children.emplace_back(std::move(type));
                 t.members.push_back({ std::string(decl.children[j].data), size });
                 size += t.children.back().prim_size;
             }
