@@ -70,7 +70,7 @@ void compiler_t::progdata_expr(
             pd.relocs_glob.push_back({ pd.data.size(), name });
         pd.data.push_back(0);
         pd.data.push_back(0);
-        if(t.is_any_ref())
+        if(t.is_array_ref())
         {
             auto* g = resolve_global(n);
             if(!g)
