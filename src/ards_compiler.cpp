@@ -195,7 +195,17 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         }
         compiler_type_t t{};
         t.type = compiler_type_t::ARRAY;
-        t.children.push_back(resolve_type(n.children[1]));
+        auto type = resolve_type(n.children[1]);
+        if(type.is_prog)
+        {
+            errs.push_back({
+                "Array elements may not be declared 'prog'. "
+                "Declare the entire array 'prog' instead: "
+                "'T[N] prog' instead of 'T prog[N]'",
+                n.line_info });
+            return TYPE_NONE;
+        }
+        t.children.emplace_back(std::move(type));
         t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
         t.is_prog = t.children[0].is_prog;
         return t;
@@ -382,6 +392,7 @@ void compiler_t::compile_recurse(
 
     // trim all token whitespace
     ast.recurse([](ast_node_t& n) {
+        if(n.type == AST::STRING_LITERAL) return;
         size_t size = n.data.size();
         size_t i;
         if(size == 0) return;
@@ -649,6 +660,70 @@ void compiler_t::compile_recurse(
             compile_recurse(new_path, new_file, loader);
         }
     }
+}
+
+static uint8_t hex2val(char hex)
+{
+    if(hex >= '0' && hex <= '9') return uint8_t(hex - '0');
+    if(hex >= 'a' && hex <= 'f') return uint8_t(hex - 'a' + 10);
+    if(hex >= 'A' && hex <= 'F') return uint8_t(hex - 'A' + 10);
+    return 255;
+}
+
+std::vector<uint8_t> compiler_t::strlit_data(ast_node_t const& n)
+{
+    std::vector<uint8_t> d;
+    d.reserve(n.data.size());
+    for(auto it = n.data.begin(); it != n.data.end(); ++it)
+    {
+        char c = *it;
+        if(c == '\\')
+        {
+            ++it;
+            if(it == n.data.end()) break;
+            switch(*it)
+            {
+            case 'n' : c = '\n'; break;
+            case 'r' : c = '\r'; break;
+            case 't' : c = '\t'; break;
+            case '"' : c = '\"'; break;
+            case '\'': c = '\''; break;
+            case '\\': c = '\\'; break;
+            case 'x':
+            {
+                if(++it == n.data.end()) goto error;
+                uint8_t nib1 = hex2val(*it);
+                if(++it == n.data.end()) goto error;
+                uint8_t nib0 = hex2val(*it);
+                if(nib0 == 255 || nib1 == 255) goto error;
+                c = nib1 * 16 + nib0;
+                break;
+            }
+            default: goto error;
+            }
+        }
+        d.push_back(c);
+    }
+    return d;
+error:
+    errs.push_back({
+        "Invalid escape sequence in string",
+        n.line_info });
+    return {};
+}
+
+compiler_type_t compiler_t::strlit_type(size_t len)
+{
+    compiler_type_t type{};
+    type.type = compiler_type_t::REF;
+    type.prim_size = 2;
+    type.children.resize(1);
+    auto& t = type.children[0];
+    t.type = compiler_type_t::ARRAY;
+    t.prim_size = len;
+    t.children.push_back(TYPE_I8);
+    make_prog(t);
+    return type;
 }
 
 }

@@ -58,9 +58,15 @@ void compiler_t::progdata_expr(
     case compiler_type_t::ARRAY_REF:
     {
         assert(t.children.size() == 1);
-        if(n.type != AST::IDENT)
+        std::string name;
+        if(n.type == AST::STRING_LITERAL)
+        {
+            name = progdata_label();
+        }
+        else if(n.type == AST::IDENT)
+            name = n.data;
+        else
             goto error;
-        std::string name(n.data);
         if(t.children[0].is_prog)
         {
             pd.relocs_prog.push_back({ pd.data.size(), name });
@@ -70,7 +76,7 @@ void compiler_t::progdata_expr(
             pd.relocs_glob.push_back({ pd.data.size(), name });
         pd.data.push_back(0);
         pd.data.push_back(0);
-        if(t.is_array_ref())
+        if(t.is_array_ref() && n.type == AST::IDENT)
         {
             auto* g = resolve_global(n);
             if(!g)
@@ -92,6 +98,16 @@ void compiler_t::progdata_expr(
             pd.data.push_back(uint8_t(size >> 8));
             if(t.children[0].is_prog)
                 pd.data.push_back(uint8_t(size >> 16));
+        }
+        if(t.is_array_ref() && n.type == AST::STRING_LITERAL)
+        {
+            auto data = strlit_data(n);
+            auto size = data.size();
+            add_custom_progdata(name, data);
+            pd.data.push_back(uint8_t(size >> 0));
+            pd.data.push_back(uint8_t(size >> 8));
+            pd.data.push_back(uint8_t(size >> 16));
+            assert(t.children[0].is_prog);
         }
         break;
     }

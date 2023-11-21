@@ -491,6 +491,16 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::STRING_LITERAL:
+    {
+        std::string label = progdata_label();
+        std::vector<uint8_t> data = strlit_data(a);
+        add_custom_progdata(label, data);
+        f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
+        frame.size += 3;
+        return;
+    }
+
     default:
         assert(false);
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });

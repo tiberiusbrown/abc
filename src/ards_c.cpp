@@ -11,11 +11,11 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-u16 ua;
-u16 ub;
-u16 uc;
-u16 ud;
-u16&[4] prog grs = { ua, ub, uc, ud };
+char[] prog&[3] prog STRINGS = {
+    "Hello ",
+    "World!",
+    "Hello World!"
+};
 
 void main()
 {

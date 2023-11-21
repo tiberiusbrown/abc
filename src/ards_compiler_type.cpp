@@ -133,7 +133,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         auto t1 = a.children[1].comp_type.without_ref();
 
         if((a.type == AST::OP_BITWISE_AND ||
-            a.type == AST::OP_BITWISE_OR  ||
+            a.type == AST::OP_BITWISE_OR ||
             a.type == AST::OP_BITWISE_XOR) &&
             (t0.is_bool || t1.is_bool))
         {
@@ -147,7 +147,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         bool ref1 = a.children[1].comp_type.type == compiler_type_t::REF;
         bool is_divmod = (
             a.type == AST::OP_MULTIPLICATIVE && (
-            a.data == "/" || a.data == "%"));
+                a.data == "/" || a.data == "%"));
 
         if(t0.is_sprites() && t1.is_sprites())
         {
@@ -163,7 +163,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
 
         if(a.type == AST::OP_ADDITIVE)
         {
-            t0.prim_size = t1.prim_size = std::min<size_t>(4, 
+            t0.prim_size = t1.prim_size = std::min<size_t>(4,
                 std::max(t0.prim_size, t1.prim_size) + 1);
             t0.is_signed = t1.is_signed = (t0.is_signed || t1.is_signed);
         }
@@ -294,6 +294,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         a.comp_type.type = compiler_type_t::REF;
         a.comp_type.prim_size = 2;
         a.comp_type.children.push_back(t0->without_ref());
+        break;
+    }
+    case AST::STRING_LITERAL:
+    {
+        a.comp_type = strlit_type(strlit_data(a).size());
         break;
     }
     default:

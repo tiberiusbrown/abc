@@ -84,6 +84,7 @@ enum class AST
     // atoms
     //
 
+    STRING_LITERAL,
     INT_CONST,
     IDENT,
     SPRITES,    // children are w, h, row+ (rows are TOKEN)
@@ -398,6 +399,9 @@ private:
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
     void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
+
+    std::vector<uint8_t> strlit_data(ast_node_t const& n);
+    compiler_type_t strlit_type(size_t len);
 
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 

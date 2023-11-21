@@ -168,7 +168,8 @@ primary_expr        <- hex_literal /
                        bool_literal /
                        sprites_literal /
                        ident /
-                       '(' expr ')'
+                       '(' expr ')' /
+                       string_literal
 
 type_name           <- ident type_name_postfix*
 type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' 'prog' '&' / '[' ']' '&'
@@ -186,13 +187,19 @@ unary_op            <- < '!' / '-' / '~' >
 sprites_literal     <- 'sprites' '{' decimal_literal 'x' decimal_literal sprite_row+ '}'
 sprite_row          <- < [^\n}]+ >
 
+string_literal      <- < '"' < string_char* > '"' >
+string_char         <- char_escape /
+                       [^\\"\n]
+char_escape         <- '\\x'[0-9a-fA-F][0-9a-fA-F] /
+                       '\\'[nr\\t"']
+
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
 bool_literal        <- < 'true' / 'false' >
 ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
 
 %whitespace         <- ([ \t\r\n] / comment / multiline_comment)*
-comment             <- '//' (! linebreak .)* linebreak
+comment             <- '//' (!linebreak .)* linebreak
 linebreak           <- [\n\r]
 multiline_comment   <- '/*' (! '*/' .)* '*/'
 
@@ -445,6 +452,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["shift_expr"         ] = infix<AST::OP_SHIFT>;
     p["additive_expr"      ] = infix<AST::OP_ADDITIVE>;
     p["multiplicative_expr"] = infix<AST::OP_MULTIPLICATIVE>;
+
+    p["string_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::STRING_LITERAL, v.token() };
+        return a;
+    };
 
     p["sprites_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::SPRITES, v.token() };
