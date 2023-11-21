@@ -1,0 +1,8 @@
+void main()
+{
+    $debug_break();
+    
+    $assert("hello"[1] == 'e');
+    
+    $debug_break();
+}
