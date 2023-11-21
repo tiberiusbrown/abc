@@ -90,7 +90,7 @@ Furthermore, arrays are copyable.
 int[4] x = { 1, 2, 3, 4 };
 int[4] y = { 5, 6, 7, 8 };
 x = y;
-$assert(x[2] == 3);
+$assert(x[2] == 7);
 ```
 
 ### Bitwise Operations with `bool`
