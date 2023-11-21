@@ -129,7 +129,7 @@ struct compiler_type_t
     // element type for arrays
     // members for structs
     std::vector<compiler_type_t> children;
-    
+
     // only nonempty for structs
     // data is name, offset
     std::vector<std::pair<std::string, size_t>> members;
@@ -147,6 +147,12 @@ struct compiler_type_t
         assert(type == PRIM);
         compiler_type_t t = *this;
         t.prim_size = size;
+        return t;
+    }
+    compiler_type_t without_prog() const
+    {
+        compiler_type_t t = *this;
+        t.is_prog = false;
         return t;
     }
 
@@ -400,8 +406,8 @@ private:
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
     void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
 
-    std::vector<uint8_t> strlit_data(ast_node_t const& n);
-    compiler_type_t strlit_type(size_t len);
+    static std::vector<uint8_t> strlit_data(ast_node_t const& n);
+    static compiler_type_t strlit_type(size_t len);
 
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 

@@ -11,14 +11,9 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-char[] prog&[3] prog STRINGS = {
-    "Hello ",
-    "World!",
-    "Hello World!"
-};
-
 void main()
 {
+    $assert("Hello"[1] == 'e');
 }
 )";
 

@@ -258,7 +258,7 @@ void compiler_t::codegen_expr(
     {
         if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
-        if(a.children[0].comp_type != a.children[1].comp_type)
+        if(a.children[0].comp_type.without_prog() != a.children[1].comp_type.without_prog())
         {
             errs.push_back({ "Incompatible types in comparison", a.line_info });
             return;

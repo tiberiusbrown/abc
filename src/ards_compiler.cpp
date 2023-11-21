@@ -691,25 +691,20 @@ std::vector<uint8_t> compiler_t::strlit_data(ast_node_t const& n)
             case '\\': c = '\\'; break;
             case 'x':
             {
-                if(++it == n.data.end()) goto error;
+                if(++it == n.data.end()) break;
                 uint8_t nib1 = hex2val(*it);
-                if(++it == n.data.end()) goto error;
+                if(++it == n.data.end()) break;
                 uint8_t nib0 = hex2val(*it);
-                if(nib0 == 255 || nib1 == 255) goto error;
+                if(nib0 == 255 || nib1 == 255) break;
                 c = nib1 * 16 + nib0;
                 break;
             }
-            default: goto error;
+            default: break;
             }
         }
         d.push_back(c);
     }
     return d;
-error:
-    errs.push_back({
-        "Invalid escape sequence in string",
-        n.line_info });
-    return {};
 }
 
 compiler_type_t compiler_t::strlit_type(size_t len)

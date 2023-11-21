@@ -166,6 +166,7 @@ postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident
 primary_expr        <- hex_literal /
                        decimal_literal /
                        bool_literal /
+                       char_literal /
                        sprites_literal /
                        ident /
                        '(' expr ')' /
@@ -187,16 +188,17 @@ unary_op            <- < '!' / '-' / '~' >
 sprites_literal     <- 'sprites' '{' decimal_literal 'x' decimal_literal sprite_row+ '}'
 sprite_row          <- < [^\n}]+ >
 
+decimal_literal     <- < [0-9]+'u'? >
+hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
+char_literal        <- < '\'' < string_char > '\'' >
+bool_literal        <- < 'true' / 'false' >
+ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
+
 string_literal      <- < '"' < string_char* > '"' >
 string_char         <- char_escape /
                        [^\\"\n]
 char_escape         <- '\\x'[0-9a-fA-F][0-9a-fA-F] /
                        '\\'[nr\\t"']
-
-decimal_literal     <- < [0-9]+'u'? >
-hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
-bool_literal        <- < 'true' / 'false' >
-ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
 
 %whitespace         <- ([ \t\r\n] / comment / multiline_comment)*
 comment             <- '//' (!linebreak .)* linebreak
@@ -304,6 +306,15 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         }
         return a;
     };
+
+    p["char_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token() };
+        a.comp_type = TYPE_I8;
+        auto d = strlit_data(a);
+        if(!d.empty())
+            a.value = (int8_t)d[0];
+        return a;
+        };
 
     p["ident"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::IDENT, v.token() };
