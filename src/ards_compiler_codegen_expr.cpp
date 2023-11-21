@@ -404,19 +404,40 @@ void compiler_t::codegen_expr(
         // TODO: optimize the case where children[0] is an ident and children[1] is
         //       an integer constant, directly adjust offset given to REFL/REFG
         //       instruction instead of below code path
+
         auto const& t = a.children[0].comp_type.without_ref();
-        codegen_expr(f, frame, a.children[0], true);
+        bool prog = t.is_array_ref() ? t.children[0].is_prog : t.is_prog;
+
+        // construct [unsized] array reference
+        if(t.is_array_ref())
+            codegen_expr(f, frame, a.children[0], false);
+        else
+            codegen_expr(f, frame, a.children[0], true);
+
+        // construct index
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(
             f, frame, a,
-            t.is_prog ? TYPE_U24 : TYPE_U16,
+            prog ? TYPE_U24 : TYPE_U16,
             a.children[1].comp_type);
+
         size_t elem_size = t.children[0].prim_size;
-        size_t size = t.prim_size;
-        f.instrs.push_back({
-            t.is_prog ? I_PIDX : I_AIDX, a.line(),
-            (uint16_t)elem_size, (uint16_t)(size / elem_size) });
-        frame.size -= t.is_prog ? 3 : 2;
+        if(t.is_array_ref())
+        {
+            f.instrs.push_back({
+                prog ? I_UPIDX : I_UAIDX, a.line(),
+                (uint16_t)elem_size });
+            frame.size -= prog ? 6 : 4;
+        }
+        else
+        {
+            size_t size = t.prim_size;
+            size_t num_elems = size / elem_size;
+            f.instrs.push_back({
+                prog ? I_PIDX : I_AIDX, a.line(),
+                (uint16_t)elem_size, (uint32_t)num_elems });
+            frame.size -= prog ? 3 : 2;
+        }
         // if the child type is a reference, dereference it now
         // for example, a[i] where a is T&[N]
         if(t.children[0].is_ref())
@@ -498,7 +519,7 @@ void compiler_t::codegen_expr_compound(
                 a.line_info });
             return;
         }
-        bool ref = (t.type == compiler_type_t::REF);
+        bool ref = t.is_any_ref();
         for(auto const& child : a.children)
         {
             if(child.type == AST::COMPOUND_LITERAL)

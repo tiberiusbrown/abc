@@ -68,7 +68,7 @@ bool compiler_t::peephole_ref(compiler_func_t& f)
         auto& i3 = f.instrs[i + 3];
 
         // replace REFG N; PUSH A0; PUSH A1; ADD2 with REFG N+A
-        if(i0.instr == I_REFG &&
+        if( i0.instr == I_REFG &&
             i1.instr == I_PUSH && i2.instr == I_PUSH &&
             i3.instr == I_ADD2)
         {
@@ -76,6 +76,18 @@ bool compiler_t::peephole_ref(compiler_func_t& f)
             i2.instr = I_REMOVE;
             i3.instr = I_REMOVE;
             i0.imm = i1.imm + i2.imm * 256;
+            t = true;
+            continue;
+        }
+
+        // remove REFG N; POP; POP
+        if(i0.instr == I_REFG &&
+            i1.instr == I_POP &&
+            i2.instr == I_POP)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
             t = true;
             continue;
         }

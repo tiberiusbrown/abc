@@ -263,8 +263,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
         type_annotate_recurse(a.children[1], frame);
-        auto t0 = a.children[0].comp_type;
-        if(!t0.without_ref().is_array())
+        auto t0 = a.children[0].comp_type.without_ref();
+        if(!t0.is_array() && !t0.is_array_ref())
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) +
@@ -273,7 +273,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
         a.comp_type.type = compiler_type_t::REF;
         a.comp_type.prim_size = 2;
-        a.comp_type.children.push_back(t0.without_ref().children[0]);
+        a.comp_type.children.push_back(t0.children[0]);
         break;
     }
     case AST::STRUCT_MEMBER:

@@ -11,8 +11,11 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
-int[2] a = { 1, 2 };
-int[]& b = a;
+u8[4] prog a = { 1, 2, 3, 4 };
+u8[3] prog b = { 5, 6, 7 };
+
+u8 prog[]& prog[2] r = { a, b };
+
 void main()
 {
 }

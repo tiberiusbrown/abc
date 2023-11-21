@@ -90,7 +90,8 @@ enum class AST
 
     TYPE,
     TYPE_REF,   // reference (child is type)
-    TYPE_AREF,  // array reference (child is type)
+    TYPE_AREF,  // unsized array reference (child is type)
+    TYPE_AREF_PROG, // unsized array reference to prog (child is type)
     TYPE_ARRAY, // sized array (children are size and type*)
     TYPE_PROG,  // sized array (child is type)
 };
@@ -146,6 +147,14 @@ struct compiler_type_t
         compiler_type_t t = *this;
         t.prim_size = size;
         return t;
+    }
+
+    size_t array_size() const
+    {
+        auto const& wr = without_ref();
+        if(!wr.is_array()) return 0;
+        assert(wr.children.size() == 1);
+        return wr.prim_size / wr.children[0].prim_size;
     }
 
     bool has_child_ref() const

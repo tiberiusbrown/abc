@@ -171,7 +171,7 @@ primary_expr        <- hex_literal /
                        '(' expr ')'
 
 type_name           <- ident type_name_postfix*
-type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' '&'
+type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' 'prog' '&' / '[' ']' '&'
 arg_decl_list       <- type_name ident (',' type_name ident)*
 arg_expr_list       <- expr (',' expr)*
 
@@ -332,6 +332,9 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             return a;
         }
         case 3:
+            // unsized array reference to prog array
+            return { v.line_info(), AST::TYPE_AREF_PROG, v.token() };
+        case 4:
             // unsized array reference
             return { v.line_info(), AST::TYPE_AREF, v.token() };
         default:

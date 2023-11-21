@@ -283,7 +283,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                 a.line_info });
             return;
         }
-        if(a.children.size() <= 2 && type.is_ref())
+        if(a.children.size() <= 2 && type.is_any_ref())
         {
             errs.push_back({
                 "Uninitialized reference \"" + std::string(a.children[1].data) + "\"",
@@ -352,7 +352,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             if(!errs.empty()) return;
             auto const& t0 = type.without_ref();
             auto const& t1 = a.children[2].comp_type.without_ref();
-            if(ref)
+            if(type.is_ref())
             {
                 if(t0 != t1)
                 {
@@ -362,6 +362,10 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                         a.line_info });
                     return;
                 }
+            }
+            else if(type.is_array_ref())
+            {
+                codegen_convert(f, frame, a.children[2], type, a.children[2].comp_type);
             }
             else if(a.children[2].type != AST::COMPOUND_LITERAL)
             {
@@ -373,7 +377,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                         a.line_info });
                     return;
                 }
-                codegen_convert(f, frame, a, type, a.children[2].comp_type);
+                codegen_convert(f, frame, a.children[2], type, a.children[2].comp_type);
             }
         }
         else
@@ -453,15 +457,35 @@ void compiler_t::codegen_convert(
     auto const& rto = orig_to.without_ref();
 
     auto* pfrom = &orig_from;
-    assert(orig_from.type != compiler_type_t::ARRAY_REF);
-    assert(orig_to.type != compiler_type_t::ARRAY_REF);
     if(rto.is_array_ref())
     {
-        if(rfrom.is_array() || rfrom.is_array_ref())
+        if((rfrom.is_array() || rfrom.is_array_ref()) && rfrom.children[0] != rto.children[0])
         {
-            errs.push_back({ "Cannot create unsized array reference from non-array", n.line_info });
+            errs.push_back({
+                "Cannot create unsized array reference: mismatched element types",
+                n.line_info });
             return;
         }
+        if(rfrom.is_array())
+        {
+            //codegen_expr(f, frame, n, true);
+            auto size = rfrom.array_size();
+            bool prog = rto.children[0].is_prog;
+            frame.size += (prog ? 3 : 2);
+            f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 0) });
+            f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 8) });
+            if(prog)
+                f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 16) });
+        }
+        else if(rfrom.is_array_ref())
+        {
+            assert(rto.children[0] == rfrom.children[0]);
+        }
+        else
+        {
+            errs.push_back({ "Cannot create unsized array reference from non-array", n.line_info });
+        }
+        return;
     }
     if(rfrom.is_array())
     {

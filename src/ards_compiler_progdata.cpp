@@ -55,6 +55,7 @@ void compiler_t::progdata_expr(
         break;
     }
     case compiler_type_t::REF:
+    case compiler_type_t::ARRAY_REF:
     {
         assert(t.children.size() == 1);
         if(n.type != AST::IDENT)
@@ -69,6 +70,29 @@ void compiler_t::progdata_expr(
             pd.relocs_glob.push_back({ pd.data.size(), name });
         pd.data.push_back(0);
         pd.data.push_back(0);
+        if(t.is_any_ref())
+        {
+            auto* g = resolve_global(n);
+            if(!g)
+            {
+                errs.push_back({
+                    "Unable to resolve global \"" + name + "\"",
+                    n.line_info });
+                return;
+            }
+            auto size = g->var.type.array_size();
+            if(size <= 0)
+            {
+                errs.push_back({
+                    "Cannot initialize unsized array reference to non-array",
+                    n.line_info });
+                return;
+            }
+            pd.data.push_back(uint8_t(size >> 0));
+            pd.data.push_back(uint8_t(size >> 8));
+            if(t.children[0].is_prog)
+                pd.data.push_back(uint8_t(size >> 16));
+        }
         break;
     }
     case compiler_type_t::ARRAY:

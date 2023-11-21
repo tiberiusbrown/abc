@@ -79,9 +79,8 @@ static bool isspace(char c)
 static void make_prog(compiler_type_t& t)
 {
     t.is_prog = true;
-    if(t.type == compiler_type_t::REF)
+    if(t.is_any_ref())
         return;
-    assert(t.type != compiler_type_t::ARRAY_REF);
     for(auto& child : t.children)
         make_prog(child);
 }
@@ -145,7 +144,9 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     if(n.type == AST::TYPE_REF)
     {
         assert(n.children.size() == 1);
-        if(n.children[0].type == AST::TYPE_REF || n.children[0].type == AST::TYPE_AREF)
+        if( n.children[0].type == AST::TYPE_REF ||
+            n.children[0].type == AST::TYPE_AREF ||
+            n.children[0].type == AST::TYPE_AREF_PROG)
         {
             errs.push_back({ "Cannot create reference to reference", n.line_info });
             return TYPE_NONE;
@@ -156,10 +157,12 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.prim_size = t.children[0].is_prog ? 3 : 2;
         return t;
     }
-    if(n.type == AST::TYPE_AREF)
+    if(n.type == AST::TYPE_AREF || n.type == AST::TYPE_AREF_PROG)
     {
         assert(n.children.size() == 1);
-        if(n.children[0].type == AST::TYPE_REF || n.children[0].type == AST::TYPE_AREF)
+        if( n.children[0].type == AST::TYPE_REF ||
+            n.children[0].type == AST::TYPE_AREF ||
+            n.children[0].type == AST::TYPE_AREF_PROG)
         {
             errs.push_back({ "Cannot create reference to reference", n.line_info });
             return TYPE_NONE;
@@ -167,6 +170,8 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         compiler_type_t t{};
         t.type = compiler_type_t::ARRAY_REF;
         t.children.push_back(resolve_type(n.children[0]));
+        if(n.type == AST::TYPE_AREF_PROG)
+            t.children[0].is_prog = true;
         t.prim_size = t.children[0].is_prog ? 6 : 4;
         return t;
     }
@@ -192,6 +197,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.type = compiler_type_t::ARRAY;
         t.children.push_back(resolve_type(n.children[1]));
         t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
+        t.is_prog = t.children[0].is_prog;
         return t;
     }
     if(n.type == AST::STRUCT_STMT)
@@ -204,7 +210,15 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
             auto const& decl = n.children[i];
             for(size_t j = 1; j < decl.children.size(); ++j)
             {
-                t.children.emplace_back(std::move(resolve_type(decl.children[0])));
+                auto type = resolve_type(decl.children[0]);
+                if(type.is_prog)
+                {
+                    errs.push_back({
+                        "Struct members cannot be declared 'prog'",
+                        decl.children[0].line_info });
+                    return {};
+                }
+                t.children.emplace_back(std::move(type));
                 t.members.push_back({ std::string(decl.children[j].data), size });
                 size += t.children.back().prim_size;
             }
@@ -517,11 +531,11 @@ void compiler_t::compile_recurse(
                     n.line_info });
                 return;
             }
-            if(n.children[0].comp_type.is_prog)
+            if(g.var.type.is_prog)
                 add_progdata(name, g.var.type, n.children[2]);
 
             // constexpr primitive
-            if(n.children[0].comp_type.is_constexpr)
+            else if(n.children[0].comp_type.is_constexpr)
             {
                 g.var.is_constexpr = true;
                 if(n.children[2].type == AST::INT_CONST)
@@ -542,27 +556,22 @@ void compiler_t::compile_recurse(
                 }
             }
 
-            // constexpr reference
-            else if(g.var.type.is_ref() &&
-                n.children[2].type == AST::IDENT)
+            // constexpr-ify reference
+            else if(g.var.type.is_ref() && n.children[2].type == AST::IDENT)
             {
                 g.constexpr_ref = std::string(n.children[2].data);
             }
             
             // add to $globinit
-            else if(n.children.size() == 3 &&
-                !g.var.type.is_ref() && 
-                !n.children[0].comp_type.is_prog &&
-                !n.children[0].comp_type.is_constexpr)
+            else if(n.children.size() == 3)
             {
                 compiler_frame_t frame{};
                 frame.push();
                 auto& f = funcs[GLOBINIT_FUNC];
-                //codegen(f, frame, n);
-                if(n.children[2].type == AST::COMPOUND_LITERAL)
+                if(!g.var.type.is_any_ref() && n.children[2].type == AST::COMPOUND_LITERAL)
                     codegen_expr_compound(f, frame, n.children[2], g.var.type);
                 else
-                    codegen_expr(f, frame, n.children[2], false);
+                    codegen_expr(f, frame, n.children[2], g.var.type.is_any_ref());
                 auto lvalue = resolve_lvalue(f, frame, n.children[1]);
                 if(n.children[2].type != AST::COMPOUND_LITERAL)
                     codegen_convert(f, frame, n.children[2], lvalue.type, n.children[2].comp_type);
