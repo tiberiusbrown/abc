@@ -335,6 +335,8 @@ void compiler_t::compile(
 {
     assert(sysfunc_decls.size() == SYS_NUM);
 
+    import_set.clear();
+
     // create global constructor
     funcs.clear();
     {
