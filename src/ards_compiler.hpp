@@ -343,6 +343,8 @@ struct compiler_t
         }, fo);
     }
 
+    void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
+
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
 
@@ -429,6 +431,13 @@ private:
     std::unordered_map<std::string, compiler_func_t> funcs;
     std::unordered_map<std::string, compiler_global_t> globals;
     std::unordered_map<std::string, compiler_type_t> structs;
+    bool symbol_exists(std::string const& name)
+    {
+        return
+            funcs  .count(name) != 0 ||
+            globals.count(name) != 0 ||
+            structs.count(name) != 0;
+    }
 
     size_t progdata_label_index;
     std::unordered_map<std::string, compiler_progdata_t> progdata;

@@ -4,6 +4,8 @@
 
 #include <cassert>
 
+#include <rapidjson/document.h>
+
 namespace ards
 {
 

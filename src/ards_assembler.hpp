@@ -28,6 +28,9 @@ struct assembler_t
         , error{}
     {}
     error_t assemble(std::istream& f);
+    error_t add_custom_label(
+        std::string const& name,
+        std::vector<uint8_t> const& data);
     error_t link();
     std::vector<uint8_t> const& data() { return linked_data; }
 private:
@@ -47,6 +50,8 @@ private:
     uint32_t prev_pc_offset;
 
     void advance_pc_offset();
+
+    std::unordered_map<std::string, std::vector<uint8_t>> custom_labels;
     
     // convert label name to node index
     std::unordered_map<std::string, size_t> labels;
@@ -59,13 +64,14 @@ private:
     
     enum node_type_t : uint8_t
     {
-        INSTR,      // instruction opcode
-        LABEL,      // label reference
-        GLOBAL,     // global label reference
-        GLOBAL_REF, // global label reference (raw address)
-        IMM,        // immediate value
-        FILE,       // file directive
-        LINE,       // line directive (imm)
+        INSTR,       // instruction opcode
+        LABEL,       // label reference
+        GLOBAL,      // global label reference
+        GLOBAL_REF,  // global label reference (raw address)
+        IMM,         // immediate value
+        FILE,        // file directive
+        LINE,        // line directive (imm)
+        CUSTOM_DATA, // add_custom_label 
     };
     
     struct node_t
@@ -73,7 +79,7 @@ private:
         size_t offset;
         node_type_t type;
         instr_t instr;
-        uint16_t size; // size of object in bytes
+        uint32_t size; // size of object in bytes
         uint32_t imm;  // also used for label offset
         std::string label;
     };

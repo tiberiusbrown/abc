@@ -732,6 +732,14 @@ error_t assembler_t::link()
             current_line = line;
             break;
         }
+        case CUSTOM_DATA:
+        {
+            auto it = custom_labels.find(n.label);
+            assert(it != custom_labels.end());
+            auto const& d = it->second;
+            linked_data.insert(linked_data.end(), d.begin(), d.end());
+            break;
+        }
         default:
             break;
         }
@@ -795,6 +803,20 @@ void assembler_t::advance_pc_offset()
         line_table.push_back(uint8_t(offset >> 16));
     }
     prev_pc_offset = offset;
+}
+
+error_t assembler_t::add_custom_label(
+        std::string const& name,
+        std::vector<uint8_t> const& data)
+{
+    if(labels.count(name) + custom_labels.count(name) != 0)
+        return { "Duplicate label: \"" + name + "\"" };
+
+    labels[name] = nodes.size();
+    nodes.push_back({
+        byte_count, CUSTOM_DATA, I_NOP, (uint32_t)data.size(), 0, name });
+    custom_labels[name] = data;
+    return {};
 }
 
 }

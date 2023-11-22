@@ -82,7 +82,7 @@ void project_window_contents()
 
     for(auto const& [n, f] : project.files)
     {
-        if(n == INFO_FILENAME)
+        if(n == INFO_FILENAME || !f->asset_info.empty())
             continue;
         if(!Selectable((ICON_FA_FILE_CODE " " + n).c_str()))
             continue;

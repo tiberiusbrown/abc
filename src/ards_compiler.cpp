@@ -498,11 +498,10 @@ void compiler_t::compile_recurse(
             assert(n.children[1].type == AST::IDENT);
             if(!check_identifier(n.children[1])) return;
             std::string name(n.children[1].data);
-            auto it = globals.find(name);
-            if(it != globals.end())
+            if(symbol_exists(name))
             {
                 errs.push_back({
-                    "Duplicate global \"" + name + "\"",
+                    "Duplicate symbol \"" + name + "\"",
                     n.children[1].line_info });
                 return;
             }
@@ -572,7 +571,7 @@ void compiler_t::compile_recurse(
             {
                 g.constexpr_ref = std::string(n.children[2].data);
             }
-            
+
             // add to $globinit
             else if(n.children.size() == 3)
             {
@@ -608,15 +607,12 @@ void compiler_t::compile_recurse(
                     return;
                 }
             }
+            if(symbol_exists(name))
             {
-                auto it = funcs.find(name);
-                if(it != funcs.end())
-                {
-                    errs.push_back({
-                        "Duplicate function \"" + name + "\"",
-                        n.children[1].line_info });
-                    return;
-                }
+                errs.push_back({
+                    "Duplicate symbol \"" + name + "\"",
+                    n.children[1].line_info });
+                return;
             }
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
@@ -639,10 +635,10 @@ void compiler_t::compile_recurse(
         else if(n.type == AST::STRUCT_STMT)
         {
             std::string name(n.children[0].data);
-            if(structs.count(name) != 0)
+            if(symbol_exists(name))
             {
                 errs.push_back({
-                    "Duplicate struct \"" + name + "\"",
+                    "Duplicate symbol \"" + name + "\"",
                     n.line_info });
                 return;
             }
@@ -719,6 +715,21 @@ compiler_type_t compiler_t::strlit_type(size_t len)
     t.children.push_back(TYPE_I8);
     make_prog(t);
     return type;
+}
+
+void compiler_t::add_custom_label_ref(
+    std::string const& name,
+    compiler_type_t const& t)
+{
+    if(symbol_exists(name))
+    {
+        errs.push_back({ "Duplicate symbol \"" + name + "\"" });
+        return;
+    }
+    auto& g = globals[name];
+    g.name = name;
+    g.var.type = t;
+    g.var.label_ref = name;
 }
 
 }

@@ -45,6 +45,7 @@ struct project_file_t
 {
     std::string filename;
     std::vector<uint8_t> content;
+    std::string asset_info;
     std::string content_as_string() const;
     void set_content(std::string const& s);
 };
