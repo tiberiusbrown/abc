@@ -52,6 +52,52 @@ static void insert_cast(ast_node_t& a, compiler_type_t const& t)
     a.children.emplace_back(std::move(ta));
 };
 
+compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed)
+{
+    size_t prim_size = 1;
+
+    if(is_signed)
+    {
+        if(x < (1 << 7)) prim_size = 1;
+        else if(x < (1 << 15)) prim_size = 2;
+        else if(x < (1 << 23)) prim_size = 3;
+        else prim_size = 4;
+    }
+    else
+    {
+        if(x < (1 << 8)) prim_size = 1;
+        else if(x < (1 << 16)) prim_size = 2;
+        else if(x < (1 << 24)) prim_size = 3;
+        else prim_size = 4;
+    }
+
+    compiler_type_t t{};
+    t.prim_size = prim_size;
+    t.type = compiler_type_t::PRIM;
+    t.is_signed = is_signed;
+    return t;
+}
+
+compiler_type_t prim_type_for_hex(uint32_t x, bool is_signed)
+{
+    size_t prim_size = 1;
+
+    if(x < (1 << 7)) prim_size = 1;
+    else if(x < (1 << 8)) prim_size = 1, is_signed = false;
+    else if(x < (1 << 15)) prim_size = 2;
+    else if(x < (1 << 16)) prim_size = 2, is_signed = false;
+    else if(x < (1 << 23)) prim_size = 3;
+    else if(x < (1 << 24)) prim_size = 3, is_signed = false;
+    else if(x < (1ll << 31)) prim_size = 4;
+    else prim_size = 4, is_signed = false;
+
+    compiler_type_t t{};
+    t.prim_size = prim_size;
+    t.type = compiler_type_t::PRIM;
+    t.is_signed = is_signed;
+    return t;
+}
+
 void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;
@@ -229,6 +275,13 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     case AST::FUNC_CALL:
     {
         assert(a.children.size() == 2);
+        for(auto& c : a.children[1].children)
+            type_annotate_recurse(c, frame);
+        if(a.children[0].data == "len")
+        {
+            transform_array_len(a);
+            break;
+        }
         auto f = resolve_func(a.children[0]);
         size_t used_args = a.children[1].children.size();
         size_t func_args = f.decl.arg_types.size();
@@ -251,7 +304,6 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         {
             auto& c = a.children[1].children[i];
             auto const& t = f.decl.arg_types[i];
-            type_annotate_recurse(c, frame);
             if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
                 insert_cast(c, t);
         }

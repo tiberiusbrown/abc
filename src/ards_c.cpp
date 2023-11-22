@@ -13,7 +13,10 @@ int main(int argc, char** argv)
     std::string si = R"(
 void main()
 {
-    $assert("Hello"[1] == 'e');
+    int[5] x;
+    int[5]& r = x;
+    u8 y = len(r);
+    $assert(y == 5);
 }
 )";
 

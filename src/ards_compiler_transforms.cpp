@@ -5,6 +5,39 @@
 namespace ards
 {
 
+void compiler_t::transform_array_len(ast_node_t& n)
+{
+    if(!errs.empty()) return;
+    assert(n.type == AST::FUNC_CALL);
+    assert(n.children.size() == 2);
+    assert(n.children[1].children.size() == 1);
+    assert(n.children[0].data == "len");
+    if( n.type != AST::FUNC_CALL ||
+        n.children.size() != 2 ||
+        n.children[1].children.size() != 1 ||
+        n.children[0].data != "len")
+        return;
+
+    auto const& type = n.children[1].children[0].comp_type;
+    auto const& rtype = type.without_ref();
+    if(rtype.is_array())
+    {
+        n.type = AST::INT_CONST;
+        n.value = rtype.array_size();
+        n.comp_type = prim_type_for_hex((uint32_t)n.value, false);
+        return;
+    }
+    else if(type.is_array_ref())
+    {
+        // TODO
+        assert(false);
+    }
+    else
+    {
+        assert(false);
+    }
+}
+
 void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;

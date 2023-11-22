@@ -75,6 +75,7 @@ enum class AST
 
     FUNC_CALL, // children are func-expr and FUNC_ARGS
 
+    ARRAY_LEN,     // child is unsized array reference
     ARRAY_INDEX,   // children are array and index
     STRUCT_MEMBER, // children are struct and member
 
@@ -197,6 +198,9 @@ const compiler_type_t TYPE_I24 = { 3, true };
 const compiler_type_t TYPE_I32 = { 4, true };
 
 const compiler_type_t TYPE_SPRITES = { 3, false, false, false, false, compiler_type_t::SPRITES };
+
+compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed);
+compiler_type_t prim_type_for_hex(uint32_t x, bool is_signed);
 
 struct compiler_instr_t
 {
@@ -377,6 +381,7 @@ private:
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame, size_t size = 4);
 
     void transform_left_assoc_infix(ast_node_t& n);
+    void transform_array_len(ast_node_t& n);
     void transform_constexprs(ast_node_t& n, compiler_frame_t const& frame);
 
     void codegen_function(compiler_func_t& f);

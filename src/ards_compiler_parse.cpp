@@ -255,24 +255,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         int64_t x = 0;
         std::from_chars(v.token().data(), v.token().data() + v.token().size(), x, 10);
         ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
-        size_t prim_size = 1;
-        bool is_signed = (a.data.back() != 'u');
-        if(is_signed)
-        {
-            if(x < (1 << 7)) prim_size = 1;
-            else if(x < (1 << 15)) prim_size = 2;
-            else if(x < (1 << 23)) prim_size = 3;
-            else prim_size = 4;
-        }
-        else
-        {
-            if(x < (1 << 8)) prim_size = 1;
-            else if(x < (1 << 16)) prim_size = 2;
-            else if(x < (1 << 24)) prim_size = 3;
-            else prim_size = 4;
-        }
-        a.comp_type.prim_size = prim_size;
-        a.comp_type.is_signed = is_signed;
+        a.comp_type = prim_type_for_dec((uint32_t)x, a.data.back() != 'u');
         return a;
     };
     p["hex_literal"] = [](peg::SemanticValues const& v) {
@@ -280,18 +263,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         auto t = v.token().substr(2);
         std::from_chars(t.data(), t.data() + t.size(), x, 16);
         ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
-        size_t prim_size = 1;
-        bool is_signed = (a.data.back() != 'u');
-        if(x < (1 << 7)) prim_size = 1;
-        else if(x < (1 << 8)) prim_size = 1, is_signed = false;
-        else if(x < (1 << 15)) prim_size = 2;
-        else if(x < (1 << 16)) prim_size = 2, is_signed = false;
-        else if(x < (1 << 23)) prim_size = 3;
-        else if(x < (1 << 24)) prim_size = 3, is_signed = false;
-        else if(x < (1ll << 31)) prim_size = 4;
-        else prim_size = 4, is_signed = false;
-        a.comp_type.prim_size = prim_size;
-        a.comp_type.is_signed = is_signed;
+        a.comp_type = prim_type_for_hex((uint32_t)x, a.data.back() != 'u');
         return a;
     };
 

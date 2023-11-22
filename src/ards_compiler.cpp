@@ -19,7 +19,7 @@ std::unordered_set<std::string> const keywords =
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
-    "constexpr", "prog", "sprites", "struct", "import",
+    "constexpr", "prog", "sprites", "struct", "import", "len",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
@@ -245,6 +245,7 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
     assert(n.type == AST::IDENT);
     std::string name(n.data);
     assert(!name.empty());
+    assert(name != "len");
 
     if(name[0] == '$')
     {
