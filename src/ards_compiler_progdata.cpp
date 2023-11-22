@@ -9,15 +9,6 @@
 namespace ards
 {
 
-void compiler_t::add_progdata_from_info_json(
-        std::string const& path,
-        std::function<bool(std::string const&, std::vector<char>&)> const& loader)
-{
-    std::vector<char> d;
-    if(!loader(path + "/info.json", d))
-        return;
-}
-
 std::string compiler_t::progdata_label()
 {
     std::ostringstream ss;

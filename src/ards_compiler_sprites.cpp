@@ -2,6 +2,16 @@
 
 #include <cctype>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable: 4244)
+#endif
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+
 namespace ards
 {
 
@@ -24,39 +34,84 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
     assert(n.children[1].type == AST::INT_CONST);
     size_t w = (size_t)n.children[0].value;
     size_t h = (size_t)n.children[1].value;
-    if(w < 1 || w > 248 || h < 1 || h > 248)
+    if(w > 248 || h > 248)
     {
         errs.push_back({
-            "Sprite width and height must be in the range [1, 248]",
+            "Sprite width and height must be in the range [0, 248]",
             n.line_info });
         return;
     }
 
     std::vector<uint8_t> idata;
     size_t iw = 0;
+    size_t ih = 0;
     bool masked = false;
-    for(size_t i = 2; i < n.children.size(); ++i)
+
+    if(n.children[2].type == AST::STRING_LITERAL)
     {
-        auto const& row = n.children[i];
-        assert(row.type == AST::TOKEN);
-        for(char c : row.data)
+        std::vector<char> d;
+        std::string image_path = current_path + "/";
+        image_path += n.children[2].data;
+        if(!file_loader || !file_loader(image_path, d))
         {
-            if(isspace(c)) continue;
-            if     (c == '-') idata.push_back(0), masked = true;
-            else if(c == '.') idata.push_back(1);
-            else              idata.push_back(2);
+            errs.push_back({
+                "Unable to open image file \"" + image_path + "\"",
+                n.children[2].line_info });
+            return;
+        }
+        int tx = 0, ty = 0, tc = 0;
+        stbi_uc* loaded_data = stbi_load_from_memory(
+            (stbi_uc*)d.data(), (int)d.size(), &tx, &ty, &tc, 2);
+        if(!loaded_data || tc != 2 || tx <= 0 || ty <= 0)
+        {
+            errs.push_back({
+                "Unable to load image file \"" + image_path + "\"",
+                n.children[2].line_info });
+            return;
+        }
+        iw = (size_t)tx;
+        ih = (size_t)ty;
+        size_t loaded_pixels = iw * ih;
+        idata.reserve(loaded_pixels);
+        for(size_t i = 0; i < loaded_pixels; ++i)
+        {
+            uint8_t c = loaded_data[i * 2 + 0];
+            uint8_t a = loaded_data[i * 2 + 1];
+            if     (a < 128) idata.push_back(0), masked = true;
+            else if(c < 128) idata.push_back(1);
+            else             idata.push_back(2);
+        }
+        stbi_image_free(loaded_data);
+    }
+    else
+    {
+        auto const& nd = n.children[2];
+        for(size_t i = 0; i < nd.children.size(); ++i)
+        {
+            auto const& row = nd.children[i];
+            assert(row.type == AST::TOKEN);
+            for(char c : row.data)
+            {
+                if(isspace(c)) continue;
+                if     (c == '-') idata.push_back(0), masked = true;
+                else if(c == '.') idata.push_back(1);
+                else              idata.push_back(2);
+            }
+            if(iw == 0)
+                iw = idata.size();
         }
         if(iw == 0)
-            iw = idata.size();
+        {
+            errs.push_back({
+                "No sprite data found",
+                nd.line_info });
+            return;
+        }
+        ih = idata.size() / iw;
     }
-    if(iw == 0)
-    {
-        errs.push_back({
-            "No sprite data found",
-            n.line_info });
-        return;
-    }
-    size_t ih = idata.size() / iw;
+
+    if(w == 0) w = iw;
+    if(h == 0) h = ih;
     if(ih % h != 0 || iw % w != 0)
     {
         errs.push_back({

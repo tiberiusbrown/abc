@@ -345,7 +345,10 @@ void compiler_t::compile(
         f.filename = FILE_INTERNAL;
     }
 
-    compile_recurse(fpath, fname, loader);
+    file_loader = loader;
+    current_path = fpath;
+
+    compile_recurse(fpath, fname);
 
     // add final ret to global constructor
     funcs[GLOBINIT_FUNC].instrs.push_back({ I_RET });
@@ -368,10 +371,7 @@ void compiler_t::compile(
     write(fo);
 }
 
-void compiler_t::compile_recurse(
-    std::string const& fpath,
-    std::string const& fname,
-    std::function<bool(std::string const&, std::vector<char>&)> const& loader)
+void compiler_t::compile_recurse(std::string const& fpath, std::string const& fname)
 {
     std::vector<char> input;
     std::string pathbase = fpath.empty() ? "" : fpath + "/";
@@ -388,7 +388,7 @@ void compiler_t::compile_recurse(
 
     auto& compile_data = compiled_files[filename];
     ast_node_t& ast = compile_data.second;
-    if(!loader(filename, compile_data.first))
+    if(!file_loader || !file_loader(filename, compile_data.first))
     {
         errs.push_back({ "Unable to open module \"" + fname + "\"" });
         return;
@@ -661,7 +661,10 @@ void compiler_t::compile_recurse(
             }
             std::string new_file = std::string(n.children.back().data);
             import_set.insert(filename);
-            compile_recurse(new_path, new_file, loader);
+            std::string old_path = std::move(current_path);
+            current_path = new_path;
+            compile_recurse(new_path, new_file);
+            current_path = std::move(old_path);
             import_set.erase(filename);
         }
     }

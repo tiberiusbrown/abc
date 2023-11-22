@@ -110,6 +110,7 @@ target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     "${CMAKE_CURRENT_SOURCE_DIR}/ards_vm"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
+    "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
     

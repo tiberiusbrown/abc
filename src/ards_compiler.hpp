@@ -34,7 +34,7 @@ enum class AST
     //
 
     PROGRAM,      // children are global declarations and functions
-    IMPORT_STMT,  // children are import path identifiers
+    IMPORT_STMT,  // child is path string literal
     BLOCK,        // children are child statements
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
@@ -87,7 +87,8 @@ enum class AST
     STRING_LITERAL,
     INT_CONST,
     IDENT,
-    SPRITES,    // children are w, h, row+ (rows are TOKEN)
+    SPRITES,    // children are w, h, TOKEN (children are rows/TOKEN)
+                //           or w, h, path string
 
     TYPE,
     TYPE_REF,   // reference (child is type)
@@ -352,10 +353,7 @@ private:
 
     void parse(std::vector<char> const& fi, ast_node_t& ast);
 
-    void compile_recurse(
-        std::string const& path,
-        std::string const& name,
-        std::function<bool(std::string const&, std::vector<char>&)> const& loader);
+    void compile_recurse(std::string const& path, std::string const& name);
 
     bool check_identifier(ast_node_t const& n);
 
@@ -403,9 +401,6 @@ private:
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
 
-    void add_progdata_from_info_json(
-        std::string const& path,
-        std::function<bool(std::string const&, std::vector<char>&)> const& loader);
     std::string progdata_label();
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
@@ -441,6 +436,9 @@ private:
             globals.count(name) != 0 ||
             structs.count(name) != 0;
     }
+
+    std::string current_path;
+    std::function<bool(std::string const&, std::vector<char>&)> file_loader;
 
     size_t progdata_label_index;
     std::unordered_map<std::string, compiler_progdata_t> progdata;
