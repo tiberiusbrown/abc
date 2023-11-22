@@ -29,7 +29,10 @@ bool compile_all()
     {
         std::string n = "main.abc";
         if(project.files.count(n) == 0)
+        {
+            project.errors["<Project>"].push_back({ "No main.abc found" });
             break;
+        };
         auto const& f = project.files[n];
         std::stringstream ss(f->content_as_string());
         std::stringstream sout;

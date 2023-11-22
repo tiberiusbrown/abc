@@ -374,10 +374,15 @@ void compiler_t::compile_recurse(
     std::vector<char> input;
     std::string pathbase = fpath.empty() ? "" : fpath + "/";
     std::string filename = pathbase + fname + ".abc";
-    if(compiled_files.count(filename) != 0)
+
+    if(import_set.count(filename) != 0)
     {
+        errs.push_back({ "Import loop detected" });
         return;
     }
+
+    if(compiled_files.count(filename) != 0)
+        return;
 
     auto& compile_data = compiled_files[filename];
     ast_node_t& ast = compile_data.second;
@@ -653,7 +658,9 @@ void compiler_t::compile_recurse(
                 new_path += n.children[i].data;
             }
             std::string new_file = std::string(n.children.back().data);
+            import_set.insert(filename);
             compile_recurse(new_path, new_file, loader);
+            import_set.erase(filename);
         }
     }
 }

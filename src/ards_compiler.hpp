@@ -403,6 +403,9 @@ private:
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
 
+    void add_progdata_from_info_json(
+        std::string const& path,
+        std::function<bool(std::string const&, std::vector<char>&)> const& loader);
     std::string progdata_label();
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
@@ -447,6 +450,7 @@ private:
 
     // track files already parsed
     std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;
+    std::unordered_set<std::string> import_set;
 };
 
 }
