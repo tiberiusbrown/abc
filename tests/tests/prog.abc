@@ -21,6 +21,16 @@ u16 prog pud = 4;
 u16&[4] prog grs = { ua, ub, uc, ud };
 u16 prog&[4] prog prs = { pua, pub, puc, pud };
 
+u8 [] prog& ra1 = a1;
+u16[] prog& ra2 = a2;
+u24[] prog& ra3 = a3;
+u32[] prog& ra4 = a4;
+
+u8 [] prog& prog pra1 = a1;
+u16[] prog& prog pra2 = a2;
+u24[] prog& prog pra3 = a3;
+u32[] prog& prog pra4 = a4;
+
 void main()
 {
     $debug_break();
@@ -58,6 +68,16 @@ void main()
     $assert(prs[1] == 2);
     $assert(prs[2] == 3);
     $assert(prs[3] == 4);
+    
+    $assert(len(ra1) == 4);
+    $assert(len(ra2) == 4);
+    $assert(len(ra3) == 4);
+    $assert(len(ra4) == 4);
+    
+    $assert(len(pra1) == 4);
+    $assert(len(pra2) == 4);
+    $assert(len(pra3) == 4);
+    $assert(len(pra4) == 4);
     
     $debug_break();
 }

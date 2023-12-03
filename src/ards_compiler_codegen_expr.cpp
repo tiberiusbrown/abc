@@ -501,6 +501,45 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::ARRAY_LEN:
+    {
+        auto const& r = a.children[1].children[0];
+        if(auto* v = resolve_global(r))
+        {
+            uint8_t size = v->var.type.children[0].is_prog ? 3 : 2;
+            if(v->var.type.is_prog)
+            {
+                f.instrs.push_back({ I_PUSHL, r.line(), size, 0, v->name });
+                f.instrs.push_back({ I_GETPN, r.line(), size });
+            }
+            else
+            {
+                f.instrs.push_back({ I_PUSH, r.line(), size });
+                f.instrs.push_back({ I_GETGN, r.line(), size, 0, v->name });
+            }
+            frame.size += size;
+            return;
+        }
+        if(auto* v = resolve_local(frame, r))
+        {
+            assert(!v->var.type.is_prog);
+            if(!v->var.type.is_array_ref())
+            {
+                errs.push_back({
+                    "\"" + std::string(r.data) + "\" is not an array or [unsized] array reference",
+                    r.line_info });
+                return;
+            }
+            uint8_t size = v->var.type.children[0].is_prog ? 3 : 2;
+            uint8_t offset = (uint8_t)(frame.size - v->frame_offset - size);
+            f.instrs.push_back({ I_PUSH, r.line(), size });
+            f.instrs.push_back({ I_GETLN, r.line(), offset });
+            frame.size += size;
+            return;
+        }
+        return;
+    }
+
     default:
         assert(false);
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });

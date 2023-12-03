@@ -108,7 +108,7 @@ private:
         nodes.push_back({ byte_count, LINE, I_NOP, 0, line });
     }
 
-    void push_label(std::istream& f);
+    void push_label(std::istream& f, bool has_offset = false);
 
     void push_global(std::istream& f, bool has_offset = false);
 

@@ -113,16 +113,13 @@ void assembler_t::push_instr(instr_t i)
     byte_count += 1;
 }
 
-void assembler_t::push_label(std::istream& f)
+void assembler_t::push_label(std::istream& f, bool has_offset)
 {
     std::string label = read_label(f, error);
     if(!error.msg.empty()) return;
     uint32_t offset = 0;
-    if(f.peek() == '+')
-    {
-        f.get();
-        offset = read_imm(f, error);
-    }
+    if(has_offset)
+        f >> offset;
     nodes.push_back({ byte_count, LABEL, I_NOP, (uint16_t)3, offset, label });
     byte_count += 3;
 }
@@ -284,13 +281,13 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "pushg")
         {
             push_instr(I_PUSHG);
-            push_global(f);
+            push_global(f, true);
             nodes.back().type = GLOBAL_REF;
         }
         else if(t == "pushl")
         {
             push_instr(I_PUSHL);
-            push_label(f);
+            push_label(f, true);
         }
         else if(t == "getl")
         {
@@ -325,7 +322,7 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "getgn")
         {
             push_instr(I_GETGN);
-            push_global(f);
+            push_global(f, true);
         }
         else if(t == "setg")
         {
@@ -664,6 +661,7 @@ error_t assembler_t::link()
                     return error;
                 }
                 offset = it->second;
+                offset += n.imm;
                 if(n.type == GLOBAL_REF)
                     offset += 0x200;
             }
@@ -689,6 +687,7 @@ error_t assembler_t::link()
                     offset -= n.offset;
                     offset -= (n.size + 2);
                 }
+                offset += n.imm;
                 if(n.size >= 1) linked_data.push_back(uint8_t(offset >> 0));
                 if(n.size >= 2) linked_data.push_back(uint8_t(offset >> 8));
                 if(n.size >= 3) linked_data.push_back(uint8_t(offset >> 16));

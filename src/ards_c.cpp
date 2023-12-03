@@ -11,12 +11,11 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+u8[2] prog x = { 7, 8 };
+u8[] prog& prog pr = x;
 void main()
 {
-    int[5] x;
-    int[5]& r = x;
-    u8 y = len(r);
-    $assert(y == 5);
+    $assert(len(pr) == 2);
 }
 )";
 

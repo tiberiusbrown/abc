@@ -75,7 +75,7 @@ enum class AST
 
     FUNC_CALL, // children are func-expr and FUNC_ARGS
 
-    ARRAY_LEN,     // child is unsized array reference
+    ARRAY_LEN,     // same structure as FUNC_CALL
     ARRAY_INDEX,   // children are array and index
     STRUCT_MEMBER, // children are struct and member
 

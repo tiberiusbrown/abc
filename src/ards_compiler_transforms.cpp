@@ -12,11 +12,16 @@ void compiler_t::transform_array_len(ast_node_t& n)
     assert(n.children.size() == 2);
     assert(n.children[1].children.size() == 1);
     assert(n.children[0].data == "len");
-    if( n.type != AST::FUNC_CALL ||
+    if(n.type != AST::FUNC_CALL ||
         n.children.size() != 2 ||
         n.children[1].children.size() != 1 ||
         n.children[0].data != "len")
+    {
+        errs.push_back({
+            "len() must be given exactly one argument",
+            n.line_info });
         return;
+    }
 
     auto const& type = n.children[1].children[0].comp_type;
     auto const& rtype = type.without_ref();
@@ -29,8 +34,9 @@ void compiler_t::transform_array_len(ast_node_t& n)
     }
     else if(type.is_array_ref())
     {
-        // TODO
-        assert(false);
+        n.type = AST::ARRAY_LEN;
+        n.comp_type = type.children[0].is_prog ? TYPE_U24 : TYPE_U16;
+        return;
     }
     else
     {

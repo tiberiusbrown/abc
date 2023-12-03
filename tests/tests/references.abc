@@ -5,6 +5,11 @@ u32[4] a4;
 
 u32 g;
 
+u8 []& ra1 = a1;
+u16[]& ra2 = a2;
+u24[]& ra3 = a3;
+u32[]& ra4 = a4;
+
 void main()
 {
     $debug_break();
@@ -55,6 +60,7 @@ void main()
         u8[]& r = a1;
         $assert(r[1] == 3);
         $assert(r[2] == 7);
+        $assert(len(r) == 4);
     }
     
     {
@@ -63,6 +69,7 @@ void main()
         u16[]& r = a2;
         $assert(r[1] == 3);
         $assert(r[2] == 7);
+        $assert(len(r) == 4);
     }
     
     {
@@ -71,6 +78,7 @@ void main()
         u24[]& r = a3;
         $assert(r[1] == 3);
         $assert(r[2] == 7);
+        $assert(len(r) == 4);
     }
     
     {
@@ -79,7 +87,20 @@ void main()
         u32[]& r = a4;
         $assert(r[1] == 3);
         $assert(r[2] == 7);
+        $assert(len(r) == 4);
     }
+    
+    {
+        u8[2] x = { 7, 8 };
+        u8[]& r = x;
+        u8 y = len(r);
+        $assert(y == 2);
+    }
+    
+    $assert(len(ra1) == 4);
+    $assert(len(ra2) == 4);
+    $assert(len(ra3) == 4);
+    $assert(len(ra4) == 4);
     
     $debug_break();
 }
