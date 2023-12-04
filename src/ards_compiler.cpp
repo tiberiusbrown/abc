@@ -26,6 +26,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
 {
     { "void",    TYPE_VOID    },
     { "bool",    TYPE_BOOL    },
+    { "char",    TYPE_CHAR    },
     { "u8",      TYPE_U8      },
     { "u16",     TYPE_U16     },
     { "u24",     TYPE_U24     },
@@ -34,10 +35,10 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "i16",     TYPE_I16     },
     { "i24",     TYPE_I24     },
     { "i32",     TYPE_I32     },
-    { "uchar",   TYPE_U8      },
+    { "ushort",  TYPE_U8      },
     { "uint",    TYPE_U16     },
     { "ulong",   TYPE_U32     },
-    { "char",    TYPE_I8      },
+    { "short",   TYPE_I8      },
     { "int",     TYPE_I16     },
     { "long",    TYPE_I32     },
     { "sprites", TYPE_SPRITES },
@@ -45,7 +46,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
-    { SYS_DISPLAY, { TYPE_VOID, {} } },
+    { SYS_DISPLAY,          { TYPE_VOID, {} } },
     { SYS_DRAW_PIXEL,       { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8 } } },
     { SYS_DRAW_FILLED_RECT, { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
@@ -60,6 +61,12 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_ANY_PRESSED,      { TYPE_BOOL, { TYPE_U8 } } },
     { SYS_NOT_PRESSED,      { TYPE_BOOL, { TYPE_U8 } } },
     { SYS_DRAW_SPRITE,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 } } },
+    { SYS_STRLEN,           { TYPE_U16,  { TYPE_STR } } },
+    { SYS_STRLEN_P,         { TYPE_U24,  { TYPE_STR_PROG } } },
+    { SYS_STRCAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR } } },
+    { SYS_STRCAT_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
+    { SYS_STRCMP,           { TYPE_I8,   { TYPE_STR, TYPE_STR } } },
+    { SYS_STRCMP_P,         { TYPE_I8,   { TYPE_STR, TYPE_STR_PROG } } },
 };
 
 static bool isspace(char c)
@@ -720,12 +727,12 @@ compiler_type_t compiler_t::strlit_type(size_t len)
 {
     compiler_type_t type{};
     type.type = compiler_type_t::REF;
-    type.prim_size = 2;
+    type.prim_size = 3;
     type.children.resize(1);
     auto& t = type.children[0];
     t.type = compiler_type_t::ARRAY;
     t.prim_size = len;
-    t.children.push_back(TYPE_I8);
+    t.children.push_back(TYPE_CHAR);
     make_prog(t);
     return type;
 }

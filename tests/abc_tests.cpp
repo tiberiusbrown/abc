@@ -55,6 +55,7 @@ static bool test(std::string const& fpath, std::string const& fname)
     }
 
     arduboy->reset();
+    arduboy->allow_nonstep_breakpoints = true;
     arduboy->cpu.enabled_autobreaks.reset();
     arduboy->breakpoints_wr.reset();
     arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);

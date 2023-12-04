@@ -104,10 +104,13 @@ struct compiler_type_t
 {
     // size of type in bytes (0 means void)
     size_t prim_size;
+
     bool is_signed;
     bool is_bool;
     bool is_constexpr;
     bool is_prog;
+    bool is_char;
+
     enum type_t
     {
         PRIM,
@@ -183,6 +186,22 @@ struct compiler_type_t
     auto tie() const { return std::tie(prim_size, is_signed, is_bool, is_prog, children); }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
     bool operator!=(compiler_type_t const& t) const { return !operator==(t); }
+
+    compiler_type_t with_prog() const
+    {
+        compiler_type_t r = *this;
+        r.is_prog = true;
+        return r;
+    }
+
+    compiler_type_t with_array_ref() const
+    {
+        compiler_type_t r{};
+        r.type = ARRAY_REF;
+        r.children.push_back(*this);
+        r.prim_size = is_prog ? 6 : 4;
+        return r;
+    }
 };
 
 const compiler_type_t TYPE_NONE = { 0, true };
@@ -198,7 +217,14 @@ const compiler_type_t TYPE_I16 = { 2, true };
 const compiler_type_t TYPE_I24 = { 3, true };
 const compiler_type_t TYPE_I32 = { 4, true };
 
-const compiler_type_t TYPE_SPRITES = { 3, false, false, false, false, compiler_type_t::SPRITES };
+const compiler_type_t TYPE_SPRITES = {
+    3, false, false, false, false, false, compiler_type_t::SPRITES };
+
+const compiler_type_t TYPE_CHAR = {
+    1, false, false, false, false, true };
+
+const compiler_type_t TYPE_STR = TYPE_CHAR.with_array_ref();
+const compiler_type_t TYPE_STR_PROG = TYPE_CHAR.with_prog().with_array_ref();
 
 compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed);
 compiler_type_t prim_type_for_hex(uint32_t x, bool is_signed);
@@ -411,6 +437,7 @@ private:
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
     void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
+    void progdata_zero(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
 
     static std::vector<uint8_t> strlit_data(ast_node_t const& n);
     static compiler_type_t strlit_type(size_t len);

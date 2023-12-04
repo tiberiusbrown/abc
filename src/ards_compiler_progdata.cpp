@@ -32,6 +32,20 @@ void compiler_t::add_progdata(
     progdata_expr(n, t, pdata);
 }
 
+void compiler_t::progdata_zero(
+    ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pd)
+{
+    if(t.is_any_ref() || t.has_child_ref())
+    {
+        errs.push_back({
+            "Too few initializers for reference types",
+            n.line_info });
+        return;
+    }
+    for(size_t i = 0; i < t.prim_size; ++i)
+        pd.data.push_back(0);
+}
+
 void compiler_t::progdata_expr(
     ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pd)
 {
@@ -119,27 +133,27 @@ void compiler_t::progdata_expr(
         size_t num_elems = t.prim_size / t.children[0].prim_size;
         if(n.type != AST::COMPOUND_LITERAL)
             goto error;
-        if(n.children.size() != num_elems)
+        if(n.children.size() > num_elems)
         {
             errs.push_back({
-                "Incorrect number of elements in prog array initializer",
+                "Too many elements in prog array initializer",
                 n.line_info });
             return;
         }
         for(auto const& child : n.children)
-        {
             progdata_expr(child, t.children[0], pd);
-        }
+        for(size_t i = n.children.size(); i < num_elems; ++i)
+            progdata_zero(n, t.children[0], pd);
         break;
     }
     case compiler_type_t::STRUCT:
     {
         if(n.type != AST::COMPOUND_LITERAL)
             goto error;
-        if(n.children.size() != t.children.size())
+        if(n.children.size() > t.children.size())
         {
             errs.push_back({
-                "Incorrect number of members in prog struct initializer",
+                "Too many members in prog struct initializer",
                 n.line_info });
             return;
         }
@@ -149,6 +163,8 @@ void compiler_t::progdata_expr(
             auto const& tt = t.children[i];
             progdata_expr(child, tt, pd);
         }
+        for(size_t i = n.children.size(); i < t.children.size(); ++i)
+            progdata_zero(n, t.children[i], pd);
         break;
     }
     default:

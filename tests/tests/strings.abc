@@ -2,7 +2,10 @@ void main()
 {
     $debug_break();
     
+    $assert('e' == 'e');
     $assert("hello"[1] == 'e');
+    
+    $assert($strlen_P("what") == 4);
     
     $debug_break();
 }

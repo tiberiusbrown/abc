@@ -199,13 +199,14 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             return;
         }
 
-        bool ref0 = a.children[0].comp_type.type == compiler_type_t::REF;
-        bool ref1 = a.children[1].comp_type.type == compiler_type_t::REF;
+        bool ref0 = a.children[0].comp_type.is_ref();
+        bool ref1 = a.children[1].comp_type.is_ref();
         bool is_divmod = (
             a.type == AST::OP_MULTIPLICATIVE && (
                 a.data == "/" || a.data == "%"));
 
-        if(t0.is_sprites() && t1.is_sprites())
+        if((a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL) &&
+            (t0.is_sprites() && t1.is_sprites()))
         {
             a.comp_type = TYPE_BOOL;
             break;
@@ -326,6 +327,13 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                         return;
                     }
                     continue;
+                }
+                if(t.children[0].is_prog != c.comp_type.without_ref().is_prog)
+                {
+                    errs.push_back({
+                        "Mismatched prog for UAR conversion",
+                        c.line_info });
+                    return;
                 }
                 insert_aref(c, t);
             }

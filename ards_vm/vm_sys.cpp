@@ -51,11 +51,26 @@ inline void vm_push(T x)
 {
     if(ards::vm.sp + sizeof(T) >= 256)
         vm_error(ards::ERR_DST);
+    union
+    {
+        T r;
+        uint8_t b[sizeof(T)];
+    } u;
+    u.r = x;
+    uint8_t* ptr;
+    asm volatile(
+        "lds  %A[ptr], 0x0660\n"
+        "ldi  %B[ptr], 1\n"
+        : [ptr] "=&e" (ptr));
     for(size_t i = 0; i < sizeof(T); ++i)
     {
-        ards::vm.stack[ards::vm.sp++] = uint8_t(x);
-        x >>= 8;
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (u.b[i])
+            );
     }
+    ards::vm.sp = (uint8_t)(uintptr_t)ptr;
 }
 
 static void sys_display()
@@ -192,6 +207,41 @@ static void sys_draw_sprite()
     FX::seekData(ards::vm.pc);
 }
 
+static void sys_strlen()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t n = vm_pop<uint16_t>(ptr);
+    uint16_t b = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    char const* p = reinterpret_cast<char const*>(b);
+    uint16_t t = 0;
+    while(*p++ != '\0')
+    {
+        ++t;
+        if(--n == 0) break;
+    }
+    vm_push(t);
+}
+
+static void sys_strlen_P()
+{
+    auto ptr = vm_pop_begin();
+    uint24_t n = vm_pop<uint24_t>(ptr);
+    uint24_t b = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+    (void)FX::readEnd();
+    FX::seekData(b);
+    uint24_t t = 0;
+    while(FX::readPendingUInt8() != '\0')
+    {
+        ++t;
+        if(--n == 0) break;
+    }
+    vm_push(t);
+    (void)FX::readEnd();
+    FX::seekData(ards::vm.pc);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -209,4 +259,6 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_any_pressed,
     sys_not_pressed,
     sys_draw_sprite,
+    sys_strlen,
+    sys_strlen_P,
 };

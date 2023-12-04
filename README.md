@@ -21,23 +21,24 @@ ABC differs from C in several aspects, both to simplify the language and to avoi
 
 The following keyword types are exposed in ABC.
 
-| Keyword | Type     | Bit Width |
-|:-------:|----------|:---------:|
-| `bool`  | boolean  | 8         |
-|  `i8`   | signed   | 8         |
-| `i16`   | signed   | 16        |
-| `i24`   | signed   | 24        |
-| `i32`   | signed   | 32        |
-| `char`  | signed   | 8         |
-| `int`   | signed   | 16        |
-| `long`  | signed   | 32        |
-|  `u8`   | unsigned | 8         |
-| `u16`   | unsigned | 16        |
-| `u24`   | unsigned | 24        |
-| `u32`   | unsigned | 32        |
-| `uchar` | unsigned | 8         |
-| `uint`  | unsigned | 16        |
-| `ulong` | unsigned | 32        |
+| Keyword | Type      | Bit Width |
+|:-------:|-----------|:---------:|
+| `bool`  | boolean   | 8         |
+| `char`  | character | 8         |
+| `i8`    | signed    | 8         |
+| `i16`   | signed    | 16        |
+| `i24`   | signed    | 24        |
+| `i32`   | signed    | 32        |
+| `short` | signed    | 8         |
+| `int`   | signed    | 16        |
+| `long`  | signed    | 32        |
+| `u8`    | unsigned  | 8         |
+| `u16`   | unsigned  | 16        |
+| `u24`   | unsigned  | 24        |
+| `u32`   | unsigned  | 32        |
+| `ushort`| unsigned  | 8         |
+| `uint`  | unsigned  | 16        |
+| `ulong` | unsigned  | 32        |
 
 ### Array Type Syntax
 

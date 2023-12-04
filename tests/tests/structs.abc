@@ -8,7 +8,7 @@ struct enemy_t
 enemy_t e;
 enemy_t[4] enemies;
 
-enemy_t prog pe = { 1, 2, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+enemy_t prog pe = { 1, 2, { } };
 
 void main()
 {

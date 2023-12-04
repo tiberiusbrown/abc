@@ -282,7 +282,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["char_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::INT_CONST, v.token() };
-        a.comp_type = TYPE_I8;
+        a.comp_type = TYPE_CHAR;
         auto d = strlit_data(a);
         if(!d.empty())
             a.value = (int8_t)d[0];

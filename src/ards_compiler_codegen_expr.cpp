@@ -257,7 +257,8 @@ void compiler_t::codegen_expr(
     {
         if(ref) goto rvalue_error;
         assert(a.children.size() == 2);
-        if(a.children[0].comp_type.without_prog() != a.children[1].comp_type.without_prog())
+        if( a.children[0].comp_type.without_prog().without_ref().without_prog() !=
+            a.children[1].comp_type.without_prog().without_ref().without_prog())
         {
             errs.push_back({ "Incompatible types in comparison", a.line_info });
             return;
@@ -577,14 +578,21 @@ void compiler_t::codegen_expr_compound(
     {
         const auto& t = type.children[0];
         size_t num_elems = type.prim_size / t.prim_size;
-        if(num_elems != a.children.size())
+        if(num_elems < a.children.size())
         {
             errs.push_back({
-                "Incorrect number of array elements in initializer",
+                "Too many array elements in initializer",
                 a.line_info });
             return;
         }
         bool ref = t.is_any_ref();
+        if((ref || t.has_child_ref()) && num_elems > a.children.size())
+        {
+            errs.push_back({
+                "Too few array elements in initializer with reference types",
+                a.line_info });
+            return;
+        }
         for(auto const& child : a.children)
         {
             if(child.type == AST::COMPOUND_LITERAL)
@@ -594,6 +602,12 @@ void compiler_t::codegen_expr_compound(
                 codegen_expr(f, frame, child, ref);
                 codegen_convert(f, frame, child, t, child.comp_type);
             }
+        }
+        for(size_t i = a.children.size(); i < num_elems; ++i)
+        {
+            for(size_t j = 0; j < t.prim_size; ++j)
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
+            frame.size += t.prim_size;
         }
     }
     else if(type.is_struct())
