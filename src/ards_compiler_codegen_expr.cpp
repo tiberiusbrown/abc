@@ -82,7 +82,7 @@ void compiler_t::codegen_expr(
             assert(!local->var.is_constexpr);
             uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
             uint8_t size = (uint8_t)local->var.type.prim_size;
-            if(ref && local->var.type.type != compiler_type_t::REF)
+            if(ref && !local->var.type.is_ref())
             {
                 f.instrs.push_back({ I_REFL, a.line(), offset });
                 frame.size += 2;
@@ -169,8 +169,7 @@ void compiler_t::codegen_expr(
         {
             auto const& type = func.decl.arg_types[i];
             auto const& expr = a.children[1].children[i];
-            // handle reference function arguments
-            bool tref = (type.type == compiler_type_t::REF);
+            bool tref = type.is_ref();
             if(tref && type.without_ref() != expr.comp_type.without_ref())
             {
                 errs.push_back({
@@ -183,7 +182,7 @@ void compiler_t::codegen_expr(
             else
             {
                 codegen_expr(f, frame, expr, tref);
-                if(!tref)
+                if(!type.is_any_ref())
                     codegen_convert(f, frame, a, type, expr.comp_type);
             }
         }
@@ -537,6 +536,23 @@ void compiler_t::codegen_expr(
             frame.size += size;
             return;
         }
+        return;
+    }
+
+    case AST::OP_AREF:
+    {
+        codegen_expr(f, frame, a.children[0], true);
+        auto const& t = a.children[0].comp_type.without_ref();
+        if(t.is_array_ref())
+            return;
+        assert(t.is_array());
+        auto n = t.array_size();
+        auto line = a.children[0].line();
+        f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 0) });
+        f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 8) });
+        if(t.is_prog)
+            f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 16) });
+        frame.size += t.is_prog ? 3 : 2;
         return;
     }
 

@@ -1,0 +1,18 @@
+int sum(int[]& a)
+{
+    int t = 0;
+    for(u16 i = 0; i < len(a); i = i + 1)
+        t = t + a[i];
+    return t;
+}
+
+void main()
+{
+    $debug_break();
+
+    int[3] x = { 1, 2, 3 };
+    int t = sum(x);
+    $assert(t == 6);
+    
+    $debug_break();
+}

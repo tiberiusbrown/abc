@@ -42,6 +42,16 @@ static bool check_prim(ast_node_t const& a, std::vector<error_t> errs)
     return check_prim(a.comp_type.without_ref(), a, errs);
 }
 
+static void insert_aref(ast_node_t& a, compiler_type_t const& t)
+{
+    auto ta = std::move(a);
+    a = { {}, AST::OP_AREF };
+    a.comp_type.type = compiler_type_t::ARRAY_REF;
+    a.comp_type.children.push_back(t);
+    a.comp_type.prim_size = t.without_ref().is_prog ? 6 : 4;
+    a.children.emplace_back(std::move(ta));
+};
+
 static void insert_cast(ast_node_t& a, compiler_type_t const& t)
 {
     auto ta = std::move(a);
@@ -304,7 +314,22 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         {
             auto& c = a.children[1].children[i];
             auto const& t = f.decl.arg_types[i];
-            if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
+            if(t.is_array_ref())
+            {
+                if(c.comp_type.is_array_ref())
+                {
+                    if(t != c.comp_type)
+                    {
+                        errs.push_back({
+                            "Incompatible array element types for UARs",
+                            c.line_info });
+                        return;
+                    }
+                    continue;
+                }
+                insert_aref(c, t);
+            }
+            else if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
                 insert_cast(c, t);
         }
         a.comp_type = f.decl.return_type;

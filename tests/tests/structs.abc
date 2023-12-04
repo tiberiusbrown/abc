@@ -8,9 +8,16 @@ struct enemy_t
 enemy_t e;
 enemy_t[4] enemies;
 
+enemy_t prog pe = { 1, 2, { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+
 void main()
 {
     $debug_break();
+    
+    $assert(pe.x == 1);
+    $assert(pe.y == 2);
+    for(u8 i = 0; i < 12; i = i + 1)
+        $assert(pe.attrs[i] == 0);
     
     $assert(e.x == 0);
     $assert(e.y == 0);

@@ -72,6 +72,7 @@ enum class AST
     OP_UNARY, // children are op and expr
 
     OP_CAST, // children are type and expr
+    OP_AREF, // create UAR from child
 
     FUNC_CALL, // children are func-expr and FUNC_ARGS
 
