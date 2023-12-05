@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 int main(int argc, char** argv)
 {
@@ -10,23 +11,11 @@ int main(int argc, char** argv)
     ards::compiler_t c;
     ards::assembler_t a;
 
-    std::string si = R"(
-char[4] x = "hi";
-void main()
-{
-x = "whaaaat";
-}
-
-)";
-
-    std::istringstream fi(si);
     std::stringstream fasm;
 
-    c.compile("", "internal", [&](std::string const& fname, std::vector<char>& t) -> bool {
-        if(fname != "internal.abc") return false;
-        t = std::vector<char>(si.begin(), si.end());
-        return true;
-    }, fasm);
+    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/sprite/main.abc";
+
+    c.compile(psrc.parent_path().string(), psrc.stem().string(), fasm);
     for(auto const& e : c.errors())
     {
         std::cerr << "Compiler Error" << std::endl;
@@ -58,9 +47,9 @@ x = "whaaaat";
         }
     }
 
-    if(argc > 1)
     {
-        std::ofstream fbin(argv[1], std::ios::out | std::ios::binary);
+        auto fxdata = psrc.parent_path() / "fxdata.bin";
+        std::ofstream fbin(fxdata.string(), std::ios::out | std::ios::binary);
         if(!fbin)
         {
             std::cerr << "Unable to open file: \"" << argv[1] << "\"" << std::endl;

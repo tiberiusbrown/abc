@@ -185,7 +185,8 @@ relational_op       <- < '<=' / '>=' / '<' / '>' >
 assignment_op       <- < '=' >
 unary_op            <- < '!' / '-' / '~' >
 
-sprites_literal     <- 'sprites' '{' decimal_literal 'x' decimal_literal sprite_data '}'
+sprites_literal     <- 'sprites' '{' string_literal '}' /
+                       'sprites' '{' decimal_literal 'x' decimal_literal sprite_data '}'
 sprite_data         <- string_literal / sprite_row+
 sprite_row          <- < [^\n}]+ >
 
@@ -444,6 +445,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["sprites_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::SPRITES, v.token() };
+        if(v.choice() == 0)
+        {
+            a.children.push_back({ v.line_info(), AST::INT_CONST, "0", {}, 0 });
+            a.children.push_back({ v.line_info(), AST::INT_CONST, "0", {}, 0 });
+        }
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;

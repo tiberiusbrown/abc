@@ -634,7 +634,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
-            f.filename = filename;
+            f.filename = fname + ".abc";
             f.block = std::move(n.children[2]);
 
             // decl args

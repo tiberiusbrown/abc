@@ -62,7 +62,7 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
         int tx = 0, ty = 0, tc = 0;
         stbi_uc* loaded_data = stbi_load_from_memory(
             (stbi_uc*)d.data(), (int)d.size(), &tx, &ty, &tc, 2);
-        if(!loaded_data || tc != 2 || tx <= 0 || ty <= 0)
+        if(!loaded_data || tx <= 0 || ty <= 0)
         {
             errs.push_back({
                 "Unable to load image file \"" + image_path + "\"",
