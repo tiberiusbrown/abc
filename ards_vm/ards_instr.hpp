@@ -22,10 +22,10 @@ enum sysfunc_t : uint16_t
     SYS_DRAW_SPRITE,
     SYS_STRLEN,
     SYS_STRLEN_P,
-    SYS_STRCAT,
-    SYS_STRCAT_P,
     SYS_STRCMP,
     SYS_STRCMP_P,
+    SYS_STRCAT,
+    SYS_STRCAT_P,
 
     SYS_NUM
 };

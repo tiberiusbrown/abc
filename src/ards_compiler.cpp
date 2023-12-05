@@ -63,10 +63,10 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_DRAW_SPRITE,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 } } },
     { SYS_STRLEN,           { TYPE_U16,  { TYPE_STR } } },
     { SYS_STRLEN_P,         { TYPE_U24,  { TYPE_STR_PROG } } },
-    { SYS_STRCAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR } } },
-    { SYS_STRCAT_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
     { SYS_STRCMP,           { TYPE_I8,   { TYPE_STR, TYPE_STR } } },
     { SYS_STRCMP_P,         { TYPE_I8,   { TYPE_STR, TYPE_STR_PROG } } },
+    { SYS_STRCAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR } } },
+    { SYS_STRCAT_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
 };
 
 static bool isspace(char c)

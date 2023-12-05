@@ -11,11 +11,11 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::string si = R"(
+int[4] x;
+int[3] y;
 void main()
 {
-    $debug_break();
-    $assert($strlen_P("what") == 4);
-    $debug_break();
+    x = y;
 }
 
 )";

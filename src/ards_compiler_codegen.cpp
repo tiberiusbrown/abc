@@ -369,7 +369,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             }
             else if(a.children[2].type != AST::COMPOUND_LITERAL)
             {
-                if(type.is_array() && t0 != t1)
+                if(type.is_array() && t0.children[0].without_prog() != t1.children[0].without_prog())
                 {
                     errs.push_back({
                         "Incompatible type for assignment to \"" +
@@ -494,7 +494,7 @@ void compiler_t::codegen_convert(
             errs.push_back({ "Cannot convert array to non-array", n.line_info });
             return;
         }
-        if(orig_from.children[0] != orig_to.children[0])
+        if(rfrom.children[0].without_prog() != rto.children[0])
         {
             errs.push_back({ "Cannot implicitly convert array elements", n.line_info });
             return;

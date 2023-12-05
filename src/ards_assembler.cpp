@@ -25,6 +25,8 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "draw_sprite",      SYS_DRAW_SPRITE      },
     { "strlen",           SYS_STRLEN           },
     { "strlen_P",         SYS_STRLEN_P         },
+    { "strcmp",           SYS_STRCMP           },
+    { "strcmp_P",         SYS_STRCMP_P         },
 };
 
 static bool isalpha(char c)

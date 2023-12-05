@@ -222,7 +222,10 @@ void compiler_t::codegen_expr(
         {
             if(a.children[1].type == AST::COMPOUND_LITERAL)
                 codegen_expr_compound(f, frame, a.children[1], type_noref);
-            else if(type_noref != a.children[1].comp_type.without_ref())
+            else if(
+                !a.children[1].comp_type.without_ref().is_array() ||
+                type_noref.children[0] !=
+                a.children[1].comp_type.without_ref().children[0].without_prog())
             {
                 errs.push_back({
                     "Incompatible types in assignment to \"" +
@@ -230,8 +233,20 @@ void compiler_t::codegen_expr(
                     a.line_info });
                 return;
             }
+            else if(type_noref.array_size() != a.children[1].comp_type.without_ref().array_size())
+            {
+                // TODO: char array special case
+                errs.push_back({
+                    "Assignment from array of different length",
+                    a.line_info });
+                return;
+            }
             else
+            {
                 codegen_expr(f, frame, a.children[1], false);
+                if(a.children[1].comp_type.is_ref())
+                    codegen_dereference(f, frame, a, a.children[1].comp_type.without_ref());
+            }
         }
 
         // dup value if not the root op

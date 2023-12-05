@@ -7,5 +7,20 @@ void main()
     
     $assert($strlen_P("what") == 4);
     
+    char[4] str = "blah";
+    $assert($strcmp_P(str, "blah" ) == 0);
+    $assert($strcmp_P(str, "what" ) <  0);
+    $assert($strcmp_P(str, "aaaa" ) >  0);
+    $assert($strcmp_P(str, "bla"  ) >  0);
+    $assert($strcmp_P(str, "blah2") <  0);
+    
+    $assert($strlen(str) == 4);
+    
+    char[4] str2;
+    
+    str2 = "blah" ; $assert($strcmp(str, str2) == 0);
+    str2 = "what" ; $assert($strcmp(str, str2) <  0);
+    str2 = "aaaa" ; $assert($strcmp(str, str2) >  0);
+    
     $debug_break();
 }
