@@ -233,6 +233,12 @@ void compiler_t::codegen_expr(
                     a.line_info });
                 return;
             }
+#if 0
+            else if(type_noref.children[0] == TYPE_CHAR)
+            {
+                // TODO: convert char array assignment to strcpy or strcpy_P?
+            }
+#endif
             else
             {
                 codegen_expr(f, frame, a.children[1], false);
