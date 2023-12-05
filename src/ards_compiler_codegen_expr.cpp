@@ -233,19 +233,12 @@ void compiler_t::codegen_expr(
                     a.line_info });
                 return;
             }
-            else if(type_noref.array_size() != a.children[1].comp_type.without_ref().array_size())
-            {
-                // TODO: char array special case
-                errs.push_back({
-                    "Assignment from array of different length",
-                    a.line_info });
-                return;
-            }
             else
             {
                 codegen_expr(f, frame, a.children[1], false);
                 if(a.children[1].comp_type.is_ref())
                     codegen_dereference(f, frame, a, a.children[1].comp_type.without_ref());
+                codegen_convert(f, frame, a, type_noref, a.children[1].comp_type.without_ref());
             }
         }
 

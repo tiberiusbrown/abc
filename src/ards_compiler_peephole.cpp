@@ -16,6 +16,8 @@ static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
 
 void compiler_t::peephole(compiler_func_t& f)
 {
+    while(peephole_remove_pop(f))
+        ;
     while(peephole_pre_push_compress(f))
         ;
     while(peephole_ref(f))
@@ -28,6 +30,29 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_compress_duplicate_pushes(f))
         ;
+}
+
+bool compiler_t::peephole_remove_pop(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+
+        // replace GETPN <N>; POP with GETPN <N-1>
+        if(i0.instr == I_GETPN && i0.imm > 1 && i1.instr == I_POP)
+        {
+            i0.imm -= 1;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+    }
+
+    return t;
 }
 
 bool compiler_t::peephole_linc(compiler_func_t& f)

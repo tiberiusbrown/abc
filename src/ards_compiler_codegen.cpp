@@ -499,6 +499,15 @@ void compiler_t::codegen_convert(
             errs.push_back({ "Cannot implicitly convert array elements", n.line_info });
             return;
         }
+        if(rto.children[0] == TYPE_CHAR)
+        {
+            // allow below resizing logic for char arrays
+        }
+        else if(rto.array_size() != rfrom.array_size())
+        {
+            errs.push_back({ "Incompatible array lengths", n.line_info });
+            return;
+        }
     }
     if(pfrom->is_ref())
     {

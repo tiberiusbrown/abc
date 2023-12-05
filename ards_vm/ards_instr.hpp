@@ -24,6 +24,8 @@ enum sysfunc_t : uint16_t
     SYS_STRLEN_P,
     SYS_STRCMP,
     SYS_STRCMP_P,
+    SYS_STRCPY,
+    SYS_STRCPY_P,
     SYS_STRCAT,
     SYS_STRCAT_P,
 
