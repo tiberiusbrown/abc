@@ -168,6 +168,7 @@ primary_expr        <- hex_literal /
                        bool_literal /
                        char_literal /
                        sprites_literal /
+                       font_literal /
                        ident /
                        '(' expr ')' /
                        string_literal
@@ -189,6 +190,9 @@ sprites_literal     <- 'sprites' '{' string_literal '}' /
                        'sprites' '{' decimal_literal 'x' decimal_literal sprite_data '}'
 sprite_data         <- string_literal / sprite_row+
 sprite_row          <- < [^\n}]+ >
+
+# TODO: change to float literal for font size
+font_literal        <- 'font' '{' decimal_literal string_literal '}'
 
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
@@ -440,6 +444,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["string_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::STRING_LITERAL, v.token() };
+        return a;
+    };
+
+    p["font_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::FONT, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
     };
 

@@ -19,7 +19,7 @@ std::unordered_set<std::string> const keywords =
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
-    "constexpr", "prog", "sprites", "struct", "import", "len",
+    "constexpr", "prog", "sprites", "font", "struct", "import", "len",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
@@ -42,6 +42,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "int",     TYPE_I16     },
     { "long",    TYPE_I32     },
     { "sprites", TYPE_SPRITES },
+    { "font",    TYPE_FONT    },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
@@ -49,6 +50,8 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_DISPLAY,          { TYPE_VOID, {} } },
     { SYS_DRAW_PIXEL,       { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8 } } },
     { SYS_DRAW_FILLED_RECT, { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
+    { SYS_DRAW_SPRITE,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 } } },
+    { SYS_DRAW_TEXT,        { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_FONT, TYPE_STR } } },
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
     { SYS_NEXT_FRAME,       { TYPE_BOOL, {} } },
     { SYS_IDLE,             { TYPE_VOID, {} } },
@@ -60,7 +63,6 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_PRESSED,          { TYPE_BOOL, { TYPE_U8 } } },
     { SYS_ANY_PRESSED,      { TYPE_BOOL, { TYPE_U8 } } },
     { SYS_NOT_PRESSED,      { TYPE_BOOL, { TYPE_U8 } } },
-    { SYS_DRAW_SPRITE,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 } } },
     { SYS_STRLEN,           { TYPE_U16,  { TYPE_STR } } },
     { SYS_STRLEN_P,         { TYPE_U24,  { TYPE_STR_PROG } } },
     { SYS_STRCMP,           { TYPE_I8,   { TYPE_STR, TYPE_STR } } },

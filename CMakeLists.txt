@@ -96,6 +96,7 @@ add_library(ards_compiler STATIC
     src/ards_compiler.hpp
     src/ards_compiler_codegen.cpp
     src/ards_compiler_codegen_expr.cpp
+    src/ards_compiler_font.cpp
     src/ards_compiler_parse.cpp
     src/ards_compiler_peephole.cpp
     src/ards_compiler_progdata.cpp

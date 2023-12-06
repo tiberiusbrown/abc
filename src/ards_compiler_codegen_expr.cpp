@@ -213,7 +213,7 @@ void compiler_t::codegen_expr(
             return;
         }
         auto const& type_noref = a.children[0].comp_type.without_ref();
-        if(type_noref.is_prim() || type_noref.is_sprites())
+        if(type_noref.is_prim() || type_noref.is_label_ref())
         {
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
@@ -500,6 +500,15 @@ void compiler_t::codegen_expr(
     {
         std::string label = progdata_label();
         add_progdata(label, TYPE_SPRITES, a);
+        f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
+        frame.size += 3;
+        return;
+    }
+
+    case AST::FONT:
+    {
+        std::string label = progdata_label();
+        add_progdata(label, TYPE_FONT, a);
         f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
         frame.size += 3;
         return;

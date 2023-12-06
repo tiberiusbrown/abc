@@ -1,0 +1,25 @@
+void setup()
+{
+}
+
+void loop()
+{
+    while(!$next_frame())
+        ;
+    
+    {
+        font f = font{ 16 "Alkhemikal.ttf" };
+        char[20] txt = "Hello there\nWorld!";
+        
+        $draw_text(0, 0, f, txt);
+    }
+    
+    $display();
+}
+
+void main()
+{
+    setup();
+    while(true)
+        loop();
+}

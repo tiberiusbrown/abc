@@ -58,6 +58,11 @@ void compiler_t::progdata_expr(
         encode_sprites(pd.data, n);
         break;
     }
+    case compiler_type_t::FONT:
+    {
+        encode_font(pd.data, n);
+        break;
+    }
     case compiler_type_t::PRIM:
     {
         if(n.type != AST::INT_CONST)

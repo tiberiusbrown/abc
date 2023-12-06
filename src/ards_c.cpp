@@ -7,13 +7,15 @@
 
 int main(int argc, char** argv)
 {
+    (void)argc;
+    (void)argv;
 
     ards::compiler_t c;
     ards::assembler_t a;
 
     std::stringstream fasm;
 
-    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/sprite/main.abc";
+    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/font/main.abc";
 
     c.compile(psrc.parent_path().string(), psrc.stem().string(), fasm);
     for(auto const& e : c.errors())
@@ -52,7 +54,7 @@ int main(int argc, char** argv)
         std::ofstream fbin(fxdata.string(), std::ios::out | std::ios::binary);
         if(!fbin)
         {
-            std::cerr << "Unable to open file: \"" << argv[1] << "\"" << std::endl;
+            std::cerr << "Unable to open file: \"" << fxdata.string() << "\"" << std::endl;
             return 1;
         }
         fbin.write((char const*)a.data().data(), a.data().size());

@@ -77,7 +77,7 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
         {
             uint8_t c = loaded_data[i * 2 + 0];
             uint8_t a = loaded_data[i * 2 + 1];
-            if     (a < 128) idata.push_back(0), masked = true;
+            if(a < 128) idata.push_back(0), masked = true;
             else if(c < 128) idata.push_back(1);
             else             idata.push_back(2);
         }
@@ -93,7 +93,7 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
             for(char c : row.data)
             {
                 if(isspace(c)) continue;
-                if     (c == '-') idata.push_back(0), masked = true;
+                if(c == '-') idata.push_back(0), masked = true;
                 else if(c == '.') idata.push_back(1);
                 else              idata.push_back(2);
             }
@@ -109,6 +109,15 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
         }
         ih = idata.size() / iw;
     }
+
+    encode_sprites_image(data, n, iw, ih, w, h, masked, idata);
+}
+
+void compiler_t::encode_sprites_image(
+    std::vector<uint8_t>& data, ast_node_t const& n,
+    size_t iw, size_t ih, size_t w, size_t h, bool masked,
+    std::vector<uint8_t> const& idata)
+{
 
     if(w == 0) w = iw;
     if(h == 0) h = ih;

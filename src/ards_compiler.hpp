@@ -91,6 +91,7 @@ enum class AST
     IDENT,
     SPRITES,    // children are w, h, TOKEN (children are rows/TOKEN)
                 //           or w, h, path string
+    FONT,       // children are pixel height and path string
 
     TYPE,
     TYPE_REF,   // reference (child is type)
@@ -119,6 +120,7 @@ struct compiler_type_t
         REF,
         ARRAY_REF,
         SPRITES,
+        FONT,
     } type;
 
     bool is_ref() const { return type == REF; }
@@ -128,8 +130,9 @@ struct compiler_type_t
     bool is_array() const { return type == ARRAY; }
     bool is_struct() const { return type == STRUCT; }
     bool is_sprites() const { return type == SPRITES; }
+    bool is_font() const { return type == FONT; }
 
-    bool is_label_ref() const { return is_sprites(); }
+    bool is_label_ref() const { return is_sprites() || is_font(); }
 
     // empty for primitives
     // element type for arrays
@@ -219,6 +222,9 @@ const compiler_type_t TYPE_I32 = { 4, true };
 
 const compiler_type_t TYPE_SPRITES = {
     3, false, false, false, false, false, compiler_type_t::SPRITES };
+
+const compiler_type_t TYPE_FONT = {
+    3, false, false, false, false, false, compiler_type_t::FONT };
 
 const compiler_type_t TYPE_CHAR = {
     1, false, false, false, false, true };
@@ -442,7 +448,17 @@ private:
     static std::vector<uint8_t> strlit_data(ast_node_t const& n);
     static compiler_type_t strlit_type(size_t len);
 
+    void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
+
+    // idata encoding:
+    //    0 - transparent
+    //    1 - black
+    //    2 - white
+    void encode_sprites_image(
+        std::vector<uint8_t>& data, ast_node_t const& n,
+        size_t iw, size_t ih, size_t w, size_t h, bool masked,
+        std::vector<uint8_t> const& idata);
 
     // perform a series of peephole optimizations on a function
     void peephole(compiler_func_t& f);

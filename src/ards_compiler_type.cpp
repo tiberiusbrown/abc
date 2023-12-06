@@ -116,6 +116,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     case AST::SPRITES:
         a.comp_type = TYPE_SPRITES;
         break;
+    case AST::FONT:
+        a.comp_type = TYPE_FONT;
+        break;
     case AST::COMPOUND_LITERAL:
         for(auto& child : a.children)
             type_annotate_recurse(child, frame);
@@ -206,7 +209,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 a.data == "/" || a.data == "%"));
 
         if((a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL) &&
-            (t0.is_sprites() && t1.is_sprites()))
+            (t0.is_label_ref() && t1.is_label_ref() && t0.type == t1.type))
         {
             a.comp_type = TYPE_BOOL;
             break;
