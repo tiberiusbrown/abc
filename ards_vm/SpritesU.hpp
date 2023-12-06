@@ -53,6 +53,7 @@ struct SpritesU
     static constexpr uint8_t MODE_PLUSMASK    = 1;
     static constexpr uint8_t MODE_OVERWRITEFX = 2;
     static constexpr uint8_t MODE_PLUSMASKFX  = 3;
+    static constexpr uint8_t MODE_SELFMASKFX  = 6;
 
     static void drawBasic(
         int16_t x, int16_t y, uint8_t w, uint8_t h,
@@ -204,11 +205,16 @@ void SpritesU::drawBasicNoChecks(
             lsl  %[shift_coef]
             sbrc %A[y], 2
             swap %[shift_coef]
+            ser  %A[shift_mask]
+            ser  %B[shift_mask]
+            sbrc %[mode], 2
+            rjmp 1f
             ldi  %[buf_adv], 0xff
             mul  %[buf_adv], %[shift_coef]
             movw %A[shift_mask], r0
             com  %A[shift_mask]
             com  %B[shift_mask]
+        1:
             
             asr  %B[y]
             ror  %A[y]
@@ -313,7 +319,10 @@ void SpritesU::drawBasicNoChecks(
 
     // precompute vertical shift coef and mask
     shift_coef = SpritesU_bitShiftLeftUInt8(y);
-    shift_mask = ~(0xff * shift_coef);
+    if(mode & 4)
+        shift_mask = 0xffff;
+    else
+        shift_mask = ~(0xff * shift_coef);
 
     // y /= 8 (round to -inf)
     y >>= 3;

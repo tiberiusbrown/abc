@@ -10,6 +10,7 @@ enum sysfunc_t : uint16_t
     SYS_DRAW_FILLED_RECT,
     SYS_DRAW_SPRITE,
     SYS_DRAW_TEXT,
+    SYS_DRAW_TEXT_P,
     SYS_SET_FRAME_RATE,
     SYS_NEXT_FRAME,
     SYS_IDLE,

@@ -52,6 +52,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_DRAW_FILLED_RECT, { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
     { SYS_DRAW_SPRITE,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 } } },
     { SYS_DRAW_TEXT,        { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_FONT, TYPE_STR } } },
+    { SYS_DRAW_TEXT_P,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_FONT, TYPE_STR_PROG } } },
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
     { SYS_NEXT_FRAME,       { TYPE_BOOL, {} } },
     { SYS_IDLE,             { TYPE_VOID, {} } },
@@ -314,21 +315,31 @@ std::string compiler_t::resolve_label_ref(
         add_progdata(label, TYPE_SPRITES, n);
         return label;
     }
+    else if(n.type == AST::FONT)
+    {
+        std::string label = progdata_label();
+        add_progdata(label, TYPE_FONT, n);
+        return label;
+    }
     else if(n.type == AST::IDENT)
     {
         if(auto* local = resolve_local(frame, n))
         {
-            if(local->var.type != t) goto wrong_type;
+            if(local->var.type != t)
+                goto wrong_type;
             if(!local->var.type.is_label_ref() || local->var.label_ref.empty()) goto non_ref_type;
             return local->var.label_ref;
         }
         if(auto* global = resolve_global(n))
         {
-            if(global->var.type != t) goto wrong_type;
+            if(global->var.type != t)
+                goto wrong_type;
             if(!global->var.type.is_label_ref() || global->var.label_ref.empty()) goto non_ref_type;
             return global->var.label_ref;
         }
     }
+
+    assert(false);
 
 wrong_type:
     errs.push_back({ "Incompatible types", n.line_info });

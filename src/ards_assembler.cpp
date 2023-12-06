@@ -13,6 +13,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "draw_filled_rect", SYS_DRAW_FILLED_RECT },
     { "draw_sprite",      SYS_DRAW_SPRITE      },
     { "draw_text",        SYS_DRAW_TEXT        },
+    { "draw_text_P",      SYS_DRAW_TEXT_P      },
     { "set_frame_rate",   SYS_SET_FRAME_RATE   },
     { "next_frame",       SYS_NEXT_FRAME       },
     { "idle",             SYS_IDLE             },

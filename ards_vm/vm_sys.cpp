@@ -231,7 +231,8 @@ static void draw_char(uint24_t font, int16_t x, int16_t y, uint8_t w, uint8_t h,
 {
     SpritesU::drawBasic(
         x, y, w, h, font + 257 + 5, uint8_t(c),
-        SpritesU::MODE_OVERWRITEFX);
+        SpritesU::MODE_SELFMASKFX);
+        //SpritesU::MODE_OVERWRITEFX);
 }
 
 static void sys_draw_text()
@@ -254,8 +255,48 @@ static void sys_draw_text()
     
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
-    while((c = ld_inc(p)) != '\0')
+    while((c = ld_inc(p)) != '\0' && tn != 0)
     {
+        --tn;
+        if(c == '\n')
+        {
+            x = bx;
+            y += line_height;
+            continue;
+        }
+        draw_char(font, x, y, w, h, c);
+        x += font_advance(font, c);
+    }
+    
+    FX::seekData(ards::vm.pc);
+}
+
+static void sys_draw_text_P()
+{
+    auto ptr = vm_pop_begin();
+    uint24_t tn   = vm_pop<uint24_t>(ptr);
+    uint24_t tb   = vm_pop<uint24_t>(ptr);
+    uint24_t font = vm_pop<uint24_t>(ptr);
+    int16_t  y    = vm_pop<int16_t> (ptr);
+    int16_t  x    = vm_pop<int16_t> (ptr);
+    vm_pop_end(ptr);
+    
+    (void)FX::readEnd();
+    uint8_t w, h, line_height;
+    FX::seekData(font + 256);
+    line_height = FX::readPendingUInt8();
+    w = FX::readPendingUInt8();
+    h = FX::readPendingLastUInt8();
+    int16_t bx = x;
+    
+    char c;
+    while(tn != 0)
+    {
+        FX::seekData(tb++);
+        c = FX::readPendingLastUInt8();
+        if(c == '\0') break;
+        --tn;
+        
         if(c == '\n')
         {
             x = bx;
@@ -403,6 +444,7 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_draw_filled_rect,
     sys_draw_sprite,
     sys_draw_text,
+    sys_draw_text_P,
     sys_set_frame_rate,
     sys_next_frame,
     sys_idle,
