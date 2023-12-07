@@ -34,6 +34,8 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "strcmp_P",         SYS_STRCMP_P         },
     { "strcpy",           SYS_STRCPY           },
     { "strcpy_P",         SYS_STRCPY_P         },
+    { "strcat",           SYS_STRCAT           },
+    { "strcat_P",         SYS_STRCAT_P         },
 };
 
 static bool isalpha(char c)

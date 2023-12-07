@@ -511,6 +511,75 @@ static void sys_strcpy_P()
     FX::seekData(ards::vm.pc);
 }
 
+static void sys_strcat()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t n1 = vm_pop<uint16_t>(ptr);
+    uint16_t b1 = vm_pop<uint16_t>(ptr);
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
+    uint16_t b0 = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    
+    char* p0 = reinterpret_cast<char*>(b0);
+    char const* p1 = reinterpret_cast<char*>(b1);
+    while(*p0 != '\0')
+    {
+        if(n0 == 0) return;
+        ++p0;
+        --n0;
+    }
+    
+    for(;;)
+    {
+        uint8_t c = ld_inc(p1);
+        if(c == 0) return;
+        st_inc(p0, c);
+        if(--n0 == 0) return;
+        if(--n1 == 0)
+        {
+            *p0 = '\0';
+            return;
+        }
+    }
+}
+
+static void sys_strcat_P()
+{
+    auto ptr = vm_pop_begin();
+    uint24_t n1 = vm_pop<uint24_t>(ptr);
+    uint24_t b1 = vm_pop<uint24_t>(ptr);
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
+    uint16_t b0 = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    
+    char* p0 = reinterpret_cast<char*>(b0);
+    while(*p0 != '\0')
+    {
+        if(n0 == 0) return;
+        ++p0;
+        --n0;
+    }
+    
+    (void)FX::readEnd();
+    FX::seekData(b1);
+    for(;;)
+    {
+        uint8_t c = FX::readPendingUInt8();
+        if(c == 0) goto done;
+        st_inc(p0, c);
+        if(--n0 == 0) goto done;
+        if(--n1 == 0)
+        {
+            *p0 = '\0';
+            goto done;
+        }
+    }
+    
+done:
+    (void)FX::readEnd();
+    FX::seekData(ards::vm.pc);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -540,4 +609,6 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_strcmp_P,
     sys_strcpy,
     sys_strcpy_P,
+    sys_strcat,
+    sys_strcat_P,
 };
