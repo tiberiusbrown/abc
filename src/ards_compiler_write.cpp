@@ -2,6 +2,8 @@
 
 #include <assert.h>
 
+#include <stdlib.h>
+
 namespace ards
 {
 
@@ -224,7 +226,29 @@ void compiler_t::write(std::ostream& f)
                 i += 1;
                 continue;
             }
-            f << "  .b " << (int)pd.data[i] << "\n";
+
+            size_t num = 1;
+            for(; num < 16; ++num)
+            {
+                if(!(i + num < pd.data.size() &&
+                    (rp >= pd.relocs_prog.size() || pd.relocs_prog[rp].first >= i + num) &&
+                    (rg >= pd.relocs_glob.size() || pd.relocs_glob[rg].first >= i + num)))
+                    break;
+            }
+
+            {
+                char hex[16];
+                snprintf(hex, sizeof(hex), "  .b %1x", (int)num - 1);
+                f << hex;
+                for(int j = 0; j < num; ++j)
+                {
+                    snprintf(hex, sizeof(hex), " %02x", pd.data[i + j]);
+                    f << hex;
+                }
+                f << "\n";
+                i += num - 1;
+                continue;
+            }
         }
     }
 

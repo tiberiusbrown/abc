@@ -486,7 +486,17 @@ error_t assembler_t::assemble(std::istream& f)
         }
         else if(t == ".b")
         {
-            push_imm(read_imm(f, error), 1);
+            auto flags = f.flags();
+            f >> std::hex;
+            int num;
+            f >> num;
+            for(int i = 0; i <= num; ++i)
+            {
+                int x;
+                f >> x;
+                push_imm(x, 1);
+            }
+            f.flags(flags);
         }
         else if(t == ".rg")
         {
