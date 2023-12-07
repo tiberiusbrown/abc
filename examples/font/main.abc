@@ -1,4 +1,5 @@
-constexpr font f = font{ 16 "Alkhemikal.ttf" };
+constexpr font font_styled = font{ 16 "Alkhemikal.ttf" };
+constexpr font font_small = font{ 6 "Berkelium1541.ttf" };
 
 void setup()
 {
@@ -9,7 +10,9 @@ void loop()
     while(!$next_frame())
         ;
     
-    $draw_text_P(0, 0, f, "Hello World!");
+    $draw_text_P(0, 0, font_styled, "Hello World!");
+    $draw_text_P(0, 20, font_small, "Hello World!");
+    $draw_text_P(0, 26, font_small, "adjunct professor");
     
     $display();
 }

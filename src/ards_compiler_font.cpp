@@ -21,7 +21,7 @@ namespace ards
 /*
 Font Encoding
 ================================
-Advances          (256 bytes)
+adv/lsb           (512 bytes)
 Line Height       (1 byte)
 ---------  image data  ---------
 Width             (1 byte)
@@ -72,8 +72,15 @@ void compiler_t::encode_font(std::vector<uint8_t>& data, ast_node_t const& n)
     int fw = 0;
     int fh = 0;
 
+    int min_lsb = 0;
+
     for(int i = 0; i < 256; ++i)
     {
+        int adv = 0;
+        int lsb = 0;
+        stbtt_GetCodepointHMetrics(&info, i, &adv, &lsb);
+        min_lsb = std::min(min_lsb, lsb);
+
         int x0 = 0;
         int y0 = 0;
         int x1 = 0;
@@ -106,12 +113,12 @@ void compiler_t::encode_font(std::vector<uint8_t>& data, ast_node_t const& n)
         int adv = 0;
         int lsb = 0;
         stbtt_GetCodepointHMetrics(&info, i, &adv, &lsb);
+        //lsb -= min_lsb;
         adv = (int)roundf(adv * scale);
         lsb = (int)roundf(lsb * scale);
-        lsb = std::max(lsb, 0);
 
-        adv = std::min(adv, 255);
-        data.push_back((uint8_t)adv);
+        data.push_back((uint8_t)std::min(lsb, 255));
+        data.push_back((uint8_t)std::min(adv, 255));
 
         int x0 = 0;
         int y0 = 0;
@@ -122,11 +129,11 @@ void compiler_t::encode_font(std::vector<uint8_t>& data, ast_node_t const& n)
         int y = ascent + y0;
         y = std::max(y, 0);
 
-        size_t byte_offset = size_t(fw * i + y * iw + lsb);
+        size_t byte_offset = size_t(fw * i + y * iw);
         stbtt_MakeCodepointBitmap(
             &info,
             idata.data() + byte_offset,
-            fw - lsb, fh - y,
+            fw, fh - y,
             (int)iw,
             scale, scale,
             i);
