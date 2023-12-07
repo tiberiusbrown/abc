@@ -11,8 +11,11 @@ void loop()
         ;
     
     $draw_text_P(0, 0, font_styled, "Hello World!");
-    $draw_text_P(0, 20, font_small, "Hello World!");
-    $draw_text_P(0, 26, font_small, "adjunct professor");
+    $draw_text_P(0, 18, font_small, "the quick brown fox jumps\nover the lazy dog");
+    $draw_text_P(0, 34, font_small, "THE QUICK BROWN FOX JUMPS\nOVER THE LAZY DOG");
+    
+    char[10] str = $udecstr($millis());
+    $draw_text(0, 50, font_styled, str);
     
     $display();
 }

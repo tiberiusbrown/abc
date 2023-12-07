@@ -229,6 +229,14 @@ const compiler_type_t TYPE_FONT = {
 const compiler_type_t TYPE_CHAR = {
     1, false, false, false, false, true };
 
+inline compiler_type_t type_char_array(size_t n)
+{
+    return {
+        n, false, false, false, false, false, compiler_type_t::ARRAY,
+        { TYPE_CHAR }
+    };
+};
+
 const compiler_type_t TYPE_STR = TYPE_CHAR.with_array_ref();
 const compiler_type_t TYPE_STR_PROG = TYPE_CHAR.with_prog().with_array_ref();
 

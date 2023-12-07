@@ -13,10 +13,18 @@ extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern "C" void vm_error(ards::error_t e);
 
 template<class T>
-__attribute__((always_inline)) inline uint8_t ld_inc(T const*& p)
+__attribute__((always_inline)) inline uint8_t ld_inc(T*& p)
 {
     uint8_t t;
     asm volatile("ld %[t], %a[p]+\n" : [t]"=&r"(t), [p]"+&e"(p));
+    return t;
+}
+
+template<class T>
+__attribute__((always_inline)) inline uint8_t ld_predec(T*& p)
+{
+    uint8_t t;
+    asm volatile("ld %[t], -%a[p]\n" : [t]"=&r"(t), [p]"+&e"(p));
     return t;
 }
 
@@ -196,6 +204,70 @@ static void sys_not_pressed()
     vm_pop_end(ptr);
     bool b = Arduboy2Base::notPressed(btns);
     vm_push((uint8_t)b);
+}
+
+static void sys_millis()
+{
+    vm_push((uint32_t)millis());
+}
+
+static void reverse_str(char* b, char* p)
+{
+    while(b < p)
+    {
+        char bc = *b;
+        char pc = (char)ld_predec(p);
+        st_inc(b, pc);
+        *p = bc;
+    }
+}
+
+static void sys_uhexstr()
+{
+    auto ptr = vm_pop_begin();
+    uint32_t x = vm_pop<uint32_t>(ptr);
+    vm_pop_end(ptr);
+    
+    struct { char d[8]; } str{};
+    
+    char* p = str.d;
+    if(x == 0)
+        st_inc(p, '0');
+    while(x != 0)
+    {
+        uint8_t r = x & 15;
+        x >>= 4;
+        st_inc(p, char(r + (r < 10 ? '0' : 'a' - 10)));
+    }
+    
+    // reverse
+    reverse_str(str.d, p);
+    
+    vm_push(str);
+}
+
+static void sys_udecstr()
+{
+    auto ptr = vm_pop_begin();
+    uint32_t x = vm_pop<uint32_t>(ptr);
+    vm_pop_end(ptr);
+    
+    struct { char d[10]; } str{};
+    
+    char* p = str.d;
+    if(x == 0)
+        st_inc(p, '0');
+    while(x != 0)
+    {
+        uint8_t r = x % 10;
+        x /= 10;
+        st_inc(p, char(r + '0'));
+    }
+    
+    // reverse
+    reverse_str(str.d, p);
+    
+    vm_push(str);
 }
 
 static void sys_draw_sprite()
@@ -458,6 +530,10 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_pressed,
     sys_any_pressed,
     sys_not_pressed,
+    sys_millis,
+    sys_uhexstr,
+    sys_udecstr,
+    //sys_idecstr,
     sys_strlen,
     sys_strlen_P,
     sys_strcmp,
