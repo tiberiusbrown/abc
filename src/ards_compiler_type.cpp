@@ -235,7 +235,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
         else if(is_divmod && t0.is_signed != t1.is_signed)
         {
-            t0.prim_size = t1.prim_size = std::max(t0.prim_size, t1.prim_size) + 1;
+            t0.prim_size = t1.prim_size = std::min<size_t>(4,
+                std::max(t0.prim_size, t1.prim_size) + 1);
         }
         if(t0 != t1 || ref0 || ref1)
         {
