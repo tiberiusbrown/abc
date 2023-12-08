@@ -75,6 +75,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_STRCPY_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
     { SYS_STRCAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR } } },
     { SYS_STRCAT_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
+    { SYS_FORMAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
 };
 
 static bool isspace(char c)

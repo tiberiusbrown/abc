@@ -298,9 +298,10 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             break;
         }
         auto f = resolve_func(a.children[0]);
+        bool is_format = (f.name == "$format");
         size_t used_args = a.children[1].children.size();
         size_t func_args = f.decl.arg_types.size();
-        if(used_args > func_args)
+        if(!is_format && used_args > func_args)
         {
             errs.push_back({
                 "Too many arguments to function \"" + f.name + "\"",
@@ -315,10 +316,27 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             return;
         }
         if(f.name.empty()) break;
-        for(size_t i = 0; i < func_args; ++i)
+
+        auto* arg_types = &f.decl.arg_types;
+        std::vector<compiler_type_t> format_types;
+        if(is_format)
+        {
+            std::string format_str;
+            resolve_format_call(a.children[1], format_types, format_str);
+            arg_types = &format_types;
+        }
+
+        for(size_t i = 0; i < used_args; ++i)
         {
             auto& c = a.children[1].children[i];
-            auto const& t = f.decl.arg_types[i];
+            auto const& t = (*arg_types)[i];
+            if(is_format && i == 1 && c.type != AST::STRING_LITERAL)
+            {
+                errs.push_back({
+                    "Format string for $format must be a string literal",
+                    c.line_info });
+                return;
+            }
             if(t.is_array_ref())
             {
                 if(c.comp_type.is_array_ref())
@@ -434,7 +452,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         {
             auto const& type = func.decl.arg_types[i];
             auto& expr = a.children[1].children[i];
-            if(type.type != compiler_type_t::PRIM)
+            if(!type.is_prim())
                 continue;
             type_reduce_recurse(expr, std::min(size, type.prim_size));
         }

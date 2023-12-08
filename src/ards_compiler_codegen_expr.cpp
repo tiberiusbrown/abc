@@ -5,6 +5,64 @@
 namespace ards
 {
 
+void compiler_t::resolve_format_call(
+        ast_node_t const& n, std::vector<compiler_type_t>& arg_types, std::string& fmt)
+{
+    assert(n.children.size() >= 2);
+    std::string_view d;
+    {
+        auto const& nc = n.children[1];
+        d = nc.type == AST::STRING_LITERAL ? nc.data : nc.children[0].data;
+    }
+
+    fmt.clear();
+    arg_types.clear();
+    arg_types.push_back(TYPE_STR);
+    arg_types.push_back(TYPE_STR_PROG);
+
+    for(auto it = d.begin(); it != d.end(); ++it)
+    {
+        char c = *it;
+        fmt += c;
+        if(c != '%')
+            continue;
+        if(++it == d.end())
+        {
+            errs.push_back({
+                "Trailing '%' in format string",
+                n.line_info });
+            return;
+        }
+        c = *it;
+        fmt += c;
+        switch(c)
+        {
+        case '%':
+            fmt += c;
+            break;
+        case 'd': arg_types.push_back(TYPE_I32); break;
+        case 'u':
+        case 'x': arg_types.push_back(TYPE_U32); break;
+        case 'c': arg_types.push_back(TYPE_CHAR); break;
+        case 's':
+        {
+            size_t i = arg_types.size();
+            auto const& t = n.children[i].comp_type.without_ref();
+            bool is_prog = t.is_prog;
+            if(t.is_array_ref() && t.children[0].is_prog) is_prog = true;
+            // TODO: optionally pop back and replace with specifier for prog str
+            arg_types.push_back(TYPE_STR);
+            break;
+        }
+        default:
+            errs.push_back({
+                std::string("Unknown format specifier: '%") + c + "'",
+                n.line_info });
+            return;
+        }
+    }
+}
+
 void compiler_t::codegen_expr(
     compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref)
 {
@@ -144,6 +202,7 @@ void compiler_t::codegen_expr(
         assert(a.children[0].type == AST::IDENT);
 
         auto func = resolve_func(a.children[0]);
+        bool is_format = (func.name == "$format");
 
         // TODO: test for reference return type (not allowed)
 
@@ -157,7 +216,7 @@ void compiler_t::codegen_expr(
         }
 
         assert(a.children[1].type == AST::FUNC_ARGS);
-        if(a.children[1].children.size() != func.decl.arg_types.size())
+        if(!is_format && a.children[1].children.size() != func.decl.arg_types.size())
         {
             errs.push_back({
                 "Incorrect number of arguments to function \"" + func.name + "\"",
@@ -165,11 +224,22 @@ void compiler_t::codegen_expr(
             return;
         }
 
+        auto* arg_types = &func.decl.arg_types;
+        std::vector<compiler_type_t> format_types;
+        std::string format_str;
+        if(is_format)
+        {
+            resolve_format_call(a.children[1], format_types, format_str);
+            arg_types = &format_types;
+        }
+
         // function args in reverse order
         size_t prev_size = frame.size;
-        for(size_t i = func.decl.arg_types.size(); i != 0; --i)
+        for(size_t i = arg_types->size(); i != 0; --i)
         {
-            auto const& type = func.decl.arg_types[i - 1];
+            if(!errs.empty())
+                return;
+            auto const& type = (*arg_types)[i - 1];
             auto const& expr = a.children[1].children[i - 1];
             bool tref = type.is_ref();
             if(tref && type.without_ref() != expr.comp_type.without_ref())
@@ -181,6 +251,21 @@ void compiler_t::codegen_expr(
             }
             if(expr.type == AST::COMPOUND_LITERAL)
                 codegen_expr_compound(f, frame, expr, type);
+            else if(is_format && i == 2)
+            {
+                // special handling for format string
+                assert(expr.type == AST::OP_AREF);
+                assert(expr.children[0].type == AST::STRING_LITERAL);
+
+                std::string label = progdata_label();
+                std::vector<uint8_t> data(format_str.begin(), format_str.end());
+                add_custom_progdata(label, data);
+                f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
+                f.instrs.push_back({ I_PUSH, a.line(), uint8_t(format_str.size() >> 0) });
+                f.instrs.push_back({ I_PUSH, a.line(), uint8_t(format_str.size() >> 8) });
+                f.instrs.push_back({ I_PUSH, a.line(), uint8_t(format_str.size() >> 16) });
+                frame.size += 6;
+            }
             else
             {
                 codegen_expr(f, frame, expr, tref);

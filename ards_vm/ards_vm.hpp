@@ -15,6 +15,7 @@ enum error_t : uint8_t
     ERR_DST, // data stack overflow
     ERR_CST, // call stack overflow
     ERR_FRM, // sprite frame outside of set
+    ERR_STR, // source and dest string overlap
     NUM_ERR,
 };
 

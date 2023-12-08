@@ -425,6 +425,9 @@ private:
     void transform_array_len(ast_node_t& n);
     void transform_constexprs(ast_node_t& n, compiler_frame_t const& frame);
 
+    void resolve_format_call(
+        ast_node_t const& n, std::vector<compiler_type_t>& arg_types, std::string& fmt);
+
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);

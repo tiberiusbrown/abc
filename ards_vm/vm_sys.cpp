@@ -12,6 +12,13 @@ using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern "C" void vm_error(ards::error_t e);
 
+__attribute__((noinline)) static void check_overlap(uint16_t b0, uint16_t n0, uint16_t b1, uint16_t n1)
+{
+    if(b0 + n0 <= b1) return;
+    if(b1 + n1 <= b0) return;
+    vm_error(ards::ERR_STR);
+}
+
 template<class T>
 __attribute__((always_inline)) inline uint8_t ld_inc(T*& p)
 {
@@ -580,6 +587,115 @@ done:
     FX::seekData(ards::vm.pc);
 }
 
+static inline void format_add_string(char*& p, uint16_t& n, char* tb, uint16_t tn)
+{
+    while(n != 0 && tn != 0)
+    {
+        uint8_t c = ld_inc(tb);
+        if(c == '\0') return;
+        st_inc(p, c);
+        --n;
+        --tn;
+    }
+}
+
+static void format_add_int(char*& p, uint16_t& n, uint32_t x, bool sign, uint8_t base)
+{
+    char buf[10];
+    char* tp = buf;
+    
+    if(n == 0) return;
+    
+    if(sign && (int32_t)x < 0)
+    {
+        st_inc(p, '-');
+        --n;
+        x = -x;
+    }
+
+    if(x == 0)
+        st_inc(tp, '0');
+    while(x != 0)
+    {
+        uint8_t r = x % base;
+        x /= base;
+        st_inc(tp, char(r + (r < 10 ? '0' : 'a' - 10)));
+    }
+    
+    // reverse
+    reverse_str(buf, tp);
+    
+    char* bb = buf;
+    while(bb < tp && n != 0)
+    {
+        uint8_t c = ld_inc(bb);
+        st_inc(p, c);
+        --n;
+    }
+}
+
+static void sys_format()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t dn = vm_pop<uint16_t>(ptr);
+    uint16_t db = vm_pop<uint16_t>(ptr);
+    uint24_t fn = vm_pop<uint24_t>(ptr);
+    uint24_t fb = vm_pop<uint24_t>(ptr);
+    
+    (void)FX::readEnd();
+    FX::seekData(fb);
+    
+    char* p = reinterpret_cast<char*>(db);
+    uint16_t n = dn;
+    
+    while(n != 0 && fn != 0)
+    {
+        char c = (char)FX::readPendingUInt8();
+        --fn;
+        if(c != '%')
+        {
+            st_inc(p, (uint8_t)c);
+            --n;
+            continue;
+        }
+        c = (char)FX::readPendingUInt8();
+        --fn;
+        switch(c)
+        {
+        case 'c':
+            c = vm_pop<char>(ptr);
+            // fallthrough
+        case '%':
+            st_inc(p, (uint8_t)c);
+            --n;
+            break;
+        case 's':
+        {
+            uint16_t tn = vm_pop<uint16_t>(ptr);
+            uint16_t tb = vm_pop<uint16_t>(ptr);
+            check_overlap(tb, tn, db, dn);
+            format_add_string(p, n, reinterpret_cast<char*>(tb), tn);
+            break;
+        }
+        case 'd':
+        case 'u':
+        case 'x':
+            format_add_int(p, n, vm_pop<uint32_t>(ptr), c == 'd', c == 'x' ? 16 : 10);
+            break;
+        default:
+            break;
+        }
+    }
+    
+    vm_pop_end(ptr);
+    
+    if(dn != 0)
+        *p = '\0';
+    
+    (void)FX::readEnd();
+    FX::seekData(ards::vm.pc);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -611,4 +727,5 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_strcpy_P,
     sys_strcat,
     sys_strcat_P,
+    sys_format,
 };
