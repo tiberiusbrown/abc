@@ -164,11 +164,13 @@ void compiler_t::codegen_expr(
                 a.line_info });
             return;
         }
+
+        // function args in reverse order
         size_t prev_size = frame.size;
-        for(size_t i = 0; i < func.decl.arg_types.size(); ++i)
+        for(size_t i = func.decl.arg_types.size(); i != 0; --i)
         {
-            auto const& type = func.decl.arg_types[i];
-            auto const& expr = a.children[1].children[i];
+            auto const& type = func.decl.arg_types[i - 1];
+            auto const& expr = a.children[1].children[i - 1];
             bool tref = type.is_ref();
             if(tref && type.without_ref() != expr.comp_type.without_ref())
             {

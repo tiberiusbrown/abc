@@ -116,10 +116,10 @@ static void sys_draw_filled_rect()
 {
     auto ptr = vm_pop_begin();
     uint8_t color = vm_pop<uint8_t>(ptr);
-    uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t w = vm_pop<uint8_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
     int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesU::fillRect(x, y, w, h, color);
 }
@@ -273,10 +273,10 @@ static void sys_udecstr()
 static void sys_draw_sprite()
 {
     auto ptr = vm_pop_begin();
-    uint16_t frame = vm_pop<uint16_t>(ptr);
-    uint24_t image = vm_pop<uint24_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
     int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t image = vm_pop<uint24_t>(ptr);
+    uint16_t frame = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
     FX::seekData(image);
@@ -304,11 +304,11 @@ static void draw_char(uint24_t font, int16_t x, int16_t y, uint8_t w, uint8_t h,
 static void sys_draw_text()
 {
     auto ptr = vm_pop_begin();
+    int16_t  x    = vm_pop<int16_t> (ptr);
+    int16_t  y    = vm_pop<int16_t> (ptr);
+    uint24_t font = vm_pop<uint24_t>(ptr);
     uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
-    int16_t  y    = vm_pop<int16_t> (ptr);
-    int16_t  x    = vm_pop<int16_t> (ptr);
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
@@ -344,11 +344,11 @@ static void sys_draw_text()
 static void sys_draw_text_P()
 {
     auto ptr = vm_pop_begin();
+    int16_t  x    = vm_pop<int16_t> (ptr);
+    int16_t  y    = vm_pop<int16_t> (ptr);
+    uint24_t font = vm_pop<uint24_t>(ptr);
     uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
-    int16_t  y    = vm_pop<int16_t> (ptr);
-    int16_t  x    = vm_pop<int16_t> (ptr);
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
@@ -422,10 +422,10 @@ static void sys_strlen_P()
 static void sys_strcmp()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
-    uint16_t b1 = vm_pop<uint16_t>(ptr);
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint16_t n1 = vm_pop<uint16_t>(ptr);
+    uint16_t b1 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     char const* p0 = reinterpret_cast<char const*>(b0);
     char const* p1 = reinterpret_cast<char const*>(b1);
@@ -445,10 +445,10 @@ static void sys_strcmp()
 static void sys_strcmp_P()
 {
     auto ptr = vm_pop_begin();
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
-    uint24_t b1 = vm_pop<uint24_t>(ptr);
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint24_t n1 = vm_pop<uint24_t>(ptr);
+    uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
     FX::seekData(b1);
@@ -471,10 +471,10 @@ static void sys_strcmp_P()
 static void sys_strcpy()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
-    uint16_t b1 = vm_pop<uint16_t>(ptr);
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint16_t n1 = vm_pop<uint16_t>(ptr);
+    uint16_t b1 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     char* p0 = reinterpret_cast<char*>(b0);
     char const* p1 = reinterpret_cast<char const*>(b1);
@@ -491,10 +491,10 @@ static void sys_strcpy()
 static void sys_strcpy_P()
 {
     auto ptr = vm_pop_begin();
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
-    uint24_t b1 = vm_pop<uint24_t>(ptr);
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint24_t n1 = vm_pop<uint24_t>(ptr);
+    uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
     FX::seekData(b1);
@@ -514,10 +514,10 @@ static void sys_strcpy_P()
 static void sys_strcat()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
-    uint16_t b1 = vm_pop<uint16_t>(ptr);
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint16_t n1 = vm_pop<uint16_t>(ptr);
+    uint16_t b1 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     
     char* p0 = reinterpret_cast<char*>(b0);
@@ -546,10 +546,10 @@ static void sys_strcat()
 static void sys_strcat_P()
 {
     auto ptr = vm_pop_begin();
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
-    uint24_t b1 = vm_pop<uint24_t>(ptr);
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint24_t n1 = vm_pop<uint24_t>(ptr);
+    uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     
     char* p0 = reinterpret_cast<char*>(b0);

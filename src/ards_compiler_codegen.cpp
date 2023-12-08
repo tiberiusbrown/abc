@@ -116,13 +116,13 @@ void compiler_t::codegen_function(compiler_func_t& f)
 
     frame.push();
 
-    // add func args to scope here
+    // add func args to scope in reverse order
     assert(f.arg_names.size() == f.decl.arg_types.size());
     auto& scope = frame.scopes.back();
-    for(size_t i = 0; i < f.arg_names.size(); ++i)
+    for(size_t i = f.arg_names.size(); i != 0; --i)
     {
-        auto const& name = f.arg_names[i];
-        auto const& type = f.decl.arg_types[i];
+        auto const& name = f.arg_names[i - 1];
+        auto const& type = f.decl.arg_types[i - 1];
         auto& local = scope.locals[name];
         size_t size = type.prim_size;
         local.frame_offset = frame.size;
