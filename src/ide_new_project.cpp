@@ -32,41 +32,41 @@ constexpr sprites DIGITS = sprites{
 
 void draw_num(i16 x, i16 y, u8 n)
 {
-	if(n < 10)
-		$draw_sprite(x, y, DIGITS, n);
-	else if(n < 100)
-	{
-		$draw_sprite(x, y, DIGITS, n / 10);
-		$draw_sprite(x + 4, y, DIGITS, n % 10);
-	}
-	else
-	{
-		if(n < 200)
-			$draw_sprite(x, y, DIGITS, 1);
-		else
-			$draw_sprite(x, y, DIGITS, 2);
-		n = n % 100;
-		$draw_sprite(x + 4, y, DIGITS, n / 10);
-		$draw_sprite(x + 8, y, DIGITS, n % 10);
-	}
+    if(n < 10)
+        $draw_sprite(x, y, DIGITS, n);
+    else if(n < 100)
+    {
+        $draw_sprite(x, y, DIGITS, n / 10);
+        $draw_sprite(x + 4, y, DIGITS, n % 10);
+    }
+    else
+    {
+        if(n < 200)
+            $draw_sprite(x, y, DIGITS, 1);
+        else
+            $draw_sprite(x, y, DIGITS, 2);
+        n = n % 100;
+        $draw_sprite(x + 4, y, DIGITS, n / 10);
+        $draw_sprite(x + 8, y, DIGITS, n % 10);
+    }
 }
 
 constexpr int MOVE_SPEED = 1;
 
 void setup()
 {
-	x = 56;
-	y = 24;
+    x = 56;
+    y = 24;
 }
 
 void loop()
 {
     while(!$next_frame())
         ;
-    if($pressed( 64)) x = x + MOVE_SPEED;
-    if($pressed( 32)) x = x - MOVE_SPEED;
-    if($pressed( 16)) y = y + MOVE_SPEED;
-    if($pressed(128)) y = y - MOVE_SPEED;
+    if($pressed(RIGHT_BUTTON)) x = x + MOVE_SPEED;
+    if($pressed(LEFT_BUTTON )) x = x - MOVE_SPEED;
+    if($pressed(DOWN_BUTTON )) y = y + MOVE_SPEED;
+    if($pressed(UP_BUTTON   )) y = y - MOVE_SPEED;
     
     $draw_filled_rect(x, y, 16, 16, 1);
     $draw_sprite(x -  8, y +  4, MY_SPRITE, 0);

@@ -78,6 +78,18 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_FORMAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
 };
 
+std::vector<builtin_constexpr_t> const builtin_constexprs
+{
+    { "WHITE",        TYPE_U8,   1 },
+    { "BLACK",        TYPE_U8,   0 },
+    { "A_BUTTON",     TYPE_U8,   1 << 3 },
+    { "B_BUTTON",     TYPE_U8,   1 << 2 },
+    { "UP_BUTTON",    TYPE_U8,   1 << 7 },
+    { "DOWN_BUTTON",  TYPE_U8,   1 << 4 },
+    { "LEFT_BUTTON",  TYPE_U8,   1 << 5 },
+    { "RIGHT_BUTTON", TYPE_U8,   1 << 6 },
+};
+
 static bool isspace(char c)
 {
     switch(c)
@@ -363,6 +375,17 @@ void compiler_t::compile(
     assert(sysfunc_decls.size() == SYS_NUM);
 
     import_set.clear();
+
+    globals.clear();
+    for(auto const& d : builtin_constexprs)
+    {
+        assert(globals.count(d.name) == 0);
+        auto& g = globals[d.name];
+        g.name = d.name;
+        g.var.type = d.type;
+        g.var.is_constexpr = true;
+        g.var.value = d.value;
+    }
 
     // create global constructor
     funcs.clear();

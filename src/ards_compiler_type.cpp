@@ -299,9 +299,20 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
         auto f = resolve_func(a.children[0]);
         bool is_format = (f.name == "$format");
+        if(f.name.empty()) break;
+
+        auto* arg_types = &f.decl.arg_types;
+        std::vector<compiler_type_t> format_types;
+        if(is_format)
+        {
+            std::string format_str;
+            resolve_format_call(a.children[1], format_types, format_str);
+            arg_types = &format_types;
+        }
+
         size_t used_args = a.children[1].children.size();
-        size_t func_args = f.decl.arg_types.size();
-        if(!is_format && used_args > func_args)
+        size_t func_args = arg_types->size();
+        if(used_args > func_args)
         {
             errs.push_back({
                 "Too many arguments to function \"" + f.name + "\"",
@@ -314,16 +325,6 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 "Too few arguments to function \"" + f.name + "\"",
                 a.line_info });
             return;
-        }
-        if(f.name.empty()) break;
-
-        auto* arg_types = &f.decl.arg_types;
-        std::vector<compiler_type_t> format_types;
-        if(is_format)
-        {
-            std::string format_str;
-            resolve_format_call(a.children[1], format_types, format_str);
-            arg_types = &format_types;
         }
 
         for(size_t i = 0; i < used_args; ++i)

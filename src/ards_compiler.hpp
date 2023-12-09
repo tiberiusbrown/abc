@@ -364,6 +364,15 @@ extern std::unordered_set<std::string> const keywords;
 extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
 extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
 
+struct builtin_constexpr_t
+{
+    std::string name;
+    compiler_type_t type;
+    int64_t value;
+};
+
+extern std::vector<builtin_constexpr_t> const builtin_constexprs;
+
 struct compiler_t
 {
     compiler_t();
@@ -482,7 +491,7 @@ private:
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
 
     void write(std::ostream& f);
-    
+
     // parse data
     std::string input_data;
 

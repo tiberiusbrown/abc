@@ -122,11 +122,11 @@ static void sys_draw_pixel()
 static void sys_draw_filled_rect()
 {
     auto ptr = vm_pop_begin();
-    uint8_t color = vm_pop<uint8_t>(ptr);
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesU::fillRect(x, y, w, h, color);
 }

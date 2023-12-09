@@ -13,7 +13,7 @@ void loop()
     $draw_text_P(0, 0, font_styled, "Hello World!");
     $draw_text_P(0, 18, font_small, "the quick brown fox jumps\nover the lazy dog");
     $draw_text_P(0, 34, font_small, "THE QUICK BROWN FOX JUMPS\nOVER THE LAZY DOG");
-    
+        
     char[20] str;
     $format(str, "seconds: %u", $millis() / 1000);
     $draw_text(0, 50, font_styled, str);

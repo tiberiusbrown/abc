@@ -99,9 +99,9 @@ void project_window_contents()
     {
         nf_buf[0] = '\0';
         if(MenuItem(ICON_FA_FILE_CODE  " ABC Code     (.abc)")) nf_type = NF_CODE;
-        MenuItem(ICON_FA_FILE_IMAGE " Sprite Set   (.png)");
-        MenuItem(ICON_FA_FILE_ALT   " Text Data    (.txt)");
-        MenuItem(ICON_FA_FILE_AUDIO " Music        (.mid)");
+        //MenuItem(ICON_FA_FILE_IMAGE " Sprite Set   (.png)");
+        //MenuItem(ICON_FA_FILE_ALT   " Text Data    (.txt)");
+        //MenuItem(ICON_FA_FILE_AUDIO " Music        (.mid)");
         
         EndMenu();
     }

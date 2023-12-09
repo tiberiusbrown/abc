@@ -2597,7 +2597,7 @@ call_vm_error:
 
 void vm_run()
 {
-    Arduboy2Base::setFrameDuration(33);
+    Arduboy2Base::setFrameDuration(50);
     
     memset(&vm, 0, sizeof(vm));
     
