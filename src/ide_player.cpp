@@ -22,7 +22,6 @@ void player_run()
         arduboy->reset();
         arduboy->paused = true;
         player_active = false;
-        return;
     }
     if(!compile_all())
         return;
@@ -155,8 +154,12 @@ void player_window_contents(uint64_t dt)
     SetCursorPosX((GetWindowSize().x - button_size.x) * 0.5f);
     if(player_active)
     {
-        if(Button(ICON_FA_STOP_CIRCLE " Stop (F5)", button_size))
-            player_run();
+        if(Button(ICON_FA_STOP_CIRCLE " Stop", button_size))
+        {
+            arduboy->reset();
+            arduboy->paused = true;
+            player_active = false;
+        }
     }
     else
     {

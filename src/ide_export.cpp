@@ -87,17 +87,21 @@ static void export_arduboy()
         w.Key("schemaVersion");
         w.String("3");
         w.Key("title");
-        w.String(project.info.name.c_str());
+        //w.String(project.info.name.c_str());
+        w.String("TODO");
         w.Key("description");
-        w.String(project.info.desc.c_str());
+        //w.String(project.info.desc.c_str());
+        w.String("TODO");
         w.Key("author");
-        w.String(project.info.author.c_str());
+        //w.String(project.info.author.c_str());
+        w.String("TODO");
 
         w.Key("binaries");
         w.StartArray();
         w.StartObject();
         w.Key("title");
-        w.String(project.info.name.c_str());
+        //w.String(project.info.name.c_str());
+        w.String("TODO");
         w.Key("filename");
         w.String("interp.hex");
         w.Key("flashdata");
@@ -137,13 +141,21 @@ static void export_arduboy()
 
     // add project files
     mz_zip_writer_add_mem(&zip, "abc/", nullptr, 0, compression);
-    for(auto const& [n, f] : project.files)
+    for(auto const& e : std::filesystem::recursive_directory_iterator(project.root.path))
     {
-        mz_zip_writer_add_mem(
-            &zip, ("abc/" + n).c_str(),
-            f->content.data(), f->content.size(),
-            compression);
+        mz_zip_writer_add_file(
+            &zip,
+            e.path().lexically_relative(project.root.path).string().c_str(),
+            e.path().string().c_str(),
+            nullptr, 0, compression);
     }
+    //for(auto const& [n, f] : project.files)
+    //{
+    //    mz_zip_writer_add_mem(
+    //        &zip, ("abc/" + n).c_str(),
+    //        f->content.data(), f->content.size(),
+    //        compression);
+    //}
 
     mz_zip_writer_finalize_archive(&zip);
     mz_zip_writer_end(&zip);

@@ -27,26 +27,20 @@ bool compile_all()
 
     do
     {
-        std::string n = "main.abc";
-        if(project.files.count(n) == 0)
+        auto fpath = project.root.path / "main.abc";
+        if(!std::filesystem::exists(fpath))
         {
             project.errors["<Project>"].push_back({ "No main.abc found" });
             break;
         };
-        auto const& f = project.files[n];
-        std::stringstream ss(f->content_as_string());
         std::stringstream sout;
-        auto loader = [&](std::string const& filename, std::vector<char>& t) -> bool {
-            auto it = project.files.find(filename);
-            if(it == project.files.end()) return false;
-            auto const& c = it->second->content;
-            t = std::vector<char>(c.begin(), c.end());
-            return true;
-        };
-        c.compile("", n.substr(0, n.size() - 4), loader, sout);
+        c.compile(project.root.path.string(), "main", sout);
         asms.push_back(sout.str());
+        std::string ef;
+        if(!c.errors().empty())
+            ef = std::filesystem::path(c.error_file()).lexically_relative(project.root.path).string();
         for(auto const& e : c.errors())
-            project.errors[n].push_back(e);
+            project.errors[ef].push_back(e);
     } while(0);
 
     if(!project.errors.empty())

@@ -2,6 +2,8 @@
 
 #include "ide_common.hpp"
 
+#include <fstream>
+#include <sstream>
 #include <strstream>
 
 #include <imgui.h>
@@ -18,6 +20,7 @@ float pixel_ratio;
 project_t project;
 std::unordered_map<std::string, std::unique_ptr<open_file_t>> open_files;
 
+static bool fs_ready = false;
 static ImGuiStyle default_style;
 ImGuiID dockspace_id;
 ImGuiID dockid_project;
@@ -26,14 +29,12 @@ extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
 
-std::string project_file_t::content_as_string() const
+open_file_t::open_file_t(std::string const& filename)
+    : path(std::filesystem::path(filename).lexically_normal())
+    , rel_path(path.lexically_relative(project.root.path))
+    , dirty(false)
+    , open(true)
 {
-    return std::string(content.begin(), content.end());
-}
-
-void project_file_t::set_content(std::string const& s)
-{
-    content = std::vector<uint8_t>(s.begin(), s.end());
 }
 
 void open_file_t::save()
@@ -57,11 +58,18 @@ void open_file_t::window()
     End();
 }
 
+std::string open_file_t::read_as_string() const
+{
+    std::ifstream f(path, std::ios::in | std::ios::binary);
+    if(f.fail()) return "";
+    std::stringstream ss;
+    ss << f.rdbuf();
+    return ss.str();
+}
+
 std::string open_file_t::filename() const
 {
-    if(auto f = file.lock())
-        return f->filename;
-    return "<deleted>";
+    return rel_path.string();
 }
 
 std::string open_file_t::window_title()
@@ -74,13 +82,6 @@ std::string open_file_t::window_title()
 std::string open_file_t::window_id()
 {
     return window_title() + "###file_" + filename();
-}
-
-std::shared_ptr<project_file_t> project_t::get_file(std::string const& filename)
-{
-    if(auto it = files.find(filename); it != files.end())
-        return it->second;
-    return nullptr;
 }
 
 void frame_logic()
@@ -102,7 +103,11 @@ void imgui_content()
         if(BeginMenu("File"))
         {
             import_menu_item();
+            if(!project.active())
+                BeginDisabled();
             export_menu_items();
+            if(!project.active())
+                EndDisabled();
             EndMenu();
         }
         {
@@ -129,8 +134,22 @@ void imgui_content()
     static bool firstinit = false;
     if(!firstinit)
     {
-        new_project();
+        //new_project();
         firstinit = true;
+
+        // set up docking
+        using namespace ImGui;
+        ImGuiID t0;
+        DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.20f, &dockid_project, &t0);
+        ImGuiDockNode* p = ImGui::DockBuilderGetNode(dockid_project);
+        p->LocalFlags |=
+            ImGuiDockNodeFlags_NoTabBar |
+            ImGuiDockNodeFlags_NoDockingOverMe |
+            ImGuiDockNodeFlags_NoDockingSplitMe;
+        ImGuiDockNode* root = ImGui::DockBuilderGetNode(dockspace_id);
+        root->LocalFlags |= ImGuiDockNodeFlags_NoDockingSplitMe;
+
+        update_cached_files();
     }
 
     //ShowDemoWindow();
@@ -207,9 +226,26 @@ void shutdown()
     player_shutdown();
 }
 
+extern "C" void postsyncfs()
+{
+    fs_ready = true;
+    project = {};
+    project.root.is_dir = true;
+    project.root.path = std::filesystem::path("/offline").lexically_normal();
+    update_cached_files();
+}
+
 void init()
 {
     printf("ABC IDE " ABC_VERSION " by Peter Brown\n");
+
+#ifdef __EMSCRIPTEN__
+    EM_ASM(
+        FS.mkdir('/offline');
+    FS.mount(IDBFS, {}, '/offline');
+    FS.syncfs(true, function(err) { ccall('postsyncfs', 'v'); });
+    );
+#endif
 
     //init_settings();
 
@@ -261,10 +297,9 @@ static bool ends_with(std::string const& str, std::string const& suffix)
     return std::equal(suffix.begin(), suffix.end(), str.end() - suffix.size());
 }
 
-bool open_file(std::string const& filename)
+bool open_file(std::filesystem::path const& p)
 {
-    if(project.files.count(filename) == 0)
-        return false;
+    std::string filename = p.lexically_normal().string();
     if(open_files.count(filename) != 0)
     {
         make_tab_visible(open_files[filename]->window_id());
@@ -276,4 +311,66 @@ bool open_file(std::string const& filename)
         return false;
     make_tab_visible(open_files[filename]->window_id());
     return true;
+}
+
+void close_file(std::filesystem::path const& p)
+{
+    std::string filename = p.lexically_normal().string();
+    if(open_files.count(filename) == 0)
+        return;
+    open_files.erase(filename);
+}
+
+static void refresh_cached_files_in_dir(cached_file_t& dir)
+{
+    assert(dir.is_dir);
+    dir.children.clear();
+    for(auto const& e : std::filesystem::directory_iterator(dir.path))
+    {
+        if(e.path().filename().c_str()[0] == '.')
+            continue;
+        cached_file_t f{};
+        f.path = e.path();
+        if(e.is_directory())
+        {
+            f.is_dir = true;
+            refresh_cached_files_in_dir(f);
+        }
+        dir.children.emplace_back(std::move(f));
+    }
+    std::sort(dir.children.begin(), dir.children.end());
+}
+
+static void catalog_all_files(
+    cached_file_t const& dir,
+    std::unordered_set<std::filesystem::path>& files)
+{
+    assert(dir.is_dir);
+    for(auto const& child : dir.children)
+    {
+        if(child.is_dir)
+            catalog_all_files(child, files);
+        else
+            files.insert(child.path);
+    }
+}
+
+void update_cached_files()
+{
+    if(!project.active()) return;
+    refresh_cached_files_in_dir(project.root);
+
+    std::unordered_set<std::filesystem::path> files;
+    catalog_all_files(project.root, files);
+    std::vector<std::string> files_to_close;
+    for(auto const& kv : open_files)
+    {
+        auto const& filename = kv.first;
+        if(files.count(filename) == 0)
+            files_to_close.push_back(filename);
+    }
+
+    // TODO: make file dirty instead of closing?
+    for(auto const& f : files_to_close)
+        close_file(f);
 }

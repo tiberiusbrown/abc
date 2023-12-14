@@ -374,9 +374,18 @@ void compiler_t::compile(
 {
     assert(sysfunc_decls.size() == SYS_NUM);
 
-    import_set.clear();
-
+    funcs.clear();
     globals.clear();
+    structs.clear();
+
+    errs.clear();
+    warns.clear();
+
+    compiled_files.clear();
+    import_set.clear();
+    progdata.clear();
+    input_data.clear();
+
     for(auto const& d : builtin_constexprs)
     {
         assert(globals.count(d.name) == 0);
@@ -388,7 +397,6 @@ void compiler_t::compile(
     }
 
     // create global constructor
-    funcs.clear();
     {
         auto& f = funcs[GLOBINIT_FUNC];
         f.name = GLOBINIT_FUNC;

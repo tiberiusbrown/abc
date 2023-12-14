@@ -1,5 +1,7 @@
 #include "ide_common.hpp"
 
+#include <fstream>
+
 #include <imgui_internal.h>
 #include <imgui_stdlib.h>
 
@@ -8,7 +10,9 @@
 
 struct open_project_info_file_t : public open_file_t
 {
-    project_info_t info;
+    std::string name;
+    std::string author;
+    std::string desc;
 
     open_project_info_file_t();
 
@@ -40,34 +44,36 @@ open_project_info_file_t::open_project_info_file_t()
 
 void open_project_info_file_t::load()
 {
-    info = {};
+    name.clear();
+    author.clear();
+    desc.clear();
 
-    auto f = file.lock();
-    if(!f) return;
+    std::string content = read_as_string();
+
     rapidjson::Document doc;
     rapidjson::ParseResult ok = doc.Parse<
         rapidjson::kParseCommentsFlag |
         rapidjson::kParseTrailingCommasFlag |
-        0>((char*)f->content.data(), f->content.size());
+        0>(content.data(), content.size());
     if(!ok) return;
 
     if(doc.HasMember("name"))
     {
         auto const& j = doc["name"];
         if(j.IsString())
-            info.name = j.GetString();
+            name = j.GetString();
     }
     if(doc.HasMember("author"))
     {
         auto const& j = doc["author"];
         if(j.IsString())
-            info.author = j.GetString();
+            author = j.GetString();
     }
     if(doc.HasMember("desc"))
     {
         auto const& j = doc["desc"];
         if(j.IsString())
-            info.desc = j.GetString();
+            desc = j.GetString();
     }
 }
 
@@ -79,40 +85,38 @@ void open_project_info_file_t::window_contents()
 
     TextUnformatted("       Name:");
     SameLine();
-    if(InputText("##Name", &info.name))
+    if(InputText("##Name", &name))
         dirty = true;
 
     TextUnformatted("     Author:");
     SameLine();
-    if(InputText("##Author", &info.author))
+    if(InputText("##Author", &author))
         dirty = true;
 
     PopItemWidth();
 
     TextUnformatted("Description:");
     SameLine();
-    if(InputTextMultiline("##Desc", &info.desc, { -1, 0 }))
+    if(InputTextMultiline("##Desc", &desc, { -1, 0 }))
         dirty = true;
 }
 
 void open_project_info_file_t::save_impl()
 {
-    auto f = file.lock();
-    if(!f) return;
+    std::ofstream f(path);
+    if(f.fail()) return;
 
     rapidjson::StringBuffer s;
     rapidjson::PrettyWriter<rapidjson::StringBuffer> w(s);
 
     w.StartObject();
     w.Key("name");
-    w.String(info.name.c_str());
+    w.String(name.c_str());
     w.Key("author");
-    w.String(info.author.c_str());
+    w.String(author.c_str());
     w.Key("desc");
-    w.String(info.desc.c_str());
+    w.String(desc.c_str());
     w.EndObject();
 
-    f->set_content(s.GetString());
-
-    project.info = info;
+    f << s.GetString();
 }

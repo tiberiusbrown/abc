@@ -13,9 +13,9 @@
 #include <miniz_zip.h>
 #include <rapidjson/document.h>
 
+#if 0
 static void process_arduboy_file(std::vector<uint8_t> const& data)
 {
-    std::map<std::string, std::shared_ptr<project_file_t>> files;
     mz_zip_archive zip{};
 
     if(data.empty())
@@ -81,6 +81,7 @@ error:
     // TODO
     return;
 }
+#endif
 
 #ifdef __EMSCRIPTEN__
 static void web_upload_handler(
@@ -97,6 +98,7 @@ static void web_upload_handler(
 }
 #endif
 
+#if 0
 static void import_arduboy_file()
 {
     {
@@ -116,10 +118,26 @@ static void import_arduboy_file()
 #endif
     }
 }
+#endif
+
+static void open_directory()
+{
+    NFD::UniquePath path;
+    auto result = NFD::PickFolder(path);
+    if(result != NFD_OKAY) return;
+    project = {};
+    project.root.is_dir = true;
+    project.root.path = std::filesystem::path(path.get()).lexically_normal();
+    update_cached_files();
+}
 
 void import_menu_item()
 {
     using namespace ImGui;
+    if(MenuItem("Open directory..."))
+        open_directory();
+#if 0
     if(MenuItem("Import .arduboy file..."))
         import_arduboy_file();
+#endif
 }

@@ -144,7 +144,6 @@ add_executable(abc ${EXE_TYPE}
     src/ide_hexdata.cpp
     src/ide_import.cpp
     src/ide_main.cpp
-    src/ide_new_project.cpp
     src/ide_player.cpp
     src/ide_project.cpp
     src/ide_project_info.cpp

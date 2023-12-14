@@ -403,6 +403,8 @@ struct compiler_t
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
 
+    std::string error_file() const { return current_path; }
+
 private:
 
     void parse(std::vector<char> const& fi, ast_node_t& ast);

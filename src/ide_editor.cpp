@@ -51,10 +51,7 @@ open_code_file_t::open_code_file_t(std::string const& filename)
     editor.SetPalette(editor.GetDarkPalette());
     editor.SetShowWhitespaces(false);
     editor.SetLanguageDefinition(ABC());
-    if(auto f = file.lock())
-    {
-        editor.SetText(f->content_as_string());
-    }
+    editor.SetText(read_as_string());
 }
 
 void open_code_file_t::window_contents()
@@ -77,10 +74,7 @@ void open_code_file_t::window_contents()
 
 void open_code_file_t::save_impl()
 {
-    if(auto f = file.lock())
-    {
-        f->set_content(editor.GetText());
-        if(!f->content.empty())
-            f->content.pop_back();
-    }
+    std::ofstream f(path, std::ios::out | std::ios::binary);
+    if(f.fail()) return;
+    f << editor.GetText();
 }

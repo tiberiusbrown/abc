@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <map>
 #include <memory>
 #include <string>
@@ -34,44 +35,37 @@ struct texture_t
     ~texture_t();
 };
 
-struct project_info_t
+struct cached_file_t
 {
-    std::string name;
-    std::string author;
-    std::string desc;
+    std::filesystem::path path;
+    bool is_dir;
+    std::vector<cached_file_t> children;
+    bool operator<(cached_file_t const& f)
+    {
+        return std::tie(is_dir, path) < std::tie(f.is_dir, f.path);
+    }
 };
 
-struct project_file_t
-{
-    std::string filename;
-    std::vector<uint8_t> content;
-    std::string asset_info;
-    std::string content_as_string() const;
-    void set_content(std::string const& s);
-};
 struct project_t
 {
-    project_info_t info;
-    std::map<std::string, std::shared_ptr<project_file_t>> files;
+    cached_file_t root;
     std::map<std::string, std::vector<ards::error_t>> errors;
     std::vector<uint8_t> binary;
-
-    std::shared_ptr<project_file_t> get_file(std::string const& filename);
+    void update_cached_files();
+    bool active() { return !root.path.empty(); }
 };
 extern project_t project;
 
 struct open_file_t
 {
-    std::weak_ptr<project_file_t> file;
+    std::filesystem::path path;
+    std::filesystem::path rel_path;
     bool dirty;
     bool open;
-    open_file_t(std::string const& filename)
-        : file(project.get_file(filename))
-        , dirty(false)
-        , open(true)
-    {}
+    open_file_t(std::string const& filename);
     void save();
     void window();
+    std::string read_as_string() const;
     std::string filename() const;
     virtual std::string window_title();
     virtual std::string window_id();
@@ -92,7 +86,9 @@ void define_font();
 void rebuild_fonts();
 void rescale_style();
 void make_tab_visible(std::string const& window_name);
-bool open_file(std::string const& filename);
+bool open_file(std::filesystem::path const& p);
+void close_file(std::filesystem::path const& p);
+void update_cached_files();
 
 // ide_compile.cpp
 bool compile_all();
