@@ -348,7 +348,7 @@ static void refresh_cached_files_in_dir(cached_file_t& dir)
 
 static void catalog_all_files(
     cached_file_t const& dir,
-    std::unordered_set<std::filesystem::path>& files)
+    std::unordered_set<std::string>& files)
 {
     assert(dir.is_dir);
     for(auto const& child : dir.children)
@@ -356,7 +356,7 @@ static void catalog_all_files(
         if(child.is_dir)
             catalog_all_files(child, files);
         else
-            files.insert(child.path);
+            files.insert(child.path.string());
     }
 }
 
@@ -365,7 +365,7 @@ void update_cached_files()
     if(!project.active()) return;
     refresh_cached_files_in_dir(project.root);
 
-    std::unordered_set<std::filesystem::path> files;
+    std::unordered_set<std::string> files;
     catalog_all_files(project.root, files);
     std::vector<std::string> files_to_close;
     for(auto const& kv : open_files)
