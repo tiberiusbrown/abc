@@ -685,6 +685,14 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             f.filename = fname + ".abc";
             f.block = std::move(n.children[2]);
 
+            if(name == "main" && f.decl.return_type != TYPE_VOID)
+            {
+                errs.push_back({
+                    "The 'main' function must have return type 'void'",
+                    n.children[0].line_info });
+                return;
+            }
+
             // decl args
             auto const& decls = n.children[3].children;
             assert(decls.size() % 2 == 0);
@@ -695,6 +703,14 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 assert(tname.type == AST::IDENT);
                 f.arg_names.push_back(std::string(tname.data));
                 f.decl.arg_types.push_back(resolve_type(ttype));
+            }
+
+            if(name == "main" && !f.arg_names.empty())
+            {
+                errs.push_back({
+                    "The 'main' function must take no arguments",
+                    n.children[3].line_info });
+                return;
             }
         }
         else if(n.type == AST::STRUCT_STMT)

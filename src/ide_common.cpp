@@ -12,6 +12,9 @@
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
+
+#include <basic_main.hpp>
+#include <basic_font.hpp>
 #endif
 
 #ifndef ABC_VERSION
@@ -231,6 +234,7 @@ void shutdown()
     player_shutdown();
 }
 
+#ifdef __EMSCRIPTEN__
 extern "C" void postsyncfs()
 {
     fs_ready = true;
@@ -241,9 +245,18 @@ extern "C" void postsyncfs()
     {
         std::error_code ec;
         std::filesystem::create_directory(project.root.path);
+        {
+            std::ofstream f(project.root.path / "main.abc", std::ios::out | std::ios::binary);
+            f.write((char const*)BASIC_MAIN, sizeof(BASIC_MAIN));
+        }
+        {
+            std::ofstream f(project.root.path / "font.ttf", std::ios::out | std::ios::binary);
+            f.write((char const*)BASIC_FONT, sizeof(BASIC_FONT));
+        }
     }
     update_cached_files();
 }
+#endif
 
 void init()
 {

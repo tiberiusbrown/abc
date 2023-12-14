@@ -1,5 +1,5 @@
 constexpr font font_styled = font{ 16 "Alkhemikal.ttf" };
-constexpr font font_small = font{ 6 "Berkelium1541.ttf" };
+constexpr font font_small = font{ 6 "font.ttf" };
 
 void setup()
 {
