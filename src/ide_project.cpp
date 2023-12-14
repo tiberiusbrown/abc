@@ -19,7 +19,7 @@ static char const* PROJECT_MODAL_ID = "###projectmodal";
 enum modal_type_t
 {
     MT_NONE,
-    MT_NEW_CODE,
+    MT_NEW_FILE,
     MT_DELETE,
     MT_RENAME,
 } modal_type = MT_NONE;
@@ -42,10 +42,11 @@ static void modal()
     if(!IsPopupOpen(PROJECT_MODAL_ID))
         OpenPopup(PROJECT_MODAL_ID);
 
+    bool dir = (*nf_ext == '\0');
     std::string title = "???";
     switch(modal_type)
     {
-    case MT_NEW_CODE: title = "New ABC Code File"; break;
+    case MT_NEW_FILE: title = dir ? "New Directory" : "New File"; break;
     case MT_DELETE: title = "Delete File"; break;
     case MT_RENAME: title = "Rename File"; break;
     default: break;
@@ -55,7 +56,7 @@ static void modal()
     if(!BeginPopupModal(title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
         return;
 
-    if(modal_type == MT_NEW_CODE)
+    if(modal_type == MT_NEW_FILE)
     {
         AlignTextToFramePadding();
         TextUnformatted("Name:");
@@ -75,15 +76,24 @@ static void modal()
     ImVec2 button_size = { pixel_ratio * 100.f, 0.f };
     if(Button("OK", button_size))
     {
-        if(modal_type == MT_NEW_CODE)
+        if(modal_type == MT_NEW_FILE)
         {
             std::string filename = nf_buf;
             filename += nf_ext;
             auto p = (modal_path / filename).lexically_normal();
-            std::ofstream f(p, std::ios::out);
-            f.close();
+            if(dir)
+            {
+                std::error_code ec;
+                std::filesystem::create_directory(p, ec);
+            }
+            else
+            {
+                std::ofstream f(p, std::ios::out);
+                f.close();
+            }
             update_cached_files();
-            open_file(p);
+            if(!dir)
+                open_file(p);
         }
         else if(modal_type == MT_DELETE)
         {
@@ -134,7 +144,6 @@ static void upload_file()
     emscripten_browser_file::upload("*", web_upload_handler, nullptr);
 #else
     NFD::UniquePath path;
-    nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "arduboy" } };
     auto result = NFD::OpenDialog(path);
     if(result != NFD_OKAY)
         return;
@@ -145,45 +154,24 @@ static void upload_file()
 #endif
 }
 
-static void project_window_contents_dir(cached_file_t const& dir)
+static void new_menu(cached_file_t const& dir)
 {
     using namespace ImGui;
-    assert(dir.is_dir);
-    for(auto const& f : dir.children)
-    {
-        std::string name = f.path.filename().string();
-        if(f.is_dir)
-        {
-            if(TreeNode(name.c_str()))
-            {
-                project_window_contents_dir(f);
-                TreePop();
-            }
-        }
-        else
-        {
-            if(Selectable((ICON_FA_FILE_CODE " " + name).c_str()))
-            {
-                open_file(f.path);
-            }
-        }
-        if(BeginPopupContextItem())
-        {
-            if(MenuItem("Delete"))
-            {
-                modal_type = MT_DELETE;
-                modal_path = f.path;
-            }
-            EndPopup();
-        }
-    }
-    if(BeginMenu("   New..."))
+    std::string label = "   New...###new_" + dir.path.string();
+    if(BeginMenu(label.c_str()))
     {
         if(MenuItem("Code File..."))
         {
-            modal_type = MT_NEW_CODE;
+            modal_type = MT_NEW_FILE;
             modal_path = dir.path;
             nf_ext = ".abc";
+            nf_buf[0] = '\0';
+        }
+        if(MenuItem("Directory..."))
+        {
+            modal_type = MT_NEW_FILE;
+            modal_path = dir.path;
+            nf_ext = "";
             nf_buf[0] = '\0';
         }
         if(MenuItem("Upload File..."))
@@ -195,12 +183,56 @@ static void project_window_contents_dir(cached_file_t const& dir)
     }
 }
 
+static void context_menu(cached_file_t const& f)
+{
+    using namespace ImGui;
+    if(BeginPopupContextItem())
+    {
+        if(MenuItem("Delete"))
+        {
+            modal_type = MT_DELETE;
+            modal_path = f.path;
+        }
+        EndPopup();
+    }
+}
+
+static void project_window_contents_dir(cached_file_t const& dir)
+{
+    using namespace ImGui;
+    assert(dir.is_dir);
+    for(auto const& f : dir.children)
+    {
+        std::string name = f.path.filename().string();
+        if(f.is_dir)
+        {
+            bool open = TreeNode((name + "/").c_str());
+            context_menu(f);
+            if(open)
+            {
+                project_window_contents_dir(f);
+                TreePop();
+            }
+        }
+        else
+        {
+            if(Selectable((ICON_FA_FILE_CODE " " + name).c_str()))
+                open_file(f.path);
+            context_menu(f);
+        }
+    }
+    new_menu(dir);
+}
+
 void project_window_contents()
 {
     using namespace ImGui;
 
     if(project.active())
+    {
         project_window_contents_dir(project.root);
+        //new_menu(project.root);
+    }
     else
         TextDisabled("No project open");
 

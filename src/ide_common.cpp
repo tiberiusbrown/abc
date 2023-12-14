@@ -236,7 +236,12 @@ extern "C" void postsyncfs()
     fs_ready = true;
     project = {};
     project.root.is_dir = true;
-    project.root.path = std::filesystem::path("/offline").lexically_normal();
+    project.root.path = std::filesystem::path("/offline/abc").lexically_normal();
+    if(!std::filesystem::exists(project.root.path))
+    {
+        std::error_code ec;
+        std::filesystem::create_directory(project.root.path);
+    }
     update_cached_files();
 }
 
