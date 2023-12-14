@@ -122,7 +122,7 @@ static void web_upload_handler(
     {
         std::ofstream f(new_path, std::ios::out | std::ios::binary);
         if(!f.fail())
-            f.write(data.data(), data.size());
+            f.write((char const*)data.data(), data.size());
     }
     update_cached_files();
 }
