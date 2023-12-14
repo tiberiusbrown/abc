@@ -9,6 +9,11 @@
 #include <imgui.h>
 #include <imgui_internal.h>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#include <emscripten/html5.h>
+#endif
+
 #ifndef ABC_VERSION
 #define ABC_VERSION "(unknown version)"
 #endif
@@ -242,8 +247,8 @@ void init()
 #ifdef __EMSCRIPTEN__
     EM_ASM(
         FS.mkdir('/offline');
-    FS.mount(IDBFS, {}, '/offline');
-    FS.syncfs(true, function(err) { ccall('postsyncfs', 'v'); });
+        FS.mount(IDBFS, {}, '/offline');
+        FS.syncfs(true, function(err) { ccall('postsyncfs', 'v'); });
     );
 #endif
 
