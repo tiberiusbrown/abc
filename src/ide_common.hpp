@@ -40,7 +40,7 @@ struct cached_file_t
     std::filesystem::path path;
     bool is_dir;
     std::vector<cached_file_t> children;
-    bool operator<(cached_file_t const& f)
+    bool operator<(cached_file_t const& f) const
     {
         return std::tie(is_dir, path) < std::tie(f.is_dir, f.path);
     }
