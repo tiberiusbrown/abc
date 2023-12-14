@@ -83,6 +83,7 @@ error:
 }
 #endif
 
+#if 0
 #ifdef __EMSCRIPTEN__
 static void web_upload_handler(
     std::string const& filename,
@@ -98,7 +99,6 @@ static void web_upload_handler(
 }
 #endif
 
-#if 0
 static void import_arduboy_file()
 {
     {
