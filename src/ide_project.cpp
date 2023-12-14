@@ -117,7 +117,6 @@ static void web_upload_handler(
     (void)mime_type;
     (void)user;
     auto data = std::vector<uint8_t>(buffer.begin(), buffer.end());
-    process_arduboy_file(data);
     std::filesystem::path orig_path = filename;
     std::filesystem::path new_path = modal_path / orig_path.filename();
     {

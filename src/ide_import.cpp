@@ -120,6 +120,7 @@ static void import_arduboy_file()
 }
 #endif
 
+#ifndef __EMSCRIPTEN__
 static void open_directory()
 {
     NFD::UniquePath path;
@@ -130,12 +131,15 @@ static void open_directory()
     project.root.path = std::filesystem::path(path.get()).lexically_normal();
     update_cached_files();
 }
+#endif
 
 void import_menu_item()
 {
     using namespace ImGui;
+#ifndef __EMSCRIPTEN__
     if(MenuItem("Open directory..."))
         open_directory();
+#endif
 #if 0
     if(MenuItem("Import .arduboy file..."))
         import_arduboy_file();
