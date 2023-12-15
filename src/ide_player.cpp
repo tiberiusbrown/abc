@@ -147,6 +147,9 @@ void player_window_contents(uint64_t dt)
         }
     }
 
+    if(!project.active())
+        BeginDisabled();
+
     ImVec2 button_size = {
         150.f * pixel_ratio,
         30.f * pixel_ratio
@@ -199,6 +202,9 @@ void player_window_contents(uint64_t dt)
             EndTable();
         }
     }
+
+    if(!project.active())
+        EndDisabled();
 }
 
 void player_shutdown()

@@ -101,7 +101,7 @@ std::string open_file_t::window_id()
 
 void frame_logic()
 {
-    if(ImGui::IsKeyPressed(ImGuiKey_F5, false))
+    if(project.active() && ImGui::IsKeyPressed(ImGuiKey_F5, false))
     {
         player_run();
     }
@@ -180,7 +180,8 @@ void imgui_content()
     End();
 
     SetNextWindowDockID(dockid_welcome, ImGuiCond_Always);
-    if(Begin("Welcome"))
+    if(Begin("Welcome", nullptr,
+        ImGuiWindowFlags_NoMove))
     {
         project_welcome();
     }
