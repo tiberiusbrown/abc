@@ -594,8 +594,7 @@ void compiler_t::codegen_expr(
 
     case AST::FONT:
     {
-        std::string label = progdata_label();
-        add_progdata(label, TYPE_FONT, a);
+        std::string label = resolve_label_ref(frame, a, TYPE_FONT);
         f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
         frame.size += 3;
         return;

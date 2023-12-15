@@ -509,6 +509,10 @@ private:
             structs.count(name) != 0;
     }
 
+    // font caching
+    using font_key_t = std::pair<int, std::string>;
+    std::map<font_key_t, std::string> font_label_cache;
+
     std::string current_path;
     std::function<bool(std::string const&, std::vector<char>&)> file_loader;
 

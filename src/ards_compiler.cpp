@@ -333,8 +333,21 @@ std::string compiler_t::resolve_label_ref(
     }
     else if(n.type == AST::FONT)
     {
-        std::string label = progdata_label();
-        add_progdata(label, TYPE_FONT, n);
+        std::string label;
+        font_key_t key{};
+        assert(n.children.size() == 2);
+        assert(n.children[0].type == AST::INT_CONST);
+        assert(n.children[1].type == AST::STRING_LITERAL);
+        key.first = (int)n.children[0].value;
+        key.second = n.children[1].data;
+        auto it = font_label_cache.find(key);
+        if(it != font_label_cache.end())
+            label = it->second;
+        else
+        {
+            label = font_label_cache[key] = progdata_label();
+            add_progdata(label, TYPE_FONT, n);
+        }
         return label;
     }
     else if(n.type == AST::IDENT)
@@ -373,6 +386,8 @@ void compiler_t::compile(
     std::ostream& fo)
 {
     assert(sysfunc_decls.size() == SYS_NUM);
+
+    font_label_cache.clear();
 
     funcs.clear();
     globals.clear();
