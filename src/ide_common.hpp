@@ -21,6 +21,7 @@ extern std::unique_ptr<absim::arduboy_t> arduboy;
 extern float pixel_ratio;
 extern ImGuiID dockspace_id;
 extern ImGuiID dockid_project;
+extern ImGuiID dockid_welcome;
 extern bool player_active;
 extern std::string const main_name;
 
@@ -102,6 +103,9 @@ void import_menu_item();
 // ide_new_project.cpp
 void create_default_info_file();
 void new_project();
+
+// ide_welcome.cpp
+void project_welcome();
 
 // ide_project.cpp
 void project_window_contents();

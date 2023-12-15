@@ -159,6 +159,7 @@ add_executable(abc ${EXE_TYPE}
     src/ide_project.cpp
     src/ide_project_info.cpp
     src/ide_texture.cpp
+    src/ide_welcome.cpp
 
     "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     "${GENHEADER_DIR}/basic_main.hpp"

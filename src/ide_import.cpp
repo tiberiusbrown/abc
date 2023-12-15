@@ -130,6 +130,15 @@ static void open_directory()
     project.root.is_dir = true;
     project.root.path = std::filesystem::path(path.get()).lexically_normal();
     update_cached_files();
+    for(auto const& child : project.root.children)
+    {
+        if(child.is_dir) continue;
+        if(child.path.filename() == "main.abc")
+        {
+            open_file(child.path);
+            break;
+        }
+    }
 }
 #endif
 

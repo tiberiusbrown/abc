@@ -32,6 +32,7 @@ static bool fs_ready = false;
 static ImGuiStyle default_style;
 ImGuiID dockspace_id;
 ImGuiID dockid_project;
+ImGuiID dockid_welcome;
 
 extern unsigned char const ProggyVector[198188];
 
@@ -56,9 +57,10 @@ void open_file_t::window()
 {
     using namespace ImGui;
     if(!open) return;
-    ImGui::SetNextWindowSize(
+    SetNextWindowSize(
         { 400 * pixel_ratio, 400 * pixel_ratio },
         ImGuiCond_FirstUseEver);
+    SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
     if(Begin(window_id().c_str(), &open))
     {
         window_contents();
@@ -147,8 +149,11 @@ void imgui_content()
 
         // set up docking
         using namespace ImGui;
-        ImGuiID t0;
-        DockBuilderSplitNode(dockspace_id, ImGuiDir_Left, 0.20f, &dockid_project, &t0);
+        ImGuiID t;
+        DockBuilderSplitNode(
+            dockspace_id, ImGuiDir_Left, 0.20f, &dockid_project, &t);
+        DockBuilderSplitNode(
+            t, ImGuiDir_Left, 0.70f, &dockid_welcome, nullptr);
         ImGuiDockNode* p = ImGui::DockBuilderGetNode(dockid_project);
         p->LocalFlags |=
             ImGuiDockNodeFlags_NoTabBar |
@@ -166,6 +171,13 @@ void imgui_content()
     if(Begin("Project"))
     {
         project_window_contents();
+    }
+    End();
+
+    SetNextWindowDockID(dockid_welcome, ImGuiCond_Always);
+    if(Begin("Welcome"))
+    {
+        project_welcome();
     }
     End();
 
