@@ -761,7 +761,17 @@ void TextEditor::HandleKeyboardInputs()
 		else if (!IsReadOnly() && !ctrl && !shift && !alt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter)))
 			EnterCharacter('\n', false);
 		else if (!IsReadOnly() && !ctrl && !alt && ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Tab)))
-			EnterCharacter('\t', shift);
+        {
+            if(!shift)
+            {
+                auto c = mState.mCursorPosition.mColumn;
+                int n = 4 - c % 4;
+                for(int i = 0; i < n; ++i)
+                    EnterCharacter(' ', false);
+            }
+            else
+                EnterCharacter('\t', true);
+        }
 
 		if (!IsReadOnly() && !io.InputQueueCharacters.empty())
 		{
