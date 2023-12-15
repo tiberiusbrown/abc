@@ -1,21 +1,3 @@
-// Every ABC program requires a 'main' method taking no arguments and
-// returning 'void'.
-void main()
-{
-    // ABC programs compile in two phases:
-    //     1. Parse all function and global variable declarations.
-    //     2. Compile all function bodies and global variable initializers.
-    // Because of this, functions and variables may be used before they are
-    // declared, and there is no concept of header/interface files.
-    setup();
-    while(true)
-        loop();
-}
-
-// Declare 'f' as a resource handle to a font asset stored in program
-// memory. The 'constexpr' keyword forces 'f' to be always evaluated
-// at compile time when it is used, instead of loading it from global
-// storage.
 constexpr font f = font{ 6 "font.ttf" };
 
 void setup()
@@ -27,16 +9,18 @@ void loop()
     while(!$next_frame())
         ;
     
-    // Allocate a buffer on the stack and write a string to it.
-    char[20] buf;
-    $format(buf, "Seconds: %d", $millis() / 1000);
+    $draw_text_P(0, 0, f, "Hello World!");
     
-    // Draw the string to the screen at x=10, y=20.
-    $draw_text(10, 20, f, buf);
-    
-    // String literals like "Hello World!" reside in program memory,
-    // so we need to use $draw_text_P instead.
-    $draw_text_P(10, 26, f, "Hello World!");
+    char[30] buf;
+    $format(buf, "Running for %u seconds", $millis() / 1000);
+    $draw_text(0, 6, f, buf);
     
     $display();
 }
+
+void main()
+{
+    setup();
+    loop();
+}
+
