@@ -22,6 +22,10 @@ extern float pixel_ratio;
 extern ImGuiID dockspace_id;
 extern ImGuiID dockid_project;
 extern ImGuiID dockid_welcome;
+extern ImFont* font_normal;
+extern ImFont* font_h1;
+extern ImFont* font_h2;
+extern ImFont* font_h3;
 extern bool player_active;
 extern std::string const main_name;
 

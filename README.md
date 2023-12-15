@@ -1,6 +1,6 @@
 # ABC Compiler and Interpreter for the Arduboy FX
 
-ABC is a scripting language with an associated interpreter available for the Arduboy FX. It is primarily designed to be a gentle introduction to programming in a C-like statically typed language.
+ABC is a C-like scripting language with an associated interpreter designed for the Arduboy FX. It includes runtime error checking and support for various FX assets, such as sprites, fonts, strings, and arbitrary data.
 
 - [ABC Compiler and Interpreter for the Arduboy FX](#abc-compiler-and-interpreter-for-the-arduboy-fx)
   - [ABC: Differences from C](#abc-differences-from-c)

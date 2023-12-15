@@ -34,6 +34,11 @@ ImGuiID dockspace_id;
 ImGuiID dockid_project;
 ImGuiID dockid_welcome;
 
+ImFont* font_normal;
+ImFont* font_h1;
+ImFont* font_h2;
+ImFont* font_h3;
+
 extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
@@ -212,7 +217,7 @@ void define_font()
     cfg.OversampleH = 3;
     cfg.OversampleV = 1;
     io.Fonts->Clear();
-    io.Fonts->AddFontFromMemoryTTF(
+    font_normal = io.Fonts->AddFontFromMemoryTTF(
         (void*)ProggyVector, sizeof(ProggyVector), font_size, &cfg);
     cfg.MergeMode = true;
     cfg.GlyphOffset = { 0, 1.5f * pixel_ratio };
@@ -225,6 +230,17 @@ void define_font()
     };
     io.Fonts->AddFontFromMemoryTTF(
         (void*)fa_regular_400, sizeof(fa_regular_400), font_size, &cfg, icon_ranges);
+
+    cfg.MergeMode = false;
+    cfg.GlyphOffset = {};
+    cfg.GlyphMinAdvanceX = 0;
+    cfg.RasterizerMultiply = 1.5f;
+    font_h3 = io.Fonts->AddFontFromMemoryTTF(
+        (void*)ProggyVector, sizeof(ProggyVector), font_size * 1.25f, &cfg);
+    font_h2 = io.Fonts->AddFontFromMemoryTTF(
+        (void*)ProggyVector, sizeof(ProggyVector), font_size * 1.5f, &cfg);
+    font_h1 = io.Fonts->AddFontFromMemoryTTF(
+        (void*)ProggyVector, sizeof(ProggyVector), font_size * 2.f, &cfg);
 }
 
 void rebuild_fonts()
