@@ -152,8 +152,13 @@ std::string compiler_t::new_label(compiler_func_t& f)
 std::string compiler_t::codegen_label(compiler_func_t& f)
 {
     std::string label = new_label(f);
-    f.instrs.push_back({ I_NOP, 0, 0, 0, label, true});
+    codegen_label(f, label);
     return label;
+}
+
+void compiler_t::codegen_label(compiler_func_t& f, std::string const& label)
+{
+    f.instrs.push_back({ I_NOP, 0, 0, 0, label, true });
 }
 
 void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a)
@@ -205,12 +210,15 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     }
     case AST::WHILE_STMT:
     {
-        assert(a.children.size() == 2);
+        assert(a.children.size() == 2 || a.children.size() == 3);
         type_annotate(a.children[0], frame);
         if(a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
             break;
+        bool is_for = (a.children.size() == 3);
         bool nocond = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
-        auto start = codegen_label(f);
+        std::string start = codegen_label(f);
+        std::string end = new_label(f);
+        std::string cont = is_for ? new_label(f) : start;
         size_t cond_index = size_t(-1);
         if(!nocond)
         {
@@ -221,13 +229,34 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             f.instrs.push_back({ I_BZ, a.children[0].line() });
             frame.size -= 1;
         }
+        break_stack.push_back(end);
+        continue_stack.push_back(cont);
         codegen(f, frame, a.children[1]);
+        if(is_for)
+        {
+            codegen_label(f, cont);
+            codegen(f, frame, a.children[2]);
+        }
+        break_stack.pop_back();
+        continue_stack.pop_back();
         f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
         if(!nocond)
         {
-            auto end = codegen_label(f);
+            codegen_label(f, end);
             f.instrs[cond_index].label = end;
         }
+        break;
+    }
+    case AST::BREAK_STMT:
+    {
+        assert(!break_stack.empty());
+        f.instrs.push_back({ I_JMP, a.line(), 0, 0, break_stack.back() });
+        break;
+    }
+    case AST::CONTINUE_STMT:
+    {
+        assert(!break_stack.empty());
+        f.instrs.push_back({ I_JMP, a.line(), 0, 0, continue_stack.back() });
         break;
     }
     case AST::BLOCK:

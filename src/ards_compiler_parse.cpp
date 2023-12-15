@@ -132,6 +132,8 @@ stmt                <- compound_stmt /
                        if_stmt       /
                        while_stmt    /
                        for_stmt      /
+                       break_stmt    /
+                       continue_stmt /
                        decl_stmt     /
                        expr_stmt
 if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
@@ -140,6 +142,8 @@ for_stmt            <- 'for' '(' for_init_stmt expr ';' expr ')' stmt
 for_init_stmt       <- decl_stmt / expr_stmt
 expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
+break_stmt          <- 'break' ';'
+continue_stmt       <- 'continue' ';'
 
 # right-associative binary assignment operator
 expr                <- '{' '}' /
@@ -224,7 +228,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         for(A; B; C)
             D;
 
-    is transformed into
+    is transformed into a while loop with two statements (body and iterator adv)
 
         {
             A;
@@ -234,6 +238,9 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
                 C;
             }
         }
+
+        the "value" of the while AST node is set to 1 to indicate a for loop
+        for label stack purposes
 
     */
     p["for_stmt"] = [](peg::SemanticValues const& v) {
@@ -246,10 +253,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         a.children.push_back({ v.line_info(), AST::WHILE_STMT, v.token() });
         auto& w = a.children.back();
         w.children.push_back(B);
-        w.children.push_back({ v.line_info(), AST::BLOCK, v.token() });
-        auto& wb = w.children.back();
-        wb.children.push_back(D);
-        wb.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
+        w.children.push_back(D);
+        w.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
         return a;
     };
     p["for_init_stmt"] = [](peg::SemanticValues const& v) {
@@ -607,6 +612,12 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         if(!v.empty())
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
         return a;
+    };
+    p["break_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return { v.line_info(), AST::BREAK_STMT, v.token() };
+    };
+    p["continue_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return { v.line_info(), AST::CONTINUE_STMT, v.token() };
     };
     p["program"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::PROGRAM, v.token() };

@@ -44,8 +44,10 @@ enum class AST
     DECL_ITEM,    // children are ident [, expr]
     FUNC_STMT,    // children are type, ident, block, args
     IF_STMT,      // children are expr, stmt, stmt (for else)
-    WHILE_STMT,   // children are expr and stmt
+    WHILE_STMT,   // children are expr and stmt [and stmt if for loop]
     RETURN_STMT,  // child is expr if it exists
+    BREAK_STMT,   // no children
+    CONTINUE_STMT,// no children
 
     //
     // expression nodes
@@ -457,6 +459,7 @@ private:
     void codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n);
     std::string new_label(compiler_func_t& f);
     std::string codegen_label(compiler_func_t& f);
+    void codegen_label(compiler_func_t& f, std::string const& label);
     void codegen_dereference(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
@@ -521,6 +524,10 @@ private:
 
     std::vector<error_t> errs;
     std::vector<error_t> warns;
+
+    // loop label stack
+    std::vector<std::string> break_stack;
+    std::vector<std::string> continue_stack;
 
     // track files already parsed
     std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;

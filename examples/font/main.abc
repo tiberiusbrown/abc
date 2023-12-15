@@ -27,6 +27,3 @@ void main()
     while(true)
         loop();
 }
-
-
-
