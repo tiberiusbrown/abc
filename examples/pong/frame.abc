@@ -25,12 +25,12 @@ void update()
     
     if(py0 < TOP_Y * FRAC)
         py0 = TOP_Y * FRAC;
-    if(py0 > (64 - PADDLE_HEIGHT) * FRAC)
-        py0 = (64 - PADDLE_HEIGHT) * FRAC;
+    if(py0 > (BOT_Y - PADDLE_HEIGHT) * FRAC)
+        py0 = (BOT_Y - PADDLE_HEIGHT) * FRAC;
     if(py1 < TOP_Y * FRAC)
         py1 = TOP_Y * FRAC;
-    if(py1 > (64 - PADDLE_HEIGHT) * FRAC)
-        py1 = (64 - PADDLE_HEIGHT) * FRAC;
+    if(py1 > (BOT_Y - PADDLE_HEIGHT) * FRAC)
+        py1 = (BOT_Y - PADDLE_HEIGHT) * FRAC;
  
     if(serving)
     {
@@ -64,9 +64,9 @@ void update()
             by = TOP_Y * FRAC;
             vy = -vy;
         }
-        if(by > (64 - BALL_SIZE) * FRAC)
+        if(by > (BOT_Y - BALL_SIZE) * FRAC)
         {
-            by = (64 - BALL_SIZE) * FRAC;
+            by = (BOT_Y - BALL_SIZE) * FRAC;
             vy = -vy;
         }
         if(bx < PADDLE_WIDTH * FRAC)
@@ -115,17 +115,21 @@ void render()
     
     // ball
     $draw_sprite(bx / FRAC, by / FRAC, img_ball, 0);
+    
+    // bottom line
+    $draw_filled_rect(0, BOT_Y, 128, 1, WHITE);
 }
 
 void new_game()
 {
-    constexpr int midy = (64 + TOP_Y - PADDLE_HEIGHT) / 2;
+    constexpr int midy = (BOT_Y + TOP_Y - PADDLE_HEIGHT) / 2;
     py0 = FRAC * midy;
     py1 = FRAC * midy;
 
     serving = true;
     ai_serving = false;
 }
+
 
 
 

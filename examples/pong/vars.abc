@@ -26,6 +26,8 @@ constexpr int PADDLE_WIDTH = 4;
 constexpr int PADDLE_HEIGHT = 20;
 
 constexpr int TOP_Y = 7;
+constexpr int BOT_Y = 63;
 
 constexpr font f = font{ 6 "font.ttf" };
+
 
