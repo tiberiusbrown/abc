@@ -188,7 +188,13 @@ struct compiler_type_t
         return false;
     }
 
-    auto tie() const { return std::tie(prim_size, is_signed, is_bool, is_prog, children); }
+    auto tie() const
+    {
+        return std::tie(
+            prim_size,
+            is_signed, is_bool, is_prog, is_char,
+            children);
+    }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
     bool operator!=(compiler_type_t const& t) const { return !operator==(t); }
 

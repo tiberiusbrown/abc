@@ -204,6 +204,11 @@ set_source_files_properties(
         COMPILE_OPTIONS "-DABC_VERSION=\"${ABC_VERSION}\""
     )
 
+add_executable(abc_docs docs/abc_docs.cpp)
+target_link_libraries(abc_docs PRIVATE ards_compiler)
+target_compile_definitions(abc_docs PRIVATE
+    -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
+    )
 
 if(EMSCRIPTEN)
     target_link_options(abc PRIVATE "-lidbfs.js")
