@@ -1,0 +1,28 @@
+import frame;
+import sprites;
+import vars;
+
+void setup()
+{
+    $set_frame_rate(40);
+    new_game();
+}
+
+void loop()
+{
+    while(!$next_frame())
+        ;
+    
+    update();
+    render();
+
+    $display();
+}
+
+void main()
+{
+    setup();
+    while(true)
+        loop();
+}
+

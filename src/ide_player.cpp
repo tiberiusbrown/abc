@@ -50,6 +50,7 @@ void player_window_contents(uint64_t dt)
         arduboy->cpu.enabled_autobreaks.reset();
         arduboy->allow_nonstep_breakpoints = false;
         arduboy->display.enable_filter = true;
+        arduboy->display.enable_current_limiting = false;
 
         if(!GetIO().WantCaptureKeyboard)
         {

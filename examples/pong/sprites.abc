@@ -1,0 +1,9 @@
+constexpr sprites img_ball = sprites{
+    4x4
+    -XX-
+    X..X
+    X..X
+    -XX-
+};
+
+

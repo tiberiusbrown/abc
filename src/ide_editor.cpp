@@ -29,14 +29,16 @@ static TextEditor::LanguageDefinition const& ABC()
     abc.mKeywords.clear();
     for(auto const& k : ards::keywords)
         abc.mKeywords.insert(k);
+    for(auto const& [k, v] : ards::sys_names)
+        abc.mKeywords.insert(k);
 
     abc.mIdentifiers.clear();
-    for(auto const& [k, v] : ards::sys_names)
-    {
-        TextEditor::Identifier id{};
-        id.mDeclaration = "System function";
-        abc.mIdentifiers.insert(std::make_pair(k, id));
-    }
+    //for(auto const& [k, v] : ards::sys_names)
+    //{
+    //    TextEditor::Identifier id{};
+    //    //id.mDeclaration = "System function";
+    //    abc.mIdentifiers.insert(std::make_pair(k, id));
+    //}
 
     abc.mName = "ABC";
 

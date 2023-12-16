@@ -1926,10 +1926,10 @@ I_CULE:
     dispatch
 
 I_CULE2:
-    ld   r10, -Y
     ld   r11, -Y
-    ld   r14, -Y
+    ld   r10, -Y
     ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
@@ -1939,12 +1939,12 @@ I_CULE2:
     dispatch
 
 I_CULE3:
-    ld   r10, -Y
-    ld   r11, -Y
     ld   r12, -Y
-    ld   r14, -Y
-    ld   r15, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
@@ -1955,14 +1955,14 @@ I_CULE3:
     dispatch
 
 I_CULE4:
-    ld   r10, -Y
-    ld   r11, -Y
-    ld   r12, -Y
     ld   r13, -Y
-    ld   r14, -Y
-    ld   r15, -Y
-    ld   r16, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
@@ -1984,10 +1984,10 @@ I_CSLE:
     dispatch
 
 I_CSLE2:
-    ld   r10, -Y
     ld   r11, -Y
-    ld   r14, -Y
+    ld   r10, -Y
     ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
@@ -1997,12 +1997,12 @@ I_CSLE2:
     dispatch
 
 I_CSLE3:
-    ld   r10, -Y
-    ld   r11, -Y
     ld   r12, -Y
-    ld   r14, -Y
-    ld   r15, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
@@ -2013,14 +2013,14 @@ I_CSLE3:
     dispatch
 
 I_CSLE4:
-    ld   r10, -Y
-    ld   r11, -Y
-    ld   r12, -Y
     ld   r13, -Y
-    ld   r14, -Y
-    ld   r15, -Y
-    ld   r16, -Y
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
     ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15

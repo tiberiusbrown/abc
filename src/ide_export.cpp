@@ -145,7 +145,7 @@ static void export_arduboy()
     {
         mz_zip_writer_add_file(
             &zip,
-            e.path().lexically_relative(project.root.path).string().c_str(),
+            ("abc" / e.path().lexically_relative(project.root.path)).string().c_str(),
             e.path().string().c_str(),
             nullptr, 0, compression);
     }
