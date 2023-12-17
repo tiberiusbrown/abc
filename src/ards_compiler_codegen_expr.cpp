@@ -6,19 +6,19 @@ namespace ards
 {
 
 void compiler_t::resolve_format_call(
-        ast_node_t const& n, std::vector<compiler_type_t>& arg_types, std::string& fmt)
+    ast_node_t const& n, compiler_func_decl_t const& decl,
+    std::vector<compiler_type_t>& arg_types, std::string& fmt)
 {
-    assert(n.children.size() >= 2);
+    assert(decl.arg_types.size() >= 1);
+    assert(n.children.size() >= decl.arg_types.size());
     std::string_view d;
     {
-        auto const& nc = n.children[1];
+        auto const& nc = n.children[decl.arg_types.size() - 1];
         d = nc.type == AST::STRING_LITERAL ? nc.data : nc.children[0].data;
     }
 
     fmt.clear();
-    arg_types.clear();
-    arg_types.push_back(TYPE_STR);
-    arg_types.push_back(TYPE_STR_PROG);
+    arg_types = decl.arg_types;
 
     for(auto it = d.begin(); it != d.end(); ++it)
     {
@@ -202,7 +202,7 @@ void compiler_t::codegen_expr(
         assert(a.children[0].type == AST::IDENT);
 
         auto func = resolve_func(a.children[0]);
-        bool is_format = (func.name == "$format");
+        bool is_format = sysfunc_is_format(func.name);
 
         // TODO: test for reference return type (not allowed)
 
@@ -229,7 +229,7 @@ void compiler_t::codegen_expr(
         std::string format_str;
         if(is_format)
         {
-            resolve_format_call(a.children[1], format_types, format_str);
+            resolve_format_call(a.children[1], func.decl, format_types, format_str);
             arg_types = &format_types;
         }
 
@@ -251,7 +251,7 @@ void compiler_t::codegen_expr(
             }
             if(expr.type == AST::COMPOUND_LITERAL)
                 codegen_expr_compound(f, frame, expr, type);
-            else if(is_format && i == 2)
+            else if(is_format && i == func.decl.arg_types.size())
             {
                 // special handling for format string
                 assert(expr.type == AST::OP_AREF);

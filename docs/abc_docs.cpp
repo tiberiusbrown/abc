@@ -24,8 +24,8 @@ std::string type_name(ards::compiler_type_t const& t, bool noprog = false)
     }
     else if(t.is_prim())
     {
-        if(t == ards::TYPE_BOOL) ss << "bool";
-        else if(t == ards::TYPE_CHAR) ss << "char";
+        if(tt == ards::TYPE_BOOL) ss << "bool";
+        else if(tt == ards::TYPE_CHAR) ss << "char";
         else
         {
             ss << (t.is_signed ? "i" : "u");
@@ -67,6 +67,8 @@ int main()
             if(i != 0) fprintf(f, ", ");
             fprintf(f, "%s", type_name(decl.arg_types[i]).c_str());
         }
+        if(ards::sysfunc_is_format(v))
+            fprintf(f, ", ...");
         fprintf(f, ")\n");
     }
     fprintf(f, "```\n");

@@ -35,7 +35,9 @@ bool compile_all()
         };
         std::stringstream sout;
         c.compile(project.root.path.string(), "main", sout);
-        asms.push_back(sout.str());
+        std::string t = sout.str();
+        asm_editor.SetText(t);
+        asms.push_back(t);
         std::string ef;
         if(!c.errors().empty())
             ef = std::filesystem::path(c.error_file()).lexically_relative(project.root.path).string();

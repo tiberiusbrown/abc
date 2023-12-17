@@ -372,6 +372,9 @@ extern std::unordered_set<std::string> const keywords;
 extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
 extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
 
+bool sysfunc_is_format(sysfunc_t f);
+bool sysfunc_is_format(std::string const& f);
+
 struct builtin_constexpr_t
 {
     std::string name;
@@ -445,7 +448,8 @@ private:
     void transform_constexprs(ast_node_t& n, compiler_frame_t const& frame);
 
     void resolve_format_call(
-        ast_node_t const& n, std::vector<compiler_type_t>& arg_types, std::string& fmt);
+        ast_node_t const& n, compiler_func_decl_t const& decl,
+        std::vector<compiler_type_t>& arg_types, std::string& fmt);
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);

@@ -298,7 +298,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             break;
         }
         auto f = resolve_func(a.children[0]);
-        bool is_format = (f.name == "$format");
+        bool is_format = sysfunc_is_format(f.name);
         if(f.name.empty()) break;
 
         auto* arg_types = &f.decl.arg_types;
@@ -306,7 +306,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(is_format)
         {
             std::string format_str;
-            resolve_format_call(a.children[1], format_types, format_str);
+            resolve_format_call(a.children[1], f.decl, format_types, format_str);
             arg_types = &format_types;
         }
 
@@ -331,10 +331,12 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         {
             auto& c = a.children[1].children[i];
             auto const& t = (*arg_types)[i];
-            if(is_format && i == 1 && c.type != AST::STRING_LITERAL)
+            if(is_format &&
+                i == f.decl.arg_types.size() - 1 &&
+                c.type != AST::STRING_LITERAL)
             {
                 errs.push_back({
-                    "Format string for $format must be a string literal",
+                    "Format string must be a string literal",
                     c.line_info });
                 return;
             }

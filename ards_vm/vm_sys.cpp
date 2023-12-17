@@ -229,54 +229,6 @@ static void reverse_str(char* b, char* p)
     }
 }
 
-static void sys_uhexstr()
-{
-    auto ptr = vm_pop_begin();
-    uint32_t x = vm_pop<uint32_t>(ptr);
-    vm_pop_end(ptr);
-    
-    struct { char d[8]; } str{};
-    
-    char* p = str.d;
-    if(x == 0)
-        st_inc(p, '0');
-    while(x != 0)
-    {
-        uint8_t r = x & 15;
-        x >>= 4;
-        st_inc(p, char(r + (r < 10 ? '0' : 'a' - 10)));
-    }
-    
-    // reverse
-    reverse_str(str.d, p);
-    
-    vm_push(str);
-}
-
-static void sys_udecstr()
-{
-    auto ptr = vm_pop_begin();
-    uint32_t x = vm_pop<uint32_t>(ptr);
-    vm_pop_end(ptr);
-    
-    struct { char d[10]; } str{};
-    
-    char* p = str.d;
-    if(x == 0)
-        st_inc(p, '0');
-    while(x != 0)
-    {
-        uint8_t r = x % 10;
-        x /= 10;
-        st_inc(p, char(r + '0'));
-    }
-    
-    // reverse
-    reverse_str(str.d, p);
-    
-    vm_push(str);
-}
-
 static void sys_draw_sprite()
 {
     auto ptr = vm_pop_begin();
@@ -387,6 +339,78 @@ static void sys_draw_text_P()
         draw_char(font, x + lsb, y, w, h, c);
         x += adv;
     }
+    
+    FX::seekData(ards::vm.pc);
+}
+
+static void sys_text_width()
+{
+    auto ptr = vm_pop_begin();
+    uint24_t font = vm_pop<uint24_t>(ptr) + 1;
+    uint16_t tn   = vm_pop<uint16_t>(ptr);
+    uint16_t tb   = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    
+    (void)FX::readEnd();
+    char const* p = reinterpret_cast<char const*>(tb);
+    char c;
+    uint16_t wmax = 0;
+    uint16_t w = 0;
+    while((c = ld_inc(p)) != '\0' && tn != 0)
+    {
+        --tn;
+        if(c == '\n')
+        {
+            if(w > wmax) wmax = w;
+            w = 0;
+            continue;
+        }
+        
+        FX::seekData(font + uint8_t(c) * 2);
+        uint8_t adv = FX::readPendingLastUInt8();
+        w += adv;
+    }
+    if(w > wmax) wmax = w;
+    
+    vm_push<uint16_t>(wmax);
+    
+    FX::seekData(ards::vm.pc);
+}
+
+static void sys_text_width_P()
+{
+    auto ptr = vm_pop_begin();
+    uint24_t font = vm_pop<uint24_t>(ptr) + 1;
+    uint24_t tn   = vm_pop<uint24_t>(ptr);
+    uint24_t tb   = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+    
+    (void)FX::readEnd();
+    char const* p = reinterpret_cast<char const*>(tb);
+    char c;
+    uint16_t wmax = 0;
+    uint16_t w = 0;
+    while(tn != 0)
+    {
+        FX::seekData(tb++);
+        c = FX::readPendingLastUInt8();
+        if(c == '\0') break;
+        --tn;
+        
+        if(c == '\n')
+        {
+            if(w > wmax) wmax = w;
+            w = 0;
+            continue;
+        }
+        
+        FX::seekData(font + uint8_t(c) * 2);
+        uint8_t adv = FX::readPendingLastUInt8();
+        w += adv;
+    }
+    if(w > wmax) wmax = w;
+    
+    vm_push<uint16_t>(wmax);
     
     FX::seekData(ards::vm.pc);
 }
@@ -518,98 +542,27 @@ static void sys_strcpy_P()
     FX::seekData(ards::vm.pc);
 }
 
-static void sys_strcat()
-{
-    auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
-    uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
-    uint16_t b1 = vm_pop<uint16_t>(ptr);
-    vm_pop_end(ptr);
-    
-    char* p0 = reinterpret_cast<char*>(b0);
-    char const* p1 = reinterpret_cast<char*>(b1);
-    while(*p0 != '\0')
-    {
-        if(n0 == 0) return;
-        ++p0;
-        --n0;
-    }
-    
-    for(;;)
-    {
-        uint8_t c = ld_inc(p1);
-        if(c == 0) return;
-        st_inc(p0, c);
-        if(--n0 == 0) return;
-        if(--n1 == 0)
-        {
-            *p0 = '\0';
-            return;
-        }
-    }
-}
+using format_char_func = void(*)(char c);
 
-static void sys_strcat_P()
+static inline void format_add_string(format_char_func f, char* tb, uint16_t tn)
 {
-    auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
-    uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
-    uint24_t b1 = vm_pop<uint24_t>(ptr);
-    vm_pop_end(ptr);
-    
-    char* p0 = reinterpret_cast<char*>(b0);
-    while(*p0 != '\0')
-    {
-        if(n0 == 0) return;
-        ++p0;
-        --n0;
-    }
-    
-    (void)FX::readEnd();
-    FX::seekData(b1);
-    for(;;)
-    {
-        uint8_t c = FX::readPendingUInt8();
-        if(c == 0) goto done;
-        st_inc(p0, c);
-        if(--n0 == 0) goto done;
-        if(--n1 == 0)
-        {
-            *p0 = '\0';
-            goto done;
-        }
-    }
-    
-done:
-    (void)FX::readEnd();
-    FX::seekData(ards::vm.pc);
-}
-
-static inline void format_add_string(char*& p, uint16_t& n, char* tb, uint16_t tn)
-{
-    while(n != 0 && tn != 0)
+    while(tn != 0)
     {
         uint8_t c = ld_inc(tb);
         if(c == '\0') return;
-        st_inc(p, c);
-        --n;
+        f(c);
         --tn;
     }
 }
 
-static void format_add_int(char*& p, uint16_t& n, uint32_t x, bool sign, uint8_t base)
+static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t base)
 {
     char buf[10];
     char* tp = buf;
-    
-    if(n == 0) return;
-    
+        
     if(sign && (int32_t)x < 0)
     {
-        st_inc(p, '-');
-        --n;
+        f('-');
         x = -x;
     }
 
@@ -626,39 +579,37 @@ static void format_add_int(char*& p, uint16_t& n, uint32_t x, bool sign, uint8_t
     reverse_str(buf, tp);
     
     char* bb = buf;
-    while(bb < tp && n != 0)
+    while(bb < tp)
     {
         uint8_t c = ld_inc(bb);
-        st_inc(p, c);
-        --n;
+        f(c);
     }
 }
 
-static void sys_format()
+// TODO: store this stuff in a struct on stack
+static void* format_user;
+static uint16_t format_db;
+static uint16_t format_dn;
+
+static void format_exec(format_char_func f)
 {
     auto ptr = vm_pop_begin();
-    uint16_t dn = vm_pop<uint16_t>(ptr);
-    uint16_t db = vm_pop<uint16_t>(ptr);
     uint24_t fn = vm_pop<uint24_t>(ptr);
     uint24_t fb = vm_pop<uint24_t>(ptr);
     
-    (void)FX::readEnd();
-    FX::seekData(fb);
-    
-    char* p = reinterpret_cast<char*>(db);
-    uint16_t n = dn;
-    
-    while(n != 0 && fn != 0)
+        
+    while(fn != 0)
     {
-        char c = (char)FX::readPendingUInt8();
+        FX::seekData(fb++);
+        char c = (char)FX::readPendingLastUInt8();
         --fn;
         if(c != '%')
         {
-            st_inc(p, (uint8_t)c);
-            --n;
+            f(c);
             continue;
         }
-        c = (char)FX::readPendingUInt8();
+        FX::seekData(fb++);
+        c = (char)FX::readPendingLastUInt8();
         --fn;
         switch(c)
         {
@@ -666,21 +617,20 @@ static void sys_format()
             c = vm_pop<char>(ptr);
             // fallthrough
         case '%':
-            st_inc(p, (uint8_t)c);
-            --n;
+            f(c);
             break;
         case 's':
         {
             uint16_t tn = vm_pop<uint16_t>(ptr);
             uint16_t tb = vm_pop<uint16_t>(ptr);
-            check_overlap(tb, tn, db, dn);
-            format_add_string(p, n, reinterpret_cast<char*>(tb), tn);
+            check_overlap(tb, tn, format_db, format_dn);
+            format_add_string(f, reinterpret_cast<char*>(tb), tn);
             break;
         }
         case 'd':
         case 'u':
         case 'x':
-            format_add_int(p, n, vm_pop<uint32_t>(ptr), c == 'd', c == 'x' ? 16 : 10);
+            format_add_int(f, vm_pop<uint32_t>(ptr), c == 'd', c == 'x' ? 16 : 10);
             break;
         default:
             break;
@@ -688,11 +638,106 @@ static void sys_format()
     }
     
     vm_pop_end(ptr);
+}
+
+struct format_user_buffer
+{
+    char* p;
+    uint16_t n;
+};
+
+static void format_exec_to_buffer(char c)
+{
+    format_user_buffer* u = (format_user_buffer*)format_user;
+    uint16_t n = u->n;
+    if(n == 0) return;
+    --n;
+    u->n = n;
+    st_inc(u->p, (uint8_t)c);
+}
+
+struct format_user_draw
+{
+    uint24_t font;
+    int16_t bx;
+    int16_t x;
+    int16_t y;
+    uint8_t w;
+    uint8_t h;
+    uint8_t line_height;
+};
+
+static void format_exec_draw(char c)
+{
+    format_user_draw* u = (format_user_draw*)format_user;
+    uint24_t font = u->font;
+    int16_t x = u->x;
     
-    if(dn != 0)
-        *p = '\0';
+    if(c == '\n')
+    {
+        x = u->bx;
+        u->y += u->line_height;
+        return;
+    }
     
+    FX::seekData(font + uint8_t(c) * 2);
+    int8_t lsb = (int8_t)FX::readPendingUInt8();
+    uint8_t adv = FX::readPendingLastUInt8();
+    draw_char(font, x + lsb, u->y, u->w, u->h, c);
+    x += adv;
+    
+    u->x = x;
+}
+
+static void sys_format()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t dn = vm_pop<uint16_t>(ptr);
+    uint16_t db = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
     (void)FX::readEnd();
+    
+    format_db = db;
+    format_dn = dn;
+    format_user_buffer user;
+    user.p = reinterpret_cast<char*>(db);
+    user.n = dn;
+    format_user = &user;
+    format_exec(format_exec_to_buffer);
+    
+    if(user.n != 0)
+        *user.p = '\0';
+    
+    FX::seekData(ards::vm.pc);
+}
+
+static void sys_draw_textf()
+{
+    auto ptr = vm_pop_begin();
+    int16_t  x    = vm_pop<int16_t> (ptr);
+    int16_t  y    = vm_pop<int16_t> (ptr);
+    uint24_t font = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+    (void)FX::readEnd();
+    
+    format_db = 0;
+    format_dn = 0;
+    
+    format_user_draw user;
+    format_user = &user;
+    
+    user.font = font;
+    user.bx = x;
+    user.x = x;
+    user.y = y;
+    
+    FX::seekData(font + 512);
+    user.line_height = FX::readPendingUInt8();
+    user.w = FX::readPendingUInt8();
+    user.h = FX::readPendingLastUInt8();
+    
+    format_exec(format_exec_draw);
+    
     FX::seekData(ards::vm.pc);
 }
 
@@ -704,6 +749,9 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_draw_sprite,
     sys_draw_text,
     sys_draw_text_P,
+    sys_draw_textf,
+    sys_text_width,
+    sys_text_width_P,
     sys_set_frame_rate,
     sys_next_frame,
     sys_idle,
@@ -716,16 +764,11 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_any_pressed,
     sys_not_pressed,
     sys_millis,
-    sys_uhexstr,
-    sys_udecstr,
-    //sys_idecstr,
     sys_strlen,
     sys_strlen_P,
     sys_strcmp,
     sys_strcmp_P,
     sys_strcpy,
     sys_strcpy_P,
-    sys_strcat,
-    sys_strcat_P,
     sys_format,
 };

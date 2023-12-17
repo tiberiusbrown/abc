@@ -52,12 +52,11 @@ void player_window_contents(uint64_t dt)
         arduboy->display.enable_filter = true;
         arduboy->display.enable_current_limiting = false;
 
+        uint8_t pinf = 0xf0;
+        uint8_t pine = 0x40;
+        uint8_t pinb = 0x10;
         if(!GetIO().WantCaptureKeyboard)
         {
-            uint8_t pinf = 0xf0;
-            uint8_t pine = 0x40;
-            uint8_t pinb = 0x10;
-
             std::array<ImGuiKey, 4> keys =
             {
                 ImGuiKey_UpArrow,
@@ -73,11 +72,10 @@ void player_window_contents(uint64_t dt)
 
             if(IsKeyDown(ImGuiKey_A)) pine &= ~0x40;
             if(IsKeyDown(ImGuiKey_B) || ImGui::IsKeyDown(ImGuiKey_S)) pinb &= ~0x10;
-
-            arduboy->cpu.data[0x23] = pinb;
-            arduboy->cpu.data[0x2c] = pine;
-            arduboy->cpu.data[0x2f] = pinf;
         }
+        arduboy->cpu.data[0x23] = pinb;
+        arduboy->cpu.data[0x2c] = pine;
+        arduboy->cpu.data[0x2f] = pinf;
 
         arduboy->frame_bytes_total = 1024;
 

@@ -39,6 +39,8 @@ ImFont* font_h1;
 ImFont* font_h2;
 ImFont* font_h3;
 
+TextEditor asm_editor;
+
 extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
@@ -187,6 +189,12 @@ void imgui_content()
     }
     End();
 
+    if(Begin("Disassembly"))
+    {
+        asm_editor.Render("###asm");
+    }
+    End();
+
     for(auto& [k, v] : open_files)
     {
         v->window();
@@ -332,6 +340,10 @@ void init()
     arduboy->paused = true;
     arduboy->fx.min_page = 0xffff;
     arduboy->fx.max_page = 0xffff;
+
+    asm_editor.SetReadOnly(true);
+    asm_editor.SetShowWhitespaces(false);
+    asm_editor.SetColorizerEnable(false);
 }
 
 void make_tab_visible(std::string const& window_name)

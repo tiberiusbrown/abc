@@ -45,6 +45,20 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "font",    TYPE_FONT    },
 };
 
+bool sysfunc_is_format(sysfunc_t f)
+{
+    return f == SYS_DRAW_TEXTF || f == SYS_FORMAT;
+}
+bool sysfunc_is_format(std::string const& f)
+{
+    if(f.empty() || f[0] != '$')
+        return false;
+    auto it = sys_names.find(f.substr(1));
+    if(it != sys_names.end())
+        return sysfunc_is_format(it->second);
+    return false;
+}
+
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
     { SYS_DISPLAY,          { TYPE_VOID, { } } },
@@ -53,6 +67,9 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_DRAW_SPRITE,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 } } },
     { SYS_DRAW_TEXT,        { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_FONT, TYPE_STR } } },
     { SYS_DRAW_TEXT_P,      { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_FONT, TYPE_STR_PROG } } },
+    { SYS_DRAW_TEXTF,       { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_FONT, TYPE_STR_PROG } } },
+    { SYS_TEXT_WIDTH,       { TYPE_U16,  { TYPE_FONT, TYPE_STR } } },
+    { SYS_TEXT_WIDTH_P,     { TYPE_U16,  { TYPE_FONT, TYPE_STR_PROG } } },
     { SYS_SET_FRAME_RATE,   { TYPE_VOID, { TYPE_U8 } } },
     { SYS_NEXT_FRAME,       { TYPE_BOOL, { } } },
     { SYS_IDLE,             { TYPE_VOID, { } } },
@@ -65,16 +82,12 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_ANY_PRESSED,      { TYPE_BOOL, { TYPE_U8 } } },
     { SYS_NOT_PRESSED,      { TYPE_BOOL, { TYPE_U8 } } },
     { SYS_MILLIS,           { TYPE_U32,  { } } },
-    { SYS_UHEXSTR,          { type_char_array(8), { TYPE_U32 } } },
-    { SYS_UDECSTR,          { type_char_array(10), { TYPE_U32 } } },
     { SYS_STRLEN,           { TYPE_U16,  { TYPE_STR } } },
     { SYS_STRLEN_P,         { TYPE_U24,  { TYPE_STR_PROG } } },
     { SYS_STRCMP,           { TYPE_I8,   { TYPE_STR, TYPE_STR } } },
     { SYS_STRCMP_P,         { TYPE_I8,   { TYPE_STR, TYPE_STR_PROG } } },
     { SYS_STRCPY,           { TYPE_VOID, { TYPE_STR, TYPE_STR } } },
     { SYS_STRCPY_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
-    { SYS_STRCAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR } } },
-    { SYS_STRCAT_P,         { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
     { SYS_FORMAT,           { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG } } },
 };
 
