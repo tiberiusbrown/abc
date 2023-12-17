@@ -39,6 +39,7 @@ ImFont* font_h1;
 ImFont* font_h2;
 ImFont* font_h3;
 
+static bool show_asm;
 TextEditor asm_editor;
 
 extern unsigned char const ProggyVector[198188];
@@ -127,6 +128,12 @@ void imgui_content()
                 EndDisabled();
             EndMenu();
         }
+        if(BeginMenu("Tools"))
+        {
+            if(MenuItem("Disassembly", nullptr, show_asm))
+                show_asm = !show_asm;
+            EndMenu();
+        }
         {
             float w = ImGui::CalcTextSize(abc_version, NULL, true).x;
             w += ImGui::GetStyle().ItemSpacing.x;
@@ -189,11 +196,15 @@ void imgui_content()
     }
     End();
 
-    //if(Begin("Disassembly"))
-    //{
-    //    asm_editor.Render("###asm");
-    //}
-    //End();
+    if(show_asm)
+    {
+        SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
+        if(Begin("Disassembly"))
+        {
+            asm_editor.Render("###asm");
+        }
+        End();
+    }
 
     for(auto& [k, v] : open_files)
     {
@@ -344,6 +355,9 @@ void init()
     asm_editor.SetReadOnly(true);
     asm_editor.SetShowWhitespaces(false);
     asm_editor.SetColorizerEnable(false);
+    auto p = asm_editor.GetPalette();
+    p[(int)TextEditor::PaletteIndex::Default] = 0xffdddddd;
+    asm_editor.SetPalette(p);
 }
 
 void make_tab_visible(std::string const& window_name)
