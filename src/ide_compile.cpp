@@ -40,7 +40,10 @@ bool compile_all()
         asms.push_back(t);
         std::string ef;
         if(!c.errors().empty())
-            ef = std::filesystem::path(c.error_file()).lexically_relative(project.root.path).string();
+        {
+            auto cef = std::filesystem::path(c.error_file());
+            ef = cef.lexically_relative(project.root.path).string();
+        }
         for(auto const& e : c.errors())
             project.errors[ef].push_back(e);
     } while(0);

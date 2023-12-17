@@ -414,7 +414,7 @@ struct compiler_t
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
 
-    std::string error_file() const { return current_path; }
+    std::string error_file() const { return current_path + "/" + current_file + ".abc"; }
 
 private:
 
@@ -526,6 +526,7 @@ private:
     using font_key_t = std::pair<int, std::string>;
     std::map<font_key_t, std::string> font_label_cache;
 
+    std::string current_file;
     std::string current_path;
     std::function<bool(std::string const&, std::vector<char>&)> file_loader;
 

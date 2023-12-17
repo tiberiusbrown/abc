@@ -433,6 +433,7 @@ void compiler_t::compile(
 
     file_loader = loader;
     current_path = fpath;
+    current_file = fname;
 
     compile_recurse(fpath, fname);
 
@@ -764,9 +765,15 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             std::string new_file = std::string(n.children.back().data);
             import_set.insert(filename);
             std::string old_path = std::move(current_path);
+            std::string old_file = std::move(current_file);
             current_path = new_path;
+            current_file = new_file;
             compile_recurse(new_path, new_file);
-            current_path = std::move(old_path);
+            if(errs.empty())
+            {
+                current_path = std::move(old_path);
+                current_file = std::move(old_file);
+            }
             import_set.erase(filename);
         }
     }
