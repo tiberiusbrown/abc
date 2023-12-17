@@ -139,6 +139,7 @@ static void export_arduboy()
         project.binary.data(), project.binary.size(),
         compression);
 
+#if 0
     // add project files
     mz_zip_writer_add_mem(&zip, "abc/", nullptr, 0, compression);
     for(auto const& e : std::filesystem::recursive_directory_iterator(project.root.path))
@@ -156,6 +157,7 @@ static void export_arduboy()
     //        f->content.data(), f->content.size(),
     //        compression);
     //}
+#endif
 
     mz_zip_writer_finalize_archive(&zip);
     mz_zip_writer_end(&zip);

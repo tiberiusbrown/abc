@@ -112,11 +112,45 @@ static void sys_display()
 static void sys_draw_pixel()
 {
     auto ptr = vm_pop_begin();
-    uint8_t color = vm_pop<uint8_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
     int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     Arduboy2Base::drawPixel(x, y, color);
+}
+
+static void sys_draw_hline()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesU::fillRect(x, y, w, 1, color);
+}
+
+static void sys_draw_vline()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesU::fillRect(x, y, 1, h, color);
+}
+
+static void sys_draw_line()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x0 = vm_pop<int16_t>(ptr);
+    int16_t y0 = vm_pop<int16_t>(ptr);
+    int16_t x1 = vm_pop<int16_t>(ptr);
+    int16_t y1 = vm_pop<int16_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    Arduboy2Base::drawLine(x0, y0, x1, y1, color);
 }
 
 static void sys_draw_rect()
@@ -782,6 +816,9 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
     sys_draw_pixel,
+    sys_draw_hline,
+    sys_draw_vline,
+    sys_draw_line,
     sys_draw_rect,
     sys_draw_filled_rect,
     sys_draw_circle,

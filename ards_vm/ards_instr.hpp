@@ -7,6 +7,9 @@ enum sysfunc_t : uint16_t
 {
     SYS_DISPLAY,
     SYS_DRAW_PIXEL,
+    SYS_DRAW_HLINE,
+    SYS_DRAW_VLINE,
+    SYS_DRAW_LINE,
     SYS_DRAW_RECT,
     SYS_DRAW_FILLED_RECT,
     SYS_DRAW_CIRCLE,

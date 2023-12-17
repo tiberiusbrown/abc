@@ -13,6 +13,9 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
 {
     { "display",            SYS_DISPLAY            },
     { "draw_pixel",         SYS_DRAW_PIXEL         },
+    { "draw_hline",         SYS_DRAW_HLINE         },
+    { "draw_vline",         SYS_DRAW_VLINE         },
+    { "draw_line",          SYS_DRAW_LINE          },
     { "draw_rect",          SYS_DRAW_RECT          },
     { "draw_filled_rect",   SYS_DRAW_FILLED_RECT   },
     { "draw_circle",        SYS_DRAW_CIRCLE        },
@@ -48,6 +51,9 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
     { SYS_DISPLAY,            { TYPE_VOID, { } } },
     { SYS_DRAW_PIXEL,         { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8 } } },
+    { SYS_DRAW_HLINE,         { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 } } },
+    { SYS_DRAW_VLINE,         { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 } } },
+    { SYS_DRAW_LINE,          { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_I16, TYPE_I16, TYPE_U8 } } },
     { SYS_DRAW_RECT,          { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
     { SYS_DRAW_FILLED_RECT,   { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 } } },
     { SYS_DRAW_CIRCLE,        { TYPE_VOID, { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 } } },
