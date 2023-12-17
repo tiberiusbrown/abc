@@ -86,18 +86,6 @@ if(EMSCRIPTEN)
     set(EM_FILE_BROWSER_SOURCES deps/emscripten-browser-file/emscripten_browser_file.h)
 endif()
 
-add_library(ards_assembler STATIC
-    .editorconfig
-    ards_vm/ards_instr.hpp
-    src/ards_assembler.cpp
-    src/ards_assembler.hpp
-    src/ards_error.hpp
-    )
-target_include_directories(ards_assembler PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/ards_vm"
-    )
-
 add_library(ards_compiler STATIC
     .editorconfig
     ards_vm/ards_instr.hpp
@@ -116,6 +104,7 @@ add_library(ards_compiler STATIC
     src/ards_compiler_type.cpp
     src/ards_compiler_write.cpp
     src/ards_error.hpp
+    src/ards_sysfuncs.cpp
     deps/peglib/peglib.h
     )
 target_include_directories(ards_compiler PUBLIC
@@ -125,12 +114,9 @@ target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
-    
-add_executable(ards_as src/ards_as.cpp)
-target_link_libraries(ards_as ards_assembler)
 
-add_executable(ards_c src/ards_c.cpp)
-target_link_libraries(ards_c ards_compiler)
+add_executable(abcc src/abcc.cpp)
+target_link_libraries(abcc ards_compiler)
 
 set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
 set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)

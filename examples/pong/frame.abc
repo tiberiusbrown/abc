@@ -110,7 +110,7 @@ void render()
     
     // ball
     $draw_sprite(bx / FRAC, by / FRAC, img_ball, 0);
-    
+        
     // bottom line
     $draw_filled_rect(0, BOT_Y, 128, 1, WHITE);
 }
@@ -124,6 +124,7 @@ void new_game()
     serving = true;
     ai_serving = false;
 }
+
 
 
 

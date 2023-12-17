@@ -6,38 +6,6 @@
 namespace ards
 {
 
-std::unordered_map<std::string, sysfunc_t> const sys_names =
-{
-    { "display",          SYS_DISPLAY          },
-    { "draw_pixel",       SYS_DRAW_PIXEL       },
-    { "draw_filled_rect", SYS_DRAW_FILLED_RECT },
-    { "draw_sprite",      SYS_DRAW_SPRITE      },
-    { "draw_text",        SYS_DRAW_TEXT        },
-    { "draw_text_P",      SYS_DRAW_TEXT_P      },
-    { "draw_textf",       SYS_DRAW_TEXTF       },
-    { "text_width",       SYS_TEXT_WIDTH       },
-    { "text_width_P",     SYS_TEXT_WIDTH_P     },
-    { "set_frame_rate",   SYS_SET_FRAME_RATE   },
-    { "next_frame",       SYS_NEXT_FRAME       },
-    { "idle",             SYS_IDLE             },
-    { "debug_break",      SYS_DEBUG_BREAK      },
-    { "assert",           SYS_ASSERT           },
-    { "poll_buttons",     SYS_POLL_BUTTONS     },
-    { "just_pressed",     SYS_JUST_PRESSED     },
-    { "just_released",    SYS_JUST_RELEASED    },
-    { "pressed",          SYS_PRESSED          },
-    { "any_pressed",      SYS_ANY_PRESSED      },
-    { "not_pressed",      SYS_NOT_PRESSED      },
-    { "millis",           SYS_MILLIS           },
-    { "strlen",           SYS_STRLEN           },
-    { "strlen_P",         SYS_STRLEN_P         },
-    { "strcmp",           SYS_STRCMP           },
-    { "strcmp_P",         SYS_STRCMP_P         },
-    { "strcpy",           SYS_STRCPY           },
-    { "strcpy_P",         SYS_STRCPY_P         },
-    { "format",           SYS_FORMAT           },
-};
-
 static bool isalpha(char c)
 {
     return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c == '_';

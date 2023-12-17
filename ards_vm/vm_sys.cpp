@@ -119,6 +119,21 @@ static void sys_draw_pixel()
     Arduboy2Base::drawPixel(x, y, color);
 }
 
+static void sys_draw_rect()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesU::fillRect(x, y, w, 1, color);
+    SpritesU::fillRect(x, y + h - 1, w, 1, color);
+    SpritesU::fillRect(x, y, 1, h, color);
+    SpritesU::fillRect(x + w - 1, y, 1, h, color);
+}
+
 static void sys_draw_filled_rect()
 {
     auto ptr = vm_pop_begin();
@@ -129,6 +144,28 @@ static void sys_draw_filled_rect()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesU::fillRect(x, y, w, h, color);
+}
+
+static void sys_draw_circle()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t r = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    Arduboy2Base::drawCircle(x, y, r, color);
+}
+
+static void sys_draw_filled_circle()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t r = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    Arduboy2Base::fillCircle(x, y, r, color);
 }
 
 static void sys_set_frame_rate()
@@ -745,7 +782,10 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
     sys_draw_pixel,
+    sys_draw_rect,
     sys_draw_filled_rect,
+    sys_draw_circle,
+    sys_draw_filled_circle,
     sys_draw_sprite,
     sys_draw_text,
     sys_draw_text_P,
