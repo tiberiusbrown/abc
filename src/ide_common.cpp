@@ -189,11 +189,11 @@ void imgui_content()
     }
     End();
 
-    if(Begin("Disassembly"))
-    {
-        asm_editor.Render("###asm");
-    }
-    End();
+    //if(Begin("Disassembly"))
+    //{
+    //    asm_editor.Render("###asm");
+    //}
+    //End();
 
     for(auto& [k, v] : open_files)
     {
