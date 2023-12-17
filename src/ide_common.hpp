@@ -29,6 +29,7 @@ extern ImFont* font_h3;
 extern bool player_active;
 extern std::string const main_name;
 extern TextEditor asm_editor;
+extern bool show_sys;
 
 // ide_texture.cpp
 struct texture_t
@@ -122,6 +123,9 @@ void player_run();
 
 // ide_asm.cpp
 void set_asm(std::string const& t);
+
+// ide_sys.cpp
+void ide_system_reference();
 
 // platform-specific functionality
 void platform_set_clipboard_text(char const* str);

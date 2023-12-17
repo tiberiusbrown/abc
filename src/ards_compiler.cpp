@@ -817,4 +817,44 @@ void compiler_t::add_custom_label_ref(
     g.var.label_ref = name;
 }
 
+
+std::string type_name(ards::compiler_type_t const& t, bool noprog)
+{
+    std::stringstream ss;
+    auto tt = t.without_prog();
+    if(tt == ards::TYPE_VOID)
+        ss << "void";
+    else if(tt == ards::TYPE_SPRITES)
+        ss << "sprites";
+    else if(tt == ards::TYPE_FONT)
+        ss << "font";
+    else if(t.is_array())
+    {
+        ss << type_name(t.children[0], t.children[0].is_prog) << "[" << t.array_size() << "]";
+        if(t.children[0].is_prog) ss << " prog";
+    }
+    else if(t.is_prim())
+    {
+        if(tt == ards::TYPE_BOOL) ss << "bool";
+        else if(tt == ards::TYPE_CHAR) ss << "char";
+        else
+        {
+            ss << (t.is_signed ? "i" : "u");
+            ss << (t.prim_size * 8);
+        }
+    }
+    else if(t.is_ref())
+    {
+        ss << type_name(t.children[0]) << "&";
+    }
+    else if(t.is_array_ref())
+    {
+        ss << type_name(t.children[0], t.children[0].is_prog) << "[]";
+        if(t.children[0].is_prog) ss << " prog";
+        ss << "&";
+    }
+    if(!noprog && t.is_prog) ss << " prog";
+    return ss.str();
+}
+
 }

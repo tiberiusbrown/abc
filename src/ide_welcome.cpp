@@ -22,4 +22,12 @@ void project_welcome()
     cfg.headingFormats[2] = { font_h3, false };
 
     Markdown(WELCOME_STR.c_str(), WELCOME_STR.size(), cfg);
+
+    NewLine();
+
+    if(Button("Open System Reference"))
+    {
+        SetWindowFocus("System Reference");
+        show_sys = true;
+    }
 }

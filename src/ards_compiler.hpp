@@ -251,6 +251,8 @@ const compiler_type_t TYPE_STR_PROG = TYPE_CHAR.with_prog().with_array_ref();
 compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed);
 compiler_type_t prim_type_for_hex(uint32_t x, bool is_signed);
 
+std::string type_name(ards::compiler_type_t const& t, bool noprog = false);
+
 struct compiler_instr_t
 {
     instr_t instr;

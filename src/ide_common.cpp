@@ -42,6 +42,8 @@ ImFont* font_h3;
 static bool show_asm;
 TextEditor asm_editor;
 
+bool show_sys;
+
 extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
@@ -130,6 +132,8 @@ void imgui_content()
         }
         if(BeginMenu("Tools"))
         {
+            if(MenuItem("System Reference", nullptr, show_sys))
+                show_sys = !show_sys;
             if(MenuItem("Disassembly", nullptr, show_asm))
                 show_asm = !show_asm;
             EndMenu();
@@ -199,9 +203,19 @@ void imgui_content()
     if(show_asm)
     {
         SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
-        if(Begin("Disassembly"))
+        if(Begin("Disassembly", &show_asm))
         {
             asm_editor.Render("###asm");
+        }
+        End();
+    }
+
+    if(show_sys)
+    {
+        SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
+        if(Begin("System Reference", &show_sys))
+        {
+            ide_system_reference();
         }
         End();
     }
