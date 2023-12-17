@@ -69,7 +69,7 @@ int main()
         auto it = ards::sysfunc_decls.find(v);
         if(it == ards::sysfunc_decls.end()) continue;
         auto const& decl = it->second;
-        fprintf(f, "%s $%s(", type_name(decl.return_type).c_str(), k.c_str());
+        fprintf(f, "%-4s $%s(", type_name(decl.return_type).c_str(), k.c_str());
         for(size_t i = 0; i < decl.arg_types.size(); ++i)
         {
             if(i != 0) fprintf(f, ", ");

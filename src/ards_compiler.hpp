@@ -191,7 +191,7 @@ struct compiler_type_t
     auto tie() const
     {
         return std::tie(
-            prim_size,
+            prim_size, type,
             is_signed, is_bool, is_prog, is_char,
             children);
     }
