@@ -1,4 +1,4 @@
-import blah.frame;
+import frame;
 import sprites;
 import vars;
 
