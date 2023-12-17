@@ -70,7 +70,7 @@ void open_file_t::window()
     SetNextWindowSize(
         { 400 * pixel_ratio, 400 * pixel_ratio },
         ImGuiCond_FirstUseEver);
-    SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
+    dock_next_window_to_welcome();
     if(Begin(window_id().c_str(), &open))
     {
         window_contents();
@@ -110,6 +110,14 @@ void frame_logic()
     {
         player_run();
     }
+}
+
+void dock_next_window_to_welcome()
+{
+    using namespace ImGui;
+    ImGuiWindow* w = FindWindowByName("Welcome");
+    if(!w) return;
+    SetNextWindowDockID(w->DockId, ImGuiCond_FirstUseEver);
 }
 
 void imgui_content()
@@ -192,7 +200,7 @@ void imgui_content()
     }
     End();
 
-    SetNextWindowDockID(dockid_welcome, ImGuiCond_Always);
+    SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
     if(Begin("Welcome", nullptr,
         ImGuiWindowFlags_NoMove))
     {
@@ -202,7 +210,7 @@ void imgui_content()
 
     if(show_asm)
     {
-        SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
+        dock_next_window_to_welcome();
         if(Begin("Disassembly", &show_asm))
         {
             asm_editor.Render("###asm");
@@ -212,7 +220,7 @@ void imgui_content()
 
     if(show_sys)
     {
-        SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
+        dock_next_window_to_welcome();
         if(Begin("System Reference", &show_sys))
         {
             ide_system_reference();

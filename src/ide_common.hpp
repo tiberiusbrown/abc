@@ -96,6 +96,7 @@ void make_tab_visible(std::string const& window_name);
 bool open_file(std::filesystem::path const& p);
 void close_file(std::filesystem::path const& p);
 void update_cached_files();
+void dock_next_window_to_welcome();
 
 // ide_compile.cpp
 bool compile_all();
