@@ -267,6 +267,7 @@ struct compiler_func_decl_t
 {
     compiler_type_t return_type;
     std::vector<compiler_type_t> arg_types;
+    std::vector<std::string> arg_names;
 };
 
 struct compiler_var_t

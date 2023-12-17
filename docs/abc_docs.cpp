@@ -34,7 +34,7 @@ int main()
         for(size_t i = 0; i < decl.arg_types.size(); ++i)
         {
             if(i != 0) fprintf(f, ", ");
-            fprintf(f, "%s", ards::type_name(decl.arg_types[i]).c_str());
+            fprintf(f, "%s %s", ards::type_name(decl.arg_types[i]).c_str(), decl.arg_names[i].c_str());
         }
         if(ards::sysfunc_is_format(v))
             fprintf(f, ", ...");

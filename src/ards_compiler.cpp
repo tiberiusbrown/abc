@@ -363,6 +363,8 @@ void compiler_t::compile(
     std::ostream& fo)
 {
     assert(sysfunc_decls.size() == SYS_NUM);
+    for(auto const& [k, v] : sysfunc_decls)
+        assert(v.arg_types.size() == v.arg_names.size());
 
     font_label_cache.clear();
 
@@ -696,6 +698,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 assert(tname.type == AST::IDENT);
                 f.arg_names.push_back(std::string(tname.data));
                 f.decl.arg_types.push_back(resolve_type(ttype));
+                f.decl.arg_names.push_back(std::string(tname.data));
             }
 
             if(name == "main" && !f.arg_names.empty())

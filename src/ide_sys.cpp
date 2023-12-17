@@ -9,6 +9,7 @@ void ide_system_reference()
     static std::map<std::string, ards::sysfunc_t> const sys_names(
         ards::sys_names.begin(), ards::sys_names.end());
 
+#if 0
     constexpr ImGuiTableFlags tf =
         ImGuiTableFlags_NoSavedSettings |
         ImGuiTableFlags_RowBg |
@@ -18,11 +19,28 @@ void ide_system_reference()
     constexpr ImGuiTableColumnFlags cf =
         //ImGuiTableColumnFlags_WidthFixed |
         0;
+#endif
+
+    float const indent_width = CalcTextSize("    ").x;
+
+    constexpr auto TYPE_COLOR = IM_COL32(20, 120, 200, 255);
 
     PushFont(font_h2);
     TextUnformatted("Predefined Constants");
     PopFont();
     Separator();
+    Indent(indent_width);
+    for(auto const& c : ards::builtin_constexprs)
+    {
+        PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
+        TextUnformatted(ards::type_name(c.type).c_str());
+        PopStyleColor();
+        SameLine();
+        Text("%s;", c.name.c_str());
+    }
+    Unindent(indent_width);
+
+#if 0
     if(BeginTable("##globals_usage", 2, tf, { -1, 0 }))
     {
         TableSetupColumn("Type", cf);
@@ -32,17 +50,51 @@ void ide_system_reference()
         {
             TableNextRow();
             TableSetColumnIndex(0);
+            PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
             TextUnformatted(ards::type_name(c.type).c_str());
+            PopStyleColor();
             TableSetColumnIndex(1);
             TextUnformatted(c.name.c_str());
         }
         EndTable();
     }
+#endif
 
     PushFont(font_h2);
     TextUnformatted("System Functions");
     PopFont();
     Separator();
+    Indent(indent_width);
+    for(auto const& [k, v] : sys_names)
+    {
+        auto it = ards::sysfunc_decls.find(v);
+        if(it == ards::sysfunc_decls.end()) continue;
+        auto const& decl = it->second;
+        PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
+        TextUnformatted(ards::type_name(decl.return_type).c_str());
+        PopStyleColor();
+        SameLine();
+        Text("$%s(", k.c_str());
+        SameLine(0.f, 0.f);
+        for(size_t i = 0; i < decl.arg_types.size(); ++i)
+        {
+            if(i != 0)
+            {
+                SameLine(0.f, 0.f);
+                TextUnformatted(",");
+                SameLine();
+            }
+            PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
+            TextUnformatted(ards::type_name(decl.arg_types[i]).c_str());
+            PopStyleColor();
+            SameLine();
+            TextUnformatted(decl.arg_names[i].c_str());
+        }
+        SameLine(0.f, 0.f);
+        TextUnformatted(");");
+    }
+    Unindent(indent_width);
+#if 0
     if(BeginTable("##globals_usage", 3, tf, { -1, 0 }))
     {
         TableSetupColumn("Type", cf);
@@ -56,19 +108,29 @@ void ide_system_reference()
             auto const& decl = it->second;
             TableNextRow();
             TableSetColumnIndex(0);
+            PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
             TextUnformatted(ards::type_name(decl.return_type).c_str());
+            PopStyleColor();
             TableSetColumnIndex(1);
             Text("$%s", k.c_str());
             TableSetColumnIndex(2);
-            std::string t;
             for(size_t i = 0; i < decl.arg_types.size(); ++i)
             {
-                if(i != 0) t += ", ";
-                t += ards::type_name(decl.arg_types[i]);
+                if(i != 0)
+                {
+                    SameLine(0.f, 0.f);
+                    TextUnformatted(",");
+                    SameLine();
+                }
+                PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
+                TextUnformatted(ards::type_name(decl.arg_types[i]).c_str());
+                PopStyleColor();
+                SameLine();
+                TextUnformatted(decl.arg_names[i].c_str());
             }
-            TextUnformatted(t.c_str());
         }
         EndTable();
     }
+#endif
 
 }
