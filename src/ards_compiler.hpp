@@ -529,8 +529,9 @@ private:
     using font_key_t = std::pair<int, std::string>;
     std::map<font_key_t, std::string> font_label_cache;
 
-    std::string current_file;
+    std::string base_path;
     std::string current_path;
+    std::string current_file;
     std::function<bool(std::string const&, std::vector<char>&)> file_loader;
 
     size_t progdata_label_index;

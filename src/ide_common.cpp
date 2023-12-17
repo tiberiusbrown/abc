@@ -89,7 +89,7 @@ std::string open_file_t::read_as_string() const
 
 std::string open_file_t::filename() const
 {
-    return rel_path.string();
+    return rel_path.generic_string();
 }
 
 std::string open_file_t::window_title()
@@ -399,7 +399,7 @@ static bool ends_with(std::string const& str, std::string const& suffix)
 
 bool open_file(std::filesystem::path const& p)
 {
-    std::string filename = p.lexically_normal().string();
+    std::string filename = p.lexically_normal().generic_string();
     if(open_files.count(filename) != 0)
     {
         make_tab_visible(open_files[filename]->window_id());
@@ -415,7 +415,7 @@ bool open_file(std::filesystem::path const& p)
 
 void close_file(std::filesystem::path const& p)
 {
-    std::string filename = p.lexically_normal().string();
+    std::string filename = p.lexically_normal().generic_string();
     if(open_files.count(filename) == 0)
         return;
     open_files.erase(filename);
@@ -451,7 +451,7 @@ static void catalog_all_files(
         if(child.is_dir)
             catalog_all_files(child, files);
         else
-            files.insert(child.path.string());
+            files.insert(child.path.generic_string());
     }
 }
 

@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
     std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/aaa.abc";
 
-    c.compile(psrc.parent_path().string(), psrc.stem().string(), fasm);
+    c.compile(psrc.parent_path().generic_string(), psrc.stem().generic_string(), fasm);
     for(auto const& e : c.errors())
     {
         std::cerr << "Compiler Error" << std::endl;
@@ -51,10 +51,10 @@ int main(int argc, char** argv)
 
     {
         auto fxdata = psrc.parent_path() / "fxdata.bin";
-        std::ofstream fbin(fxdata.string(), std::ios::out | std::ios::binary);
+        std::ofstream fbin(fxdata.generic_string(), std::ios::out | std::ios::binary);
         if(!fbin)
         {
-            std::cerr << "Unable to open file: \"" << fxdata.string() << "\"" << std::endl;
+            std::cerr << "Unable to open file: \"" << fxdata.generic_string() << "\"" << std::endl;
             return 1;
         }
         fbin.write((char const*)a.data().data(), a.data().size());

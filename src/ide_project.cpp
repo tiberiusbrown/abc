@@ -69,7 +69,7 @@ static void modal()
     {
         TextUnformatted("Delete the following file?");
         Separator();
-        TextUnformatted(modal_path.lexically_relative(project.root.path).string().c_str());
+        TextUnformatted(modal_path.lexically_relative(project.root.path).generic_string().c_str());
     }
 
     NewLine();
@@ -157,7 +157,7 @@ static void upload_file()
 static void new_menu(cached_file_t const& dir)
 {
     using namespace ImGui;
-    std::string label = "   New...###new_" + dir.path.string();
+    std::string label = "   New...###new_" + dir.path.generic_string();
     if(BeginMenu(label.c_str()))
     {
         if(MenuItem("Code File..."))
@@ -203,7 +203,7 @@ static void project_window_contents_dir(cached_file_t const& dir)
     assert(dir.is_dir);
     for(auto const& f : dir.children)
     {
-        std::string name = f.path.filename().string();
+        std::string name = f.path.filename().generic_string();
         if(f.is_dir)
         {
             bool open = TreeNode((name + "/").c_str());

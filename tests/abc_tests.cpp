@@ -79,9 +79,9 @@ int main()
     for(auto const& entry : fs::recursive_directory_iterator(TESTS_DIR))
     {
         char const* status = "Pass";
-        if(!test(entry.path().parent_path().string(), entry.path().filename().string()))
+        if(!test(entry.path().parent_path().generic_string(), entry.path().filename().generic_string()))
             status = "fail", r = 1;
-        printf("%-20s %s\n", entry.path().filename().string().c_str(), status);
+        printf("%-20s %s\n", entry.path().filename().generic_string().c_str(), status);
     }
 
     return r;

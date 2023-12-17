@@ -34,7 +34,7 @@ bool compile_all()
             break;
         };
         std::stringstream sout;
-        c.compile(project.root.path.string(), "main", sout);
+        c.compile(project.root.path.generic_string(), "main", sout);
         std::string t = sout.str();
         asm_editor.SetText(t);
         asms.push_back(t);
@@ -42,7 +42,7 @@ bool compile_all()
         if(!c.errors().empty())
         {
             auto cef = std::filesystem::path(c.error_file());
-            ef = cef.lexically_relative(project.root.path).string();
+            ef = cef.lexically_relative(project.root.path).generic_string();
         }
         for(auto const& e : c.errors())
             project.errors[ef].push_back(e);

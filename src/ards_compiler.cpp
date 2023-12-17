@@ -1,5 +1,6 @@
 #include "ards_compiler.hpp"
 
+#include <filesystem>
 #include <sstream>
 
 #include <assert.h>
@@ -398,6 +399,7 @@ void compiler_t::compile(
     }
 
     file_loader = loader;
+    base_path = fpath;
     current_path = fpath;
     current_file = fname;
 
@@ -677,7 +679,10 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
-            f.filename = fname + ".abc";
+            f.filename =
+                std::filesystem::path(current_path + "/" + fname + ".abc")
+                .lexically_relative(std::filesystem::path(base_path))
+                .generic_string();
             f.block = std::move(n.children[2]);
 
             if(name == "main" && f.decl.return_type != TYPE_VOID)
