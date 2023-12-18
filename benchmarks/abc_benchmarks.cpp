@@ -33,7 +33,7 @@ static void out_txt(char const* fmt, ...)
     va_start(v, fmt);
     vprintf(fmt, v);
     va_end(v);
-    va_start(v, fmt);
+    va_start(v, fmt);kf
     vfprintf(fout, fmt, v);
     va_end(v);
 }

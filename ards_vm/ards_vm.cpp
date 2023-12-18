@@ -2614,17 +2614,9 @@ void vm_run()
 
     // kick off execution
     asm volatile(R"(
-    
         call restore_vm_state
         jmp  jump_to_pc
-    )"
-    :
-    : [spdr]       "i" (_SFR_IO_ADDR(SPDR))
-    , [spsr]       "i" (_SFR_IO_ADDR(SPSR))
-    , [fxport]     "i" (_SFR_IO_ADDR(FX_PORT))
-    , [fxbit]      "i" (FX_BIT)
-    , [data_page]  ""  (&FX::programDataPage)
-    );
+    )");
 
 }
 

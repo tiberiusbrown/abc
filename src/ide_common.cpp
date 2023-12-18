@@ -201,8 +201,7 @@ void imgui_content()
     End();
 
     SetNextWindowDockID(dockid_welcome, ImGuiCond_FirstUseEver);
-    if(Begin("Welcome", nullptr,
-        ImGuiWindowFlags_NoMove))
+    if(Begin("Welcome"))
     {
         project_welcome();
     }
