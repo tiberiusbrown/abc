@@ -44,7 +44,7 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
 {
     vm.error = (uint8_t)e;
     Arduboy2Base::clear();
-    (void)FX::disable();
+    FX::disable();
     memcpy_P(&Arduboy2Base::sBuffer[0], IMG_ERR, sizeof(IMG_ERR));
     for(uint8_t i = 0; i < 128; ++i)
         Arduboy2Base::sBuffer[128+i] = 0x0c;
