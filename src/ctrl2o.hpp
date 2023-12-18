@@ -44,24 +44,6 @@ public:
             rem_dt -= base_dt;
         }
     }
-    void advance_radians(T x, T dt)
-    {
-        rem_dt += dt;
-        x = mod2pi(x);
-        while(rem_dt >= 0)
-        {
-            T diff = x - y;
-            if(diff > T(+PI))
-                diff -= T(PI2);
-            if(diff < T(-PI))
-                diff += T(PI2);
-            T d2ydt = alpha * diff - beta * dydt;
-            y += dydt * base_dt;
-            dydt += d2ydt * base_dt;
-            rem_dt -= base_dt;
-            y = mod2pi(y);
-        }
-    }
     T get() const { return y; }
 };
 
