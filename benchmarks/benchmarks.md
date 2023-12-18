@@ -1,6 +1,6 @@
 ## Benchmarks
 
-<details><summary>bubble1: 56.30% slowdown</summary>
+<details><summary>bubble1: 56.30x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 34714</td><td>Cycles: 1954329</td></tr>
@@ -90,7 +90,7 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble2: 38.24% slowdown</summary>
+<details><summary>bubble2: 38.24x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 52858</td><td>Cycles: 2021237</td></tr>
@@ -180,7 +180,7 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble3: 33.89% slowdown</summary>
+<details><summary>bubble3: 33.89x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 71002</td><td>Cycles: 2406557</td></tr>
@@ -270,7 +270,7 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble4: 28.86% slowdown</summary>
+<details><summary>bubble4: 28.86x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 89146</td><td>Cycles: 2572819</td></tr>
@@ -360,7 +360,7 @@ void main()
 </table>
 </details>
 
-<details><summary>fibonacci: 20.72% slowdown</summary>
+<details><summary>fibonacci: 20.72x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 87831</td><td>Cycles: 1819477</td></tr>
@@ -413,7 +413,7 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 4.56% slowdown</summary>
+<details><summary>tilessprite: 4.56x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 44482</td><td>Cycles: 202643</td></tr>
@@ -495,7 +495,7 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite16: 2.50% slowdown</summary>
+<details><summary>tilessprite16: 2.50x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 26978</td><td>Cycles: 67456</td></tr>
@@ -587,10 +587,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilesrect: 0.44% slowdown</summary>
+<details><summary>tilesrect: 0.44x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 257725</td><td>Cycles: 112406</td></tr>
+<tr><td>Cycles: 257725</td><td>Cycles: 112790</td></tr>
 <tr>
 <td>
 

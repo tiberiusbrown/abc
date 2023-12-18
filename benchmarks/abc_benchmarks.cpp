@@ -108,7 +108,7 @@ static void bench(char const* name)
 
     cycles_native = cycle_b - cycle_a;
 
-    out("<details><summary>%s: %.2f%% slowdown</summary>\n",
+    out("<details><summary>%s: %.2fx slowdown</summary>\n",
         name, double(cycles_abc) / cycles_native);
     out("<table>\n");
     out("<tr><th>Native</th><th>ABC</th></tr>\n");
