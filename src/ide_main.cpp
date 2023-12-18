@@ -28,8 +28,27 @@
 
 #include "ide_common.hpp"
 
+#include "ctrl2o.hpp"
+
+constexpr float CTRL_OMEGA = 30.f;
+static ctrl2o cwheelx(CTRL_OMEGA);
+static ctrl2o cwheely(CTRL_OMEGA);
+static float  dwheelx, dwheely;
+static float  pwheelx, pwheely;
+
 static void app_frame()
 {
+    auto& io = ImGui::GetIO();
+    float dt = io.DeltaTime;
+    pwheelx = cwheelx.get();
+    pwheely = cwheely.get();
+    cwheelx.advance(pwheelx + dwheelx, dt);
+    cwheely.advance(pwheely + dwheely, dt);
+    dwheelx = 0.f;
+    dwheely = 0.f;
+    _simgui_add_mouse_wheel_event(
+        &io, cwheelx.get() - pwheelx, cwheely.get() - pwheely);
+
     frame_logic();
 
     {
@@ -92,7 +111,15 @@ static void app_init()
 
 static void app_event(sapp_event const* e)
 {
-    simgui_handle_event(e);
+    if(e->type == SAPP_EVENTTYPE_MOUSE_SCROLL)
+    {
+        dwheelx += e->scroll_x;
+        dwheely += e->scroll_y;
+    }
+    else
+    {
+        simgui_handle_event(e);
+    }
 
 #ifndef __EMSCRIPTEN__
     if(e->type == SAPP_EVENTTYPE_FILES_DROPPED)

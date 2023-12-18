@@ -130,6 +130,7 @@ file(GLOB SOKOL_SOURCES deps/sokol/*.h)
 file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
 
 add_executable(abc ${EXE_TYPE}
+    src/ctrl2o.hpp
     src/font.cpp
     src/font_icons.cpp
     src/font_icons.hpp
