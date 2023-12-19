@@ -105,6 +105,7 @@ enum instr_t : uint8_t
     I_POP2,  // a b |
     I_POP3,  // a b c |
     I_POP4,  // a b c d |
+    I_POPN,  // pop imm8 bytes
 
     // array reference (RAM)
     I_AIDXB, // ref i | (ref+i*imm) with bounds checking with imm2 (8-bit)

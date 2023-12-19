@@ -836,6 +836,13 @@ I_POP4:
     lpm
     dispatch
 
+I_POPN:
+    dispatch_delay
+    read_byte
+    sub  r28, r0
+    call delay_12
+    dispatch
+
 I_AIDXB:
     ld   r20, -Y
     nop

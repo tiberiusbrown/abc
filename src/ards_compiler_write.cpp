@@ -76,6 +76,7 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_POP2:  f << "pop2"; break;
     case I_POP3:  f << "pop3"; break;
     case I_POP4:  f << "pop4"; break;
+    case I_POPN:  f << "popn  " << instr.imm; break;
 
     case I_AIDXB: f << "aidxb " << instr.imm << " " << instr.imm2; break;
     case I_AIDX:  f << "aidx  " << instr.imm << " " << instr.imm2; break;
