@@ -85,7 +85,7 @@ static void bench(char const* name)
     uint64_t cycle_a, cycle_b, cycles_abc, cycles_native;
 
     arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
-    arduboy->advance(1'000'000'000'000ull); // up to 1 second init
+    arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;
@@ -116,8 +116,12 @@ static void bench(char const* name)
 
     cycles_native = cycle_b - cycle_a;
 
-    out("<details><summary>%s: %.2fx slowdown</summary>\n",
-        name, double(cycles_abc) / cycles_native);
+    double slowdown = double(cycles_abc) / cycles_native;
+    out("<details><summary>%s: %.2fx slowdown",
+        name, slowdown);
+    if(slowdown < 1.0)
+        out(" (%.2fx speedup)", 1.0 / slowdown);
+    out("</summary>\n");
     out("<table>\n");
     out("<tr><th>Native</th><th>ABC</th></tr>\n");
     out("<tr><td>Cycles: %" PRIu64 "</td><td>Cycles: %" PRIu64 "</td></tr>\n",

@@ -480,10 +480,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.43x slowdown</summary>
+<details><summary>text: 0.43x slowdown (2.33x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207901</td><td>Cycles: 89829</td></tr>
+<tr><td>Cycles: 209543</td><td>Cycles: 89829</td></tr>
 <tr>
 <td>
 
@@ -492,7 +492,12 @@ void main()
 
 Arduboy2 a;
 
-int main()
+void setup()
+{
+    a.boot();
+}
+
+void loop()
 {
     asm volatile("break\n");
 
@@ -501,9 +506,9 @@ int main()
     a.print(millis() / 1000);
     a.print(F(" seconds"));
     a.setCursor(0, 9);
-    a.print("the quick brown fox\njumps over the lazy\ndog");
+    a.print(F("the quick brown fox\njumps over the lazy\ndog"));
     a.setCursor(0, 36);
-    a.print("THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
+    a.print(F("THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG"));
 
     asm volatile("break\n");
 }
@@ -708,7 +713,7 @@ void main()
 </table>
 </details>
 
-<details><summary>tilesrect: 0.43x slowdown</summary>
+<details><summary>tilesrect: 0.43x slowdown (2.34x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
 <tr><td>Cycles: 257725</td><td>Cycles: 110342</td></tr>
