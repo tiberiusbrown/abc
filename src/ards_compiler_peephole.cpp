@@ -309,10 +309,8 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         // replace PUSH N; SEXT with PUSH N; PUSH <0 or 255>
         if(i0.instr == I_PUSH && i1.instr == I_SEXT)
         {
-            if(i0.imm < 128)
-                i1 = { I_PUSH, 0 };
-            else
-                i1 = { I_PUSH, 255 };
+            i1.instr = I_PUSH;
+            i1.imm = (i0.imm < 128 ? 0 : 255);
             t = true;
             continue;
         }
