@@ -81,8 +81,6 @@ void compiler_t::codegen_expr(
         f.instrs.push_back({ I_PUSH, a.children[0].line(), 2 });
         f.instrs.push_back({ I_GETLN, a.children[0].line(), 2 });
         frame.size += 2;
-        // dereference the ref
-        codegen_dereference(f, frame, a.children[0], a.comp_type);
 
         // perform operation
         codegen_expr(f, frame, a.children[1], false);

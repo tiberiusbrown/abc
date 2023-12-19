@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
     std::stringstream fasm;
 
-    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/tilessprite/tilessprite.abc";
+    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
 
     c.compile(psrc.parent_path().generic_string(), psrc.stem().generic_string(), fasm);
     for(auto const& e : c.errors())
@@ -49,16 +49,16 @@ int main(int argc, char** argv)
         }
     }
 
-    //{
-    //    auto fxdata = psrc.parent_path() / "fxdata.bin";
-    //    std::ofstream fbin(fxdata.generic_string(), std::ios::out | std::ios::binary);
-    //    if(!fbin)
-    //    {
-    //        std::cerr << "Unable to open file: \"" << fxdata.generic_string() << "\"" << std::endl;
-    //        return 1;
-    //    }
-    //    fbin.write((char const*)a.data().data(), a.data().size());
-    //}
+    {
+        auto fxdata = psrc.parent_path() / "fxdata.bin";
+        std::ofstream fbin(fxdata.generic_string(), std::ios::out | std::ios::binary);
+        if(!fbin)
+        {
+            std::cerr << "Unable to open file: \"" << fxdata.generic_string() << "\"" << std::endl;
+            return 1;
+        }
+        fbin.write((char const*)a.data().data(), a.data().size());
+    }
 
     return 0;
 }
