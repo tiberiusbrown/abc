@@ -173,9 +173,45 @@ static void export_arduboy()
 #endif
 }
 
+#ifdef __EMSCRIPTEN__
+static void export_zip()
+{
+    constexpr mz_uint compression = (mz_uint)MZ_DEFAULT_COMPRESSION;
+    std::vector<uint8_t> zipdata;
+    mz_zip_archive zip{};
+    zip.m_pWrite = zip_write_data;
+    zip.m_pIO_opaque = &zipdata;
+
+    constexpr mz_uint compression = (mz_uint)MZ_DEFAULT_COMPRESSION;
+
+    mz_zip_writer_init(&zip, 0);
+
+    mz_zip_writer_finalize_archive(&zip);
+    mz_zip_writer_end(&zip);
+
+    for(auto const& e : std::filesystem::recursive_directory_iterator(project.root.path))
+    {
+        mz_zip_writer_add_file(
+            &zip,
+            ("abc" / e.path().lexically_relative(project.root.path)).string().c_str(),
+            e.path().string().c_str(),
+            nullptr, 0, compression);
+    }
+
+    emscripten_browser_file::download(
+        "project.zip", "application/octet-stream",
+        zipdata.data(), zipdata.size());
+}
+#endif
+
 void export_menu_items()
 {
     using namespace ImGui;
+#ifdef __EMSCRIPTEN__
+    if(MenuItem("Download project (.zip)..."))
+        export_zip();
+    Separator();
+#endif
     if(MenuItem("Export FX data..."))
         export_fxdata();
     if(MenuItem("Export .arduboy file..."))
