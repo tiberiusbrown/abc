@@ -72,6 +72,11 @@ enum class AST
     OP_ASSIGN,
     OP_ASSIGN_COMPOUND,
 
+    OP_INC_POST,
+    OP_DEC_POST,
+    OP_INC_PRE,
+    OP_DEC_PRE,
+
     // special op to deref a duped ref val for a compound assignment
     OP_COMPOUND_ASSIGNMENT_DEREF,
 
