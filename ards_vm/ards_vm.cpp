@@ -1046,6 +1046,13 @@ I_INC:
     rjmp .+0
     dispatch
 
+I_DEC:
+    ld   r0, -Y
+    dec  r0
+    st   Y+, r0
+    rjmp .+0
+    dispatch
+
 I_LINC:
     lpm
     lpm

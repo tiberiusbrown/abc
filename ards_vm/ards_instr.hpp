@@ -129,6 +129,7 @@ enum instr_t : uint8_t
     I_REFGB, // imm8 -> pointer to global var
     
     I_INC,
+    I_DEC,
     I_LINC,  // increment 1 byte local at imm8
 
     I_ADD,   // a b | a+b

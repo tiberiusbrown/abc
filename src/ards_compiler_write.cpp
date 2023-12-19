@@ -93,6 +93,7 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_REFGB: assert(false); break;
 
     case I_INC:   f << "inc"; break;
+    case I_DEC:   f << "dec"; break;
     case I_LINC:  f << "linc  " << instr.imm; break;
 
     case I_ADD:   f << "add"; break;

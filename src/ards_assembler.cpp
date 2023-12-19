@@ -154,6 +154,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "pop3", I_POP3 },
     { "pop4", I_POP4 },
     { "inc", I_INC },
+    { "dec", I_DEC },
     { "add", I_ADD },
     { "add2", I_ADD2 },
     { "add3", I_ADD3 },
