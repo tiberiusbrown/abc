@@ -89,5 +89,32 @@ void main()
         $assert(y == 17);
     }
     
+    {
+        u8 x = 0xa2;
+        x &= 0xf0;
+        $assert(x == 0xa0);
+        u8 y = (x &= 0x70) + 1;
+        $assert(x == 0x20);
+        $assert(y == 0x21);
+    }
+    
+    {
+        u8 x = 0xa2;
+        x |= 0xf0;
+        $assert(x == 0xf2);
+        u8 y = (x |= 0x16) + 1;
+        $assert(x == 0xf6);
+        $assert(y == 0xf7);
+    }
+    
+    {
+        u8 x = 0xa2;
+        x ^= 0xf0;
+        $assert(x == 0x52);
+        u8 y = (x ^= 0x16) + 1;
+        $assert(x == 0x44);
+        $assert(y == 0x45);
+    }
+    
     $debug_break();
 }

@@ -527,7 +527,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             op.children.push_back(child0);
         else
             op.children.push_back({ v.line_info(), AST::OP_COMPOUND_ASSIGNMENT_DEREF, child0.data });
-        op.children.push_back({ v.line_info(), AST::TOKEN, opdata });
+        if(type == AST::OP_ADDITIVE || type == AST::OP_MULTIPLICATIVE || type == AST::OP_SHIFT)
+            op.children.push_back({ v.line_info(), AST::TOKEN, opdata });
         op.children.emplace_back(std::move(child2));
         a.children.emplace_back(std::move(op));
         return a;
