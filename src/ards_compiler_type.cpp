@@ -183,6 +183,12 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(!check_prim(a.children[1], errs)) break;
         a.comp_type = a.children[0].comp_type.without_ref();
         break;
+    case AST::OP_INC_POST:
+    case AST::OP_DEC_POST:
+        assert(a.children.size() == 1);
+        type_annotate_recurse(a.children[0], frame);
+        a.comp_type = a.children[0].comp_type.without_ref();
+        break;
     case AST::OP_BITWISE_AND:
     case AST::OP_BITWISE_OR:
     case AST::OP_BITWISE_XOR:
@@ -455,6 +461,11 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
     case AST::OP_ASSIGN_COMPOUND:
         a.comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);
+        break;
+    case AST::OP_INC_POST:
+    case AST::OP_DEC_POST:
+        a.comp_type.prim_size = min_size;
+        type_reduce_recurse(a.children[0], min_size);
         break;
     case AST::FUNC_CALL:
     {

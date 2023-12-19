@@ -136,6 +136,15 @@ enum instr_t : uint8_t
     I_DEC,
     I_LINC,  // increment 1 byte local at imm8
 
+    I_PINC,  // ref | x   post-increment ref
+    I_PINC2, // ref | x   post-increment ref
+    I_PINC3, // ref | x   post-increment ref
+    I_PINC4, // ref | x   post-increment ref
+    I_PDEC,  // ref | x   post-decrement ref
+    I_PDEC2, // ref | x   post-decrement ref
+    I_PDEC3, // ref | x   post-decrement ref
+    I_PDEC4, // ref | x   post-decrement ref
+
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1
     I_ADD3,  //

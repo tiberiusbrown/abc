@@ -100,6 +100,15 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_DEC:   f << "dec"; break;
     case I_LINC:  f << "linc  " << instr.imm; break;
 
+    case I_PINC:  f << "pinc"; break;
+    case I_PINC2: f << "pinc2"; break;
+    case I_PINC3: f << "pinc3"; break;
+    case I_PINC4: f << "pinc4"; break;
+    case I_PDEC:  f << "pdec"; break;
+    case I_PDEC2: f << "pdec2"; break;
+    case I_PDEC3: f << "pdec3"; break;
+    case I_PDEC4: f << "pdec4"; break;
+
     case I_ADD:   f << "add"; break;
     case I_ADD2:  f << "add2"; break;
     case I_ADD3:  f << "add3"; break;

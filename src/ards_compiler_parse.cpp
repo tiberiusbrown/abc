@@ -168,8 +168,7 @@ unary_expr          <- unary_op unary_expr /
                        '++' unary_expr /
                        '--' unary_expr
 postfix_expr        <- primary_expr postfix*
-#postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident / '++' / '--'
-postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident
+postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident / '++' / '--'
 
 primary_expr        <- hex_literal /
                        decimal_literal /
@@ -405,6 +404,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
                 auto t = std::move(b.children[0]);
                 b = std::move(t);
             }
+            else if(b.type == AST::OP_INC_POST || b.type == AST::OP_DEC_POST)
+            {
+                pair.type = b.type;
+                pair.children.emplace_back(std::move(a));
+                a = std::move(pair);
+                return a;
+            }
             pair.children.emplace_back(std::move(a));
             pair.children.emplace_back(std::move(b));
             a = std::move(pair);
@@ -442,14 +448,12 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         {
             // post-increment
             ast_node_t a = { v.line_info(), AST::OP_INC_POST, v.token() };
-            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
             return a;
         }
         else if(v.choice() == 4)
         {
             // post-decrement
             ast_node_t a = { v.line_info(), AST::OP_DEC_POST, v.token() };
-            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
             return a;
         }
         return {};

@@ -70,6 +70,33 @@ void compiler_t::codegen_expr(
     switch(a.type)
     {
 
+    case AST::OP_INC_POST:
+    case AST::OP_DEC_POST:
+    {
+        auto const& t = a.children[0].comp_type.without_ref();
+        auto size = t.prim_size;
+
+        if(size < 1 || size > 4 || !t.is_prim())
+        {
+            errs.push_back({
+                "Post-increment and post-decrement can only operate on primitive numeric types",
+                a.line_info });
+            return;
+        }
+
+        // create reference
+        codegen_expr(f, frame, a.children[0], true);
+
+        // special instructions for post-inc/dec
+        f.instrs.push_back({
+            instr_t((a.type == AST::OP_INC_POST ? I_PINC : I_PDEC) + (size - 1)),
+            a.children[0].line() });
+        frame.size -= 2;
+        frame.size += size;
+
+        return;
+    }
+
     case AST::OP_ASSIGN_COMPOUND:
     {
         auto size = a.children[0].comp_type.prim_size;

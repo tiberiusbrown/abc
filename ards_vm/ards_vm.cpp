@@ -1105,6 +1105,142 @@ I_LINC:
     call delay_10
     dispatch
 
+I_PINC:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    st   Y+, r16
+    inc  r16
+    st   -X, r16
+    dispatch
+
+I_PINC2:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    ld   r17, X+
+    st   Y+, r16
+    st   Y+, r17
+    add  r16, r4
+    adc  r17, r2
+    st   -X, r17
+    st   -X, r16
+    dispatch
+
+I_PINC3:
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    ld   r17, X+
+    ld   r18, X+
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    add  r16, r4
+    adc  r17, r2
+    adc  r18, r2
+    st   -X, r18
+    st   -X, r17
+    st   -X, r16
+    dispatch
+
+I_PINC4:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    ld   r17, X+
+    ld   r18, X+
+    ld   r19, X+
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
+    add  r16, r4
+    adc  r17, r2
+    adc  r18, r2
+    adc  r19, r2
+    st   -X, r19
+    st   -X, r18
+    st   -X, r17
+    st   -X, r16
+    dispatch
+
+I_PDEC:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    st   Y+, r16
+    dec  r16
+    st   -X, r16
+    dispatch
+
+I_PDEC2:
+    ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    ld   r17, X+
+    st   Y+, r16
+    st   Y+, r17
+    sub  r16, r4
+    sbc  r17, r2
+    st   -X, r17
+    st   -X, r16
+    dispatch
+
+I_PDEC3:
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    ld   r17, X+
+    ld   r18, X+
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    sub  r16, r4
+    sbc  r17, r2
+    sbc  r18, r2
+    st   -X, r18
+    st   -X, r17
+    st   -X, r16
+    dispatch
+
+I_PDEC4:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r27, -Y
+    ld   r26, -Y
+    ld   r16, X+
+    ld   r17, X+
+    ld   r18, X+
+    ld   r19, X+
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
+    sub  r16, r4
+    sbc  r17, r2
+    sbc  r18, r2
+    sbc  r19, r2
+    st   -X, r19
+    st   -X, r18
+    st   -X, r17
+    st   -X, r16
+    dispatch
+
 I_ADD:
     ld   r10, -Y
     ld   r14, -Y

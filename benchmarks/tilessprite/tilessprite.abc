@@ -15,9 +15,9 @@ void main()
     
     $debug_break();
     
-    for(u8 y = 0; y < 8; y += 1)
+    for(u8 y = 0; y < 8; ++y)
     {
-        for(u8 x = 0; x < 16; x += 1)
+        for(u8 x = 0; x < 16; ++x)
         {
             $draw_sprite(
                 u8(x * 8), u8(y * 8), SPRITE, 0);
