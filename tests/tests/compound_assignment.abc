@@ -1,0 +1,69 @@
+void main()
+{
+    $debug_break();
+    
+    {
+        int x = 2;
+        x += 1;
+        $assert(x == 3);
+        int y = (x += 3) + 1;
+        $assert(x == 6);
+        $assert(y == 7);
+    }
+    
+    {
+        int x = 2;
+        x -= 1;
+        $assert(x == 1);
+        int y = (x -= 3) + 1;
+        $assert(x == -2);
+        $assert(y == -1);
+    }
+    
+    {
+        int x = 2;
+        x *= 2;
+        $assert(x == 4);
+        int y = (x *= 3) + 1;
+        $assert(x == 12);
+        $assert(y == 13);
+    }
+    
+    {
+        int x = 100;
+        x /= 3;
+        $assert(x == 33);
+        int y = (x /= 11) + 1;
+        $assert(x == 3);
+        $assert(y == 4);
+    }
+    
+    {
+        int x = 98;
+        x %= 11;
+        $assert(x == 10);
+        int y = (x %= 4) + 1;
+        $assert(x == 2);
+        $assert(y == 3);
+    }
+    
+    {
+        int x = 98;
+        x >>= 2;
+        $assert(x == 24);
+        int y = (x >>= 1) + 1;
+        $assert(x == 12);
+        $assert(y == 13);
+    }
+    
+    {
+        int x = 98;
+        x <<= 2;
+        $assert(x == 392);
+        int y = (x <<= 1) + 1;
+        $assert(x == 784);
+        $assert(y == 785);
+    }
+    
+    $debug_break();
+}

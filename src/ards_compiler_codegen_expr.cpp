@@ -70,6 +70,56 @@ void compiler_t::codegen_expr(
     switch(a.type)
     {
 
+    case AST::OP_ASSIGN_COMPOUND:
+    {
+        auto size = a.children[0].comp_type.prim_size;
+        bool non_root = a.parent->type != AST::EXPR_STMT && a.parent->type != AST::LIST;
+
+        // create reference
+        codegen_expr(f, frame, a.children[0], true);
+        // dup the ref
+        f.instrs.push_back({ I_PUSH, a.children[0].line(), 2 });
+        f.instrs.push_back({ I_GETLN, a.children[0].line(), 2 });
+        frame.size += 2;
+        // dereference the ref
+        codegen_dereference(f, frame, a.children[0], a.comp_type);
+
+        // perform operation
+        codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a.children[1], a.comp_type, a.children[1].comp_type);
+
+        // dupe the reference again
+        f.instrs.push_back({ I_PUSH, a.children[0].line(), 2 });
+        f.instrs.push_back({ I_GETLN, a.children[0].line(), uint8_t(size + 2) });
+        frame.size += 2;
+        // assign to the reference
+        f.instrs.push_back({ I_SETRN, a.line(), (uint8_t)size });
+        frame.size -= 2;
+        frame.size -= size;
+
+        // if the root op, pop the ref
+        // if not the root op, deref
+        if(non_root)
+        {
+            f.instrs.push_back({ I_GETRN, a.line(), (uint8_t)size });
+            frame.size -= 2;
+            frame.size += size;
+        }
+        else
+        {
+            f.instrs.push_back({ I_POP, a.line() });
+            f.instrs.push_back({ I_POP, a.line() });
+            frame.size -= 2;
+        }
+        return;
+    }
+
+    case AST::OP_COMPOUND_ASSIGNMENT_DEREF:
+    {
+        // nothing -- already dereferenced in OP_ASSIGN_COMPOUND
+        return;
+    }
+
     case AST::OP_CAST:
     {
         if(ref) goto rvalue_error;

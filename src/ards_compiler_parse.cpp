@@ -187,7 +187,7 @@ shift_op            <- < '<<' / '>>' >
 additive_op         <- < [+-] >
 multiplicative_op   <- < [*/%] >
 relational_op       <- < '<=' / '>=' / '<' / '>' >
-assignment_op       <- < '=' >
+assignment_op       <- < '=' / [*/%&|^+-]'=' / '<<=' / '>>=' >
 unary_op            <- < '!' / '-' / '~' >
 
 sprites_literal     <- 'sprites' '{' string_literal '}' /
@@ -496,11 +496,41 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         }
         auto child0 = std::any_cast<ast_node_t>(v[0]);
         if(v.choice() == 3) return child0;
+
+        // normal assignment
         auto child1 = std::any_cast<ast_node_t>(v[1]);
         auto child2 = std::any_cast<ast_node_t>(v[2]);
         assert(child1.type == AST::TOKEN);
-        auto type = AST::OP_ASSIGN;
-        return { v.line_info(), type, v.token(), { std::move(child0), std::move(child2) } };
+        if(child1.data == "=")
+            return { v.line_info(), AST::OP_ASSIGN, v.token(), { std::move(child0), std::move(child2) } };
+        
+        // compound assignment
+        bool simple = (child0.type == AST::IDENT);
+        ast_node_t a{
+            v.line_info(),
+            simple ? AST::OP_ASSIGN : AST::OP_ASSIGN_COMPOUND,
+            v.token(), { child0 } };
+        auto type = AST::OP_ADDITIVE;
+        auto opdata = child1.data.substr(0, child1.data.size() - 1);
+        if(opdata == "*" || opdata == "/" || opdata == "%")
+            type = AST::OP_MULTIPLICATIVE;
+        else if(opdata == "<<" || opdata == ">>")
+            type = AST::OP_SHIFT;
+        else if(opdata == "|")
+            type = AST::OP_BITWISE_OR;
+        else if(opdata == "&")
+            type = AST::OP_BITWISE_AND;
+        else if(opdata == "^")
+            type = AST::OP_BITWISE_XOR;
+        ast_node_t op{ v.line_info(), type, v.token() };
+        if(simple)
+            op.children.push_back(child0);
+        else
+            op.children.push_back({ v.line_info(), AST::OP_COMPOUND_ASSIGNMENT_DEREF, child0.data });
+        op.children.push_back({ v.line_info(), AST::TOKEN, opdata });
+        op.children.emplace_back(std::move(child2));
+        a.children.emplace_back(std::move(op));
+        return a;
     };
     p["if_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{

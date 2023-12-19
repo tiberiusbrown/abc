@@ -81,7 +81,7 @@ int main()
         char const* status = "Pass";
         if(!test(entry.path().parent_path().generic_string(), entry.path().filename().generic_string()))
             status = "fail", r = 1;
-        printf("%-20s %s\n", entry.path().filename().generic_string().c_str(), status);
+        printf("%-23s %s\n", entry.path().filename().generic_string().c_str(), status);
     }
 
     return r;

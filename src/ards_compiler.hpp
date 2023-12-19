@@ -70,6 +70,10 @@ enum class AST
 
     // right-associative assignment operators
     OP_ASSIGN,
+    OP_ASSIGN_COMPOUND,
+
+    // special op to deref a duped ref val for a compound assignment
+    OP_COMPOUND_ASSIGNMENT_DEREF,
 
     OP_UNARY, // children are op and expr
 

@@ -161,11 +161,18 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         a.comp_type = TYPE_BOOL;
         break;
     case AST::OP_ASSIGN:
+    case AST::OP_ASSIGN_COMPOUND:
     {
         assert(a.children.size() == 2);
-        for(auto& child : a.children)
-            type_annotate_recurse(child, frame);
+        type_annotate_recurse(a.children[0], frame);
         a.comp_type = a.children[0].comp_type.without_ref();
+        type_annotate_recurse(a.children[1], frame);
+        break;
+    }
+    case AST::OP_COMPOUND_ASSIGNMENT_DEREF:
+    {
+        assert(a.parent && a.parent->parent);
+        a.comp_type = a.parent->parent->children[0].comp_type;
         break;
     }
     case AST::OP_SHIFT:
@@ -445,6 +452,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         type_reduce_recurse(a.children[1], min_size);
         break;
     case AST::OP_ASSIGN:
+    case AST::OP_ASSIGN_COMPOUND:
         a.comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);
         break;
