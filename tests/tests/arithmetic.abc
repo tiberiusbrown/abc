@@ -9,6 +9,8 @@ void test_u8()
     $assert(a * b == 315);
     $assert(a / b == 6);
     $assert(a % b == 3);
+    $assert(a << 1 == 90);
+    $assert(a >> 1 == 22);
 }
 
 void test_i8()
@@ -22,6 +24,8 @@ void test_i8()
     $assert(a * b == 315);
     $assert(a / b == 6);
     $assert(a % b == 3);
+    $assert(a << 1 == 90);
+    $assert(a >> 1 == 22);
 }
 
 void main()

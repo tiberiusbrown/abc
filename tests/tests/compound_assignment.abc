@@ -57,12 +57,21 @@ void main()
     }
     
     {
-        int x = 98;
+        int x = -98;
+        x >>= 2;
+        $assert(x == -25);
+        int y = (x >>= 1) + 1;
+        $assert(x == -13);
+        $assert(y == -12);
+    }
+    
+    {
+        int x = 2;
         x <<= 2;
-        $assert(x == 392);
+        $assert(x == 8);
         int y = (x <<= 1) + 1;
-        $assert(x == 784);
-        $assert(y == 785);
+        $assert(x == 16);
+        $assert(y == 17);
     }
     
     $debug_break();

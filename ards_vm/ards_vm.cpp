@@ -1408,6 +1408,7 @@ I_LSL:
 1:  lsl  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
     dispatch
 
 I_LSL2:
@@ -1416,10 +1417,12 @@ I_LSL2:
     ld   r16, -Y
     andi r20, 15
     rjmp 2f
-1:  lsl  r17
-    rol  r16
+1:  lsl  r16
+    rol  r17
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
     dispatch
 
 I_LSL3:
@@ -1429,11 +1432,14 @@ I_LSL3:
     ld   r16, -Y
     andi r20, 31
     rjmp 2f
-1:  lsl  r18
+1:  lsl  r16
     rol  r17
-    rol  r16
+    rol  r18
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
     dispatch
 
 I_LSL4:
@@ -1444,12 +1450,16 @@ I_LSL4:
     ld   r16, -Y
     andi r20, 31
     rjmp 2f
-1:  lsl  r19
-    rol  r18
+1:  lsl  r16
     rol  r17
-    rol  r16
+    rol  r18
+    rol  r19
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
     dispatch
 
 I_LSR:
@@ -1460,6 +1470,7 @@ I_LSR:
 1:  lsr  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
     dispatch
 
 I_LSR2:
@@ -1472,6 +1483,8 @@ I_LSR2:
     ror  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
     dispatch
 
 I_LSR3:
@@ -1486,6 +1499,9 @@ I_LSR3:
     ror  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
     dispatch
 
 I_LSR4:
@@ -1502,6 +1518,10 @@ I_LSR4:
     ror  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
     dispatch
 
 I_ASR:
@@ -1512,6 +1532,7 @@ I_ASR:
 1:  asr  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
     dispatch
 
 I_ASR2:
@@ -1524,6 +1545,8 @@ I_ASR2:
     ror  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
     dispatch
 
 I_ASR3:
@@ -1538,6 +1561,9 @@ I_ASR3:
     ror  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
     dispatch
 
 I_ASR4:
@@ -1554,6 +1580,10 @@ I_ASR4:
     ror  r16
 2:  dec  r20
     brpl 1b
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
     dispatch
 
 I_AND:

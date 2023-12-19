@@ -2,7 +2,7 @@ i8[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i = i + 1)
+    for(u8 i = 0; i < 64; i += 1)
         A[i] = 64 - i;
 
     $debug_break();
@@ -11,7 +11,7 @@ void main()
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i = i + 1)
+        for(u8 i = 1; i < n; i += 1)
         {
             i8& a = A[u8(i - 1)];
             i8& b = A[i];

@@ -56,7 +56,7 @@ i8[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i = i + 1)
+    for(u8 i = 0; i < 64; i += 1)
         A[i] = 64 - i;
 
     $debug_break();
@@ -65,7 +65,7 @@ void main()
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i = i + 1)
+        for(u8 i = 1; i < n; i += 1)
         {
             i8& a = A[u8(i - 1)];
             i8& b = A[i];
@@ -146,7 +146,7 @@ i16[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i = i + 1)
+    for(u8 i = 0; i < 64; i += 1)
         A[i] = 64 - i;
 
     $debug_break();
@@ -155,7 +155,7 @@ void main()
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i = i + 1)
+        for(u8 i = 1; i < n; i += 1)
         {
             i16& a = A[u8(i - 1)];
             i16& b = A[i];
@@ -236,7 +236,7 @@ i24[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i = i + 1)
+    for(u8 i = 0; i < 64; i += 1)
         A[i] = 64 - i;
 
     $debug_break();
@@ -245,7 +245,7 @@ void main()
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i = i + 1)
+        for(u8 i = 1; i < n; i += 1)
         {
             i24& a = A[u8(i - 1)];
             i24& b = A[i];
@@ -326,7 +326,7 @@ i32[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i = i + 1)
+    for(u8 i = 0; i < 64; i += 1)
         A[i] = 64 - i;
 
     $debug_break();
@@ -335,7 +335,7 @@ void main()
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i = i + 1)
+        for(u8 i = 1; i < n; i += 1)
         {
             i32& a = A[u8(i - 1)];
             i32& b = A[i];
@@ -476,9 +476,9 @@ void main()
     
     $debug_break();
     
-    for(u8 y = 0; y < 8; y = y + 1)
+    for(u8 y = 0; y < 8; y += 1)
     {
-        for(u8 x = 0; x < 16; x = x + 1)
+        for(u8 x = 0; x < 16; x += 1)
         {
             $draw_sprite(
                 u8(x * 8), u8(y * 8), SPRITE, 0);
@@ -568,9 +568,9 @@ void main()
 {
     $debug_break();
     
-    for(u8 y = 0; y < 4; y = y + 1)
+    for(u8 y = 0; y < 4; y += 1)
     {
-        for(u8 x = 0; x < 8; x = x + 1)
+        for(u8 x = 0; x < 8; x += 1)
         {
             $draw_sprite(
                 u8(x * 16), u8(y * 16), SPRITE, 0);
@@ -633,9 +633,9 @@ void main()
     $debug_break();
     
     bool color = false;
-    for(u8 y = 0; y < 8; y = y + 1)
+    for(u8 y = 0; y < 8; y += 1)
     {
-        for(u8 x = 0; x < 16; x = x + 1)
+        for(u8 x = 0; x < 16; x += 1)
         {
             $draw_filled_rect(
                 u8(x * 8), u8(y * 8), 8, 8, color);
