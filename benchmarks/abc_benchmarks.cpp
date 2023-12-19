@@ -49,7 +49,15 @@ static void bench(char const* name)
         ards::compiler_t c{};
         std::ostringstream fo;
         c.compile(std::string(BENCHMARKS_DIR) + "/" + name, name, fo);
-        assert(c.errors().empty());
+        for(auto const& e : c.errors())
+        {
+            printf("%s ERROR (line %d): %s\n",
+                name,
+                (int)e.line_info.first,
+                e.msg.c_str());
+        }
+        if(!c.errors().empty())
+            return;
         abc_asm = fo.str();
     }
 
@@ -169,6 +177,8 @@ int main()
     bench("bubble3");
     bench("bubble4");
     bench("fibonacci");
+    bench("sieve");
+    bench("text");
     bench("tilessprite");
     bench("tilessprite16");
     bench("tilesrect");

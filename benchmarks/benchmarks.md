@@ -413,6 +413,127 @@ void main()
 </table>
 </details>
 
+<details><summary>sieve: 54.42x slowdown</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 1805</td><td>Cycles: 98234</td></tr>
+<tr>
+<td>
+
+```c
+#include <stdint.h>
+
+using u8 = uint8_t;
+
+inline void debug_break() { asm volatile("break\n"); }
+
+constexpr u8 SQRT_N = 10;
+constexpr u8 N = SQRT_N * SQRT_N;
+bool A[N];
+
+int main()
+{
+    debug_break();
+    
+    for(u8 i = 0; i < N; ++i)
+        A[i] = true;
+    for(u8 i = 2; i < SQRT_N; ++i)
+    {
+        if(A[i])
+            for(u8 j = i * i; j < N; j += i)
+                A[j] = false;
+    }
+    
+    debug_break();
+}
+
+```
+
+</td>
+<td>
+
+```c
+constexpr u8 SQRT_N = 10;
+constexpr u8 N = SQRT_N * SQRT_N;
+bool[N] A;
+
+void main()
+{
+    $debug_break();
+    
+    for(u8 i = 0; i < N; ++i)
+        A[i] = true;
+    for(u8 i = 2; i < SQRT_N; ++i)
+    {
+        if(A[i])
+            for(u8 j = i * i; j < N; j += i)
+                A[j] = false;
+    }
+
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
+<details><summary>text: 0.43x slowdown</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 207901</td><td>Cycles: 89829</td></tr>
+<tr>
+<td>
+
+```c
+#include <Arduboy2.h>
+
+Arduboy2 a;
+
+int main()
+{
+    asm volatile("break\n");
+
+    a.setCursor(0, 0);
+    a.print(F("Running: "));
+    a.print(millis() / 1000);
+    a.print(F(" seconds"));
+    a.setCursor(0, 9);
+    a.print("the quick brown fox\njumps over the lazy\ndog");
+    a.setCursor(0, 36);
+    a.print("THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
+
+    asm volatile("break\n");
+}
+
+```
+
+</td>
+<td>
+
+```c
+constexpr font f = font{ 8 "font6x8.ttf" };
+
+void main()
+{
+    $debug_break();
+    
+    $draw_textf(0, 0, f, "Running: %u seconds", $millis() / 1000);
+    $draw_text_P(0, 9, f, "the quick brown fox\njumps over the lazy\ndog");
+    $draw_text_P(0, 36, f, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
+    
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
 <details><summary>tilessprite: 4.50x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
