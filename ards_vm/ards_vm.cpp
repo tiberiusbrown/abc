@@ -319,6 +319,46 @@ I_P8:
     nop
     dispatch
 
+I_P16:
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r16, 16
+    st   Y+, r16
+    nop
+    dispatch
+
+I_P32:
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r16, 32
+    st   Y+, r16
+    nop
+    dispatch
+
+I_P64:
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r16, 64
+    st   Y+, r16
+    nop
+    dispatch
+
+I_P128:
+    cpi  r28, 255
+    brne 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r16, 128
+    st   Y+, r16
+    nop
+    dispatch
+
 I_P00:
     cpi  r28, 254
     brlo 1f

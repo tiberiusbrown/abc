@@ -3,7 +3,7 @@
 <details><summary>bubble1: 55.25x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 34714</td><td>Cycles: 1917851</td></tr>
+<tr><td>Cycles: 34714</td><td>Cycles: 1917833</td></tr>
 <tr>
 <td>
 
@@ -93,7 +93,7 @@ void main()
 <details><summary>bubble2: 37.55x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 52858</td><td>Cycles: 1984759</td></tr>
+<tr><td>Cycles: 52858</td><td>Cycles: 1984741</td></tr>
 <tr>
 <td>
 
@@ -183,7 +183,7 @@ void main()
 <details><summary>bubble3: 33.38x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 71002</td><td>Cycles: 2370079</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 2370061</td></tr>
 <tr>
 <td>
 
@@ -273,7 +273,7 @@ void main()
 <details><summary>bubble4: 28.45x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 89146</td><td>Cycles: 2536341</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2536323</td></tr>
 <tr>
 <td>
 
@@ -363,7 +363,7 @@ void main()
 <details><summary>fibonacci: 20.39x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 87831</td><td>Cycles: 1790559</td></tr>
+<tr><td>Cycles: 87831</td><td>Cycles: 1790541</td></tr>
 <tr>
 <td>
 
@@ -413,10 +413,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 4.56x slowdown</summary>
+<details><summary>tilessprite: 4.50x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 44482</td><td>Cycles: 202643</td></tr>
+<tr><td>Cycles: 44482</td><td>Cycles: 200209</td></tr>
 <tr>
 <td>
 
@@ -495,10 +495,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite16: 2.50x slowdown</summary>
+<details><summary>tilessprite16: 2.46x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 26978</td><td>Cycles: 67456</td></tr>
+<tr><td>Cycles: 26978</td><td>Cycles: 66289</td></tr>
 <tr>
 <td>
 
@@ -587,10 +587,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilesrect: 0.44x slowdown</summary>
+<details><summary>tilesrect: 0.43x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 257725</td><td>Cycles: 112790</td></tr>
+<tr><td>Cycles: 257725</td><td>Cycles: 110342</td></tr>
 <tr>
 <td>
 

@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
     std::stringstream fasm;
 
-    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble1/bubble1.abc";
+    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/tilessprite/tilessprite.abc";
 
     c.compile(psrc.parent_path().generic_string(), psrc.stem().generic_string(), fasm);
     for(auto const& e : c.errors())
