@@ -270,6 +270,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_PUSHL);
             push_label(f, true);
         }
+        else if(t == "pzn")
+        {
+            push_instr(I_PZN);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "popn")
         {
             push_instr(I_POPN);

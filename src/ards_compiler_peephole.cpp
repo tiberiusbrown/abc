@@ -416,6 +416,24 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
         {
             if(i0.imm == 0 && i1.instr == I_PUSH && i1.imm == 0)
             {
+                size_t j;
+                for(j = i + 2; j < f.instrs.size(); ++j)
+                {
+                    if(f.instrs[j].instr != I_PUSH || f.instrs[j].imm != 0)
+                        break;
+                }
+                j -= i;
+                if(j > 2)
+                {
+                    if(j > 255) j = 255;
+                    i0.instr = I_PZN;
+                    i0.imm = (uint8_t)j;
+                    for(size_t k = i + 1; k < i + j; ++k)
+                        f.instrs[k].instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
+
                 i0.instr = I_P00;
                 i1.instr = I_REMOVE;
                 t = true;

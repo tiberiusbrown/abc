@@ -36,6 +36,7 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_P7:    f << "p7"; break;
     case I_P8:    f << "p8"; break;
     case I_P00:   f << "p00"; break;
+    case I_PZN:   f << "pzn   " << instr.imm; break;
     case I_PUSHG: f << "pushg " << instr.label; break;
     case I_PUSHL: f << "pushl " << instr.label << " " << instr.imm; break;
     case I_SEXT:  f << "sext"; break;

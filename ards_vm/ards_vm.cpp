@@ -328,6 +328,24 @@ I_P00:
     st   Y+, r2
     dispatch
 
+I_PZN:
+    dispatch_delay
+    read_byte
+    mov  r1, r0
+    neg  r1
+    cp   r28, r1
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  sbrc r0, 0
+    st   Y+, r2
+    lsr  r0
+2:  st   Y+, r2
+    st   Y+, r2
+    dec  r0
+    brne 2b
+    dispatch
+
 I_PUSHG:
     dispatch_delay
     in   r0, %[spdr]
