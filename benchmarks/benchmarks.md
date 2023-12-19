@@ -56,16 +56,16 @@ i8[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i += 1)
-        A[i] = 64 - i;
+    for(u8 i = 0; i < len(A); ++i)
+        A[i] = len(A) - i;
 
     $debug_break();
     
-    u8 n = 64;
+    u8 n = len(A);
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i += 1)
+        for(u8 i = 1; i < n; ++i)
         {
             i8& a = A[u8(i - 1)];
             i8& b = A[i];
@@ -146,16 +146,16 @@ i16[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i += 1)
-        A[i] = 64 - i;
+    for(u8 i = 0; i < len(A); ++i)
+        A[i] = len(A) - i;
 
     $debug_break();
     
-    u8 n = 64;
+    u8 n = len(A);
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i += 1)
+        for(u8 i = 1; i < n; ++i)
         {
             i16& a = A[u8(i - 1)];
             i16& b = A[i];
@@ -236,16 +236,16 @@ i24[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i += 1)
-        A[i] = 64 - i;
+    for(u8 i = 0; i < len(A); ++i)
+        A[i] = len(A) - i;
 
     $debug_break();
     
-    u8 n = 64;
+    u8 n = len(A);
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i += 1)
+        for(u8 i = 1; i < n; ++i)
         {
             i24& a = A[u8(i - 1)];
             i24& b = A[i];
@@ -326,16 +326,16 @@ i32[64] A;
 
 void main()
 {
-    for(u8 i = 0; i < 64; i += 1)
-        A[i] = 64 - i;
+    for(u8 i = 0; i < len(A); ++i)
+        A[i] = len(A) - i;
 
     $debug_break();
     
-    u8 n = 64;
+    u8 n = len(A);
     while(n > 1)
     {
         u8 n2 = 0;
-        for(u8 i = 1; i < n; i += 1)
+        for(u8 i = 1; i < n; ++i)
         {
             i32& a = A[u8(i - 1)];
             i32& b = A[i];

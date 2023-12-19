@@ -163,8 +163,12 @@ shift_expr          <- additive_expr       (shift_op          additive_expr     
 additive_expr       <- multiplicative_expr (additive_op       multiplicative_expr)*
 multiplicative_expr <- unary_expr          (multiplicative_op unary_expr         )*
 
-unary_expr          <- unary_op unary_expr / postfix_expr
+unary_expr          <- unary_op unary_expr /
+                       postfix_expr /
+                       '++' unary_expr /
+                       '--' unary_expr
 postfix_expr        <- primary_expr postfix*
+#postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident / '++' / '--'
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident
 
 primary_expr        <- hex_literal /
@@ -346,12 +350,43 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
 
     p["unary_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.choice() == 1)
+        switch(v.choice())
+        {
+        case 0:
+            return {
+                v.line_info(), AST::OP_UNARY, v.token(),
+                { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+            };
+        case 1:
             return std::any_cast<ast_node_t>(v[0]);
-        return {
-            v.line_info(), AST::OP_UNARY, v.token(),
-            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
-        };
+        case 2:
+        case 3:
+        {
+            // pre-increment, pre-decrement
+            // transform into child0 +=/-= 1
+            auto child0 = std::any_cast<ast_node_t>(v[0]);
+            bool simple = (child0.type == AST::IDENT);
+            ast_node_t a{
+                v.line_info(),
+                simple ? AST::OP_ASSIGN : AST::OP_ASSIGN_COMPOUND,
+                v.token(), { child0 } };
+            auto opdata = v.token().substr(0, 1);
+            ast_node_t op{ v.line_info(), AST::OP_ADDITIVE, v.token() };
+            if(simple)
+                op.children.push_back(child0);
+            else
+                op.children.push_back({ v.line_info(), AST::OP_COMPOUND_ASSIGNMENT_DEREF, child0.data });
+            op.children.push_back({ v.line_info(), AST::TOKEN, opdata });
+            ast_node_t one{ v.line_info(), AST::INT_CONST };
+            one.value = 1;
+            op.children.emplace_back(std::move(one));
+            a.children.emplace_back(std::move(op));
+            return a;
+        }
+        default:
+            assert(false);
+            return {};
+        }
     };
 
     // form a left-associative binary tree
@@ -400,6 +435,20 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         {
             // struct member
             ast_node_t a = { v.line_info(), AST::STRUCT_MEMBER, v.token() };
+            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
+            return a;
+        }
+        else if(v.choice() == 3)
+        {
+            // post-increment
+            ast_node_t a = { v.line_info(), AST::OP_INC_POST, v.token() };
+            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
+            return a;
+        }
+        else if(v.choice() == 4)
+        {
+            // post-decrement
+            ast_node_t a = { v.line_info(), AST::OP_DEC_POST, v.token() };
             a.children.push_back(std::any_cast<ast_node_t>(v[0]));
             return a;
         }
