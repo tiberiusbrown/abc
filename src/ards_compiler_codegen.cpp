@@ -363,7 +363,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         else if(a.children.size() == 3)
         {
-            type_annotate(a.children[2], frame);
+            type_annotate(a.children[2], frame, type.without_ref().prim_size);
             // TODO: handle array reference initializers
             //assert(!type.is_array_ref());
             bool ref = type.is_any_ref();
