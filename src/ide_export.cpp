@@ -184,9 +184,6 @@ static void export_zip()
 
     mz_zip_writer_init(&zip, 0);
 
-    mz_zip_writer_finalize_archive(&zip);
-    mz_zip_writer_end(&zip);
-
     for(auto const& e : std::filesystem::recursive_directory_iterator(project.root.path))
     {
         mz_zip_writer_add_file(
@@ -196,9 +193,21 @@ static void export_zip()
             nullptr, 0, compression);
     }
 
+    mz_zip_writer_finalize_archive(&zip);
+    mz_zip_writer_end(&zip);
+
+#ifdef __EMSCRIPTEN__
     emscripten_browser_file::download(
         "project.zip", "application/x-zip",
         zipdata.data(), zipdata.size());
+#else
+    std::ofstream f("project.zip", std::ios::out | std::ios::binary);
+    if(!f.fail())
+    {
+        f.write((char const*)zipdata.data(), zipdata.size());
+        f.close();
+    }
+#endif
 }
 #endif
 
@@ -206,9 +215,9 @@ void export_menu_items()
 {
     using namespace ImGui;
 #ifdef __EMSCRIPTEN__
-    //if(MenuItem("Download project (.zip)..."))
-    //    export_zip();
-    //Separator();
+    if(MenuItem("Download project (.zip)..."))
+        export_zip();
+    Separator();
 #endif
     if(MenuItem("Export FX data..."))
         export_fxdata();

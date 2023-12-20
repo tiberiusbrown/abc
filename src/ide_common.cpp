@@ -128,7 +128,7 @@ void imgui_content()
 
     if(BeginMainMenuBar())
     {
-        if(BeginMenu("File"))
+        if(BeginMenu("Project"))
         {
             import_menu_item();
             if(!project.active())

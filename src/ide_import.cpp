@@ -203,8 +203,8 @@ void import_menu_item()
     if(MenuItem("Open directory..."))
         open_directory();
 #else
-    //if(MenuItem("Import project (.zip)..."))
-    //    import_zip();
+    if(MenuItem("Import project (.zip)..."))
+        import_zip();
 #endif
 #if 0
     if(MenuItem("Import .arduboy file..."))
