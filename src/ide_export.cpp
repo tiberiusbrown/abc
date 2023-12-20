@@ -182,8 +182,6 @@ static void export_zip()
     zip.m_pWrite = zip_write_data;
     zip.m_pIO_opaque = &zipdata;
 
-    constexpr mz_uint compression = (mz_uint)MZ_DEFAULT_COMPRESSION;
-
     mz_zip_writer_init(&zip, 0);
 
     mz_zip_writer_finalize_archive(&zip);
@@ -199,7 +197,7 @@ static void export_zip()
     }
 
     emscripten_browser_file::download(
-        "project.zip", "application/octet-stream",
+        "project.zip", "application/x-zip",
         zipdata.data(), zipdata.size());
 }
 #endif

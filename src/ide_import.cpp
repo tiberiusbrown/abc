@@ -142,10 +142,59 @@ static void open_directory()
 }
 #endif
 
+#ifdef __EMSCRIPTEN__
+static void process_zip_file(std::vector<uint8_t> const& data)
+{
+    std::error_code ec;
+    for(auto const& e : std::filesystem::directory_iterator(project.root.path))
+        std::filesystem::remove_all(e.path(), ec);
+
+    mz_zip_archive zip{};
+    if(!mz_zip_reader_init_mem(&zip, data.data(), data.size(), 0))
+        return;
+
+    mz_uint n = mz_zip_reader_get_num_files(&zip);
+    for(mz_uint i = 0; i < n; ++i)
+    {
+        mz_zip_archive_file_stat stat{};
+        if(!mz_zip_reader_file_stat(&zip, i, &stat))
+            continue;
+        auto path = project.root.path / stat.m_filename;
+        if(stat.m_is_directory)
+            std::filesystem::create_directory(path, ec);
+        else
+        {
+            size_t size = 0;
+            void* p = mz_zip_reader_extract_to_heap(&zip, i, &size, 0);
+            if(!p) continue;
+            std::ofstream f(path, std::ios::binary);
+            f.write((char const*)p, size);
+        }
+    }
+
+    mz_zip_reader_end(&zip);
+
+    update_cached_files();
+}
+
+static void web_upload_handler(
+    std::string const& filename,
+    std::string const& mime_type,
+    std::string_view buffer,
+    void* user)
+{
+    (void)filename;
+    (void)mime_type;
+    (void)user;
+    auto data = std::vector<uint8_t>(buffer.begin(), buffer.end());
+    process_zip_file(data);
+}
+
 static void import_zip()
 {
-
+    emscripten_browser_file::upload(".zip", web_upload_handler, nullptr);
 }
+#endif
 
 void import_menu_item()
 {
