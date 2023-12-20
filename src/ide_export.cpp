@@ -191,7 +191,7 @@ static void export_zip()
     {
         mz_zip_writer_add_file(
             &zip,
-            ("abc" / e.path().lexically_relative(project.root.path)).string().c_str(),
+            (e.path().lexically_relative(project.root.path)).string().c_str(),
             e.path().string().c_str(),
             nullptr, 0, compression);
     }
