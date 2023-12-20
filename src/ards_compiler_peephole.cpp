@@ -427,6 +427,11 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_AIDXB;
+            if(i1.imm == 1)
+            {
+                i1.imm = i1.imm2;
+                i1.instr = I_AIXB1;
+            }
             t = true;
             continue;
         }

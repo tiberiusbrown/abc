@@ -1,9 +1,9 @@
 ## Benchmarks
 
-<details><summary>bubble1: 55.25x slowdown</summary>
+<details><summary>bubble1: 52.67x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 34714</td><td>Cycles: 1917833</td></tr>
+<tr><td>Cycles: 34714</td><td>Cycles: 1828559</td></tr>
 <tr>
 <td>
 
@@ -413,10 +413,10 @@ void main()
 </table>
 </details>
 
-<details><summary>sieve: 54.42x slowdown</summary>
+<details><summary>sieve: 51.86x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 1805</td><td>Cycles: 98234</td></tr>
+<tr><td>Cycles: 1805</td><td>Cycles: 93614</td></tr>
 <tr>
 <td>
 

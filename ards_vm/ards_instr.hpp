@@ -118,6 +118,7 @@ enum instr_t : uint8_t
     I_POPN,  // pop imm8 bytes
 
     // array reference (RAM)
+    I_AIXB1, // ref i | (ref+i*1) with bounds checking with imm (8-bit)
     I_AIDXB, // ref i | (ref+i*imm) with bounds checking with imm2 (8-bit)
     I_AIDX,  // ref i | (ref+i*imm) with bounds checking with imm2 (16-bit)
 

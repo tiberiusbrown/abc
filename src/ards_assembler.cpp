@@ -380,6 +380,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_imm(read_imm(f, error), 1);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "aixb1")
+        {
+            push_instr(I_AIXB1);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "aidx")
         {
             push_instr(I_AIDX);

@@ -972,6 +972,25 @@ I_POPN:
     call delay_12
     dispatch
 
+I_AIXB1:
+    ld   r20, -Y
+    lpm
+    rjmp .+0
+    read_byte
+    ; r0:  num elems
+    ; r20: index
+    cp   r20, r0
+    brlo 1f
+    ldi  r24, 2
+    jmp  call_vm_error
+1:  ld   r23, -Y
+    ld   r22, -Y
+    add  r22, r20
+    adc  r23, r2
+    st   Y+, r22
+    st   Y+, r23
+    dispatch
+
 I_AIDXB:
     ld   r20, -Y
     nop
