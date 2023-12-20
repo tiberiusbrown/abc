@@ -24,7 +24,7 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_linc(f))
         ;
-    while(peephole_dup(f))
+    while(peephole_dup_sext(f))
         ;
     while(peephole_compress_push_pop(f))
         ;
@@ -121,7 +121,7 @@ bool compiler_t::peephole_ref(compiler_func_t& f)
     return t;
 }
 
-bool compiler_t::peephole_dup(compiler_func_t& f)
+bool compiler_t::peephole_dup_sext(compiler_func_t& f)
 {
     bool t = false;
     clear_removed_instrs(f.instrs);
@@ -142,6 +142,25 @@ bool compiler_t::peephole_dup(compiler_func_t& f)
         if(i0.instr == I_GETL2 && i0.imm >= 2 && i0.imm <= 9)
         {
             i0.instr = instr_t(I_DUPW + i0.imm - 2);
+            t = true;
+            continue;
+        }
+
+        if(i + 2 >= f.instrs.size()) continue;
+        auto& i1 = f.instrs[i + 1];
+        auto& i2 = f.instrs[i + 2];
+
+        // replace SEXT; SEXT; SEXT with SEXT3
+        // replace SEXT; SEXT;      with SEXT2
+        if(i0.instr == I_SEXT && i1.instr == I_SEXT)
+        {
+            i0.instr = I_SEXT2;
+            i1.instr = I_REMOVE;
+            if(i2.instr == I_SEXT)
+            {
+                i0.instr = I_SEXT3;
+                i2.instr = I_REMOVE;
+            }
             t = true;
             continue;
         }
@@ -376,6 +395,27 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETL2;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_SETLN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_SETL2;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETGN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_GETG2;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_SETGN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_SETG2;
                 t = true;
                 continue;
             }

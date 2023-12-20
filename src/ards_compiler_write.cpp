@@ -44,6 +44,8 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_PUSHG: f << "pushg " << instr.label; break;
     case I_PUSHL: f << "pushl " << instr.label << " " << instr.imm; break;
     case I_SEXT:  f << "sext"; break;
+    case I_SEXT2: f << "sext2"; break;
+    case I_SEXT3: f << "sext3"; break;
     case I_DUP:   f << "dup"; break;
     case I_DUP2:  f << "dup2"; break;
     case I_DUP3:  f << "dup3"; break;
@@ -64,10 +66,13 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_GETL2: f << "getl2 " << instr.imm; break;
     case I_GETLN: f << "getln " << instr.imm; break;
     case I_SETL:  f << "setl  " << instr.imm; break;
+    case I_SETL2: f << "setl2 " << instr.imm; break;
     case I_SETLN: f << "setln " << instr.imm; break;
-    case I_GETG:  f << "getg  " << instr.label; break;
+    case I_GETG:  f << "getg  " << instr.label << " " << instr.imm; break;
+    case I_GETG2: f << "getg2 " << instr.label << " " << instr.imm; break;
     case I_GETGN: f << "getgn " << instr.label << " " << instr.imm; break;
     case I_SETG:  f << "setg  " << instr.label; break;
+    case I_SETG2: f << "setg2 " << instr.label; break;
     case I_SETGN: f << "setgn " << instr.label; break;
     case I_GETP:  f << "getp"; break;
     case I_GETPN: f << "getpn " << instr.imm; break;

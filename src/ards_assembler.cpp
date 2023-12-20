@@ -133,6 +133,8 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "p128", I_P128 },
     { "p00", I_P00 },
     { "sext", I_SEXT },
+    { "sext2", I_SEXT2 },
+    { "sext3", I_SEXT3 },
     { "dup", I_DUP },
     { "dup2", I_DUP2 },
     { "dup3", I_DUP3 },
@@ -313,6 +315,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETL);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "setl2")
+        {
+            push_instr(I_SETL2);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "setln")
         {
             push_instr(I_SETLN);
@@ -321,7 +328,12 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "getg")
         {
             push_instr(I_GETG);
-            push_global(f);
+            push_global(f, true);
+        }
+        else if(t == "getg2")
+        {
+            push_instr(I_GETG2);
+            push_global(f, true);
         }
         else if(t == "getgn")
         {
@@ -331,6 +343,11 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "setg")
         {
             push_instr(I_SETG);
+            push_global(f);
+        }
+        else if(t == "setg2")
+        {
+            push_instr(I_SETG2);
             push_global(f);
         }
         else if(t == "setgn")

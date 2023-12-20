@@ -435,6 +435,35 @@ I_SEXT:
     st   Y+, r16
     dispatch
 
+I_SEXT2:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r0, -Y
+    inc  r28
+    ldi  r16, 0xff
+    sbrs r0, 7
+    ldi  r16, 0x00
+    st   Y+, r16
+    st   Y+, r16
+    dispatch
+
+I_SEXT3:
+    cpi  r28, 253
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r0, -Y
+    inc  r28
+    ldi  r16, 0xff
+    sbrs r0, 7
+    ldi  r16, 0x00
+    st   Y+, r16
+    st   Y+, r16
+    st   Y+, r16
+    dispatch
+
 I_DUP:
     cpi  r28, 255
     breq 1f
@@ -705,6 +734,18 @@ I_SETL:
     lpm
     nop
     dispatch
+
+I_SETL2:
+    dispatch_delay
+    read_byte
+    ld   r17, -Y
+    ld   r16, -Y
+    movw r26, r28
+    sub  r26, r0
+    st   X+, r16
+    st   X+, r17
+    lpm
+    dispatch
  
 I_SETLN:
     ld   r16, -Y
@@ -736,6 +777,23 @@ I_GETG:
     call delay_11
     dispatch
 
+I_GETG2:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  call read_2_bytes_nodelay
+    movw r26, r16
+    subi r27, -2
+    ld   r16, X+
+    ld   r17, X+
+    st   Y+, r16
+    st   Y+, r17
+    lpm
+    rjmp .+0
+    rjmp .+0
+    dispatch
+
 I_GETGN:
     ld   r18, -Y
     mov  r19, r18
@@ -758,8 +816,21 @@ I_SETG:
     movw r26, r16
     subi r27, -2
     ld   r16, -Y
-    st   X, 16
+    st   X, r16
     call delay_11
+    dispatch
+
+I_SETG2:
+    call read_2_bytes
+    movw r26, r16
+    subi r27, -2
+    ld   r17, -Y
+    ld   r16, -Y
+    st   X+, r16
+    st   X+, r17
+    lpm
+    rjmp .+0
+    rjmp .+0
     dispatch
 
 I_SETGN:

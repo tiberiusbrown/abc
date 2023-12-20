@@ -67,6 +67,8 @@ enum instr_t : uint8_t
     I_PUSHL, // push imm24
 
     I_SEXT,  // push 0x00 or 0xff to sign extend TOS
+    I_SEXT2, // same as sext but do it twice
+    I_SEXT3, // same as sext but do it three times
 
     I_DUP,   // a | a a
     I_DUP2,
@@ -90,10 +92,13 @@ enum instr_t : uint8_t
     I_GETL2,
     I_GETLN, // pop N then same as GETL but push N bytes
     I_SETL,  // pop, then store to stack[top - imm]
+    I_SETL2, // pop, then store to stack[top - imm] (2 bytes)
     I_SETLN, // pop N then same as SETL but pop/store N bytes
     I_GETG,  // push globals[imm]
+    I_GETG2, // push globals[imm]
     I_GETGN, // pop N then same as GETG but push N bytes
     I_SETG,  // pop, then store to globals[imm]
+    I_SETG2, // pop, then store to globals[imm] (2 bytes)
     I_SETGN, // pop N then same as SETG but pop/store N bytes
 
     I_GETP,  // pop addr24 then push 1 byte from prog address

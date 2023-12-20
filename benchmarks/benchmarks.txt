@@ -2,7 +2,7 @@ bubble1                    34714     1917833       55.25x
 bubble2                    52858     1984741       37.55x
 bubble3                    71002     2370061       33.38x
 bubble4                    89146     2536323       28.45x
-fibonacci                  87831     1790541       20.39x
+fibonacci                  87831     1735955       19.76x
 sieve                       1805       98234       54.42x
 text                      209543       89829        0.43x
 tilessprite                44482      200209        4.50x
