@@ -206,9 +206,9 @@ void export_menu_items()
 {
     using namespace ImGui;
 #ifdef __EMSCRIPTEN__
-    if(MenuItem("Download project (.zip)..."))
-        export_zip();
-    Separator();
+    //if(MenuItem("Download project (.zip)..."))
+    //    export_zip();
+    //Separator();
 #endif
     if(MenuItem("Export FX data..."))
         export_fxdata();
