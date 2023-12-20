@@ -219,18 +219,17 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         std::string start = codegen_label(f);
         std::string end = new_label(f);
         std::string cont = is_for ? new_label(f) : start;
-        size_t cond_index = size_t(-1);
         if(!nocond)
         {
             codegen_expr(f, frame, a.children[0], false);
             // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
-            cond_index = f.instrs.size();
-            f.instrs.push_back({ I_BZ, a.children[0].line() });
+            f.instrs.push_back({ I_BZ, a.children[0].line(), 0, 0, end });
             frame.size -= 1;
         }
         break_stack.push_back(end);
         continue_stack.push_back(cont);
+        size_t ni = f.instrs.size();
         codegen(f, frame, a.children[1]);
         if(is_for)
         {
@@ -239,11 +238,18 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         break_stack.pop_back();
         continue_stack.pop_back();
-        f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
-        if(!nocond)
+        if(!nocond && f.instrs.size() == ni)
         {
-            codegen_label(f, end);
-            f.instrs[cond_index].label = end;
+            // empty body: invert condition and remove jump
+            auto& instr = f.instrs.back();
+            instr.instr = I_BNZ;
+            instr.label = start;
+        }
+        else
+        {
+            f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
+            if(!nocond)
+                codegen_label(f, end);
         }
         break;
     }
