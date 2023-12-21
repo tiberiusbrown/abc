@@ -1,3 +1,7 @@
+#ifndef EEPROM_h
+#define EEPROM_h
+#endif
+
 #include <Arduboy2.h>
 #include <ArduboyFX.h>
 
@@ -78,7 +82,12 @@ __attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
 template<class T>
 inline void vm_push(T x)
 {
-    if(ards::vm.sp + sizeof(T) >= 256)
+    uint8_t* ptr;
+    asm volatile(
+        "lds  %A[ptr], 0x0660\n"
+        "ldi  %B[ptr], 1\n"
+        : [ptr] "=&e" (ptr));
+    if((uint8_t)(uintptr_t)ptr + sizeof(T) >= 256)
         vm_error(ards::ERR_DST);
     union
     {
@@ -86,11 +95,6 @@ inline void vm_push(T x)
         uint8_t b[sizeof(T)];
     } u;
     u.r = x;
-    uint8_t* ptr;
-    asm volatile(
-        "lds  %A[ptr], 0x0660\n"
-        "ldi  %B[ptr], 1\n"
-        : [ptr] "=&e" (ptr));
     for(size_t i = 0; i < sizeof(T); ++i)
     {
         asm volatile(
@@ -615,7 +619,7 @@ static void sys_strcpy_P()
 
 using format_char_func = void(*)(char c);
 
-static inline void format_add_string(format_char_func f, char* tb, uint16_t tn)
+static void format_add_string(format_char_func f, char* tb, uint16_t tn)
 {
     while(tn != 0)
     {
@@ -667,7 +671,6 @@ static void format_exec(format_char_func f)
     auto ptr = vm_pop_begin();
     uint24_t fn = vm_pop<uint24_t>(ptr);
     uint24_t fb = vm_pop<uint24_t>(ptr);
-    
         
     while(fn != 0)
     {
@@ -741,23 +744,20 @@ struct format_user_draw
 static void format_exec_draw(char c)
 {
     format_user_draw* u = (format_user_draw*)format_user;
-    uint24_t font = u->font;
-    int16_t x = u->x;
     
     if(c == '\n')
     {
-        x = u->bx;
+        u->x = u->bx;
         u->y += u->line_height;
-        return;
     }
-    
-    FX::seekData(font + uint8_t(c) * 2);
-    int8_t lsb = (int8_t)FX::readPendingUInt8();
-    uint8_t adv = FX::readPendingLastUInt8();
-    draw_char(font, x + lsb, u->y, u->w, u->h, c);
-    x += adv;
-    
-    u->x = x;
+    else
+    {
+        FX::seekData(u->font + uint8_t(c) * 2);
+        int8_t lsb = (int8_t)FX::readPendingUInt8();
+        uint8_t adv = FX::readPendingLastUInt8();
+        draw_char(u->font, u->x + lsb, u->y, u->w, u->h, c);
+        u->x += adv;
+    }
 }
 
 static void sys_format()
@@ -784,25 +784,21 @@ static void sys_format()
 
 static void sys_draw_textf()
 {
-    auto ptr = vm_pop_begin();
-    int16_t  x    = vm_pop<int16_t> (ptr);
-    int16_t  y    = vm_pop<int16_t> (ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
-    vm_pop_end(ptr);
-    (void)FX::readEnd();
-    
+    format_user_draw user;
+    format_user = &user;
     format_db = 0;
     format_dn = 0;
     
-    format_user_draw user;
-    format_user = &user;
+    {
+        auto ptr = vm_pop_begin();
+        user.x = user.bx = vm_pop<int16_t> (ptr);
+        user.y = vm_pop<int16_t> (ptr);
+        user.font = vm_pop<uint24_t>(ptr);
+        vm_pop_end(ptr);
+        (void)FX::readEnd();
+    }
     
-    user.font = font;
-    user.bx = x;
-    user.x = x;
-    user.y = y;
-    
-    FX::seekData(font + 512);
+    FX::seekData(user.font + 512);
     user.line_height = FX::readPendingUInt8();
     user.w = FX::readPendingUInt8();
     user.h = FX::readPendingLastUInt8();

@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef EEPROM_h
+#define EEPROM_h
+#endif
 #include <ArduboyFX.h>
 
 namespace ards

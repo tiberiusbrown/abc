@@ -1,6 +1,9 @@
 #include "ards_vm.hpp"
 #include "ards_instr.hpp"
 
+#ifndef EEPROM_h
+#define EEPROM_h
+#endif
 #include <Arduboy2.h>
 
 extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog);
@@ -218,6 +221,7 @@ vm_execute:
 I_NOP:
     dispatch_delay
     dispatch
+    ; TODO: SPACE HERE
 
 I_PUSH:
     dispatch_delay
@@ -884,6 +888,7 @@ I_GETR:
     ld   r1, X+
     st   Y+, r1
     dispatch
+    ; TODO: SPACE HERE
 
 I_GETR2:
     ld   r27, -Y
@@ -917,6 +922,7 @@ I_SETR:
     ld   r1, -Y
     st   X, r1
     dispatch
+    ; TODO: SPACE HERE
 
 I_SETR2:
     ld   r27, -Y
@@ -946,24 +952,28 @@ I_POP:
     lpm
     lpm
     dispatch
+    ; TODO: SPACE HERE
 
 I_POP2:
     subi r28, 2
     lpm
     lpm
     dispatch
+    ; TODO: SPACE HERE
 
 I_POP3:
     subi r28, 3
     lpm
     lpm
     dispatch
+    ; TODO: SPACE HERE
 
 I_POP4:
     subi r28, 4
     lpm
     lpm
     dispatch
+    ; TODO: SPACE HERE
 
 I_POPN:
     dispatch_delay
@@ -1077,6 +1087,7 @@ I_PIDXB:
 
 I_PIDX:
     jmp pidx_impl
+    ; TODO: SPACE HERE
     .align 6
 
 I_UAIDX:
@@ -1120,6 +1131,7 @@ I_UAIDX:
 
 I_UPIDX:
     jmp upidx_impl
+    ; TODO: SPACE HERE
     .align 6
 
 I_REFL:
@@ -1164,9 +1176,7 @@ I_REFGB:
     ldi  r17, 2
     st   Y+, r0
     st   Y+, r17
-    lpm
-    lpm
-    rjmp .+0
+    call delay_8
     dispatch
 
 I_INC:
@@ -1175,6 +1185,7 @@ I_INC:
     st   Y+, r0
     rjmp .+0
     dispatch
+    ; TODO: SPACE HERE
 
 I_DEC:
     ld   r0, -Y
@@ -1182,6 +1193,7 @@ I_DEC:
     st   Y+, r0
     rjmp .+0
     dispatch
+    ; TODO: SPACE HERE
 
 I_LINC:
     lpm
@@ -1203,6 +1215,7 @@ I_PINC:
     inc  r16
     st   -X, r16
     dispatch
+    ; TODO: SPACE HERE
 
 I_PINC2:
     ld   r27, -Y
@@ -1271,6 +1284,7 @@ I_PDEC:
     dec  r16
     st   -X, r16
     dispatch
+    ; TODO: SPACE HERE
 
 I_PDEC2:
     ld   r27, -Y
@@ -1337,6 +1351,7 @@ I_ADD:
     add  r14, r10
     st   Y+, r14
     dispatch
+    ; TODO: SPACE HERE
 
 I_ADD2:
     ld   r11, -Y
@@ -1389,6 +1404,7 @@ I_SUB:
     sub  r14, r10
     st   Y+, r14
     dispatch
+    ; TODO: SPACE HERE
 
 I_SUB2:
     ld   r11, -Y
@@ -1441,6 +1457,7 @@ I_MUL:
     mul  r14, r10
     st   Y+, r0
     dispatch
+    ; TODO: SPACE HERE
 
 I_MUL2:
     ;
@@ -1508,6 +1525,7 @@ I_MUL3:
 
 I_MUL4:
     jmp  instr_mul4
+    ; TODO: SPACE HERE
     .align 6
 
 I_UDIV2:

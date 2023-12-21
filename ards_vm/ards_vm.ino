@@ -1,6 +1,9 @@
-#include <Arduboy2.h>
-
 #include "ards_vm.hpp"
+
+#ifndef EEPROM_h
+#define EEPROM_h
+#endif
+#include <Arduboy2.h>
 
 Arduboy2Base a;
 

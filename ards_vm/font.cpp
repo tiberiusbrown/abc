@@ -1,3 +1,7 @@
+#ifndef EEPROM_h
+#define EEPROM_h
+#endif
+
 #include <Arduboy2.h>
 
 constexpr uint8_t SPACE_WIDTH = 2;
