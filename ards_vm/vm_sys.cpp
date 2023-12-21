@@ -668,9 +668,14 @@ static uint16_t format_dn;
 
 static void format_exec(format_char_func f)
 {
-    auto ptr = vm_pop_begin();
-    uint24_t fn = vm_pop<uint24_t>(ptr);
-    uint24_t fb = vm_pop<uint24_t>(ptr);
+    uint24_t fn;
+    uint24_t fb;
+    {
+        auto ptr = vm_pop_begin();
+        fn = vm_pop<uint24_t>(ptr);
+        fb = vm_pop<uint24_t>(ptr);
+        vm_pop_end(ptr);
+    }
         
     while(fn != 0)
     {
@@ -688,15 +693,25 @@ static void format_exec(format_char_func f)
         switch(c)
         {
         case 'c':
+        {
+            auto ptr = vm_pop_begin();
             c = vm_pop<char>(ptr);
+            vm_pop_end(ptr);
+        }
             // fallthrough
         case '%':
             f(c);
             break;
         case 's':
         {
-            uint16_t tn = vm_pop<uint16_t>(ptr);
-            uint16_t tb = vm_pop<uint16_t>(ptr);
+            uint16_t tn;
+            uint16_t tb;
+            {
+                auto ptr = vm_pop_begin();
+                tn = vm_pop<uint16_t>(ptr);
+                tb = vm_pop<uint16_t>(ptr);
+                vm_pop_end(ptr);
+            }
             check_overlap(tb, tn, format_db, format_dn);
             format_add_string(f, reinterpret_cast<char*>(tb), tn);
             break;
@@ -704,14 +719,21 @@ static void format_exec(format_char_func f)
         case 'd':
         case 'u':
         case 'x':
-            format_add_int(f, vm_pop<uint32_t>(ptr), c == 'd', c == 'x' ? 16 : 10);
+        {
+            uint32_t x;
+            {
+                auto ptr = vm_pop_begin();
+                x = vm_pop<uint32_t>(ptr);
+                vm_pop_end(ptr);
+            }
+            format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10);
             break;
+        }
         default:
             break;
         }
     }
     
-    vm_pop_end(ptr);
 }
 
 struct format_user_buffer
