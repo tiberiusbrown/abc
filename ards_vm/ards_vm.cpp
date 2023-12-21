@@ -2509,16 +2509,14 @@ I_RET:
 I_SYS:
     ldi  r31, hi8(%[sys_funcs])
     rjmp .+0
-    call read_2_bytes_nodelay
+    rcall read_2_bytes_nodelay
     mov  r30, r16
     add  r31, r17
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
-    rcall store_vm_state
-    icall
-    rcall restore_vm_state
-    dispatch
+    rjmp store_vm_state
+    .align 6
 
 I_SYSB:
     ldi  r31, hi8(%[sys_funcs])
@@ -2531,10 +2529,10 @@ I_SYSB:
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
-    rcall store_vm_state
-    icall
-    rcall restore_vm_state
-    dispatch
+    rjmp store_vm_state
+    ; TODO: if SYSB is the last instr the following align can be removed
+    .align 6
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; helper methods
@@ -2678,7 +2676,7 @@ store_vm_state:
 
     clr r1
 
-    ret
+    icall
     
 restore_vm_state:
 
@@ -2706,7 +2704,7 @@ restore_vm_state:
     lds  r28, 0x0660
     ldi  r29, 0x01
 
-    ret
+    dispatch_noalign
 
     ; the following delays assume a call via call, NOT rcall
     ; make sure you compile/link WITHOUT linker relaxing!
@@ -2939,11 +2937,11 @@ void vm_run()
     
     // entry point in header
     *(volatile uint24_t*)&vm.pc = 20;
+    FX::seekData(20);
 
     // kick off execution
     asm volatile(R"(
-        call restore_vm_state
-        jmp  jump_to_pc
+        jmp restore_vm_state
     )");
 
 }
