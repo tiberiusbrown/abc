@@ -211,13 +211,33 @@ static void sys_set_frame_rate()
     auto ptr = vm_pop_begin();
     uint8_t fr = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    Arduboy2Base::setFrameRate(fr);
+    ards::vm.frame_dur = 1000 / fr;
 }
 
+extern unsigned long volatile timer0_millis;
 static void sys_next_frame()
 {
-    bool x = Arduboy2Base::nextFrame();
-    vm_push(uint8_t(x));
+    uint8_t now = (uint8_t)timer0_millis;
+    uint8_t frame_duration = now - ards::vm.frame_start;
+    
+    if(ards::vm.just_rendered)
+    {
+        ards::vm.just_rendered = false;
+        vm_push<uint8_t>(0);
+        return;
+    }
+    else if(frame_duration < ards::vm.frame_dur)
+    {
+        if(++frame_duration < ards::vm.frame_dur)
+            Arduboy2Base::idle();
+        vm_push<uint8_t>(0);
+        return;
+    }
+    
+    ards::vm.just_rendered = true;
+    ards::vm.frame_start = now;
+    
+    vm_push<uint8_t>(1);
 }
 
 static void sys_idle()

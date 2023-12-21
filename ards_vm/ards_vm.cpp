@@ -2941,9 +2941,9 @@ call_vm_error:
 
 void vm_run()
 {
-    Arduboy2Base::setFrameDuration(50);
-    
     memset(&vm, 0, sizeof(vm));
+    
+    vm.frame_dur = 50;
     
     // read signature and refuse to run if it's not present
     {

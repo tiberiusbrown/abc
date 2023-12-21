@@ -59,6 +59,9 @@ extern __attribute__((section(".beforedata"))) struct vm_t
     uint24_t pc;           // 0x661
     uint8_t csp;           // 0x664
     uint8_t error;         // 0x665
+    uint8_t frame_dur;     // 0x666
+    uint8_t frame_start;   // 0x667
+    bool just_rendered;    // 0x668
 } vm;
 
 void vm_run();
