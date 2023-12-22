@@ -63,6 +63,11 @@ void compiler_t::progdata_expr(
         encode_font(pd.data, n);
         break;
     }
+    case compiler_type_t::TONES:
+    {
+        encode_tones(pd.data, n);
+        break;
+    }
     case compiler_type_t::PRIM:
     {
         if(n.type != AST::INT_CONST)

@@ -20,7 +20,8 @@ std::unordered_set<std::string> const keywords =
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
-    "constexpr", "prog", "sprites", "font", "struct", "import", "len",
+    "constexpr", "prog", "sprites", "font", "tones", "struct",
+    "import", "len",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
@@ -44,6 +45,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "long",    TYPE_I32     },
     { "sprites", TYPE_SPRITES },
     { "font",    TYPE_FONT    },
+    { "tones",   TYPE_TONES   },
 };
 
 bool sysfunc_is_format(std::string const& f)
@@ -326,6 +328,12 @@ std::string compiler_t::resolve_label_ref(
             label = font_label_cache[key] = progdata_label();
             add_progdata(label, TYPE_FONT, n);
         }
+        return label;
+    }
+    else if(n.type == AST::TONES)
+    {
+        std::string label = progdata_label();
+        add_progdata(label, TYPE_TONES, n);
         return label;
     }
     else if(n.type == AST::IDENT)

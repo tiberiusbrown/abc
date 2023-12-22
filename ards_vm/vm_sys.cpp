@@ -10,6 +10,8 @@
 #define SPRITESU_RECT
 #include "SpritesU.hpp"
 
+#include "ards_tone.hpp"
+
 #include "ards_vm.hpp"
 
 using sys_func_t = void(*)();
@@ -850,6 +852,18 @@ static void sys_draw_textf()
     FX::seekData(ards::vm.pc);
 }
 
+static void sys_tones_play()
+{
+    auto ptr = vm_pop_begin();
+    uint24_t song = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+    (void)FX::readEnd();
+    
+    ards::Tones::play(song);
+    
+    FX::seekData(ards::vm.pc);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -886,4 +900,5 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_strcpy,
     sys_strcpy_P,
     sys_format,
+    sys_tones_play,
 };

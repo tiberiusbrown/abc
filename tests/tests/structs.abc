@@ -10,6 +10,11 @@ enemy_t[4] enemies;
 
 enemy_t prog pe = { 1, 2, { } };
 
+void f(enemy_t& er)
+{
+    er.y = 2;
+}
+
 void main()
 {
     $debug_break();
@@ -48,6 +53,10 @@ void main()
     }
     $assert(enemies[2].x == 42);
     $assert(enemies[2].y == 65);
+    
+    f(enemies[2]);
+    $assert(enemies[2].x == 42);
+    $assert(enemies[2].y == 2);
     
     $debug_break();
 }

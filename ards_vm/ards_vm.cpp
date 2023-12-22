@@ -1,6 +1,9 @@
 #include "ards_vm.hpp"
 #include "ards_instr.hpp"
 
+#define ARDS_TONES_IMPLEMENTATION
+#include "ards_tone.hpp"
+
 #ifndef EEPROM_h
 #define EEPROM_h
 #endif
@@ -2692,7 +2695,7 @@ store_vm_state:
     ; stack pointer: stack always begins at 0x100
     sts  0x0660, r28
 
-    clr r1
+    clr  r1
 
     icall
     
@@ -2881,7 +2884,37 @@ upidx_impl:
     
 jump_to_pc:
     fx_disable
-    ldi  r18, 3
+    
+    ; see if we need to call ards::Tones::update()
+    lds  r16, %[tones_size]
+    cpi  r16, %[tones_maxsize]
+    brsh 1f
+    
+    ; store vm state
+    sts  0x0661, r6
+    sts  0x0662, r7
+    sts  0x0663, r8
+    sts  0x0660, r28
+    clr  r1
+    
+    ; call ards::Tones::update()
+    call %x[tones_update]
+    
+    ; restore vm state
+    clr  r2
+    ldi  r16, 32
+    mov  r3, r16
+    ldi  r16, 1
+    mov  r4, r16
+    ldi  r16, pm_hi8(vm_execute)
+    mov  r5, r16
+    lds  r6, 0x0661
+    lds  r7, 0x0662
+    lds  r8, 0x0663
+    lds  r28, 0x0660
+    ldi  r29, 0x01
+    
+1:  ldi  r18, 3
     fx_enable
     out  %[spdr], r18
     lds  r16, %[data_page]+0
@@ -2897,7 +2930,7 @@ jump_to_pc:
     call delay_17
     out  %[spdr], r2
     call delay_17
-    dispatch
+    dispatch_noalign
     
     ; addr to seek to in r16:r18
 seek_to_addr:
@@ -2930,17 +2963,21 @@ call_vm_error:
 )"
 
     :
-    : [spdr]       "i" (_SFR_IO_ADDR(SPDR))
-    , [spsr]       "i" (_SFR_IO_ADDR(SPSR))
-    , [fxport]     "i" (_SFR_IO_ADDR(FX_PORT))
-    , [fxbit]      "i" (FX_BIT)
-    , [data_page]  ""  (&FX::programDataPage)
-    , [sys_funcs]  ""  (&SYS_FUNCS[0])
+    : [spdr]          "i" (_SFR_IO_ADDR(SPDR))
+    , [spsr]          "i" (_SFR_IO_ADDR(SPSR))
+    , [fxport]        "i" (_SFR_IO_ADDR(FX_PORT))
+    , [fxbit]         "i" (FX_BIT)
+    , [data_page]     ""  (&FX::programDataPage)
+    , [sys_funcs]     ""  (&SYS_FUNCS[0])
+    , [tones_update]  ""  (ards::Tones::update)
+    , [tones_size]    ""  (&ards::detail::buffer_size)
+    , [tones_maxsize] ""  (sizeof(ards::detail::buffer))
     );
 }
 
 void vm_run()
 {
+    ards::Tones::stop();
     memset(&vm, 0, sizeof(vm));
     
     vm.frame_dur = 50;

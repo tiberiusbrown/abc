@@ -100,6 +100,7 @@ add_library(ards_compiler STATIC
     src/ards_compiler_peephole.cpp
     src/ards_compiler_progdata.cpp
     src/ards_compiler_sprites.cpp
+    src/ards_compiler_tones.cpp
     src/ards_compiler_transforms.cpp
     src/ards_compiler_type.cpp
     src/ards_compiler_write.cpp

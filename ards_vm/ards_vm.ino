@@ -5,6 +5,8 @@
 #endif
 #include <Arduboy2.h>
 
+#include "ards_tone.hpp"
+
 Arduboy2Base a;
 
 ARDUBOY_NO_USB
@@ -13,6 +15,8 @@ void setup()
 {
     a.boot();
     FX::begin(0);
+    
+    ards::Tones::setup();
     
     // adjust if we are in dev mode
     if(FX::programDataPage == 0)

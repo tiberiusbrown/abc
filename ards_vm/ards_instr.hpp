@@ -39,6 +39,7 @@ enum sysfunc_t : uint16_t
     SYS_STRCPY,
     SYS_STRCPY_P,
     SYS_FORMAT,
+    SYS_TONES_PLAY,
 
     SYS_NUM
 };

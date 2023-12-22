@@ -176,6 +176,7 @@ primary_expr        <- hex_literal /
                        char_literal /
                        sprites_literal /
                        font_literal /
+                       tones_literal /
                        ident /
                        '(' expr ')' /
                        string_literal
@@ -200,6 +201,10 @@ sprite_row          <- < [^\n}]+ >
 
 # TODO: change to float literal for font size
 font_literal        <- 'font' '{' decimal_literal string_literal '}'
+
+tones_literal       <- 'tones' '{' string_literal '}' /
+                       'tones' '{' (tones_note decimal_literal)+ '}'
+tones_note          <- < [A-G0-9b#]+ >
 
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
@@ -488,6 +493,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["multiplicative_op"] = token;
     p["unary_op"         ] = token;
     p["sprite_row"       ] = token;
+    p["tones_note"       ] = token;
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
     p["bitwise_or_expr"    ] = infix<AST::OP_BITWISE_OR>;
@@ -507,6 +513,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["font_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::FONT, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
+
+    p["tones_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::TONES, v.token() };
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;

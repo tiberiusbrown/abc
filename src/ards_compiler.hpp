@@ -101,6 +101,8 @@ enum class AST
     SPRITES,    // children are w, h, TOKEN (children are rows/TOKEN)
                 //           or w, h, path string
     FONT,       // children are pixel height and path string
+    TONES,      // children are path string
+                //           or note, dur, note, dur, ...
 
     TYPE,
     TYPE_REF,   // reference (child is type)
@@ -130,6 +132,7 @@ struct compiler_type_t
         ARRAY_REF,
         SPRITES,
         FONT,
+        TONES,
     } type;
 
     bool is_ref() const { return type == REF; }
@@ -140,6 +143,7 @@ struct compiler_type_t
     bool is_struct() const { return type == STRUCT; }
     bool is_sprites() const { return type == SPRITES; }
     bool is_font() const { return type == FONT; }
+    bool is_tones() const { return type == TONES; }
 
     bool is_label_ref() const { return is_sprites() || is_font(); }
 
@@ -240,6 +244,9 @@ const compiler_type_t TYPE_SPRITES = {
 
 const compiler_type_t TYPE_FONT = {
     3, false, false, false, false, false, compiler_type_t::FONT };
+
+const compiler_type_t TYPE_TONES = {
+    3, false, false, false, false, false, compiler_type_t::TONES };
 
 const compiler_type_t TYPE_CHAR = {
     1, false, false, false, false, true };
@@ -494,6 +501,7 @@ private:
     static compiler_type_t strlit_type(size_t len);
 
     void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
+    void encode_tones(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 
     // idata encoding:
