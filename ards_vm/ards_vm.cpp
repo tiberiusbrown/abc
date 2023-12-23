@@ -8,11 +8,15 @@
 #define EEPROM_h
 #endif
 #include <Arduboy2.h>
+#include <Arduboy2Audio.h>
 
 extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog);
 
 using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
+
+extern volatile unsigned long timer0_millis;
+extern volatile unsigned long timer0_overflow_count;
 
 namespace ards
 {
@@ -2979,6 +2983,8 @@ void vm_run()
 {
     ards::Tones::stop();
     memset(&vm, 0, sizeof(vm));
+    timer0_millis = 0;
+    timer0_overflow_count = 0;
     
     vm.frame_dur = 50;
     

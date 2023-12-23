@@ -139,8 +139,11 @@ static bool enabled()
 
 void Tones::setup()
 {
-    DDRC  = 0xc0;
-    PORTC = 0x80;
+    if(Arduboy2Audio::enabled())
+    {
+        DDRC  = 0xc0;
+        PORTC = 0x80;
+    }
     
     //TCCR4A = 0x00; // disconnect sound pins
     TCCR4B = 0x09;   // CK/256

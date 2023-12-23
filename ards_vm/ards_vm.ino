@@ -4,6 +4,7 @@
 #define EEPROM_h
 #endif
 #include <Arduboy2.h>
+#include <Arduboy2Audio.h>
 
 #include "ards_tone.hpp"
 
@@ -16,6 +17,7 @@ void setup()
     a.boot();
     FX::begin(0);
     
+    Arduboy2Audio::begin();
     ards::Tones::setup();
     
     // adjust if we are in dev mode

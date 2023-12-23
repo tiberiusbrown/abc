@@ -888,8 +888,7 @@ static void sys_audio_enabled()
 static void sys_audio_toggle()
 {
     Arduboy2Audio::toggle();
-    if(!Arduboy2Audio::enabled())
-        ards::Tones::stop();
+    ards::Tones::setup();
 }
 
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
