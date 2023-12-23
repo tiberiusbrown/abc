@@ -48,5 +48,6 @@ u16  $strlen(char[]& str);
 u24  $strlen_P(char[] prog& str);
 u16  $text_width(font f, char[]& str);
 u16  $text_width_P(font f, char[] prog& str);
+void $tones_play(tones song);
 ```
 
