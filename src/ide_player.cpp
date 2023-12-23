@@ -80,7 +80,8 @@ void player_window_contents(uint64_t dt)
         arduboy->frame_bytes_total = 1024;
 
         constexpr uint64_t MS_TO_PS = 1000000000ull;
-        uint64_t dtps = dt * MS_TO_PS;
+        uint64_t tdt = std::min<uint64_t>(dt, 30);
+        uint64_t dtps = tdt * MS_TO_PS;
         if(dtps > 0)
             arduboy->advance(dtps);
     }

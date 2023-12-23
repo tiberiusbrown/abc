@@ -3,6 +3,7 @@ void bounce_ball_off_paddle()
     vx = -vx;
     vx = vx * 17 / 16;
     vy = vy * 17 / 16;
+    $tones_play(tones{ C5 100 });
 }
 
 void update()
@@ -124,6 +125,7 @@ void new_game()
     serving = true;
     ai_serving = false;
 }
+
 
 
 

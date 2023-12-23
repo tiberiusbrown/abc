@@ -1,5 +1,6 @@
 #include <absim.hpp>
 
+#include <algorithm>
 #include <memory>
 
 #include <imgui.h>
@@ -292,9 +293,9 @@ void platform_send_sound()
     std::vector<float> sbuf;
 
     double const f = double(saudio_sample_rate()) / AUDIO_FREQ;
-    sbuf.resize(size_t(buf.size() * f + 0.5));
-    if(sbuf.size() > saudio_expect())
-        sbuf.resize(saudio_expect());
+    size_t ns = size_t(buf.size() * f + 0.5);
+    ns = std::min<size_t>(ns, (size_t)saudio_expect());
+    sbuf.resize(ns);
 
     constexpr float SOUND_GAIN = 1.f / 32768;
     for(size_t i = 0; i < sbuf.size(); ++i)
