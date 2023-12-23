@@ -5,6 +5,13 @@
 #include <sstream>
 #include <filesystem>
 
+#define PROFILE_COUNT 1
+#define PROFILING (PROFILE_COUNT > 1)
+
+#if PROFILING
+#include <ctime>
+#endif
+
 int main(int argc, char** argv)
 {
     (void)argc;
@@ -17,6 +24,13 @@ int main(int argc, char** argv)
 
     std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/pong/main.abc";
 
+#if PROFILING
+    auto ta = clock();
+
+    for(int prof = 0; prof < PROFILE_COUNT; ++prof)
+    {
+#endif
+
     c.compile(psrc.parent_path().generic_string(), psrc.stem().generic_string(), fasm);
     for(auto const& e : c.errors())
     {
@@ -27,7 +41,9 @@ int main(int argc, char** argv)
     if(!c.errors().empty())
         return 1;
 
+#if !PROFILING
     std::cout << fasm.str() << std::endl;
+#endif
 
     {
         auto e = a.assemble(fasm);
@@ -48,6 +64,14 @@ int main(int argc, char** argv)
             return 1;
         }
     }
+
+#if PROFILING
+    }
+
+    auto tb = clock();
+
+    printf("Time: %f\n", double(tb - ta) / CLOCKS_PER_SEC);
+#endif
 
     {
         auto fxdata = psrc.parent_path() / "fxdata.bin";

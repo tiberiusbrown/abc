@@ -439,6 +439,7 @@ struct compiler_t
 
 private:
 
+    void init_parser();
     void parse(std::vector<char> const& fi, ast_node_t& ast);
 
     void compile_recurse(std::string const& path, std::string const& name);

@@ -16,6 +16,9 @@
 namespace ards
 {
 
+static peg::parser parser;
+static bool parser_initialized = false;
+
 template<AST T> ast_node_t infix(peg::SemanticValues const& v)
 {
     size_t num_ops = v.size() / 2;
@@ -29,8 +32,15 @@ template<AST T> ast_node_t infix(peg::SemanticValues const& v)
 
 void compiler_t::parse(std::vector<char> const& input, ast_node_t& ast)
 {
-    error_t e;
-    peg::parser p;
+    if(!parser_initialized)
+        init_parser();
+    if(!parser.parse({ input.data(), input.size() }, ast) && errs.empty())
+        errs.push_back({ "An unknown parse error occurred." });
+}
+
+void compiler_t::init_parser()
+{
+    peg::parser& p = parser;
 
     p.set_logger([&](size_t line, size_t column, std::string const& msg) {
         errs.push_back({ msg, { line, column } });
@@ -722,9 +732,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             a.children.push_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
     };
-    
-    if(!p.parse({ input.data(), input.size() }, ast) && errs.empty())
-        errs.push_back({ "An unknown parse error occurred." });
+
+    parser_initialized = true;
 }
 
 }
