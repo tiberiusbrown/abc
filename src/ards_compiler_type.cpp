@@ -46,9 +46,14 @@ static void insert_aref(ast_node_t& a, compiler_type_t const& t)
 {
     auto ta = std::move(a);
     a = { {}, AST::OP_AREF };
-    a.comp_type.type = compiler_type_t::ARRAY_REF;
-    a.comp_type.children.push_back(t);
-    a.comp_type.prim_size = t.without_ref().is_prog ? 6 : 4;
+    if(t.is_array_ref())
+        a.comp_type = t;
+    else
+    {
+        a.comp_type.type = compiler_type_t::ARRAY_REF;
+        a.comp_type.children.push_back(t);
+        a.comp_type.prim_size = t.without_ref().is_prog ? 6 : 4;
+    }
     a.children.emplace_back(std::move(ta));
 };
 

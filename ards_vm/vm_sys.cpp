@@ -654,6 +654,19 @@ static void format_add_string(format_char_func f, char* tb, uint16_t tn)
     }
 }
 
+static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
+{
+    while(tn != 0)
+    {
+        FX::seekData(tb);
+        uint8_t c = FX::readPendingLastUInt8();
+        if(c == '\0') return;
+        f(c);
+        ++tb;
+        --tn;
+    }
+}
+
 static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t base)
 {
     char buf[10];
@@ -738,6 +751,19 @@ static void format_exec(format_char_func f)
             }
             check_overlap(tb, tn, format_db, format_dn);
             format_add_string(f, reinterpret_cast<char*>(tb), tn);
+            break;
+        }
+        case 'S':
+        {
+            uint24_t tn;
+            uint24_t tb;
+            {
+                auto ptr = vm_pop_begin();
+                tn = vm_pop<uint24_t>(ptr);
+                tb = vm_pop<uint24_t>(ptr);
+                vm_pop_end(ptr);
+            }
+            format_add_prog_string(f, tb, tn);
             break;
         }
         case 'd':

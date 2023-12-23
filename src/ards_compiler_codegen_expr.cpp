@@ -51,7 +51,14 @@ void compiler_t::resolve_format_call(
             bool is_prog = t.is_prog;
             if(t.is_array_ref() && t.children[0].is_prog) is_prog = true;
             // TODO: optionally pop back and replace with specifier for prog str
-            arg_types.push_back(TYPE_STR);
+            if(is_prog)
+            {
+                arg_types.push_back(TYPE_STR_PROG);
+                fmt.pop_back();
+                fmt += 'S';
+            }
+            else
+                arg_types.push_back(TYPE_STR);
             break;
         }
         default:
@@ -331,6 +338,10 @@ void compiler_t::codegen_expr(
                 // special handling for format string
                 assert(expr.type == AST::OP_AREF);
                 assert(expr.children[0].type == AST::STRING_LITERAL);
+
+                //std::string fmt = std::string(expr.data);
+                //std::vector<compiler_type_t> arg_types;
+                //resolve_format_call(expr, func.decl, arg_types, fmt);
 
                 std::string label = progdata_label();
                 std::vector<uint8_t> data(format_str.begin(), format_str.end());

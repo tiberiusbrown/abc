@@ -139,12 +139,6 @@ static bool enabled()
 
 void Tones::setup()
 {
-    if(Arduboy2Audio::enabled())
-    {
-        DDRC  = 0xc0;
-        PORTC = 0x80;
-    }
-    
     //TCCR4A = 0x00; // disconnect sound pins
     TCCR4B = 0x09;   // CK/256
     //TCCR4D = 0x00; // normal waveform
@@ -166,6 +160,8 @@ void Tones::stop()
 
 void Tones::play(uint24_t song)
 {
+    if(!Arduboy2Audio::enabled())
+        return;
     uint8_t sreg = SREG;
     cli();
     detail::disable();
@@ -177,6 +173,7 @@ void Tones::play(uint24_t song)
     song += sizeof(detail::buffer);
     detail::addr = song;
     OCR3A = detail::buffer[0].period;
+    PORTC = 0x80;
     detail::enable();
     SREG = sreg;
 }

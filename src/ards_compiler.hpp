@@ -221,6 +221,7 @@ struct compiler_type_t
 
     compiler_type_t with_array_ref() const
     {
+        assert(!is_array_ref());
         compiler_type_t r{};
         r.type = ARRAY_REF;
         r.children.push_back(*this);
