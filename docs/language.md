@@ -66,6 +66,22 @@ constexpr font f = font{ 12 "assets/font.ttf" };
 $draw_text_P(x, y, f, "Hello World!");
 ```
 
+### Tones
+The `tones` type identifies a sequence of musical tones. Each tone is defined by a musical note and a duration in milliseconds.
+
+```c
+// A two-tone note: B5 for 100 ms followed by E6 for 200 ms (e.g., platformer coin sound)
+constexpr tones my_sfx = tones{ B5 100 E6 200 };
+
+// In the future, MIDI import will be supported
+// constexpr tones my_song = tones{ "assets/song.mid" };
+
+$tones_play(my_sfx);
+
+// As with other resource handle types, you can use a literal directly:
+$tones_play(tones{ C4# 50 C4 50 C4b 50 });
+```
+
 ## System Functions
 This list may be outdated -- see [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for the current list.
 ```c
