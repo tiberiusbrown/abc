@@ -4,8 +4,11 @@
 #define ARDS_TONES_BUFFER_SIZE 4
 #endif
 
-// tick rate is 500 Hz (2 ms)
+#ifndef EEPROM_h
+#define EEPROM_h
+#endif
 
+#include <Arduboy2Audio.h>
 #include <ArduboyFX.h>
 #include <string.h>
 

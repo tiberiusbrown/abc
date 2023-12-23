@@ -16,6 +16,8 @@ u8 RIGHT_BUTTON;
 ```c
 bool $any_pressed(u8 buttons);
 void $assert(bool cond);
+bool $audio_enabled();
+void $audio_toggle();
 void $debug_break();
 void $display();
 void $draw_circle(i16 x, i16 y, u8 r, u8 color);
@@ -49,5 +51,7 @@ u24  $strlen_P(char[] prog& str);
 u16  $text_width(font f, char[]& str);
 u16  $text_width_P(font f, char[] prog& str);
 void $tones_play(tones song);
+bool $tones_playing();
+void $tones_stop();
 ```
 

@@ -3,6 +3,7 @@
 #endif
 
 #include <Arduboy2.h>
+#include <Arduboy2Audio.h>
 #include <ArduboyFX.h>
 
 #define SPRITESU_IMPLEMENTATION
@@ -858,11 +859,37 @@ static void sys_tones_play()
     auto ptr = vm_pop_begin();
     uint24_t song = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
+    
+    if(!Arduboy2Audio::enabled())
+        return;
+    
     (void)FX::readEnd();
     
     ards::Tones::play(song);
     
     FX::seekData(ards::vm.pc);
+}
+
+static void sys_tones_playing()
+{
+    vm_push<bool>(ards::Tones::playing());
+}
+
+static void sys_tones_stop()
+{
+    ards::Tones::stop();
+}
+
+static void sys_audio_enabled()
+{
+    vm_push<bool>(Arduboy2Audio::enabled());
+}
+
+static void sys_audio_toggle()
+{
+    Arduboy2Audio::toggle();
+    if(!Arduboy2Audio::enabled())
+        ards::Tones::stop();
 }
 
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
@@ -902,4 +929,8 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_strcpy_P,
     sys_format,
     sys_tones_play,
+    sys_tones_playing,
+    sys_tones_stop,
+    sys_audio_enabled,
+    sys_audio_toggle,
 };

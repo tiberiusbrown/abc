@@ -46,6 +46,10 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "strcpy_P",           SYS_STRCPY_P           },
     { "format",             SYS_FORMAT             },
     { "tones_play",         SYS_TONES_PLAY         },
+    { "tones_playing",      SYS_TONES_PLAYING      },
+    { "tones_stop",         SYS_TONES_STOP         },
+    { "audio_enabled",      SYS_AUDIO_ENABLED      },
+    { "audio_toggle",       SYS_AUDIO_TOGGLE       },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
@@ -85,6 +89,10 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_STRCPY_P,           { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG }, { "dst", "src" } } },
     { SYS_FORMAT,             { TYPE_VOID, { TYPE_STR, TYPE_STR_PROG }, { "dst", "fmt" } } },
     { SYS_TONES_PLAY,         { TYPE_VOID, { TYPE_TONES }, { "song" } } },
+    { SYS_TONES_PLAYING,      { TYPE_BOOL, { }, { } } },
+    { SYS_TONES_STOP,         { TYPE_VOID, { }, { } } },
+    { SYS_AUDIO_ENABLED,      { TYPE_BOOL, { }, { } } },
+    { SYS_AUDIO_TOGGLE,       { TYPE_VOID, { }, { } } },
 };
 
 }

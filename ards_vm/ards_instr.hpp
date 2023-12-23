@@ -40,6 +40,10 @@ enum sysfunc_t : uint16_t
     SYS_STRCPY_P,
     SYS_FORMAT,
     SYS_TONES_PLAY,
+    SYS_TONES_PLAYING,
+    SYS_TONES_STOP,
+    SYS_AUDIO_ENABLED,
+    SYS_AUDIO_TOGGLE,
 
     SYS_NUM
 };
