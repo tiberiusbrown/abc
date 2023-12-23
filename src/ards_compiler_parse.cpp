@@ -204,7 +204,7 @@ font_literal        <- 'font' '{' decimal_literal string_literal '}'
 
 tones_literal       <- 'tones' '{' string_literal '}' /
                        'tones' '{' (tones_note decimal_literal)+ '}'
-tones_note          <- < [A-G0-9b#]+ >
+tones_note          <- < [A-G0-9b#-]+ >
 
 decimal_literal     <- < [0-9]+'u'? >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >

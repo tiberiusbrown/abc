@@ -27,11 +27,13 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
             uint16_t period = (uint16_t)std::clamp<int>((int)std::round(p), 256, 65535);
             periods[i] = period;
         }
+        periods[0] = 1;
     }
 
     static int const OCTAVE[7] = { 0, 2, 4, 5, 7, 9, 11 };
     if(notes.empty())
     {
+        notes["-"] = 0;
         for(int i = 0; i < 7; ++i)
         {
             char c = "CDEFGAB"[i];
@@ -42,7 +44,22 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
             for(int j = 0; j < 9; ++j)
             {
                 t += char('0' + j);
-                notes[t] = note + (j - 4) * 12;
+                int const note2 = note + (j - 4) * 12;
+                notes[t] = note2;
+
+                if(note2 < 128 && c != 'E' && c != 'B')
+                {
+                    t += '#';
+                    notes[t] = note2 + 1;
+                    t.pop_back();
+                }
+                if(note2 > 1 && c != 'F' && c != 'C')
+                {
+                    t += 'b';
+                    notes[t] = note2 - 1;
+                    t.pop_back();
+                }
+
                 t.pop_back();
             }
         }
