@@ -22,5 +22,6 @@ void loop()
 void main()
 {
     setup();
-    loop();
+    while(true)
+        loop();
 }
