@@ -3,7 +3,13 @@ void bounce_ball_off_paddle()
     vx = -vx;
     vx = vx * 17 / 16;
     vy = vy * 17 / 16;
-    $tones_play(tones{ C5 100 });
+    $tones_play(SFX_BOUNCE_PADDLE);
+}
+
+void bounce_ball_off_wall()
+{
+    vy = -vy;
+    $tones_play(SFX_BOUNCE_WALL);
 }
 
 void update()
@@ -63,12 +69,12 @@ void update()
         if(by < TOP_Y * FRAC)
         {
             by = TOP_Y * FRAC;
-            vy = -vy;
+            bounce_ball_off_wall();
         }
         if(by > (BOT_Y - BALL_SIZE) * FRAC)
         {
             by = (BOT_Y - BALL_SIZE) * FRAC;
-            vy = -vy;
+            bounce_ball_off_wall();
         }
         if(bx < PADDLE_WIDTH * FRAC)
         {
@@ -79,6 +85,7 @@ void update()
             {
                 serving = true;
                 s1 = s1 + 1;
+                $tones_play(SFX_LOSS);
             }
         }
         if(bx > (128 - PADDLE_WIDTH - BALL_SIZE) * FRAC)
@@ -91,6 +98,7 @@ void update()
                 ai_serving = true;
                 ai_serving_wait = 20;
                 s0 = s0 + 1;
+                $tones_play(SFX_WIN);
             }
         }
     }
@@ -125,6 +133,8 @@ void new_game()
     serving = true;
     ai_serving = false;
 }
+
+
 
 
 

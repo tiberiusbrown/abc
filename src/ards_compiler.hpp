@@ -145,7 +145,10 @@ struct compiler_type_t
     bool is_font() const { return type == FONT; }
     bool is_tones() const { return type == TONES; }
 
-    bool is_label_ref() const { return is_sprites() || is_font(); }
+    bool is_label_ref() const
+    {
+        return is_sprites() || is_font() || is_tones();
+    }
 
     // empty for primitives
     // element type for arrays

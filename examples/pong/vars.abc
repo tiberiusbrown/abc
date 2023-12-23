@@ -30,4 +30,13 @@ constexpr int BOT_Y = 63;
 
 constexpr font f = font{ 6 "font.ttf" };
 
+constexpr tones SFX_BOUNCE_WALL = tones{ C4 50 };
+constexpr tones SFX_BOUNCE_PADDLE = tones{ C5 100 };
+
+constexpr tones SFX_LOSS = tones{
+    C5 20 B4 20 B4b 20 A4 20 A4b 20 G4 20 G4b 20 F4 20 E4 100
+};
+constexpr tones SFX_WIN = tones{
+    E4 20 F4 20 F4# 20 G4 20 G4# 20 A4 20 A4# 20 B4 20 C5 100
+};
 
