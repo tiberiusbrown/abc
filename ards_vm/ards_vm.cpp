@@ -2983,8 +2983,8 @@ void vm_run()
 {
     ards::Tones::stop();
     memset(&vm, 0, sizeof(vm));
-    timer0_millis = 0;
-    timer0_overflow_count = 0;
+    //timer0_millis = 0;
+    //timer0_overflow_count = 0;
     
     vm.frame_dur = 50;
     

@@ -15,20 +15,31 @@ ARDUBOY_NO_USB
 void setup()
 {
     a.boot();
+    
     FX::begin(0);
     
-    Arduboy2Audio::begin();
-    ards::Tones::setup();
-    
-    // adjust if we are in dev mode
+    // read data page if we are in dev mode
     if(FX::programDataPage == 0)
     {
         FX::readDataBytes(
             uint24_t(16) * 1024 * 1024 - 2,
             (uint8_t*)&FX::programDataPage,
             2);
-        //FX::programDataPage = 65535;
     }
+    
+    // figure out save page
+    {
+        uint16_t save_page;
+        FX::readDataBytes(
+            uint24_t(16) * 1024 * 1024 - 4,
+            (uint8_t*)&save_page,
+            2);
+        if(save_page != 0)
+            FX::programSavePage = (FX::programDataPage + save_page) & 0xfff0;
+    }
+    
+    Arduboy2Audio::begin();
+    ards::Tones::setup();
 }
 
 void loop()

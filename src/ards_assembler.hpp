@@ -25,6 +25,7 @@ struct assembler_t
         , prev_pc_offset(0)
         , globals_bytes(0)
         , byte_count(256) // header page
+        , saved_bytes(0)
         , error{}
     {}
     error_t assemble(std::istream& f);
@@ -61,6 +62,9 @@ private:
 
     // current amount of global data bytes
     size_t globals_bytes;
+
+    // whether the binary will need a save sector
+    size_t saved_bytes;
     
     enum node_type_t : uint8_t
     {

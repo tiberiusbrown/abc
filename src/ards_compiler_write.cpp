@@ -217,11 +217,26 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
 
 void compiler_t::write(std::ostream& f)
 {
+    // saved globals first
+    size_t saved_size = 0;
     for(auto const& [name, global] : globals)
     {
         if(global.is_constexpr_ref() ||
             global.var.is_constexpr ||
             global.var.type.is_prog) continue;
+        if(!global.saved) continue;
+        f << ".global " << name << " " << global.var.type.prim_size << "\n";
+        saved_size += global.var.type.prim_size;
+    }
+
+    f << ".saved " << saved_size << "\n";
+
+    for(auto const& [name, global] : globals)
+    {
+        if(global.is_constexpr_ref() ||
+            global.var.is_constexpr ||
+            global.var.type.is_prog) continue;
+        if(global.saved) continue;
         f << ".global " << name << " " << global.var.type.prim_size << "\n";
     }
 

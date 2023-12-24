@@ -301,6 +301,7 @@ struct compiler_global_t
     std::string name;
     compiler_var_t var;
     std::string constexpr_ref;
+    bool saved;
     bool is_constexpr_ref() const { return !constexpr_ref.empty(); }
 };
 
