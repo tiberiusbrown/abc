@@ -71,7 +71,7 @@ void ide_system_reference()
         if(it == ards::sysfunc_decls.end()) continue;
         auto const& decl = it->second;
         PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-        TextUnformatted(ards::type_name(decl.return_type).c_str());
+        Text("%-4s", ards::type_name(decl.return_type).c_str());
         PopStyleColor();
         SameLine();
         Text("$%s(", k.c_str());
@@ -89,6 +89,11 @@ void ide_system_reference()
             PopStyleColor();
             SameLine();
             TextUnformatted(decl.arg_names[i].c_str());
+            if(i + 1 == decl.arg_types.size() && ards::sysfunc_is_format(v))
+            {
+                SameLine(0.f, 0.f);
+                TextUnformatted(", ...");
+            }
         }
         SameLine(0.f, 0.f);
         TextUnformatted(");");
