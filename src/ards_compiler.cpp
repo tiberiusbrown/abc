@@ -582,6 +582,13 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             g.saved = n.children[0].comp_type.is_saved;
             type_annotate(n.children[0], {});
             g.var.type = resolve_type(n.children[0]);
+            if(g.saved && (g.var.type.is_any_ref() || g.var.type.has_child_ref()))
+            {
+                errs.push_back({
+                    "References and objects containing references cannot be declared 'saved'",
+                    n.line_info });
+                return;
+            }
             if(n.children.size() <= 2 && g.var.type.is_any_ref())
             {
                 errs.push_back({
