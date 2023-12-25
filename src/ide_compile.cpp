@@ -72,5 +72,6 @@ bool compile_all()
     }
 
     project.binary = a.data();
+    project.has_save = a.has_save();
     return true;
 }

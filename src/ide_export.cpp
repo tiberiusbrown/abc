@@ -136,8 +136,17 @@ static void export_arduboy()
 
     mz_zip_writer_add_mem(
         &zip, "game.bin",
-        project.binary.data(), project.binary.size(),
+        project.binary.data(), project.binary.size() - (project.has_save ? 4096 : 0),
         compression);
+
+    if(project.has_save)
+    {
+        uint8_t byte = 0xff;
+        mz_zip_writer_add_mem(
+            &zip, "save.bin",
+            &byte, 1,
+            compression);
+    }
 
 #if 0
     // add project files
@@ -219,7 +228,7 @@ void export_menu_items()
         export_zip();
     Separator();
 #endif
-    if(MenuItem("Export FX data..."))
+    if(MenuItem("Export development FX data..."))
         export_fxdata();
     if(MenuItem("Export .arduboy file..."))
         export_arduboy();
