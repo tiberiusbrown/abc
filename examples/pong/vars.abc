@@ -1,5 +1,5 @@
 // ball position
-saved int bx, by;
+int bx, by;
 
 // ball velocity
 int vx, vy;
@@ -39,5 +39,3 @@ constexpr tones SFX_LOSS = tones{
 constexpr tones SFX_WIN = tones{
     E4 20 F4 20 F4# 20 G4 20 G4# 20 A4 20 A4# 20 B4 20 C5 100
 };
-
-
