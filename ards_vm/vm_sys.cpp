@@ -917,6 +917,50 @@ static void sys_audio_toggle()
     ards::Tones::setup();
 }
 
+static void sys_save_exists()
+{
+    uint16_t save_size;
+    (void)FX::readEnd();
+    FX::seekData(10);
+    save_size = FX::readPendingUInt8();
+    save_size |= ((uint16_t)FX::readPendingLastUInt8() << 8);
+    //FX::readDataBytes(10, (uint8_t*)&save_size, 2);
+    bool r = false;
+    if(save_size > 0 && save_size <= 1024)
+    {
+        uint16_t t;
+        FX::seekSave(0);
+        r = (FX::readPendingLastUInt16() == save_size);
+    }
+    FX::seekData(ards::vm.pc);
+    vm_push<bool>(r);
+}
+
+static void sys_save()
+{
+    uint16_t save_size;
+    (void)FX::readEnd();
+    FX::seekData(10);
+    save_size = FX::readPendingUInt8();
+    save_size |= ((uint16_t)FX::readPendingLastUInt8() << 8);
+    //FX::readDataBytes(10, (uint8_t*)&save_size, 2);
+    if(save_size > 0 && save_size <= 1024)
+        FX::saveGameState(&ards::vm.globals[0], save_size);
+    FX::seekData(ards::vm.pc);
+}
+
+static void sys_load()
+{
+    uint16_t save_size;
+    (void)FX::readEnd();
+    FX::readDataBytes(10, (uint8_t*)&save_size, 2);
+    bool r = false;
+    if(save_size > 0 && save_size <= 1024)
+        r = (bool)FX::loadGameState(&ards::vm.globals[0], save_size);
+    FX::seekData(ards::vm.pc);
+    vm_push<bool>(r);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -958,4 +1002,7 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_tones_stop,
     sys_audio_enabled,
     sys_audio_toggle,
+    sys_save_exists,
+    sys_save,
+    sys_load,
 };

@@ -20,8 +20,8 @@ std::unordered_set<std::string> const keywords =
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
-    "constexpr", "prog", "sprites", "font", "tones", "struct",
-    "import", "len",
+    "constexpr", "saved", "prog", "sprites", "font", "tones",
+    "struct", "import", "len",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
@@ -579,6 +579,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 type_annotate(n.children[2], {});
             auto& g = globals[name];
             g.name = name;
+            g.saved = n.children[0].comp_type.is_saved;
             type_annotate(n.children[0], {});
             g.var.type = resolve_type(n.children[0]);
             if(n.children.size() <= 2 && g.var.type.is_any_ref())

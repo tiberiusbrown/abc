@@ -50,6 +50,9 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "tones_stop",         SYS_TONES_STOP         },
     { "audio_enabled",      SYS_AUDIO_ENABLED      },
     { "audio_toggle",       SYS_AUDIO_TOGGLE       },
+    { "save_exists",        SYS_SAVE_EXISTS        },
+    { "save",               SYS_SAVE               },
+    { "load",               SYS_LOAD               },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
@@ -93,6 +96,9 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_TONES_STOP,         { TYPE_VOID, { }, { } } },
     { SYS_AUDIO_ENABLED,      { TYPE_BOOL, { }, { } } },
     { SYS_AUDIO_TOGGLE,       { TYPE_VOID, { }, { } } },
+    { SYS_SAVE_EXISTS,        { TYPE_BOOL, { }, { } } },
+    { SYS_SAVE,               { TYPE_VOID, { }, { } } },
+    { SYS_LOAD,               { TYPE_BOOL, { }, { } } },
 };
 
 }

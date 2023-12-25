@@ -78,6 +78,8 @@ int main()
 
     for(auto const& entry : fs::recursive_directory_iterator(TESTS_DIR))
     {
+        auto ext = entry.path().extension();
+        if(entry.path().extension() != ".abc") continue;
         char const* status = "Pass";
         if(!test(entry.path().parent_path().generic_string(), entry.path().filename().generic_string()))
             status = "fail", r = 1;

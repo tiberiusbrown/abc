@@ -1,0 +1,44 @@
+int x;
+saved int y;
+
+void main()
+{
+    $debug_break();
+    
+    $assert(!$save_exists());
+    
+    x = 1;
+    y = 2;
+    
+    $assert(!$load());
+    
+    $assert(x == 1);
+    $assert(y == 2);
+    
+    $save();
+    
+    $assert($save_exists());
+    
+    x = 3;
+    y = 4;
+    
+    $assert($load());
+    
+    $assert(x == 3);
+    $assert(y == 2);
+    
+    y = 4;
+    $save();
+    
+    $assert($save_exists());
+    
+    x = 5;
+    y = 6;
+    
+    $assert($load());
+    
+    $assert(x == 5);
+    $assert(y == 4);
+    
+    $debug_break();
+}

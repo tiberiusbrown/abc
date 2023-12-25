@@ -44,6 +44,9 @@ enum sysfunc_t : uint16_t
     SYS_TONES_STOP,
     SYS_AUDIO_ENABLED,
     SYS_AUDIO_TOGGLE,
+    SYS_SAVE_EXISTS,
+    SYS_SAVE,
+    SYS_LOAD,
 
     SYS_NUM
 };

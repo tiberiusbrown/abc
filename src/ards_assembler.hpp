@@ -33,6 +33,7 @@ struct assembler_t
         std::string const& name,
         std::vector<uint8_t> const& data);
     error_t link();
+    bool has_save() const { return saved_bytes > 0; }
     std::vector<uint8_t> const& data() { return linked_data; }
 private:
     std::vector<uint8_t> linked_data;

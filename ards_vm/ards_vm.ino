@@ -12,30 +12,35 @@ Arduboy2Base a;
 
 ARDUBOY_NO_USB
 
+extern "C" void vm_error(ards::error_t e);
+
 void setup()
 {
     a.boot();
     
-    FX::begin(0);
+    FX::begin(0x0000, 0xfff0);
     
-    // read data page if we are in dev mode
-    if(FX::programDataPage == 0)
+    // figure out data/save pages if we are in dev mode
+    if(FX::programDataPage == 0x0000)
     {
+        // look for signature
+        uint24_t addr = uint24_t(16) * 1024 * 1024 - 4;
+        FX::seekData(addr);
+        uint32_t sig = FX::readPendingLastUInt32();
+        if(sig != 0xABCEEABC)
+        {
+            // we might have a save page: look back one 4K sector
+            addr -= 4096;
+            FX::seekData(addr);
+            sig = FX::readPendingLastUInt32();
+            if(sig != 0xABCEEABC)
+                vm_error(ards::ERR_SIG);
+        }
+        // read the data page from end-of-data
         FX::readDataBytes(
-            uint24_t(16) * 1024 * 1024 - 2,
+            addr - 2,
             (uint8_t*)&FX::programDataPage,
             2);
-    }
-    
-    // figure out save page
-    {
-        uint16_t save_page;
-        FX::readDataBytes(
-            uint24_t(16) * 1024 * 1024 - 4,
-            (uint8_t*)&save_page,
-            2);
-        if(save_page != 0)
-            FX::programSavePage = (FX::programDataPage + save_page) & 0xfff0;
     }
     
     Arduboy2Audio::begin();

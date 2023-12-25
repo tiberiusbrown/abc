@@ -622,7 +622,7 @@ error_t assembler_t::link()
     linked_data.push_back(0xBC);
 
     // offset 4: 6 dummy bytes
-    for(int i = 0; i < 8; ++i)
+    for(int i = 0; i < 6; ++i)
         linked_data.push_back(0);
 
     // offset 10: save size
@@ -816,23 +816,28 @@ error_t assembler_t::link()
     linked_data[18] = uint8_t(linked_data.size() >> 16);
     linked_data.insert(linked_data.end(), line_table.begin(), line_table.end());
 
-    // add save sector if needed
-    size_t save_page_offset = 0;
-    if(saved_bytes != 0)
-    {
-        save_page_offset = (linked_data.size() + 4096 + 255) / 256;
-        linked_data.resize(linked_data.size() + 8192);
-    }
-
     // page-align and insert dev length at end
-    size_t pages = (linked_data.size() + 255 + 4) / 256;
+    size_t pages = (linked_data.size() + 255 + 6) / 256;
     size_t size = pages * 256;
     linked_data.resize(size);
     pages = 65536 - pages;
-    linked_data[size - 4] = uint8_t(save_page_offset >> 0);
-    linked_data[size - 3] = uint8_t(save_page_offset >> 8);
-    linked_data[size - 2] = uint8_t(pages >> 0);
-    linked_data[size - 1] = uint8_t(pages >> 8);
+    if(has_save())
+        pages -= 16;
+
+    linked_data[size - 6] = uint8_t(pages >> 0);
+    linked_data[size - 5] = uint8_t(pages >> 8);
+
+    linked_data[size - 4] = 0xAB;
+    linked_data[size - 3] = 0xCE;
+    linked_data[size - 2] = 0xEA;
+    linked_data[size - 1] = 0xBC;
+
+    // TODO: revisit this
+    if(has_save())
+    {
+        for(int i = 0; i < 4096; ++i)
+            linked_data.push_back(0xff);
+    }
 
     return error;
 }

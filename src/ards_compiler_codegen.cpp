@@ -308,6 +308,13 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(a.children.size() == 2 || a.children.size() == 3);
         assert(a.children[1].type == AST::IDENT);
         if(!check_identifier(a.children[1])) return;
+        if(a.children[0].comp_type.is_saved)
+        {
+            errs.push_back({
+                "Local variables may not be declared 'saved'",
+                a.line_info });
+            return;
+        }
         type_annotate(a.children[0], frame);
         auto type = resolve_type(a.children[0]);
         if(!errs.empty()) return;

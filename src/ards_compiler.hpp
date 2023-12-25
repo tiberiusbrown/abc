@@ -119,11 +119,9 @@ struct compiler_type_t
 
     bool is_signed;
     bool is_bool;
-    bool is_constexpr;
-    bool is_prog;
     bool is_char;
 
-    enum type_t
+    enum type_t : uint8_t
     {
         PRIM,
         STRUCT,
@@ -134,6 +132,10 @@ struct compiler_type_t
         FONT,
         TONES,
     } type;
+
+    bool is_constexpr;
+    bool is_saved;
+    bool is_prog;
 
     bool is_ref() const { return type == REF; }
     bool is_array_ref() const { return type == ARRAY_REF; }
@@ -244,24 +246,16 @@ const compiler_type_t TYPE_I24 = { 3, true };
 const compiler_type_t TYPE_I32 = { 4, true };
 
 const compiler_type_t TYPE_SPRITES = {
-    3, false, false, false, false, false, compiler_type_t::SPRITES };
+    3, false, false, false, compiler_type_t::SPRITES };
 
 const compiler_type_t TYPE_FONT = {
-    3, false, false, false, false, false, compiler_type_t::FONT };
+    3, false, false, false, compiler_type_t::FONT };
 
 const compiler_type_t TYPE_TONES = {
-    3, false, false, false, false, false, compiler_type_t::TONES };
+    3, false, false, false, compiler_type_t::TONES };
 
 const compiler_type_t TYPE_CHAR = {
-    1, false, false, false, false, true };
-
-inline compiler_type_t type_char_array(size_t n)
-{
-    return {
-        n, false, false, false, false, false, compiler_type_t::ARRAY,
-        { TYPE_CHAR }
-    };
-};
+    1, false, false, true };
 
 const compiler_type_t TYPE_STR = TYPE_CHAR.with_array_ref();
 const compiler_type_t TYPE_STR_PROG = TYPE_CHAR.with_prog().with_array_ref();

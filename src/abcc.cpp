@@ -22,7 +22,8 @@ int main(int argc, char** argv)
 
     std::stringstream fasm;
 
-    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/pong/main.abc";
+    //std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/save_load.abc";
 
 #if PROFILING
     auto ta = clock();

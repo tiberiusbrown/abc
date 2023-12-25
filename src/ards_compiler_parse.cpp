@@ -130,6 +130,7 @@ global_stmt         <- import_stmt / struct_stmt / decl_stmt / func_stmt
 import_stmt         <- 'import' import_path ';'
 import_path         <- ident ('.' ident)*
 decl_stmt           <- 'constexpr' type_name decl_stmt_item_list ';' /
+                       'saved' type_name decl_stmt_item_list ';' /
                        type_name decl_stmt_item_list ';'
 decl_stmt_item_list <- decl_stmt_item (',' decl_stmt_item)*
 decl_stmt_item      <- ident ('=' expr)?
@@ -674,8 +675,10 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["decl_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::DECL_STMT, v.token() };
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
-        if(v.choice() == 0)
+        if(v.choice() == 0) // constexpr
             a.children[0].comp_type.is_constexpr = true;
+        if(v.choice() == 1) // saved
+            a.children[0].comp_type.is_saved = true;
         auto list = std::move(std::any_cast<ast_node_t>(v[1]));
         for(auto& t : list.children)
             a.children.emplace_back(std::move(t));
