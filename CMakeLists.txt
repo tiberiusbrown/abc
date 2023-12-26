@@ -25,7 +25,38 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/basic_font.hpp"
     VARIABLE_NAME BASIC_FONT
     )
-    
+
+file(GLOB ABC_FONTS "resources/*.ttf")
+set(ABC_FONT_HEADERS)
+set(ABC_FONT_MASTER "${GENHEADER_DIR}/all_fonts.hpp")
+list(APPEND ABC_FONT_HEADERS "${ABC_FONT_MASTER}")
+file(WRITE "${ABC_FONT_MASTER}" "#pragma once\n")
+file(APPEND "${ABC_FONT_MASTER}" "#include <stdint.h>\n")
+file(APPEND "${ABC_FONT_MASTER}" "struct font_info_t {\n")
+file(APPEND "${ABC_FONT_MASTER}" "    char const* name;\n")
+file(APPEND "${ABC_FONT_MASTER}" "    size_t pixels;\n")
+file(APPEND "${ABC_FONT_MASTER}" "    unsigned char const* data;\n")
+file(APPEND "${ABC_FONT_MASTER}" "    size_t size;\n};\n")
+foreach(F ${ABC_FONTS})
+    get_filename_component(FB "${F}" NAME_WE)
+    string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
+    file(APPEND "${ABC_FONT_MASTER}" "#include \"${FB}.hpp\"\n")
+endforeach()
+file(APPEND "${ABC_FONT_MASTER}" "static font_info_t const ALL_FONTS[] = {\n")
+foreach(F ${ABC_FONTS})
+    get_filename_component(FB "${F}" NAME_WE)
+    string(REGEX MATCH "[0-9]+$" FN "${FB}")
+    string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
+    string(TOUPPER "${FB}" FBU)
+    bin2h(
+        SOURCE_FILE   "${F}"
+        HEADER_FILE   "${GENHEADER_DIR}/${FB}.hpp"
+        VARIABLE_NAME "${FBU}"
+        )
+    file(APPEND "${ABC_FONT_MASTER}" "    { \"${FBU}\", ${FN}, ${FBU}, sizeof(${FBU}) },\n")
+endforeach()
+file(APPEND "${ABC_FONT_MASTER}" "};\n")
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(GetGitRevisionDescription)
 git_describe(ABC_VERSION)
@@ -115,6 +146,7 @@ target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
+target_include_directories(ards_compiler PRIVATE "${GENHEADER_DIR}")
 
 add_executable(abcc src/abcc.cpp)
 target_link_libraries(abcc ards_compiler)

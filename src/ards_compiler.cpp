@@ -5,6 +5,8 @@
 
 #include <assert.h>
 
+#include <all_fonts.hpp>
+
 namespace ards
 {
 
@@ -305,7 +307,11 @@ bool compiler_t::check_identifier(ast_node_t const& n)
 std::string compiler_t::resolve_label_ref(
     compiler_frame_t const& frame, ast_node_t const& n, compiler_type_t const& t)
 {
-    if(n.type == AST::SPRITES)
+    if(n.type == AST::LABEL_REF)
+    {
+        return std::string(n.data);
+    }
+    else if(n.type == AST::SPRITES)
     {
         std::string label = progdata_label();
         add_progdata(label, TYPE_SPRITES, n);
@@ -365,6 +371,25 @@ non_ref_type:
     return "";
 }
 
+void compiler_t::create_builtin_font(compiler_global_t& g)
+{
+    for(auto const& f : ALL_FONTS)
+    {
+        if(g.name != f.name) continue;
+        g.constexpr_ref = progdata_label();
+        g.var.label_ref = g.constexpr_ref;
+        std::vector<uint8_t> data;
+        ast_node_t dummy{};
+        ast_node_t pixels{};
+        pixels.type = AST::INT_CONST;
+        pixels.value = f.pixels;
+        dummy.children.push_back(pixels);
+        encode_font_ttf(data, dummy, f.data, f.size);
+        add_custom_progdata(g.constexpr_ref, data);
+        break;
+    }
+}
+
 void compiler_t::compile(
     std::string const& fpath,
     std::string const& fname,
@@ -397,6 +422,17 @@ void compiler_t::compile(
         g.var.type = d.type;
         g.var.is_constexpr = true;
         g.var.value = d.value;
+    }
+
+    // builtin fonts
+    for(auto const& f : ALL_FONTS)
+    {
+        auto& g = globals[f.name];
+        g.name = f.name;
+        g.var.type = TYPE_FONT;
+        g.var.is_constexpr = true;
+        g.var.value = 0;
+        g.builtin = true;
     }
 
     // create global constructor

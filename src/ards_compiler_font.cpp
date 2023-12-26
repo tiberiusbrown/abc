@@ -33,13 +33,9 @@ Sprite Data
 
 void compiler_t::encode_font(std::vector<uint8_t>& data, ast_node_t const& n)
 {
-    stbtt_fontinfo info{};
-
     assert(n.children.size() == 2);
     assert(n.children[0].type == AST::INT_CONST);
     assert(n.children[1].type == AST::STRING_LITERAL);
-
-    int pixel_height = (int)n.children[0].value;
 
     std::vector<char> d;
     {
@@ -54,7 +50,19 @@ void compiler_t::encode_font(std::vector<uint8_t>& data, ast_node_t const& n)
         }
     }
 
-    if(!stbtt_InitFont(&info, (unsigned char const*)d.data(), 0))
+    encode_font_ttf(data, n, (uint8_t const*)d.data(), d.size());
+}
+
+void compiler_t::encode_font_ttf(
+        std::vector<uint8_t>& data, ast_node_t const& n,
+        uint8_t const* ttf_data, size_t ttf_size)
+{
+    stbtt_fontinfo info{};
+    (void)ttf_size;
+
+    int pixel_height = (int)n.children[0].value;
+
+    if(!stbtt_InitFont(&info, (unsigned char const*)ttf_data, 0))
     {
         errs.push_back({ "Failed to load font data", n.line_info });
         return;

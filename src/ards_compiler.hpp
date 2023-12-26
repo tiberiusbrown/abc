@@ -296,6 +296,7 @@ struct compiler_global_t
     compiler_var_t var;
     std::string constexpr_ref;
     bool saved;
+    bool builtin; // builtin-resource but not initialized yet
     bool is_constexpr_ref() const { return !constexpr_ref.empty(); }
 };
 
@@ -437,6 +438,8 @@ private:
     void init_parser();
     void parse(std::vector<char> const& fi, ast_node_t& ast);
 
+    void create_builtin_font(compiler_global_t& g);
+    
     void compile_recurse(std::string const& path, std::string const& name);
 
     bool check_identifier(ast_node_t const& n);
@@ -501,6 +504,9 @@ private:
     static compiler_type_t strlit_type(size_t len);
 
     void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
+    void encode_font_ttf(
+        std::vector<uint8_t>& data, ast_node_t const& n,
+        uint8_t const* ttf_data, size_t ttf_size);
     void encode_tones(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 

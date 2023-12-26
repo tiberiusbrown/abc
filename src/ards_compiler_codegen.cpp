@@ -27,9 +27,12 @@ compiler_global_t const* compiler_t::resolve_global(ast_node_t const& n)
 {
     std::string name(n.data);
     auto it = globals.find(name);
-    if(it != globals.end())
-        return &it->second;
-    return nullptr;
+    if(it == globals.end())
+        return nullptr;
+    auto& g = it->second;
+    if(g.var.is_constexpr && g.var.type.is_font() && g.builtin)
+        create_builtin_font(g);
+    return &g;
 }
 
 compiler_type_t const* compiler_t::resolve_member(
