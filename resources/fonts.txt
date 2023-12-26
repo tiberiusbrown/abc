@@ -1,7 +1,3 @@
-retro
-100% Free
-https://www.dafont.com/retro-gaming.font?l[]=1
-
 lexis
 CC0 1.0 Universal
 https://github.com/damianvila/font-lexis
@@ -16,12 +12,28 @@ https://www.kreativekorp.com/software/fonts/c64/
 
 nokiafc
 100% Free
-https://www.dafont.com/nokia-cellphone.font?l[]=1
+https://www.dafont.com/nokia-cellphone.font
 
 gothicpixels
 100% Free
-https://www.dafont.com/gothicpixels.font?l[]=1
+https://www.dafont.com/gothicpixels.font
 
 blockkie
 100% Free
-https://www.dafont.com/blockkie.font?l[]=1
+https://www.dafont.com/blockkie.font
+
+volter
+100% Free
+https://www.dafont.com/volter-goldfish.font
+
+atari
+100% Free
+https://www.dafont.com/atari.font
+
+tubeofcorn
+100% Free
+https://www.dafont.com/tube-of-corn.font
+
+bangalor
+100% Free
+https://www.dafont.com/bangalore.font
