@@ -20,11 +20,6 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/basic_main.hpp"
     VARIABLE_NAME BASIC_MAIN
     )
-bin2h(
-    SOURCE_FILE   examples/basic/font.ttf
-    HEADER_FILE   "${GENHEADER_DIR}/basic_font.hpp"
-    VARIABLE_NAME BASIC_FONT
-    )
 
 file(GLOB ABC_FONTS "fonts/*.ttf")
 set(ABC_FONT_HEADERS)
@@ -184,7 +179,6 @@ add_executable(abc ${EXE_TYPE}
 
     "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     "${GENHEADER_DIR}/basic_main.hpp"
-    "${GENHEADER_DIR}/basic_font.hpp"
     
     ${EM_FILE_BROWSER_SOURCES}
     ${IMGUI_SOURCES}
