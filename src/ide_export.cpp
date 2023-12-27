@@ -14,6 +14,8 @@
 #include <miniz.h>
 #include <miniz_zip.h>
 
+size_t zip_write_data(
+    void* data, mz_uint64 file_ofs, const void* pBuf, size_t n);
 void export_arduboy(
     std::string const& filename,
     std::vector<uint8_t> const& binary, bool has_save);

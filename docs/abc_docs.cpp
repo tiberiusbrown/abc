@@ -7,6 +7,7 @@
 #include <string>
 
 #include <all_fonts.hpp>
+#include <stb_truetype.h>
 
 #include <stdio.h>
 
@@ -51,7 +52,7 @@ int main()
     if(!f) return 1;
 
     fprintf(f, "# Built-in Font Assets\n");
-    fprintf(f, "| Variable | Line Height |\n");
+    fprintf(f, "| Predefined Variable | Line Height |\n");
     fprintf(f, "|---|---|\n");
 
     std::vector<std::pair<int, std::string>> fonts;

@@ -11,7 +11,7 @@ extern const unsigned char VM_HEX_ARDUBOYFX[];
 extern const size_t VM_HEX_ARDUBOYFX_SIZE;
 #include <vm_hex_arduboyfx.hpp>
 
-static size_t zip_write_data(
+size_t zip_write_data(
     void* data, mz_uint64 file_ofs, const void* pBuf, size_t n)
 {
     auto& d = *(std::vector<uint8_t>*)data;
