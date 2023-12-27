@@ -7,6 +7,10 @@
 #include <string>
 #include <vector>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten_browser_file.h>
+#endif
+
 extern const unsigned char VM_HEX_ARDUBOYFX[];
 extern const size_t VM_HEX_ARDUBOYFX_SIZE;
 #include <vm_hex_arduboyfx.hpp>
