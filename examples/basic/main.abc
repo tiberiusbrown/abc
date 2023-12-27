@@ -1,13 +1,25 @@
 constexpr font f = FONT_BR5;
 
-void main()
+int coins = 0;
+
+void loop()
 {
     $poll_buttons();
     if($just_pressed(A_BUTTON))
+    {
         $tones_play(tones{ B5 100 E6 200 });
+        ++coins;
+    }
     
-    $draw_text_P(0, 0, F, "Hello World!\nPress A to collect a coin.");
-    $draw_textf(0, 20, f, "Running for %u seconds", $millis() / 1000);
+    $draw_text_P(0, 0, f, "Hello World!\nPress A to collect a coin.");
+    $draw_textf(0, 20, f, "Coins collected: %d", coins);
+    $draw_textf(0, 50, f, "Running for %u seconds", $millis() / 1000);
     
     $display();
+}
+
+void main()
+{
+    while(true)
+        loop();
 }
