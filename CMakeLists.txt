@@ -26,7 +26,7 @@ bin2h(
     VARIABLE_NAME BASIC_FONT
     )
 
-file(GLOB ABC_FONTS "resources/*.ttf")
+file(GLOB ABC_FONTS "fonts/*.ttf")
 set(ABC_FONT_HEADERS)
 set(ABC_FONT_MASTER "${GENHEADER_DIR}/all_fonts.hpp")
 list(APPEND ABC_FONT_HEADERS "${ABC_FONT_MASTER}")

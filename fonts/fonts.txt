@@ -1,3 +1,5 @@
+All br* fonts are by Peter Brown, MIT license.
+
 lexis
 CC0 1.0 Universal
 https://github.com/damianvila/font-lexis

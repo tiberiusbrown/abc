@@ -1,4 +1,4 @@
-constexpr font f = font{ 6 "font.ttf" };
+constexpr font f = FONT_BR5;
 
 void setup()
 {
@@ -25,3 +25,5 @@ void main()
     while(true)
         loop();
 }
+
+
