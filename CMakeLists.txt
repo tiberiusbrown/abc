@@ -221,6 +221,7 @@ set_source_files_properties(
 
 add_executable(abc_docs docs/abc_docs.cpp)
 target_link_libraries(abc_docs PRIVATE ards_compiler)
+target_include_directories(abc_docs PRIVATE "${GENHEADER_DIR}")
 target_compile_definitions(abc_docs PRIVATE
     -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     )

@@ -247,6 +247,8 @@ constexpr font f = font{ 12 "assets/font.ttf" };
 $draw_text_P(x, y, f, "Hello World!");
 ```
 
+There are a number of built-in fonts that are automatically included when used. See the full list [here](https://github.com/tiberiusbrown/abc/blob/master/docs/builtin_fonts.md).
+
 ### Tones
 The `tones` type identifies a sequence of musical tones. Each tone is defined by a musical note and a duration in milliseconds.
 

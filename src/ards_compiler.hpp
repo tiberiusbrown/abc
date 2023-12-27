@@ -426,12 +426,20 @@ struct compiler_t
         }, fo);
     }
 
-    void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
-
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
 
     std::string error_file() const { return current_path + "/" + current_file + ".abc"; }
+
+    //
+    // "Private but technically public" API
+    //
+
+    void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
+
+    void encode_font_ttf(
+        std::vector<uint8_t>& data, ast_node_t const& n,
+        uint8_t const* ttf_data, size_t ttf_size);
 
 private:
 
@@ -504,9 +512,6 @@ private:
     static compiler_type_t strlit_type(size_t len);
 
     void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
-    void encode_font_ttf(
-        std::vector<uint8_t>& data, ast_node_t const& n,
-        uint8_t const* ttf_data, size_t ttf_size);
     void encode_tones(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 

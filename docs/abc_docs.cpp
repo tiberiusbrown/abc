@@ -1,9 +1,12 @@
 #include <ards_assembler.hpp>
 #include <ards_compiler.hpp>
 
+#include <algorithm>
 #include <map>
 #include <sstream>
 #include <string>
+
+#include <all_fonts.hpp>
 
 #include <stdio.h>
 
@@ -41,6 +44,34 @@ int main()
         fprintf(f, ");\n");
     }
     fprintf(f, "```\n\n");
+
+    fclose(f);
+
+    f = fopen(DOCS_DIR "/builtin_fonts.md", "w");
+    if(!f) return 1;
+
+    fprintf(f, "# Built-in Font Assets\n");
+    fprintf(f, "| Variable | Line Height |\n");
+    fprintf(f, "|---|---|\n");
+
+    std::vector<std::pair<int, std::string>> fonts;
+
+    for(auto const& font : ALL_FONTS)
+    {
+        std::vector<uint8_t> data;
+        ards::ast_node_t dummy{};
+        ards::ast_node_t pixels{};
+        pixels.type = ards::AST::INT_CONST;
+        pixels.value = font.pixels;
+        dummy.children.push_back(pixels);
+        ards::compiler_t{}.encode_font_ttf(data, dummy, font.data, font.size);
+        fonts.push_back({ (int)data[512], font.name });
+    }
+
+    std::sort(fonts.begin(), fonts.end());
+
+    for(auto const& font : fonts)
+        fprintf(f, "| `%s` | %d |\n", font.second.c_str(), font.first);
 
     fclose(f);
 
