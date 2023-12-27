@@ -74,13 +74,14 @@ void compiler_t::encode_font_ttf(
     int descent = 0;
     int line_gap = 0;
     stbtt_GetFontVMetrics(&info, &ascent, &descent, &line_gap);
-    ascent = (int)ceilf(ascent * scale);
-    descent = (int)roundf(descent * scale);
+    int line_height = (int)roundf(scale * (ascent - descent + line_gap));
 
     int fw = 0;
     int fh = 0;
 
     int min_lsb = 0;
+    int min_y = 1000;
+    int max_y = -1000;
 
     for(int i = 0; i < 256; ++i)
     {
@@ -94,6 +95,8 @@ void compiler_t::encode_font_ttf(
         int x1 = 0;
         int y1 = 0;
         stbtt_GetCodepointBitmapBox(&info, i, scale, scale, &x0, &y0, &x1, &y1);
+        min_y = std::min(min_y, y0);
+        max_y = std::max(max_y, y1);
 
         int w = x1 - x0;
         int h = y1 - y0;
@@ -107,7 +110,7 @@ void compiler_t::encode_font_ttf(
         return;
     }
 
-    int line_height = fh + 1;
+    fh = max_y - min_y;
 
     fh = (fh + 7) / 8 * 8;
 
@@ -134,7 +137,7 @@ void compiler_t::encode_font_ttf(
         int y1 = 0;
         stbtt_GetCodepointBitmapBox(&info, i, scale, scale, &x0, &y0, &x1, &y1);
 
-        int y = ascent + y0;
+        int y = y0 - min_y;
         y = std::max(y, 0);
 
         size_t byte_offset = size_t(fw * i + y * iw);
