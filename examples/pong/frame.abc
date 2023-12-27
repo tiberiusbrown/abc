@@ -108,8 +108,13 @@ void render()
 {
     // scores
     $draw_filled_rect(0, TOP_Y - 1, 128, 1, WHITE);
-    $draw_textf(10, 0, f, "%d", s0);
-    $draw_textf(112, 0, f, "%d", s1);
+    $draw_textf(0, 0, f, "%d", s0);
+    {
+        // right-align the AI's score
+        char[8] buf;
+        $format(buf, "%d", s1);
+        $draw_text(129 - $text_width(f, buf), 0, f, buf);
+    }
     
     $draw_text_P(52, 0, f, "PONG!");
 
@@ -133,21 +138,3 @@ void new_game()
     serving = true;
     ai_serving = false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -143,8 +143,14 @@ target_include_directories(ards_compiler PUBLIC
     )
 target_include_directories(ards_compiler PRIVATE "${GENHEADER_DIR}")
 
-add_executable(abcc src/abcc.cpp)
-target_link_libraries(abcc ards_compiler)
+add_executable(abcc
+    src/abcc.cpp
+    src/ide_export_arduboy.cpp
+    )
+target_link_libraries(abcc ards_compiler ardenslib)
+target_include_directories(abcc PRIVATE
+    "${GENHEADER_DIR}"
+    )
 
 set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
 set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
@@ -167,7 +173,7 @@ add_executable(abc ${EXE_TYPE}
     src/ide_compile.cpp
     src/ide_editor.cpp
     src/ide_export.cpp
-    src/ide_hexdata.cpp
+    src/ide_export_arduboy.cpp
     src/ide_import.cpp
     src/ide_main.cpp
     src/ide_player.cpp

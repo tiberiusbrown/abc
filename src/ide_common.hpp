@@ -145,6 +145,5 @@ std::unique_ptr<open_file_t> create_code_file(std::string const& filename);
 // ide_project_info.cpp
 std::unique_ptr<open_file_t> create_project_info_file(std::string const& filename);
 
-// ide_hexdata.cpp
 extern const unsigned char VM_HEX_ARDUBOYFX[];
 extern const size_t VM_HEX_ARDUBOYFX_SIZE;

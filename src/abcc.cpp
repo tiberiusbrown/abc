@@ -5,6 +5,8 @@
 #include <sstream>
 #include <filesystem>
 
+#include <cstring>
+
 #define PROFILE_COUNT 1
 #define PROFILING (PROFILE_COUNT > 1)
 
@@ -12,17 +14,54 @@
 #include <ctime>
 #endif
 
+void export_arduboy(
+    std::string const& filename,
+    std::vector<uint8_t> const& binary, bool has_save);
+
+static void usage(char const* argv0)
+{
+    //std::cout << "Current Path: " << std::filesystem::current_path() << std::endl;
+    std::cout << "Usage: " << argv0 << " <main.abc> [fxdata.bin] [-a game.arduboy]" << std::endl;
+}
+
 int main(int argc, char** argv)
 {
-    (void)argc;
-    (void)argv;
+    std::filesystem::path psrc;
+    std::filesystem::path pbin;
+    std::filesystem::path parduboy;
+
+    for(int i = 1; i < argc; ++i)
+    {
+        bool more = (i + 1 < argc);
+        if(more && !strcmp(argv[i], "-a"))
+            parduboy = argv[++i];
+        else if(!strcmp(argv[i], "-h"))
+            usage(argv[0]);
+        else if(psrc.empty())
+            psrc = argv[i];
+        else if(pbin.empty())
+            pbin = argv[i];
+        else
+        {
+            usage(argv[0]);
+            return 1;
+        }
+    }
+
+    if(psrc.empty() || (pbin.empty() && parduboy.empty()))
+    {
+        usage(argv[0]);
+        return 1;
+    }
+
+    psrc = std::filesystem::current_path() / psrc;
 
     ards::compiler_t c;
     ards::assembler_t a;
 
     std::stringstream fasm;
 
-    std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    //std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/save_load.abc";
 
 #if PROFILING
@@ -42,7 +81,7 @@ int main(int argc, char** argv)
     if(!c.errors().empty())
         return 1;
 
-#if !PROFILING
+#if !PROFILING && !defined(NDEBUG)
     std::cout << fasm.str() << std::endl;
 #endif
 
@@ -74,8 +113,9 @@ int main(int argc, char** argv)
     printf("Time: %f\n", double(tb - ta) / CLOCKS_PER_SEC);
 #endif
 
+    if(!pbin.empty())
     {
-        auto fxdata = psrc.parent_path() / "fxdata.bin";
+        auto fxdata = pbin;
         std::ofstream fbin(fxdata.generic_string(), std::ios::out | std::ios::binary);
         if(!fbin)
         {
@@ -83,6 +123,11 @@ int main(int argc, char** argv)
             return 1;
         }
         fbin.write((char const*)a.data().data(), a.data().size());
+    }
+
+    if(!parduboy.empty())
+    {
+        export_arduboy(parduboy.generic_string(), a.data(), a.has_save());
     }
 
     return 0;
