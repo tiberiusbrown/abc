@@ -1,6 +1,5 @@
 #include "ards_compiler.hpp"
 
-#include <charconv>
 #include <iostream>
 #include <streambuf>
 #include <variant>
@@ -295,9 +294,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
     p["float_literal"] = [](peg::SemanticValues const& v) {
         double x = 0;
-        std::from_chars(
-            v.token().data(), v.token().data() + v.token().size(),
-            x, std::chars_format::general);
+        std::string t(v.token());
+        sscanf(t.c_str(), "%lf", &x);
+        //std::from_chars(
+        //    v.token().data(), v.token().data() + v.token().size(),
+        //    x, std::chars_format::general);
         ast_node_t a{ v.line_info(), AST::FLOAT_CONST, v.token(), {} };
         a.fvalue = x;
         a.comp_type = TYPE_FLOAT;
