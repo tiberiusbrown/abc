@@ -11,6 +11,22 @@ void test_u8()
     $assert(a % b == 3);
     $assert(a << 1 == 90);
     $assert(a >> 1 == 22);
+    
+    $assert(a == 45);
+    $assert(--a == 44);
+    $assert(a == 44);
+    
+    $assert(a == 44);
+    $assert(a-- == 44);
+    $assert(a == 43);
+    
+    $assert(a == 43);
+    $assert(++a == 44);
+    $assert(a == 44);
+    
+    $assert(a == 44);
+    $assert(a++ == 44);
+    $assert(a == 45);
 }
 
 void test_i8()
@@ -26,6 +42,22 @@ void test_i8()
     $assert(a % b == 3);
     $assert(a << 1 == 90);
     $assert(a >> 1 == 22);
+    
+    $assert(a == 45);
+    $assert(--a == 44);
+    $assert(a == 44);
+    
+    $assert(a == 44);
+    $assert(a-- == 44);
+    $assert(a == 43);
+    
+    $assert(a == 43);
+    $assert(++a == 44);
+    $assert(a == 44);
+    
+    $assert(a == 44);
+    $assert(a++ == 44);
+    $assert(a == 45);
 }
 
 void main()

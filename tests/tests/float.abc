@@ -59,13 +59,13 @@ void main()
     $assert(x++ == 2.5);
     $assert(x == 3.5);
     
-    //$assert(x == 3.5);
-    //$assert(--x == 2.5);
-    //$assert(x == 2.5);
+    $assert(x == 3.5);
+    $assert(--x == 2.5);
+    $assert(x == 2.5);
     
-    //$assert(x == 2.5);
-    //$assert(x-- == 2.5);
-    //$assert(x == 1.5);
+    $assert(x == 2.5);
+    $assert(x-- == 2.5);
+    $assert(x == 1.5);
         
     $debug_break();
 }
