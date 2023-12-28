@@ -414,6 +414,7 @@ struct builtin_constexpr_t
     std::string name;
     compiler_type_t type;
     int64_t value;
+    double fvalue;
 };
 
 extern std::vector<builtin_constexpr_t> const builtin_constexprs;

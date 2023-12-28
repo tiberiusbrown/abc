@@ -47,6 +47,9 @@ enum sysfunc_t : uint16_t
     SYS_SAVE_EXISTS,
     SYS_SAVE,
     SYS_LOAD,
+    SYS_SIN,
+    SYS_COS,
+    SYS_TAN,
 
     SYS_NUM
 };

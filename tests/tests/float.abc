@@ -1,9 +1,14 @@
 float x;
 float y;
 
+constexpr float Z = 3.6;
+int[int(Z * 2)] A;
+
 void main()
 {
     $debug_break();
+    
+    $assert(len(A) == 7);
     
     x = 1.5;
     y = 1.5;

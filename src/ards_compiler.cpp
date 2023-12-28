@@ -63,14 +63,15 @@ bool sysfunc_is_format(std::string const& f)
 
 std::vector<builtin_constexpr_t> const builtin_constexprs
 {
-    { "WHITE",        TYPE_U8,   1 },
-    { "BLACK",        TYPE_U8,   0 },
-    { "A_BUTTON",     TYPE_U8,   1 << 3 },
-    { "B_BUTTON",     TYPE_U8,   1 << 2 },
-    { "UP_BUTTON",    TYPE_U8,   1 << 7 },
-    { "DOWN_BUTTON",  TYPE_U8,   1 << 4 },
-    { "LEFT_BUTTON",  TYPE_U8,   1 << 5 },
-    { "RIGHT_BUTTON", TYPE_U8,   1 << 6 },
+    { "WHITE",        TYPE_U8,    1 },
+    { "BLACK",        TYPE_U8,    0 },
+    { "A_BUTTON",     TYPE_U8,    1 << 3 },
+    { "B_BUTTON",     TYPE_U8,    1 << 2 },
+    { "UP_BUTTON",    TYPE_U8,    1 << 7 },
+    { "DOWN_BUTTON",  TYPE_U8,    1 << 4 },
+    { "LEFT_BUTTON",  TYPE_U8,    1 << 5 },
+    { "RIGHT_BUTTON", TYPE_U8,    1 << 6 },
+    { "PI",           TYPE_FLOAT, 0, 3.14159265358979323846 },
 };
 
 static bool isspace(char c)
@@ -424,7 +425,10 @@ void compiler_t::compile(
         g.name = d.name;
         g.var.type = d.type;
         g.var.is_constexpr = true;
-        g.var.value = d.value;
+        if(d.type.is_float)
+            g.var.fvalue = d.fvalue;
+        else
+            g.var.value = d.value;
     }
 
     // builtin fonts
@@ -622,6 +626,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             if(n.children.size() == 3)
             {
                 if(!g.var.type.is_any_ref() &&
+                    !n.children[0].comp_type.is_constexpr &&
                     n.children[2].type != AST::COMPOUND_LITERAL)
                     n.children[2].insert_cast(g.var.type);
                 type_annotate(n.children[2], {});

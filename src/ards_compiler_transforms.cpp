@@ -51,17 +51,23 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
     //if(n.type >= AST::EXPR_BEGIN)
         for(auto& child : n.children)
             transform_constexprs(child, frame);
-    if(!(
-        n.type == AST::OP_UNARY && n.children[1].type == AST::INT_CONST ||
-        n.type == AST::OP_CAST && n.children[1].type == AST::INT_CONST))
     {
-        for(auto const& child : n.children)
+        bool child1_prim = n.children.size() >= 2 && (
+            n.children[1].type == AST::INT_CONST ||
+            n.children[1].type == AST::FLOAT_CONST);
+        if(!(
+            n.type == AST::OP_UNARY && child1_prim ||
+            n.type == AST::OP_CAST && child1_prim))
         {
-            if((child.type != AST::INT_CONST && child.type != AST::FLOAT_CONST) ||
-                child.comp_type.type != compiler_type_t::PRIM)
-                return;
+            for(auto const& child : n.children)
+            {
+                if((child.type != AST::INT_CONST && child.type != AST::FLOAT_CONST) ||
+                    child.comp_type.type != compiler_type_t::PRIM)
+                    return;
+            }
         }
     }
+    
     bool is_float = n.comp_type.is_float;
     switch(n.type)
     {

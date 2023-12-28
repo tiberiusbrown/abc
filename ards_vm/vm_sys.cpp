@@ -15,6 +15,8 @@
 
 #include "ards_vm.hpp"
 
+#include <math.h>
+
 using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern "C" void vm_error(ards::error_t e);
@@ -83,13 +85,8 @@ __attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
 }
 
 template<class T>
-inline void vm_push(T x)
+inline void vm_push(uint8_t*& ptr, T x)
 {
-    uint8_t* ptr;
-    asm volatile(
-        "lds  %A[ptr], 0x0660\n"
-        "ldi  %B[ptr], 1\n"
-        : [ptr] "=&e" (ptr));
     if((uint8_t)(uintptr_t)ptr + sizeof(T) >= 256)
         vm_error(ards::ERR_DST);
     union
@@ -106,6 +103,18 @@ inline void vm_push(T x)
             : [t] "r" (u.b[i])
             );
     }
+    ards::vm.sp = (uint8_t)(uintptr_t)ptr;
+}
+
+template<class T>
+inline void vm_push(T x)
+{
+    uint8_t* ptr;
+    asm volatile(
+        "lds  %A[ptr], 0x0660\n"
+        "ldi  %B[ptr], 1\n"
+        : [ptr] "=&e" (ptr));
+    vm_push<T>(ptr, x);
     ards::vm.sp = (uint8_t)(uintptr_t)ptr;
 }
 
@@ -961,6 +970,30 @@ static void sys_load()
     vm_push<bool>(r);
 }
 
+static void sys_sin()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, sinf(x));
+    vm_pop_end(ptr);
+}
+
+static void sys_cos()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, cosf(x));
+    vm_pop_end(ptr);
+}
+
+static void sys_tan()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, tanf(x));
+    vm_pop_end(ptr);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -1005,4 +1038,7 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_save_exists,
     sys_save,
     sys_load,
+    sys_sin,
+    sys_cos,
+    sys_tan,
 };
