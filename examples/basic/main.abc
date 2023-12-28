@@ -4,6 +4,9 @@ int coins = 0;
 
 void loop()
 {
+    while!$next_frame())
+        ;
+
     $poll_buttons();
     if($just_pressed(A_BUTTON))
     {
