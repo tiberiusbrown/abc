@@ -174,10 +174,10 @@ shift_expr          <- additive_expr       (shift_op          additive_expr     
 additive_expr       <- multiplicative_expr (additive_op       multiplicative_expr)*
 multiplicative_expr <- unary_expr          (multiplicative_op unary_expr         )*
 
-unary_expr          <- unary_op unary_expr /
-                       postfix_expr /
-                       '++' unary_expr /
-                       '--' unary_expr
+unary_expr          <- '++' unary_expr /
+                       '--' unary_expr /
+                       unary_op unary_expr /
+                       postfix_expr
 postfix_expr        <- primary_expr postfix*
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident / '++' / '--'
 
@@ -384,14 +384,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         switch(v.choice())
         {
         case 0:
-            return {
-                v.line_info(), AST::OP_UNARY, v.token(),
-                { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
-            };
         case 1:
-            return std::any_cast<ast_node_t>(v[0]);
-        case 2:
-        case 3:
         {
             // pre-increment, pre-decrement
             // transform into child0 +=/-= 1
@@ -414,6 +407,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             a.children.emplace_back(std::move(op));
             return a;
         }
+        case 2:
+            return {
+                v.line_info(), AST::OP_UNARY, v.token(),
+                { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+            };
+        case 3:
+            return std::any_cast<ast_node_t>(v[0]);
         default:
             assert(false);
             return {};
