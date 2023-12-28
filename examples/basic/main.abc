@@ -4,7 +4,7 @@ int coins = 0;
 
 void loop()
 {
-    while!$next_frame())
+    while(!$next_frame())
         ;
 
     $poll_buttons();
