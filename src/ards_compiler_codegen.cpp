@@ -366,7 +366,18 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             if(a.children[2].type == AST::INT_CONST)
             {
                 local.var.is_constexpr = true;
-                local.var.value = a.children[2].value;
+                if(type.is_float)
+                    local.var.fvalue = (double)a.children[2].value;
+                else
+                    local.var.value = a.children[2].value;
+            }
+            else if(a.children[2].type == AST::FLOAT_CONST)
+            {
+                local.var.is_constexpr = true;
+                if(type.is_float)
+                    local.var.fvalue = a.children[2].fvalue;
+                else
+                    local.var.value = (int64_t)a.children[2].fvalue;
             }
             else
             {
@@ -379,6 +390,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         else if(a.children.size() == 3)
         {
+            if(!type.is_any_ref() && a.children[2].type != AST::COMPOUND_LITERAL)
+                a.children[2].insert_cast(type);
             type_annotate(a.children[2], frame, type.without_ref().prim_size);
             // TODO: handle array reference initializers
             //assert(!type.is_array_ref());
@@ -567,7 +580,35 @@ void compiler_t::codegen_convert(
         pto = &pto->children[0];
     auto const& to = *pto;
 
+    assert(!(to.is_float && to.is_signed));
+    assert(!(from.is_float && from.is_signed));
     if(to == from) return;
+
+    if(to.is_float && from.is_signed)
+    {
+        codegen_convert(f, frame, n, TYPE_I32, from);
+        f.instrs.push_back({ I_I2F, n.line() });
+        return;
+    }
+    if(to.is_float && !from.is_signed)
+    {
+        codegen_convert(f, frame, n, TYPE_U32, from);
+        f.instrs.push_back({ I_U2F, n.line() });
+        return;
+    }
+    if(from.is_float && to.is_signed)
+    {
+        f.instrs.push_back({ I_F2I, n.line() });
+        codegen_convert(f, frame, n, to, TYPE_I32);
+        return;
+    }
+    if(from.is_float && !to.is_signed)
+    {
+        f.instrs.push_back({ I_F2U, n.line() });
+        codegen_convert(f, frame, n, to, TYPE_U32);
+        return;
+    }
+
     if(to.is_bool)
     {
         if(from.is_bool) return;

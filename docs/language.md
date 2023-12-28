@@ -59,6 +59,7 @@ The following keyword types are exposed in ABC.
 | `ushort`| unsigned  | 8         |
 | `uint`  | unsigned  | 16        |
 | `ulong` | unsigned  | 32        |
+| `float` | float     | 32        |
 
 ## Arrays
 
@@ -284,7 +285,6 @@ See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for 
 See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for the current list of predefined constants.
 
 ## Planned to Include in ABC (TODO)
-- Floating point data types
 - Python-style array slicing (e.g., given `int[6] a;`, the expression `a[2:5]` results in a reference of type `int[3]&` referring to `a[2]`)
 - Function references
 

@@ -1352,6 +1352,66 @@ I_PDEC4:
     st   -X, r16
     dispatch
 
+I_PINCF:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r27, -Y
+    ld   r26, -Y
+    ld   r22, X+
+    ld   r23, X+
+    ld   r24, X+
+    ld   r25, X+
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    movw r16, r26
+    clr  r1
+    ldi  r18, 0
+    ldi  r19, 0
+    ldi  r20, 128
+    ldi  r21, 63
+    call __addsf3
+    movw r26, r16
+    st   -X, r25
+    st   -X, r24
+    st   -X, r23
+    st   -X, r22
+    call dispatch_func
+    .align 6
+
+I_PDECF:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ld   r27, -Y
+    ld   r26, -Y
+    ld   r22, X+
+    ld   r23, X+
+    ld   r24, X+
+    ld   r25, X+
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    movw r16, r26
+    clr  r1
+    ldi  r18, 0
+    ldi  r19, 0
+    ldi  r20, 128
+    ldi  r21, 63
+    call __subsf3
+    movw r26, r16
+    st   -X, r25
+    st   -X, r24
+    st   -X, r23
+    st   -X, r22
+    call dispatch_func
+    .align 6
+
 I_ADD:
     ld   r10, -Y
     ld   r14, -Y
@@ -2384,12 +2444,188 @@ I_CSLE4:
 1:  st   Y+, r18
     dispatch
 
+I_CFEQ:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __eqsf2
+    ldi  r16, 1
+    cpse r24, __zero_reg__
+    ldi  r16, 0
+    st   Y+, r16
+    dispatch
+
+I_CFLT:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __ltsf2
+    rol  r24
+    clr  r24
+    rol  r24
+    st   Y+, r24
+    dispatch
+
+I_CFLE:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __lesf2
+    ldi  r16, 1
+    cp   __zero_reg__, r24
+    brge 1f
+    ldi  r16, 0
+1:  st   Y+, r16
+    dispatch
+
 I_NOT:
     ld   r0, -Y
     ldi  r16, 1
     cpse r0, r2
     ldi  r16, 0
     st   Y+, r16
+    dispatch
+
+I_FADD:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    ; clobbers: r26/r27/r30/r31
+    call __addsf3
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_FSUB:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    ; clobbers: r26/r27/r30/r31
+    call __subsf3
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_FMUL:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    ; clobbers: r26/r27/r30/r31
+    call __mulsf3
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_FDIV:
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    ; clobbers: r26/r27/r30/r31
+    call __divsf3
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_F2I:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __fixsfsi
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_F2U:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __fixunssfsi
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_I2F:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __floatsisf
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    dispatch
+
+I_U2F:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    clr  r1
+    call __floatunsisf
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
     dispatch
 
 I_BZ:

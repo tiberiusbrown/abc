@@ -1,6 +1,7 @@
 #include "ards_compiler.hpp"
 
 #include <cassert>
+#include <cmath>
 
 namespace ards
 {
@@ -56,10 +57,12 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
     {
         for(auto const& child : n.children)
         {
-            if(child.type != AST::INT_CONST || child.comp_type.type != compiler_type_t::PRIM)
+            if((child.type != AST::INT_CONST && child.type != AST::FLOAT_CONST) ||
+                child.comp_type.type != compiler_type_t::PRIM)
                 return;
         }
     }
+    bool is_float = n.comp_type.is_float;
     switch(n.type)
     {
     case AST::IDENT:
@@ -92,38 +95,93 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
         return;
     case AST::OP_CAST:
         assert(n.children.size() == 2);
-        n.value = n.children[1].value;
+        if(is_float == n.children[1].comp_type.is_float)
+            n.value = n.children[1].value;
+        else if(is_float)
+            n.fvalue = (double)n.children[1].value;
+        else
+            n.value = (int64_t)n.children[1].fvalue;
         break;
     case AST::OP_ADDITIVE:
         assert(n.children.size() == 2);
-        if(n.data == "+")
-            n.value = n.children[0].value + n.children[1].value;
-        else if(n.data == "-")
-            n.value = n.children[0].value - n.children[1].value;
-        else
-            assert(false);
-        break;
-    case AST::OP_MULTIPLICATIVE:
-        assert(n.children.size() == 2);
-        if(n.data == "*")
-            n.value = n.children[0].value * n.children[1].value;
+        assert(is_float == n.children[0].comp_type.is_float);
+        assert(is_float == n.children[1].comp_type.is_float);
+        if(is_float)
+        {
+            if(n.data == "+")
+                n.fvalue = n.children[0].fvalue + n.children[1].fvalue;
+            else if(n.data == "-")
+                n.fvalue = n.children[0].fvalue - n.children[1].fvalue;
+            else
+                assert(false);
+        }
         else
         {
-            if(n.children[1].value == 0)
-            {
-                errs.push_back({ "Division by zero in constant expression", n.line_info });
-                return;
-            }
-            if(n.data == "/")
-                n.value = n.children[0].value / n.children[1].value;
-            else if(n.data == "%")
-                n.value = n.children[0].value % n.children[1].value;
+            if(n.data == "+")
+                n.value = n.children[0].value + n.children[1].value;
+            else if(n.data == "-")
+                n.value = n.children[0].value - n.children[1].value;
             else
                 assert(false);
         }
         break;
+    case AST::OP_MULTIPLICATIVE:
+        assert(n.children.size() == 2);
+        assert(is_float == n.children[0].comp_type.is_float);
+        assert(is_float == n.children[1].comp_type.is_float);
+        if(is_float)
+        {
+            if(n.data == "*")
+                n.fvalue = n.children[0].fvalue * n.children[1].fvalue;
+            else
+            {
+                if(n.children[1].fvalue == 0)
+                {
+                    errs.push_back({ "Division by zero in constant expression", n.line_info });
+                    return;
+                }
+                if(n.data == "/")
+                    n.fvalue = n.children[0].fvalue / n.children[1].fvalue;
+                else if(n.data == "%")
+                {
+                    errs.push_back({
+                        "The modulo operator may not be applied to floating point values",
+                        n.line_info });
+                            return;
+                }
+                else
+                    assert(false);
+            }
+        }
+        else
+        {
+            if(n.data == "*")
+                n.value = n.children[0].value * n.children[1].value;
+            else
+            {
+                if(n.children[1].value == 0)
+                {
+                    errs.push_back({ "Division by zero in constant expression", n.line_info });
+                    return;
+                }
+                if(n.data == "/")
+                    n.value = n.children[0].value / n.children[1].value;
+                else if(n.data == "%")
+                    n.value = n.children[0].value % n.children[1].value;
+                else
+                    assert(false);
+            }
+        }
+        break;
     case AST::OP_SHIFT:
         assert(n.children.size() == 2);
+        if(is_float || n.children[0].comp_type.is_float)
+        {
+            errs.push_back({
+                "Floating point values may not be shifted",
+                n.line_info });
+            return;
+        }
         if(n.data == "<<")
             n.value = n.children[0].value << (uint8_t)n.children[1].value;
         else if(n.data == ">>")
@@ -138,34 +196,93 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
         break;
     case AST::OP_BITWISE_AND:
         assert(n.children.size() == 2);
+        if(is_float || n.children[0].comp_type.is_float || n.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Bitwise AND may not be applied to floating point values",
+                n.line_info });
+            return;
+        }
         n.value = int64_t(uint64_t(n.children[0].value) & uint64_t(n.children[1].value));
         break;
     case AST::OP_BITWISE_OR:
         assert(n.children.size() == 2);
+        if(is_float || n.children[0].comp_type.is_float || n.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Bitwise OR may not be applied to floating point values",
+                n.line_info });
+            return;
+        }
         n.value = int64_t(uint64_t(n.children[0].value) | uint64_t(n.children[1].value));
         break;
     case AST::OP_BITWISE_XOR:
         assert(n.children.size() == 2);
+        if(is_float || n.children[0].comp_type.is_float || n.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Bitwise XOR may not be applied to floating point values",
+                n.line_info });
+            return;
+        }
         n.value = int64_t(uint64_t(n.children[0].value) ^ uint64_t(n.children[1].value));
         break;
     case AST::OP_LOGICAL_AND:
         assert(n.children.size() == 2);
+        if(is_float || n.children[0].comp_type.is_float || n.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Logical AND may not be applied to floating point values",
+                n.line_info });
+            return;
+        }
         n.value = int64_t(n.children[0].value && n.children[1].value);
         break;
     case AST::OP_LOGICAL_OR:
         assert(n.children.size() == 2);
+        if(is_float || n.children[0].comp_type.is_float || n.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Logical OR may not be applied to floating point values",
+                n.line_info });
+            return;
+        }
         n.value = int64_t(n.children[0].value || n.children[1].value);
         break;
     case AST::OP_UNARY:
     {
         assert(n.children.size() == 2);
+        assert(is_float == n.children[1].comp_type.is_float);
         auto op = n.children[0].data;
         if(op == "!")
+        {
+            if(is_float)
+            {
+                errs.push_back({
+                    "Logical NOT may not be applied to floating point values",
+                    n.line_info });
+                return;
+            }
             n.value = int64_t(!n.children[1].value);
+        }
         else if(op == "-")
-            n.value = -n.children[1].value;
+        {
+            if(is_float)
+                n.fvalue = -n.children[1].fvalue;
+            else
+                n.value = -n.children[1].value;
+        }
         else if(op == "~")
+        {
+            if(is_float)
+            {
+                errs.push_back({
+                    "Bitwise NOT may not be applied to floating point values",
+                    n.line_info });
+                return;
+            }
             n.value = int64_t(~uint64_t(n.children[1].value));
+        }
         else
             assert(false);
         break;
@@ -173,29 +290,53 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
     case AST::OP_EQUALITY:
     case AST::OP_RELATIONAL:
         assert(n.children.size() == 2);
-        if(n.data == "==")
-            n.value = int64_t(n.children[0].value == n.children[1].value);
-        else if(n.data == "!=")
-            n.value = int64_t(n.children[0].value != n.children[1].value);
-        else if(n.data == "<=")
-            n.value = int64_t(n.children[0].value <= n.children[1].value);
-        else if(n.data == ">=")
-            n.value = int64_t(n.children[0].value >= n.children[1].value);
-        else if(n.data == "<")
-            n.value = int64_t(n.children[0].value < n.children[1].value);
-        else if(n.data == ">")
-            n.value = int64_t(n.children[0].value > n.children[1].value);
+        assert(n.children[0].comp_type.is_float == n.children[1].comp_type.is_float);
+        if(n.children[0].comp_type.is_float)
+        {
+            if(n.data == "==")
+                n.value = int64_t(n.children[0].fvalue == n.children[1].fvalue);
+            else if(n.data == "!=")
+                n.value = int64_t(n.children[0].fvalue != n.children[1].fvalue);
+            else if(n.data == "<=")
+                n.value = int64_t(n.children[0].fvalue <= n.children[1].fvalue);
+            else if(n.data == ">=")
+                n.value = int64_t(n.children[0].fvalue >= n.children[1].fvalue);
+            else if(n.data == "<")
+                n.value = int64_t(n.children[0].fvalue < n.children[1].fvalue);
+            else if(n.data == ">")
+                n.value = int64_t(n.children[0].fvalue > n.children[1].fvalue);
+            else
+                assert(false);
+        }
         else
-            assert(false);
+        {
+            if(n.data == "==")
+                n.value = int64_t(n.children[0].value == n.children[1].value);
+            else if(n.data == "!=")
+                n.value = int64_t(n.children[0].value != n.children[1].value);
+            else if(n.data == "<=")
+                n.value = int64_t(n.children[0].value <= n.children[1].value);
+            else if(n.data == ">=")
+                n.value = int64_t(n.children[0].value >= n.children[1].value);
+            else if(n.data == "<")
+                n.value = int64_t(n.children[0].value < n.children[1].value);
+            else if(n.data == ">")
+                n.value = int64_t(n.children[0].value > n.children[1].value);
+            else
+                assert(false);
+        }
         break;
     default:
         return;
     }
 
+    assert(!(n.comp_type.is_float&& n.comp_type.is_signed));
+
     // if we got here, the node was simplified
-    n.type = AST::INT_CONST;
+    n.type = is_float ? AST::FLOAT_CONST : AST::INT_CONST;
 
     // mask value according to size
+    if(!is_float)
     {
         assert(n.comp_type.prim_size >= 1);
         assert(n.comp_type.prim_size <= 4);
@@ -222,6 +363,8 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
         else
             n.value = int64_t(uint64_t(n.value) & ~mask);
     }
+
+    assert(!(n.comp_type.is_float && n.comp_type.is_signed));
 
     n.children.clear();
 }

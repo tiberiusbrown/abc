@@ -114,6 +114,8 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_PDEC2: f << "pdec2"; break;
     case I_PDEC3: f << "pdec3"; break;
     case I_PDEC4: f << "pdec4"; break;
+    case I_PINCF: f << "pincf"; break;
+    case I_PDECF: f << "pdecf"; break;
 
     case I_ADD:   f << "add"; break;
     case I_ADD2:  f << "add2"; break;
@@ -189,7 +191,20 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_CSLE2: f << "csle2"; break;
     case I_CSLE3: f << "csle3"; break;
     case I_CSLE4: f << "csle4"; break;
+    case I_CFEQ:  f << "cfeq"; break;
+    case I_CFLT:  f << "cflt"; break;
+    case I_CFLE:  f << "cfle"; break;
     case I_NOT:   f << "not"; break;
+
+    case I_FADD:  f << "fadd"; break;
+    case I_FSUB:  f << "fsub"; break;
+    case I_FMUL:  f << "fmul"; break;
+    case I_FDIV:  f << "fdiv"; break;
+    case I_F2I:   f << "f2i"; break;
+    case I_F2U:   f << "f2u"; break;
+    case I_I2F:   f << "i2f"; break;
+    case I_U2F:   f << "u2f"; break;
+
     case I_BZ:    f << "bz    " << instr.label; break;
     case I_BNZ:   f << "bnz   " << instr.label; break;
     case I_JMP:   f << "jmp   " << instr.label; break;

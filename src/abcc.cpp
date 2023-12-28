@@ -48,11 +48,21 @@ int main(int argc, char** argv)
         }
     }
 
-    if(psrc.empty() || (pbin.empty() && parduboy.empty()))
+    bool show_asm = false;
+#ifndef NDEBUG
+    show_asm = true;
+#endif
+
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/save_load.abc";
+
+    if(psrc.empty())
     {
         usage(argv[0]);
         return 1;
     }
+    if(pbin.empty() && parduboy.empty())
+        show_asm = true;
 
     psrc = std::filesystem::current_path() / psrc;
 
@@ -60,9 +70,6 @@ int main(int argc, char** argv)
     ards::assembler_t a;
 
     std::stringstream fasm;
-
-    //std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
-    //std::filesystem::path psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/save_load.abc";
 
 #if PROFILING
     auto ta = clock();
@@ -81,8 +88,9 @@ int main(int argc, char** argv)
     if(!c.errors().empty())
         return 1;
 
-#if !PROFILING && !defined(NDEBUG)
-    std::cout << fasm.str() << std::endl;
+#if !PROFILING
+    if(show_asm)
+        std::cout << fasm.str() << std::endl;
 #endif
 
     {

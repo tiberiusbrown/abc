@@ -158,6 +158,8 @@ enum instr_t : uint8_t
     I_PDEC2, // ref | x   post-decrement ref
     I_PDEC3, // ref | x   post-decrement ref
     I_PDEC4, // ref | x   post-decrement ref
+    I_PINCF,
+    I_PDECF,
 
     I_ADD,   // a b | a+b
     I_ADD2,  // a0 a1 b0 b1 | (a+b)0 (a+b)1
@@ -232,7 +234,20 @@ enum instr_t : uint8_t
     I_CSLE3,
     I_CSLE4,
 
+    I_CFEQ,
+    I_CFLT,
+    I_CFLE,
+
     I_NOT,   // a | !a
+
+    I_FADD,
+    I_FSUB,
+    I_FMUL,
+    I_FDIV,
+    I_F2I,
+    I_F2U,
+    I_I2F,
+    I_U2F,
 
     I_BZ,    // pop, branch if zero to imm3
     I_BZ1,   // imm8 rel offset

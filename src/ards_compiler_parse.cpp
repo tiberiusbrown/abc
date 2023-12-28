@@ -182,6 +182,7 @@ postfix_expr        <- primary_expr postfix*
 postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident / '++' / '--'
 
 primary_expr        <- hex_literal /
+                       float_literal /
                        decimal_literal /
                        bool_literal /
                        char_literal /
@@ -218,6 +219,9 @@ tones_literal       <- 'tones' '{' string_literal '}' /
 tones_note          <- < [A-G0-9b#-]+ >
 
 decimal_literal     <- < [0-9]+'u'? >
+float_literal       <- < [0-9]*'.'[0-9]+('e'[+-]?[0-9]+)? > /
+                       < [0-9]+'.'[0-9]*('e'[+-]?[0-9]+)? > /
+                       < [0-9]+'e'[+-]?[0-9]+ >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
 char_literal        <- < '\'' < string_char > '\'' >
 bool_literal        <- < 'true' / 'false' >
@@ -283,15 +287,27 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["decimal_literal"] = [](peg::SemanticValues const& v) {
         int64_t x = 0;
         std::from_chars(v.token().data(), v.token().data() + v.token().size(), x, 10);
-        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
+        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {} };
+        a.value = x;
         a.comp_type = prim_type_for_dec((uint32_t)x, a.data.back() != 'u');
+        return a;
+    };
+    p["float_literal"] = [](peg::SemanticValues const& v) {
+        double x = 0;
+        std::from_chars(
+            v.token().data(), v.token().data() + v.token().size(),
+            x, std::chars_format::general);
+        ast_node_t a{ v.line_info(), AST::FLOAT_CONST, v.token(), {} };
+        a.fvalue = x;
+        a.comp_type = TYPE_FLOAT;
         return a;
     };
     p["hex_literal"] = [](peg::SemanticValues const& v) {
         int64_t x = 0;
         auto t = v.token().substr(2);
         std::from_chars(t.data(), t.data() + t.size(), x, 16);
-        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {}, x };
+        ast_node_t a{ v.line_info(), AST::INT_CONST, v.token(), {} };
+        a.value = x;
         a.comp_type = prim_type_for_hex((uint32_t)x, a.data.back() != 'u');
         return a;
     };

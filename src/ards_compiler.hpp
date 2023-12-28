@@ -97,6 +97,7 @@ enum class AST
 
     STRING_LITERAL,
     INT_CONST,
+    FLOAT_CONST,
     IDENT,
     SPRITES,    // children are w, h, TOKEN (children are rows/TOKEN)
                 //           or w, h, path string
@@ -133,6 +134,8 @@ struct compiler_type_t
         TONES,
     } type;
 
+    bool is_float;
+
     bool is_constexpr;
     bool is_saved;
     bool is_prog;
@@ -167,6 +170,7 @@ struct compiler_type_t
     }
     const compiler_type_t& without_ref() const
     {
+        assert(!(is_float && is_signed));
         return is_ref() ? children[0].without_ref() : *this;
     }
     compiler_type_t sized_to(size_t size) const
@@ -208,7 +212,7 @@ struct compiler_type_t
     {
         return std::tie(
             prim_size, type,
-            is_signed, is_bool, is_prog, is_char,
+            is_signed, is_bool, is_prog, is_char, is_float,
             children);
     }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
@@ -257,6 +261,9 @@ const compiler_type_t TYPE_TONES = {
 const compiler_type_t TYPE_CHAR = {
     1, false, false, true };
 
+const compiler_type_t TYPE_FLOAT = {
+    4, false, false, false, compiler_type_t::PRIM, true };
+
 const compiler_type_t TYPE_STR = TYPE_CHAR.with_array_ref();
 const compiler_type_t TYPE_STR_PROG = TYPE_CHAR.with_prog().with_array_ref();
 
@@ -285,7 +292,11 @@ struct compiler_func_decl_t
 struct compiler_var_t
 {
     compiler_type_t type;
-    int64_t value;         // for constexprs
+    union
+    {
+        int64_t value;         // for constexprs
+        double fvalue;         // for constexprs
+    };
     std::string label_ref; // for constexprs
     bool is_constexpr;
 };
@@ -333,7 +344,11 @@ struct ast_node_t
     AST type;
     std::string_view data;
     std::vector<ast_node_t> children;
-    int64_t value;
+    union
+    {
+        int64_t value;
+        double fvalue;
+    };
     compiler_type_t comp_type;
 
     ast_node_t* parent;
@@ -347,6 +362,8 @@ struct ast_node_t
             child.recurse(std::forward<F>(f));
         f(*this);
     }
+
+    void insert_cast(compiler_type_t const& t);
 };
 
 struct compiler_lvalue_t

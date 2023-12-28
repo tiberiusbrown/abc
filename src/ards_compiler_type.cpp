@@ -57,14 +57,16 @@ static void insert_aref(ast_node_t& a, compiler_type_t const& t)
     a.children.emplace_back(std::move(ta));
 };
 
-static void insert_cast(ast_node_t& a, compiler_type_t const& t)
+void ast_node_t::insert_cast(compiler_type_t const& t)
 {
-    auto ta = std::move(a);
-    a = { {}, AST::OP_CAST };
-    a.comp_type = t;
-    a.children.push_back({});
-    a.children.back().comp_type = t;
-    a.children.emplace_back(std::move(ta));
+    auto ta = std::move(*this);
+    *this = { {}, AST::OP_CAST };
+    parent = ta.parent;
+    ta.parent = this;
+    comp_type = t;
+    children.push_back({});
+    children.back().comp_type = t;
+    children.emplace_back(std::move(ta));
 };
 
 compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed)
@@ -174,6 +176,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
         a.comp_type = a.children[0].comp_type.without_ref();
+        if(a.children[1].type != AST::COMPOUND_LITERAL)
+            a.children[1].insert_cast(a.comp_type);
         type_annotate_recurse(a.children[1], frame);
         break;
     }
@@ -223,6 +227,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             return;
         }
 
+        bool is_float = t0.is_float || t1.is_float;
         bool ref0 = a.children[0].comp_type.is_ref();
         bool ref1 = a.children[1].comp_type.is_ref();
         bool is_divmod = (
@@ -242,7 +247,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         t0.is_bool = false;
         t1.is_bool = false;
 
-        if(a.type == AST::OP_ADDITIVE)
+        if(is_float)
+        {
+            t0 = t1 = TYPE_FLOAT;
+        }
+        else if(a.type == AST::OP_ADDITIVE)
         {
             t0.prim_size = t1.prim_size = std::min<size_t>(4,
                 std::max(t0.prim_size, t1.prim_size) + 1);
@@ -265,7 +274,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             implicit_conversion(t1, t0);
         }
 
-        if(is_divmod)
+        if(!is_float && is_divmod)
         {
             if(t0.prim_size < 2 && t1.prim_size < 2)
                 t0.prim_size = t1.prim_size = 2;
@@ -274,17 +283,20 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         }
 
         if(ref0 || t0 != a.children[0].comp_type)
-            insert_cast(a.children[0], t0);
+            a.children[0].insert_cast(t0);
         if(ref1 || t1 != a.children[1].comp_type)
-            insert_cast(a.children[1], t1);
+            a.children[1].insert_cast(t1);
 
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)
             a.comp_type = TYPE_BOOL;
+        else if(is_float)
+            a.comp_type = TYPE_FLOAT;
         else
             a.comp_type = a.children[0].comp_type.without_ref();
         break;
     }
     case AST::INT_CONST:
+    case AST::FLOAT_CONST:
         // already done during parsing
         break;
     case AST::IDENT:
@@ -384,7 +396,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 insert_aref(c, t);
             }
             else if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
-                insert_cast(c, t);
+                c.insert_cast(t);
         }
         a.comp_type = f.decl.return_type;
         break;
@@ -441,6 +453,8 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
 {
     if(!errs.empty()) return;
     auto min_size = std::min(a.comp_type.prim_size, size);
+    if(a.comp_type.is_float)
+        min_size = a.comp_type.prim_size;
     switch(a.type)
     {
     case AST::ARRAY_INDEX:
@@ -464,6 +478,8 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         a.comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[0], min_size);
         type_reduce_recurse(a.children[1], min_size);
+        if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+            a.comp_type = TYPE_FLOAT;
         break;
     case AST::OP_ASSIGN:
     case AST::OP_ASSIGN_COMPOUND:
@@ -474,6 +490,8 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
     case AST::OP_DEC_POST:
         a.comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[0], min_size);
+        if(a.children[0].comp_type.is_float)
+            a.comp_type = TYPE_FLOAT;
         break;
     case AST::FUNC_CALL:
     {
@@ -491,7 +509,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
     case AST::IDENT:
     case AST::INT_CONST:
         if(a.comp_type.type == compiler_type_t::PRIM && min_size != a.comp_type.prim_size)
-            insert_cast(a, a.comp_type.sized_to(min_size));
+            a.insert_cast(a.comp_type.sized_to(min_size));
         break;
     default:
         break;

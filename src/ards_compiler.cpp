@@ -23,7 +23,7 @@ std::unordered_set<std::string> const keywords =
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
     "constexpr", "saved", "prog", "sprites", "font", "tones",
-    "struct", "import", "len",
+    "struct", "import", "len", "float",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
@@ -44,6 +44,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "ulong",   TYPE_U32     },
     { "short",   TYPE_I8      },
     { "int",     TYPE_I16     },
+    { "float",   TYPE_FLOAT   },
     { "long",    TYPE_I32     },
     { "sprites", TYPE_SPRITES },
     { "font",    TYPE_FONT    },
@@ -188,7 +189,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     if(n.type == AST::TYPE_ARRAY)
     {
         assert(n.children.size() == 2);
-        if(n.children[0].type != AST::INT_CONST)
+        if(n.children[0].type != AST::INT_CONST && n.children[0].type != AST::FLOAT_CONST)
         {
             errs.push_back({
                 "Array dimension \"" + std::string(n.children[0].data) +
@@ -196,7 +197,9 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
                 n.children[0].line_info });
             return TYPE_NONE;
         }
-        if(n.children[0].value <= 0)
+        bool is_float = (n.children[0].type == AST::FLOAT_CONST);
+        int64_t value = (is_float ? (int64_t)n.children[0].fvalue : n.children[0].value);
+        if(value <= 0)
         {
             errs.push_back({
                 "Array dimensions must be greater than zero",
@@ -216,7 +219,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
             return TYPE_NONE;
         }
         t.children.emplace_back(std::move(type));
-        t.prim_size = size_t(n.children[0].value) * t.children[0].prim_size;
+        t.prim_size = size_t(value) * t.children[0].prim_size;
         t.is_prog = t.children[0].is_prog;
         return t;
     }
@@ -611,13 +614,18 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                     n.children[1].line_info });
                 return;
             }
-            if(n.children.size() == 3)
-                type_annotate(n.children[2], {});
             auto& g = globals[name];
             g.name = name;
             g.saved = n.children[0].comp_type.is_saved;
             type_annotate(n.children[0], {});
             g.var.type = resolve_type(n.children[0]);
+            if(n.children.size() == 3)
+            {
+                if(!g.var.type.is_any_ref() &&
+                    n.children[2].type != AST::COMPOUND_LITERAL)
+                    n.children[2].insert_cast(g.var.type);
+                type_annotate(n.children[2], {});
+            }
             if(g.saved && (g.var.type.is_any_ref() || g.var.type.has_child_ref()))
             {
                 errs.push_back({
@@ -664,7 +672,17 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 g.var.is_constexpr = true;
                 if(n.children[2].type == AST::INT_CONST)
                 {
-                    g.var.value = n.children[2].value;
+                    if(g.var.type.is_float)
+                        g.var.fvalue = (double)n.children[2].value;
+                    else
+                        g.var.value = n.children[2].value;
+                }
+                else if(n.children[2].type == AST::FLOAT_CONST)
+                {
+                    if(g.var.type.is_float)
+                        g.var.fvalue = n.children[2].fvalue;
+                    else
+                        g.var.value = (int64_t)n.children[2].fvalue;
                 }
                 else if(g.var.type.is_label_ref())
                 {

@@ -94,10 +94,12 @@ void compiler_t::codegen_expr(
         // create reference
         codegen_expr(f, frame, a.children[0], true);
 
+        instr_t i = instr_t((a.type == AST::OP_INC_POST ? I_PINC : I_PDEC) + (size - 1));
+        if(t.is_float)
+            i = (a.type == AST::OP_INC_POST ? I_PINCF : I_PDECF);
+
         // special instructions for post-inc/dec
-        f.instrs.push_back({
-            instr_t((a.type == AST::OP_INC_POST ? I_PINC : I_PDEC) + (size - 1)),
-            a.children[0].line() });
+        f.instrs.push_back({ i, a.children[0].line() });
         frame.size -= 2;
         frame.size += size;
 
@@ -107,7 +109,10 @@ void compiler_t::codegen_expr(
     case AST::OP_ASSIGN_COMPOUND:
     {
         auto size = a.children[0].comp_type.prim_size;
-        bool non_root = a.parent->type != AST::EXPR_STMT && a.parent->type != AST::LIST;
+        bool non_root = (
+            a.parent &&
+            a.parent->type != AST::EXPR_STMT &&
+            a.parent->type != AST::LIST);
 
         // create reference
         codegen_expr(f, frame, a.children[0], true);
@@ -168,6 +173,13 @@ void compiler_t::codegen_expr(
         auto op = a.children[0].data;
         if(op == "!")
         {
+            if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+            {
+                errs.push_back({
+                    "Logical NOT may not be performed on floating point values",
+                    a.line_info });
+                return;
+            }
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[1].comp_type);
             f.instrs.push_back({ I_NOT, a.children[1].line() });
@@ -180,11 +192,21 @@ void compiler_t::codegen_expr(
             frame.size += size;
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
-            f.instrs.push_back({ instr_t(I_SUB + size - 1), a.children[1].line() });
+            if(a.comp_type.is_float)
+                f.instrs.push_back({ I_FSUB, a.children[1].line() });
+            else
+                f.instrs.push_back({ instr_t(I_SUB + size - 1), a.children[1].line() });
             frame.size -= size;
         }
         else if(op == "~")
         {
+            if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+            {
+                errs.push_back({
+                    "Bitwise NOT may not be performed on floating point values",
+                    a.line_info });
+                return;
+            }
             auto size = a.children[1].comp_type.prim_size;
             codegen_expr(f, frame, a.children[1], false);
             f.instrs.push_back({ instr_t(I_COMP + size - 1), a.children[1].line() });
@@ -200,6 +222,22 @@ void compiler_t::codegen_expr(
     {
         if(ref) goto rvalue_error;
         uint32_t x = (uint32_t)a.value;
+        auto size = a.comp_type.prim_size;
+        frame.size += size;
+        for(size_t i = 0; i < size; ++i, x >>= 8)
+            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x });
+        return;
+    }
+
+    case AST::FLOAT_CONST:
+    {
+        if(ref) goto rvalue_error;
+        union
+        {
+            float f;
+            uint32_t x;
+        } u = { (float)a.fvalue };
+        uint32_t x = u.x;
         auto size = a.comp_type.prim_size;
         frame.size += size;
         for(size_t i = 0; i < size; ++i, x >>= 8)
@@ -422,16 +460,11 @@ void compiler_t::codegen_expr(
         }
 
         // dup value if not the root op
-        switch(a.parent->type)
+        if(a.parent && a.parent->type != AST::EXPR_STMT && a.parent->type != AST::LIST)
         {
-        case AST::EXPR_STMT:
-        case AST::LIST:
-            break;
-        default:
             frame.size += (uint8_t)a.children[0].comp_type.prim_size;
             f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)a.children[0].comp_type.prim_size });
             f.instrs.push_back({ I_GETLN, a.line(), (uint8_t)a.children[0].comp_type.prim_size });
-            break;
         }
 
         auto lvalue = resolve_lvalue(f, frame, a.children[0]);
@@ -461,25 +494,45 @@ void compiler_t::codegen_expr(
         assert(size >= 1 && size <= 4);
         frame.size -= size;       // comparison
         frame.size -= (size - 1); // conversion to bool
-        if(a.data == "==" || a.data == "!=")
+        if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
         {
-            f.instrs.push_back({ instr_t(I_SUB + size - 1), a.line() });
-            f.instrs.push_back({ instr_t(I_BOOL + size - 1), a.line() });
-            if(a.data == "==")
-                f.instrs.push_back({ I_NOT, a.line() });
-        }
-        else if(a.data == "<=" || a.data == ">=")
-        {
-            instr_t i = (a.children[0].comp_type.is_signed ? I_CSLE : I_CULE);
-            f.instrs.push_back({ instr_t(i + size - 1), a.line() });
-        }
-        else if(a.data == "<" || a.data == ">")
-        {
-            instr_t i = (a.children[0].comp_type.is_signed ? I_CSLT : I_CULT);
-            f.instrs.push_back({ instr_t(i + size - 1), a.line() });
+            assert(a.children[0].comp_type.is_float);
+            assert(a.children[1].comp_type.is_float);
+            if(a.data == "==" || a.data == "!=")
+            {
+                f.instrs.push_back({ I_CFEQ, a.line() });
+                if(a.data == "!=")
+                    f.instrs.push_back({ I_NOT, a.line() });
+            }
+            else if(a.data == "<=" || a.data == ">=")
+                f.instrs.push_back({ I_CFLE, a.line() });
+            else if(a.data == "<" || a.data == ">")
+                f.instrs.push_back({ I_CFLT, a.line() });
+            else
+                assert(false);
         }
         else
-            assert(false);
+        {
+            if(a.data == "==" || a.data == "!=")
+            {
+                f.instrs.push_back({ instr_t(I_SUB + size - 1), a.line() });
+                f.instrs.push_back({ instr_t(I_BOOL + size - 1), a.line() });
+                if(a.data == "==")
+                    f.instrs.push_back({ I_NOT, a.line() });
+            }
+            else if(a.data == "<=" || a.data == ">=")
+            {
+                instr_t i = (a.children[0].comp_type.is_signed ? I_CSLE : I_CULE);
+                f.instrs.push_back({ instr_t(i + size - 1), a.line() });
+            }
+            else if(a.data == "<" || a.data == ">")
+            {
+                instr_t i = (a.children[0].comp_type.is_signed ? I_CSLT : I_CULT);
+                f.instrs.push_back({ instr_t(i + size - 1), a.line() });
+            }
+            else
+                assert(false);
+        }
         return;
     }
 
@@ -492,16 +545,24 @@ void compiler_t::codegen_expr(
         codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
-        static_assert(I_ADD2 == I_ADD + 1);
-        static_assert(I_ADD3 == I_ADD + 2);
-        static_assert(I_ADD4 == I_ADD + 3);
-        static_assert(I_SUB2 == I_SUB + 1);
-        static_assert(I_SUB3 == I_SUB + 2);
-        static_assert(I_SUB4 == I_SUB + 3);
-        auto size = a.comp_type.prim_size;
-        assert(size >= 1 && size <= 4);
-        frame.size -= size;
-        f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + size - 1), a.line() });
+        if(a.comp_type.is_float)
+        {
+            frame.size -= 4;
+            f.instrs.push_back({ instr_t(a.data == "+" ? I_FADD : I_FSUB), a.line()});
+        }
+        else
+        {
+            static_assert(I_ADD2 == I_ADD + 1);
+            static_assert(I_ADD3 == I_ADD + 2);
+            static_assert(I_ADD4 == I_ADD + 3);
+            static_assert(I_SUB2 == I_SUB + 1);
+            static_assert(I_SUB3 == I_SUB + 2);
+            static_assert(I_SUB4 == I_SUB + 3);
+            auto size = a.comp_type.prim_size;
+            assert(size >= 1 && size <= 4);
+            frame.size -= size;
+            f.instrs.push_back({ instr_t((a.data == "+" ? I_ADD : I_SUB) + size - 1), a.line() });
+        }
         return;
     }
 
@@ -521,33 +582,59 @@ void compiler_t::codegen_expr(
         auto size = a.comp_type.prim_size;
         assert(size >= 1 && size <= 4);
         frame.size -= size;
-        if(a.data == "*")
-            f.instrs.push_back({ instr_t(I_MUL + size - 1), a.line() });
-        else if(a.data == "/")
+        if(a.comp_type.is_float)
         {
-            auto tsize = a.comp_type.prim_size;
-            assert(tsize == 2 || tsize == 4);
-            if(a.comp_type.is_signed)
-                f.instrs.push_back({ tsize == 2 ? I_DIV2 : I_DIV4, a.line() });
+            if(a.data == "*")
+                f.instrs.push_back({ I_FMUL, a.line() });
+            else if(a.data == "/")
+                f.instrs.push_back({ I_FDIV, a.line() });
+            else if(a.data == "%")
+            {
+                errs.push_back({
+                    "The modulo operator may not be applied to floating point values",
+                    a.line_info });
+                return;
+            }
             else
-                f.instrs.push_back({ tsize == 2 ? I_UDIV2 : I_UDIV4, a.line() });
-        }
-        else if(a.data == "%")
-        {
-            auto tsize = a.comp_type.prim_size;
-            assert(tsize == 2 || tsize == 4);
-            if(a.comp_type.is_signed)
-                f.instrs.push_back({ tsize == 2 ? I_MOD2 : I_MOD4, a.line() });
-            else
-                f.instrs.push_back({ tsize == 2 ? I_UMOD2 : I_UMOD4, a.line() });
+                assert(false);
         }
         else
-            assert(false);
+        {
+            if(a.data == "*")
+                f.instrs.push_back({ instr_t(I_MUL + size - 1), a.line() });
+            else if(a.data == "/")
+            {
+                auto tsize = a.comp_type.prim_size;
+                assert(tsize == 2 || tsize == 4);
+                if(a.comp_type.is_signed)
+                    f.instrs.push_back({ tsize == 2 ? I_DIV2 : I_DIV4, a.line() });
+                else
+                    f.instrs.push_back({ tsize == 2 ? I_UDIV2 : I_UDIV4, a.line() });
+            }
+            else if(a.data == "%")
+            {
+                auto tsize = a.comp_type.prim_size;
+                assert(tsize == 2 || tsize == 4);
+                if(a.comp_type.is_signed)
+                    f.instrs.push_back({ tsize == 2 ? I_MOD2 : I_MOD4, a.line() });
+                else
+                    f.instrs.push_back({ tsize == 2 ? I_UMOD2 : I_UMOD4, a.line() });
+            }
+            else
+                assert(false);
+        }
         return;
     }
 
     case AST::OP_SHIFT:
     {
+        if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Bit shifts may not be performed with floating point values",
+                a.line_info });
+            return;
+        }
         codegen_expr(f, frame, a.children[0], false);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, TYPE_U8, a.children[1].comp_type);
@@ -571,6 +658,13 @@ void compiler_t::codegen_expr(
     case AST::OP_BITWISE_OR:
     case AST::OP_BITWISE_XOR:
     {
+        if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Bitwise operations may not be performed on floating point values",
+                a.line_info });
+            return;
+        }
         codegen_expr(f, frame, a.children[0], false);
         codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
         codegen_expr(f, frame, a.children[1], false);
@@ -588,6 +682,14 @@ void compiler_t::codegen_expr(
 
     case AST::ARRAY_INDEX:
     {
+        if(a.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Array indices may not be floating point values",
+                a.line_info });
+            return;
+        }
+
         // TODO: optimize the case where children[0] is an ident and children[1] is
         //       an integer constant, directly adjust offset given to REFL/REFG
         //       instruction instead of below code path
@@ -663,6 +765,13 @@ void compiler_t::codegen_expr(
     case AST::OP_LOGICAL_AND:
     case AST::OP_LOGICAL_OR:
     {
+        if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+        {
+            errs.push_back({
+                "Logical operators may not be performed on floating point values",
+                a.line_info });
+            return;
+        }
         std::string sc_label = new_label(f);
         codegen_expr_logical(f, frame, a, sc_label);
         f.instrs.push_back({ I_NOP, 0, 0, 0, sc_label, true });
