@@ -1,2 +1,2 @@
 build/*
-!build/*.hex
+!build/ards_vm.ino.hex

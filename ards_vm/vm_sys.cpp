@@ -677,7 +677,10 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
 }
 
 static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t base)
-{        
+{
+    char buf[10];
+    char* tp = buf;
+    
     if(sign && (int32_t)x < 0)
     {
         f('-');
