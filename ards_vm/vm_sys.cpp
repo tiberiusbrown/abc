@@ -677,10 +677,7 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
 }
 
 static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t base)
-{
-    char buf[10];
-    char* tp = buf;
-        
+{        
     if(sign && (int32_t)x < 0)
     {
         f('-');
@@ -711,6 +708,58 @@ static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t ba
 static void* format_user;
 static uint16_t format_db;
 static uint16_t format_dn;
+
+static void format_add_float(format_char_func f, float x, uint8_t frac)
+{
+    if(isnan(x))
+    {
+        f('n');
+        f('a');
+        f('n');
+        return;
+    }
+    if(isinf(x))
+    {
+        f('i');
+        f('n');
+        f('f');
+        return;
+    }
+    if(x > 4294967040.f || x < -4294967040.f)
+    {
+        f('o');
+        f('v');
+        f('f');
+        return;
+    }
+    
+    if(x < 0.0)
+    {
+        f('-');
+        x = -x;
+    }
+    
+    {
+        float r = 0.5f;
+        for(uint8_t i = 0; i < frac; ++i)
+            r *= 0.1f;
+        x += r;
+    }
+    
+    uint32_t n = (uint32_t)x;
+    float r = x - (double)n;
+    format_add_int(f, n, false, 10);
+    
+    if(frac > 0)
+        f('.');
+    while(frac-- > 0)
+    {
+        r *= 10.f;
+        uint8_t t = (uint8_t)r;
+        f((char)('0' + t));
+        r -= t;
+    }
+}
 
 static void format_exec(format_char_func f)
 {
@@ -786,6 +835,17 @@ static void format_exec(format_char_func f)
                 vm_pop_end(ptr);
             }
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10);
+            break;
+        }
+        case 'f':
+        {
+            float x;
+            {
+                auto ptr = vm_pop_begin();
+                x = vm_pop<float>(ptr);
+                vm_pop_end(ptr);
+            }
+            format_add_float(f, x, 4);
             break;
         }
         default:

@@ -43,6 +43,7 @@ void compiler_t::resolve_format_call(
         case 'd': arg_types.push_back(TYPE_I32); break;
         case 'u':
         case 'x': arg_types.push_back(TYPE_U32); break;
+        case 'f': arg_types.push_back(TYPE_FLOAT); break;
         case 'c': arg_types.push_back(TYPE_CHAR); break;
         case 's':
         {
