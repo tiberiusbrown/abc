@@ -24,30 +24,10 @@ enum error_t : uint8_t
 
 /*
 
-building this requires a modified linker script:
-    the .beforedata section must come before any other data section
-    (that is, it must begin at 0x100, the origin of the data region)
+Building this requires the following linker flags:
 
-making this change to the linker script (e.g., avr5.xn) will not affect
-other projects that do not also place data into a ".beforedata" section
-
-on my machine, the linker script is located at:
-    C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\lib\ldscripts\avr5.xn
-
-and you can add the ".beforedata" section like this:
-
-    ...
-    
-    .data : 
-    {
-        *(.beforedata)
-        PROVIDE (__data_start = .) ;
-        *(.data)
-        *(.data*)
-    
-    ...
-    
-(adding it before __data_start makes the ELF debug info make more sense)
+-Wl,--section-start=.beforedata=0x800100
+-Wl,--section-start=.data=0x800669
     
 */
 extern __attribute__((section(".beforedata"))) struct vm_t

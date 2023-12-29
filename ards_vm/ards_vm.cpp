@@ -145,12 +145,13 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
 // the alignment of 512 allows optimized dispatch: the prog address for ijmp can
 // be computed by adding to the high byte only instead of adding a 2-byte offset
 
-static void __attribute__((used, naked, aligned(512))) vm_execute()
+static void __attribute__((used, naked)) vm_execute()
 {
     asm volatile(
-    
 R"(
-
+    
+        .align 9
+    
 vm_execute:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2786,7 +2787,8 @@ I_SYSB:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
+    ; TODO: why can't this be 2-cycle delay?
+    lpm
     in   r0, %[spdr]
     out  %[spdr], r2
     add  r30, r0
@@ -2796,7 +2798,7 @@ I_SYSB:
     mov  r30, r0
     rjmp store_vm_state
     ; TODO: if SYSB is the last instr the following align can be removed
-    .align 6
+    ;.align 6
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

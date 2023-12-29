@@ -10,7 +10,7 @@ include(cmake/cmake-bin2h/bin2h.cmake)
 set(GENHEADER_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin2h_headers")
 file(MAKE_DIRECTORY "${GENHEADER_DIR}")
 bin2h(
-    SOURCE_FILE   ards_vm/ards_vm.ino-arduboy-fx.hex
+    SOURCE_FILE   ards_vm/build/ards_vm.ino.hex
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )

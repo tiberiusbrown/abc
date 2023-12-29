@@ -1,1 +1,2 @@
-*.with_bootloader-*
+build/*
+!build/*.hex

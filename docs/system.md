@@ -60,8 +60,6 @@ float $sin(float angle);
 float $sqrt(float x);
 i8    $strcmp(char[]& str0, char[]& str1);
 i8    $strcmp_P(char[]& str0, char[] prog& str1);
-void  $strcpy(char[]& dst, char[]& src);
-void  $strcpy_P(char[]& dst, char[] prog& src);
 u16   $strlen(char[]& str);
 u24   $strlen_P(char[] prog& str);
 float $tan(float angle);

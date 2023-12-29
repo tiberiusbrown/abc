@@ -60,7 +60,7 @@ __attribute__((always_inline)) inline uint8_t* vm_pop_begin()
     return r;
 }
 
-inline void vm_pop_end(uint8_t* ptr)
+__attribute__((always_inline)) inline void vm_pop_end(uint8_t* ptr)
 {
     ards::vm.sp = (uint8_t)(uintptr_t)ptr;
 }
@@ -607,48 +607,48 @@ static void sys_strcmp_P()
     FX::seekData(ards::vm.pc);
 }
 
-static void sys_strcpy()
-{
-    auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
-    uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
-    uint16_t b1 = vm_pop<uint16_t>(ptr);
-    vm_pop_end(ptr);
-    char* p0 = reinterpret_cast<char*>(b0);
-    char const* p1 = reinterpret_cast<char const*>(b1);
-    for(;;)
-    {
-        uint8_t c = ld_inc(p1);
-        st_inc(p0, c);
-        if(c == 0) break;
-        if(--n0 == 0) break;
-        if(--n1 == 0) { st_inc(p0, 0); break; }
-    }
-}
-
-static void sys_strcpy_P()
-{
-    auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
-    uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
-    uint24_t b1 = vm_pop<uint24_t>(ptr);
-    vm_pop_end(ptr);
-    FX::disable();
-    FX::seekData(b1);
-    char* p0 = reinterpret_cast<char*>(b0);
-    for(;;)
-    {
-        uint8_t c = FX::readPendingUInt8();
-        st_inc(p0, c);
-        if(c == 0) break;
-        if(--n0 == 0) break;
-        if(--n1 == 0) { st_inc(p0, 0); break; }
-    }
-    FX::disable();
-    FX::seekData(ards::vm.pc);
-}
+//static void sys_strcpy()
+//{
+//    auto ptr = vm_pop_begin();
+//    uint16_t n0 = vm_pop<uint16_t>(ptr);
+//    uint16_t b0 = vm_pop<uint16_t>(ptr);
+//    uint16_t n1 = vm_pop<uint16_t>(ptr);
+//    uint16_t b1 = vm_pop<uint16_t>(ptr);
+//    vm_pop_end(ptr);
+//    char* p0 = reinterpret_cast<char*>(b0);
+//    char const* p1 = reinterpret_cast<char const*>(b1);
+//    for(;;)
+//    {
+//        uint8_t c = ld_inc(p1);
+//        st_inc(p0, c);
+//        if(c == 0) break;
+//        if(--n0 == 0) break;
+//        if(--n1 == 0) { st_inc(p0, 0); break; }
+//    }
+//}
+//
+//static void sys_strcpy_P()
+//{
+//    auto ptr = vm_pop_begin();
+//    uint16_t n0 = vm_pop<uint16_t>(ptr);
+//    uint16_t b0 = vm_pop<uint16_t>(ptr);
+//    uint24_t n1 = vm_pop<uint24_t>(ptr);
+//    uint24_t b1 = vm_pop<uint24_t>(ptr);
+//    vm_pop_end(ptr);
+//    FX::disable();
+//    FX::seekData(b1);
+//    char* p0 = reinterpret_cast<char*>(b0);
+//    for(;;)
+//    {
+//        uint8_t c = FX::readPendingUInt8();
+//        st_inc(p0, c);
+//        if(c == 0) break;
+//        if(--n0 == 0) break;
+//        if(--n1 == 0) { st_inc(p0, 0); break; }
+//    }
+//    FX::disable();
+//    FX::seekData(ards::vm.pc);
+//}
 
 using format_char_func = void(*)(char c);
 
@@ -1110,8 +1110,8 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_strlen_P,
     sys_strcmp,
     sys_strcmp_P,
-    sys_strcpy,
-    sys_strcpy_P,
+    //sys_strcpy,
+    //sys_strcpy_P,
     sys_format,
     sys_tones_play,
     sys_tones_playing,

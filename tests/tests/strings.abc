@@ -22,13 +22,13 @@ void main()
     str2 = "what" ; $assert($strcmp(str, str2) <  0);
     str2 = "aaaa" ; $assert($strcmp(str, str2) >  0);
     
-    $strcpy_P(str, "hi"    ); $assert($strcmp_P(str, "hi"    ) == 0);
-    $strcpy_P(str, "longer"); $assert($strcmp_P(str, "long"  ) == 0);
-    $strcpy_P(str, "wheezy"); $assert($strcmp_P(str, "wheezy") != 0);
+    //$strcpy_P(str, "hi"    ); $assert($strcmp_P(str, "hi"    ) == 0);
+    //$strcpy_P(str, "longer"); $assert($strcmp_P(str, "long"  ) == 0);
+    //$strcpy_P(str, "wheezy"); $assert($strcmp_P(str, "wheezy") != 0);
     
-    $strcpy(str2, str);
-    $assert($strcmp(str, str2) == 0);
-    $assert($strcmp(str2, str) == 0);
+    //$strcpy(str2, str);
+    //$assert($strcmp(str, str2) == 0);
+    //$assert($strcmp(str2, str) == 0);
     
     $debug_break();
 }

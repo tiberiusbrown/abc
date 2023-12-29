@@ -1,0 +1,12 @@
+{
+    "configuration": "core=arduboy-core,boot=cathy3k",
+    "board": "arduboy-homemade:avr:arduboy-fx",
+    "sketch": "ards_vm.ino",
+    "output": "build/",
+    "buildPreferences": [
+        [
+            "compiler.c.elf.extra_flags",
+            "-Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x800669"
+        ]
+    ]
+}
