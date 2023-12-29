@@ -67,7 +67,7 @@ static bool test(std::string const& fpath, std::string const& fname)
     arduboy->advance(1'000'000'000'000ull); // up to 1 second
     if(!arduboy->paused)
         return false;
-    return arduboy->cpu.data[0x0665] == 0;
+    return arduboy->cpu.data[0x0635] == 0;
 }
 
 int main()

@@ -2718,7 +2718,7 @@ I_JMP1:
     .align 6
 
 I_CALL:
-    lds  r26, 0x0664
+    lds  r26, %[vm_csp]
     cpi  r26, 93
     brlo 1f
     ldi  r24, 6
@@ -2728,14 +2728,14 @@ I_CALL:
     st   X+, r6
     st   X+, r7
     st   X+, r8
-    sts  0x0664, r26
+    sts  %[vm_csp], r26
     movw r6, r16
     mov  r8, r18
     jmp  jump_to_pc
     .align 6
 
 I_CALL1:
-    lds  r26, 0x0664
+    lds  r26, %[vm_csp]
     cpi  r26, 93
     brlo 1f
     ldi  r24, 6
@@ -2747,7 +2747,7 @@ I_CALL1:
     st   X+, r6
     st   X+, r7
     st   X+, r8
-    sts  0x0664, r26
+    sts  %[vm_csp], r26
     in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
@@ -2759,12 +2759,12 @@ I_CALL1:
     .align 6
 
 I_RET:
-    lds  r26, 0x0664
+    lds  r26, %[vm_csp]
     ldi  r27, 0x06
     ld   r8, -X
     ld   r7, -X
     ld   r6, -X
-    sts  0x0664, r26
+    sts  %[vm_csp], r26
     rjmp jump_to_pc
     .align 6
 
@@ -2934,12 +2934,12 @@ read_2_bytes_nodelay:
 store_vm_state:
 
     ; pc
-    sts  0x0661, r6
-    sts  0x0662, r7
-    sts  0x0663, r8
+    sts  %[vm_pc]+0, r6
+    sts  %[vm_pc]+1, r7
+    sts  %[vm_pc]+2, r8
     
     ; stack pointer: stack always begins at 0x100
-    sts  0x0660, r28
+    sts  %[vm_sp], r28
 
     clr  r1
 
@@ -2963,12 +2963,12 @@ restore_vm_state:
     mov  r5, r16
     
     ; pc
-    lds  r6, 0x0661
-    lds  r7, 0x0662
-    lds  r8, 0x0663
+    lds  r6, %[vm_pc]+0
+    lds  r7, %[vm_pc]+1
+    lds  r8, %[vm_pc]+2
     
     ; stack pointer: stack always begins at 0x100
-    lds  r28, 0x0660
+    lds  r28, %[vm_sp]
     ldi  r29, 0x01
 
     dispatch_noalign
@@ -3137,10 +3137,10 @@ jump_to_pc:
     brsh 1f
     
     ; store vm state
-    sts  0x0661, r6
-    sts  0x0662, r7
-    sts  0x0663, r8
-    sts  0x0660, r28
+    sts  %[vm_pc]+0, r6
+    sts  %[vm_pc]+1, r7
+    sts  %[vm_pc]+2, r8
+    sts  %[vm_sp], r28
     clr  r1
     
     ; call ards::Tones::update()
@@ -3154,10 +3154,10 @@ jump_to_pc:
     mov  r4, r16
     ldi  r16, pm_hi8(vm_execute)
     mov  r5, r16
-    lds  r6, 0x0661
-    lds  r7, 0x0662
-    lds  r8, 0x0663
-    lds  r28, 0x0660
+    lds  r6, %[vm_pc]+0
+    lds  r7, %[vm_pc]+1
+    lds  r8, %[vm_pc]+2
+    lds  r28, %[vm_sp]
     ldi  r29, 0x01
     
 1:  ldi  r18, 3
@@ -3214,6 +3214,11 @@ call_vm_error:
     , [fxport]        "i" (_SFR_IO_ADDR(FX_PORT))
     , [fxbit]         "i" (FX_BIT)
     , [data_page]     ""  (&FX::programDataPage)
+    , [vm_calls]      ""  (&ards::vm.calls[0])
+    , [vm_calls_end]  ""  (&ards::vm.calls[ards::MAX_CALLS])
+    , [vm_sp]         ""  (&ards::vm.sp)
+    , [vm_pc]         ""  (&ards::vm.pc)
+    , [vm_csp]        ""  (&ards::vm.csp)
     , [sys_funcs]     ""  (&SYS_FUNCS[0])
     , [tones_update]  ""  (ards::Tones::update)
     , [tones_size]    ""  (&ards::detail::buffer_size)

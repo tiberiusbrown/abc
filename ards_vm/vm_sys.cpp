@@ -54,9 +54,10 @@ __attribute__((always_inline)) inline uint8_t* vm_pop_begin()
 {
     uint8_t* r;
     asm volatile(
-        "lds  %A[r], 0x0660\n"
+        "lds  %A[r], %[vm_sp]\n"
         "ldi  %B[r], 1\n"
-        : [r] "=&d" (r));
+        : [r]     "=&d" (r)
+        : [vm_sp] ""    (&ards::vm.sp));
     return r;
 }
 
@@ -111,9 +112,10 @@ inline void vm_push(T x)
 {
     uint8_t* ptr;
     asm volatile(
-        "lds  %A[ptr], 0x0660\n"
+        "lds  %A[ptr], %[vm_sp]\n"
         "ldi  %B[ptr], 1\n"
-        : [ptr] "=&e" (ptr));
+        : [ptr]   "=&e" (ptr)
+        : [vm_sp] ""    (&ards::vm.sp));
     vm_push<T>(ptr, x);
     ards::vm.sp = (uint8_t)(uintptr_t)ptr;
 }
@@ -696,15 +698,18 @@ static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t ba
         st_inc(tp, char(r + (r < 10 ? '0' : 'a' - 10)));
     }
     
+    while(tp != buf)
+        f(ld_predec(tp));
+
     // reverse
-    reverse_str(buf, tp);
-    
-    char* bb = buf;
-    while(bb < tp)
-    {
-        uint8_t c = ld_inc(bb);
-        f(c);
-    }
+    //reverse_str(buf, tp);
+    //
+    //char* bb = buf;
+    //while(bb < tp)
+    //{
+    //    uint8_t c = ld_inc(bb);
+    //    f(c);
+    //}
 }
 
 // TODO: store this stuff in a struct on stack
