@@ -1,6 +1,6 @@
 constexpr font f = FONT_BR5;
 
-float coins = 0;
+int coins = 0;
 
 void loop()
 {
@@ -11,12 +11,12 @@ void loop()
     if($just_pressed(A_BUTTON))
     {
         $tones_play(tones{ B5 100 E6 200 });
-        coins += PI;
+        ++coins;
     }
     
     $draw_text_P(0, 0, f, "Hello World!\nPress A to collect a coin.");
-    $draw_textf(0, 20, f, "Coins collected: %f", coins);
-    $draw_textf(0, 50, f, "Running for %u seconds", $millis() / 1000);
+    $draw_textf(0, 20, f, "Coins collected: %d", coins);
+    $draw_textf(0, 50, f, "Running for %f seconds", float($millis()) / 1000);
     
     $display();
 }

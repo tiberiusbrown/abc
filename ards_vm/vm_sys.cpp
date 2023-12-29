@@ -700,16 +700,6 @@ static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t ba
     
     while(tp != buf)
         f(ld_predec(tp));
-
-    // reverse
-    //reverse_str(buf, tp);
-    //
-    //char* bb = buf;
-    //while(bb < tp)
-    //{
-    //    uint8_t c = ld_inc(bb);
-    //    f(c);
-    //}
 }
 
 // TODO: store this stuff in a struct on stack
@@ -760,7 +750,7 @@ static void format_add_float(format_char_func f, float x, uint8_t frac)
     
     if(frac > 0)
         f('.');
-    while(frac-- > 0)
+    while(int8_t(--frac) >= 0)
     {
         r *= 10.f;
         uint8_t t = (uint8_t)r;

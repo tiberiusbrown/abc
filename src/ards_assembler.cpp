@@ -250,7 +250,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "f2i", I_F2I },
     { "f2u", I_F2U },
     { "i2f", I_I2F },
-    { "i2u", I_U2F },
+    { "u2f", I_U2F },
     { "ret", I_RET },
 };
 
