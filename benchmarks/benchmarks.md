@@ -480,10 +480,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.45x slowdown (2.24x speedup)</summary>
+<details><summary>text: 0.45x slowdown (2.23x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 209543</td><td>Cycles: 93703</td></tr>
+<tr><td>Cycles: 209543</td><td>Cycles: 93803</td></tr>
 <tr>
 <td>
 

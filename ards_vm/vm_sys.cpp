@@ -1053,6 +1053,30 @@ static void sys_sqrt()
     vm_pop_end(ptr);
 }
 
+static void sys_generate_random_seed()
+{
+    vm_push<uint32_t>(Arduboy2Base::generateRandomSeed());
+}
+
+static void sys_init_random_seed()
+{
+    Arduboy2Base::initRandomSeed();
+}
+
+static void sys_random()
+{
+    auto ptr = vm_pop_begin();
+    uint32_t a = vm_pop<uint32_t>(ptr);
+    uint32_t b = vm_pop<uint32_t>(ptr);
+    uint32_t t;
+    if(a >= b)
+        t = a;
+    else
+        t = random() % (b - a) + a;
+    vm_push<uint32_t>(ptr, t);
+    vm_pop_end(ptr);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -1107,4 +1131,7 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_mod,
     sys_pow,
     sys_sqrt,
+    sys_generate_random_seed,
+    sys_init_random_seed,
+    sys_random,
 };

@@ -57,6 +57,9 @@ enum sysfunc_t : uint16_t
     SYS_MOD,
     SYS_POW,
     SYS_SQRT,
+    SYS_GENERATE_RANDOM_SEED,
+    SYS_INIT_RANDOM_SEED,
+    SYS_RANDOM,
 
     SYS_NUM
 };
