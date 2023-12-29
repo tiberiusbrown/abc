@@ -1,5 +1,5 @@
 # Built-in Font Assets
-| Variable | Line Height |
+| Predefined Variable | Line Height |
 |---|---|
 | `FONT_BR4` | 5 |
 | `FONT_BERKELIUM1541` | 6 |

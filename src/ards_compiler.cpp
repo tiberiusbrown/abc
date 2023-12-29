@@ -913,6 +913,8 @@ std::string type_name(ards::compiler_type_t const& t, bool noprog)
         ss << "font";
     else if(tt == ards::TYPE_TONES)
         ss << "tones";
+    else if(tt.is_float)
+        ss << "float";
     else if(t.is_array())
     {
         ss << type_name(t.children[0], t.children[0].is_prog) << "[" << t.array_size() << "]";

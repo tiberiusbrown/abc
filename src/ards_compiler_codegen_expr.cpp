@@ -184,6 +184,16 @@ void compiler_t::codegen_expr(
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[1].comp_type);
             f.instrs.push_back({ I_NOT, a.children[1].line() });
         }
+        else if(op == "-" && a.comp_type.is_float)
+        {
+            codegen_expr(f, frame, a.children[1], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), 0x00 });
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), 0x00 });
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), 0x00 });
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), 0x80 });
+            f.instrs.push_back({ I_XOR4, a.children[1].line() });
+        }
         else if(op == "-")
         {
             auto size = a.children[1].comp_type.prim_size;
@@ -192,10 +202,7 @@ void compiler_t::codegen_expr(
             frame.size += size;
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
-            if(a.comp_type.is_float)
-                f.instrs.push_back({ I_FSUB, a.children[1].line() });
-            else
-                f.instrs.push_back({ instr_t(I_SUB + size - 1), a.children[1].line() });
+            f.instrs.push_back({ instr_t(I_SUB + size - 1), a.children[1].line() });
             frame.size -= size;
         }
         else if(op == "~")

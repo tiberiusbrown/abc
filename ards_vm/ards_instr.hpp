@@ -50,6 +50,13 @@ enum sysfunc_t : uint16_t
     SYS_SIN,
     SYS_COS,
     SYS_TAN,
+    SYS_ATAN2,
+    SYS_FLOOR,
+    SYS_CEIL,
+    SYS_ROUND,
+    SYS_MOD,
+    SYS_POW,
+    SYS_SQRT,
 
     SYS_NUM
 };

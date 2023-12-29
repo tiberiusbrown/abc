@@ -994,6 +994,65 @@ static void sys_tan()
     vm_pop_end(ptr);
 }
 
+static void sys_atan2()
+{
+    auto ptr = vm_pop_begin();
+    float y = vm_pop<float>(ptr);
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, atan2(y, x));
+    vm_pop_end(ptr);
+}
+
+static void sys_floor()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, floorf(x));
+    vm_pop_end(ptr);
+}
+
+static void sys_ceil()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, ceilf(x));
+    vm_pop_end(ptr);
+}
+
+static void sys_round()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, roundf(x));
+    vm_pop_end(ptr);
+}
+
+static void sys_mod()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    float y = vm_pop<float>(ptr);
+    vm_push<float>(ptr, fmodf(x, y));
+    vm_pop_end(ptr);
+}
+
+static void sys_pow()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    float y = vm_pop<float>(ptr);
+    vm_push<float>(ptr, powf(x, y));
+    vm_pop_end(ptr);
+}
+
+static void sys_sqrt()
+{
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push<float>(ptr, sqrtf(x));
+    vm_pop_end(ptr);
+}
+
 sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
 {
     sys_display,
@@ -1041,4 +1100,11 @@ sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
     sys_sin,
     sys_cos,
     sys_tan,
+    sys_atan2,
+    sys_floor,
+    sys_ceil,
+    sys_round,
+    sys_mod,
+    sys_pow,
+    sys_sqrt,
 };

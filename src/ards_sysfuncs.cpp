@@ -56,6 +56,13 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "sin",                SYS_SIN                },
     { "cos",                SYS_COS                },
     { "tan",                SYS_TAN                },
+    { "atan2",              SYS_ATAN2              },
+    { "floor",              SYS_FLOOR              },
+    { "ceil",               SYS_CEIL               },
+    { "round",              SYS_ROUND              },
+    { "mod",                SYS_MOD                },
+    { "pow",                SYS_POW                },
+    { "sqrt",               SYS_SQRT               },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
@@ -105,6 +112,13 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_SIN,                { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" }}},
     { SYS_COS,                { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" }}},
     { SYS_TAN,                { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" }}},
+    { SYS_ATAN2,              { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "y", "x" }}},
+    { SYS_FLOOR,              { TYPE_FLOAT, { TYPE_FLOAT }, { "x" }}},
+    { SYS_CEIL,               { TYPE_FLOAT, { TYPE_FLOAT }, { "x" }}},
+    { SYS_ROUND,              { TYPE_FLOAT, { TYPE_FLOAT }, { "x" }}},
+    { SYS_MOD,                { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" }}},
+    { SYS_POW,                { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" }}},
+    { SYS_SQRT,               { TYPE_FLOAT, { TYPE_FLOAT }, { "x" }}},
 };
 
 }
