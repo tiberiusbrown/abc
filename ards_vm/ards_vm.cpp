@@ -2768,11 +2768,12 @@ I_RET:
     .align 6
 
 I_SYS:
+    ldi  r30, lo8(%[sys_funcs])
     ldi  r31, hi8(%[sys_funcs])
-    rjmp .+0
+    nop
     rcall read_2_bytes_nodelay
-    mov  r30, r16
-    add  r31, r17
+    add  r30, r16
+    adc  r31, r17
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
@@ -2780,13 +2781,16 @@ I_SYS:
     .align 6
 
 I_SYSB:
+    ldi  r30, lo8(%[sys_funcs])
     ldi  r31, hi8(%[sys_funcs])
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    lpm
-    in   r30, %[spdr]
+    rjmp .+0
+    in   r0, %[spdr]
     out  %[spdr], r2
+    add  r30, r0
+    adc  r31, r2
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0

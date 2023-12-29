@@ -1077,7 +1077,7 @@ static void sys_random()
     vm_pop_end(ptr);
 }
 
-sys_func_t const SYS_FUNCS[] __attribute__((aligned(256))) PROGMEM =
+sys_func_t const SYS_FUNCS[] PROGMEM =
 {
     sys_display,
     sys_draw_pixel,
