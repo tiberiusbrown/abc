@@ -1,8 +1,7 @@
 void bounce_ball_off_paddle()
 {
-    vx = -vx;
-    vx = vx * 17 / 16;
-    vy = vy * 17 / 16;
+    vx *= -1.05;
+    vy *= 1.05;
     $tones_play(SFX_BOUNCE_PADDLE);
 }
 
@@ -17,32 +16,32 @@ void update()
     $poll_buttons();
 
     if($pressed(UP_BUTTON))
-        py0 = py0 - PADDLE_SPEED;
+        py0 -= PADDLE_SPEED;
     if($pressed(DOWN_BUTTON))
-        py0 = py0 + PADDLE_SPEED;
+        py0 += PADDLE_SPEED;
         
-    if(!ai_serving && vx > 0 && bx > 40 * FRAC)
+    if(!ai_serving && vx > 0 && bx > 40)
     {
-        int dy = by - py1 - (PADDLE_HEIGHT - BALL_SIZE) * FRAC / 2;
+        int dy = by - py1 - (PADDLE_HEIGHT - BALL_SIZE) / 2;
         if(dy > vy)
-            py1 = py1 + PADDLE_SPEED;
+            py1 += PADDLE_SPEED;
         if(dy < vy)
-            py1 = py1 - PADDLE_SPEED;
+            py1 -= PADDLE_SPEED;
     }
     
-    if(py0 < TOP_Y * FRAC)
-        py0 = TOP_Y * FRAC;
-    if(py0 > (BOT_Y - PADDLE_HEIGHT) * FRAC)
-        py0 = (BOT_Y - PADDLE_HEIGHT) * FRAC;
-    if(py1 < TOP_Y * FRAC)
-        py1 = TOP_Y * FRAC;
-    if(py1 > (BOT_Y - PADDLE_HEIGHT) * FRAC)
-        py1 = (BOT_Y - PADDLE_HEIGHT) * FRAC;
+    if(py0 < TOP_Y)
+        py0 = TOP_Y;
+    if(py0 > BOT_Y - PADDLE_HEIGHT)
+        py0 = BOT_Y - PADDLE_HEIGHT;
+    if(py1 < TOP_Y)
+        py1 = TOP_Y;
+    if(py1 > BOT_Y - PADDLE_HEIGHT)
+        py1 = BOT_Y - PADDLE_HEIGHT;
  
     if(serving)
     {
-        bx = PADDLE_WIDTH * FRAC;
-        by = py0 + (PADDLE_HEIGHT - BALL_SIZE) * FRAC / 2;
+        bx = PADDLE_WIDTH;
+        by = py0 + (PADDLE_HEIGHT - BALL_SIZE) / 2;
         if($just_pressed(A_BUTTON))
         {
             serving = false;
@@ -52,10 +51,9 @@ void update()
     }
     else if(ai_serving)
     {
-        bx = (128 - PADDLE_WIDTH - BALL_SIZE) * FRAC;
-        by = py1 + (PADDLE_HEIGHT - BALL_SIZE) * FRAC / 2;
-        ai_serving_wait = ai_serving_wait - 1;
-        if(ai_serving_wait <= 0)
+        bx = 128 - PADDLE_WIDTH - BALL_SIZE;
+        by = py1 + (PADDLE_HEIGHT - BALL_SIZE) / 2;
+        if(--ai_serving_wait <= 0)
         {
            ai_serving = false;
            vx = -BALL_SPEED;
@@ -64,40 +62,40 @@ void update()
     }
     else
     {
-        bx = bx + vx;
-        by = by + vy;
-        if(by < TOP_Y * FRAC)
+        bx += vx;
+        by += vy;
+        if(by < TOP_Y)
         {
-            by = TOP_Y * FRAC;
+            by = TOP_Y;
             bounce_ball_off_wall();
         }
-        if(by > (BOT_Y - BALL_SIZE) * FRAC)
+        if(by > BOT_Y - BALL_SIZE)
         {
-            by = (BOT_Y - BALL_SIZE) * FRAC;
+            by = BOT_Y - BALL_SIZE;
             bounce_ball_off_wall();
         }
-        if(bx < PADDLE_WIDTH * FRAC)
+        if(bx < PADDLE_WIDTH)
         {
-            bx = PADDLE_WIDTH * FRAC;
-            if(by >= py0 && by <= py0 + (PADDLE_HEIGHT - BALL_SIZE) * FRAC)
+            bx = PADDLE_WIDTH;
+            if(by >= py0 && by <= py0 + PADDLE_HEIGHT - BALL_SIZE)
                 bounce_ball_off_paddle();
             else
             {
                 serving = true;
-                s1 = s1 + 1;
+                ++s1;
                 $tones_play(SFX_LOSS);
             }
         }
-        if(bx > (128 - PADDLE_WIDTH - BALL_SIZE) * FRAC)
+        if(bx > 128 - PADDLE_WIDTH - BALL_SIZE)
         {
-            bx = (128 - PADDLE_WIDTH - BALL_SIZE) * FRAC;
-            if(by >= py1 && by <= py1 + (PADDLE_HEIGHT - BALL_SIZE) * FRAC)
+            bx = 128 - PADDLE_WIDTH - BALL_SIZE;
+            if(by >= py1 && by <= py1 + PADDLE_HEIGHT - BALL_SIZE)
                 bounce_ball_off_paddle();
             else
             {
                 ai_serving = true;
                 ai_serving_wait = 20;
-                s0 = s0 + 1;
+                ++s0;
                 $tones_play(SFX_WIN);
             }
         }
@@ -119,11 +117,11 @@ void render()
     $draw_text_P(52, 0, f, "PONG!");
 
     // paddles
-    $draw_filled_rect(0, py0 / FRAC, PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
-    $draw_filled_rect(128 - PADDLE_WIDTH, py1 / FRAC, PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
+    $draw_filled_rect(0, $round(py0), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
+    $draw_filled_rect(128 - PADDLE_WIDTH, $round(py1), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
     
     // ball
-    $draw_sprite(bx / FRAC, by / FRAC, img_ball, 0);
+    $draw_sprite($round(bx), $round(by), img_ball, 0);
         
     // bottom line
     $draw_filled_rect(0, BOT_Y, 128, 1, WHITE);
@@ -132,8 +130,8 @@ void render()
 void new_game()
 {
     constexpr int midy = (BOT_Y + TOP_Y - PADDLE_HEIGHT) / 2;
-    py0 = FRAC * midy;
-    py1 = FRAC * midy;
+    py0 = midy;
+    py1 = midy;
 
     serving = true;
     ai_serving = false;

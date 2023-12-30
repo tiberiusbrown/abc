@@ -1,11 +1,11 @@
 // ball position
-int bx, by;
+float bx, by;
 
 // ball velocity
-int vx, vy;
+float vx, vy;
 
 // paddle y positions
-int py0, py1;
+float py0, py1;
 
 // player scores
 int s0, s1;
@@ -16,17 +16,15 @@ bool ai_serving;
 
 int ai_serving_wait;
 
-constexpr u8 FRAC = 16;
+constexpr float PADDLE_SPEED = 1;
+constexpr float BALL_SPEED = 1;
 
-constexpr int PADDLE_SPEED = FRAC * 1;
-constexpr int BALL_SPEED = FRAC * 1;
+constexpr float BALL_SIZE = 4;
+constexpr float PADDLE_WIDTH = 4;
+constexpr float PADDLE_HEIGHT = 20;
 
-constexpr int BALL_SIZE = 4;
-constexpr int PADDLE_WIDTH = 4;
-constexpr int PADDLE_HEIGHT = 20;
-
-constexpr int TOP_Y = 7;
-constexpr int BOT_Y = 63;
+constexpr float TOP_Y = 7;
+constexpr float BOT_Y = 63;
 
 constexpr font f = font{ 6 "font.ttf" };
 

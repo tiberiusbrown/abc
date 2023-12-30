@@ -6,4 +6,3 @@ ABC is a C-like scripting language with an associated interpreter designed for t
 - [Language Reference](docs/language.md)
 - [System Library](docs/system.md)
 - [Benchmarks](benchmarks/benchmarks.md)
-- [Building the Interpreter](docs/building.md)
