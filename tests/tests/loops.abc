@@ -5,11 +5,25 @@ void main()
     int a = 0;
     for(int i = 0; i < 10; ++i)
     {
+        int t = i;
         if(i == 3) continue;
-        a = a + i;
+        a += t;
     }
     
     $assert(a == 42);
+    
+    // test stack overflow bug
+    // (not popping locals after break/continue)
+    for(int j = 0; j < 200; ++j)
+    {
+        a = 0;
+        for(int i = 0; i < 10; ++i)
+        {
+            int t = i * i;
+            if(i == 4) break;
+            a += t;
+        }
+    }
     
     $debug_break();
 }

@@ -53,8 +53,8 @@ int main(int argc, char** argv)
     show_asm = true;
 #endif
 
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/save_load.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/constexpr.abc";
 
     if(psrc.empty())
     {

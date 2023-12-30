@@ -339,7 +339,7 @@ static void reverse_str(char* b, char* p)
     }
 }
 
-static void sys_draw_sprite()
+static void draw_sprite_helper(uint8_t selfmask_bit)
 {
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
@@ -353,13 +353,21 @@ static void sys_draw_sprite()
     uint8_t h = FX::readPendingUInt8();
     uint16_t num = FX::readPendingUInt8();
     num += ((uint16_t)FX::readPendingUInt8() << 8);
-    uint8_t masked = FX::readPendingLastUInt8();
+    uint8_t mode = FX::readPendingLastUInt8() | selfmask_bit;
     if(frame >= num)
         vm_error(ards::ERR_FRM);
-    SpritesU::drawBasic(
-        x, y, w, h, image + 5, frame,
-        masked ? SpritesU::MODE_PLUSMASKFX : SpritesU::MODE_OVERWRITEFX);
+    SpritesU::drawBasic(x, y, w, h, image + 5, frame, mode);
     FX::seekData(ards::vm.pc);
+}
+
+static void sys_draw_sprite()
+{
+    draw_sprite_helper(0);
+}
+
+static void sys_draw_sprite_selfmask()
+{
+    draw_sprite_helper(4);
 }
 
 static void draw_char(uint24_t font, int16_t x, int16_t y, uint8_t w, uint8_t h, char c)
@@ -1150,6 +1158,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_draw_circle,
     sys_draw_filled_circle,
     sys_draw_sprite,
+    sys_draw_sprite_selfmask,
     sys_draw_text,
     sys_draw_text_P,
     sys_draw_textf,

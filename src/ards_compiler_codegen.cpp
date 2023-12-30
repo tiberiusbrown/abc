@@ -259,12 +259,16 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     case AST::BREAK_STMT:
     {
         assert(!break_stack.empty());
+        for(size_t i = 0; i < frame.scopes.back().size; ++i)
+            f.instrs.push_back({ I_POP, a.line() });
         f.instrs.push_back({ I_JMP, a.line(), 0, 0, break_stack.back() });
         break;
     }
     case AST::CONTINUE_STMT:
     {
         assert(!break_stack.empty());
+        for(size_t i = 0; i < frame.scopes.back().size; ++i)
+            f.instrs.push_back({ I_POP, a.line()});
         f.instrs.push_back({ I_JMP, a.line(), 0, 0, continue_stack.back() });
         break;
     }

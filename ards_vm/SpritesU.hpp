@@ -25,10 +25,17 @@ struct SpritesU
         int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t const* image);
 #endif
 
-#ifdef SPRITESU_OVERWRITE
+#ifdef SPRITESU_PLUSMASK
     static void drawPlusMask(
         int16_t x, int16_t y, uint8_t const* image, uint16_t frame);
     static void drawPlusMask(
+        int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t const* image);
+#endif
+
+#if defined(SPRITESU_OVERWRITE) || defined(SPRITESU_PLUSMASK)
+    static void drawSelfMask(
+        int16_t x, int16_t y, uint8_t const* image, uint16_t frame);
+    static void drawSelfMask(
         int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t const* image);
 #endif
 
@@ -40,6 +47,10 @@ struct SpritesU
     static void drawPlusMaskFX(
         int16_t x, int16_t y, uint24_t image, uint16_t frame);
     static void drawPlusMaskFX(
+        int16_t x, int16_t y, uint8_t w, uint8_t h, uint24_t image, uint16_t frame);
+    static void drawSelfMaskFX(
+        int16_t x, int16_t y, uint24_t image, uint16_t frame);
+    static void drawSelfMaskFX(
         int16_t x, int16_t y, uint8_t w, uint8_t h, uint24_t image, uint16_t frame);
 #endif
 
@@ -1000,6 +1011,29 @@ void SpritesU::drawPlusMask(
 }
 #endif
 
+#if defined(SPRITESU_OVERWRITE) || defined(SPRITESU_PLUSMASK)
+void SpritesU::drawSelfMask(
+    int16_t x, int16_t y, uint8_t const* image, uint16_t frame)
+{
+    uint8_t w, h;
+#if ARDUINO_ARCH_AVR
+    asm volatile(
+        "lpm %[w], Z+\n"
+        "lpm %[h], Z+\n"
+        : [w] "=r" (w), [h] "=r" (h), [image] "+z" (image));
+#else
+    w = pgm_read_byte(image++);
+    h = pgm_read_byte(image++);
+#endif
+    drawBasic(x, y, w, h, (uint24_t)image, frame, MODE_SELFMASK);
+}
+void SpritesU::drawSelfMask(
+    int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t const* image)
+{
+    drawBasic(x, y, w, h, (uint24_t)image, 0, MODE_SELFMASK);
+}
+#endif
+
 #ifdef SPRITESU_FX
 void SpritesU::drawOverwriteFX(
     int16_t x, int16_t y, uint24_t image, uint16_t frame)
@@ -1026,6 +1060,19 @@ void SpritesU::drawPlusMaskFX(
     int16_t x, int16_t y, uint8_t w, uint8_t h, uint24_t image, uint16_t frame)
 {
     drawBasic(x, y, w, h, image + 2, frame, MODE_PLUSMASKFX);
+}
+void SpritesU::drawSelfMaskFX(
+    int16_t x, int16_t y, uint24_t image, uint16_t frame)
+{
+    FX::seekData(image);
+    uint8_t w = FX::readPendingUInt8();
+    uint8_t h = FX::readEnd();
+    drawBasic(x, y, w, h, image + 2, frame, MODE_SELFMASKFX);
+}
+void SpritesU::drawSelfMaskFX(
+    int16_t x, int16_t y, uint8_t w, uint8_t h, uint24_t image, uint16_t frame)
+{
+    drawBasic(x, y, w, h, image + 2, frame, MODE_SELFMASKFX);
 }
 #endif
 

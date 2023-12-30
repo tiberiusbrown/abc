@@ -136,6 +136,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     case AST::TYPE_ARRAY:
         type_annotate_recurse(a.children[0], frame);
         break;
+    case AST::TYPE_PROG:
+        type_annotate_recurse(a.children[0], frame);
+        break;
     case AST::OP_CAST:
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[1], frame);

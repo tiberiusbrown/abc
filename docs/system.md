@@ -32,6 +32,7 @@ void  $draw_line(i16 x0, i16 y0, i16 x1, i16 y1, u8 color);
 void  $draw_pixel(i16 x, i16 y, u8 color);
 void  $draw_rect(i16 x, i16 y, u8 w, u8 h, u8 color);
 void  $draw_sprite(i16 x, i16 y, sprites s, u16 frame);
+void  $draw_sprite_selfmask(i16 x, i16 y, sprites s, u16 frame);
 void  $draw_text(i16 x, i16 y, font f, char[]& str);
 void  $draw_text_P(i16 x, i16 y, font f, char[] prog& str);
 void  $draw_textf(i16 x, i16 y, font f, char[] prog& fmt, ...);

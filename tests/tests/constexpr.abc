@@ -2,9 +2,17 @@ constexpr int x = 30;
 
 int[x] a;
 
+constexpr int y = 3;
+constexpr int z = 2;
+
+u16[y * z] prog b = { 1, 2, 3, 4, 5, 6 };
+
 void main()
 {
     $debug_break();
+    
+    $assert(len(a) == 30);
+    $assert(len(b) == 6);
     
     {
         constexpr int y = x / 3;

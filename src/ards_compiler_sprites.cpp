@@ -159,7 +159,7 @@ void compiler_t::encode_sprites_image(
 
     data.push_back(uint8_t(num_sprites >> 0));
     data.push_back(uint8_t(num_sprites >> 8));
-    data.push_back(masked ? 1 : 0);
+    data.push_back(masked ? 3 : 2);
 
     size_t pages = actual_h / 8;
     size_t bytes_per_sprite = size_t(w * pages);
