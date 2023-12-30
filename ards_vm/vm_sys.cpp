@@ -707,7 +707,7 @@ static void* format_user;
 static uint16_t format_db;
 static uint16_t format_dn;
 
-static void format_add_float(format_char_func f, float x, uint8_t frac)
+static void format_add_float(format_char_func f, float x, uint8_t prec)
 {
     if(isnan(x))
     {
@@ -739,7 +739,7 @@ static void format_add_float(format_char_func f, float x, uint8_t frac)
     
     {
         float r = 0.5f;
-        for(uint8_t i = 0; i < frac; ++i)
+        for(uint8_t i = 0; i < prec; ++i)
             r *= 0.1f;
         x += r;
     }
@@ -748,9 +748,9 @@ static void format_add_float(format_char_func f, float x, uint8_t frac)
     float r = x - (double)n;
     format_add_int(f, n, false, 10);
     
-    if(frac > 0)
+    if(prec > 0)
         f('.');
-    while(int8_t(--frac) >= 0)
+    while(int8_t(--prec) >= 0)
     {
         r *= 10.f;
         uint8_t t = (uint8_t)r;
@@ -843,7 +843,10 @@ static void format_exec(format_char_func f)
                 x = vm_pop<float>(ptr);
                 vm_pop_end(ptr);
             }
-            format_add_float(f, x, 4);
+            FX::seekData(fb++);
+            uint8_t prec = FX::readPendingLastUInt8() - '0';
+            --fn;
+            format_add_float(f, x, prec);
             break;
         }
         default:

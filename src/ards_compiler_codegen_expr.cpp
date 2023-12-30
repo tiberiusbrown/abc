@@ -40,10 +40,40 @@ void compiler_t::resolve_format_call(
         case '%':
             fmt += c;
             break;
+        case '.':
+        {
+            if(++it == d.end())
+            {
+                errs.push_back({
+                    "Trailing '.' in format string",
+                    n.line_info });
+                return;
+            }
+            c = *it;
+            if(!(c >= '0' && c <= '9'))
+            {
+                errs.push_back({
+                    "Precision specifier must be a single digit: 0-9",
+                    n.line_info });
+                return;
+            }
+            fmt.pop_back();
+            fmt += 'f';
+            fmt += c;
+            if(++it == d.end())
+            {
+                errs.push_back({
+                    "Format string: precision modifier must be followed by 'f'",
+                    n.line_info });
+                return;
+            }
+            arg_types.push_back(TYPE_FLOAT);
+            break;
+        }
         case 'd': arg_types.push_back(TYPE_I32); break;
         case 'u':
         case 'x': arg_types.push_back(TYPE_U32); break;
-        case 'f': arg_types.push_back(TYPE_FLOAT); break;
+        case 'f': arg_types.push_back(TYPE_FLOAT); fmt += '2'; break;
         case 'c': arg_types.push_back(TYPE_CHAR); break;
         case 's':
         {
@@ -69,6 +99,7 @@ void compiler_t::resolve_format_call(
             return;
         }
     }
+    return;
 }
 
 void compiler_t::codegen_expr(

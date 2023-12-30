@@ -1,4 +1,4 @@
-constexpr font f = FONT_BR5;
+constexpr font f = FONT_BR6;
 
 int coins = 0;
 
@@ -16,13 +16,14 @@ void loop()
     
     $draw_text_P(0, 0, f, "Hello World!\nPress A to collect a coin.");
     $draw_textf(0, 20, f, "Coins collected: %d", coins);
-    $draw_textf(0, 50, f, "Running for %f seconds", float($millis()) / 1000);
+    $draw_textf(0, 50, f, "Running for %.2f seconds", float($millis()) / 1000);
     
     $display();
 }
 
 void main()
 {
+    $set_frame_rate(50);
     while(true)
         loop();
 }
