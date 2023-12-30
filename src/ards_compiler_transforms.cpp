@@ -33,10 +33,10 @@ void compiler_t::transform_array_len(ast_node_t& n)
         n.comp_type = prim_type_for_hex((uint32_t)n.value, false);
         return;
     }
-    else if(type.is_array_ref())
+    else if(rtype.is_array_ref())
     {
         n.type = AST::ARRAY_LEN;
-        n.comp_type = type.children[0].is_prog ? TYPE_U24 : TYPE_U16;
+        n.comp_type = rtype.children[0].is_prog ? TYPE_U24 : TYPE_U16;
         return;
     }
     else

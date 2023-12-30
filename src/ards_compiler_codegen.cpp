@@ -81,12 +81,14 @@ compiler_lvalue_t compiler_t::resolve_lvalue(
     return {};
 }
 
-compiler_lvalue_t compiler_t::return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame)
+void compiler_t::codegen_store_return(
+        compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a)
 {
     compiler_lvalue_t t{};
-    t.type = f.decl.return_type;
-    t.stack_index = uint8_t(frame.size + t.type.prim_size);
-    return t;
+    auto const& type = f.decl.return_type;
+    f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)type.prim_size });
+    f.instrs.push_back({ I_SETLN, a.line(), (uint8_t)frame.size });
+    frame.size -= type.prim_size;
 }
 
 void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& n)
@@ -96,8 +98,7 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
     {
         codegen_expr(f, frame, n.children[0], false);
         codegen_convert(f, frame, n, f.decl.return_type, n.children[0].comp_type);
-        auto lvalue = return_lvalue(f, frame);
-        codegen_store_lvalue(f, frame, lvalue);
+        codegen_store_return(f, frame, n);
     }
     else if(f.decl.return_type.prim_size != 0)
     {
@@ -462,50 +463,16 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         assert(frame.size == prev_size);
 }
 
-void compiler_t::codegen_store_lvalue(
-    compiler_func_t& f, compiler_frame_t& frame, compiler_lvalue_t const& lvalue)
+void compiler_t::codegen_store(
+    compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a)
 {
-    assert(lvalue.type.prim_size < 256);
+    codegen_expr(f, frame, a, true);
     if(!errs.empty()) return;
-    if(lvalue.type.without_ref().is_prog)
-    {
-        errs.push_back({ "Prog data is not writable", { lvalue.line, 0 } });
-        return;
-    }
-    if(lvalue.ref_ast)
-    {
-        // assign to reference which needs to be constructed now
-        // happens for statements like: x[2] = 42;
-        auto size = lvalue.type.children[0].prim_size;
-        assert(size < 256);
-        codegen_expr(f, frame, *lvalue.ref_ast, false);
-        f.instrs.push_back({ I_SETRN, lvalue.line, (uint8_t)size });
-        frame.size -= 2;
-        frame.size -= size;
-    }
-    else if(lvalue.type.is_ref())
-    {
-        // assign to reference variable
-        auto size = lvalue.type.children[0].prim_size;
-        assert(size < 256);
-        assert(lvalue.type.prim_size == 2); // ref size is 2
-        f.instrs.push_back({ I_PUSH, lvalue.line, 2 });
-        f.instrs.push_back({ I_GETLN, lvalue.line, (uint8_t)(lvalue.stack_index) });
-        f.instrs.push_back({ I_SETRN, lvalue.line, (uint8_t)size });
-        frame.size -= size;
-    }
-    else if(lvalue.is_global)
-    {
-        f.instrs.push_back({ I_PUSH, lvalue.line, (uint8_t)lvalue.type.prim_size });
-        f.instrs.push_back({ I_SETGN, lvalue.line, 0, 0, lvalue.global_name });
-        frame.size -= lvalue.type.prim_size;
-    }
-    else
-    {
-        f.instrs.push_back({ I_PUSH, lvalue.line, (uint8_t)lvalue.type.prim_size });
-        f.instrs.push_back({ I_SETLN, lvalue.line, (uint8_t)(lvalue.stack_index - lvalue.type.prim_size) });
-        frame.size -= lvalue.type.prim_size;
-    }
+    assert(a.comp_type.without_ref().prim_size < 256);
+    auto size = a.comp_type.without_ref().prim_size;
+    f.instrs.push_back({ I_SETRN, a.line(), (uint8_t)size});
+    frame.size -= 2;
+    frame.size -= size;
 }
 
 void compiler_t::codegen_convert(
@@ -571,7 +538,7 @@ void compiler_t::codegen_convert(
             return;
         }
     }
-    if(pfrom->is_ref())
+    while(pfrom->is_ref())
     {
         pfrom = &pfrom->children[0];
         codegen_dereference(f, frame, n, *pfrom);

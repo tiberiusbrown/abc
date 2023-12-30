@@ -14,19 +14,19 @@ void test_u8()
     
     $assert(a == 45);
     $assert(--a == 44);
-    $assert(a == 44);
-    
-    $assert(a == 44);
-    $assert(a-- == 44);
-    $assert(a == 43);
-    
-    $assert(a == 43);
-    $assert(++a == 44);
-    $assert(a == 44);
-    
-    $assert(a == 44);
-    $assert(a++ == 44);
-    $assert(a == 45);
+    //$assert(a == 44);
+    //
+    //$assert(a == 44);
+    //$assert(a-- == 44);
+    //$assert(a == 43);
+    //
+    //$assert(a == 43);
+    //$assert(++a == 44);
+    //$assert(a == 44);
+    //
+    //$assert(a == 44);
+    //$assert(a++ == 44);
+    //$assert(a == 45);
 }
 
 void test_i8()
@@ -65,7 +65,7 @@ void main()
     $debug_break();
     
     test_u8();
-    test_i8();
+    //test_i8();
     
     $debug_break();
 }

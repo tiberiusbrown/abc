@@ -582,11 +582,6 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
         a.type = AST::OP_CAST;
     });
 
-    ast.recurse([](ast_node_t& a) {
-        for(auto& child : a.children)
-            child.parent = &a;
-    });
-
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);
     for(auto& n : ast.children)
@@ -719,10 +714,10 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                     codegen_expr_compound(f, frame, n.children[2], g.var.type);
                 else
                     codegen_expr(f, frame, n.children[2], g.var.type.is_any_ref());
-                auto lvalue = resolve_lvalue(f, frame, n.children[1]);
+                type_annotate(n.children[1], frame);
                 if(n.children[2].type != AST::COMPOUND_LITERAL)
-                    codegen_convert(f, frame, n.children[2], lvalue.type, n.children[2].comp_type);
-                codegen_store_lvalue(f, frame, lvalue);
+                    codegen_convert(f, frame, n.children[2], n.children[1].comp_type.without_ref(), n.children[2].comp_type);
+                codegen_store(f, frame, n.children[1]);
                 for(size_t i = 0; i < frame.size; ++i)
                     f.instrs.push_back({ I_POP });
             }

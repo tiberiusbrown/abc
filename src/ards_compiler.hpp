@@ -225,6 +225,15 @@ struct compiler_type_t
         return r;
     }
 
+    compiler_type_t with_ref() const
+    {
+        compiler_type_t r{};
+        r.type = REF;
+        r.children.push_back(*this);
+        r.prim_size = is_prog ? 3 : 2;
+        return r;
+    }
+
     compiler_type_t with_array_ref() const
     {
         assert(!is_array_ref());
@@ -483,7 +492,8 @@ private:
     compiler_lvalue_t resolve_lvalue(
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n);
-    compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
+    void codegen_store_return(
+        compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
     
     void type_annotate_recurse(ast_node_t& n, compiler_frame_t const& frame);
     void type_reduce_recurse(ast_node_t& a, size_t size);
@@ -506,8 +516,8 @@ private:
     void codegen_expr_logical(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& a, std::string const& sc_label);
-    void codegen_store_lvalue(
-        compiler_func_t& f, compiler_frame_t& frame, compiler_lvalue_t const& lvalue);
+    void codegen_store(
+        compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
     void codegen_convert(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n,

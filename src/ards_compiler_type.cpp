@@ -178,9 +178,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
-        a.comp_type = a.children[0].comp_type.without_ref();
+        a.comp_type = a.children[0].comp_type;
         if(a.children[1].type != AST::COMPOUND_LITERAL)
-            a.children[1].insert_cast(a.comp_type);
+            a.children[1].insert_cast(a.comp_type.without_ref());
         type_annotate_recurse(a.children[1], frame);
         break;
     }
@@ -311,6 +311,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             if(jt != it->locals.end())
             {
                 a.comp_type = jt->second.var.type;
+                if(!jt->second.var.is_constexpr)
+                    a.comp_type = a.comp_type.with_ref();
                 return;
             }
         }
@@ -318,6 +320,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(it != globals.end())
         {
             a.comp_type = it->second.var.type;
+            if(!it->second.var.is_constexpr)
+                a.comp_type = a.comp_type.with_ref();
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
@@ -486,7 +490,6 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         break;
     case AST::OP_ASSIGN:
     case AST::OP_ASSIGN_COMPOUND:
-        a.comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);
         break;
     case AST::OP_INC_POST:
@@ -521,9 +524,19 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
 
 void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame, size_t size)
 {
+    a.recurse([](ast_node_t& n) {
+        for(auto& child : n.children)
+            child.parent = &n;
+    });
+
     type_annotate_recurse(a, frame);
     transform_constexprs(a, frame);
     type_reduce_recurse(a, size);
+
+    a.recurse([](ast_node_t& n) {
+        for(auto& child : n.children)
+            child.parent = &n;
+    });
 }
 
 }
