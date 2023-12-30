@@ -1,0 +1,17 @@
+void update()
+{
+    $poll_buttons();
+
+    if($pressed(UP_BUTTON   )) camy -= CAM_SPEED;
+    if($pressed(DOWN_BUTTON )) camy += CAM_SPEED;
+    if($pressed(LEFT_BUTTON )) camx -= CAM_SPEED;
+    if($pressed(RIGHT_BUTTON)) camx += CAM_SPEED;
+
+    int xmax = map_width() * 16 - 129;
+    int ymax = map_height() * 16 - 65;
+
+    if(camx < 0) camx = 0;
+    if(camy < 0) camy = 0;
+    if(camx > xmax) camx = xmax;
+    if(camy > ymax) camy = ymax;
+}

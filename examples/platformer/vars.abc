@@ -1,0 +1,4 @@
+int camx, camy;
+u8 current_map;
+
+constexpr int CAM_SPEED = 1;
