@@ -283,8 +283,8 @@ void compiler_t::write(std::ostream& f)
             for(; num < 16; ++num)
             {
                 if(!(i + num < pd.data.size() &&
-                    (rp >= pd.relocs_prog.size() || pd.relocs_prog[rp].first >= i + num) &&
-                    (rg >= pd.relocs_glob.size() || pd.relocs_glob[rg].first >= i + num)))
+                    (rp >= pd.relocs_prog.size() || pd.relocs_prog[rp].first > i + num) &&
+                    (rg >= pd.relocs_glob.size() || pd.relocs_glob[rg].first > i + num)))
                     break;
             }
 

@@ -53,10 +53,12 @@ int main(int argc, char** argv)
     show_asm = true;
 #endif
 
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+#ifndef NDEBUG
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble3/bubble3.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/prog_array_indirect.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
+#endif
 
     if(psrc.empty())
     {

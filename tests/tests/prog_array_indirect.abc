@@ -1,23 +1,38 @@
+struct foo_prog_t
+{
+    bool whatever;
+    u16[] prog& data;
+};
 struct foo_t
 {
-    u16[] prog& data;
     bool whatever;
+    u16[]& data;
 };
 
 u16[4] prog data0 = { 100, 200, 300, 400 };
+u16[4] data1 = { 1000, 2000, 3000, 4000 };
+
+foo_prog_t[1] prog foop = {
+    { true, data0 },
+};
 
 foo_t[1] prog foo = {
-    { data0, true },
+    { true, data1 },
 };
 
 void main()
 {
     $debug_break();
     
-    $assert(foo[0].data[0] == 100);
-    //$assert(foo[0].data[0] == 200);
-    //$assert(foo[0].data[0] == 300);
-    //$assert(foo[0].data[0] == 400);
+    $assert(foop[0].data[0] == 100);
+    $assert(foop[0].data[1] == 200);
+    $assert(foop[0].data[2] == 300);
+    $assert(foop[0].data[3] == 400);
+    
+    $assert(foo[0].data[0] == 1000);
+    $assert(foo[0].data[1] == 2000);
+    $assert(foo[0].data[2] == 3000);
+    $assert(foo[0].data[3] == 4000);
     
     $debug_break();
 }
