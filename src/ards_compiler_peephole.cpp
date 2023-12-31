@@ -191,14 +191,16 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
             continue;
         }
 
-        //if(i0.instr == I_REFL && i1.instr == I_SETRN)
-        //{
-        //    i0.instr = I_PUSH;
-        //    i1.instr = I_SETLN;
-        //    std::swap(i0.imm, i1.imm);
-        //    t = true;
-        //    continue;
-        //}
+        if(i0.instr == I_REFL && i1.instr == I_SETRN)
+        {
+            i0.instr = I_PUSH;
+            i1.instr = I_SETLN;
+            std::swap(i0.imm, i1.imm);
+            i1.imm -= i0.imm;
+            t = true;
+            continue;
+        }
+
         // replace global derefs with GETLN
         //if(i0.instr == I_REFG && i1.instr == I_GETRN)
         //{
