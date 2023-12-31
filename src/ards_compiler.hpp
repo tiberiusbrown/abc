@@ -558,6 +558,7 @@ private:
     // perform a series of peephole optimizations on a function
     void peephole(compiler_func_t& f);
     bool peephole_remove_pop(compiler_func_t& f);
+    bool peephole_simplify_derefs(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
     bool peephole_linc(compiler_func_t& f);
     bool peephole_ref(compiler_func_t& f);

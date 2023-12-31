@@ -18,6 +18,8 @@ void compiler_t::peephole(compiler_func_t& f)
 {
     while(peephole_remove_pop(f))
         ;
+    while(peephole_simplify_derefs(f))
+        ;
     while(peephole_pre_push_compress(f))
         ;
     while(peephole_ref(f))
@@ -166,6 +168,47 @@ bool compiler_t::peephole_dup_sext(compiler_func_t& f)
         }
     }
 
+    return t;
+}
+
+bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+
+        // replace local derefs with GETLN
+        if(i0.instr == I_REFL && i1.instr == I_GETRN)
+        {
+            i0.instr = I_PUSH;
+            i1.instr = I_GETLN;
+            std::swap(i0.imm, i1.imm);
+            t = true;
+            continue;
+        }
+
+        //if(i0.instr == I_REFL && i1.instr == I_SETRN)
+        //{
+        //    i0.instr = I_PUSH;
+        //    i1.instr = I_SETLN;
+        //    std::swap(i0.imm, i1.imm);
+        //    t = true;
+        //    continue;
+        //}
+        // replace global derefs with GETLN
+        //if(i0.instr == I_REFG && i1.instr == I_GETRN)
+        //{
+        //    i0.instr = I_PUSH;
+        //    i1.instr = I_GETGN;
+        //    std::swap(i0.imm, i1.imm);
+        //    t = true;
+        //    continue;
+        //}
+    }
     return t;
 }
 
