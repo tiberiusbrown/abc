@@ -300,18 +300,9 @@ void compiler_t::codegen_expr(
         {
             assert(!local->var.is_constexpr);
             uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
-            //uint8_t size = (uint8_t)local->var.type.prim_size;
-            //if(ref && !local->var.type.is_ref())
-            {
-                f.instrs.push_back({ I_REFL, a.line(), offset });
-                frame.size += 2;
-                return;
-            }
-            //assert(!local->var.type.is_prog);
-            //f.instrs.push_back({ I_PUSH, a.line(), size });
-            //f.instrs.push_back({ I_GETLN, a.line(), offset });
-            //frame.size += (uint8_t)local->var.type.prim_size;
-            //return;
+            f.instrs.push_back({ I_REFL, a.line(), offset });
+            frame.size += 2;
+            return;
         }
         if(auto* global = resolve_global(a))
         {
@@ -326,32 +317,16 @@ void compiler_t::codegen_expr(
                 frame.size += (prog ? 3 : 2);
                 return;
             }
-            //if(ref && prog)
             if(prog)
             {
                 f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, global->name });
                 frame.size += 3;
-                //return;
             }
-            //if(ref && !prog)
             else
             {
                 f.instrs.push_back({ I_REFG, a.line(), 0, 0, global->name });
                 frame.size += 2;
-                //return;
             }
-            //assert(global->var.type.prim_size < 256);
-            //frame.size += (uint8_t)global->var.type.prim_size;
-            //if(prog)
-            //{
-            //    f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, global->name });
-            //    f.instrs.push_back({ I_GETPN, a.line(), (uint8_t)global->var.type.prim_size });
-            //}
-            //else
-            //{
-            //    f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)global->var.type.prim_size });
-            //    f.instrs.push_back({ I_GETGN, a.line(), 0, 0, global->name });
-            //}
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
@@ -418,11 +393,6 @@ void compiler_t::codegen_expr(
                 // special handling for format string
                 assert(expr.type == AST::OP_AREF);
                 assert(expr.children[0].type == AST::STRING_LITERAL);
-
-                //std::string fmt = std::string(expr.data);
-                //std::vector<compiler_type_t> arg_types;
-                //resolve_format_call(expr, func.decl, arg_types, fmt);
-
                 std::string label = progdata_label();
                 std::vector<uint8_t> data(format_str.begin(), format_str.end());
                 add_custom_progdata(label, data);
@@ -609,8 +579,6 @@ void compiler_t::codegen_expr(
     case AST::OP_MULTIPLICATIVE:
     {
         assert(a.children.size() == 2);
-        //assert(a.children[0].comp_type == a.comp_type);
-        //assert(a.children[1].comp_type == a.comp_type);
         codegen_expr(f, frame, a.children[0], false);
         codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
@@ -737,11 +705,6 @@ void compiler_t::codegen_expr(
         auto const& t = a.children[0].comp_type.without_ref();
         bool prog = t.is_array_ref() ? t.children[0].is_prog : t.is_prog;
 
-        // construct [unsized] array reference
-        //if(t.is_array_ref())
-        //    codegen_expr(f, frame, a.children[0], false);
-        //else
-        //    codegen_expr(f, frame, a.children[0], true);
         codegen_expr(f, frame, a.children[0], true);
         if(t.is_array_ref())
             codegen_convert(f, frame, a.children[0], t, a.children[0].comp_type);
@@ -770,10 +733,6 @@ void compiler_t::codegen_expr(
                 (uint16_t)elem_size, (uint32_t)num_elems });
             frame.size -= prog ? 3 : 2;
         }
-        // if the child type is a reference, dereference it now
-        // for example, a[i] where a is T&[N]
-        //if(t.children[0].is_ref())
-        //    codegen_dereference(f, frame, a, t.children[0]);
         return;
     }
 
@@ -784,6 +743,13 @@ void compiler_t::codegen_expr(
         auto const* t = resolve_member(a.children[0], name, &offset);
         if(!t) return;
         codegen_expr(f, frame, a.children[0], true);
+        {
+            auto const* reft = &a.children[0].comp_type;
+            while(reft->is_ref() && reft->children[0].is_ref())
+                reft = &reft->children[0];
+            if(reft != &a.children[0].comp_type)
+                codegen_dereference(f, frame, a.children[0], *reft);
+        }
         if(offset != 0)
         {
             f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(offset >> 0) });
@@ -798,10 +764,6 @@ void compiler_t::codegen_expr(
                 f.instrs.push_back({ I_ADD2, a.children[1].line() });
             }
         }
-        // if the child type is a reference, dereference it now
-        // for example, player.hp where hp is int&
-        if(t->is_ref())
-            codegen_dereference(f, frame, a, t->children[0]);
         return;
     }
 

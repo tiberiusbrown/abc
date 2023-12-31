@@ -439,9 +439,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         std::string name = std::string(a.children[1].data);
         auto* t0 = resolve_member(a.children[0], name);
         if(!t0) break;
-        a.comp_type.type = compiler_type_t::REF;
-        a.comp_type.prim_size = 2;
-        a.comp_type.children.push_back(t0->without_ref());
+        a.comp_type = t0->with_ref();
         break;
     }
     case AST::STRING_LITERAL:
