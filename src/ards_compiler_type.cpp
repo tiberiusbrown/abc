@@ -178,7 +178,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
-        a.comp_type = a.children[0].comp_type;
+        a.comp_type = a.children[0].comp_type.without_ref();
         if(a.children[1].type != AST::COMPOUND_LITERAL)
             a.children[1].insert_cast(a.comp_type.without_ref());
         type_annotate_recurse(a.children[1], frame);
@@ -421,9 +421,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 "\" is not an array", a.line_info });
             break;
         }
-        a.comp_type.type = compiler_type_t::REF;
-        a.comp_type.prim_size = 2;
-        a.comp_type.children.push_back(t0.children[0]);
+        a.comp_type = t0.children[0].with_ref();
         break;
     }
     case AST::STRUCT_MEMBER:

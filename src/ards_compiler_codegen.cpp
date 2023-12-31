@@ -470,6 +470,12 @@ void compiler_t::codegen_store(
     if(!errs.empty()) return;
     assert(a.comp_type.without_ref().prim_size < 256);
     auto size = a.comp_type.without_ref().prim_size;
+    auto const* t = &a.comp_type.without_ref_single();
+    while(t->is_ref())
+    {
+        codegen_dereference(f, frame, a, *t);
+        t = &t->children[0];
+    }
     f.instrs.push_back({ I_SETRN, a.line(), (uint8_t)size});
     frame.size -= 2;
     frame.size -= size;
@@ -508,6 +514,11 @@ void compiler_t::codegen_convert(
         }
         else if(rfrom.is_array_ref())
         {
+            while(pfrom->is_ref())
+            {
+                pfrom = &pfrom->children[0];
+                codegen_dereference(f, frame, n, *pfrom);
+            }
             assert(rto.children[0] == rfrom.children[0]);
         }
         else
@@ -546,10 +557,7 @@ void compiler_t::codegen_convert(
     auto const& from = *pfrom;
     assert(from.prim_size != 0);
 
-    auto* pto = &orig_to;
-    if(pto->is_ref())
-        pto = &pto->children[0];
-    auto const& to = *pto;
+    auto const& to = orig_to.without_ref_single();
 
     assert(!(to.is_float && to.is_signed));
     assert(!(from.is_float && from.is_signed));

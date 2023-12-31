@@ -168,12 +168,15 @@ struct compiler_type_t
     {
         return is_ref() ? children[0].type : type;
     }
-    const compiler_type_t& without_ref() const
+    const compiler_type_t& without_ref_single() const
     {
-        assert(!(is_float && is_signed));
-        return is_ref() ? children[0].without_ref() : *this;
+        return is_ref() ? children[0] : *this;
     }
-    compiler_type_t sized_to(size_t size) const
+	const compiler_type_t& without_ref() const
+	{
+		return is_ref() ? children[0].without_ref() : *this;
+	}
+	compiler_type_t sized_to(size_t size) const
     {
         assert(type == PRIM);
         compiler_type_t t = *this;

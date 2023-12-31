@@ -469,7 +469,7 @@ void compiler_t::codegen_expr(
         if(type_noref.is_prim() || type_noref.is_label_ref())
         {
             codegen_expr(f, frame, a.children[1], false);
-            codegen_convert(f, frame, a, a.children[0].comp_type, a.children[1].comp_type);
+            codegen_convert(f, frame, a, a.children[0].comp_type.without_ref(), a.children[1].comp_type);
         }
         else if(type_noref.type == compiler_type_t::ARRAY)
         {
@@ -504,9 +504,10 @@ void compiler_t::codegen_expr(
         // dup value if not the root op
         if(a.parent && a.parent->type != AST::EXPR_STMT && a.parent->type != AST::LIST)
         {
-            frame.size += (uint8_t)a.children[0].comp_type.prim_size;
-            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)a.children[0].comp_type.prim_size });
-            f.instrs.push_back({ I_GETLN, a.line(), (uint8_t)a.children[0].comp_type.prim_size });
+            auto size = (uint8_t)a.children[0].comp_type.without_ref().prim_size;
+            frame.size += size;
+            f.instrs.push_back({ I_PUSH, a.line(), size });
+            f.instrs.push_back({ I_GETLN, a.line(), size });
         }
 
         codegen_store(f, frame, a.children[0]);
@@ -737,10 +738,13 @@ void compiler_t::codegen_expr(
         bool prog = t.is_array_ref() ? t.children[0].is_prog : t.is_prog;
 
         // construct [unsized] array reference
+        //if(t.is_array_ref())
+        //    codegen_expr(f, frame, a.children[0], false);
+        //else
+        //    codegen_expr(f, frame, a.children[0], true);
+        codegen_expr(f, frame, a.children[0], true);
         if(t.is_array_ref())
-            codegen_expr(f, frame, a.children[0], false);
-        else
-            codegen_expr(f, frame, a.children[0], true);
+            codegen_convert(f, frame, a.children[0], t, a.children[0].comp_type);
 
         // construct index
         codegen_expr(f, frame, a.children[1], false);
@@ -768,8 +772,8 @@ void compiler_t::codegen_expr(
         }
         // if the child type is a reference, dereference it now
         // for example, a[i] where a is T&[N]
-        if(t.children[0].is_ref())
-            codegen_dereference(f, frame, a, t.children[0]);
+        //if(t.children[0].is_ref())
+        //    codegen_dereference(f, frame, a, t.children[0]);
         return;
     }
 
