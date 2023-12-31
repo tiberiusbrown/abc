@@ -7,6 +7,7 @@ void setup()
 {
     $set_frame_rate(60);
     current_map = 0;
+    camy = 64;
 }
 
 void loop()
