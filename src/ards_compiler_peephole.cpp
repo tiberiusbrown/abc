@@ -191,6 +191,7 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
             continue;
         }
 
+        // replace local derefs with SETLN
         if(i0.instr == I_REFL && i1.instr == I_SETRN)
         {
             i0.instr = I_PUSH;
@@ -201,11 +202,37 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
             continue;
         }
 
-        // replace global derefs with GETLN
-        //if(i0.instr == I_REFG && i1.instr == I_GETRN)
+        // replace global derefs with GETGN
+        if(i0.instr == I_REFG && i1.instr == I_GETRN)
+        {
+            i0.instr = I_PUSH;
+            i1.instr = I_GETGN;
+            i1.label = std::move(i0.label);
+            i0.label.clear();
+            std::swap(i0.imm, i1.imm);
+            t = true;
+            continue;
+        }
+
+        // replace global derefs with SETGN
+        if(i0.instr == I_REFG && i1.instr == I_SETRN)
+        {
+            i0.instr = I_PUSH;
+            i1.instr = I_SETGN;
+            i1.label = std::move(i0.label);
+            i0.label.clear();
+            std::swap(i0.imm, i1.imm);
+            t = true;
+            continue;
+        }
+
+        // replace prog derefs with GETPN
+        //if(i0.instr == I_REFL && i1.instr == I_GETRN)
         //{
         //    i0.instr = I_PUSH;
-        //    i1.instr = I_GETGN;
+        //    i1.instr = I_GETPN;
+        //    i1.label = std::move(i0.label);
+        //    i0.label.clear();
         //    std::swap(i0.imm, i1.imm);
         //    t = true;
         //    continue;
