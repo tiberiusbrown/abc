@@ -168,12 +168,15 @@ struct compiler_type_t
     {
         return is_ref() ? children[0].type : type;
     }
-    const compiler_type_t& without_ref() const
+    const compiler_type_t& without_ref_single() const
     {
-        assert(!(is_float && is_signed));
-        return is_ref() ? children[0].without_ref() : *this;
+        return is_ref() ? children[0] : *this;
     }
-    compiler_type_t sized_to(size_t size) const
+	const compiler_type_t& without_ref() const
+	{
+		return is_ref() ? children[0].without_ref() : *this;
+	}
+	compiler_type_t sized_to(size_t size) const
     {
         assert(type == PRIM);
         compiler_type_t t = *this;
@@ -222,6 +225,15 @@ struct compiler_type_t
     {
         compiler_type_t r = *this;
         r.is_prog = true;
+        return r;
+    }
+
+    compiler_type_t with_ref() const
+    {
+        compiler_type_t r{};
+        r.type = REF;
+        r.children.push_back(*this);
+        r.prim_size = is_prog ? 3 : 2;
         return r;
     }
 
@@ -483,7 +495,8 @@ private:
     compiler_lvalue_t resolve_lvalue(
         compiler_func_t const& f, compiler_frame_t const& frame,
         ast_node_t const& n);
-    compiler_lvalue_t return_lvalue(compiler_func_t const& f, compiler_frame_t const& frame);
+    void codegen_store_return(
+        compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
     
     void type_annotate_recurse(ast_node_t& n, compiler_frame_t const& frame);
     void type_reduce_recurse(ast_node_t& a, size_t size);
@@ -506,8 +519,8 @@ private:
     void codegen_expr_logical(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& a, std::string const& sc_label);
-    void codegen_store_lvalue(
-        compiler_func_t& f, compiler_frame_t& frame, compiler_lvalue_t const& lvalue);
+    void codegen_store(
+        compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a);
     void codegen_convert(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n,
@@ -545,6 +558,7 @@ private:
     // perform a series of peephole optimizations on a function
     void peephole(compiler_func_t& f);
     bool peephole_remove_pop(compiler_func_t& f);
+    bool peephole_simplify_derefs(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
     bool peephole_linc(compiler_func_t& f);
     bool peephole_ref(compiler_func_t& f);

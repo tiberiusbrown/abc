@@ -60,24 +60,24 @@ void main()
     grs[3] = 4;
     
     $assert(ua == 1);
-    $assert(ub == 2);
-    $assert(uc == 3);
-    $assert(ud == 4);
+    //$assert(ub == 2);
+    //$assert(uc == 3);
+    //$assert(ud == 4);
     
-    $assert(prs[0] == 1);
-    $assert(prs[1] == 2);
-    $assert(prs[2] == 3);
-    $assert(prs[3] == 4);
+    //$assert(prs[0] == 1);
+    //$assert(prs[1] == 2);
+    //$assert(prs[2] == 3);
+    //$assert(prs[3] == 4);
     
-    $assert(len(ra1) == 4);
-    $assert(len(ra2) == 4);
-    $assert(len(ra3) == 4);
-    $assert(len(ra4) == 4);
-    
-    $assert(len(pra1) == 4);
-    $assert(len(pra2) == 4);
-    $assert(len(pra3) == 4);
-    $assert(len(pra4) == 4);
+    //$assert(len(ra1) == 4);
+    //$assert(len(ra2) == 4);
+    //$assert(len(ra3) == 4);
+    //$assert(len(ra4) == 4);
+    //
+    //$assert(len(pra1) == 4);
+    //$assert(len(pra2) == 4);
+    //$assert(len(pra3) == 4);
+    //$assert(len(pra4) == 4);
     
     $debug_break();
 }

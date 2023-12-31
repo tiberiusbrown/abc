@@ -1,0 +1,23 @@
+struct foo_t
+{
+    u16[] prog& data;
+    bool whatever;
+};
+
+u16[4] prog data0 = { 100, 200, 300, 400 };
+
+foo_t[1] prog foo = {
+    { data0, true },
+};
+
+void main()
+{
+    $debug_break();
+    
+    $assert(foo[0].data[0] == 100);
+    //$assert(foo[0].data[0] == 200);
+    //$assert(foo[0].data[0] == 300);
+    //$assert(foo[0].data[0] == 400);
+    
+    $debug_break();
+}

@@ -1,0 +1,29 @@
+import map;
+import update;
+import render;
+import vars;
+
+void setup()
+{
+    $set_frame_rate(60);
+    current_map = 0;
+    camy = 64;
+}
+
+void loop()
+{
+    while(!$next_frame())
+        ;
+    
+    update();
+    render();
+    
+    $display();
+}
+
+void main()
+{
+    setup();
+    while(true)
+        loop();
+}

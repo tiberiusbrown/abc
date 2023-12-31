@@ -1,0 +1,27 @@
+constexpr sprites TILES = sprites{ 16x16 "assets/tiles.png" };
+
+void render()
+{
+    i8 cx = camx / 16;
+    i8 cy = camy / 16;
+    i8 xoff = -(camx & 15);
+    i8 yoff = -(camy & 15);
+    u16[] prog& m = map0;
+    u8 w = map_width();
+    for(u8 i = 0; i < 5; ++i)
+    {
+        i8 ty = i + cy;
+        for(u8 j = 0; j < 9; ++j)
+        {
+            i8 tx = j + cx;
+            u16 t = m[ty * w + tx];
+            if(t > 400)
+            {
+                $draw_textf(0, 0, FONT_BR6, "ty=%d tx=%d t=%u", ty, tx, t);
+                return;
+            }
+            if(t != 0)
+                $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t - 1);
+        }
+    }
+}
