@@ -4,6 +4,7 @@
     "sketch": "ards_vm.ino",
     "output": "build/",
     "buildPreferences": [
-        ["compiler.c.elf.extra_flags", "-Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x800639"]
+        ["compiler.c.elf.extra_flags", "-Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x800639"],
+        ["compiler.elf2hex.extra_flags", "-R .beforedata"]
     ]
 }
