@@ -1,21 +1,62 @@
 constexpr sprites TILES = sprites{ 16x16 "assets/tiles.png" };
+constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
+
+constexpr font FONT = FONT_BR6;
 
 void render()
 {
-    i8 cx = camx / 16;
-    i8 cy = camy / 16;
-    i8 xoff = -(camx & 15);
-    i8 yoff = -(camy & 15);
-    u16[] prog& m = map0;
-    u8 w = map_width();
-    for(u8 i = 0; i < 5; ++i)
+    // setup
+    int icamx = int($round(camx));
+    int icamy = int($round(camy));
+
+    // clamp camera to edge of map
     {
-        u16 index = (i + cy) * w + cx;
-        for(u8 j = 0; j < 9; ++j)
+        int xmax = map_width() * 16 - 129;
+        int ymax = map_height() * 16 - 65;
+
+        if(icamx < 0) icamx = 0;
+        if(icamy < 0) icamy = 0;
+        if(icamx > xmax) icamx = xmax;
+        if(icamy > ymax) icamy = ymax;
+    }
+
+    // render map tiles
+    {
+        i8 cx = icamx / 16;
+        i8 cy = icamy / 16;
+        i8 xoff = -(icamx & 15);
+        i8 yoff = -(icamy & 15);
+        u8[] prog& m = map0;
+        u8 w = map_width();
+
+        for(u8 i = 0; i < 5; ++i)
         {
-            u16 t = m[index + j];
-            if(t != 0)
-                $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t - 1);
+            u16 index = (i + cy) * w + cx;
+            for(u8 j = 0; j < 9; ++j)
+            {
+                u16 t = m[index + j];
+                if(t != 0)
+                    $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t - 1);
+            }
         }
+    }
+
+    // render player
+    {
+        u8 index = 0;
+        if(player_facing_right)
+            index += 7;
+        if(player_moving)
+            index += ((frame_count >> 2) & 3);
+
+        float x = px - camx - PXOFF;
+        float y = py - camy - PYOFF;
+        $draw_sprite_selfmask($round(x), $round(y), PLAYER, index);
+    }
+
+    // debug text
+    if(DEBUG_POS_VEL)
+    {
+        $draw_textf(0, 0, FONT, "px=%f vx=%f", px, vx);
     }
 }

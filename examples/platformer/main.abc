@@ -8,6 +8,9 @@ void setup()
     $set_frame_rate(60);
     current_map = 0;
     camy = 64;
+    px = 12;
+    py = 80;
+    player_facing_right = true;
 }
 
 void loop()

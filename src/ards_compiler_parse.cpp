@@ -272,11 +272,12 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         auto B = std::any_cast<ast_node_t>(v[1]);
         auto C = std::any_cast<ast_node_t>(v[2]);
         auto D = std::any_cast<ast_node_t>(v[3]);
-        a.children.push_back(A);
+        a.children.emplace_back(std::move(A));
         a.children.push_back({ v.line_info(), AST::WHILE_STMT, v.token() });
         auto& w = a.children.back();
-        w.children.push_back(B);
-        w.children.push_back(D);
+        w.children.emplace_back(std::move(B));
+        w.children.push_back({ D.line_info, AST::BLOCK, D.data });
+        w.children.back().children.emplace_back(std::move(D));
         w.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
         return a;
     };
@@ -629,23 +630,28 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return a;
     };
     p["if_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        auto B = std::any_cast<ast_node_t>(v[1]);
+        ast_node_t BB{ B.line_info, AST::BLOCK, B.data };
+        BB.children.emplace_back(std::move(B));
         ast_node_t a{
             v.line_info(), AST::IF_STMT, v.token(),
-            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
+            //{ std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
         };
+        a.children.push_back(std::any_cast<ast_node_t>(v[0]));
+        a.children.emplace_back(std::move(BB));
+        //a.children.emplace_back(std::move(B));
         // always include else clause, even if only an empty statement
         ast_node_t else_stmt{};
         if(v.size() >= 3)
-            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[2])));
+        {
+            auto E = std::any_cast<ast_node_t>(v[2]);
+            ast_node_t EB{ E.line_info, AST::BLOCK, E.data };
+            EB.children.emplace_back(std::move(E));
+            a.children.emplace_back(std::move(EB));
+        }
         else
             a.children.push_back({ {}, AST::EMPTY_STMT, "" });
         return a;
-    };
-    p["while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return {
-            v.line_info(), AST::WHILE_STMT, v.token(),
-            { std::any_cast<ast_node_t>(v[0]), std::any_cast<ast_node_t>(v[1]) }
-        };
     };
     p["expr_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         if(v.empty()) return { v.line_info(), AST::EMPTY_STMT, v.token() };
@@ -732,7 +738,10 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::WHILE_STMT, v.token() };
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
-        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
+        auto B = std::any_cast<ast_node_t>(v[1]);
+        ast_node_t block{ B.line_info, AST::BLOCK, B.data };
+        block.children.emplace_back(std::move(B));
+        a.children.emplace_back(std::move(block));
         return a;
     };
     p["return_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {

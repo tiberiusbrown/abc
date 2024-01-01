@@ -231,8 +231,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             f.instrs.push_back({ I_BZ, a.children[0].line(), 0, 0, end });
             frame.size -= 1;
         }
-        break_stack.push_back(end);
-        continue_stack.push_back(cont);
+        break_stack.push_back({ end, frame.size });
+        continue_stack.push_back({ cont, frame.size });
         size_t ni = f.instrs.size();
         codegen(f, frame, a.children[1]);
         if(is_for)
@@ -260,17 +260,19 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     case AST::BREAK_STMT:
     {
         assert(!break_stack.empty());
-        for(size_t i = 0; i < frame.scopes.back().size; ++i)
+        size_t n = frame.size - break_stack.back().second;
+        for(size_t i = 0; i < n; ++i)
             f.instrs.push_back({ I_POP, a.line() });
-        f.instrs.push_back({ I_JMP, a.line(), 0, 0, break_stack.back() });
+        f.instrs.push_back({ I_JMP, a.line(), 0, 0, break_stack.back().first });
         break;
     }
     case AST::CONTINUE_STMT:
     {
-        assert(!break_stack.empty());
-        for(size_t i = 0; i < frame.scopes.back().size; ++i)
+        assert(!continue_stack.empty());
+        size_t n = frame.size - continue_stack.back().second;
+        for(size_t i = 0; i < n; ++i)
             f.instrs.push_back({ I_POP, a.line()});
-        f.instrs.push_back({ I_JMP, a.line(), 0, 0, continue_stack.back() });
+        f.instrs.push_back({ I_JMP, a.line(), 0, 0, continue_stack.back().first });
         break;
     }
     case AST::BLOCK:

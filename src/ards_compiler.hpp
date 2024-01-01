@@ -598,9 +598,9 @@ private:
     std::vector<error_t> errs;
     std::vector<error_t> warns;
 
-    // loop label stack
-    std::vector<std::string> break_stack;
-    std::vector<std::string> continue_stack;
+    // loop label stack: [label, frame size] pair
+    std::vector<std::pair<std::string, size_t>> break_stack;
+    std::vector<std::pair<std::string, size_t>> continue_stack;
 
     // track files already parsed
     std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;

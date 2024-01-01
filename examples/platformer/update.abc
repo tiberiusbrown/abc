@@ -2,16 +2,42 @@ void update()
 {
     $poll_buttons();
 
-    if($pressed(UP_BUTTON   )) camy -= CAM_SPEED;
-    if($pressed(DOWN_BUTTON )) camy += CAM_SPEED;
-    if($pressed(LEFT_BUTTON )) camx -= CAM_SPEED;
-    if($pressed(RIGHT_BUTTON)) camx += CAM_SPEED;
+    // player acceleration
+    float ax = 0;
+    float ay = 0;
 
-    int xmax = map_width() * 16 - 129;
-    int ymax = map_height() * 16 - 65;
+    player_moving = (vx < -0.3 || vx > 0.3);
 
-    if(camx < 0) camx = 0;
-    if(camy < 0) camy = 0;
-    if(camx > xmax) camx = xmax;
-    if(camy > ymax) camy = ymax;
+    // apply user input
+    if($pressed(LEFT_BUTTON ))
+    {
+        ax -= PLAYER_MOVE_ACCEL;
+        player_facing_right = false;
+        player_moving = true;
+    }
+    if($pressed(RIGHT_BUTTON))
+    {
+        ax += PLAYER_MOVE_ACCEL;
+        player_facing_right = true;
+        player_moving = true;
+    }
+
+    // apply friction
+    ax += (-PLAYER_FRICTION * vx);
+
+    // player velocity update
+    vx += ax;
+    vy += ay;
+
+    // clamp velocity
+    if     (vx < -PLAYER_MAX_VEL_X) vx = -PLAYER_MAX_VEL_X;
+    else if(vx >  PLAYER_MAX_VEL_X) vx =  PLAYER_MAX_VEL_X;
+    if     (vy < -PLAYER_MAX_VEL_Y) vy = -PLAYER_MAX_VEL_Y;
+    else if(vy >  PLAYER_MAX_VEL_Y) vy =  PLAYER_MAX_VEL_Y;
+
+    // player position update
+    px += vx;
+    py += vy;
+
+    ++frame_count;
 }

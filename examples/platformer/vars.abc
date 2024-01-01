@@ -1,4 +1,49 @@
-int camx, camy;
+// debug toggles
+constexpr bool DEBUG_POS_VEL = true;
+
+// frame counter: increments each frame
+u8 frame_count;
+
+// camera position
+float camx, camy;
+
+// index of current map
 u8 current_map;
 
-constexpr int CAM_SPEED = 1;
+// player position and velocity
+float px, py, vx, vy;
+
+// player direction
+bool player_facing_right;
+
+// decides whether to animate the player sprite
+bool player_moving;
+
+//
+// Constants for player rendering
+//
+
+// player half extents (sides)
+constexpr float PHEH = 7;
+
+// player half extents (top/bottom)
+constexpr float PHEV = 6;
+
+// player sprite offset
+constexpr float PXOFF = 8;
+constexpr float PYOFF = 10;
+
+//
+// Constants for player dynamics
+//
+
+// player horizontal acceleration: on the ground or in the air
+constexpr float PLAYER_MOVE_ACCEL = 0.2;
+constexpr float PLAYER_MOVE_AIR_ACCEL = 0.2;
+
+// velocity clamps
+constexpr float PLAYER_MAX_VEL_X = 2.0;
+constexpr float PLAYER_MAX_VEL_Y = 4.0;
+
+// friction: coefficient of velocity applied to acceleration
+constexpr float PLAYER_FRICTION = 0.1;
