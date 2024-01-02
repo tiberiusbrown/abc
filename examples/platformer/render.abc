@@ -34,9 +34,9 @@ void render()
             u16 index = (i + cy) * w + cx;
             for(u8 j = 0; j < 9; ++j)
             {
-                u16 t = m[index + j];
-                if(t != 0)
-                    $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t - 1);
+                u8 t = m[index + j] - 1;
+                if(t < 240)
+                    $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
             }
         }
     }
@@ -64,6 +64,6 @@ void render()
     // debug text
     if(DEBUG_POS_VEL)
     {
-        $draw_textf(0, 0, FONT, "px=%f vx=%f\npy=%f vy=%f", px, vx, py, vy);
+        $draw_textf(0, 0, FONT, "camx=%f dcamx=%f", camx, dcamx);
     }
 }

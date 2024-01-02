@@ -4,8 +4,8 @@ constexpr bool DEBUG_POS_VEL = true;
 // frame counter: increments each frame
 u8 frame_count;
 
-// camera position
-float camx, camy;
+// camera position and velocity
+float camx, camy, dcamx;
 
 // index of current map
 u8 current_map;
@@ -30,7 +30,15 @@ constexpr float PHEV = 6;
 
 // player sprite offset
 constexpr float PXOFF = 8;
-constexpr float PYOFF = 10;
+constexpr float PYOFF = 11;
+
+// camera motion smoothing parameters
+constexpr float CAMERA_UPDATE_X_OMEGA = 20;
+constexpr float CAMERA_UPDATE_X_ZETA = 1;
+constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
+constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
+constexpr float CAMERA_UPDATE_X_DT = 0.01;
+constexpr float CAMERA_UPDATE_Y_FACTOR = 0.1;
 
 //
 // Constants for player dynamics
@@ -40,7 +48,7 @@ constexpr float GRAVITY = 0.2;
 
 // player horizontal acceleration: on the ground or in the air
 constexpr float PLAYER_MOVE_ACCEL = 0.2;
-constexpr float PLAYER_MOVE_AIR_ACCEL = 0.1;
+constexpr float PLAYER_MOVE_AIR_ACCEL = 0.125;
 
 constexpr float PLAYER_JUMP_VEL = 3.8;
 

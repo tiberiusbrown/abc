@@ -141,5 +141,32 @@ void update()
         }
     }
 
+    // update camera position
+    {
+        float tcamy = py - 34;
+        float tcamx = px - 64;
+        float xmax = map_width() * 16 - 129;
+        float ymax = map_height() * 16 - 65;
+        if(player_facing_right)
+            tcamx += 32;
+        else
+            tcamx -= 32;
+        if($pressed(UP_BUTTON))
+            tcamy -= 22;
+        if($pressed(DOWN_BUTTON))
+            tcamy += 26;
+        if(tcamx < 0) tcamx = 0;
+        if(tcamy < 0) tcamy = 0;
+        if(tcamx > xmax) tcamx = xmax;
+        if(tcamy > ymax) tcamy = ymax;
+        camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
+
+        float d2camx =
+            (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
+            dcamx * CAMERA_UPDATE_X_BETA;
+        camx += dcamx * CAMERA_UPDATE_X_DT;
+        dcamx += d2camx * CAMERA_UPDATE_X_DT;
+    }
+
     ++frame_count;
 }

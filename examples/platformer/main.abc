@@ -5,7 +5,7 @@ import vars;
 
 void setup()
 {
-    $set_frame_rate(60);
+    $set_frame_rate(50);
     current_map = 0;
     camy = 64;
     px = 30;
