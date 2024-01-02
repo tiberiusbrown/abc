@@ -4,17 +4,61 @@ struct map_info_t
     u8 w, h;
 };
 
+//
+// Map element constants
+//
+
+constexpr u8 TILE_PLAYER = 240;
+
+void load_map(u8 index)
+{
+    current_map = index;
+    player_facing_right = true;
+    u8[] prog& map = maps[index].map;
+    u8 w = map_width();
+    u8 h = map_height();
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
+        objects[i].type = OBJ_NONE;
+    for(u8 y = 0; y < h; ++y)
+    {
+        for(u8 x = 0; x < w; ++x)
+        {
+            u8 t = map[y * w + x] - 1;
+            process_map_tile(x, y, t);
+        }
+    }
+}
+
+void process_map_tile(u8 x, u8 y, u8 t)
+{
+    if(t < 240) return;
+    if(t == TILE_PLAYER)
+    {
+        px = x * 16 + PXOFF;
+        py = y * 16 + PYOFF;
+        camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;
+        camy = py - CAMERA_OFFSET_Y;
+        float xmax = map_width() * 16 - 129;
+        float ymax = map_height() * 16 - 65;
+        if(camx < 0) camx = 0;
+        if(camy < 0) camy = 0;
+        if(camx > xmax) camx = xmax;
+        if(camy > ymax) camy = ymax;
+        dcamx = 0;
+    }
+}
+
 u8 map_width()  { return maps[current_map].w; }
 u8 map_height() { return maps[current_map].h; }
 
 u8[8 * 32] prog map0 = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 84, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0,
-    52, 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0,
+    0, 0, 241, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2
 };
 

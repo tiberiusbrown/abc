@@ -143,18 +143,18 @@ void update()
 
     // update camera position
     {
-        float tcamy = py - 34;
-        float tcamx = px - 64;
+        float tcamy = py - CAMERA_OFFSET_Y;
+        float tcamx = px - CAMERA_OFFSET_X;
         float xmax = map_width() * 16 - 129;
         float ymax = map_height() * 16 - 65;
         if(player_facing_right)
-            tcamx += 32;
+            tcamx += CAMERA_OFFSET_X_DELTA;
         else
-            tcamx -= 32;
+            tcamx -= CAMERA_OFFSET_X_DELTA;
         if($pressed(UP_BUTTON))
-            tcamy -= 22;
+            tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
         if($pressed(DOWN_BUTTON))
-            tcamy += 26;
+            tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
         if(tcamx < 0) tcamx = 0;
         if(tcamy < 0) tcamy = 0;
         if(tcamx > xmax) tcamx = xmax;

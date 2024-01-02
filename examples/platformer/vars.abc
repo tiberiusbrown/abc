@@ -1,6 +1,3 @@
-// debug toggles
-constexpr bool DEBUG_POS_VEL = true;
-
 // frame counter: increments each frame
 u8 frame_count;
 
@@ -9,6 +6,13 @@ float camx, camy, dcamx;
 
 // index of current map
 u8 current_map;
+
+// map objects
+constexpr u8 MAX_OBJECTS = 16;
+constexpr u8 OBJ_NONE = 0;
+constexpr u8 OBJ_COIN = 1;
+struct map_object_t { u8 x, y, type; };
+map_object_t[MAX_OBJECTS] objects;
 
 // player position and velocity
 float px, py, vx, vy;
@@ -31,6 +35,12 @@ constexpr float PHEV = 6;
 // player sprite offset
 constexpr float PXOFF = 8;
 constexpr float PYOFF = 11;
+
+constexpr float CAMERA_OFFSET_X = 64;
+constexpr float CAMERA_OFFSET_X_DELTA = 32;
+constexpr float CAMERA_OFFSET_Y = 34;
+constexpr float CAMERA_OFFSET_Y_DELTA_UP = 22;
+constexpr float CAMERA_OFFSET_Y_DELTA_DOWN = 26;
 
 // camera motion smoothing parameters
 constexpr float CAMERA_UPDATE_X_OMEGA = 20;

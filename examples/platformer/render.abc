@@ -60,10 +60,4 @@ void render()
         float y = py - camy - PYOFF;
         $draw_sprite_selfmask($round(x), $round(y), PLAYER, index);
     }
-
-    // debug text
-    if(DEBUG_POS_VEL)
-    {
-        $draw_textf(0, 0, FONT, "camx=%f dcamx=%f", camx, dcamx);
-    }
 }

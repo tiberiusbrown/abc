@@ -85,9 +85,18 @@ int main(int argc, char** argv)
     c.compile(psrc.parent_path().generic_string(), psrc.stem().generic_string(), fasm);
     for(auto const& e : c.errors())
     {
-        std::cerr << "Compiler Error" << std::endl;
-        std::cerr << /* argv[2] << ":" << */ e.line_info.first << ":" << e.line_info.second << std::endl;
-        std::cerr << e.msg << std::endl;
+        //std::cerr << "Compiler Error" << std::endl;
+        //std::cerr << /* argv[2] << ":" << */ e.line_info.first << ":" << e.line_info.second << std::endl;
+        //std::cerr << e.msg << std::endl;
+        std::cerr
+            << c.error_file()
+            << ":"
+            << e.line_info.first
+            << ":"
+            << e.line_info.second
+            << ": error: "
+            << e.msg
+            << std::endl;
     }
     if(!c.errors().empty())
         return 1;
