@@ -176,6 +176,15 @@ struct compiler_type_t
 	{
 		return is_ref() ? children[0].without_ref() : *this;
 	}
+    bool is_prog_array() const
+    {
+        if(is_ref())
+            return children[0].is_prog_array();
+        if(is_array() || is_array_ref())
+            return children[0].is_prog;
+        assert(false);
+        return false;
+    }
 	compiler_type_t sized_to(size_t size) const
     {
         assert(type == PRIM);

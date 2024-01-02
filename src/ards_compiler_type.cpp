@@ -461,7 +461,8 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
     switch(a.type)
     {
     case AST::ARRAY_INDEX:
-        type_reduce_recurse(a.children[1], std::min<size_t>(2, min_size));
+        type_reduce_recurse(
+            a.children[1], a.children[0].comp_type.is_prog_array() ? 3 : 2);
         break;
     case AST::OP_CAST:
         if(a.children[0].comp_type.is_bool)

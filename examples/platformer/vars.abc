@@ -37,6 +37,8 @@ constexpr float PYOFF = 10;
 // Constants for player dynamics
 //
 
+constexpr float GRAVITY = 0.2;
+
 // player horizontal acceleration: on the ground or in the air
 constexpr float PLAYER_MOVE_ACCEL = 0.2;
 constexpr float PLAYER_MOVE_AIR_ACCEL = 0.2;

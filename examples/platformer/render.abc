@@ -26,7 +26,7 @@ void render()
         i8 cy = icamy / 16;
         i8 xoff = -(icamx & 15);
         i8 yoff = -(icamy & 15);
-        u8[] prog& m = map0;
+        u8[] prog& m = maps[current_map].map;
         u8 w = map_width();
 
         for(u8 i = 0; i < 5; ++i)
@@ -57,6 +57,6 @@ void render()
     // debug text
     if(DEBUG_POS_VEL)
     {
-        $draw_textf(0, 0, FONT, "px=%f vx=%f", px, vx);
+        $draw_textf(0, 0, FONT, "px=%f vx=%f\npy=%f vy=%f", px, vx, py, vy);
     }
 }

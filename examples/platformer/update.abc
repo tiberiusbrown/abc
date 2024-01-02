@@ -1,3 +1,35 @@
+bool solid(float x, float y)
+{
+    int ix = $round(x);
+    int iy = $round(y);
+
+    // collision against left map edge
+    if(ix < 0)
+        return true;
+    
+    // allow the player to shoot into the sky
+    if(iy < 0)
+        return false;
+
+    ix >>= 4;
+    iy >>= 4;
+    u8 w = map_width();
+
+    // collision against right map edge
+    if(ix >= w)
+        return true;
+
+    // allow the player to fall through the floor
+    if(iy >= map_height())
+        return false;
+    u8 t = maps[current_map].map[iy * w + ix];
+    if(t == 0) return false;
+    t += 1;
+    if(t < 64) return true;
+    if(t < 96 && vy > 0) return true;
+    return false;
+}
+
 void update()
 {
     $poll_buttons();
@@ -25,6 +57,9 @@ void update()
     // apply friction
     ax += (-PLAYER_FRICTION * vx);
 
+    // apply gravity
+    ay += GRAVITY;
+
     // player velocity update
     vx += ax;
     vy += ay;
@@ -38,6 +73,39 @@ void update()
     // player position update
     px += vx;
     py += vy;
+
+    // collision checking
+    bool BL = solid(px - PHEH, py + PHEV);
+    bool BR = solid(px + PHEH, py + PHEV);
+    bool UL = solid(px - PHEH, py - PHEV);
+    bool UR = solid(px + PHEH, py - PHEV);
+
+    // resolve collision: bottom
+    if(BL || BR)
+    {
+        vy = 0;
+        py -= $mod(py + (PHEV + 0.5), 16);
+    }
+
+    // resolve collision: top
+    else if(UL || UR)
+    {
+        vy = 0;
+
+    }
+
+    // resolve collision: left
+    if(BL || UL)
+    {
+        vx = 0;
+    }
+
+    // resolve collision: left
+    else if(BR || UR)
+    {
+        vx = 0;
+        px -= $mod(px + (PHEH + 0.5), 16);
+    }
 
     ++frame_count;
 }

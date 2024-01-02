@@ -11,11 +11,12 @@ void compiler_t::resolve_format_call(
 {
     assert(decl.arg_types.size() >= 1);
     assert(n.children.size() >= decl.arg_types.size());
-    std::string_view d;
+    std::vector<uint8_t> strlit;
     {
         auto const& nc = n.children[decl.arg_types.size() - 1];
-        d = nc.type == AST::STRING_LITERAL ? nc.data : nc.children[0].data;
+        strlit = strlit_data(nc.type == AST::STRING_LITERAL ? nc : nc.children[0]);
     }
+    std::string_view d((char const*)strlit.data(), strlit.size());
 
     fmt.clear();
     arg_types = decl.arg_types;
