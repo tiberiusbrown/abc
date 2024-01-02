@@ -1,4 +1,4 @@
-bool solid(float x, float y)
+bool solid(float x, float y, bool bottom)
 {
     int ix = $floor(x);
     int iy = $floor(y);
@@ -26,7 +26,7 @@ bool solid(float x, float y)
     if(t == 0) return false;
     t += 1;
     if(t < 64) return true;
-    if(t < 96 && vy > 0) return true;
+    if(t < 96 && bottom) return true;
     return false;
 }
 
@@ -40,20 +40,27 @@ void update()
 
     player_moving = (vx < -0.3 || vx > 0.3);
 
-    // apply user input
-    if($pressed(LEFT_BUTTON ))
+    // apply user input: move left and right
     {
-        ax -= PLAYER_MOVE_ACCEL;
-        player_facing_right = false;
-        player_moving = true;
-    }
-    if($pressed(RIGHT_BUTTON))
-    {
-        ax += PLAYER_MOVE_ACCEL;
-        player_facing_right = true;
-        player_moving = true;
+        float a = PLAYER_MOVE_AIR_ACCEL;
+        if(player_on_ground)
+            a = PLAYER_MOVE_ACCEL;
+
+        if($pressed(LEFT_BUTTON ))
+        {
+            ax -= a;
+            player_facing_right = false;
+            player_moving = true;
+        }
+        if($pressed(RIGHT_BUTTON))
+        {
+            ax += a;
+            player_facing_right = true;
+            player_moving = true;
+        }
     }
 
+    // apply user input: jump
     if(player_on_ground && $just_pressed(A_BUTTON))
     {
         vy -= PLAYER_JUMP_VEL;
@@ -81,37 +88,57 @@ void update()
 
     player_on_ground = false;
 
-    // resolve collision: bottom
-    if( solid(px - (PHEH - 1), py + PHEV) ||
-        solid(px + (PHEH - 1), py + PHEV) )
+    // resolve collision: left
+    if(vx < 0 && (
+        solid(px - PHEH, py - (PHEV - 1), false) ||
+        solid(px - PHEH, py + (PHEV - 1), false) ))
     {
-        vy = 0;
-        py -= $mod(py + (PHEV + 0.1), 16);
-        player_on_ground = true;
+        float t = 16 - $mod(px - (PHEH + 0.1 - 16), 16);
+        if(t <= PLAYER_MAX_VEL_X)
+        {
+            vx = 0;
+            px += t;
+        }
+    }
+
+    // resolve collision: left
+    else if(vx > 0 && (
+        solid(px + PHEH, py - (PHEV - 1), false) ||
+        solid(px + PHEH, py + (PHEV - 1), false) ))
+    {
+        float t = $mod(px + (PHEH + 0.1), 16);
+        if(t <= PLAYER_MAX_VEL_X)
+        {
+            vx = 0;
+            px -= t;
+        }
+    }
+
+    // resolve collision: bottom
+    if(vy > 0 && (
+        solid(px - (PHEH - 1), py + PHEV, true) ||
+        solid(px + (PHEH - 1), py + PHEV, true) ))
+    {
+        float t = $mod(py + (PHEV + 0.1), 16);
+        if(t <= PLAYER_MAX_VEL_Y)
+        {
+            vy = 0;
+            py -= t;
+            player_on_ground = true;
+        }
     }
 
     // resolve collision: top
-    else if( solid(px - (PHEH - 1), py - PHEV) ||
-             solid(px + (PHEH - 1), py - PHEV) )
+    else if(vy < 0 && (
+        solid(px - (PHEH - 1), py - PHEV, false) ||
+        solid(px + (PHEH - 1), py - PHEV, false) ))
     {
-        vy = 0;
-        py -= $mod(py - (PHEV + 0.1), 16);
-    }
-
-    // resolve collision: left
-    if( solid(px - PHEH, py - (PHEV - 1)) ||
-        solid(px - PHEH, py + (PHEV - 1)) )
-    {
-        vx = 0;
-        px -= $mod(px - (PHEH + 0.1), 16);
-    }
-
-    // resolve collision: left
-    else if( solid(px + PHEH, py - (PHEV - 1)) ||
-             solid(px + PHEH, py + (PHEV - 1)) )
-    {
-        vx = 0;
-        px -= $mod(px + (PHEH + 0.1), 16);
+        float t = 16 - $mod(py - (PHEV + 0.1 - 16), 16);
+        if(t <= PLAYER_MAX_VEL_Y)
+        {
+            vy = 0;
+            py += t;
+        }
     }
 
     ++frame_count;
