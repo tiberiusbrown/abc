@@ -141,6 +141,15 @@ void update()
         }
     }
 
+    // map object updates
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
+    {
+        map_object_t& obj = objects[i];
+        if(obj.type == OBJ_NONE)
+            continue;
+        update_object(obj);
+    }
+
     // update camera position
     {
         float tcamy = py - CAMERA_OFFSET_Y;
@@ -169,4 +178,13 @@ void update()
     }
 
     ++frame_count;
+}
+
+void update_object(map_object_t& obj)
+{
+    //if(obj.type == OBJ_COIN)
+    //{
+    //    obj.type = OBJ_NONE;
+    //    $tones_play(SOUND_COIN);
+    //}
 }

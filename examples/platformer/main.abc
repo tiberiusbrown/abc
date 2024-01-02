@@ -1,6 +1,7 @@
 import map;
 import update;
 import render;
+import sounds;
 import vars;
 
 void setup()

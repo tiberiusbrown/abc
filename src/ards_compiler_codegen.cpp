@@ -551,13 +551,16 @@ void compiler_t::codegen_convert(
             return;
         }
     }
-    while(pfrom->is_ref())
+    while(pfrom->is_ref() && *pfrom != orig_to)
     {
         pfrom = &pfrom->children[0];
         codegen_dereference(f, frame, n, *pfrom);
     }
     auto const& from = *pfrom;
     assert(from.prim_size != 0);
+
+    if(*pfrom == orig_to)
+        return;
 
     auto const& to = orig_to.without_ref_single();
 

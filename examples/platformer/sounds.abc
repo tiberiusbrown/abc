@@ -1,0 +1,2 @@
+// coin collection sfx
+constexpr tones SOUND_COIN = tones{ B5 100 E6 200 };

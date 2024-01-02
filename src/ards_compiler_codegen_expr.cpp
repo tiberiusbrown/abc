@@ -406,7 +406,7 @@ void compiler_t::codegen_expr(
             else
             {
                 codegen_expr(f, frame, expr, tref);
-                if(!type.is_any_ref())
+                //if(!type.is_any_ref())
                     codegen_convert(f, frame, a, type, expr.comp_type);
             }
         }

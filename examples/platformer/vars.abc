@@ -4,6 +4,9 @@ u8 frame_count;
 // camera position and velocity
 float camx, camy, dcamx;
 
+// current score
+u16 score;
+
 // index of current map
 u8 current_map;
 

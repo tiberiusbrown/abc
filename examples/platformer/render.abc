@@ -46,7 +46,7 @@ void render()
     {
         map_object_t obj = objects[i];
         if(obj.type == OBJ_NONE)
-            break;
+            continue;
         u8 t = 241;
 
         $draw_sprite_selfmask(obj.x * 16 - icamx, obj.y * 16 - icamy, TILES, t);
