@@ -4,7 +4,7 @@ bubble3                    71002     2380767       33.53x
 bubble4                    89146     2547029       28.57x
 fibonacci                  87831     1776046       20.22x
 sieve                       1805       94705       52.47x
-text                      209543       94183        0.45x
-tilessprite                44482      203069        4.57x
-tilessprite16              26978       67029        2.48x
+text                      209543       94234        0.45x
+tilessprite                44482      204468        4.60x
+tilessprite16              26978       67381        2.50x
 tilesrect                 257725      109906        0.43x
