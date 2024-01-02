@@ -122,7 +122,7 @@ inline void vm_push(T x)
 
 static void sys_display()
 {
-    FX::disable();
+    (void)FX::readEnd();
     FX::display(true);
     FX::seekData(ards::vm.pc);
 }
@@ -347,7 +347,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     uint24_t image = vm_pop<uint24_t>(ptr);
     uint16_t frame = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(image);
     uint8_t w = FX::readPendingUInt8();
     uint8_t h = FX::readPendingUInt8();
@@ -388,7 +388,7 @@ static void sys_draw_text()
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     
-    FX::disable();
+    (void)FX::readEnd();
     uint8_t w, h, line_height;
     FX::seekData(font + 512);
     line_height = FX::readPendingUInt8();
@@ -428,7 +428,7 @@ static void sys_draw_text_P()
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     
-    FX::disable();
+    (void)FX::readEnd();
     uint8_t w, h, line_height;
     FX::seekData(font + 512);
     line_height = FX::readPendingUInt8();
@@ -469,7 +469,7 @@ static void sys_text_width()
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     
-    FX::disable();
+    (void)FX::readEnd();
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
     uint16_t wmax = 0;
@@ -503,7 +503,7 @@ static void sys_text_width_P()
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     
-    FX::disable();
+    (void)FX::readEnd();
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
     uint16_t wmax = 0;
@@ -555,7 +555,7 @@ static void sys_strlen_P()
     uint24_t n = vm_pop<uint24_t>(ptr);
     uint24_t b = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(b);
     uint24_t t = 0;
     while(FX::readPendingUInt8() != '\0')
@@ -564,7 +564,7 @@ static void sys_strlen_P()
         if(--n == 0) break;
     }
     vm_push(t);
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(ards::vm.pc);
 }
 
@@ -599,7 +599,7 @@ static void sys_strcmp_P()
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(b1);
     char const* p0 = reinterpret_cast<char const*>(b0);
     char c0, c1;
@@ -613,7 +613,7 @@ static void sys_strcmp_P()
         if(c0 != c1) break;
     }
     vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(ards::vm.pc);
 }
 
@@ -916,7 +916,7 @@ static void sys_format()
     uint16_t dn = vm_pop<uint16_t>(ptr);
     uint16_t db = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    FX::disable();
+    (void)FX::readEnd();
     
     format_db = db;
     format_dn = dn;
@@ -945,7 +945,7 @@ static void sys_draw_textf()
         user.y = vm_pop<int16_t> (ptr);
         user.font = vm_pop<uint24_t>(ptr);
         vm_pop_end(ptr);
-        FX::disable();
+        (void)FX::readEnd();
     }
     
     FX::seekData(user.font + 512);
@@ -967,7 +967,7 @@ static void sys_tones_play()
     if(!Arduboy2Audio::enabled())
         return;
     
-    FX::disable();
+    (void)FX::readEnd();
     
     ards::Tones::play(song);
     
@@ -998,7 +998,7 @@ static void sys_audio_toggle()
 static void sys_save_exists()
 {
     uint16_t save_size;
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(10);
     save_size = FX::readPendingUInt8();
     save_size |= ((uint16_t)FX::readPendingLastUInt8() << 8);
@@ -1017,7 +1017,7 @@ static void sys_save_exists()
 static void sys_save()
 {
     uint16_t save_size;
-    FX::disable();
+    (void)FX::readEnd();
     FX::seekData(10);
     save_size = FX::readPendingUInt8();
     save_size |= ((uint16_t)FX::readPendingLastUInt8() << 8);
@@ -1030,7 +1030,7 @@ static void sys_save()
 static void sys_load()
 {
     uint16_t save_size;
-    FX::disable();
+    (void)FX::readEnd();
     FX::readDataBytes(10, (uint8_t*)&save_size, 2);
     bool r = false;
     if(save_size > 0 && save_size <= 1024)
