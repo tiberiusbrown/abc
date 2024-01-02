@@ -46,8 +46,15 @@ void render()
         u8 index = 0;
         if(player_facing_right)
             index += 7;
-        if(player_moving)
-            index += ((frame_count >> 3) & 3);
+        if(player_on_ground)
+        {
+            if(player_moving)
+                index += ((frame_count >> 3) & 3);
+        }
+        else
+        {
+            index += 4;
+        }
 
         float x = px - camx - PXOFF;
         float y = py - camy - PYOFF;

@@ -1,7 +1,7 @@
 bool solid(float x, float y)
 {
-    int ix = $round(x);
-    int iy = $round(y);
+    int ix = $floor(x);
+    int iy = $floor(y);
 
     // collision against left map edge
     if(ix < 0)
@@ -54,6 +54,11 @@ void update()
         player_moving = true;
     }
 
+    if(player_on_ground && $just_pressed(A_BUTTON))
+    {
+        vy -= PLAYER_JUMP_VEL;
+    }
+
     // apply friction
     ax += (-PLAYER_FRICTION * vx);
 
@@ -74,37 +79,39 @@ void update()
     px += vx;
     py += vy;
 
-    // collision checking
-    bool BL = solid(px - PHEH, py + PHEV);
-    bool BR = solid(px + PHEH, py + PHEV);
-    bool UL = solid(px - PHEH, py - PHEV);
-    bool UR = solid(px + PHEH, py - PHEV);
+    player_on_ground = false;
 
     // resolve collision: bottom
-    if(BL || BR)
+    if( solid(px - (PHEH - 1), py + PHEV) ||
+        solid(px + (PHEH - 1), py + PHEV) )
     {
         vy = 0;
-        py -= $mod(py + (PHEV + 0.5), 16);
+        py -= $mod(py + (PHEV + 0.1), 16);
+        player_on_ground = true;
     }
 
     // resolve collision: top
-    else if(UL || UR)
+    else if( solid(px - (PHEH - 1), py - PHEV) ||
+             solid(px + (PHEH - 1), py - PHEV) )
     {
         vy = 0;
-
+        py -= $mod(py - (PHEV + 0.1), 16);
     }
 
     // resolve collision: left
-    if(BL || UL)
+    if( solid(px - PHEH, py - (PHEV - 1)) ||
+        solid(px - PHEH, py + (PHEV - 1)) )
     {
         vx = 0;
+        px -= $mod(px - (PHEH + 0.1), 16);
     }
 
     // resolve collision: left
-    else if(BR || UR)
+    else if( solid(px + PHEH, py - (PHEV - 1)) ||
+             solid(px + PHEH, py + (PHEV - 1)) )
     {
         vx = 0;
-        px -= $mod(px + (PHEH + 0.5), 16);
+        px -= $mod(px + (PHEH + 0.1), 16);
     }
 
     ++frame_count;

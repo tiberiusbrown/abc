@@ -13,11 +13,10 @@ u8 current_map;
 // player position and velocity
 float px, py, vx, vy;
 
-// player direction
+// flags for rendering player
 bool player_facing_right;
-
-// decides whether to animate the player sprite
 bool player_moving;
+bool player_on_ground;
 
 //
 // Constants for player rendering
@@ -42,6 +41,8 @@ constexpr float GRAVITY = 0.2;
 // player horizontal acceleration: on the ground or in the air
 constexpr float PLAYER_MOVE_ACCEL = 0.2;
 constexpr float PLAYER_MOVE_AIR_ACCEL = 0.2;
+
+constexpr float PLAYER_JUMP_VEL = 3.8;
 
 // velocity clamps
 constexpr float PLAYER_MAX_VEL_X = 2.0;
