@@ -17,8 +17,12 @@ void load_map(u8 index)
     u8[] prog& map = maps[index].map;
     u8 w = map_width();
     u8 h = map_height();
+
+    // reset map objects
     for(u8 i = 0; i < MAX_OBJECTS; ++i)
-        objects[i].type = OBJ_NONE;
+        objects[i] = { 0, 0, OBJ_NONE };
+    
+    // look through all map tiles for objects
     for(u8 y = 0; y < h; ++y)
     {
         for(u8 x = 0; x < w; ++x)
@@ -32,8 +36,10 @@ void load_map(u8 index)
 void process_map_tile(u8 x, u8 y, u8 t)
 {
     if(t < 240) return;
+
     if(t == TILE_PLAYER)
     {
+        // set initial player/camera position
         px = x * 16 + PXOFF;
         py = y * 16 + PYOFF;
         camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;

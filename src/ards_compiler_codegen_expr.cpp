@@ -442,7 +442,7 @@ void compiler_t::codegen_expr(
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a, a.children[0].comp_type.without_ref(), a.children[1].comp_type);
         }
-        else if(type_noref.type == compiler_type_t::ARRAY)
+        else if(type_noref.is_array())
         {
             if(a.children[1].type == AST::COMPOUND_LITERAL)
                 codegen_expr_compound(f, frame, a.children[1], type_noref);
@@ -470,6 +470,20 @@ void compiler_t::codegen_expr(
                     codegen_dereference(f, frame, a, a.children[1].comp_type.without_ref());
                 codegen_convert(f, frame, a, type_noref, a.children[1].comp_type.without_ref());
             }
+        }
+        else if(type_noref.is_struct())
+        {
+            if(a.children[1].type == AST::COMPOUND_LITERAL)
+                codegen_expr_compound(f, frame, a.children[1], type_noref);
+            else
+            {
+                codegen_expr(f, frame, a.children[1], false);
+                codegen_convert(f, frame, a, type_noref, a.children[1].comp_type);
+            }
+        }
+        else
+        {
+            assert(false);
         }
 
         // dup value if not the root op
