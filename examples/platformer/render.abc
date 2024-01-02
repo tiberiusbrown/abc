@@ -41,6 +41,17 @@ void render()
         }
     }
 
+    // render objects
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
+    {
+        map_object_t obj = objects[i];
+        if(obj.type == OBJ_NONE)
+            break;
+        u8 t = 241;
+
+        $draw_sprite_selfmask(obj.x * 16 - icamx, obj.y * 16 - icamy, TILES, t);
+    }
+
     // render player
     {
         u8 index = 0;
