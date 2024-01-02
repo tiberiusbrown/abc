@@ -14,7 +14,12 @@ u8 current_map;
 constexpr u8 MAX_OBJECTS = 16;
 constexpr u8 OBJ_NONE = 0;
 constexpr u8 OBJ_COIN = 1;
-struct map_object_t { u8 x, y, type; };
+struct map_object_t
+{
+    u8 type;
+    i16 x, y; // sprite position
+    u8 xo, yo, w, h; // bounding box
+};
 map_object_t[MAX_OBJECTS] objects;
 
 // player position and velocity

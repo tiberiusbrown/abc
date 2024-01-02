@@ -57,7 +57,7 @@ void process_map_tile(u8 x, u8 y, u8 t)
     }
     else if(t == TILE_COIN)
     {
-        add_object({ x, y, OBJ_COIN });
+        add_object({ OBJ_COIN, x * 16, y * 16, 3, 3, 10, 10 });
     }
 }
 

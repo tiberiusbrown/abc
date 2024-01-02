@@ -49,7 +49,7 @@ void render()
             continue;
         u8 t = 241;
 
-        $draw_sprite_selfmask(obj.x * 16 - icamx, obj.y * 16 - icamy, TILES, t);
+        $draw_sprite_selfmask(obj.x - icamx, obj.y - icamy, TILES, t);
     }
 
     // render player
