@@ -714,6 +714,25 @@ I_GETL2:
     st   Y+, r1
     lpm
     dispatch
+    
+I_GETL4:
+    cpi  r28, 252
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  lpm
+    movw r26, r28
+    read_byte
+    sub  r26, r0
+    ld   r16, X+
+    ld   r17, X+
+    ld   r18, X+
+    ld   r19, X+
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
+    dispatch
 
 I_GETLN:
     ld   r16, -Y
@@ -757,6 +776,21 @@ I_SETL2:
     st   X+, r16
     st   X+, r17
     lpm
+    dispatch
+
+I_SETL4:
+    dispatch_delay
+    read_byte
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    movw r26, r28
+    sub  r26, r0
+    st   X+, r16
+    st   X+, r17
+    st   X+, r18
+    st   X+, r19
     dispatch
  
 I_SETLN:
@@ -3202,7 +3236,17 @@ dispatch_func:
     dispatch_noalign
 
 call_vm_error:
-    rcall store_vm_state
+
+    ; pc
+    sts  %[vm_pc]+0, r6
+    sts  %[vm_pc]+1, r7
+    sts  %[vm_pc]+2, r8
+    
+    ; stack pointer: stack always begins at 0x100
+    sts  %[vm_sp], r28
+
+    clr  r1
+
     call vm_error
     jmp  0x0000
 

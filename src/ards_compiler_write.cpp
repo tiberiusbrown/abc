@@ -64,9 +64,11 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_DUPW8: f << "dupw8"; break;
     case I_GETL:  f << "getl  " << instr.imm; break;
     case I_GETL2: f << "getl2 " << instr.imm; break;
+    case I_GETL4: f << "getl4 " << instr.imm; break;
     case I_GETLN: f << "getln " << instr.imm; break;
     case I_SETL:  f << "setl  " << instr.imm; break;
     case I_SETL2: f << "setl2 " << instr.imm; break;
+    case I_SETL4: f << "setl4 " << instr.imm; break;
     case I_SETLN: f << "setln " << instr.imm; break;
     case I_GETG:  f << "getg  " << instr.label << " " << instr.imm; break;
     case I_GETG2: f << "getg2 " << instr.label << " " << instr.imm; break;

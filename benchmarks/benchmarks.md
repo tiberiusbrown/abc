@@ -270,10 +270,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble4: 28.57x slowdown</summary>
+<details><summary>bubble4: 27.96x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 89146</td><td>Cycles: 2547029</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2492312</td></tr>
 <tr>
 <td>
 

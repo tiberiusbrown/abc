@@ -71,12 +71,4 @@ void render()
         float y = py - camy - PYOFF;
         $draw_sprite_selfmask($round(x), $round(y), PLAYER, index);
     }
-
-    {
-        i16 ipx0 = $floor(px - PHEH);
-        i16 ipy0 = $floor(py - PHEV);
-        i16 ipx1 = $floor(px + PHEH);
-        i16 ipy1 = $floor(py + PHEV);
-        $draw_textf(0, 0, FONT_BR6, "%d %d %d %d", ipx0, ipx1, ipy0, ipy1);
-    }
 }

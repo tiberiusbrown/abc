@@ -493,6 +493,25 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             }
         }
 
+        // replace PUSH 4; GETLN <N> with GETL4 <N>
+        if(i0.instr == I_PUSH && i0.imm == 4)
+        {
+            if(i1.instr == I_GETLN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_GETL4;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_SETLN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_SETL4;
+                t = true;
+                continue;
+            }
+        }
+
         // replace PUSH 0; AIDX M N (M,N < 256) with AIDXB M N
         if(i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_AIDX && i1.imm < 256 && i1.imm2 < 256)

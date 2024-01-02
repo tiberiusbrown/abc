@@ -318,6 +318,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETL2);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "getl4")
+        {
+            push_instr(I_GETL4);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "getln")
         {
             push_instr(I_GETLN);
@@ -331,6 +336,11 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "setl2")
         {
             push_instr(I_SETL2);
+            push_imm(read_imm(f, error), 1);
+        }
+        else if(t == "setl4")
+        {
+            push_instr(I_SETL4);
             push_imm(read_imm(f, error), 1);
         }
         else if(t == "setln")

@@ -63,7 +63,10 @@ void update()
     // apply user input: jump
     if(player_on_ground && $just_pressed(A_BUTTON))
     {
-        vy -= PLAYER_JUMP_VEL;
+        if(vx < -PLAYER_FAST_VEL || vx > PLAYER_FAST_VEL)
+            vy -= PLAYER_JUMP_VEL_FAST;
+        else
+            vy -= PLAYER_JUMP_VEL;
     }
 
     // apply friction
@@ -95,10 +98,7 @@ void update()
     {
         float t = 16 - $mod(px - (PHEH + 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_X)
-        {
-            vx = 0;
             px += t;
-        }
     }
 
     // resolve collision: left
@@ -108,10 +108,17 @@ void update()
     {
         float t = $mod(px + (PHEH + 0.1), 16);
         if(t <= PLAYER_MAX_VEL_X)
-        {
-            vx = 0;
             px -= t;
-        }
+    }
+
+    // resolve collision: top
+    else if(vy < 0 && (
+        solid(px - (PHEH - 1), py - PHEV, false) ||
+        solid(px + (PHEH - 1), py - PHEV, false) ))
+    {
+        float t = 16 - $mod(py - (PHEV + 0.1 - 16), 16);
+        if(t <= PLAYER_MAX_VEL_Y)
+            py += t;
     }
 
     // resolve collision: bottom
@@ -125,19 +132,6 @@ void update()
             vy = 0;
             py -= t;
             player_on_ground = true;
-        }
-    }
-
-    // resolve collision: top
-    else if(vy < 0 && (
-        solid(px - (PHEH - 1), py - PHEV, false) ||
-        solid(px + (PHEH - 1), py - PHEV, false) ))
-    {
-        float t = 16 - $mod(py - (PHEV + 0.1 - 16), 16);
-        if(t <= PLAYER_MAX_VEL_Y)
-        {
-            vy = 0;
-            py += t;
         }
     }
 
@@ -194,10 +188,12 @@ void update_object(map_object_t& obj)
 
 bool player_touches_rect(i16 x, i16 y, u8 w, u8 h)
 {
-    i16 ipx0 = $floor(px - PHEH);
-    i16 ipy0 = $floor(py - PHEV);
-    i16 ipx1 = $floor(px + PHEH);
-    i16 ipy1 = $floor(py + PHEV);
+    i16 ipx = $floor(px);
+    i16 ipy = $floor(py);
+    i16 ipx0 = ipx - i16(PHEH);
+    i16 ipy0 = ipy - i16(PHEV);
+    i16 ipx1 = ipx + i16(PHEH);
+    i16 ipy1 = ipy + i16(PHEV);
     return
         ipx1 >= x &&
         ipy1 >= y &&

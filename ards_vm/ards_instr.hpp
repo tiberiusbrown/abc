@@ -112,9 +112,11 @@ enum instr_t : uint8_t
 
     I_GETL,  // push stack[top - imm] (imm=1 is TOS)
     I_GETL2,
+    I_GETL4,
     I_GETLN, // pop N then same as GETL but push N bytes
     I_SETL,  // pop, then store to stack[top - imm]
     I_SETL2, // pop, then store to stack[top - imm] (2 bytes)
+    I_SETL4, // pop, then store to stack[top - imm] (4 bytes)
     I_SETLN, // pop N then same as SETL but pop/store N bytes
     I_GETG,  // push globals[imm]
     I_GETG2, // push globals[imm]
