@@ -182,9 +182,25 @@ void update()
 
 void update_object(map_object_t& obj)
 {
-    //if(obj.type == OBJ_COIN)
-    //{
-    //    obj.type = OBJ_NONE;
-    //    $tones_play(SOUND_COIN);
-    //}
+    if(obj.type == OBJ_COIN)
+    {
+        if(player_touches_rect(obj.x * 16 + 3, obj.y * 16 + 3, 10, 10))
+        {
+            obj.type = OBJ_NONE;
+            $tones_play(SOUND_COIN);
+        }
+    }
+}
+
+bool player_touches_rect(i16 x, i16 y, u8 w, u8 h)
+{
+    i16 ipx0 = $floor(px - PHEH);
+    i16 ipy0 = $floor(py - PHEV);
+    i16 ipx1 = $floor(px + PHEH);
+    i16 ipy1 = $floor(py + PHEV);
+    return
+        ipx1 >= x &&
+        ipy1 >= y &&
+        ipx0 < x + w &&
+        ipy0 < y + h;
 }
