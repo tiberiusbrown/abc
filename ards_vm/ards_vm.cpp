@@ -3209,7 +3209,7 @@ jump_to_pc:
     out  %[spdr], r6
     call delay_17
     out  %[spdr], r2
-    call delay_17
+    call delay_16
     dispatch_noalign
     
     ; addr to seek to in r16:r18
