@@ -439,6 +439,25 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
+        // remove PUSH 0; ADD/SUB
+        if(i0.instr == I_PUSH && i0.imm == 0 &&
+            (i1.instr == I_ADD || i1.instr == I_SUB))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // remove PUSH 1; MUL
+        if(i0.instr == I_PUSH && i0.imm == 1 && i1.instr == I_MUL)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // replace PUSH 0; ADD2 with ADD2B
         if(i0.instr == I_PUSH && i0.imm == 0 && i1.instr == I_ADD2)
         {
