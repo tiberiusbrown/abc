@@ -1579,6 +1579,16 @@ I_SUB4:
     st   Y+, r17
     dispatch
 
+I_ADD2B:
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    add  r14, r10
+    adc  r15, r2
+    st   Y+, r14
+    st   Y+, r15
+    dispatch
+
 I_MUL:
     ld   r10, -Y
     ld   r14, -Y

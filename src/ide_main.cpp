@@ -231,6 +231,7 @@ sapp_desc sokol_main(int argc, char** argv)
     (void)argv;
     sapp_desc desc{};
     desc.enable_clipboard = true;
+    desc.clipboard_size = 1024 * 1024;
     desc.high_dpi = true;
     desc.init_cb = app_init;
     desc.event_cb = app_event;
