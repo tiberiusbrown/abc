@@ -89,6 +89,13 @@ void update()
     px += vx;
     py += vy;
 
+    // just to be safe, clamp player position to the left and right
+    {
+        float xmax = map_width() * 16 - PHEH;
+        if(px < PHEH) px = PHEH;
+        if(px > xmax) px = xmax;
+    }
+
     player_on_ground = false;
 
     // resolve collision: left
@@ -148,6 +155,8 @@ void update()
             map_object_t& obj = objects[i];
             if(obj.type == OBJ_NONE)
                 continue;
+
+            // skip if player is not colliding with object
             i16 x = obj.x + obj.xo;
             i16 y = obj.y + obj.xo;
             if(!(ipx1 >= x &&
@@ -155,6 +164,7 @@ void update()
                  ipx0 < x + obj.w &&
                  ipy0 < y + obj.h))
                 continue;
+            
             touch_object(obj);
         }
     }

@@ -42,14 +42,18 @@ void render()
     }
 
     // render objects
-    for(u8 i = 0; i < MAX_OBJECTS; ++i)
     {
-        map_object_t obj = objects[i];
-        if(obj.type == OBJ_NONE)
-            continue;
-        u8 t = 241;
+        for(u8 i = 0; i < MAX_OBJECTS; ++i)
+        {
+            map_object_t obj = objects[i];
+            if(obj.type == OBJ_NONE)
+                continue;
+            u8 t = 241;
 
-        $draw_sprite_selfmask(obj.x - icamx, obj.y - icamy, TILES, t);
+            $draw_sprite_selfmask(
+                obj.x - icamx, obj.y - icamy, TILES,
+                t + ((frame_count + i * 173) & 0x30));
+        }
     }
 
     // render player

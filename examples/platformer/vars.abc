@@ -70,12 +70,12 @@ constexpr float PLAYER_MOVE_AIR_ACCEL = 0.125;
 
 // vertical velocity when jumping and not moving fast
 constexpr float PLAYER_JUMP_VEL = 3.6;
-constexpr float PLAYER_JUMP_VEL_FAST = 3.9;
+constexpr float PLAYER_JUMP_VEL_FAST = 4.05;
 constexpr float PLAYER_FAST_VEL = 1.5;
 
 // velocity clamps
 constexpr float PLAYER_MAX_VEL_X = 2.0;
-constexpr float PLAYER_MAX_VEL_Y = 4.0;
+constexpr float PLAYER_MAX_VEL_Y = 6.0;
 
 // friction: coefficient of velocity applied to acceleration
 constexpr float PLAYER_FRICTION = 0.1;
