@@ -105,6 +105,7 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
         errs.push_back({ "Missing return value", n.line_info });
         return;
     }
+    if(!errs.empty()) return;
 
     // pop remaining func args
     assert(frame.size < 256);

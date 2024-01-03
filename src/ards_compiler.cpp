@@ -463,6 +463,7 @@ void compiler_t::compile(
     for(auto& [n, f] : funcs)
     {
         if(!errs.empty()) return;
+        current_file = f.filename;
         if(f.block.type == AST::NONE) continue;
         codegen_function(f);
     }
@@ -749,10 +750,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
-            f.filename =
-                std::filesystem::path(current_path + "/" + fname + ".abc")
-                .lexically_relative(std::filesystem::path(base_path))
-                .generic_string();
+            f.filename = current_file;
             f.block = std::move(n.children[2]);
 
             if(name == "main" && f.decl.return_type != TYPE_VOID)
@@ -809,7 +807,15 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             std::string old_path = std::move(current_path);
             std::string old_file = std::move(current_file);
             current_path = new_path;
-            current_file = new_file;
+            {
+                auto tp = std::filesystem::path(new_path)
+                    .lexically_relative(base_path)
+                    .generic_string();
+                if(tp != ".")
+                    current_file = tp + "/" + new_file;
+                else
+                    current_file = new_file;
+            }
             compile_recurse(new_path, new_file);
             if(errs.empty())
             {
