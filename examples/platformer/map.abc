@@ -11,8 +11,11 @@ struct map_info_t
 //
 
 constexpr u8 TILE_PLAYER = 240;
-constexpr u8 TILE_COIN = 241;
-constexpr u8 TILE_KEY = 242;
+constexpr u8 TILE_COIN   = 241;
+constexpr u8 TILE_KEY    = 242;
+constexpr u8 TILE_DOOR1  = 243;
+constexpr u8 TILE_DOOR2  = 244;
+constexpr u8 TILE_SPRING = 245;
 
 void load_map(u8 index)
 {
@@ -20,6 +23,7 @@ void load_map(u8 index)
     player_facing_right = true;
     keys = 0;
     invincibility_frames = 75;
+    jump_frames_remaining = 0;
     vx = 0;
     vy = 0;
     u8[] prog& map = maps[index].map;
@@ -68,6 +72,18 @@ void process_map_tile(u8 x, u8 y, u8 t)
     {
         add_object({ OBJ_KEY, x * 16, y * 16, 2, 4, 12, 8 });
     }
+    else if(t == TILE_DOOR1)
+    {
+
+    }
+    else if(t == TILE_DOOR2)
+    {
+
+    }
+    else if(t == TILE_SPRING)
+    {
+        add_object({ OBJ_SPRING, x * 16, y * 16, 0, 6, 16, 10 });
+    }
 }
 
 void add_object(map_object_t obj)
@@ -92,7 +108,7 @@ u8[8 * 32] prog map0 = {
             0, 0, 0, 0, 0, 0, 0, 0, 242, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 83, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 243, 0,
-            108, 0, 241, 0, 126, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            108, 0, 241, 0, 126, 246, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2
 };
 

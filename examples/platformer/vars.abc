@@ -15,11 +15,14 @@ u8 keys;
 
 u8 invincibility_frames;
 
+u8 jump_frames_remaining;
+
 // map objects
 constexpr u8 MAX_OBJECTS = 40;
-constexpr u8 OBJ_NONE = 0;
-constexpr u8 OBJ_COIN = 1;
-constexpr u8 OBJ_KEY  = 2;
+constexpr u8 OBJ_NONE   = 0;
+constexpr u8 OBJ_COIN   = 1;
+constexpr u8 OBJ_KEY    = 2;
+constexpr u8 OBJ_SPRING = 5;
 struct map_object_t
 {
     u8 type;
@@ -48,7 +51,7 @@ constexpr float PHEV = 6;
 
 // player sprite offset
 constexpr float PXOFF = 8;
-constexpr float PYOFF = 11;
+constexpr float PYOFF = 10;
 
 constexpr float CAMERA_OFFSET_X = 64;
 constexpr float CAMERA_OFFSET_X_DELTA = 32;
@@ -75,9 +78,14 @@ constexpr float PLAYER_MOVE_ACCEL = 0.25;
 constexpr float PLAYER_MOVE_AIR_ACCEL = 0.125;
 
 // vertical velocity when jumping and not moving fast
-constexpr float PLAYER_JUMP_VEL = 3.6;
-constexpr float PLAYER_JUMP_VEL_FAST = 4.05;
-constexpr float PLAYER_FAST_VEL = 1.5;
+constexpr float PLAYER_JUMP_VEL = 1.9;
+constexpr float PLAYER_JUMP_VEL_FAST = 2.3;
+constexpr float PLAYER_FAST_VEL = 1.7;
+
+constexpr float PLAYER_SPRING_VEL = 5.2;
+
+// frames that the player can hold down A to extend jump
+constexpr u8 PLAYER_JUMP_FRAMES = 15;
 
 // velocity clamps
 constexpr float PLAYER_MAX_VEL_X = 2.0;

@@ -19,14 +19,20 @@ void render()
         u8[] prog& m = maps[current_map].map;
         u8 w = map_width();
 
+        // background pattern
+        $draw_sprite(xoff, yoff, sprites{ "assets/background.png" }, 0);
+
         for(u8 i = 0; i < 5; ++i)
         {
             u16 index = (i + cy) * w + cx;
             for(u8 j = 0; j < 9; ++j)
             {
                 u8 t = m[index + j] - 1;
-                if(t < 240)
-                    $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
+                if(t >= 240)
+                    continue;
+                if(t >= 176 && ((frame_count + 0x05) & 0x08))
+                    t += 32;
+                $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
             }
         }
     }
@@ -65,7 +71,7 @@ void render()
 
         float x = px - camx - PXOFF;
         float y = py - camy - PYOFF;
-        $draw_sprite_selfmask($round(x), $round(y), PLAYER, index);
+        $draw_sprite($round(x), $round(y), PLAYER, index);
     }
 
     // render HUD elements

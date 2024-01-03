@@ -63,11 +63,19 @@ void update()
     // apply user input: jump
     if(player_on_ground && $just_pressed(A_BUTTON))
     {
+        jump_frames_remaining = PLAYER_JUMP_FRAMES;
+        $tones_play(SOUND_JUMP);
+    }
+
+    if(!$pressed(A_BUTTON))
+        jump_frames_remaining = 0;
+    else if(jump_frames_remaining != 0)
+    {
+        --jump_frames_remaining;
         if(vx < -PLAYER_FAST_VEL || vx > PLAYER_FAST_VEL)
             vy = -PLAYER_JUMP_VEL_FAST;
         else
             vy = -PLAYER_JUMP_VEL;
-        $tones_play(SOUND_JUMP);
     }
 
     // apply friction
@@ -100,7 +108,7 @@ void update()
         if(px > xmax) px = xmax;
     }
 
-    if(player_on_ground)
+    if(player_on_ground != 0)
         --player_on_ground;
 
     // resolve collision: left
@@ -227,5 +235,10 @@ void touch_object(map_object_t& obj)
         keys += 1;
         obj.type = OBJ_NONE;
         $tones_play(SOUND_KEY);
+    }
+    else if(type == OBJ_SPRING)
+    {
+        vy = -PLAYER_SPRING_VEL;
+        $tones_play(SOUND_SPRING);
     }
 }
