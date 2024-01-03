@@ -1,8 +1,8 @@
 constexpr sprites TILES = sprites{ 16x16 "assets/tiles.png" };
+constexpr sprites OBJECTS = sprites{ 16x16 "assets/objects.png" };
 constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
 constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
-
-constexpr font FONT = FONT_BR6;
+constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
 void render()
 {
@@ -20,7 +20,14 @@ void render()
         u8 w = map_width();
 
         // background pattern
-        $draw_sprite(xoff, yoff, sprites{ "assets/background.png" }, 0);
+        {
+            i8 tx = -(icamx & 127);
+            i8 ty = -(icamy & 127);
+            $draw_sprite(tx      , ty     , BACKGROUND, 0);
+            $draw_sprite(tx + 128, ty     , BACKGROUND, 1);
+            $draw_sprite(tx      , ty + 64, BACKGROUND, 2);
+            $draw_sprite(tx + 128, ty + 64, BACKGROUND, 3);
+        }
 
         for(u8 i = 0; i < 5; ++i)
         {
@@ -42,13 +49,12 @@ void render()
         for(u8 i = 0; i < MAX_OBJECTS; ++i)
         {
             map_object_t obj = objects[i];
-            u8 type = obj.type;
-            if(type == OBJ_NONE)
+            u8 t = obj.type;
+            if(t == OBJ_NONE)
                 continue;
-            u8 t = 240 + type;
 
-            $draw_sprite_selfmask(
-                obj.x - icamx, obj.y - icamy, TILES,
+            $draw_sprite(
+                obj.x - icamx, obj.y - icamy, OBJECTS,
                 t + ((frame_count + i * 173) & 0x30));
         }
     }

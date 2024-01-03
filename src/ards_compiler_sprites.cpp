@@ -34,13 +34,6 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
     assert(n.children[1].type == AST::INT_CONST);
     size_t w = (size_t)n.children[0].value;
     size_t h = (size_t)n.children[1].value;
-    if(w > 248 || h > 248)
-    {
-        errs.push_back({
-            "Sprite width and height must be in the range [0, 248]",
-            n.line_info });
-        return;
-    }
 
     std::vector<uint8_t> idata;
     size_t iw = 0;
@@ -118,9 +111,17 @@ void compiler_t::encode_sprites_image(
     size_t iw, size_t ih, size_t w, size_t h, bool masked,
     std::vector<uint8_t> const& idata)
 {
-
     if(w == 0) w = iw;
     if(h == 0) h = ih;
+
+    if(w > 248 || h > 248)
+    {
+        errs.push_back({
+            "Sprite width and height must be in the range [0, 248]",
+            n.line_info });
+        return;
+    }
+
     if(ih % h != 0 || iw % w != 0)
     {
         errs.push_back({
