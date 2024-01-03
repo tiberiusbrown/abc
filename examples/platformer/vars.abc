@@ -10,10 +10,16 @@ u16 score;
 // index of current map
 u8 current_map;
 
+// how many keys the player is holding
+u8 keys;
+
+u8 invincibility_frames;
+
 // map objects
-constexpr u8 MAX_OBJECTS = 16;
+constexpr u8 MAX_OBJECTS = 40;
 constexpr u8 OBJ_NONE = 0;
 constexpr u8 OBJ_COIN = 1;
+constexpr u8 OBJ_KEY  = 2;
 struct map_object_t
 {
     u8 type;
@@ -28,7 +34,7 @@ float px, py, vx, vy;
 // flags for rendering player
 bool player_facing_right;
 bool player_moving;
-bool player_on_ground;
+u8 player_on_ground;
 
 //
 // Constants for player rendering
@@ -51,7 +57,7 @@ constexpr float CAMERA_OFFSET_Y_DELTA_UP = 22;
 constexpr float CAMERA_OFFSET_Y_DELTA_DOWN = 26;
 
 // camera motion smoothing parameters
-constexpr float CAMERA_UPDATE_X_OMEGA = 20;
+constexpr float CAMERA_UPDATE_X_OMEGA = 15;
 constexpr float CAMERA_UPDATE_X_ZETA = 1;
 constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
@@ -65,7 +71,7 @@ constexpr float CAMERA_UPDATE_Y_FACTOR = 0.1;
 constexpr float GRAVITY = 0.2;
 
 // player horizontal acceleration: on the ground or in the air
-constexpr float PLAYER_MOVE_ACCEL = 0.2;
+constexpr float PLAYER_MOVE_ACCEL = 0.25;
 constexpr float PLAYER_MOVE_AIR_ACCEL = 0.125;
 
 // vertical velocity when jumping and not moving fast
@@ -78,4 +84,8 @@ constexpr float PLAYER_MAX_VEL_X = 2.0;
 constexpr float PLAYER_MAX_VEL_Y = 6.0;
 
 // friction: coefficient of velocity applied to acceleration
-constexpr float PLAYER_FRICTION = 0.1;
+constexpr float PLAYER_FRICTION = 0.15;
+constexpr float PLAYER_FRICTION_AIR = 0.05;
+
+// grace frames for allowing jumps after a player leaves ground
+constexpr u8 PLAYER_ON_GROUND_FRAMES = 5;

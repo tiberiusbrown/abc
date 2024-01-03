@@ -64,13 +64,17 @@ void update()
     if(player_on_ground && $just_pressed(A_BUTTON))
     {
         if(vx < -PLAYER_FAST_VEL || vx > PLAYER_FAST_VEL)
-            vy -= PLAYER_JUMP_VEL_FAST;
+            vy = -PLAYER_JUMP_VEL_FAST;
         else
-            vy -= PLAYER_JUMP_VEL;
+            vy = -PLAYER_JUMP_VEL;
+        $tones_play(SOUND_JUMP);
     }
 
     // apply friction
-    ax += (-PLAYER_FRICTION * vx);
+    if(player_on_ground)
+        ax += (-PLAYER_FRICTION * vx);
+    else
+        ax += (-PLAYER_FRICTION_AIR * vx);
 
     // apply gravity
     ay += GRAVITY;
@@ -96,7 +100,8 @@ void update()
         if(px > xmax) px = xmax;
     }
 
-    player_on_ground = false;
+    if(player_on_ground)
+        --player_on_ground;
 
     // resolve collision: left
     if(vx < 0 && (
@@ -138,7 +143,7 @@ void update()
         {
             vy = 0;
             py -= t;
-            player_on_ground = true;
+            player_on_ground = PLAYER_ON_GROUND_FRAMES;
         }
     }
 
@@ -196,14 +201,31 @@ void update()
         dcamx += d2camx * CAMERA_UPDATE_X_DT;
     }
 
+    if(invincibility_frames != 0)
+        --invincibility_frames;
+
+    if(py > map_height() * 16 + 32)
+    {
+        // TODO: death animation
+        load_map(current_map);
+    }
+
     ++frame_count;
 }
 
 void touch_object(map_object_t& obj)
 {
-    if(obj.type == OBJ_COIN)
+    u8 type = obj.type;
+    if(type == OBJ_COIN)
     {
+        score += 100;
         obj.type = OBJ_NONE;
         $tones_play(SOUND_COIN);
+    }
+    else if(type == OBJ_KEY)
+    {
+        keys += 1;
+        obj.type = OBJ_NONE;
+        $tones_play(SOUND_KEY);
     }
 }

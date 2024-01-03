@@ -1,2 +1,10 @@
+// jump
+constexpr tones SOUND_JUMP = tones{
+    C5 20 C5# 20 D5 20 D5# 20 E5 20
+};
+
 // coin collection sfx
 constexpr tones SOUND_COIN = tones{ B5 100 E6 200 };
+
+// key pickup sfx
+constexpr tones SOUND_KEY = tones{ C4 70 G4 70 E5 70 };

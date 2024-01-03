@@ -1,5 +1,6 @@
 constexpr sprites TILES = sprites{ 16x16 "assets/tiles.png" };
 constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
+constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
 
 constexpr font FONT = FONT_BR6;
 
@@ -8,17 +9,6 @@ void render()
     // setup
     int icamx = int($round(camx));
     int icamy = int($round(camy));
-
-    // clamp camera to edge of map
-    {
-        int xmax = map_width() * 16 - 129;
-        int ymax = map_height() * 16 - 65;
-
-        if(icamx < 0) icamx = 0;
-        if(icamy < 0) icamy = 0;
-        if(icamx > xmax) icamx = xmax;
-        if(icamy > ymax) icamy = ymax;
-    }
 
     // render map tiles
     {
@@ -46,9 +36,10 @@ void render()
         for(u8 i = 0; i < MAX_OBJECTS; ++i)
         {
             map_object_t obj = objects[i];
-            if(obj.type == OBJ_NONE)
+            u8 type = obj.type;
+            if(type == OBJ_NONE)
                 continue;
-            u8 t = 241;
+            u8 t = 240 + type;
 
             $draw_sprite_selfmask(
                 obj.x - icamx, obj.y - icamy, TILES,
@@ -57,6 +48,7 @@ void render()
     }
 
     // render player
+    if(invincibility_frames == 0 || (frame_count & 0x04) == 0)
     {
         u8 index = 0;
         if(player_facing_right)
@@ -75,4 +67,10 @@ void render()
         float y = py - camy - PYOFF;
         $draw_sprite_selfmask($round(x), $round(y), PLAYER, index);
     }
+
+    // render HUD elements
+    for(u8 i = 0; i < keys; ++i)
+        $draw_sprite(119 - i * 9, 0, IMG_KEY, 0);
+    $draw_filled_rect(0, 0, 24, 6, BLACK);
+    $draw_textf(0, 0, FONT_BR6, "%u", score);
 }
