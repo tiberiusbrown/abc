@@ -480,7 +480,7 @@ I_DUP:
     cpi  r28, 255
     breq 1f
     ld   r0, -Y
-    st   Y+, r0
+    inc  r28
     st   Y+, r0
     dispatch_noalign
 1:  ldi  r24, 5

@@ -74,6 +74,8 @@ bool compiler_t::peephole_linc(compiler_func_t& f)
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
             i2.instr = I_LINC;
+            if(i2.imm == 1)
+                i2.instr = I_INC;
             t = true;
             continue;
         }
