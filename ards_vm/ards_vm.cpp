@@ -434,6 +434,32 @@ I_PUSHL:
     call delay_10
     dispatch
 
+I_PUSH4:
+    dispatch_delay
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    ldi  r16, 4
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
+    lpm
+    lpm
+    jmp  dispatch_func
+    .align 6
+
 I_SEXT:
     cpi  r28, 255
     brne 1f

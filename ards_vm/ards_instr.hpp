@@ -87,6 +87,7 @@ enum instr_t : uint8_t
     I_PZN,   // push 0 (<imm8> times, imm > 2)
     I_PUSHG, // push imm16
     I_PUSHL, // push imm24
+    I_PUSH4, // push imm32
 
     I_SEXT,  // push 0x00 or 0xff to sign extend TOS
     I_SEXT2, // same as sext but do it twice
@@ -282,7 +283,15 @@ enum instr_t : uint8_t
     I_SYS,   // call sysfunc (imm16)
     I_SYSB,  // call sysfunc (imm8)
 
+    //
+    // pseudo-instructions just for compiler optimizations
+    //
+
     I_REMOVE, // dummy value used to indicate an optimized-out instruction
+
+    I_PUSH2,
+    I_PUSH3,
+
 };
 
 }

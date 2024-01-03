@@ -30,6 +30,8 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_compress_push_pop(f))
         ;
+    while(peephole_compress_pushes_pushn(f))
+        ;
     while(peephole_compress_duplicate_pushes(f))
         ;
 }
@@ -150,8 +152,19 @@ bool compiler_t::peephole_dup_sext(compiler_func_t& f)
             continue;
         }
 
-        if(i + 2 >= f.instrs.size()) continue;
+        if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
+
+        // replace DUP<N>; DUP<N> with DUPW<N-1>
+        if(i0.instr >= I_DUP2 && i0.instr <= I_DUP8 && i0.instr == i1.instr)
+        {
+            i0.instr = instr_t(i0.instr + I_DUPW - I_DUP - 1);
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
 
         // replace SEXT; SEXT; SEXT with SEXT3
@@ -646,6 +659,43 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
             t = true;
             continue;
         }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_compress_pushes_pushn(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        if(i0.instr != I_PUSH) continue;
+
+        auto& i1 = f.instrs[i + 1];
+        if(i1.instr != I_PUSH) continue;
+
+        i1.instr = I_REMOVE;
+        i0.instr = I_PUSH2;
+        i0.imm |= (i1.imm << 8);
+
+        if(i + 2 < f.instrs.size() && f.instrs[i + 2].instr == I_PUSH)
+        {
+            auto& i2 = f.instrs[i + 2];
+            i2.instr = I_REMOVE;
+            i0.instr = I_PUSH3;
+            i0.imm |= (i2.imm << 16);
+            if(i + 3 < f.instrs.size() && f.instrs[i + 3].instr == I_PUSH)
+            {
+                auto& i3 = f.instrs[i + 3];
+                i3.instr = I_REMOVE;
+                i0.instr = I_PUSH4;
+                i0.imm |= (i3.imm << 24);
+            }
+        }
+
+        t = true;
     }
     return t;
 }

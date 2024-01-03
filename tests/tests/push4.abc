@@ -1,0 +1,10 @@
+void main()
+{
+    $debug_break();
+
+    u32 x = 0xaabbccdd;
+    
+    $assert(x == 0xaabbccdd);
+
+    $debug_break();
+}

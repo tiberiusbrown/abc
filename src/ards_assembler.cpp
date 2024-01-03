@@ -293,10 +293,25 @@ error_t assembler_t::assemble(std::istream& f)
             push_global(f, true);
             nodes.back().type = GLOBAL_REF;
         }
+        else if(t == "push2")
+        {
+            push_instr(I_PUSHG);
+            push_imm(read_imm(f, error), 2);
+        }
         else if(t == "pushl")
         {
             push_instr(I_PUSHL);
             push_label(f, true);
+        }
+        else if(t == "push3")
+        {
+            push_instr(I_PUSHL);
+            push_imm(read_imm(f, error), 3);
+        }
+        else if(t == "push4")
+        {
+            push_instr(I_PUSH4);
+            push_imm(read_imm(f, error), 4);
         }
         else if(t == "pzn")
         {
@@ -712,6 +727,7 @@ error_t assembler_t::link()
             if(n.size >= 1) linked_data.push_back(uint8_t(n.imm >> 0));
             if(n.size >= 2) linked_data.push_back(uint8_t(n.imm >> 8));
             if(n.size >= 3) linked_data.push_back(uint8_t(n.imm >> 16));
+            if(n.size >= 4) linked_data.push_back(uint8_t(n.imm >> 24));
             break;
         case GLOBAL:
         case GLOBAL_REF:
