@@ -28,7 +28,7 @@ constexpr u8 TILE_DOOR2     = 244;
 constexpr u8 TILE_SPRING    = 245;
 
 // map objects
-constexpr u8 MAX_OBJECTS = 40;
+constexpr u8 MAX_OBJECTS = 20;
 constexpr u8 OBJ_NONE   = 0;
 constexpr u8 OBJ_COIN   = 1;
 constexpr u8 OBJ_KEY    = 2;
@@ -84,6 +84,7 @@ constexpr float CAMERA_UPDATE_Y_FACTOR = 0.1;
 constexpr float GRAVITY = 0.2;
 
 constexpr float FAN_AIR_VEL = 1.5;
+constexpr float FAN_AIR_FACTOR = 0.25;
 
 // player horizontal acceleration: on the ground or in the air
 constexpr float PLAYER_MOVE_ACCEL = 0.25;

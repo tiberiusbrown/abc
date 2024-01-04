@@ -83,8 +83,8 @@ void render()
     // render HUD elements
     for(u8 i = 0; i < keys; ++i)
         $draw_sprite(119 - i * 9, 0, IMG_KEY, 0);
-    $draw_filled_rect(0, 0, 124, 6, BLACK);
+    $draw_filled_rect(0, 0, 24, 6, BLACK);
     $draw_textf(0, 0, FONT_BR6, "%u", score);
 
-    $draw_textf(20, 0, FONT_BR6, "%f %f", px, py);
+    //$draw_textf(20, 0, FONT_BR6, "%f %f", px, py);
 }

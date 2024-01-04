@@ -87,11 +87,15 @@ void update()
         u8 h = map_height();
         if(ix < w && iy < h)
         {
-            u8 t = maps[current_map].map[iy * w + ix] - 1;
-            if(t == TILE_AIR_UP)
-                vy += (-FAN_AIR_VEL - vy) * 0.25;
-            else if(t == TILE_AIR_RIGHT)
-                vx += (FAN_AIR_VEL - vx) * 0.25;
+            u8 t = maps[current_map].map[iy * w + ix];
+            if(t != 0)
+            {
+                --t;
+                if(t == TILE_AIR_UP)
+                    vy += (-FAN_AIR_VEL - vy) * FAN_AIR_FACTOR;
+                else if(t == TILE_AIR_RIGHT)
+                    vx += (FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
+            }
         }
     }
 
