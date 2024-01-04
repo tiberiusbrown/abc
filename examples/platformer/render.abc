@@ -21,8 +21,8 @@ void render()
 
         // background pattern
         {
-            i8 tx = -(icamx & 127);
-            i8 ty = -(icamy & 127);
+            i8 tx = -((icamx >> 1) & 127);
+            i8 ty = -((icamy >> 1) & 127);
             $draw_sprite(tx      , ty     , BACKGROUND, 0);
             $draw_sprite(tx + 128, ty     , BACKGROUND, 1);
             $draw_sprite(tx      , ty + 64, BACKGROUND, 2);
