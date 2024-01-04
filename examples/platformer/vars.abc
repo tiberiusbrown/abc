@@ -17,6 +17,16 @@ u8 invincibility_frames;
 
 u8 jump_frames_remaining;
 
+// tiles
+constexpr u8 TILE_AIR_UP    = 177;
+constexpr u8 TILE_AIR_RIGHT = 178;
+constexpr u8 TILE_PLAYER    = 240;
+constexpr u8 TILE_COIN      = 241;
+constexpr u8 TILE_KEY       = 242;
+constexpr u8 TILE_DOOR1     = 243;
+constexpr u8 TILE_DOOR2     = 244;
+constexpr u8 TILE_SPRING    = 245;
+
 // map objects
 constexpr u8 MAX_OBJECTS = 40;
 constexpr u8 OBJ_NONE   = 0;
@@ -72,6 +82,8 @@ constexpr float CAMERA_UPDATE_Y_FACTOR = 0.1;
 //
 
 constexpr float GRAVITY = 0.2;
+
+constexpr float FAN_AIR_VEL = 1.5;
 
 // player horizontal acceleration: on the ground or in the air
 constexpr float PLAYER_MOVE_ACCEL = 0.25;

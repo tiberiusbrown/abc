@@ -8,6 +8,8 @@ void setup()
 {
     $set_frame_rate(50);
     load_map(0);
+    px = 197.58;
+    py = 57.75;
 }
 
 void loop()

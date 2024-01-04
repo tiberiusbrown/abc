@@ -37,8 +37,8 @@ void render()
                 u8 t = m[index + j] - 1;
                 if(t >= 240)
                     continue;
-                if(t >= 176 && ((frame_count + 0x05) & 0x08))
-                    t += 32;
+                if(t >= 176)
+                    t += ((frame_count << 2) & 0x30);
                 $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
             }
         }
@@ -83,6 +83,8 @@ void render()
     // render HUD elements
     for(u8 i = 0; i < keys; ++i)
         $draw_sprite(119 - i * 9, 0, IMG_KEY, 0);
-    $draw_filled_rect(0, 0, 24, 6, BLACK);
+    $draw_filled_rect(0, 0, 124, 6, BLACK);
     $draw_textf(0, 0, FONT_BR6, "%u", score);
+
+    $draw_textf(20, 0, FONT_BR6, "%f %f", px, py);
 }

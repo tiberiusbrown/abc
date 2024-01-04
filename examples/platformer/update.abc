@@ -26,7 +26,8 @@ bool solid(float x, float y, bool bottom)
     if(t == 0) return false;
     t += 1;
     if(t < 64) return true;
-    if(t < 96 && bottom) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
     return false;
 }
 
@@ -78,6 +79,22 @@ void update()
             vy = -PLAYER_JUMP_VEL;
     }
 
+    // tile effects of the player's centered tile
+    {
+        u8 ix = u16($floor(px)) >> 4;
+        u8 iy = u16($floor(py)) >> 4;
+        u8 w = map_width();
+        u8 h = map_height();
+        if(ix < w && iy < h)
+        {
+            u8 t = maps[current_map].map[iy * w + ix] - 1;
+            if(t == TILE_AIR_UP)
+                vy += (-FAN_AIR_VEL - vy) * 0.25;
+            else if(t == TILE_AIR_RIGHT)
+                vx += (FAN_AIR_VEL - vx) * 0.25;
+        }
+    }
+
     // apply friction
     if(player_on_ground)
         ax += (-PLAYER_FRICTION * vx);
@@ -116,7 +133,7 @@ void update()
         solid(px - PHEH, py - (PHEV - 1), false) ||
         solid(px - PHEH, py + (PHEV - 1), false) ))
     {
-        float t = 16 - $mod(px - (PHEH + 0.1 - 16), 16);
+        float t = 16 - $mod(px - (PHEH - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_X)
             px += t;
     }
@@ -126,7 +143,7 @@ void update()
         solid(px + PHEH, py - (PHEV - 1), false) ||
         solid(px + PHEH, py + (PHEV - 1), false) ))
     {
-        float t = $mod(px + (PHEH + 0.1), 16);
+        float t = $mod(px + (PHEH - 0.1), 16);
         if(t <= PLAYER_MAX_VEL_X)
             px -= t;
     }
@@ -136,7 +153,7 @@ void update()
         solid(px - (PHEH - 1), py - PHEV, false) ||
         solid(px + (PHEH - 1), py - PHEV, false) ))
     {
-        float t = 16 - $mod(py - (PHEV + 0.1 - 16), 16);
+        float t = 16 - $mod(py - (PHEV - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_Y)
             py += t;
     }
@@ -146,7 +163,7 @@ void update()
         solid(px - (PHEH - 1), py + PHEV, true) ||
         solid(px + (PHEH - 1), py + PHEV, true) ))
     {
-        float t = $mod(py + (PHEV + 0.1), 16);
+        float t = $mod(py + (PHEV - 0.1), 16);
         if(t <= PLAYER_MAX_VEL_Y)
         {
             vy = 0;
