@@ -485,6 +485,14 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
             a.comp_type = TYPE_FLOAT;
         break;
+    case AST::OP_LOGICAL_AND:
+    case AST::OP_LOGICAL_OR:
+    case AST::OP_EQUALITY:
+    case AST::OP_RELATIONAL:
+        assert(a.children.size() == 2);
+        for(auto& child : a.children)
+            type_reduce_recurse(child, 4);
+        break;
     case AST::OP_ASSIGN:
     case AST::OP_ASSIGN_COMPOUND:
         type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);

@@ -174,8 +174,8 @@ void update()
             i16 y = obj.y + obj.xo;
             if(ipx1 >= x &&
                 ipy1 >= y &&
-                ipx0 < x + obj.w &&
-                ipy0 < y + obj.h)
+                ipx0 < i16(x + obj.w) &&
+                ipy0 < i16(y + obj.h))
             {
                 touch_object(obj);
             }
