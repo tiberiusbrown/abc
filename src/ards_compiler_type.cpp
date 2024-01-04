@@ -45,7 +45,7 @@ static bool check_prim(ast_node_t const& a, std::vector<error_t> errs)
 static void insert_aref(ast_node_t& a, compiler_type_t const& t)
 {
     auto ta = std::move(a);
-    a = { {}, AST::OP_AREF };
+    a = { a.line_info, AST::OP_AREF };
     if(t.is_array_ref())
         a.comp_type = t;
     else
@@ -60,7 +60,7 @@ static void insert_aref(ast_node_t& a, compiler_type_t const& t)
 void ast_node_t::insert_cast(compiler_type_t const& t)
 {
     auto ta = std::move(*this);
-    *this = { {}, AST::OP_CAST };
+    *this = { line_info, AST::OP_CAST };
     parent = ta.parent;
     ta.parent = this;
     comp_type = t;
