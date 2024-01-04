@@ -192,6 +192,9 @@ add_executable(abc ${EXE_TYPE}
     ${TEXTEDIT_SOURCES}
     )
 target_link_libraries(abc PRIVATE ardenslib ards_compiler)
+if(WIN32)
+    target_link_libraries(abc PRIVATE d3d11)
+endif()
 target_include_directories(abc PRIVATE
     deps/sokol
     deps/imgui
