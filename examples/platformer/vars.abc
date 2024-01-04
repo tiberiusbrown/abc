@@ -10,6 +10,10 @@ u16 score;
 // index of current map
 u8 current_map;
 
+// cached for performance
+u8 map_width;
+u8 map_height;
+
 // how many keys the player is holding
 u8 keys;
 
@@ -26,18 +30,25 @@ constexpr u8 TILE_KEY       = 242;
 constexpr u8 TILE_DOOR1     = 243;
 constexpr u8 TILE_DOOR2     = 244;
 constexpr u8 TILE_SPRING    = 245;
+constexpr u8 TILE_MOB       = 248;
+constexpr u8 TILE_MOB_HORN  = 249;
+constexpr u8 TILE_MOB_HELM  = 250;
 
 // map objects
 constexpr u8 MAX_OBJECTS = 20;
-constexpr u8 OBJ_NONE   = 0;
-constexpr u8 OBJ_COIN   = 1;
-constexpr u8 OBJ_KEY    = 2;
-constexpr u8 OBJ_SPRING = 5;
+constexpr u8 OBJ_NONE     = 0;
+constexpr u8 OBJ_COIN     = 1;
+constexpr u8 OBJ_KEY      = 2;
+constexpr u8 OBJ_SPRING   = 5;
+constexpr u8 OBJ_MOB      = 8;
+constexpr u8 OBJ_MOB_HORN = 9;
+constexpr u8 OBJ_MOB_HELM = 10;
 struct map_object_t
 {
     u8 type;
     i16 x, y; // sprite position
     u8 xo, yo, w, h; // bounding box
+    bool moving_right; // for mobs
 };
 map_object_t[MAX_OBJECTS] objects;
 

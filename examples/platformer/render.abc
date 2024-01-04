@@ -17,7 +17,7 @@ void render()
         i8 xoff = -(icamx & 15);
         i8 yoff = -(icamy & 15);
         u8[] prog& m = maps[current_map].map;
-        u8 w = map_width();
+        u8 w = map_width;
 
         // background pattern
         {

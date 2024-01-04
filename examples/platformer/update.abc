@@ -13,18 +13,18 @@ bool solid(float x, float y, bool bottom)
 
     ix >>= 4;
     iy >>= 4;
-    u8 w = map_width();
+    u8 w = map_width;
 
     // collision against right map edge
     if(ix >= w)
         return true;
 
     // allow the player to fall through the floor
-    if(iy >= map_height())
+    if(iy >= map_height)
         return false;
     u8 t = maps[current_map].map[iy * w + ix];
-    if(t == 0) return false;
-    t += 1;
+    t -= 1;
+    if(t >= 240) return false;
     if(t < 64) return true;
     if(bottom && t < 96) return true;
     if(t >= 176 && (t & 15) >= 8) return true;
@@ -83,8 +83,8 @@ void update()
     {
         u8 ix = u16($floor(px)) >> 4;
         u8 iy = u16($floor(py)) >> 4;
-        u8 w = map_width();
-        u8 h = map_height();
+        u8 w = map_width;
+        u8 h = map_height;
         if(ix < w && iy < h)
         {
             u8 t = maps[current_map].map[iy * w + ix];
@@ -124,7 +124,7 @@ void update()
 
     // just to be safe, clamp player position to the left and right
     {
-        float xmax = map_width() * 16 - PHEH;
+        float xmax = map_width * 16 - PHEH;
         if(px < PHEH) px = PHEH;
         if(px > xmax) px = xmax;
     }
@@ -178,25 +178,26 @@ void update()
 
     // map object updates
     {
-        i16 ipx = $floor(px);
-        i16 ipy = $floor(py);
-        i16 ipx0 = ipx - i16(PHEH);
-        i16 ipy0 = ipy - i16(PHEV);
-        i16 ipx1 = ipx + i16(PHEH);
-        i16 ipy1 = ipy + i16(PHEV);
+        i16 px0 = $round(px) + i16(-PXOFF + 1);
+        i16 py0 = $round(py) + i16(-PYOFF + 1);
+        i16 px1 = px0 + i16(PHEH * 2 - 1);
+        i16 py1 = py0 + i16(PHEV * 2 - 1);
         for(u8 i = 0; i < MAX_OBJECTS; ++i)
         {
             map_object_t& obj = objects[i];
             if(obj.type == OBJ_NONE)
                 continue;
 
-            // skip if player is not colliding with object
+            if(obj.type >= OBJ_MOB && ((frame_count + i) & 1))
+                update_mob(obj);
+
+            // test if player is colliding with object
             i16 x = obj.x + obj.xo;
             i16 y = obj.y + obj.xo;
-            if(ipx1 >= x &&
-                ipy1 >= y &&
-                ipx0 < i16(x + obj.w) &&
-                ipy0 < i16(y + obj.h))
+            if( px1 >= x &&
+                py1 >= y &&
+                px0 < i16(x + obj.w) &&
+                py0 < i16(y + obj.h))
             {
                 touch_object(obj);
             }
@@ -207,8 +208,8 @@ void update()
     {
         float tcamy = py - CAMERA_OFFSET_Y;
         float tcamx = px - CAMERA_OFFSET_X;
-        float xmax = map_width() * 16 - 129;
-        float ymax = map_height() * 16 - 65;
+        float xmax = map_width * 16 - 129;
+        float ymax = map_height * 16 - 65;
         if(player_facing_right)
             tcamx += CAMERA_OFFSET_X_DELTA;
         else
@@ -233,13 +234,67 @@ void update()
     if(invincibility_frames != 0)
         --invincibility_frames;
 
-    if(py > map_height() * 16 + 32)
+    if(py > map_height * 16 + 32)
     {
         // TODO: death animation
         load_map(current_map);
     }
 
     ++frame_count;
+}
+
+void update_mob(map_object_t& obj)
+{
+    if(obj.moving_right)
+    {
+        obj.x += 1;
+        i16 x = obj.x + obj.xo + obj.w - 1;
+        if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
+        {
+            obj.x -= 1;
+            obj.moving_right = false;
+        }
+    }
+    else
+    {
+        obj.x -= 1;
+        float x = obj.x + obj.xo;
+        if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
+        {
+            obj.x += 1;
+            obj.moving_right = true;
+        }
+    }
+}
+
+bool mob_solid(i16 x, i16 y, bool bottom)
+{
+    // collision against left map edge
+    if(x < 0)
+        return true;
+    
+    // allow the mob to fly above the map
+    if(y < 0)
+        return false;
+
+    x >>= 4;
+    y >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(x >= w)
+        return true;
+
+    // allow the mob to fall through the floor
+    if(y >= map_height)
+        return false;
+    u8 t = maps[current_map].map[y * w + x];
+    t -= 1;
+    if(t >= 240) return false;
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
 }
 
 void touch_object(map_object_t& obj)
@@ -261,5 +316,9 @@ void touch_object(map_object_t& obj)
     {
         vy = -PLAYER_SPRING_VEL;
         $tones_play(SOUND_SPRING);
+    }
+    else if(type >= OBJ_MOB && type <= OBJ_MOB_HELM)
+    {
+        
     }
 }
