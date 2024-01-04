@@ -2716,7 +2716,7 @@ I_BZ1:
     ld   r16, -Y
     add  r6, r4
     adc  r7, r2
-    adc  r7, r2
+    adc  r8, r2
     rjmp .+0
     in   r0, %[spdr]
     cp   r16, r2
@@ -2750,7 +2750,7 @@ I_BNZ1:
     ld   r16, -Y
     add  r6, r4
     adc  r7, r2
-    adc  r7, r2
+    adc  r8, r2
     rjmp .+0
     in   r0, %[spdr]
     cp   r16, r2
@@ -2764,6 +2764,80 @@ I_BNZ1:
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     call delay_14
+    jmp  dispatch_func
+    .align 6
+
+I_BZP:
+    ld   r0, -Y
+    inc  r28
+    call read_3_bytes_end_nodelay
+    cp   r0, r2
+    brne 1f
+    movw r6, r16
+    mov  r8, r18
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    dec  r28
+    call delay_16
+    dispatch
+
+I_BZP1:
+    ld   r16, -Y
+    inc  r28
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    nop
+    in   r0, %[spdr]
+    cp   r16, r2
+    brne 1f
+    mov  r1, r0
+    lsl  r1
+    sbc  r1, r1
+    add  r6, r0
+    adc  r7, r1
+    adc  r8, r1
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    dec  r28
+    call delay_13
+    jmp  dispatch_func
+    .align 6
+
+I_BNZP:
+    ld   r0, -Y
+    inc  r28
+    call read_3_bytes_end_nodelay
+    cp   r0, r2
+    breq 1f
+    movw r6, r16
+    mov  r8, r18
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    dec  r28
+    call delay_16
+    dispatch
+
+I_BNZP1:
+    ld   r16, -Y
+    inc  r28
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    nop
+    in   r0, %[spdr]
+    cp   r16, r2
+    breq 1f
+    mov  r1, r0
+    lsl  r1
+    sbc  r1, r1
+    add  r6, r0
+    adc  r7, r1
+    adc  r8, r1
+    jmp  jump_to_pc
+1:  out  %[spdr], r2
+    dec  r28
+    call delay_13
     jmp  dispatch_func
     .align 6
 

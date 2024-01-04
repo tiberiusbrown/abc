@@ -28,6 +28,8 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_dup_sext(f))
         ;
+    while(peephole_bzp(f))
+        ;
     while(peephole_compress_push_pop(f))
         ;
     while(peephole_compress_pushes_pushn(f))
@@ -581,6 +583,31 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
             i2.instr = I_PIDXB;
+            t = true;
+            continue;
+        }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_bzp(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 2 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+        auto& i2 = f.instrs[i + 2];
+
+        // replace DUP; B[N]Z; POP with B[N]ZP
+        if(i0.instr == I_DUP && i2.instr == I_POP && (
+            i1.instr == I_BZ || i1.instr == I_BNZ))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = (i1.instr == I_BZ ? I_BZP : I_BNZP);
+            i2.instr = I_REMOVE;
             t = true;
             continue;
         }

@@ -495,6 +495,16 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_BNZ);
             push_label(f);
         }
+        else if(t == "bzp")
+        {
+            push_instr(I_BZP);
+            push_label(f);
+        }
+        else if(t == "bnzp")
+        {
+            push_instr(I_BNZP);
+            push_label(f);
+        }
         else if(t == "jmp")
         {
             push_instr(I_JMP);
@@ -608,6 +618,8 @@ void assembler_t::relax_jumps()
             n.instr != I_CALL &&
             n.instr != I_BZ &&
             n.instr != I_BNZ &&
+            n.instr != I_BZP &&
+            n.instr != I_BNZP &&
             true) continue;
         assert(i + 1 < nodes.size());
         auto& label = nodes[i + 1];

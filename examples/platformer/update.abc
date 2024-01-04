@@ -172,13 +172,13 @@ void update()
             // skip if player is not colliding with object
             i16 x = obj.x + obj.xo;
             i16 y = obj.y + obj.xo;
-            if(!(ipx1 >= x &&
-                 ipy1 >= y &&
-                 ipx0 < x + obj.w &&
-                 ipy0 < y + obj.h))
-                continue;
-            
-            touch_object(obj);
+            if(ipx1 >= x &&
+                ipy1 >= y &&
+                ipx0 < x + obj.w &&
+                ipy0 < y + obj.h)
+            {
+                touch_object(obj);
+            }
         }
     }
 

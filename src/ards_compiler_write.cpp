@@ -213,6 +213,8 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
 
     case I_BZ:    f << "bz    " << instr.label; break;
     case I_BNZ:   f << "bnz   " << instr.label; break;
+    case I_BZP:   f << "bzp   " << instr.label; break;
+    case I_BNZP:  f << "bnzp  " << instr.label; break;
     case I_JMP:   f << "jmp   " << instr.label; break;
     case I_CALL:  f << "call  " << instr.label; break;
     case I_RET:   f << "ret"; break;

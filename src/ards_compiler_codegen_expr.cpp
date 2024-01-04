@@ -988,14 +988,10 @@ void compiler_t::codegen_expr_logical(
     else
         codegen_expr(f, frame, a.children[0], false);
     codegen_convert(f, frame, a.children[0], TYPE_BOOL, a.children[0].comp_type);
-    // TODO: special versions of BZ and BNZ to replace following sequence
-    //       of DUP; B[N]Z; POP
-    f.instrs.push_back({ I_DUP, a.line() });
     f.instrs.push_back({
-        a.type == AST::OP_LOGICAL_AND ? I_BZ : I_BNZ,
+        a.type == AST::OP_LOGICAL_AND ? I_BZP : I_BNZP,
         a.line(), 0, 0, sc_label });
     frame.size -= 1;
-    f.instrs.push_back({ I_POP });
     if(a.children[1].type == a.type)
         codegen_expr_logical(f, frame, a.children[1], sc_label);
     else

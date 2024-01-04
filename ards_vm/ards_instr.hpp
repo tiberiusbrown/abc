@@ -268,18 +268,24 @@ enum instr_t : uint8_t
     I_I2F,
     I_U2F,
 
-    I_BZ,    // pop, branch if zero to imm3
-    I_BZ1,   // imm8 rel offset
-    //I_BZ2,   // imm16 rel offset
-    I_BNZ,   // pop, branch if nonzero to imm3
-    I_BNZ1,  // imm8 rel offset
-    //I_BNZ2,  // imm16 rel offset
-    I_JMP,   // jmp imm3
-    I_JMP1,  // imm8 rel offset
-    //I_JMP2,  // imm16 rel offset
+    I_BZ,     // pop, branch if zero to imm3
+    I_BZ1,    // imm8 rel offset
+    //I_BZ2,  // imm16 rel offset
+    I_BNZ,    // pop, branch if nonzero to imm3
+    I_BNZ1,   // imm8 rel offset
+    //I_BNZ2, // imm16 rel offset
+    I_BZP,    // 
+    I_BZP1,   // 
+    //I_BZP2, // (same as dup; b[n]z; pop)
+    I_BNZP,   // 
+    I_BNZP1,  // 
+    //I_BNZP2,// 
+    I_JMP,    // jmp imm3
+    I_JMP1,   // imm8 rel offset
+    //I_JMP2, // imm16 rel offset
     I_CALL,
-    I_CALL1, // imm8 rel offset
-    //I_CALL2, // imm16 rel offset
+    I_CALL1,  // imm8 rel offset
+    //I_CALL2,// imm16 rel offset
     I_RET,
 
     I_SYS,   // call sysfunc (imm16)
