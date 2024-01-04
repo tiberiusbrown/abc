@@ -555,6 +555,13 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
+            if(i1.instr == I_GETGN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_GETG4;
+                t = true;
+                continue;
+            }
         }
 
         // replace PUSH 0; AIDX M N (M,N < 256) with AIDXB M N

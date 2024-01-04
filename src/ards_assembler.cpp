@@ -374,6 +374,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETG2);
             push_global(f, true);
         }
+        else if(t == "getg4")
+        {
+            push_instr(I_GETG4);
+            push_global(f, true);
+        }
         else if(t == "getgn")
         {
             push_instr(I_GETGN);

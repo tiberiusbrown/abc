@@ -866,6 +866,24 @@ I_GETG2:
     rjmp .+0
     dispatch
 
+I_GETG4:
+    cpi  r28, 252
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  call read_2_bytes_nodelay
+    movw r26, r16
+    subi r27, -2
+    ld   r16, X+
+    ld   r17, X+
+    ld   r18, X+
+    ld   r19, X+
+    st   Y+, r16
+    st   Y+, r17
+    st   Y+, r18
+    st   Y+, r19
+    dispatch
+
 I_GETGN:
     ld   r18, -Y
     mov  r19, r18

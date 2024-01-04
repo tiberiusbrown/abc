@@ -121,6 +121,7 @@ enum instr_t : uint8_t
     I_SETLN, // pop N then same as SETL but pop/store N bytes
     I_GETG,  // push globals[imm]
     I_GETG2, // push globals[imm]
+    I_GETG4, // push globals[imm]
     I_GETGN, // pop N then same as GETG but push N bytes
     I_SETG,  // pop, then store to globals[imm]
     I_SETG2, // pop, then store to globals[imm] (2 bytes)
