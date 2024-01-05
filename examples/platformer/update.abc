@@ -1,36 +1,10 @@
-bool solid(float x, float y, bool bottom)
+void update()
 {
-    int ix = $floor(x);
-    int iy = $floor(y);
-
-    // collision against left map edge
-    if(ix < 0)
-        return true;
-    
-    // allow the player to shoot into the sky
-    if(iy < 0)
-        return false;
-
-    ix >>= 4;
-    iy >>= 4;
-    u8 w = map_width();
-
-    // collision against right map edge
-    if(ix >= w)
-        return true;
-
-    // allow the player to fall through the floor
-    if(iy >= map_height())
-        return false;
-    u8 t = maps[current_map].map[iy * w + ix];
-    if(t == 0) return false;
-    t += 1;
-    if(t < 64) return true;
-    if(t < 96 && bottom) return true;
-    return false;
+    if(state == STATE_LEVEL)
+        update_level();
 }
 
-void update()
+void update_level()
 {
     $poll_buttons();
 
@@ -78,6 +52,26 @@ void update()
             vy = -PLAYER_JUMP_VEL;
     }
 
+    // tile effects of the player's centered tile
+    {
+        u8 ix = u16($floor(px)) >> 4;
+        u8 iy = u16($floor(py)) >> 4;
+        u8 w = map_width;
+        u8 h = map_height;
+        if(ix < w && iy < h)
+        {
+            u8 t = maps[current_map].map[iy * w + ix];
+            if(t != 0)
+            {
+                --t;
+                if(t == TILE_AIR_UP)
+                    vy += (-FAN_AIR_VEL - vy) * FAN_AIR_FACTOR;
+                else if(t == TILE_AIR_RIGHT)
+                    vx += (FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
+            }
+        }
+    }
+
     // apply friction
     if(player_on_ground)
         ax += (-PLAYER_FRICTION * vx);
@@ -91,6 +85,17 @@ void update()
     vx += ax;
     vy += ay;
 
+    if(death_frames != 0)
+    {
+        ax = 0;
+        ay = 0;
+        vx = 0;
+        if(death_frames > DEATH_FRAMES - DEATH_PAUSE_FRAMES)
+            vy = 0;
+        else if(death_frames == DEATH_FRAMES - DEATH_PAUSE_FRAMES)
+            vy = -DEATH_VEL;
+    }
+
     // clamp velocity
     if     (vx < -PLAYER_MAX_VEL_X) vx = -PLAYER_MAX_VEL_X;
     else if(vx >  PLAYER_MAX_VEL_X) vx =  PLAYER_MAX_VEL_X;
@@ -103,7 +108,7 @@ void update()
 
     // just to be safe, clamp player position to the left and right
     {
-        float xmax = map_width() * 16 - PHEH;
+        float xmax = map_width * 16 - PHEH;
         if(px < PHEH) px = PHEH;
         if(px > xmax) px = xmax;
     }
@@ -111,12 +116,37 @@ void update()
     if(player_on_ground != 0)
         --player_on_ground;
 
+    if(death_frames == 0)
+    {
+        resolve_player_collision();
+        update_map_objects();
+        update_camera_position();
+    }
+
+    if(death_frames != 0)
+    {
+        if(--death_frames == 0)
+            state = STATE_INTRO;
+    }
+
+    if(invincibility_frames != 0)
+        --invincibility_frames;
+
+    // check if player has fallen out of the bottom of the level
+    if(py > map_height * 16 + 32)
+        player_death();
+
+    ++frame_count;
+}
+
+void resolve_player_collision()
+{
     // resolve collision: left
     if(vx < 0 && (
         solid(px - PHEH, py - (PHEV - 1), false) ||
         solid(px - PHEH, py + (PHEV - 1), false) ))
     {
-        float t = 16 - $mod(px - (PHEH + 0.1 - 16), 16);
+        float t = 16 - $mod(px - (PHEH - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_X)
             px += t;
     }
@@ -126,7 +156,7 @@ void update()
         solid(px + PHEH, py - (PHEV - 1), false) ||
         solid(px + PHEH, py + (PHEV - 1), false) ))
     {
-        float t = $mod(px + (PHEH + 0.1), 16);
+        float t = $mod(px + (PHEH - 0.1), 16);
         if(t <= PLAYER_MAX_VEL_X)
             px -= t;
     }
@@ -136,7 +166,7 @@ void update()
         solid(px - (PHEH - 1), py - PHEV, false) ||
         solid(px + (PHEH - 1), py - PHEV, false) ))
     {
-        float t = 16 - $mod(py - (PHEV + 0.1 - 16), 16);
+        float t = 16 - $mod(py - (PHEV - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_Y)
             py += t;
     }
@@ -146,7 +176,7 @@ void update()
         solid(px - (PHEH - 1), py + PHEV, true) ||
         solid(px + (PHEH - 1), py + PHEV, true) ))
     {
-        float t = $mod(py + (PHEV + 0.1), 16);
+        float t = $mod(py + (PHEV - 0.1), 16);
         if(t <= PLAYER_MAX_VEL_Y)
         {
             vy = 0;
@@ -154,71 +184,166 @@ void update()
             player_on_ground = PLAYER_ON_GROUND_FRAMES;
         }
     }
+}
 
-    // map object updates
+void update_map_objects()
+{
+    i16 px0 = $round(px) + i16(-PXOFF + 1);
+    i16 py0 = $round(py) + i16(-PYOFF + 1);
+    i16 px1 = px0 + i16(PHEH * 2 - 1);
+    i16 py1 = py0 + i16(PHEV * 2 - 1);
+    mob_jumped = false;
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
     {
-        i16 ipx = $floor(px);
-        i16 ipy = $floor(py);
-        i16 ipx0 = ipx - i16(PHEH);
-        i16 ipy0 = ipy - i16(PHEV);
-        i16 ipx1 = ipx + i16(PHEH);
-        i16 ipy1 = ipy + i16(PHEV);
-        for(u8 i = 0; i < MAX_OBJECTS; ++i)
-        {
-            map_object_t& obj = objects[i];
-            if(obj.type == OBJ_NONE)
-                continue;
+        map_object_t& obj = objects[i];
+        if(obj.type == OBJ_NONE)
+            continue;
 
-            // skip if player is not colliding with object
-            i16 x = obj.x + obj.xo;
-            i16 y = obj.y + obj.xo;
-            if(ipx1 >= x &&
-                ipy1 >= y &&
-                ipx0 < i16(x + obj.w) &&
-                ipy0 < i16(y + obj.h))
-            {
-                touch_object(obj);
-            }
+        if(obj.type >= OBJ_MOB && ((frame_count + i) & 1))
+            update_mob(obj);
+
+        // test if player is colliding with object
+        i16 x = obj.x + obj.xo;
+        i16 y = obj.y + obj.xo;
+        if( px1 >= x &&
+            py1 >= y &&
+            px0 < i16(x + obj.w) &&
+            py0 < i16(y + obj.h))
+        {
+            touch_object(obj);
         }
     }
-
-    // update camera position
+    if(mob_jumped)
     {
-        float tcamy = py - CAMERA_OFFSET_Y;
-        float tcamx = px - CAMERA_OFFSET_X;
-        float xmax = map_width() * 16 - 129;
-        float ymax = map_height() * 16 - 65;
-        if(player_facing_right)
-            tcamx += CAMERA_OFFSET_X_DELTA;
-        else
-            tcamx -= CAMERA_OFFSET_X_DELTA;
-        if($pressed(UP_BUTTON))
-            tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
-        if($pressed(DOWN_BUTTON))
-            tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
-        if(tcamx < 0) tcamx = 0;
-        if(tcamy < 0) tcamy = 0;
-        if(tcamx > xmax) tcamx = xmax;
-        if(tcamy > ymax) tcamy = ymax;
-        camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
-
-        float d2camx =
-            (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
-            dcamx * CAMERA_UPDATE_X_BETA;
-        camx += dcamx * CAMERA_UPDATE_X_DT;
-        dcamx += d2camx * CAMERA_UPDATE_X_DT;
+        vy = -2.0;
+        jump_frames_remaining = PLAYER_JUMP_FRAMES;
+        $tones_play(SOUND_MOB_JUMP);
     }
+}
 
-    if(invincibility_frames != 0)
-        --invincibility_frames;
+void update_camera_position()
+{
+    float tcamy = py - CAMERA_OFFSET_Y;
+    float tcamx = px - CAMERA_OFFSET_X;
+    float xmax = map_width * 16 - 129;
+    float ymax = map_height * 16 - 65;
+    if(player_facing_right)
+        tcamx += CAMERA_OFFSET_X_DELTA;
+    else
+        tcamx -= CAMERA_OFFSET_X_DELTA;
+    if($pressed(UP_BUTTON))
+        tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
+    if($pressed(DOWN_BUTTON))
+        tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
+    if(tcamx < 0) tcamx = 0;
+    if(tcamy < 0) tcamy = 0;
+    if(tcamx > xmax) tcamx = xmax;
+    if(tcamy > ymax) tcamy = ymax;
+    camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
 
-    if(py > map_height() * 16 + 32)
+    float d2camx =
+        (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
+        dcamx * CAMERA_UPDATE_X_BETA;
+    camx += dcamx * CAMERA_UPDATE_X_DT;
+    dcamx += d2camx * CAMERA_UPDATE_X_DT;
+}
+
+void player_death()
+{
+    death_frames = DEATH_FRAMES;
+}
+
+bool solid(float x, float y, bool bottom)
+{
+    int ix = $floor(x);
+    int iy = $floor(y);
+
+    // collision against left map edge
+    if(ix < 0)
+        return true;
+    
+    // allow the player to shoot into the sky
+    if(iy < 0)
+        return false;
+
+    ix >>= 4;
+    iy >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(ix >= w)
+        return true;
+
+    // allow the player to fall through the floor
+    if(iy >= map_height)
+        return false;
+    u8 t = maps[current_map].map[iy * w + ix];
+    t -= 1;
+    if(t >= 240) return false;
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
+}
+
+void update_mob(map_object_t& obj)
+{
+    if(obj.death_frames != 0)
     {
-        // TODO: death animation
-        load_map(current_map);
+        if(--obj.death_frames == 0)
+            obj.type = OBJ_NONE;
+        return;
     }
+    if(obj.moving_right)
+    {
+        obj.x += 1;
+        i16 x = obj.x + obj.xo + obj.w;
+        if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
+        {
+            obj.x -= 1;
+            obj.moving_right = false;
+        }
+    }
+    else
+    {
+        obj.x -= 1;
+        float x = obj.x + obj.xo - 1;
+        if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
+        {
+            obj.x += 1;
+            obj.moving_right = true;
+        }
+    }
+}
 
-    ++frame_count;
+bool mob_solid(i16 x, i16 y, bool bottom)
+{
+    // collision against left map edge
+    if(x < 0)
+        return true;
+    
+    // allow the mob to fly above the map
+    if(y < 0)
+        return false;
+
+    x >>= 4;
+    y >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(x >= w)
+        return true;
+
+    // allow the mob to fall through the floor
+    if(y >= map_height)
+        return false;
+    u8 t = maps[current_map].map[y * w + x];
+    t -= 1;
+    if(t >= 240) return false;
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
 }
 
 void touch_object(map_object_t& obj)
@@ -240,5 +365,24 @@ void touch_object(map_object_t& obj)
     {
         vy = -PLAYER_SPRING_VEL;
         $tones_play(SOUND_SPRING);
+    }
+    else if(type >= OBJ_MOB && type <= OBJ_MOB_HELM)
+    {
+        if(obj.death_frames != 0)
+            return;
+        if(type == OBJ_MOB_HORN || py > obj.y + obj.yo || vy <= 0)
+        {
+            if(invincibility_frames == 0 && obj.death_frames == 0)
+                player_death();
+        }
+        else if(!mob_jumped)
+        {
+            mob_jumped = true;
+            py -= vy;
+            if(type == OBJ_MOB_HELM)
+                obj.type = OBJ_MOB;
+            else
+                obj.death_frames = MOB_DEATH_FRAMES;
+        }
     }
 }

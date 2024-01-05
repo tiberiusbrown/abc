@@ -262,6 +262,7 @@ error_t assembler_t::assemble(std::istream& f)
     //counting_stream_buffer counting_buf(f_orig.rdbuf(), error);
     //std::istream f(&counting_buf);
 
+    data_bytes = 0;
     while(error.msg.empty() && !f.eof())
     {
         t.clear();
@@ -394,6 +395,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETG2);
             push_global(f, true);
         }
+        else if(t == "setg4")
+        {
+            push_instr(I_SETG4);
+            push_global(f, true);
+            }
         else if(t == "setgn")
         {
             push_instr(I_SETGN);
@@ -566,15 +572,18 @@ error_t assembler_t::assemble(std::istream& f)
                 push_imm(x, 1);
             }
             f.flags(flags);
+            data_bytes += num + 1;
         }
         else if(t == ".rg")
         {
             push_global(f);
             nodes.back().type = GLOBAL_REF;
+            data_bytes += 2;
         }
         else if(t == ".rp")
         {
             push_label(f);
+            data_bytes += 3;
         }
         else if(t == ".file")
         {
@@ -732,6 +741,8 @@ error_t assembler_t::link()
     uint8_t current_file = 0;
     uint16_t current_line = 0;
 
+    code_bytes = 0;
+    debug_bytes = 0;
     for(size_t i = 0; i < nodes.size(); ++i)
     {
         auto const& n = nodes[i];
@@ -740,12 +751,14 @@ error_t assembler_t::link()
         {
         case INSTR:
             linked_data.push_back(n.instr);
+            code_bytes += 1;
             break;
         case IMM:
             if(n.size >= 1) linked_data.push_back(uint8_t(n.imm >> 0));
             if(n.size >= 2) linked_data.push_back(uint8_t(n.imm >> 8));
             if(n.size >= 3) linked_data.push_back(uint8_t(n.imm >> 16));
             if(n.size >= 4) linked_data.push_back(uint8_t(n.imm >> 24));
+            code_bytes += n.size;
             break;
         case GLOBAL:
         case GLOBAL_REF:
@@ -769,6 +782,7 @@ error_t assembler_t::link()
             linked_data.push_back(uint8_t(offset >> 0));
             if(n.size >= 2)
                 linked_data.push_back(uint8_t(offset >> 8));
+            code_bytes += n.size;
             break;
         }
         case LABEL:
@@ -792,6 +806,7 @@ error_t assembler_t::link()
                 if(n.size >= 1) linked_data.push_back(uint8_t(offset >> 0));
                 if(n.size >= 2) linked_data.push_back(uint8_t(offset >> 8));
                 if(n.size >= 3) linked_data.push_back(uint8_t(offset >> 16));
+                code_bytes += n.size;
             }
             else
             {
@@ -808,6 +823,7 @@ error_t assembler_t::link()
             advance_pc_offset();
             line_table.push_back(253);
             line_table.push_back(file);
+            debug_bytes += 2;
             current_file = file;
             break;
         }
@@ -822,12 +838,14 @@ error_t assembler_t::link()
                 uint32_t t = line - current_line + 127;
                 assert(t >= 128 && t <= 252);
                 line_table.push_back((uint8_t)t);
+                debug_bytes += 1;
             }
             else
             {
                 line_table.push_back(254);
                 line_table.push_back(uint8_t(line >> 0));
                 line_table.push_back(uint8_t(line >> 8));
+                debug_bytes += 3;
             }
             current_line = line;
             break;
@@ -838,6 +856,8 @@ error_t assembler_t::link()
             assert(it != custom_labels.end());
             auto const& d = it->second;
             linked_data.insert(linked_data.end(), d.begin(), d.end());
+            data_bytes += d.size();
+            code_bytes += d.size();
             break;
         }
         default:
@@ -845,6 +865,7 @@ error_t assembler_t::link()
         }
 
     }
+    code_bytes -= data_bytes;
 
     // add file table info (offset 12)
     linked_data[12] = (uint8_t)file_table.size();
@@ -909,6 +930,7 @@ void assembler_t::advance_pc_offset()
         uint32_t t = offset - prev_pc_offset - 1;
         assert(t >= 0 && t <= 127);
         line_table.push_back((uint8_t)t);
+        debug_bytes += 1;
     }
     else
     {
@@ -916,6 +938,7 @@ void assembler_t::advance_pc_offset()
         line_table.push_back(uint8_t(offset >> 0));
         line_table.push_back(uint8_t(offset >> 8));
         line_table.push_back(uint8_t(offset >> 16));
+        debug_bytes += 4;
     }
     prev_pc_offset = offset;
 }

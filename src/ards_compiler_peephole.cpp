@@ -562,6 +562,13 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
+            if(i1.instr == I_SETGN)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_SETG4;
+                t = true;
+                continue;
+            }
         }
 
         // replace PUSH 0; AIDX M N (M,N < 256) with AIDXB M N
@@ -592,6 +599,26 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             i2.instr = I_PIDXB;
             t = true;
             continue;
+        }
+
+        // replace BZ <L1>; JMP <L2>; <L1>: with BNZ <L2>
+        // replace BNZ <L1>; JMP <L2>; <L1>: with BZ <L2>
+        if(i0.label == i2.label && i1.instr == I_JMP && i2.is_label)
+        {
+            if(i0.instr == I_BZ)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_BNZ;
+                t = true;
+                continue;
+            }
+            if(i0.instr == I_BNZ)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_BZ;
+                t = true;
+                continue;
+            }
         }
     }
     return t;

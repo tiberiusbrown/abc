@@ -923,6 +923,20 @@ I_SETG2:
     rjmp .+0
     dispatch
 
+I_SETG4:
+    call read_2_bytes
+    movw r26, r16
+    subi r27, -2
+    ld   r19, -Y
+    ld   r18, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    st   X+, r16
+    st   X+, r17
+    st   X+, r18
+    st   X+, r19
+    dispatch
+
 I_SETGN:
     call read_2_bytes
     movw r26, r16

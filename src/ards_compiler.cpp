@@ -380,6 +380,7 @@ void compiler_t::create_builtin_font(compiler_global_t& g)
     for(auto const& f : ALL_FONTS)
     {
         if(g.name != f.name) continue;
+        if(!g.constexpr_ref.empty()) return;
         g.constexpr_ref = progdata_label();
         g.var.label_ref = g.constexpr_ref;
         std::vector<uint8_t> data;

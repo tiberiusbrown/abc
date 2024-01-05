@@ -6,17 +6,6 @@ struct map_info_t
     u8 w, h;
 };
 
-//
-// Map element constants
-//
-
-constexpr u8 TILE_PLAYER = 240;
-constexpr u8 TILE_COIN   = 241;
-constexpr u8 TILE_KEY    = 242;
-constexpr u8 TILE_DOOR1  = 243;
-constexpr u8 TILE_DOOR2  = 244;
-constexpr u8 TILE_SPRING = 245;
-
 void load_map(u8 index)
 {
     current_map = index;
@@ -26,9 +15,15 @@ void load_map(u8 index)
     jump_frames_remaining = 0;
     vx = 0;
     vy = 0;
+    level_start_frames = 75;
+    death_frames = 0;
+    state = STATE_LEVEL;
+
     u8[] prog& map = maps[index].map;
-    u8 w = map_width();
-    u8 h = map_height();
+    u8 w = maps[current_map].w;
+    u8 h = maps[current_map].h;
+    map_width = w;
+    map_height = h;
 
     // reset map objects
     for(u8 i = 0; i < MAX_OBJECTS; ++i)
@@ -56,8 +51,8 @@ void process_map_tile(u8 x, u8 y, u8 t)
         py = y * 16 + PYOFF;
         camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;
         camy = py - CAMERA_OFFSET_Y;
-        float xmax = map_width() * 16 - 129;
-        float ymax = map_height() * 16 - 65;
+        float xmax = map_width * 16 - 129;
+        float ymax = map_height * 16 - 65;
         if(camx < 0) camx = 0;
         if(camy < 0) camy = 0;
         if(camx > xmax) camx = xmax;
@@ -82,7 +77,18 @@ void process_map_tile(u8 x, u8 y, u8 t)
     }
     else if(t == TILE_SPRING)
     {
-        add_object({ OBJ_SPRING, x * 16, y * 16, 0, 6, 16, 10 });
+        add_object({ OBJ_SPRING, x * 16, y * 16, 3, 6, 10, 10 });
+    }
+    else if(t >= TILE_MOB && t <= TILE_MOB_HELM)
+    {
+        u8 xo = 3;
+        u8 yo = 5;
+        if(t == TILE_MOB_HELM)
+        {
+            xo = 2;
+            yo = 3;
+        }
+        add_object({ t - 240, x * 16, y * 16, xo, yo, 16 - xo * 2, 16 - yo, true });
     }
 }
 
@@ -98,18 +104,15 @@ void add_object(map_object_t obj)
     }
 }
 
-u8 map_width()  { return maps[current_map].w; }
-u8 map_height() { return maps[current_map].h; }
-
 u8[8 * 32] prog map0 = {
-    242, 242, 242, 242, 242, 242, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            242, 242, 242, 242, 242, 242, 242, 0, 0, 0, 0, 0, 0, 0, 0, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 244, 0,
-            242, 242, 242, 242, 242, 242, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 242, 0, 0, 0, 0, 0, 81, 82, 83,
-            242, 242, 242, 242, 242, 242, 242, 0, 242, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 83, 0, 0, 0,
-            242, 242, 242, 242, 242, 242, 242, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 84, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 243, 0,
-            108, 0, 241, 0, 126, 246, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            2, 2, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            108, 0, 241, 0, 242, 0, 1, 3, 0, 249, 0, 52, 0, 251, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            2, 2, 2, 2, 2, 2, 53, 5, 2, 2, 2, 2, 2, 2, 2, 53, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
 };
 
 map_info_t[1] prog maps = {

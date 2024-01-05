@@ -1,6 +1,12 @@
 // frame counter: increments each frame
 u8 frame_count;
 
+constexpr u8 STATE_MENU = 0;
+constexpr u8 STATE_INTRO = 1;
+constexpr u8 STATE_LEVEL = 2;
+constexpr u8 STATE_PAUSE = 3;
+u8 state;
+
 // camera position and velocity
 float camx, camy, dcamx;
 
@@ -10,6 +16,10 @@ u16 score;
 // index of current map
 u8 current_map;
 
+// cached for performance
+u8 map_width;
+u8 map_height;
+
 // how many keys the player is holding
 u8 keys;
 
@@ -17,19 +27,53 @@ u8 invincibility_frames;
 
 u8 jump_frames_remaining;
 
+// animation showing at level start
+u8 level_start_frames;
+
+// death animation
+u8 death_frames;
+constexpr u8 DEATH_FRAMES = 100;
+constexpr u8 DEATH_PAUSE_FRAMES = 30;
+constexpr float DEATH_VEL = 3.25;
+
+// after mob processing, whether the player jumped on a mob
+bool mob_jumped;
+
+// tiles
+constexpr u8 TILE_AIR_UP    = 177;
+constexpr u8 TILE_AIR_RIGHT = 178;
+constexpr u8 TILE_PLAYER    = 240;
+constexpr u8 TILE_COIN      = 241;
+constexpr u8 TILE_KEY       = 242;
+constexpr u8 TILE_DOOR1     = 243;
+constexpr u8 TILE_DOOR2     = 244;
+constexpr u8 TILE_SPRING    = 245;
+constexpr u8 TILE_MOB       = 248;
+constexpr u8 TILE_MOB_HORN  = 249;
+constexpr u8 TILE_MOB_HELM  = 250;
+
 // map objects
-constexpr u8 MAX_OBJECTS = 40;
-constexpr u8 OBJ_NONE   = 0;
-constexpr u8 OBJ_COIN   = 1;
-constexpr u8 OBJ_KEY    = 2;
-constexpr u8 OBJ_SPRING = 5;
+constexpr u8 MAX_OBJECTS = 20;
+constexpr u8 OBJ_NONE     = 0;
+constexpr u8 OBJ_COIN     = 1;
+constexpr u8 OBJ_KEY      = 2;
+constexpr u8 OBJ_SPRING   = 5;
+constexpr u8 OBJ_MOB      = 8;
+constexpr u8 OBJ_MOB_HORN = 9;
+constexpr u8 OBJ_MOB_HELM = 10;
 struct map_object_t
 {
     u8 type;
     i16 x, y; // sprite position
     u8 xo, yo, w, h; // bounding box
+
+    // for mobs
+    bool moving_right;
+    u8 death_frames;
 };
 map_object_t[MAX_OBJECTS] objects;
+
+constexpr u8 MOB_DEATH_FRAMES = 20;
 
 // player position and velocity
 float px, py, vx, vy;
@@ -72,6 +116,9 @@ constexpr float CAMERA_UPDATE_Y_FACTOR = 0.1;
 //
 
 constexpr float GRAVITY = 0.2;
+
+constexpr float FAN_AIR_VEL = 1.5;
+constexpr float FAN_AIR_FACTOR = 0.25;
 
 // player horizontal acceleration: on the ground or in the air
 constexpr float PLAYER_MOVE_ACCEL = 0.25;

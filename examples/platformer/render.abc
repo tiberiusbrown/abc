@@ -4,7 +4,15 @@ constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
 constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
+constexpr font LEVEL_START_FONT = font{ 16 "assets/8-BIT WONDER.ttf" };
+
 void render()
+{
+    if(state == STATE_LEVEL)
+        render_level();
+}
+
+void render_level()
 {
     // setup
     int icamx = int($round(camx));
@@ -17,7 +25,7 @@ void render()
         i8 xoff = -(icamx & 15);
         i8 yoff = -(icamy & 15);
         u8[] prog& m = maps[current_map].map;
-        u8 w = map_width();
+        u8 w = map_width;
 
         // background pattern
         {
@@ -37,8 +45,8 @@ void render()
                 u8 t = m[index + j] - 1;
                 if(t >= 240)
                     continue;
-                if(t >= 176 && ((frame_count + 0x05) & 0x08))
-                    t += 32;
+                if(t >= 176)
+                    t += ((frame_count << 2) & 0x30);
                 $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
             }
         }
@@ -52,10 +60,25 @@ void render()
             u8 t = obj.type;
             if(t == OBJ_NONE)
                 continue;
+            
+            u8 index;
+            if(t >= OBJ_MOB && obj.death_frames != 0)
+            {
+                if(obj.death_frames & 0x4)
+                    continue;
+                else
+                    index = t + 64;
+            }
+            else
+            {
+                index = t;
+                if(death_frames == 0)
+                    index += ((frame_count + i * 173) & 0x30);
+            }
 
             $draw_sprite(
                 obj.x - icamx, obj.y - icamy, OBJECTS,
-                t + ((frame_count + i * 173) & 0x30));
+                index);
         }
     }
 
@@ -74,6 +97,8 @@ void render()
         {
             index += 4;
         }
+        if(death_frames != 0)
+            index = 5;
 
         float x = px - camx - PXOFF;
         float y = py - camy - PYOFF;
@@ -85,4 +110,22 @@ void render()
         $draw_sprite(119 - i * 9, 0, IMG_KEY, 0);
     $draw_filled_rect(0, 0, 24, 6, BLACK);
     $draw_textf(0, 0, FONT_BR6, "%u", score);
+
+    // render level start animation
+    if(level_start_frames != 0)
+    {
+        char[20] buf;
+        $format(buf, "Level %d", current_map + 1);
+        constexpr u8 y = 16;
+        u8 w = $text_width(LEVEL_START_FONT, buf);
+        i16 x = 64 - w / 2;
+        if(level_start_frames >= 57)
+            x += (level_start_frames - 57) * 10;
+        if(level_start_frames <= 8)
+            x -= (8 - level_start_frames) * 10;
+        $draw_filled_rect(x - 2, y, w + 4, 20, BLACK);
+        $draw_text(x, y + 2, LEVEL_START_FONT, buf);
+
+        --level_start_frames;
+    }
 }

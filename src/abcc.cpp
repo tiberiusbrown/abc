@@ -57,7 +57,7 @@ int main(int argc, char** argv)
     psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble3/bubble3.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/push4.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/struct_ref_bug.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
 #endif
 
@@ -134,6 +134,18 @@ int main(int argc, char** argv)
 
     printf("Time: %f\n", double(tb - ta) / CLOCKS_PER_SEC);
 #endif
+
+    printf("Compilation succeeded!\n");
+    printf("======================\n");
+    printf("Dev Bin: %7d bytes  %6.1f KB\n", (int)a.data().size(), (double)a.data().size() / 1024);
+    printf("======================\n");
+    printf("Data:    %7d bytes  %6.1f KB\n", (int)a.data_size(), (double)a.data_size() / 1024);
+    printf("Code:    %7d bytes  %6.1f KB\n", (int)a.code_size(), (double)a.code_size() / 1024);
+    printf("Debug:   %7d bytes  %6.1f KB\n", (int)a.debug_size(), (double)a.debug_size() / 1024);
+    printf("======================\n");
+    printf("Globals: %7d bytes\n", (int)a.globals_size());
+    printf("Save:    %7d bytes\n", (int)a.save_size());
+    printf("======================\n");
 
     if(!pbin.empty())
     {
