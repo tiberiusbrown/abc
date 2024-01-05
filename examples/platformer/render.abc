@@ -4,12 +4,21 @@ constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
 constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
-constexpr font LEVEL_START_FONT = font{ 16 "assets/8-BIT WONDER.ttf" };
+constexpr font LEVEL_START_FONT = font{ 12 "assets/8-BIT WONDER.ttf" };
 
 void render()
 {
     if(state == STATE_LEVEL)
         render_level();
+    else if(state == STATE_INTRO)
+        render_intro();
+}
+
+void render_intro()
+{
+    $draw_textf(30, 10, LEVEL_START_FONT, "%u", score);
+    if(frame_count & 0x20)
+        $draw_text_P(26, 51, LEVEL_START_FONT, "Press A");
 }
 
 void render_level()
@@ -116,14 +125,15 @@ void render_level()
     {
         char[20] buf;
         $format(buf, "Level %d", current_map + 1);
-        constexpr u8 y = 16;
+        constexpr u8 y = 20;
+        constexpr u8 h = 12;
         u8 w = $text_width(LEVEL_START_FONT, buf);
         i16 x = 64 - w / 2;
         if(level_start_frames >= 57)
             x += (level_start_frames - 57) * 10;
         if(level_start_frames <= 8)
             x -= (8 - level_start_frames) * 10;
-        $draw_filled_rect(x - 2, y, w + 4, 20, BLACK);
+        $draw_filled_rect(x - 2, y, w + 4, h + 4, BLACK);
         $draw_text(x, y + 2, LEVEL_START_FONT, buf);
 
         --level_start_frames;

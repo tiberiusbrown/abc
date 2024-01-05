@@ -6,9 +6,8 @@ struct map_info_t
     u8 w, h;
 };
 
-void load_map(u8 index)
+void load_map()
 {
-    current_map = index;
     player_facing_right = true;
     keys = 0;
     invincibility_frames = 75;
@@ -19,7 +18,7 @@ void load_map(u8 index)
     death_frames = 0;
     state = STATE_LEVEL;
 
-    u8[] prog& map = maps[index].map;
+    u8[] prog& map = maps[current_map].map;
     u8 w = maps[current_map].w;
     u8 h = maps[current_map].h;
     map_width = w;

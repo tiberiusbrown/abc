@@ -1,13 +1,23 @@
 void update()
 {
+    $poll_buttons();
+
     if(state == STATE_LEVEL)
         update_level();
+    else if(state == STATE_INTRO)
+        update_intro();
+
+    ++frame_count;
+}
+
+void update_intro()
+{
+    if($just_pressed(A_BUTTON))
+        load_map();
 }
 
 void update_level()
 {
-    $poll_buttons();
-
     // player acceleration
     float ax = 0;
     float ay = 0;
@@ -90,9 +100,14 @@ void update_level()
         ax = 0;
         ay = 0;
         vx = 0;
-        if(death_frames > DEATH_FRAMES - DEATH_PAUSE_FRAMES)
+        if(--death_frames == 0)
+        {
+            state = STATE_INTRO;
+            return;
+        }
+        else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
             vy = 0;
-        else if(death_frames == DEATH_FRAMES - DEATH_PAUSE_FRAMES)
+        else if(death_frames == DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
             vy = -DEATH_VEL;
     }
 
@@ -123,20 +138,12 @@ void update_level()
         update_camera_position();
     }
 
-    if(death_frames != 0)
-    {
-        if(--death_frames == 0)
-            state = STATE_INTRO;
-    }
-
     if(invincibility_frames != 0)
         --invincibility_frames;
 
     // check if player has fallen out of the bottom of the level
     if(py > map_height * 16 + 32)
         player_death();
-
-    ++frame_count;
 }
 
 void resolve_player_collision()
@@ -250,7 +257,9 @@ void update_camera_position()
 
 void player_death()
 {
-    death_frames = DEATH_FRAMES;
+    if(death_frames != 0)
+        return;
+    death_frames = DEATH_TOTAL_FRAMES;
 }
 
 bool solid(float x, float y, bool bottom)

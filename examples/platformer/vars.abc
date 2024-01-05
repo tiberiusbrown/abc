@@ -11,7 +11,7 @@ u8 state;
 float camx, camy, dcamx;
 
 // current score
-u16 score;
+saved u16 score;
 
 // index of current map
 u8 current_map;
@@ -32,8 +32,9 @@ u8 level_start_frames;
 
 // death animation
 u8 death_frames;
-constexpr u8 DEATH_FRAMES = 100;
 constexpr u8 DEATH_PAUSE_FRAMES = 30;
+constexpr u8 DEATH_JUMP_FRAMES = 70;
+constexpr u8 DEATH_TOTAL_FRAMES = DEATH_PAUSE_FRAMES + DEATH_JUMP_FRAMES;
 constexpr float DEATH_VEL = 3.25;
 
 // after mob processing, whether the player jumped on a mob
