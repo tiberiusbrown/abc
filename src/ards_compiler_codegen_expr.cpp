@@ -147,7 +147,8 @@ void compiler_t::codegen_expr(
 
     case AST::OP_ASSIGN_COMPOUND:
     {
-        auto size = a.children[0].comp_type.prim_size;
+        auto const& dtype = a.children[0].comp_type.without_ref_single();
+        auto size = dtype.prim_size;
         bool non_root = (
             a.parent &&
             a.parent->type != AST::EXPR_STMT &&

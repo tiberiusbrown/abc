@@ -258,8 +258,7 @@ void update_mob(map_object_t& obj)
 {
     if(obj.death_frames != 0)
     {
-        obj.death_frames = obj.death_frames - 1;
-        if(obj.death_frames == 0)
+        if(--obj.death_frames == 0)
             obj.type = OBJ_NONE;
         return;
     }

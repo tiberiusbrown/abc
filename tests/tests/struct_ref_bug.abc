@@ -1,0 +1,19 @@
+struct foo_t
+{
+    bool whatev;
+    u8 x;
+};
+
+foo_t foo = { false, 1 };
+
+void main()
+{
+    $debug_break();
+    
+    if(--foo.x == 0)
+        foo.x = 42;
+    
+    $assert(foo.x == 42);
+    
+    $debug_break();
+}
