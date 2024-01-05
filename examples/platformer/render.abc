@@ -116,6 +116,4 @@ void render()
 
         --level_start_frames;
     }
-
-    //$draw_textf(20, 0, FONT_BR6, "%f %f", px, py);
 }
