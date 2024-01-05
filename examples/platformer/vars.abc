@@ -58,6 +58,8 @@ struct map_object_t
 };
 map_object_t[MAX_OBJECTS] objects;
 
+constexpr u8 MOB_DEATH_FRAMES = 20;
+
 // player position and velocity
 float px, py, vx, vy;
 
