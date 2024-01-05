@@ -15,6 +15,8 @@ void load_map(u8 index)
     jump_frames_remaining = 0;
     vx = 0;
     vy = 0;
+    level_start_frames = 75;
+
     u8[] prog& map = maps[index].map;
     u8 w = maps[current_map].w;
     u8 h = maps[current_map].h;

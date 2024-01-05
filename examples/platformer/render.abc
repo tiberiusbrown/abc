@@ -4,6 +4,8 @@ constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
 constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
+constexpr font LEVEL_START_FONT = font{ 16 "assets/8-BIT WONDER.ttf" };
+
 void render()
 {
     // setup
@@ -96,6 +98,24 @@ void render()
         $draw_sprite(119 - i * 9, 0, IMG_KEY, 0);
     $draw_filled_rect(0, 0, 24, 6, BLACK);
     $draw_textf(0, 0, FONT_BR6, "%u", score);
+
+    // render level start animation
+    if(level_start_frames != 0)
+    {
+        char[20] buf;
+        $format(buf, "Level %d", current_map + 1);
+        constexpr u8 y = 16;
+        u8 w = $text_width(LEVEL_START_FONT, buf);
+        i16 x = 64 - w / 2;
+        if(level_start_frames >= 57)
+            x += (level_start_frames - 57) * 10;
+        if(level_start_frames <= 8)
+            x -= (8 - level_start_frames) * 10;
+        $draw_filled_rect(x - 2, y, w + 4, 20, BLACK);
+        $draw_text(x, y + 2, LEVEL_START_FONT, buf);
+
+        --level_start_frames;
+    }
 
     //$draw_textf(20, 0, FONT_BR6, "%f %f", px, py);
 }

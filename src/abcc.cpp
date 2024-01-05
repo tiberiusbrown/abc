@@ -135,6 +135,15 @@ int main(int argc, char** argv)
     printf("Time: %f\n", double(tb - ta) / CLOCKS_PER_SEC);
 #endif
 
+    printf("Compilation succeeded!\n");
+    printf("======================\n");
+    printf("Data:    %7d bytes\n", (int)a.data_size());
+    printf("Code:    %7d bytes\n", (int)a.code_size());
+    printf("Debug:   %7d bytes\n", (int)a.debug_size());
+    printf("Globals: %7d bytes\n", (int)a.globals_size());
+    printf("Save:    %7d bytes\n", (int)a.save_size());
+    printf("======================\n");
+
     if(!pbin.empty())
     {
         auto fxdata = pbin;

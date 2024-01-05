@@ -21,6 +21,9 @@ u8 invincibility_frames;
 
 u8 jump_frames_remaining;
 
+// animation showing at level start
+u8 level_start_frames;
+
 // after mob processing, whether the player jumped on a mob
 bool mob_jumped;
 

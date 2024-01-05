@@ -34,6 +34,13 @@ struct assembler_t
         std::vector<uint8_t> const& data);
     error_t link();
     bool has_save() const { return saved_bytes > 0; }
+
+    size_t globals_size() const { return globals_bytes; }
+    size_t save_size() const { return saved_bytes; }
+    size_t code_size() const { return code_bytes; }
+    size_t data_size() const { return data_bytes; }
+    size_t debug_size() const { return debug_bytes; }
+
     std::vector<uint8_t> const& data() { return linked_data; }
 private:
     std::vector<uint8_t> linked_data;
@@ -66,6 +73,10 @@ private:
 
     // whether the binary will need a save sector
     size_t saved_bytes;
+
+    size_t code_bytes;
+    size_t data_bytes;
+    size_t debug_bytes;
     
     enum node_type_t : uint8_t
     {
