@@ -3,6 +3,11 @@ constexpr tones SOUND_JUMP = tones{
     C5 20 C5# 20 D5 20 D5# 20 E5 20
 };
 
+// jump on a mob
+constexpr tones SOUND_MOB_JUMP = tones{
+    E5 20 D5 20 C5 20 D5 20 E5 20
+};
+
 // spring
 constexpr tones SOUND_SPRING = tones{
     C5 20 C5# 20 D5 20 D5# 20 E5 20

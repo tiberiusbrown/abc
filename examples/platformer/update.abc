@@ -1,36 +1,3 @@
-bool solid(float x, float y, bool bottom)
-{
-    int ix = $floor(x);
-    int iy = $floor(y);
-
-    // collision against left map edge
-    if(ix < 0)
-        return true;
-    
-    // allow the player to shoot into the sky
-    if(iy < 0)
-        return false;
-
-    ix >>= 4;
-    iy >>= 4;
-    u8 w = map_width;
-
-    // collision against right map edge
-    if(ix >= w)
-        return true;
-
-    // allow the player to fall through the floor
-    if(iy >= map_height)
-        return false;
-    u8 t = maps[current_map].map[iy * w + ix];
-    t -= 1;
-    if(t >= 240) return false;
-    if(t < 64) return true;
-    if(bottom && t < 96) return true;
-    if(t >= 176 && (t & 15) >= 8) return true;
-    return false;
-}
-
 void update()
 {
     $poll_buttons();
@@ -182,6 +149,7 @@ void update()
         i16 py0 = $round(py) + i16(-PYOFF + 1);
         i16 px1 = px0 + i16(PHEH * 2 - 1);
         i16 py1 = py0 + i16(PHEV * 2 - 1);
+        mob_jumped = false;
         for(u8 i = 0; i < MAX_OBJECTS; ++i)
         {
             map_object_t& obj = objects[i];
@@ -201,6 +169,12 @@ void update()
             {
                 touch_object(obj);
             }
+        }
+        if(mob_jumped)
+        {
+            vy = -2.0;
+            jump_frames_remaining = PLAYER_JUMP_FRAMES;
+            $tones_play(SOUND_MOB_JUMP);
         }
     }
 
@@ -234,13 +208,50 @@ void update()
     if(invincibility_frames != 0)
         --invincibility_frames;
 
+    // check if player has fallen out of the bottom of the level
     if(py > map_height * 16 + 32)
-    {
-        // TODO: death animation
-        load_map(current_map);
-    }
+        player_death();
 
     ++frame_count;
+}
+
+void player_death()
+{
+    // TODO: death animation
+    load_map(current_map);
+}
+
+bool solid(float x, float y, bool bottom)
+{
+    int ix = $floor(x);
+    int iy = $floor(y);
+
+    // collision against left map edge
+    if(ix < 0)
+        return true;
+    
+    // allow the player to shoot into the sky
+    if(iy < 0)
+        return false;
+
+    ix >>= 4;
+    iy >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(ix >= w)
+        return true;
+
+    // allow the player to fall through the floor
+    if(iy >= map_height)
+        return false;
+    u8 t = maps[current_map].map[iy * w + ix];
+    t -= 1;
+    if(t >= 240) return false;
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
 }
 
 void update_mob(map_object_t& obj)
@@ -248,7 +259,7 @@ void update_mob(map_object_t& obj)
     if(obj.moving_right)
     {
         obj.x += 1;
-        i16 x = obj.x + obj.xo + obj.w - 1;
+        i16 x = obj.x + obj.xo + obj.w;
         if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
         {
             obj.x -= 1;
@@ -258,7 +269,7 @@ void update_mob(map_object_t& obj)
     else
     {
         obj.x -= 1;
-        float x = obj.x + obj.xo;
+        float x = obj.x + obj.xo - 1;
         if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
         {
             obj.x += 1;
@@ -319,6 +330,15 @@ void touch_object(map_object_t& obj)
     }
     else if(type >= OBJ_MOB && type <= OBJ_MOB_HELM)
     {
-        
+        if(type == OBJ_MOB_HORN || py > obj.y + obj.yo || vy <= 0)
+        {
+            if(invincibility_frames == 0)
+                player_death();
+        }
+        else if(!mob_jumped)
+        {
+            obj.type = OBJ_NONE;
+            mob_jumped = true;
+        }
     }
 }

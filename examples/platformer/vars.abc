@@ -21,6 +21,9 @@ u8 invincibility_frames;
 
 u8 jump_frames_remaining;
 
+// after mob processing, whether the player jumped on a mob
+bool mob_jumped;
+
 // tiles
 constexpr u8 TILE_AIR_UP    = 177;
 constexpr u8 TILE_AIR_RIGHT = 178;
@@ -48,7 +51,10 @@ struct map_object_t
     u8 type;
     i16 x, y; // sprite position
     u8 xo, yo, w, h; // bounding box
-    bool moving_right; // for mobs
+
+    // for mobs
+    bool moving_right;
+    u8 death_frames;
 };
 map_object_t[MAX_OBJECTS] objects;
 
