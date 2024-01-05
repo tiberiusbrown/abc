@@ -1,5 +1,11 @@
 void update()
 {
+    if(state == STATE_LEVEL)
+        update_level();
+}
+
+void update_level()
+{
     $poll_buttons();
 
     // player acceleration
@@ -79,6 +85,17 @@ void update()
     vx += ax;
     vy += ay;
 
+    if(death_frames != 0)
+    {
+        ax = 0;
+        ay = 0;
+        vx = 0;
+        if(death_frames > DEATH_FRAMES - DEATH_PAUSE_FRAMES)
+            vy = 0;
+        else if(death_frames == DEATH_FRAMES - DEATH_PAUSE_FRAMES)
+            vy = -DEATH_VEL;
+    }
+
     // clamp velocity
     if     (vx < -PLAYER_MAX_VEL_X) vx = -PLAYER_MAX_VEL_X;
     else if(vx >  PLAYER_MAX_VEL_X) vx =  PLAYER_MAX_VEL_X;
@@ -99,6 +116,31 @@ void update()
     if(player_on_ground != 0)
         --player_on_ground;
 
+    if(death_frames == 0)
+    {
+        resolve_player_collision();
+        update_map_objects();
+        update_camera_position();
+    }
+
+    if(death_frames != 0)
+    {
+        if(--death_frames == 0)
+            state = STATE_INTRO;
+    }
+
+    if(invincibility_frames != 0)
+        --invincibility_frames;
+
+    // check if player has fallen out of the bottom of the level
+    if(py > map_height * 16 + 32)
+        player_death();
+
+    ++frame_count;
+}
+
+void resolve_player_collision()
+{
     // resolve collision: left
     if(vx < 0 && (
         solid(px - PHEH, py - (PHEV - 1), false) ||
@@ -142,83 +184,73 @@ void update()
             player_on_ground = PLAYER_ON_GROUND_FRAMES;
         }
     }
+}
 
-    // map object updates
+void update_map_objects()
+{
+    i16 px0 = $round(px) + i16(-PXOFF + 1);
+    i16 py0 = $round(py) + i16(-PYOFF + 1);
+    i16 px1 = px0 + i16(PHEH * 2 - 1);
+    i16 py1 = py0 + i16(PHEV * 2 - 1);
+    mob_jumped = false;
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
     {
-        i16 px0 = $round(px) + i16(-PXOFF + 1);
-        i16 py0 = $round(py) + i16(-PYOFF + 1);
-        i16 px1 = px0 + i16(PHEH * 2 - 1);
-        i16 py1 = py0 + i16(PHEV * 2 - 1);
-        mob_jumped = false;
-        for(u8 i = 0; i < MAX_OBJECTS; ++i)
-        {
-            map_object_t& obj = objects[i];
-            if(obj.type == OBJ_NONE)
-                continue;
+        map_object_t& obj = objects[i];
+        if(obj.type == OBJ_NONE)
+            continue;
 
-            if(obj.type >= OBJ_MOB && ((frame_count + i) & 1))
-                update_mob(obj);
+        if(obj.type >= OBJ_MOB && ((frame_count + i) & 1))
+            update_mob(obj);
 
-            // test if player is colliding with object
-            i16 x = obj.x + obj.xo;
-            i16 y = obj.y + obj.xo;
-            if( px1 >= x &&
-                py1 >= y &&
-                px0 < i16(x + obj.w) &&
-                py0 < i16(y + obj.h))
-            {
-                touch_object(obj);
-            }
-        }
-        if(mob_jumped)
+        // test if player is colliding with object
+        i16 x = obj.x + obj.xo;
+        i16 y = obj.y + obj.xo;
+        if( px1 >= x &&
+            py1 >= y &&
+            px0 < i16(x + obj.w) &&
+            py0 < i16(y + obj.h))
         {
-            vy = -2.0;
-            jump_frames_remaining = PLAYER_JUMP_FRAMES;
-            $tones_play(SOUND_MOB_JUMP);
+            touch_object(obj);
         }
     }
-
-    // update camera position
+    if(mob_jumped)
     {
-        float tcamy = py - CAMERA_OFFSET_Y;
-        float tcamx = px - CAMERA_OFFSET_X;
-        float xmax = map_width * 16 - 129;
-        float ymax = map_height * 16 - 65;
-        if(player_facing_right)
-            tcamx += CAMERA_OFFSET_X_DELTA;
-        else
-            tcamx -= CAMERA_OFFSET_X_DELTA;
-        if($pressed(UP_BUTTON))
-            tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
-        if($pressed(DOWN_BUTTON))
-            tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
-        if(tcamx < 0) tcamx = 0;
-        if(tcamy < 0) tcamy = 0;
-        if(tcamx > xmax) tcamx = xmax;
-        if(tcamy > ymax) tcamy = ymax;
-        camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
-
-        float d2camx =
-            (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
-            dcamx * CAMERA_UPDATE_X_BETA;
-        camx += dcamx * CAMERA_UPDATE_X_DT;
-        dcamx += d2camx * CAMERA_UPDATE_X_DT;
+        vy = -2.0;
+        jump_frames_remaining = PLAYER_JUMP_FRAMES;
+        $tones_play(SOUND_MOB_JUMP);
     }
+}
 
-    if(invincibility_frames != 0)
-        --invincibility_frames;
+void update_camera_position()
+{
+    float tcamy = py - CAMERA_OFFSET_Y;
+    float tcamx = px - CAMERA_OFFSET_X;
+    float xmax = map_width * 16 - 129;
+    float ymax = map_height * 16 - 65;
+    if(player_facing_right)
+        tcamx += CAMERA_OFFSET_X_DELTA;
+    else
+        tcamx -= CAMERA_OFFSET_X_DELTA;
+    if($pressed(UP_BUTTON))
+        tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
+    if($pressed(DOWN_BUTTON))
+        tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
+    if(tcamx < 0) tcamx = 0;
+    if(tcamy < 0) tcamy = 0;
+    if(tcamx > xmax) tcamx = xmax;
+    if(tcamy > ymax) tcamy = ymax;
+    camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
 
-    // check if player has fallen out of the bottom of the level
-    if(py > map_height * 16 + 32)
-        player_death();
-
-    ++frame_count;
+    float d2camx =
+        (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
+        dcamx * CAMERA_UPDATE_X_BETA;
+    camx += dcamx * CAMERA_UPDATE_X_DT;
+    dcamx += d2camx * CAMERA_UPDATE_X_DT;
 }
 
 void player_death()
 {
-    // TODO: death animation
-    load_map(current_map);
+    death_frames = DEATH_FRAMES;
 }
 
 bool solid(float x, float y, bool bottom)

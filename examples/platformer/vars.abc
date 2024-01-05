@@ -1,6 +1,12 @@
 // frame counter: increments each frame
 u8 frame_count;
 
+constexpr u8 STATE_MENU = 0;
+constexpr u8 STATE_INTRO = 1;
+constexpr u8 STATE_LEVEL = 2;
+constexpr u8 STATE_PAUSE = 3;
+u8 state;
+
 // camera position and velocity
 float camx, camy, dcamx;
 
@@ -23,6 +29,12 @@ u8 jump_frames_remaining;
 
 // animation showing at level start
 u8 level_start_frames;
+
+// death animation
+u8 death_frames;
+constexpr u8 DEATH_FRAMES = 100;
+constexpr u8 DEATH_PAUSE_FRAMES = 30;
+constexpr float DEATH_VEL = 3.25;
 
 // after mob processing, whether the player jumped on a mob
 bool mob_jumped;
