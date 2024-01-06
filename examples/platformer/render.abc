@@ -111,8 +111,8 @@ void render_level()
             index = 5;
 
         float x = px - camx - PXOFF;
-        float y = py - camy - PYOFF;
-        $draw_sprite($round(x), $round(y), PLAYER, index);
+        i16 y = $round(py) - icamy - i16(PYOFF);
+        $draw_sprite($round(x), y, PLAYER, index);
     }
 
     // render HUD elements

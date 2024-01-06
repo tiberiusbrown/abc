@@ -103,6 +103,7 @@ void update_level()
         if(--death_frames == 0)
         {
             state = STATE_INTRO;
+            hearts = MAX_HEARTS;
             return;
         }
         else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
@@ -143,7 +144,7 @@ void update_level()
 
     // check if player has fallen out of the bottom of the level
     if(py > map_height * 16 + 32)
-        player_take_damage();
+        player_death();
 }
 
 void resolve_player_collision()
@@ -255,6 +256,14 @@ void update_camera_position()
     dcamx += d2camx * CAMERA_UPDATE_X_DT;
 }
 
+void player_death()
+{
+    if(death_frames != 0)
+        return;
+    death_frames = DEATH_TOTAL_FRAMES;
+    $tones_play(SOUND_DEATH);
+}
+
 void player_take_damage()
 {
     if(death_frames != 0)
@@ -268,8 +277,7 @@ void player_take_damage()
         if(player_facing_right) vx = -1.5;
         return;
     }
-    death_frames = DEATH_TOTAL_FRAMES;
-    $tones_play(SOUND_DEATH);
+    player_death();
 }
 
 bool solid(float x, float y, bool bottom)
@@ -384,6 +392,15 @@ void touch_object(map_object_t& obj)
     {
         vy = -PLAYER_SPRING_VEL;
         $tones_play(SOUND_SPRING);
+    }
+    else if(type == OBJ_HEART)
+    {
+        if(hearts < MAX_HEARTS)
+        {
+            ++hearts;
+            obj.type = OBJ_NONE;
+            $tones_play(SOUND_HEAL);
+        }
     }
     else if(type >= OBJ_MOB && type <= OBJ_MOB_HELM)
     {

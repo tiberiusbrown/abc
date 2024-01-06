@@ -30,10 +30,16 @@ constexpr tones SOUND_LEVEL_START = tones{
     G5 300
 };
 
-// player damage
+// player was damaged
 constexpr tones SOUND_DAMAGE = tones{
     G4  100
     C4  200
+};
+
+// player picked up a heart
+constexpr tones SOUND_HEAL = tones{
+    C4  100
+    G4  200
 };
 
 // player death
