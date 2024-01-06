@@ -6,7 +6,7 @@ namespace ards
 
 bool sysfunc_is_format(sysfunc_t f)
 {
-    return f == SYS_DRAW_TEXTF || f == SYS_FORMAT;
+    return f == SYS_DRAW_TEXTF || f == SYS_FORMAT || f == SYS_DEBUG_PRINTF;
 }
 
 std::unordered_map<std::string, sysfunc_t> const sys_names =
@@ -31,6 +31,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "next_frame",           SYS_NEXT_FRAME           },
     { "idle",                 SYS_IDLE                 },
     { "debug_break",          SYS_DEBUG_BREAK          },
+    { "debug_printf",         SYS_DEBUG_PRINTF         },
     { "assert",               SYS_ASSERT               },
     { "poll_buttons",         SYS_POLL_BUTTONS         },
     { "just_pressed",         SYS_JUST_PRESSED         },
@@ -91,6 +92,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_NEXT_FRAME,           { TYPE_BOOL,  { }, { } } },
     { SYS_IDLE,                 { TYPE_VOID,  { }, { } } },
     { SYS_DEBUG_BREAK,          { TYPE_VOID,  { }, { } } },
+    { SYS_DEBUG_PRINTF,         { TYPE_VOID,  { TYPE_STR_PROG }, { "fmt" }}},
     { SYS_ASSERT,               { TYPE_VOID,  { TYPE_BOOL }, { "cond" } } },
     { SYS_POLL_BUTTONS,         { TYPE_VOID,  { }, { } } },
     { SYS_JUST_PRESSED,         { TYPE_BOOL,  { TYPE_U8 }, { "button" } } },

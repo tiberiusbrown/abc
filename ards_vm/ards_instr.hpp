@@ -27,6 +27,7 @@ enum sysfunc_t : uint16_t
     SYS_NEXT_FRAME,
     SYS_IDLE,
     SYS_DEBUG_BREAK,
+    SYS_DEBUG_PRINTF,
     SYS_ASSERT,
     SYS_POLL_BUTTONS,
     SYS_JUST_PRESSED,

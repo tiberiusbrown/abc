@@ -910,6 +910,11 @@ static void format_exec_draw(char c)
     }
 }
 
+static void format_exec_debug_printf(char c)
+{
+    UEDATX = c;
+}
+
 static void sys_format()
 {
     auto ptr = vm_pop_begin();
@@ -928,6 +933,17 @@ static void sys_format()
     
     if(user.n != 0)
         *user.p = '\0';
+    
+    FX::seekData(ards::vm.pc);
+}
+
+static void sys_debug_printf()
+{
+    (void)FX::readEnd();
+    
+    format_db = 0;
+    format_dn = 0;
+    format_exec(format_exec_debug_printf);
     
     FX::seekData(ards::vm.pc);
 }
@@ -1168,6 +1184,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_next_frame,
     sys_idle,
     sys_debug_break,
+    sys_debug_printf,
     sys_assert,
     sys_poll_buttons,
     sys_just_pressed,
@@ -1204,4 +1221,5 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_generate_random_seed,
     sys_init_random_seed,
     sys_random,
+
 };

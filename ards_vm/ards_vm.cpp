@@ -59,7 +59,7 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
     for(uint8_t i = 0; i < 128; ++i)
         Arduboy2Base::sBuffer[128+i] = 0x0c;
 
-    char const* t = pgm_read_ptr(&ERRC[e - 1]);
+    char const* t = (char const*)pgm_read_ptr(&ERRC[e - 1]);
     uint8_t w = draw_text(0, 64, t, true);
     draw_text(0, 16, t, true);
     
@@ -118,7 +118,7 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
             static char const STR_FILE[] PROGMEM = "File:";
             static char const STR_LINE[] PROGMEM = "Line:";
             char fname[32];
-            FX::readDataBytes(file_table + file * 32, fname, 32);
+            FX::readDataBytes(file_table + file * 32, (uint8_t*)fname, 32);
             draw_text(0, 32, STR_FILE, true);
             draw_text(20, 32, fname, false);
             draw_text(0, 40, STR_LINE, true);
@@ -145,7 +145,8 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
 // the alignment of 512 allows optimized dispatch: the prog address for ijmp can
 // be computed by adding to the high byte only instead of adding a 2-byte offset
 
-static void __attribute__((used, naked)) vm_execute()
+// HACK: place at .progmem directly to help avoid waste due to padding
+static void __attribute__((used, naked, section(".progmem"))) vm_execute_func()
 {
     asm volatile(
 R"(
