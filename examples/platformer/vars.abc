@@ -10,11 +10,14 @@ u8 state;
 // camera position and velocity
 float camx, camy, dcamx;
 
-// current score
+// current score in the level playing
 u16 score;
 
 // index of current map
-u8 current_map;
+saved u8 current_map;
+saved u16 total_score;
+
+saved u16 high_score;
 
 // cached for performance
 u8 map_width;
@@ -26,6 +29,9 @@ u8 keys;
 // player health
 u8 hearts;
 constexpr u8 MAX_HEARTS = 3;
+
+u8 lives;
+constexpr u8 STARTING_LIVES = 5;
 
 u8 invincibility_frames;
 constexpr u8 INVINCIBILITY_LEVEL_START = 75;
@@ -49,12 +55,14 @@ bool mob_jumped;
 // tiles
 constexpr u8 TILE_AIR_UP    = 177;
 constexpr u8 TILE_AIR_RIGHT = 178;
+constexpr u8 TILE_AIR_LEFT  = 179;
+constexpr u8 TILE_SPRING    = 180;
+constexpr u8 TILE_SPRING_R  = 181;
+constexpr u8 TILE_SPRING_L  = 182;
+
 constexpr u8 TILE_PLAYER    = 240;
 constexpr u8 TILE_COIN      = 241;
 constexpr u8 TILE_KEY       = 242;
-constexpr u8 TILE_DOOR1     = 243;
-constexpr u8 TILE_DOOR2     = 244;
-constexpr u8 TILE_SPRING    = 245;
 constexpr u8 TILE_HEART     = 246;
 constexpr u8 TILE_MOB       = 248;
 constexpr u8 TILE_MOB_HORN  = 249;
@@ -65,7 +73,6 @@ constexpr u8 MAX_OBJECTS = 20;
 constexpr u8 OBJ_NONE     = 0;
 constexpr u8 OBJ_COIN     = 1;
 constexpr u8 OBJ_KEY      = 2;
-constexpr u8 OBJ_SPRING   = 5;
 constexpr u8 OBJ_HEART    = 6;
 constexpr u8 OBJ_MOB      = 8;
 constexpr u8 OBJ_MOB_HORN = 9;
@@ -108,17 +115,18 @@ constexpr float PYOFF = 10;
 
 constexpr float CAMERA_OFFSET_X = 64;
 constexpr float CAMERA_OFFSET_X_DELTA = 32;
-constexpr float CAMERA_OFFSET_Y = 34;
+constexpr float CAMERA_OFFSET_Y = 28;
 constexpr float CAMERA_OFFSET_Y_DELTA_UP = 22;
-constexpr float CAMERA_OFFSET_Y_DELTA_DOWN = 26;
+constexpr float CAMERA_OFFSET_Y_DELTA_DOWN = 24;
+constexpr float CAMERA_Y_HYSTERESIS = 7;
 
 // camera motion smoothing parameters
-constexpr float CAMERA_UPDATE_X_OMEGA = 15;
+constexpr float CAMERA_UPDATE_X_OMEGA = 25;
 constexpr float CAMERA_UPDATE_X_ZETA = 1;
 constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
 constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
 constexpr float CAMERA_UPDATE_X_DT = 0.01;
-constexpr float CAMERA_UPDATE_Y_FACTOR = 0.1;
+constexpr float CAMERA_UPDATE_Y_FACTOR = 0.2;
 
 //
 // Constants for player dynamics
@@ -139,12 +147,14 @@ constexpr float PLAYER_JUMP_VEL_FAST = 2.3;
 constexpr float PLAYER_FAST_VEL = 1.7;
 
 constexpr float PLAYER_SPRING_VEL = 5.2;
+constexpr float PLAYER_SPRING_VEL_H = 3.6;
 
 // frames that the player can hold down A to extend jump
 constexpr u8 PLAYER_JUMP_FRAMES = 15;
 
 // velocity clamps
-constexpr float PLAYER_MAX_VEL_X = 2.0;
+constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;
+constexpr float PLAYER_MAX_VEL_X = 4.0;
 constexpr float PLAYER_MAX_VEL_Y = 6.0;
 
 // friction: coefficient of velocity applied to acceleration

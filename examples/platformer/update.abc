@@ -33,12 +33,16 @@ void update_level()
         if($pressed(LEFT_BUTTON ))
         {
             ax -= a;
+            if(vx < -PLAYER_MAX_MOVE_VEL_X && ax < 0)
+                ax = 0;
             player_facing_right = false;
             player_moving = true;
         }
         if($pressed(RIGHT_BUTTON))
         {
             ax += a;
+            if(vx > PLAYER_MAX_MOVE_VEL_X && ax > 0)
+                ax = 0;
             player_facing_right = true;
             player_moving = true;
         }
@@ -78,6 +82,23 @@ void update_level()
                     vy += (-FAN_AIR_VEL - vy) * FAN_AIR_FACTOR;
                 else if(t == TILE_AIR_RIGHT)
                     vx += (FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
+                else if(t == TILE_AIR_LEFT)
+                    vx += (-FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
+                else if(t == TILE_SPRING)
+                {
+                    vy = -PLAYER_SPRING_VEL;
+                    $tones_play(SOUND_SPRING);
+                }
+                else if(t == TILE_SPRING_R)
+                {
+                    vx = PLAYER_SPRING_VEL_H;
+                    $tones_play(SOUND_SPRING);
+                }
+                else if(t == TILE_SPRING_L)
+                {
+                    vx = -PLAYER_SPRING_VEL_H;
+                    $tones_play(SOUND_SPRING);
+                }
             }
         }
     }
@@ -102,8 +123,7 @@ void update_level()
         vx = 0;
         if(--death_frames == 0)
         {
-            state = STATE_INTRO;
-            hearts = MAX_HEARTS;
+            level_intro();
             return;
         }
         else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
@@ -235,10 +255,24 @@ void update_camera_position()
     float tcamx = px - CAMERA_OFFSET_X;
     float xmax = map_width * 16 - 129;
     float ymax = map_height * 16 - 65;
+
+    tcamx += vx * (CAMERA_OFFSET_X_DELTA * 2.5 / PLAYER_MAX_MOVE_VEL_X);
+
     if(player_facing_right)
-        tcamx += CAMERA_OFFSET_X_DELTA;
+        tcamx += CAMERA_OFFSET_X_DELTA * 0.25;
     else
-        tcamx -= CAMERA_OFFSET_X_DELTA;
+        tcamx -= CAMERA_OFFSET_X_DELTA * 0.25;
+    
+    {
+        float dy = tcamy - camy;
+        if(dy > CAMERA_Y_HYSTERESIS)
+            tcamy -= CAMERA_Y_HYSTERESIS;
+        else if(dy < -CAMERA_Y_HYSTERESIS)
+            tcamy += CAMERA_Y_HYSTERESIS;
+        else
+            tcamy = camy;
+    }
+    
     if($pressed(UP_BUTTON))
         tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
     if($pressed(DOWN_BUTTON))
@@ -388,11 +422,6 @@ void touch_object(map_object_t& obj)
         obj.type = OBJ_NONE;
         $tones_play(SOUND_KEY);
     }
-    else if(type == OBJ_SPRING)
-    {
-        vy = -PLAYER_SPRING_VEL;
-        $tones_play(SOUND_SPRING);
-    }
     else if(type == OBJ_HEART)
     {
         if(hearts < MAX_HEARTS)
@@ -418,7 +447,17 @@ void touch_object(map_object_t& obj)
             if(type == OBJ_MOB_HELM)
                 obj.type = OBJ_MOB;
             else
+            {
                 obj.death_frames = MOB_DEATH_FRAMES;
+                score += 250;
+            }
         }
     }
+}
+
+void level_intro()
+{
+    state = STATE_INTRO;
+    frame_count = 0;
+    $save();
 }

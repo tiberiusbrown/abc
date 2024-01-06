@@ -4,11 +4,17 @@ import render;
 import sounds;
 import vars;
 
+void new_game()
+{
+    current_map = 0;
+    lives = STARTING_LIVES;
+    total_score = 0;
+}
+
 void setup()
 {
     $set_frame_rate(50);
-    current_map = 0;
-    hearts = MAX_HEARTS;
+    new_game();
     state = STATE_INTRO;
 }
 

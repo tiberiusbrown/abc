@@ -17,7 +17,11 @@ void render()
 
 void render_intro()
 {
-    $draw_textf(29, 10, LEVEL_START_FONT, "%06u", score);
+    $draw_text_P(55, 2, FONT_BR6, "Score");
+    $draw_textf(29, 10, LEVEL_START_FONT, "%06u", total_score);
+    $draw_rect(26, 9, 76, 16, WHITE);
+    $draw_sprite(56, 30, PLAYER, 7 + ((frame_count >> 3) & 0x3));
+    $draw_textf(72, 37, FONT_BR6, "x%u", lives);
     if((frame_count & 0x3f) < 0x30)
         $draw_text_P(26, 51, LEVEL_START_FONT, "Press A");
 }
@@ -114,7 +118,7 @@ void render_level()
         i16 y = $round(py) - icamy - i16(PYOFF);
         $draw_sprite($round(x), y, PLAYER, index);
     }
-
+   
     // render HUD elements
     for(u8 i = 0; i < MAX_HEARTS; ++i)
         $draw_sprite(119 - i * 9, 0, IMG_HEART, i < hearts);
