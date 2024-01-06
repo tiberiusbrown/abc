@@ -686,7 +686,8 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
     }
 }
 
-static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t base)
+static void format_add_int(
+    format_char_func f, uint32_t x, bool sign, uint8_t base, int8_t w)
 {
     char buf[10];
     char* tp = buf;
@@ -695,15 +696,26 @@ static void format_add_int(format_char_func f, uint32_t x, bool sign, uint8_t ba
     {
         f('-');
         x = -x;
+        --w;
     }
 
     if(x == 0)
+    {
         st_inc(tp, '0');
+        --w;
+    }
     while(x != 0)
     {
         uint8_t r = x % base;
         x /= base;
         st_inc(tp, char(r + (r < 10 ? '0' : 'a' - 10)));
+        --w;
+    }
+
+    while(w > 0)
+    {
+        st_inc(tp, '0');
+        --w;
     }
     
     while(tp != buf)
@@ -754,7 +766,7 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     
     uint32_t n = (uint32_t)x;
     float r = x - (double)n;
-    format_add_int(f, n, false, 10);
+    format_add_int(f, n, false, 10, 0);
     
     if(prec > 0)
         f('.');
@@ -840,7 +852,10 @@ static void format_exec(format_char_func f)
                 x = vm_pop<uint32_t>(ptr);
                 vm_pop_end(ptr);
             }
-            format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10);
+            FX::seekData(fb++);
+            int8_t w = (int8_t)(FX::readPendingLastUInt8() - '0');
+            --fn;
+            format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
             break;
         }
         case 'f':

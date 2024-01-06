@@ -58,22 +58,56 @@ void compiler_t::resolve_format_call(
                     n.line_info });
                 return;
             }
-            fmt.pop_back();
-            fmt += 'f';
-            fmt += c;
-            if(++it == d.end())
+            if(++it == d.end() || *it != 'f')
             {
                 errs.push_back({
                     "Format string: precision modifier must be followed by 'f'",
                     n.line_info });
                 return;
             }
+            fmt.pop_back();
+            fmt += 'f';
+            fmt += c;
             arg_types.push_back(TYPE_FLOAT);
             break;
         }
-        case 'd': arg_types.push_back(TYPE_I32); break;
+        case '0':
+        {
+            if(++it == d.end())
+            {
+                errs.push_back({
+                    "Trailing '0' in format string",
+                    n.line_info });
+                return;
+            }
+            c = *it;
+            if(!(c >= '0' && c <= '9'))
+            {
+                errs.push_back({
+                    "Zero-pad width specifier must be a single digit: 0-9",
+                    n.line_info });
+                return;
+            }
+            char ct;
+            if(++it == d.end() || ((ct = *it) != 'd' && ct != 'u' && ct != 'x'))
+            {
+                errs.push_back({
+                    "Format string: zero-pad width specifier must be followed by 'd', 'u', or 'x'",
+                    n.line_info });
+                return;
+            }
+            fmt.pop_back();
+            fmt += ct;
+            fmt += c;
+            if(ct == 'd')
+                arg_types.push_back(TYPE_I32);
+            else
+                arg_types.push_back(TYPE_U32);
+            break;
+        }
+        case 'd': arg_types.push_back(TYPE_I32); fmt += '0'; break;
         case 'u':
-        case 'x': arg_types.push_back(TYPE_U32); break;
+        case 'x': arg_types.push_back(TYPE_U32); fmt += '0'; break;
         case 'f': arg_types.push_back(TYPE_FLOAT); fmt += '2'; break;
         case 'c': arg_types.push_back(TYPE_CHAR); break;
         case 's':

@@ -17,7 +17,7 @@ void render()
 
 void render_intro()
 {
-    $draw_textf(30, 10, LEVEL_START_FONT, "%u", score);
+    $draw_textf(29, 10, LEVEL_START_FONT, "%06u", score);
     if((frame_count & 0x3f) < 0x30)
         $draw_text_P(26, 51, LEVEL_START_FONT, "Press A");
 }
@@ -121,7 +121,7 @@ void render_level()
     for(u8 i = 0; i < keys; ++i)
         $draw_sprite(119 - i * 9, 8, IMG_KEY, 0);
     $draw_filled_rect(0, 0, 24, 6, BLACK);
-    $draw_textf(0, 0, FONT_BR6, "%u", score);
+    $draw_textf(0, 0, FONT_BR6, "%06u", score);
 
     // render level start animation
     if(level_start_frames != 0)
