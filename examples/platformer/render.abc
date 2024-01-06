@@ -2,6 +2,7 @@ constexpr sprites TILES = sprites{ 16x16 "assets/tiles.png" };
 constexpr sprites OBJECTS = sprites{ 16x16 "assets/objects.png" };
 constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
 constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
+constexpr sprites IMG_HEART = sprites{ 10x8 "assets/heart.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
 constexpr font LEVEL_START_FONT = font{ 12 "assets/8-BIT WONDER.ttf" };
@@ -17,7 +18,7 @@ void render()
 void render_intro()
 {
     $draw_textf(30, 10, LEVEL_START_FONT, "%u", score);
-    if(frame_count & 0x20)
+    if((frame_count & 0x3f) < 0x30)
         $draw_text_P(26, 51, LEVEL_START_FONT, "Press A");
 }
 
@@ -115,8 +116,10 @@ void render_level()
     }
 
     // render HUD elements
+    for(u8 i = 0; i < MAX_HEARTS; ++i)
+        $draw_sprite(119 - i * 9, 0, IMG_HEART, i < hearts);
     for(u8 i = 0; i < keys; ++i)
-        $draw_sprite(119 - i * 9, 0, IMG_KEY, 0);
+        $draw_sprite(119 - i * 9, 8, IMG_KEY, 0);
     $draw_filled_rect(0, 0, 24, 6, BLACK);
     $draw_textf(0, 0, FONT_BR6, "%u", score);
 

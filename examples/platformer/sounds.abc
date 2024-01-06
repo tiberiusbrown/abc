@@ -20,3 +20,41 @@ constexpr tones SOUND_COIN = tones{ B5 100 E6 200 };
 
 // key pickup sfx
 constexpr tones SOUND_KEY = tones{ C4 70 G4 70 E5 70 };
+
+constexpr tones SOUND_LEVEL_START = tones{
+    C5 100
+    E5 100
+    G5 100
+    -  100
+    E5 100
+    G5 300
+};
+
+// player damage
+constexpr tones SOUND_DAMAGE = tones{
+    G4  100
+    C4  200
+};
+
+// player death
+constexpr tones SOUND_DEATH = tones{
+    G4  100
+    C4  200
+    -   500
+
+    G4  50
+    G4# 50
+    A4  50
+    A4# 50
+    A4  50
+    G4# 50
+
+    G4  50
+    F4# 50
+    F4  50
+    E4  50
+    D4# 50
+    D4  50
+    C4# 50
+    C4  50
+};

@@ -143,7 +143,7 @@ void update_level()
 
     // check if player has fallen out of the bottom of the level
     if(py > map_height * 16 + 32)
-        player_death();
+        player_take_damage();
 }
 
 void resolve_player_collision()
@@ -255,11 +255,21 @@ void update_camera_position()
     dcamx += d2camx * CAMERA_UPDATE_X_DT;
 }
 
-void player_death()
+void player_take_damage()
 {
     if(death_frames != 0)
         return;
+    if(--hearts != 0)
+    {
+        invincibility_frames = INVINCIBILITY_DAMAGE;
+        $tones_play(SOUND_DAMAGE);
+        vy = -1.5;
+        vx = 1.5;
+        if(player_facing_right) vx = -1.5;
+        return;
+    }
     death_frames = DEATH_TOTAL_FRAMES;
+    $tones_play(SOUND_DEATH);
 }
 
 bool solid(float x, float y, bool bottom)
@@ -382,7 +392,7 @@ void touch_object(map_object_t& obj)
         if(type == OBJ_MOB_HORN || py > obj.y + obj.yo || vy <= 0)
         {
             if(invincibility_frames == 0 && obj.death_frames == 0)
-                player_death();
+                player_take_damage();
         }
         else if(!mob_jumped)
         {

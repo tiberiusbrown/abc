@@ -10,7 +10,7 @@ void load_map()
 {
     player_facing_right = true;
     keys = 0;
-    invincibility_frames = 75;
+    invincibility_frames = INVINCIBILITY_LEVEL_START;
     jump_frames_remaining = 0;
     vx = 0;
     vy = 0;
@@ -37,6 +37,8 @@ void load_map()
             process_map_tile(x, y, t);
         }
     }
+
+    $tones_play(SOUND_LEVEL_START);
 }
 
 void process_map_tile(u8 x, u8 y, u8 t)
