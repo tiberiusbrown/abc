@@ -14,14 +14,15 @@ void compiler_t::resolve_format_call(
     std::vector<uint8_t> strlit;
     {
         auto const& nc = n.children[decl.arg_types.size() - 1];
-        if(nc.type != AST::STRING_LITERAL)
+        if(!(nc.type == AST::STRING_LITERAL ||
+            nc.type == AST::OP_AREF && nc.children[0].type == AST::STRING_LITERAL))
         {
             errs.push_back({
                 "Format string must be a string literal",
                 nc.line_info });
             return;
         }
-        strlit = strlit_data(nc);
+        strlit = strlit_data(nc.type == AST::STRING_LITERAL ? nc : nc.children[0]);
     }
     std::string_view d((char const*)strlit.data(), strlit.size());
 
