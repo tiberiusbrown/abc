@@ -4,7 +4,7 @@
         {
             "label": "Build Arduboy File",
             "type": "shell",
-            "command": "abcc main.abc -a platformer.arduboy",
+            "command": "abcc main.abc fxdata.bin -a platformer.arduboy",
             "group": {
                 "kind": "build",
                 "isDefault": true

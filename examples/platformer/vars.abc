@@ -5,6 +5,8 @@ constexpr u8 STATE_MENU = 0;
 constexpr u8 STATE_INTRO = 1;
 constexpr u8 STATE_LEVEL = 2;
 constexpr u8 STATE_PAUSE = 3;
+constexpr u8 STATE_GAME_OVER = 4;
+constexpr u8 STATE_VICTORY = 5;
 u8 state;
 
 // camera position and velocity
@@ -25,6 +27,9 @@ u8 map_height;
 
 // how many keys the player is holding
 u8 keys;
+
+// how many keys needed to open the current level's exit door
+u8 keys_required;
 
 // player health
 u8 hearts;
@@ -52,7 +57,15 @@ constexpr float DEATH_VEL = 3.25;
 // after mob processing, whether the player jumped on a mob
 bool mob_jumped;
 
+//
 // tiles
+//
+
+constexpr u8 TILE_DOOR0     = 156;
+constexpr u8 TILE_DOOR1     = 157;
+constexpr u8 TILE_DOOR2     = 158;
+constexpr u8 TILE_DOOR3     = 159;
+
 constexpr u8 TILE_AIR_UP    = 177;
 constexpr u8 TILE_AIR_RIGHT = 178;
 constexpr u8 TILE_AIR_LEFT  = 179;

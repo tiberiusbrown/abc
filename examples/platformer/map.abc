@@ -1,4 +1,5 @@
 import vars;
+import mapdata;
 
 struct map_info_t
 {
@@ -6,10 +7,16 @@ struct map_info_t
     u8 w, h;
 };
 
+map_info_t[2] prog maps = {
+    { map0, 32, 8 },
+    { map1, 32, 16 },
+};
+
 void load_map()
 {
     player_facing_right = true;
     keys = 0;
+    keys_required = 0;
     invincibility_frames = INVINCIBILITY_LEVEL_START;
     jump_frames_remaining = 0;
     vx = 0;
@@ -85,6 +92,10 @@ void process_map_tile(u8 x, u8 y, u8 t)
         }
         add_object({ t - 240, x * 16, y * 16, xo, yo, 16 - xo * 2, 16 - yo, true });
     }
+    else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
+    {
+        keys_required = t - TILE_DOOR0;
+    }
 }
 
 void add_object(map_object_t obj)
@@ -97,19 +108,7 @@ void add_object(map_object_t obj)
             return;
         }
     }
+    
+    // too many items in the map!
+    $assert(false);
 }
-
-u8[8 * 32] prog map0 = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 247, 0, 81, 82, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 181, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            108, 0, 241, 0, 242, 0, 1, 3, 0, 249, 0, 52, 0, 251, 0, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            2, 2, 2, 2, 2, 2, 53, 5, 2, 2, 2, 2, 2, 2, 2, 53, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
-};
-
-map_info_t[1] prog maps = {
-    { map0, 32, 8 },
-};

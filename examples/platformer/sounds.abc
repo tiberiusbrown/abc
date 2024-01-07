@@ -64,3 +64,18 @@ constexpr tones SOUND_DEATH = tones{
     C4# 50
     C4  50
 };
+
+// level complete
+constexpr tones SOUND_VICTORY = tones{
+    G5 180
+    -   20
+    G5  80
+    -   20
+    G5  80
+    -   20
+    G5 200
+    F5 200
+    D5 200
+    F5 200
+    G5 400
+};

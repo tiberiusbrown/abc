@@ -6,6 +6,8 @@ void update()
         update_level();
     else if(state == STATE_INTRO)
         update_intro();
+    else if(state == STATE_VICTORY)
+        update_victory();
 
     ++frame_count;
 }
@@ -14,6 +16,24 @@ void update_intro()
 {
     if($just_pressed(A_BUTTON))
         load_map();
+}
+
+void update_victory()
+{
+    if(frame_count == 80)
+    {
+        total_score += score;
+        if(current_map + 1 == len(maps))
+        {
+
+        }
+        else
+        {
+            state = STATE_INTRO;
+            frame_count = 0;
+            current_map += 1;
+        }
+    }
 }
 
 void update_level()
@@ -99,6 +119,17 @@ void update_level()
                     vx = -PLAYER_SPRING_VEL_H;
                     $tones_play(SOUND_SPRING);
                 }
+                else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
+                {
+                    if(player_on_ground && keys >= t - TILE_DOOR0)
+                    {
+                        state = STATE_VICTORY;
+                        frame_count = 0;
+                        player_moving = false;
+                        $tones_play(SOUND_VICTORY);
+                        return;
+                    }
+                }
             }
         }
     }
@@ -123,6 +154,7 @@ void update_level()
         vx = 0;
         if(--death_frames == 0)
         {
+            lives -= 1;
             level_intro();
             return;
         }
@@ -163,7 +195,7 @@ void update_level()
         --invincibility_frames;
 
     // check if player has fallen out of the bottom of the level
-    if(py > map_height * 16 + 32)
+    if(py > map_height * 16)
         player_death();
 }
 
@@ -460,4 +492,6 @@ void level_intro()
     state = STATE_INTRO;
     frame_count = 0;
     $save();
+    if(lives == 0)
+        state = STATE_GAME_OVER;
 }
