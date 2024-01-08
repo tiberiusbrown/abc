@@ -17,9 +17,9 @@ u16 score;
 
 // index of current map
 saved u8 current_map;
-saved u16 total_score;
+saved u24 total_score;
 
-saved u16 high_score;
+saved u24 high_score;
 
 // cached for performance
 u8 map_width;
@@ -37,6 +37,11 @@ constexpr u8 MAX_HEARTS = 3;
 
 u8 lives;
 constexpr u8 STARTING_LIVES = 5;
+
+// time remaining to complete level
+u16 level_frames_remaining;
+constexpr u16 TIME_LIMIT_SECONDS = 300;
+constexpr u16 TIME_LIMIT_FRAMES = TIME_LIMIT_SECONDS * 50;
 
 u8 invincibility_frames;
 constexpr u8 INVINCIBILITY_LEVEL_START = 75;
@@ -76,6 +81,7 @@ constexpr u8 TILE_SPRING_L  = 182;
 constexpr u8 TILE_PLAYER    = 240;
 constexpr u8 TILE_COIN      = 241;
 constexpr u8 TILE_KEY       = 242;
+constexpr u8 TILE_SUPERCOIN = 243;
 constexpr u8 TILE_HEART     = 246;
 constexpr u8 TILE_MOB       = 248;
 constexpr u8 TILE_MOB_HORN  = 249;
@@ -83,13 +89,14 @@ constexpr u8 TILE_MOB_HELM  = 250;
 
 // map objects
 constexpr u8 MAX_OBJECTS = 20;
-constexpr u8 OBJ_NONE     = 0;
-constexpr u8 OBJ_COIN     = 1;
-constexpr u8 OBJ_KEY      = 2;
-constexpr u8 OBJ_HEART    = 6;
-constexpr u8 OBJ_MOB      = 8;
-constexpr u8 OBJ_MOB_HORN = 9;
-constexpr u8 OBJ_MOB_HELM = 10;
+constexpr u8 OBJ_NONE      = 0;
+constexpr u8 OBJ_COIN      = 1;
+constexpr u8 OBJ_KEY       = 2;
+constexpr u8 OBJ_SUPERCOIN = 3;
+constexpr u8 OBJ_HEART     = 6;
+constexpr u8 OBJ_MOB       = 8;
+constexpr u8 OBJ_MOB_HORN  = 9;
+constexpr u8 OBJ_MOB_HELM  = 10;
 struct map_object_t
 {
     u8 type;

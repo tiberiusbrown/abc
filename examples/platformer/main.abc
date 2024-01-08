@@ -6,7 +6,7 @@ import vars;
 
 void new_game()
 {
-    current_map = 1;
+    current_map = 2;
     lives = STARTING_LIVES;
     total_score = 0;
 }

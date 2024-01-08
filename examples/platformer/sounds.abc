@@ -18,6 +18,9 @@ constexpr tones SOUND_SPRING = tones{
 // coin collection sfx
 constexpr tones SOUND_COIN = tones{ B5 100 E6 200 };
 
+// supercoin collection sfx
+constexpr tones SOUND_SUPERCOIN = tones{ B5 100 E6 200 D6 100 G6 200 };
+
 // key pickup sfx
 constexpr tones SOUND_KEY = tones{ C4 70 G4 70 E5 70 };
 

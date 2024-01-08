@@ -189,6 +189,11 @@ void update_level()
         resolve_player_collision();
         update_map_objects();
         update_camera_position();
+
+        if(--level_frames_remaining == 0)
+        {
+            player_death();
+        }
     }
 
     if(invincibility_frames != 0)
@@ -222,17 +227,21 @@ void resolve_player_collision()
     }
 
     // resolve collision: top
-    else if(vy < 0 && (
+    if(vy < 0 && (
         solid(px - (PHEH - 1), py - PHEV, false) ||
         solid(px + (PHEH - 1), py - PHEV, false) ))
     {
         float t = 16 - $mod(py - (PHEV - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_Y)
+        {
+            vy = 0;
+            jump_frames_remaining = 0;
             py += t;
+        }
     }
 
     // resolve collision: bottom
-    if(vy > 0 && (
+    else if(vy > 0 && (
         solid(px - (PHEH - 1), py + PHEV, true) ||
         solid(px + (PHEH - 1), py + PHEV, true) ))
     {
@@ -370,8 +379,7 @@ bool solid(float x, float y, bool bottom)
     // allow the player to fall through the floor
     if(iy >= map_height)
         return false;
-    u8 t = maps[current_map].map[iy * w + ix];
-    t -= 1;
+    u8 t = maps[current_map].map[iy * w + ix] - 1;
     if(t >= 240) return false;
     if(t < 64) return true;
     if(bottom && t < 96) return true;
@@ -453,6 +461,12 @@ void touch_object(map_object_t& obj)
         keys += 1;
         obj.type = OBJ_NONE;
         $tones_play(SOUND_KEY);
+    }
+    else if(type == OBJ_SUPERCOIN)
+    {
+        score += 2000;
+        obj.type = OBJ_NONE;
+        $tones_play(SOUND_SUPERCOIN);
     }
     else if(type == OBJ_HEART)
     {

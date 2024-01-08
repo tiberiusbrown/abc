@@ -7,9 +7,10 @@ struct map_info_t
     u8 w, h;
 };
 
-map_info_t[2] prog maps = {
+map_info_t[3] prog maps = {
     { map0, 32, 8 },
     { map1, 32, 16 },
+    { map2, 16, 32 },
 };
 
 void load_map()
@@ -26,6 +27,7 @@ void load_map()
     state = STATE_LEVEL;
     score = total_score;
     hearts = MAX_HEARTS;
+    level_frames_remaining = TIME_LIMIT_FRAMES;
 
     u8[] prog& map = maps[current_map].map;
     u8 w = maps[current_map].w;
@@ -72,6 +74,10 @@ void process_map_tile(u8 x, u8 y, u8 t)
     else if(t == TILE_COIN)
     {
         add_object({ OBJ_COIN, x * 16, y * 16, 3, 3, 10, 10 });
+    }
+    else if(t == TILE_SUPERCOIN)
+    {
+        add_object({ OBJ_SUPERCOIN, x * 16, y * 16, 3, 3, 10, 10 });
     }
     else if(t == TILE_KEY)
     {
