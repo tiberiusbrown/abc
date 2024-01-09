@@ -40,8 +40,12 @@ constexpr u8 STARTING_LIVES = 5;
 
 // time remaining to complete level
 u16 level_frames_remaining;
-constexpr u16 TIME_LIMIT_SECONDS = 300;
+constexpr u16 TIME_LIMIT_SECONDS = 180;
 constexpr u16 TIME_LIMIT_FRAMES = TIME_LIMIT_SECONDS * 50;
+
+constexpr u16 SCORE_COIN = 500;
+constexpr u16 SCORE_MOB = 1000;
+constexpr u16 SCORE_SUPERCOIN = 5000;
 
 u8 invincibility_frames;
 constexpr u8 INVINCIBILITY_LEVEL_START = 75;

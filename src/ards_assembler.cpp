@@ -823,7 +823,6 @@ error_t assembler_t::link()
             advance_pc_offset();
             line_table.push_back(253);
             line_table.push_back(file);
-            debug_bytes += 2;
             current_file = file;
             break;
         }
@@ -838,14 +837,12 @@ error_t assembler_t::link()
                 uint32_t t = line - current_line + 127;
                 assert(t >= 128 && t <= 252);
                 line_table.push_back((uint8_t)t);
-                debug_bytes += 1;
             }
             else
             {
                 line_table.push_back(254);
                 line_table.push_back(uint8_t(line >> 0));
                 line_table.push_back(uint8_t(line >> 8));
-                debug_bytes += 3;
             }
             current_line = line;
             break;
@@ -884,6 +881,7 @@ error_t assembler_t::link()
                     linked_data.push_back(0);
                 else
                     linked_data.push_back((uint8_t)f[i]);
+                debug_bytes += 1;
             }
         }
     }
@@ -893,6 +891,7 @@ error_t assembler_t::link()
     linked_data[17] = uint8_t(linked_data.size() >> 8);
     linked_data[18] = uint8_t(linked_data.size() >> 16);
     linked_data.insert(linked_data.end(), line_table.begin(), line_table.end());
+    debug_bytes += line_table.size();
 
     // page-align and insert dev length at end
     size_t pages = (linked_data.size() + 255 + 6) / 256;
@@ -930,7 +929,6 @@ void assembler_t::advance_pc_offset()
         uint32_t t = offset - prev_pc_offset - 1;
         assert(t >= 0 && t <= 127);
         line_table.push_back((uint8_t)t);
-        debug_bytes += 1;
     }
     else
     {
@@ -938,7 +936,6 @@ void assembler_t::advance_pc_offset()
         line_table.push_back(uint8_t(offset >> 0));
         line_table.push_back(uint8_t(offset >> 8));
         line_table.push_back(uint8_t(offset >> 16));
-        debug_bytes += 4;
     }
     prev_pc_offset = offset;
 }

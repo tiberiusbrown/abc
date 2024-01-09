@@ -6,6 +6,7 @@ constexpr sprites IMG_HEART = sprites{ 10x8 "assets/heart.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
 constexpr font LEVEL_START_FONT = font{ 12 "assets/8-BIT WONDER.ttf" };
+constexpr font SCORE_FONT = font{ 9 "assets/score.ttf" };
 
 void render()
 {
@@ -20,8 +21,18 @@ void render()
 void render_intro()
 {
     $draw_text_P(55, 2, FONT_BR6, "Score");
-    $draw_textf(29, 10, LEVEL_START_FONT, "%06u", total_score);
-    $draw_rect(26, 9, 76, 16, WHITE);
+    $draw_textf(43, 11, SCORE_FONT, "%06u", total_score);
+    //$draw_rect(41, 9, 45, 13, WHITE);
+    if(current_map != 0 || lives != STARTING_LIVES)
+    {
+        $draw_textf(41, 23, FONT_BR6, "%05u", score);
+        char[10] buf;
+        $format(buf, "%u.%02u",
+            level_frames_remaining / 50,
+            (level_frames_remaining % 50) * 2);
+        u8 w = $text_width(FONT_BR6, buf);
+        $draw_text(87 - w, 23, FONT_BR6, buf);
+    }
     $draw_sprite(56, 30, PLAYER, 7 + ((frame_count >> 3) & 0x3));
     $draw_textf(72, 37, FONT_BR6, "x%u", lives);
     if((frame_count & 0x3f) < 0x30)
@@ -29,7 +40,7 @@ void render_intro()
 }
 
 void render_victory()
-{
+{ 
     render_level();
 }
 
@@ -147,8 +158,8 @@ void render_level()
         $draw_sprite(119 - i * 9, 0, IMG_HEART, i < hearts);
     for(u8 i = 0; i < keys; ++i)
         $draw_sprite(119 - i * 9, 8, IMG_KEY, 0);
-    $draw_filled_rect(0, 0, 24, 6, BLACK);
-    $draw_textf(0, 0, FONT_BR6, "%06u", score);
+    $draw_filled_rect(0, 0, 16, 6, BLACK);
+    $draw_textf(0, 0, FONT_BR6, "%05u", score);
     $draw_filled_rect(57, 0, 13, 6, BLACK);
     $draw_textf(58, 0, FONT_BR6, "%03u", u16(level_frames_remaining + 49) / 50);
 
@@ -165,7 +176,7 @@ void render_level()
             x += (level_start_frames - 57) * 10;
         if(level_start_frames <= 8)
             x -= (8 - level_start_frames) * 10;
-        $draw_filled_rect(x - 2, y, w + 4, h + 4, BLACK);
+        $draw_filled_rect(x - 2, y, w + 2, h + 4, BLACK);
         $draw_text(x, y, LEVEL_START_FONT, buf);
 
         --level_start_frames;

@@ -3416,6 +3416,7 @@ call_vm_error:
 void vm_run()
 {
     ards::Tones::stop();
+    Arduboy2Base::pollButtons();
     memset(&vm, 0, sizeof(vm));
     //timer0_millis = 0;
     //timer0_overflow_count = 0;

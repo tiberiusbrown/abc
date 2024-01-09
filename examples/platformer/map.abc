@@ -25,7 +25,7 @@ void load_map()
     level_start_frames = 75;
     death_frames = 0;
     state = STATE_LEVEL;
-    score = total_score;
+    score = 0;
     hearts = MAX_HEARTS;
     level_frames_remaining = TIME_LIMIT_FRAMES;
 

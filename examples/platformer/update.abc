@@ -14,15 +14,40 @@ void update()
 
 void update_intro()
 {
+    if(score > 0)
+    {
+        constexpr u8 STEP = 197;
+        u8 t = STEP;
+        if(score < STEP)
+            t = score;
+        score -= t;
+        total_score += t;
+        if((frame_count & 3) == 0)
+            $tones_play(tones{G4 12});
+    }
+    else if(level_frames_remaining > 0)
+    {
+        constexpr u8 STEP = 117;
+        u8 t = STEP;
+        if(level_frames_remaining < STEP)
+            t = level_frames_remaining;
+        level_frames_remaining -= t;
+        total_score += t;
+        if((frame_count & 3) == 0)
+            $tones_play(tones{G4 12});
+    }
     if($just_pressed(A_BUTTON))
+    {
+        total_score += score;
+        total_score += level_frames_remaining;
         load_map();
+    }
 }
 
 void update_victory()
 {
     if(frame_count == 80)
     {
-        total_score += score;
         if(current_map + 1 == len(maps))
         {
 
@@ -154,6 +179,7 @@ void update_level()
         vx = 0;
         if(--death_frames == 0)
         {
+            score = 0;
             lives -= 1;
             level_intro();
             return;
@@ -452,7 +478,7 @@ void touch_object(map_object_t& obj)
     u8 type = obj.type;
     if(type == OBJ_COIN)
     {
-        score += 100;
+        score += SCORE_COIN;
         obj.type = OBJ_NONE;
         $tones_play(SOUND_COIN);
     }
@@ -464,7 +490,7 @@ void touch_object(map_object_t& obj)
     }
     else if(type == OBJ_SUPERCOIN)
     {
-        score += 2000;
+        score += SCORE_SUPERCOIN;
         obj.type = OBJ_NONE;
         $tones_play(SOUND_SUPERCOIN);
     }
@@ -472,7 +498,7 @@ void touch_object(map_object_t& obj)
     {
         if(hearts < MAX_HEARTS)
         {
-            ++hearts;
+            lives += 1;
             obj.type = OBJ_NONE;
             $tones_play(SOUND_HEAL);
         }
@@ -495,7 +521,7 @@ void touch_object(map_object_t& obj)
             else
             {
                 obj.death_frames = MOB_DEATH_FRAMES;
-                score += 250;
+                score += SCORE_MOB;
             }
         }
     }
