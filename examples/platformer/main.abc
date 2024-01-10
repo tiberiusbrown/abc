@@ -4,6 +4,19 @@ import render;
 import sounds;
 import vars;
 
+void main_menu()
+{
+    if(!$load())
+    {
+        for(u8 i = 0; i < NUM_MAPS; ++i)
+            map_best_times[i] = 65535;
+    }
+    menui = 0;
+    menu_spritex = 0;
+    menu_sprite = 8;
+    state = STATE_MENU;
+}
+
 void new_game()
 {
     current_map = 0;
@@ -14,13 +27,7 @@ void new_game()
 void setup()
 {
     $set_frame_rate(50);
-    if(!$load())
-    {
-        for(u8 i = 0; i < NUM_MAPS; ++i)
-            map_best_times[i] = 65535;
-    }
-    new_game();
-    state = STATE_INTRO;
+    main_menu();
 }
 
 void loop()

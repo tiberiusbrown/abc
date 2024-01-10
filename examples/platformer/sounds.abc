@@ -69,7 +69,7 @@ constexpr tones SOUND_DEATH = tones{
 };
 
 // level complete
-constexpr tones SOUND_VICTORY = tones{
+constexpr tones SOUND_LEVEL_COMPLETE = tones{
     G5 180
     -   20
     G5  80

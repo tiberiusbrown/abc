@@ -6,12 +6,39 @@ void update()
         update_level();
     else if(state == STATE_INTRO)
         update_intro();
-    else if(state == STATE_VICTORY)
-        update_victory();
+    else if(state == STATE_LEVEL_COMPLETE)
+        update_level_complete();
     else if(state == STATE_SCORE_TALLY)
         update_score_tally();
+    else if(state == STATE_MENU)
+        update_menu();
 
     ++frame_count;
+}
+
+void update_menu()
+{
+    if(frame_count & 1)
+        menu_spritex += 1;
+    if(menu_spritex > 160)
+    {
+        if(++menu_sprite > 10)
+            menu_sprite = 8;
+        menu_spritex = 0;
+    }
+    if($just_pressed(A_BUTTON))
+    {
+        if(menui == 0)
+        {
+            if(current_map == 0)
+                new_game();
+            state = STATE_INTRO;
+        }
+    }
+    if($just_pressed(UP_BUTTON) && menui > 0)
+        menui -= 1;
+    if($just_pressed(DOWN_BUTTON) && menui < 3)
+        menui += 1;
 }
 
 void update_score_tally()
@@ -43,7 +70,10 @@ void update_score_tally()
         total_score += score;
         total_score += level_frames_remaining;
         $save();
-        load_map();
+        if(current_map < NUM_MAPS)
+            load_map();
+        else
+            state = STATE_VICTORY;
     }
 }
 
@@ -58,20 +88,13 @@ void update_intro()
     }
 }
 
-void update_victory()
+void update_level_complete()
 {
     if(frame_count == 80)
     {
-        if(current_map + 1 == len(maps))
-        {
-
-        }
-        else
-        {
-            state = STATE_INTRO;
-            frame_count = 0;
-            current_map += 1;
-        }
+        state = STATE_INTRO;
+        frame_count = 0;
+        current_map += 1;
     }
 }
 
@@ -162,7 +185,7 @@ void update_level()
                 {
                     if(player_on_ground && keys >= t - TILE_DOOR0)
                     {
-                        state = STATE_VICTORY;
+                        state = STATE_LEVEL_COMPLETE;
                         frame_count = 0;
                         player_moving = false;
 
@@ -177,7 +200,7 @@ void update_level()
                         if(was_high_score)
                             map_high_scores[current_map] = map_score;
 
-                        $tones_play(SOUND_VICTORY);
+                        $tones_play(SOUND_LEVEL_COMPLETE);
                         return;
                     }
                 }

@@ -6,9 +6,14 @@ constexpr u8 STATE_INTRO = 1;
 constexpr u8 STATE_LEVEL = 2;
 constexpr u8 STATE_PAUSE = 3;
 constexpr u8 STATE_GAME_OVER = 4;
-constexpr u8 STATE_VICTORY = 5;
+constexpr u8 STATE_LEVEL_COMPLETE = 5;
 constexpr u8 STATE_SCORE_TALLY = 6;
+constexpr u8 STATE_VICTORY = 7;
 u8 state;
+
+u8 menui;
+u8 menu_sprite;
+i16 menu_spritex;
 
 // camera position and velocity
 float camx, camy, dcamx;
