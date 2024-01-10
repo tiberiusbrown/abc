@@ -20,23 +20,58 @@ void render()
 
 void render_intro()
 {
-    $draw_text_P(55, 2, FONT_BR6, "Score");
-    $draw_textf(43, 11, SCORE_FONT, "%06u", total_score);
-    //$draw_rect(41, 9, 45, 13, WHITE);
-    if(current_map != 0 || lives != STARTING_LIVES)
+    //$draw_text_P(55, 10, FONT_BR6, "Score");
+    $draw_textf(43, 18, SCORE_FONT, "%06u", total_score);
+    //$draw_rect(41, 16, 45, 13, WHITE);
+    if(level_frames_remaining != 0)
     {
-        $draw_textf(41, 23, FONT_BR6, "%05u", score);
+        $draw_text_P(25, -1, LEVEL_START_FONT, "Level Complete!");
+        $draw_textf(41, 30, FONT_BR6, "%05u", score);
         char[10] buf;
         $format(buf, "%u.%02u",
             level_frames_remaining / 50,
             (level_frames_remaining % 50) * 2);
         u8 w = $text_width(FONT_BR6, buf);
-        $draw_text(87 - w, 23, FONT_BR6, buf);
+        $draw_text(87 - w, 30, FONT_BR6, buf);
     }
-    $draw_sprite(56, 30, PLAYER, 7 + ((frame_count >> 3) & 0x3));
-    $draw_textf(72, 37, FONT_BR6, "x%u", lives);
+    else
+    {
+        $draw_text_P(37, -1, LEVEL_START_FONT, "Get Ready!");
+
+        if(current_map != 0)
+        {
+            constexpr u8 y = 16;
+            $draw_text_P(94, y + 0, FONT_BR6, "Total Time");
+            $draw_filled_rect(94, y + 6, 34, 1, WHITE);
+            char[10] buf;
+            $format(buf, "%u.%02u",
+                total_time / 50,
+                (total_time % 50) * 2);
+            u8 w = $text_width(FONT_BR6, buf);
+            $draw_text(111 - w / 2, y + 8, FONT_BR6, buf);
+        }
+    }
+    if(current_map != 0 && state == STATE_INTRO)
+    {
+        if(was_best_time)
+        {
+            constexpr u8 y = 40;
+            $draw_text_P(96, y - 7, FONT_BR6, "New Map");
+            $draw_text_P(94, y + 0, FONT_BR6, "Best Time!");
+            $draw_filled_rect(94, y + 6, 34, 1, WHITE);
+            char[10] buf;
+            u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
+            $format(buf, "%u.%02u",
+                time_taken / 50,
+                (time_taken % 50) * 2);
+            u8 w = $text_width(FONT_BR6, buf);
+            $draw_text(111 - w / 2, y + 8, FONT_BR6, buf);
+        }
+    }
+    $draw_sprite(56, 37, PLAYER, 7 + ((frame_count >> 3) & 0x3));
+    $draw_textf(72, 44, FONT_BR6, "x%u", lives);
     if((frame_count & 0x3f) < 0x30)
-        $draw_text_P(44, 51, LEVEL_START_FONT, "Press A");
+        $draw_text_P(44, 56, LEVEL_START_FONT, "Press A");
 }
 
 void render_victory()

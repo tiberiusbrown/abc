@@ -42,6 +42,7 @@ void update_score_tally()
     {
         total_score += score;
         total_score += level_frames_remaining;
+        $save();
         load_map();
     }
 }
@@ -164,9 +165,25 @@ void update_level()
                         state = STATE_VICTORY;
                         frame_count = 0;
                         player_moving = false;
+
+                        u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
+                        total_time += time_taken;
+                        was_best_time = (time_taken < map_best_times[current_map]);
+                        if(was_best_time)
+                            map_best_times[current_map] = time_taken;
+
+                        u24 map_score = score + level_frames_remaining;
+                        was_high_score = (map_score > map_high_scores[current_map]);
+                        if(was_high_score)
+                            map_high_scores[current_map] = map_score;
+
                         $tones_play(SOUND_VICTORY);
                         return;
                     }
+                }
+                else if(t == TILE_SPIKE)
+                {
+                    player_take_damage();
                 }
             }
         }
@@ -194,7 +211,12 @@ void update_level()
         {
             score = 0;
             lives -= 1;
-            level_intro();
+            level_frames_remaining = 0;
+            state = STATE_INTRO;
+            frame_count = 0;
+            $save();
+            if(lives == 0)
+                state = STATE_GAME_OVER;
             return;
         }
         else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
@@ -410,6 +432,8 @@ void player_death()
 
 void player_take_damage()
 {
+    if(invincibility_frames != 0)
+        return;
     if(death_frames != 0)
         return;
     if(--hearts != 0)
@@ -509,7 +533,7 @@ void touch_object(map_object_t& obj)
     }
     else if(type == OBJ_HEART)
     {
-        if(hearts < MAX_HEARTS)
+        if(lives < 99)
         {
             lives += 1;
             obj.type = OBJ_NONE;
@@ -522,7 +546,7 @@ void touch_object(map_object_t& obj)
             return;
         if(type == OBJ_MOB_HORN || py > obj.y + obj.yo || vy <= 0)
         {
-            if(invincibility_frames == 0 && obj.death_frames == 0)
+            if(obj.death_frames == 0)
                 player_take_damage();
         }
         else if(!mob_jumped)
@@ -538,13 +562,4 @@ void touch_object(map_object_t& obj)
             }
         }
     }
-}
-
-void level_intro()
-{
-    state = STATE_INTRO;
-    frame_count = 0;
-    $save();
-    if(lives == 0)
-        state = STATE_GAME_OVER;
 }
