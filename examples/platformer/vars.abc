@@ -7,6 +7,7 @@ constexpr u8 STATE_LEVEL = 2;
 constexpr u8 STATE_PAUSE = 3;
 constexpr u8 STATE_GAME_OVER = 4;
 constexpr u8 STATE_VICTORY = 5;
+constexpr u8 STATE_SCORE_TALLY = 6;
 u8 state;
 
 // camera position and velocity
@@ -55,6 +56,7 @@ u8 jump_frames_remaining;
 
 // animation showing at level start
 u8 level_start_frames;
+constexpr u8 LEVEL_START_FRAMES = 90;
 
 // death animation
 u8 death_frames;

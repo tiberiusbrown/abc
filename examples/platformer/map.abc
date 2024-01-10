@@ -3,15 +3,19 @@ import mapdata;
 
 struct map_info_t
 {
+    char[] prog& name;
     u8[] prog& map;
     u8 w, h;
 };
 
-map_info_t[3] prog maps = {
-    { map0, 32, 8 },
-    { map1, 32, 16 },
-    { map2, 16, 32 },
+map_info_t[4] prog maps = {
+    { "Sleepy Meadow", map0, 32, 8 },
+    { "Daring Forest", map1, 32, 16 },
+    { "Grand Old Tree", map2, 16, 32 },
+    { "Luke's Challenge", map_luke, 32, 8 },
 };
+
+u16 total_objects;
 
 void load_map()
 {
@@ -22,7 +26,7 @@ void load_map()
     jump_frames_remaining = 0;
     vx = 0;
     vy = 0;
-    level_start_frames = 75;
+    level_start_frames = LEVEL_START_FRAMES;
     death_frames = 0;
     state = STATE_LEVEL;
     score = 0;
@@ -38,7 +42,9 @@ void load_map()
     // reset map objects
     for(u8 i = 0; i < MAX_OBJECTS; ++i)
         objects[i] = { 0, 0, OBJ_NONE };
-    
+
+    total_objects = 0;
+
     // look through all map tiles for objects
     for(u8 y = 0; y < h; ++y)
     {
@@ -47,6 +53,12 @@ void load_map()
             u8 t = map[y * w + x] - 1;
             process_map_tile(x, y, t);
         }
+    }
+
+    if(total_objects > MAX_OBJECTS)
+    {
+        $debug_printf("Objects: %u\n", total_objects);
+        $assert(false);
     }
 
     $tones_play(SOUND_LEVEL_START);
@@ -106,6 +118,7 @@ void process_map_tile(u8 x, u8 y, u8 t)
 
 void add_object(map_object_t obj)
 {
+    ++total_objects;
     for(u8 i = 0; i < MAX_OBJECTS; ++i)
     {
         if(objects[i].type == OBJ_NONE)
@@ -116,5 +129,5 @@ void add_object(map_object_t obj)
     }
     
     // too many items in the map!
-    $assert(false);
+    //$assert(false);
 }

@@ -5,14 +5,14 @@ constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
 constexpr sprites IMG_HEART = sprites{ 10x8 "assets/heart.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
 
-constexpr font LEVEL_START_FONT = font{ 12 "assets/8-BIT WONDER.ttf" };
+constexpr font LEVEL_START_FONT = FONT_VOLTER;
 constexpr font SCORE_FONT = font{ 9 "assets/score.ttf" };
 
 void render()
 {
     if(state == STATE_LEVEL)
         render_level();
-    else if(state == STATE_INTRO)
+    else if(state == STATE_INTRO || state == STATE_SCORE_TALLY)
         render_intro();
     else if(state == STATE_VICTORY)
         render_victory();
@@ -36,7 +36,7 @@ void render_intro()
     $draw_sprite(56, 30, PLAYER, 7 + ((frame_count >> 3) & 0x3));
     $draw_textf(72, 37, FONT_BR6, "x%u", lives);
     if((frame_count & 0x3f) < 0x30)
-        $draw_text_P(26, 51, LEVEL_START_FONT, "Press A");
+        $draw_text_P(44, 51, LEVEL_START_FONT, "Press A");
 }
 
 void render_victory()
@@ -166,18 +166,24 @@ void render_level()
     // render level start animation
     if(level_start_frames != 0)
     {
-        char[20] buf;
-        $format(buf, "Level %d", current_map + 1);
+        //char[20] buf;
+        //$format(buf, "Level %d", current_map + 1);
+        //u8 w = $text_width(LEVEL_START_FONT, buf);
+        char[] prog& name = maps[current_map].name;
+        u8 w = $text_width_P(LEVEL_START_FONT, name);
         constexpr u8 y = 24;
-        constexpr u8 h = 10;
-        u8 w = $text_width(LEVEL_START_FONT, buf);
+        constexpr u8 h = 13;
         i16 x = 64 - w / 2;
-        if(level_start_frames >= 57)
-            x += (level_start_frames - 57) * 10;
-        if(level_start_frames <= 8)
-            x -= (8 - level_start_frames) * 10;
-        $draw_filled_rect(x - 2, y, w + 2, h + 4, BLACK);
-        $draw_text(x, y, LEVEL_START_FONT, buf);
+        i16 xo = 0;
+        constexpr u8 TRANSITION_FRAMES = 12;
+        constexpr u8 END_FRAME = LEVEL_START_FRAMES - TRANSITION_FRAMES;
+        if(level_start_frames >= END_FRAME)
+            xo += (level_start_frames - END_FRAME) * 10;
+        if(level_start_frames <= TRANSITION_FRAMES)
+            xo -= (TRANSITION_FRAMES - level_start_frames) * 10;
+        $draw_filled_rect(xo, y - 1, 128, h, BLACK);
+        //$draw_text(x, y, LEVEL_START_FONT, buf);
+        $draw_text_P(x + xo, y, LEVEL_START_FONT, name);
 
         --level_start_frames;
     }

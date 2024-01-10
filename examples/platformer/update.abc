@@ -8,11 +8,13 @@ void update()
         update_intro();
     else if(state == STATE_VICTORY)
         update_victory();
+    else if(state == STATE_SCORE_TALLY)
+        update_score_tally();
 
     ++frame_count;
 }
 
-void update_intro()
+void update_score_tally()
 {
     if(score > 0)
     {
@@ -41,6 +43,17 @@ void update_intro()
         total_score += score;
         total_score += level_frames_remaining;
         load_map();
+    }
+}
+
+void update_intro()
+{
+    if($just_pressed(A_BUTTON))
+    {
+        if(score == 0 || level_frames_remaining == 0)
+            load_map();
+        else
+            state = STATE_SCORE_TALLY;
     }
 }
 
@@ -232,10 +245,12 @@ void update_level()
 
 void resolve_player_collision()
 {
+    u8[] prog& mapdata = maps[current_map].map;
+
     // resolve collision: left
     if(vx < 0 && (
-        solid(px - PHEH, py - (PHEV - 1), false) ||
-        solid(px - PHEH, py + (PHEV - 1), false) ))
+        solid(mapdata, px - PHEH, py - (PHEV - 1), false) ||
+        solid(mapdata, px - PHEH, py + (PHEV - 1), false) ))
     {
         float t = 16 - $mod(px - (PHEH - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_X)
@@ -244,8 +259,8 @@ void resolve_player_collision()
 
     // resolve collision: left
     else if(vx > 0 && (
-        solid(px + PHEH, py - (PHEV - 1), false) ||
-        solid(px + PHEH, py + (PHEV - 1), false) ))
+        solid(mapdata, px + PHEH, py - (PHEV - 1), false) ||
+        solid(mapdata, px + PHEH, py + (PHEV - 1), false) ))
     {
         float t = $mod(px + (PHEH - 0.1), 16);
         if(t <= PLAYER_MAX_VEL_X)
@@ -254,8 +269,8 @@ void resolve_player_collision()
 
     // resolve collision: top
     if(vy < 0 && (
-        solid(px - (PHEH - 1), py - PHEV, false) ||
-        solid(px + (PHEH - 1), py - PHEV, false) ))
+        solid(mapdata, px - (PHEH - 1), py - PHEV, false) ||
+        solid(mapdata, px + (PHEH - 1), py - PHEV, false) ))
     {
         float t = 16 - $mod(py - (PHEV - 0.1 - 16), 16);
         if(t <= PLAYER_MAX_VEL_Y)
@@ -268,8 +283,8 @@ void resolve_player_collision()
 
     // resolve collision: bottom
     else if(vy > 0 && (
-        solid(px - (PHEH - 1), py + PHEV, true) ||
-        solid(px + (PHEH - 1), py + PHEV, true) ))
+        solid(mapdata, px - (PHEH - 1), py + PHEV, true) ||
+        solid(mapdata, px + (PHEH - 1), py + PHEV, true) ))
     {
         float t = $mod(py + (PHEV - 0.1), 16);
         if(t <= PLAYER_MAX_VEL_Y)
@@ -294,7 +309,7 @@ void update_map_objects()
         if(obj.type == OBJ_NONE)
             continue;
 
-        if(obj.type >= OBJ_MOB && ((frame_count + i) & 1))
+        if(obj.type >= OBJ_MOB && (frame_count & 1))
             update_mob(obj);
 
         // test if player is colliding with object
@@ -381,7 +396,7 @@ void player_take_damage()
     player_death();
 }
 
-bool solid(float x, float y, bool bottom)
+bool solid(u8[] prog& mapdata, float x, float y, bool bottom)
 {
     int ix = $floor(x);
     int iy = $floor(y);
@@ -405,7 +420,7 @@ bool solid(float x, float y, bool bottom)
     // allow the player to fall through the floor
     if(iy >= map_height)
         return false;
-    u8 t = maps[current_map].map[iy * w + ix] - 1;
+    u8 t = mapdata[u16(iy * w + ix)] - 1;
     if(t >= 240) return false;
     if(t < 64) return true;
     if(bottom && t < 96) return true;
