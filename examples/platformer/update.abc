@@ -12,8 +12,21 @@ void update()
         update_score_tally();
     else if(state == STATE_MENU)
         update_menu();
+    else if(state == STATE_LEVEL_SELECT)
+        update_level_select();
 
     ++frame_count;
+}
+
+void update_level_select()
+{
+
+}
+
+void update_sound()
+{
+    if(sound_on != $audio_enabled())
+        $audio_toggle();
 }
 
 void update_menu()
@@ -33,6 +46,17 @@ void update_menu()
             if(current_map == 0)
                 new_game();
             state = STATE_INTRO;
+        }
+        else if(menui == 1)
+        {
+            levelseli = 0;
+            levelseloff = 0;
+            state = STATE_LEVEL_SELECT;
+        }
+        else if(menui == 2)
+        {
+            sound_on = !sound_on;
+            update_sound();
         }
     }
     if($just_pressed(UP_BUTTON) && menui > 0)

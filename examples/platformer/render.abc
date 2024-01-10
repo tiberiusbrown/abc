@@ -4,6 +4,7 @@ constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
 constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
 constexpr sprites IMG_HEART = sprites{ 10x8 "assets/heart.png" };
 constexpr sprites BACKGROUND = sprites{ 128x64 "assets/background.png" };
+constexpr sprites TITLE = sprites{ "assets/title.png" };
 
 constexpr font MAIN_FONT = FONT_VOLTER;
 constexpr font SCORE_FONT = font{ 9 "assets/score.ttf" };
@@ -20,13 +21,33 @@ void render()
         render_menu();
     else if(state == STATE_VICTORY)
         render_victory();
+    else if(state == STATE_LEVEL_SELECT)
+        render_level_select();
+}
+
+void render_level_select()
+{
+    $draw_text_P(10, 0, FONT_BR6, "Name");
+    $draw_text_P(60, 0, FONT_BR6, "High Score");
+    $draw_text_P(97, 0, FONT_BR6, "Best Time");
+
+    for(u8 i = 0; i < 6; ++i)
+    {
+        u8 j = i + levelseloff;
+        if(j >= NUM_MAPS) break;
+        u8 y = i * 7 + 9;
+        $draw_text_P(8, y, FONT_BR6, maps[j].name);
+    }
+
+    $draw_filled_rect(0, 7, 128, 1, WHITE);
+    $draw_filled_rect(8, 0, 1, 64, WHITE);
+    $draw_filled_rect(58, 0, 1, 64, WHITE);
+    $draw_filled_rect(95, 0, 1, 64, WHITE);
 }
 
 void render_menu()
 {
-    //$draw_filled_rect(33, 0, 33, 8, BLACK);
-    //$draw_filled_rect(70, 0, 25, 8, BLACK);
-    $draw_text_P(34, 2, MAIN_FONT, "Dazzle Dash");
+    $draw_sprite_selfmask(13, 2, TITLE, 0);
     $draw_sprite(menu_spritex - 16, -2, OBJECTS, menu_sprite + (frame_count & 0x30));
     $draw_filled_rect(0, 14, 128, 2, WHITE);
     constexpr u8 x = 33;
@@ -37,7 +58,10 @@ void render_menu()
     else 
         $draw_text_P(x, y, MAIN_FONT, "New Game");
     $draw_text_P(x, y + h * 1, MAIN_FONT, "Level Select");
-    $draw_text_P(x, y + h * 2, MAIN_FONT, "High Scores");
+    if(sound_on)
+        $draw_text_P(x, y + h * 2, MAIN_FONT, "Sound: On");
+    else
+        $draw_text_P(x, y + h * 2, MAIN_FONT, "Sound: Off");
     $draw_text_P(x, y + h * 3, MAIN_FONT, "Credits");
     $draw_sprite(x - 19, y - 5 + menui * h, PLAYER, 7 + ((frame_count >> 3) & 3));
 }

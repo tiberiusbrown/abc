@@ -10,11 +10,14 @@ void main_menu()
     {
         for(u8 i = 0; i < NUM_MAPS; ++i)
             map_best_times[i] = 65535;
+        sound_on = true;
     }
     menui = 0;
     menu_spritex = 0;
     menu_sprite = 8;
+    update_sound();
     state = STATE_MENU;
+    state = STATE_LEVEL_SELECT;
 }
 
 void new_game()

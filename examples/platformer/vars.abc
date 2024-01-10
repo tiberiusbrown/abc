@@ -9,11 +9,15 @@ constexpr u8 STATE_GAME_OVER = 4;
 constexpr u8 STATE_LEVEL_COMPLETE = 5;
 constexpr u8 STATE_SCORE_TALLY = 6;
 constexpr u8 STATE_VICTORY = 7;
+constexpr u8 STATE_LEVEL_SELECT = 8;
 u8 state;
 
 u8 menui;
 u8 menu_sprite;
 i16 menu_spritex;
+
+u8 levelseli;
+u8 levelseloff;
 
 // camera position and velocity
 float camx, camy, dcamx;
@@ -32,6 +36,8 @@ saved u24 high_score;
 saved u24 best_time;
 saved u16[NUM_MAPS] map_high_scores;
 saved u16[NUM_MAPS] map_best_times;
+
+saved bool sound_on;
 
 bool was_high_score;
 bool was_best_time;

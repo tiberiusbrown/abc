@@ -385,7 +385,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 auto const& ct = c.comp_type.without_ref();
                 if(ct.is_array_ref())
                 {
-                    if(t != ct)
+                    if(t.children[0] != ct.children[0])
                     {
                         errs.push_back({
                             "Incompatible array element types for UARs",
