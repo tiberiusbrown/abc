@@ -298,6 +298,7 @@ void resolve_player_collision()
 
 void update_map_objects()
 {
+    u8[] prog& mapdata = maps[current_map].map;
     i16 px0 = $round(px) + i16(-PXOFF + 1);
     i16 py0 = $round(py) + i16(-PYOFF + 1);
     i16 px1 = px0 + i16(PHEH * 2 - 1);
@@ -310,7 +311,34 @@ void update_map_objects()
             continue;
 
         if(obj.type >= OBJ_MOB && (frame_count & 1))
-            update_mob(obj);
+        {
+            if(obj.death_frames != 0)
+            {
+                if(--obj.death_frames == 0)
+                    obj.type = OBJ_NONE;
+                return;
+            }
+            if(obj.moving_right)
+            {
+                obj.x += 1;
+                i16 x = obj.x + obj.xo + obj.w;
+                if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                {
+                    obj.x -= 1;
+                    obj.moving_right = false;
+                }
+            }
+            else
+            {
+                obj.x -= 1;
+                float x = obj.x + obj.xo - 1;
+                if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                {
+                    obj.x += 1;
+                    obj.moving_right = true;
+                }
+            }
+        }
 
         // test if player is colliding with object
         i16 x = obj.x + obj.xo;
@@ -428,37 +456,7 @@ bool solid(u8[] prog& mapdata, float x, float y, bool bottom)
     return false;
 }
 
-void update_mob(map_object_t& obj)
-{
-    if(obj.death_frames != 0)
-    {
-        if(--obj.death_frames == 0)
-            obj.type = OBJ_NONE;
-        return;
-    }
-    if(obj.moving_right)
-    {
-        obj.x += 1;
-        i16 x = obj.x + obj.xo + obj.w;
-        if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
-        {
-            obj.x -= 1;
-            obj.moving_right = false;
-        }
-    }
-    else
-    {
-        obj.x -= 1;
-        float x = obj.x + obj.xo - 1;
-        if(mob_solid(x, obj.y + 8, false) || !mob_solid(x, obj.y + 16, true))
-        {
-            obj.x += 1;
-            obj.moving_right = true;
-        }
-    }
-}
-
-bool mob_solid(i16 x, i16 y, bool bottom)
+bool mob_solid(u8[] prog& mapdata, i16 x, i16 y, bool bottom)
 {
     // collision against left map edge
     if(x < 0)
@@ -479,7 +477,7 @@ bool mob_solid(i16 x, i16 y, bool bottom)
     // allow the mob to fall through the floor
     if(y >= map_height)
         return false;
-    u8 t = maps[current_map].map[y * w + x];
+    u8 t = mapdata[y * w + x];
     t -= 1;
     if(t >= 240) return false;
     if(t < 64) return true;
