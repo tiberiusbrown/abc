@@ -8,16 +8,13 @@ void main_menu()
 {
     if(!$load())
     {
-        for(u8 i = 0; i < NUM_MAPS; ++i)
-            map_best_times[i] = 65535;
+        total_score = 0;
+        total_time = 0;
+        current_map = 0;
         sound_on = true;
     }
-    menui = 0;
-    menu_spritex = 0;
-    menu_sprite = 8;
     update_sound();
     state = STATE_MENU;
-    state = STATE_LEVEL_SELECT;
 }
 
 void new_game()
@@ -25,11 +22,14 @@ void new_game()
     current_map = 0;
     lives = STARTING_LIVES;
     total_score = 0;
+    single_level = false;
 }
 
 void setup()
 {
     $set_frame_rate(50);
+    menu_spritex = 0;
+    menu_sprite = 8;
     main_menu();
 }
 

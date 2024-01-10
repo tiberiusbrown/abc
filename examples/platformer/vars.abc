@@ -18,6 +18,7 @@ i16 menu_spritex;
 
 u8 levelseli;
 u8 levelseloff;
+constexpr u8 LEVEL_SELECT_ROWS = 5;
 
 // camera position and velocity
 float camx, camy, dcamx;
@@ -25,7 +26,10 @@ float camx, camy, dcamx;
 // current score in the level playing
 u16 score;
 
-constexpr u8 NUM_MAPS = 4;
+bool single_level;
+
+constexpr u8 NUM_MAPS = 1;
+//constexpr u8 NUM_MAPS = 4;
 
 // index of current map
 saved u8 current_map;
@@ -36,6 +40,9 @@ saved u24 high_score;
 saved u24 best_time;
 saved u16[NUM_MAPS] map_high_scores;
 saved u16[NUM_MAPS] map_best_times;
+
+saved u8 lives;
+constexpr u8 STARTING_LIVES = 5;
 
 saved bool sound_on;
 
@@ -55,9 +62,6 @@ u8 keys_required;
 // player health
 u8 hearts;
 constexpr u8 MAX_HEARTS = 3;
-
-u8 lives;
-constexpr u8 STARTING_LIVES = 5;
 
 // time remaining to complete level
 u16 level_frames_remaining;

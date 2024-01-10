@@ -20,7 +20,36 @@ void update()
 
 void update_level_select()
 {
-
+    if($just_pressed(UP_BUTTON))
+    {
+        if(levelseli == 0)
+        {
+            if(levelseloff > 0)
+                levelseloff -= 1;
+        }
+        else
+            levelseli -= 1;
+    }
+    else if($just_pressed(DOWN_BUTTON))
+    {
+        if(levelseli == LEVEL_SELECT_ROWS - 1)
+        {
+            if(levelseloff < NUM_MAPS - LEVEL_SELECT_ROWS)
+                levelseloff += 1;
+        }
+        else if(levelseli + levelseloff + 1 < NUM_MAPS)
+            levelseli += 1;
+    }
+    else if($just_pressed(B_BUTTON))
+        main_menu();
+    else if($just_pressed(A_BUTTON))
+    {
+        new_game();
+        current_map = levelseli + levelseloff;
+        single_level = true;
+        lives = 99;
+        state = STATE_INTRO;
+    }
 }
 
 void update_sound()
@@ -93,12 +122,15 @@ void update_score_tally()
     {
         total_score += score;
         total_score += level_frames_remaining;
-        $save();
-        if(current_map < NUM_MAPS)
+        if(single_level)
+            state = STATE_LEVEL_SELECT;
+        else if(current_map < NUM_MAPS)
             load_map();
         else
             state = STATE_VICTORY;
     }
+    else if($just_pressed(B_BUTTON))
+        main_menu();
 }
 
 void update_intro()
@@ -120,6 +152,54 @@ void update_level_complete()
         frame_count = 0;
         current_map += 1;
     }
+}
+
+void level_complete()
+{
+    state = STATE_LEVEL_COMPLETE;
+    frame_count = 0;
+    player_moving = false;
+
+    u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
+    total_time += time_taken;
+    was_best_time = (
+        map_best_times[current_map] == 0 ||
+        time_taken < map_best_times[current_map]);
+    if(was_best_time)
+        map_best_times[current_map] = time_taken;
+
+    u24 map_score = score + level_frames_remaining;
+    was_high_score = (map_score > map_high_scores[current_map]);
+    if(was_high_score)
+        map_high_scores[current_map] = map_score;
+
+    // TODO: this is messy...
+    total_score += map_score;
+    if(single_level)
+    {
+        // don't save current map, lives, etc
+        u8 t_lives = lives;
+        u8 t_current_map = current_map;
+        u24 t_total_score = total_score;
+        u24 t_total_time = total_time;
+        $load();
+        if(was_best_time)
+            map_best_times[t_current_map] = time_taken;
+        if(was_high_score)
+            map_high_scores[t_current_map] = map_score;
+        $save();
+        lives = t_lives;
+        current_map = t_current_map;
+        total_score = t_total_score;
+        total_time = t_total_time;
+    }
+    else
+    {
+        $save();
+    }
+    total_score -= map_score;
+
+    $tones_play(SOUND_LEVEL_COMPLETE);
 }
 
 void update_level()
@@ -209,22 +289,7 @@ void update_level()
                 {
                     if(player_on_ground && keys >= t - TILE_DOOR0)
                     {
-                        state = STATE_LEVEL_COMPLETE;
-                        frame_count = 0;
-                        player_moving = false;
-
-                        u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
-                        total_time += time_taken;
-                        was_best_time = (time_taken < map_best_times[current_map]);
-                        if(was_best_time)
-                            map_best_times[current_map] = time_taken;
-
-                        u24 map_score = score + level_frames_remaining;
-                        was_high_score = (map_score > map_high_scores[current_map]);
-                        if(was_high_score)
-                            map_high_scores[current_map] = map_score;
-
-                        $tones_play(SOUND_LEVEL_COMPLETE);
+                        level_complete();
                         return;
                     }
                 }
@@ -257,11 +322,13 @@ void update_level()
         if(--death_frames == 0)
         {
             score = 0;
-            lives -= 1;
+            if(!single_level)
+                lives -= 1;
             level_frames_remaining = 0;
             state = STATE_INTRO;
             frame_count = 0;
-            $save();
+            if(!single_level)
+                $save();
             if(lives == 0)
                 state = STATE_GAME_OVER;
             return;

@@ -10,9 +10,9 @@ struct map_info_t
 
 map_info_t[NUM_MAPS] prog maps = {
     { "Sleepy Meadow", map0, 32, 8 },
-    { "Daring Forest", map1, 32, 16 },
-    { "Grand Old Tree", map2, 16, 32 },
-    { "Luke's Challenge", map_luke, 32, 8 },
+    //{ "Daring Forest", map1, 32, 16 },
+    //{ "Grand Old Tree", map2, 16, 32 },
+    //{ "Luke's Challenge", map_luke, 32, 8 },
 };
 
 u16 total_objects;

@@ -31,18 +31,93 @@ void render_level_select()
     $draw_text_P(60, 0, FONT_BR6, "High Score");
     $draw_text_P(97, 0, FONT_BR6, "Best Time");
 
-    for(u8 i = 0; i < 6; ++i)
+    for(u8 i = 0; i < LEVEL_SELECT_ROWS; ++i)
     {
         u8 j = i + levelseloff;
         if(j >= NUM_MAPS) break;
         u8 y = i * 7 + 9;
-        $draw_text_P(8, y, FONT_BR6, maps[j].name);
+        if(i == levelseli)
+            $draw_text_P(0, y, FONT_BR6, "->");
+        else
+            $draw_textf(0, y, FONT_BR6, "%02u", j + 1);
+        $draw_text_P(10, y, FONT_BR6, maps[j].name);
+        $draw_filled_rect(57, y, 71, 6, BLACK);
+
+        if(map_high_scores[j] != 0)
+            $draw_textf(67, y, FONT_BR6, "%05u", map_high_scores[j]);
+        else
+            $draw_text_P(75, y, FONT_BR6, "-");
+
+        if(map_best_times[j] != 0)
+        {
+            u16 t = map_best_times[j];
+            char[10] buf;
+            $format(buf, "%u.%02u", t / 50, (t % 50) * 2);
+            u8 w = $text_width(FONT_BR6, buf);
+            $draw_text(124 - w, y, FONT_BR6, buf);
+        }
+        else
+            $draw_text_P(110, y, FONT_BR6, "-");
     }
 
-    $draw_filled_rect(0, 7, 128, 1, WHITE);
-    $draw_filled_rect(8, 0, 1, 64, WHITE);
-    $draw_filled_rect(58, 0, 1, 64, WHITE);
-    $draw_filled_rect(95, 0, 1, 64, WHITE);
+    {
+        constexpr u8 y = LEVEL_SELECT_ROWS * 7 + 9;
+        constexpr u8 y2 = y + 16;
+        $draw_filled_rect(0, 7, 128, 1, WHITE);
+        $draw_filled_rect(0, y, 128, 1, WHITE);
+        $draw_filled_rect(0, y2, 128, 1, WHITE);
+        $draw_filled_rect(8, 0, 1, y2, WHITE);
+        $draw_filled_rect(58, 0, 1, y2, WHITE);
+        $draw_filled_rect(95, 0, 1, y2, WHITE);
+        $draw_text_P(10, y + 2, FONT_BR6, "Entire Game");
+        $draw_text_P(10, y + 9, FONT_BR6, "Sum of Best");
+
+        bool has_sum_score = true;
+        bool has_sum_time = true;
+        u24 sum_score = 0;
+        u24 sum_time = 0;
+        for(u8 i = 0; i < NUM_MAPS; ++i)
+        {
+            if(map_high_scores[i] != 0)
+                sum_score += map_high_scores[i];
+            else
+                has_sum_score = false;
+            if(map_best_times[i] != 0)
+                sum_time += map_best_times[i];
+            else
+                has_sum_time = false;
+        }
+
+        if(high_score != 0)
+            $draw_textf(65, y + 2, FONT_BR6, "%06u", high_score);
+        else
+            $draw_text_P(75, y + 2, FONT_BR6, "-");
+        
+        if(has_sum_score)
+            $draw_textf(65, y + 9, FONT_BR6, "%06u", sum_score);
+        else
+            $draw_text_P(75, y + 9, FONT_BR6, "-");
+        
+        if(best_time != 0)
+        {
+            char[10] buf;
+            $format(buf, "%u.%02u", best_time / 50, (best_time % 50) * 2);
+            u8 w = $text_width(FONT_BR6, buf);
+            $draw_text(124 - w, y + 2, FONT_BR6, buf);
+        }
+        else
+            $draw_text_P(110, y + 2, FONT_BR6, "-");
+        
+        if(has_sum_time)
+        {
+            char[10] buf;
+            $format(buf, "%u.%02u", sum_time / 50, (sum_time % 50) * 2);
+            u8 w = $text_width(FONT_BR6, buf);
+            $draw_text(124 - w, y + 9, FONT_BR6, buf);
+        }
+        else
+            $draw_text_P(110, y + 9, FONT_BR6, "-");
+    }
 }
 
 void render_menu()
@@ -91,7 +166,7 @@ void render_intro()
     {
         $draw_text_P(37, -1, MAIN_FONT, "Get Ready!");
 
-        if(current_map != 0)
+        if(total_score != 0)
         {
             constexpr u8 y = 16;
             $draw_text_P(94, y + 0, FONT_BR6, "Total Time");
@@ -104,7 +179,7 @@ void render_intro()
             $draw_text(111 - w / 2, y + 8, FONT_BR6, buf);
         }
     }
-    if(current_map != 0 && state == STATE_INTRO && level_frames_remaining != 0)
+    if(state == STATE_INTRO && level_frames_remaining != 0)
     {
         constexpr u8 y = 40;
         if(was_best_time)
