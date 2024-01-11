@@ -150,6 +150,7 @@ add_executable(abcc
 target_link_libraries(abcc ards_compiler ardenslib)
 target_include_directories(abcc PRIVATE
     "${GENHEADER_DIR}"
+    deps/argparse/include
     )
 
 set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
@@ -224,6 +225,7 @@ target_compile_definitions(abc_tests PRIVATE
 
 set_source_files_properties(
     src/ide_common.cpp
+    src/abcc.cpp
     PROPERTIES
         COMPILE_OPTIONS "-DABC_VERSION=\"${ABC_VERSION}\""
     )

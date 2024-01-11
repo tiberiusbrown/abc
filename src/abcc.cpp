@@ -7,6 +7,8 @@
 
 #include <cstring>
 
+#include <argparse/argparse.hpp>
+
 #define PROFILE_COUNT 1
 #define PROFILING (PROFILE_COUNT > 1)
 
@@ -28,24 +30,38 @@ int main(int argc, char** argv)
 {
     std::filesystem::path psrc;
     std::filesystem::path pbin;
+    std::filesystem::path pdata;
+    std::filesystem::path psave;
     std::filesystem::path parduboy;
 
-    for(int i = 1; i < argc; ++i)
-    {
-        bool more = (i + 1 < argc);
-        if(more && !strcmp(argv[i], "-a"))
-            parduboy = argv[++i];
-        else if(!strcmp(argv[i], "-h"))
-            usage(argv[0]);
-        else if(psrc.empty())
-            psrc = argv[i];
-        else if(pbin.empty())
-            pbin = argv[i];
-        else
-        {
-            usage(argv[0]);
-            return 1;
-        }
+    argparse::ArgumentParser args("abcc", ABC_VERSION);
+    args.add_argument("<main.abc>")
+        .help("path to top-level ABC source file")
+        .action([&](std::string const& v) { psrc = v; });
+    args.add_argument("-b", "--bin")
+        .help("path to development FX data output file")
+        .metavar("PATH")
+        .action([&](std::string const& v) { pbin = v; });
+    args.add_argument("-d", "--data")
+        .help("path to FX data output file")
+        .metavar("PATH")
+        .action([&](std::string const& v) { pdata = v; });
+    args.add_argument("-s", "--save")
+        .help("path to FX save output file (if there are no saved variables, no file is written)")
+        .metavar("PATH")
+        .action([&](std::string const& v) { psave = v; });
+    args.add_argument("-a", "--arduboy")
+        .help("path to .arduboy output file")
+        .metavar("PATH")
+        .action([&](std::string const& v) { parduboy = v; });
+
+    try {
+        args.parse_args(argc, argv);
+    }
+    catch(const std::exception& err) {
+        std::cerr << err.what() << std::endl;
+        std::cerr << args;
+        std::exit(1);
     }
 
     bool show_asm = false;
@@ -55,7 +71,7 @@ int main(int argc, char** argv)
 
 #ifndef NDEBUG
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble3/bubble3.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/struct_ref_bug.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
@@ -157,6 +173,29 @@ int main(int argc, char** argv)
             return 1;
         }
         fbin.write((char const*)a.data().data(), a.data().size());
+    }
+
+    if(!pdata.empty())
+    {
+        std::ofstream f(pdata.generic_string(), std::ios::out | std::ios::binary);
+        if(!f)
+        {
+            std::cerr << "Unable to open file: \"" << pdata.generic_string() << "\"" << std::endl;
+            return 1;
+        }
+        size_t save_bytes = a.has_save() ? 4096 : 0;
+        f.write((char const*)a.data().data(), a.data().size() - save_bytes);
+    }
+
+    if(!psave.empty() && a.has_save())
+    {
+        std::ofstream f(pdata.generic_string(), std::ios::out | std::ios::binary);
+        if(!f)
+        {
+            std::cerr << "Unable to open file: \"" << pdata.generic_string() << "\"" << std::endl;
+            return 1;
+        }
+        f.write((char const*)a.data().data() + a.data().size() - 4096, 4096);
     }
 
     if(!parduboy.empty())
