@@ -8,6 +8,8 @@ void update()
         update_intro();
     else if(state == STATE_LEVEL_COMPLETE)
         update_level_complete();
+    else if(state == STATE_PAUSE)
+        update_pause();
     else if(state == STATE_SCORE_TALLY)
         update_score_tally();
     else if(state == STATE_MENU)
@@ -16,8 +18,23 @@ void update()
         update_level_select();
     else if(state == STATE_VICTORY)
         update_victory();
+    else if(state == STATE_GAME_OVER)
+        update_game_over();
 
     ++frame_count;
+}
+
+void update_pause()
+{
+    if($just_pressed(B_BUTTON))
+        state = STATE_LEVEL;
+    --frame_count;
+}
+
+void update_game_over()
+{
+    if($just_pressed(B_BUTTON))
+        main_menu();
 }
 
 void update_victory()
@@ -160,6 +177,8 @@ void update_intro()
         else
             state = STATE_SCORE_TALLY;
     }
+    else if($just_pressed(B_BUTTON))
+        main_menu();
 }
 
 void update_level_complete()
@@ -391,6 +410,9 @@ void update_level()
     // check if player has fallen out of the bottom of the level
     if(py > map_height * 16)
         player_death();
+    
+    if($just_pressed(B_BUTTON))
+        state = STATE_PAUSE;
 }
 
 void resolve_player_collision()
