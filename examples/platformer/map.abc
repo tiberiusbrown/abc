@@ -13,10 +13,10 @@ constexpr sprites BACKGROUND_MOUNTAIN = sprites{ 128x64 "assets/background.png" 
 constexpr sprites BACKGROUND_CLOUDS = sprites{ 128x64 "assets/background_clouds.png" };
 
 map_info_t[NUM_MAPS] prog maps = {
-    { "Floating on Clouds", map_floating, 32, 16, BACKGROUND_CLOUDS },
     { "Sleepy Meadow", map0, 32, 8, BACKGROUND_MOUNTAIN },
     { "Daring Forest", map1, 32, 16, BACKGROUND_MOUNTAIN },
     { "Grand Old Tree", map2, 16, 32, BACKGROUND_MOUNTAIN },
+    { "Floating on Clouds", map_floating, 32, 16, BACKGROUND_CLOUDS },
     { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
     { "Monster Hills - Luke", map_luke2, 32, 8, BACKGROUND_MOUNTAIN },
 };

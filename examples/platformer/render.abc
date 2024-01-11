@@ -31,6 +31,17 @@ void render()
 void render_pause()
 {
     render_level();
+    $draw_sprite(0, 0, sprites{ "assets/pause.png" }, 0);
+    constexpr u8 x = 75;
+    constexpr u8 y = 20;
+    constexpr u8 h = 12;
+    $draw_text_P(x, y + h * 0, MAIN_FONT, "Resume");
+    if(sound_on)
+        $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: On");
+    else
+        $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: Off");
+    $draw_text_P(x, y + h * 2, MAIN_FONT, "Main Menu");
+    $draw_text_P(66, y + h * pause_menui, MAIN_FONT, ">");
 }
 
 u8[40] prog GAME_OVER_TILES = {

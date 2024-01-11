@@ -16,6 +16,8 @@ u8 menui;
 u8 menu_sprite;
 i16 menu_spritex;
 
+u8 pause_menui;
+
 u8 levelseli;
 u8 levelseloff;
 constexpr u8 LEVEL_SELECT_ROWS = 5;

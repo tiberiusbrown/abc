@@ -26,7 +26,29 @@ void update()
 
 void update_pause()
 {
-    if($just_pressed(B_BUTTON))
+    if($just_pressed(UP_BUTTON))
+    {
+        if(pause_menui > 0)
+            pause_menui -= 1;
+    }
+    else if($just_pressed(DOWN_BUTTON))
+    {
+        if(pause_menui < 2)
+            pause_menui += 1;
+    }
+    else if($just_pressed(A_BUTTON))
+    {
+        if(pause_menui == 0)
+            state = STATE_LEVEL;
+        else if(pause_menui == 1)
+        {
+            $audio_toggle();
+            sound_on = !sound_on;
+        }
+        else if(pause_menui == 2)
+            main_menu();
+    }
+    else if($just_pressed(B_BUTTON))
         state = STATE_LEVEL;
     --frame_count;
 }
@@ -412,7 +434,10 @@ void update_level()
         player_death();
     
     if($just_pressed(B_BUTTON))
+    {
+        pause_menui = 0;
         state = STATE_PAUSE;
+    }
 }
 
 void resolve_player_collision()

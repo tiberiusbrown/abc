@@ -32,7 +32,6 @@ void setup()
     menu_spritex = 0;
     menu_sprite = 8;
     main_menu();
-    state = STATE_GAME_OVER;
 }
 
 void loop()
