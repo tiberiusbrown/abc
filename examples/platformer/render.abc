@@ -33,7 +33,7 @@ void render_pause()
     render_level();
     $draw_sprite(0, 0, sprites{ "assets/pause.png" }, 0);
     constexpr u8 x = 75;
-    constexpr u8 y = 20;
+    constexpr u8 y = 16;
     constexpr u8 h = 12;
     $draw_text_P(x, y + h * 0, MAIN_FONT, "Resume");
     if(sound_on)
@@ -41,6 +41,7 @@ void render_pause()
     else
         $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: Off");
     $draw_text_P(x, y + h * 2, MAIN_FONT, "Main Menu");
+    $draw_text_P(x, y + h * 3, MAIN_FONT, "End Game");
     $draw_text_P(66, y + h * pause_menui, MAIN_FONT, ">");
 }
 
@@ -458,7 +459,5 @@ void render_level()
         $draw_filled_rect(xo, y - 1, 128, h, BLACK);
         //$draw_text(x, y, MAIN_FONT, buf);
         $draw_text_P(x + xo, y, MAIN_FONT, name);
-
-        --level_start_frames;
     }
 }

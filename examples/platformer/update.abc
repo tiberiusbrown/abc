@@ -33,7 +33,7 @@ void update_pause()
     }
     else if($just_pressed(DOWN_BUTTON))
     {
-        if(pause_menui < 2)
+        if(pause_menui < 3)
             pause_menui += 1;
     }
     else if($just_pressed(A_BUTTON))
@@ -47,6 +47,12 @@ void update_pause()
         }
         else if(pause_menui == 2)
             main_menu();
+        else if(pause_menui == 3)
+        {
+            save_exists = false;
+            $save();
+            main_menu();
+        }
     }
     else if($just_pressed(B_BUTTON))
         state = STATE_LEVEL;
@@ -422,6 +428,9 @@ void update_level()
     // check if player has fallen out of the bottom of the level
     if(py > map_height * 16)
         player_death();
+    
+    if(level_start_frames != 0)
+        --level_start_frames;
     
     if($just_pressed(B_BUTTON))
     {

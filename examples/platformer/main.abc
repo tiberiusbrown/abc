@@ -23,6 +23,8 @@ void new_game()
     lives = STARTING_LIVES;
     total_score = 0;
     total_time = 0;
+    score = 0;
+    level_frames_remaining = 0;
     single_level = false;
 }
 
