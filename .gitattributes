@@ -4,6 +4,8 @@
 # Binary Files (don't diff, don't fix line endings)
 # ===
 
+*.arduboy binary
+
 # Images
 *.png binary
 *.jpg binary
