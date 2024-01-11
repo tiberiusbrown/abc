@@ -6,13 +6,19 @@ struct map_info_t
     char[] prog& name;
     u8[] prog& map;
     u8 w, h;
+    sprites background;
 };
 
+constexpr sprites BACKGROUND_MOUNTAIN = sprites{ 128x64 "assets/background.png" };
+constexpr sprites BACKGROUND_CLOUDS = sprites{ 128x64 "assets/background_clouds.png" };
+
 map_info_t[NUM_MAPS] prog maps = {
-    { "Sleepy Meadow", map0, 32, 8 },
-    //{ "Daring Forest", map1, 32, 16 },
-    //{ "Grand Old Tree", map2, 16, 32 },
-    //{ "Luke's Challenge", map_luke, 32, 8 },
+    { "Floating on Clouds", map_floating, 32, 16, BACKGROUND_CLOUDS },
+    { "Sleepy Meadow", map0, 32, 8, BACKGROUND_MOUNTAIN },
+    { "Daring Forest", map1, 32, 16, BACKGROUND_MOUNTAIN },
+    { "Grand Old Tree", map2, 16, 32, BACKGROUND_MOUNTAIN },
+    { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
+    { "Monster Hills - Luke", map_luke2, 32, 8, BACKGROUND_MOUNTAIN },
 };
 
 u16 total_objects;
@@ -109,6 +115,18 @@ void process_map_tile(u8 x, u8 y, u8 t)
             yo = 3;
         }
         add_object({ t - 240, x * 16, y * 16, xo, yo, 16 - xo * 2, 16 - yo, true });
+    }
+    else if(t == TILE_MOB_BAT)
+    {
+        u8 tt = ((x * 37 + y * 23) & 15) * 3;
+        //$debug_printf("%u %u %u\n", x, y, tt);
+        add_object({ OBJ_MOB_BAT, x * 16 + tt, y * 16, 1, 4, 14, 9, true, 0, tt });
+    }
+    else if(t == TILE_MOB_FLY)
+    {
+        u8 tt = ((x * 37 + y * 23) & 15) * 3;
+        //$debug_printf("%u %u %u\n", x, y, tt);
+        add_object({ OBJ_MOB_FLY, x * 16, y * 16 + tt, 2, 2, 12, 14, true, 0, tt });
     }
     else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
     {

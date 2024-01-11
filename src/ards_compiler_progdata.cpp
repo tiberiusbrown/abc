@@ -54,6 +54,25 @@ void compiler_t::progdata_expr(
     switch(t.type)
     {
     case compiler_type_t::SPRITES:
+    case compiler_type_t::FONT:
+    case compiler_type_t::TONES:
+        if(n.type == AST::LABEL_REF)
+        {
+            std::string name(n.data);
+            pd.relocs_prog.push_back({ pd.data.size(), name });
+            pd.data.push_back(0);
+            pd.data.push_back(0);
+            pd.data.push_back(0);
+            return;
+        }
+        break;
+    default:
+        break;
+    }
+
+    switch(t.type)
+    {
+    case compiler_type_t::SPRITES:
     {
         encode_sprites(pd.data, n);
         break;

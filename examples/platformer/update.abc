@@ -22,7 +22,8 @@ void update()
 
 void update_victory()
 {
-
+    if($just_pressed(B_BUTTON))
+        main_menu();
 }
 
 void update_level_select()
@@ -310,10 +311,6 @@ void update_level()
                         return;
                     }
                 }
-                else if(t == TILE_SPIKE)
-                {
-                    player_take_damage();
-                }
             }
         }
     }
@@ -460,10 +457,11 @@ void update_map_objects()
     for(u8 i = 0; i < MAX_OBJECTS; ++i)
     {
         map_object_t& obj = objects[i];
-        if(obj.type == OBJ_NONE)
+        u8 type = obj.type;
+        if(type == OBJ_NONE)
             continue;
 
-        if(obj.type >= OBJ_MOB && (frame_count & 1))
+        if(type >= OBJ_MOB && (frame_count & 1))
         {
             if(obj.death_frames != 0)
             {
@@ -471,24 +469,51 @@ void update_map_objects()
                     obj.type = OBJ_NONE;
                 return;
             }
-            if(obj.moving_right)
+            if(type <= OBJ_MOB_HELM)
             {
-                obj.x += 1;
-                i16 x = obj.x + obj.xo + obj.w;
-                if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
-                {
-                    obj.x -= 1;
-                    obj.moving_right = false;
-                }
-            }
-            else
-            {
-                obj.x -= 1;
-                float x = obj.x + obj.xo - 1;
-                if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                if(obj.moving_right)
                 {
                     obj.x += 1;
-                    obj.moving_right = true;
+                    i16 x = obj.x + obj.xo + obj.w;
+                    if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                    {
+                        obj.x -= 1;
+                        obj.moving_right = false;
+                    }
+                }
+                else
+                {
+                    obj.x -= 1;
+                    float x = obj.x + obj.xo - 1;
+                    if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                    {
+                        obj.x += 1;
+                        obj.moving_right = true;
+                    }
+                }
+            }
+            else if(type == OBJ_MOB_BAT)
+            {
+                if(obj.moving_right)
+                    obj.x += 1;
+                else
+                    obj.x -= 1;
+                if(++obj.t >= 48)
+                {
+                    obj.t = 0;
+                    obj.moving_right = !obj.moving_right;
+                }
+            }
+            else if(type == OBJ_MOB_FLY)
+            {
+                if(obj.moving_right)
+                    obj.y += 1;
+                else
+                    obj.y -= 1;
+                if(++obj.t >= 48)
+                {
+                    obj.t = 0;
+                    obj.moving_right = !obj.moving_right;
                 }
             }
         }
@@ -605,6 +630,8 @@ bool solid(u8[] prog& mapdata, float x, float y, bool bottom)
         return false;
     u8 t = mapdata[u16(iy * w + ix)] - 1;
     if(t >= 240) return false;
+    if(t == TILE_SPIKE)
+        player_take_damage();
     if(t < 64) return true;
     if(bottom && t < 96) return true;
     if(t >= 176 && (t & 15) >= 8) return true;
@@ -671,7 +698,7 @@ void touch_object(map_object_t& obj)
             $tones_play(SOUND_HEAL);
         }
     }
-    else if(type >= OBJ_MOB && type <= OBJ_MOB_HELM)
+    else if(type >= OBJ_MOB && type <= OBJ_MOB_FLY)
     {
         if(obj.death_frames != 0)
             return;

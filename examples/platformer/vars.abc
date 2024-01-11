@@ -28,8 +28,7 @@ u16 score;
 
 bool single_level;
 
-constexpr u8 NUM_MAPS = 1;
-//constexpr u8 NUM_MAPS = 4;
+constexpr u8 NUM_MAPS = 6;
 
 // index of current map
 saved u8 current_map;
@@ -96,7 +95,7 @@ bool mob_jumped;
 // tiles
 //
 
-constexpr u8 TILE_SPIKE     =  16;
+constexpr u8 TILE_SPIKE     =  15;
 constexpr u8 TILE_DOOR0     = 156;
 constexpr u8 TILE_DOOR1     = 157;
 constexpr u8 TILE_DOOR2     = 158;
@@ -117,6 +116,8 @@ constexpr u8 TILE_HEART     = 246;
 constexpr u8 TILE_MOB       = 248;
 constexpr u8 TILE_MOB_HORN  = 249;
 constexpr u8 TILE_MOB_HELM  = 250;
+constexpr u8 TILE_MOB_BAT   = 251;
+constexpr u8 TILE_MOB_FLY   = 252;
 
 // map objects
 constexpr u8 MAX_OBJECTS = 20;
@@ -128,6 +129,8 @@ constexpr u8 OBJ_HEART     = 6;
 constexpr u8 OBJ_MOB       = 8;
 constexpr u8 OBJ_MOB_HORN  = 9;
 constexpr u8 OBJ_MOB_HELM  = 10;
+constexpr u8 OBJ_MOB_BAT   = 11;
+constexpr u8 OBJ_MOB_FLY   = 12;
 struct map_object_t
 {
     u8 type;
@@ -137,6 +140,7 @@ struct map_object_t
     // for mobs
     bool moving_right;
     u8 death_frames;
+    u8 t;
 };
 map_object_t[MAX_OBJECTS] objects;
 
