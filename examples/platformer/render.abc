@@ -25,6 +25,38 @@ void render()
         render_level_select();
 }
 
+u8[40] prog VICTORY_TILES = {
+    0, 0, 0, 0, 0, 0, 133, 0,
+    0, 0, 0, 0, 0, 0, 133, 0,
+    0, 0, 0, 0, 0, 93, 133, 0,
+    108, 0, 0, 0, 109, 148, 149, 150,
+    2, 2, 2, 2, 2, 2, 2, 2
+};
+
+void render_victory()
+{
+    for(u8 i = 0; i < 5; ++i)
+        for(u8 j = 0; j < 8; ++j)
+        {
+            u8 t = VICTORY_TILES[i * 8 + j] - 1;
+            if(t < 240)
+                $draw_sprite(j * 16, i * 16 - 8, TILES, t);
+        }
+    
+    constexpr u8 x = 8;
+    $draw_textf(x + 6, 1, SCORE_FONT, "%06u", total_score);
+    if(was_high_score)
+        $draw_text_P(x, 13, FONT_BR6, "New High Score!");
+    {
+        char[10] buf;
+        $format(buf, "%u.%02u", total_time / 50, (total_time % 50) * 2);
+        u8 w = $text_width(SCORE_FONT, buf);
+        $draw_text(x + 27 - w / 2, 23, SCORE_FONT, buf);
+    }
+    if(was_best_time)
+        $draw_text_P(x + 1, 35, FONT_BR6, "New Best Time!");
+}
+
 void render_level_select()
 {
     $draw_text_P(10, 0, FONT_BR6, "Name");
@@ -141,11 +173,6 @@ void render_menu()
     $draw_sprite(x - 19, y - 5 + menui * h, PLAYER, 7 + ((frame_count >> 3) & 3));
 }
 
-void render_victory()
-{
-
-}
-
 void render_intro()
 {
     //$draw_text_P(55, 10, FONT_BR6, "Score");
@@ -164,7 +191,10 @@ void render_intro()
     }
     else
     {
-        $draw_text_P(37, -1, MAIN_FONT, "Get Ready!");
+        if(current_map >= NUM_MAPS)
+            $draw_text_P(24, -1, MAIN_FONT, "Congratulations!");
+        else
+            $draw_text_P(37, -1, MAIN_FONT, "Get Ready!");
 
         if(total_score != 0)
         {

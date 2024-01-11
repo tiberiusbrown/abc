@@ -14,8 +14,15 @@ void update()
         update_menu();
     else if(state == STATE_LEVEL_SELECT)
         update_level_select();
+    else if(state == STATE_VICTORY)
+        update_victory();
 
     ++frame_count;
+}
+
+void update_victory()
+{
+
 }
 
 void update_level_select()
@@ -127,7 +134,17 @@ void update_score_tally()
         else if(current_map < NUM_MAPS)
             load_map();
         else
+        {
+            was_high_score = (total_score > high_score);
+            was_best_time = (best_time == 0 || total_time < best_time);
+            if(was_high_score)
+                high_score = total_score;
+            if(was_best_time)
+                best_time = total_time;
+            current_map = 0;
+            $save();
             state = STATE_VICTORY;
+        }
     }
     else if($just_pressed(B_BUTTON))
         main_menu();

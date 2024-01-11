@@ -15,6 +15,8 @@ void main_menu()
     }
     update_sound();
     state = STATE_MENU;
+    was_high_score = true;
+    was_best_time = true;
 }
 
 void new_game()
@@ -31,6 +33,7 @@ void setup()
     menu_spritex = 0;
     menu_sprite = 8;
     main_menu();
+    state = STATE_VICTORY;
 }
 
 void loop()
