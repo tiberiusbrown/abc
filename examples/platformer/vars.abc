@@ -33,16 +33,22 @@ bool single_level;
 constexpr u8 NUM_MAPS = 6;
 
 // index of current map
-saved u8 current_map;
-saved u24 total_score;
-saved u24 total_time;
+u8 current_map;
+u24 total_score;
+u24 total_time;
+
+saved bool save_exists;
+saved u8 saved_lives;
+saved u8 saved_current_map;
+saved u24 saved_total_score;
+saved u24 saved_total_time;
 
 saved u24 high_score;
 saved u24 best_time;
 saved u16[NUM_MAPS] map_high_scores;
 saved u16[NUM_MAPS] map_best_times;
 
-saved u8 lives;
+u8 lives;
 constexpr u8 STARTING_LIVES = 5;
 
 saved bool sound_on;

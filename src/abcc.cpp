@@ -165,11 +165,10 @@ int main(int argc, char** argv)
 
     if(!pbin.empty())
     {
-        auto fxdata = pbin;
-        std::ofstream fbin(fxdata.generic_string(), std::ios::out | std::ios::binary);
+        std::ofstream fbin(pbin.generic_string(), std::ios::out | std::ios::binary);
         if(!fbin)
         {
-            std::cerr << "Unable to open file: \"" << fxdata.generic_string() << "\"" << std::endl;
+            std::cerr << "Unable to open file: \"" << pbin.generic_string() << "\"" << std::endl;
             return 1;
         }
         fbin.write((char const*)a.data().data(), a.data().size());
@@ -189,10 +188,10 @@ int main(int argc, char** argv)
 
     if(!psave.empty() && a.has_save())
     {
-        std::ofstream f(pdata.generic_string(), std::ios::out | std::ios::binary);
+        std::ofstream f(psave.generic_string(), std::ios::out | std::ios::binary);
         if(!f)
         {
-            std::cerr << "Unable to open file: \"" << pdata.generic_string() << "\"" << std::endl;
+            std::cerr << "Unable to open file: \"" << psave.generic_string() << "\"" << std::endl;
             return 1;
         }
         f.write((char const*)a.data().data() + a.data().size() - 4096, 4096);

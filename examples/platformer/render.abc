@@ -229,7 +229,7 @@ void render_menu()
     constexpr u8 x = 33;
     constexpr u8 y = 21;
     constexpr u8 h = 11;
-    if(current_map != 0)
+    if(save_exists)
         $draw_text_P(x, y, MAIN_FONT, "Resume Game");
     else 
         $draw_text_P(x, y, MAIN_FONT, "New Game");

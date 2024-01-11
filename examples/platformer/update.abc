@@ -119,8 +119,15 @@ void update_menu()
     {
         if(menui == 0)
         {
-            if(current_map == 0)
+            if(!save_exists)
                 new_game();
+            else
+            {
+                current_map = saved_current_map;
+                total_score = saved_total_score;
+                total_time = saved_total_time;
+                lives = saved_lives;
+            }
             state = STATE_INTRO;
         }
         else if(menui == 1)
@@ -182,6 +189,7 @@ void update_score_tally()
             if(was_best_time)
                 best_time = total_time;
             current_map = 0;
+            save_exists = false;
             $save();
             state = STATE_VICTORY;
         }
@@ -232,31 +240,15 @@ void level_complete()
     if(was_high_score)
         map_high_scores[current_map] = map_score;
 
-    // TODO: this is messy...
-    total_score += map_score;
-    if(single_level)
+    if(!single_level)
     {
-        // don't save current map, lives, etc
-        u8 t_lives = lives;
-        u8 t_current_map = current_map;
-        u24 t_total_score = total_score;
-        u24 t_total_time = total_time;
-        $load();
-        if(was_best_time)
-            map_best_times[t_current_map] = time_taken;
-        if(was_high_score)
-            map_high_scores[t_current_map] = map_score;
-        $save();
-        lives = t_lives;
-        current_map = t_current_map;
-        total_score = t_total_score;
-        total_time = t_total_time;
+        saved_current_map = current_map + 1;
+        saved_total_score = total_score + map_score;
+        saved_total_time = total_time;
+        saved_lives = lives;
+        save_exists = true;
     }
-    else
-    {
-        $save();
-    }
-    total_score -= map_score;
+    $save();
 
     $tones_play(SOUND_LEVEL_COMPLETE);
 }
@@ -382,8 +374,6 @@ void update_level()
             level_frames_remaining = 0;
             state = STATE_INTRO;
             frame_count = 0;
-            if(!single_level)
-                $save();
             if(lives == 0)
                 state = STATE_GAME_OVER;
             return;
@@ -630,6 +620,15 @@ void player_death()
     if(death_frames != 0)
         return;
     death_frames = DEATH_TOTAL_FRAMES;
+    if(!single_level)
+    {
+        saved_current_map = current_map;
+        saved_total_score = total_score;
+        saved_total_time = total_time;
+        saved_lives = lives - 1;
+        save_exists = true;
+        $save();
+    }
     $tones_play(SOUND_DEATH);
 }
 
