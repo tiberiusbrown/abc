@@ -15,7 +15,9 @@ void render()
     else if(state == STATE_LEVEL_COMPLETE)
         render_level_complete();
     else if(state == STATE_PAUSE)
-        render_pause();
+        render_pause(false);
+    else if(state == STATE_CONFIRM)
+        render_pause(true);
     else if(state == STATE_INTRO || state == STATE_SCORE_TALLY)
         render_intro();
     else if(state == STATE_MENU)
@@ -28,21 +30,32 @@ void render()
         render_game_over();
 }
 
-void render_pause()
+void render_pause(bool confirm)
 {
     render_level();
     $draw_sprite(0, 0, sprites{ "assets/pause.png" }, 0);
     constexpr u8 x = 75;
     constexpr u8 y = 16;
     constexpr u8 h = 12;
-    $draw_text_P(x, y + h * 0, MAIN_FONT, "Resume");
-    if(sound_on)
-        $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: On");
+    if(confirm)
+    {
+        $draw_text_P(68, 0, MAIN_FONT, "Delete Save");
+        $draw_text_P(x, y + h * 0, MAIN_FONT, "No");
+        $draw_text_P(x, y + h * 1, MAIN_FONT, "Yes");
+    }
     else
-        $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: Off");
-    $draw_text_P(x, y + h * 2, MAIN_FONT, "Main Menu");
-    $draw_text_P(x, y + h * 3, MAIN_FONT, "End Game");
+    {
+        $draw_text_P(80, 0, MAIN_FONT, "Paused");
+        $draw_text_P(x, y + h * 0, MAIN_FONT, "Resume");
+        if(sound_on)
+            $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: On");
+        else
+            $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: Off");
+        $draw_text_P(x, y + h * 2, MAIN_FONT, "Main Menu");
+        $draw_text_P(x, y + h * 3, MAIN_FONT, "End Game");
+    }
     $draw_text_P(66, y + h * pause_menui, MAIN_FONT, ">");
+    $draw_filled_rect(66, 9, 62, 2, WHITE);
 }
 
 u8[40] prog GAME_OVER_TILES = {
@@ -138,11 +151,26 @@ void render_level_select()
         u8 j = i + levelseloff;
         if(j >= NUM_MAPS) break;
         u8 y = i * 7 + 9;
+
         if(i == levelseli)
+        {
+            i16 x = 0;
+            u8 w = $text_width_P(FONT_BR6, maps[j].name);
+            if(w > 48 && frame_count >= 50)
+            {
+                x = (frame_count - 50) >> 2;
+                if(x > w - 48)
+                    x = w - 48;
+            }
+            $draw_text_P(10 - x, y, FONT_BR6, maps[j].name);
+            $draw_filled_rect(0, y, 9, 6, BLACK);
             $draw_text_P(0, y, FONT_BR6, "->");
+        }
         else
+        {
+            $draw_text_P(10, y, FONT_BR6, maps[j].name);
             $draw_textf(0, y, FONT_BR6, "%02u", j + 1);
-        $draw_text_P(10, y, FONT_BR6, maps[j].name);
+        }
         $draw_filled_rect(57, y, 71, 6, BLACK);
 
         if(map_high_scores[j] != 0)

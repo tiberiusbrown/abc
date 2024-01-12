@@ -10,6 +10,8 @@ void update()
         update_level_complete();
     else if(state == STATE_PAUSE)
         update_pause();
+    else if(state == STATE_CONFIRM)
+        update_confirm();
     else if(state == STATE_SCORE_TALLY)
         update_score_tally();
     else if(state == STATE_MENU)
@@ -22,6 +24,42 @@ void update()
         update_game_over();
 
     ++frame_count;
+}
+
+void update_confirm()
+{
+    if($just_pressed(UP_BUTTON))
+    {
+        if(pause_menui > 0)
+            pause_menui -= 1;
+    }
+    else if($just_pressed(DOWN_BUTTON))
+    {
+        if(pause_menui < 1)
+            pause_menui += 1;
+    }
+    else if($just_pressed(A_BUTTON))
+    {
+        if(pause_menui == 0)
+        {
+            state = STATE_LEVEL;
+        }
+        else if(pause_menui == 1)
+        {
+            if(save_exists)
+            {
+                save_exists = false;
+                $save();
+            }
+            main_menu();
+        }
+    }
+    else if($just_pressed(B_BUTTON))
+    {
+        pause_menui = 3;
+        state = STATE_PAUSE;
+    }
+    --frame_count;
 }
 
 void update_pause()
@@ -49,9 +87,8 @@ void update_pause()
             main_menu();
         else if(pause_menui == 3)
         {
-            save_exists = false;
-            $save();
-            main_menu();
+            pause_menui = 0;
+            state = STATE_CONFIRM;
         }
     }
     else if($just_pressed(B_BUTTON))
@@ -82,6 +119,7 @@ void update_level_select()
         }
         else
             levelseli -= 1;
+        frame_count = 0;
     }
     else if($just_pressed(DOWN_BUTTON))
     {
@@ -92,6 +130,7 @@ void update_level_select()
         }
         else if(levelseli + levelseloff + 1 < NUM_MAPS)
             levelseli += 1;
+        frame_count = 0;
     }
     else if($just_pressed(B_BUTTON))
         main_menu();
@@ -125,6 +164,7 @@ void update_menu()
     {
         if(menui == 0)
         {
+            single_level = false;
             if(!save_exists)
                 new_game();
             else
@@ -140,6 +180,7 @@ void update_menu()
         {
             levelseli = 0;
             levelseloff = 0;
+            frame_count = 0;
             state = STATE_LEVEL_SELECT;
         }
         else if(menui == 2)
@@ -183,7 +224,10 @@ void update_score_tally()
         total_score += score;
         total_score += level_frames_remaining;
         if(single_level)
+        {
+            frame_count = 0;
             state = STATE_LEVEL_SELECT;
+        }
         else if(current_map < NUM_MAPS)
             load_map();
         else

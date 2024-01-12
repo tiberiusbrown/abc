@@ -10,6 +10,7 @@ constexpr u8 STATE_LEVEL_COMPLETE = 5;
 constexpr u8 STATE_SCORE_TALLY = 6;
 constexpr u8 STATE_VICTORY = 7;
 constexpr u8 STATE_LEVEL_SELECT = 8;
+constexpr u8 STATE_CONFIRM = 9;
 u8 state;
 
 u8 menui;
