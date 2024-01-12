@@ -22,8 +22,18 @@ void update()
         update_victory();
     else if(state == STATE_GAME_OVER)
         update_game_over();
+    else if(state == STATE_CREDITS)
+        update_credits();
 
     ++frame_count;
+}
+
+void update_credits()
+{
+    if($just_pressed(B_BUTTON))
+        main_menu();
+    if(!(frame_count & 3) && ++creditsy == 140)
+        creditsy = 0;
 }
 
 void update_confirm()
@@ -187,6 +197,12 @@ void update_menu()
         {
             sound_on = !sound_on;
             update_sound();
+        }
+        else if(menui == 3)
+        {
+            frame_count = 0;
+            creditsy = 0;
+            state = STATE_CREDITS;
         }
     }
     if($just_pressed(UP_BUTTON) && menui > 0)

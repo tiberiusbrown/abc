@@ -28,6 +28,24 @@ void render()
         render_level_select();
     else if(state == STATE_GAME_OVER)
         render_game_over();
+    else if(state == STATE_CREDITS)
+        render_credits();
+}
+
+void render_credits()
+{
+    i16 y = 54 - creditsy;
+    $draw_text_P(41, y + 20, FONT_BR6, "Programming");
+    $draw_text_P(32, y + 27, MAIN_FONT, "Peter Brown");
+    $draw_text_P(37, y + 47, FONT_BR6, "Tiles and Sprites");
+    $draw_text_P(41, y + 54, MAIN_FONT, "Kenney.nl");
+    $draw_text_P(54, y + 74, FONT_BR6, "Levels");
+    $draw_text_P(32, y + 81, MAIN_FONT, "Peter Brown");
+    $draw_text_P(34, y + 92, MAIN_FONT, "Luke Brown");
+
+    $draw_filled_rect(0, 0, 128, 17, BLACK);
+    $draw_sprite(13, 2, TITLE, 0);
+    $draw_filled_rect(0, 14, 128, 2, WHITE);
 }
 
 void render_pause(bool confirm)

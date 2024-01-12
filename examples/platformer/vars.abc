@@ -11,11 +11,14 @@ constexpr u8 STATE_SCORE_TALLY = 6;
 constexpr u8 STATE_VICTORY = 7;
 constexpr u8 STATE_LEVEL_SELECT = 8;
 constexpr u8 STATE_CONFIRM = 9;
+constexpr u8 STATE_CREDITS = 10;
 u8 state;
 
 u8 menui;
 u8 menu_sprite;
 i16 menu_spritex;
+
+u8 creditsy;
 
 u8 pause_menui;
 
