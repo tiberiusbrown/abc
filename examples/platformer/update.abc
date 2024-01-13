@@ -182,6 +182,8 @@ void update_menu()
                 current_map = saved_current_map;
                 total_score = saved_total_score;
                 total_time = saved_total_time;
+                score = 0;
+                level_frames_remaining = 0;
                 lives = saved_lives;
             }
             state = STATE_INTRO;
@@ -695,7 +697,7 @@ void player_death()
         saved_total_score = total_score;
         saved_total_time = total_time;
         saved_lives = lives - 1;
-        save_exists = true;
+        save_exists = (saved_lives > 0);
         $save();
     }
     $tones_play(SOUND_DEATH);
