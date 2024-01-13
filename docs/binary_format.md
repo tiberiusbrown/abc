@@ -24,10 +24,10 @@ Following the header is
 Six additional bytes are reserved for the data page offset (for dev purposes only) and end-of-data signature (`AB CE EA BC`), and the length is then padded to 256 bytes. Finally, the dev data page and signature is placed in the final two bytes. The FX initialization logic is below.
 
 ```cpp
-FX::begin(0xffff, 0xfff0);
+FX::begin(0x0000, 0xfff0);
 
 // figure out data/save pages if we are in dev mode
-if(FX::programDataPage == 0xffff)
+if(FX::programDataPage == 0x0000)
 {
     // look for signature
     uint24_t addr = uint24_t(16) * 1024 * 1024 - 4;
@@ -40,7 +40,7 @@ if(FX::programDataPage == 0xffff)
         FX::seekData(addr);
         sig = FX::readPendingLastUInt32();
         if(sig != 0xABCEEABC)
-            vm_error(ERR_SIG);
+            vm_error(ards::ERR_SIG);
     }
     // read the data page from end-of-data
     FX::readDataBytes(
