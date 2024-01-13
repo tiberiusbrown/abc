@@ -5,11 +5,48 @@
 #include <map>
 #include <sstream>
 #include <string>
+#include <tuple>
 
 #include <all_fonts.hpp>
 #include <stb_truetype.h>
 
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include <stb_image_write.h>
+
 #include <stdio.h>
+
+static void draw_str(
+    std::vector<uint8_t> const& font,
+    std::vector<uint8_t>& buf,
+    int w, int h,
+    int x, int y,
+    char const* str)
+{
+    int sw = font[513];
+    int sh = font[514];
+    int sb = (sh + 7) / 8 * sw;
+    for(uint8_t cc; (cc = (uint8_t)*str) != '\0'; ++str)
+    {
+        for(int r = 0; r < sh; ++r)
+        {
+            int tr = r + y;
+            int tp = r / 8;
+            if(tr >= h) break;
+            for(int c = 0; c < sw; ++c)
+            {
+                int tc = c + x;
+                if(tc >= w)
+                    break;
+                uint8_t& t = buf[tr * w + tc];
+                if((font[518 + sb * cc + sw * tp + c] >> (r & 7)) & 1)
+                    t = 0xff;
+                else
+                    t = 0x00;
+            }
+        }
+        x += font[int(cc) * 2 + 1];
+    }
+}
 
 int main()
 {
@@ -52,10 +89,10 @@ int main()
     if(!f) return 1;
 
     fprintf(f, "# Built-in Font Assets\n");
-    fprintf(f, "| Predefined Variable | Line Height |\n");
-    fprintf(f, "|---|---|\n");
+    fprintf(f, "| Predefined Variable | Line Height | Preview |\n");
+    fprintf(f, "|---|---|---|\n");
 
-    std::vector<std::pair<int, std::string>> fonts;
+    std::vector<std::tuple<int, std::string, std::vector<uint8_t>>> fonts;
 
     for(auto const& font : ALL_FONTS)
     {
@@ -66,13 +103,32 @@ int main()
         pixels.value = font.pixels;
         dummy.children.push_back(pixels);
         ards::compiler_t{}.encode_font_ttf(data, dummy, font.data, font.size);
-        fonts.push_back({ (int)data[512], font.name });
+        fonts.push_back({ data[512], font.name, data });
     }
 
     std::sort(fonts.begin(), fonts.end());
 
     for(auto const& font : fonts)
-        fprintf(f, "| `%s` | %d |\n", font.second.c_str(), font.first);
+    {
+        fprintf(f, "| `%s` | %d |", std::get<1>(font).c_str(), std::get<0>(font));
+        static char const STR_LOWER[] = "the quick brown fox jumps over the lazy dog";
+        static char const STR_UPPER[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
+        auto const& data = std::get<2>(font);
+        int h = data[514] + data[512] + 2;
+        int w = 2;
+        for(char c : STR_UPPER)
+            w += data[int(uint8_t(c)) * 2 + 1];
+        if(w > 512)
+            w = 512;
+        std::vector<uint8_t> buf;
+        buf.resize(w * h);
+        draw_str(data, buf, w, h, 1, 1, STR_UPPER);
+        draw_str(data, buf, w, h, 1, data[512] + 1, STR_LOWER);
+        stbi_write_png(
+            (std::string(DOCS_DIR) + "/font_images/" + std::get<1>(font) + ".png").c_str(),
+            w, h, 1, buf.data(), w);
+        fprintf(f, " ![%s](font_images/%s.png) |\n", std::get<1>(font).c_str(), std::get<1>(font).c_str());
+    }
 
     fclose(f);
 

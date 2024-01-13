@@ -21,7 +21,7 @@ namespace ards
 /*
 Font Encoding
 ================================
-adv/lsb           (512 bytes)
+lsb/adv           (512 bytes)
 Line Height       (1 byte)
 ---------  image data  ---------
 Width             (1 byte)

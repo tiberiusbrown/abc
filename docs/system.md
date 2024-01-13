@@ -23,6 +23,7 @@ void  $audio_toggle();
 float $ceil(float x);
 float $cos(float angle);
 void  $debug_break();
+void  $debug_printf(char[] prog& fmt, ...);
 void  $display();
 void  $draw_circle(i16 x, i16 y, u8 r, u8 color);
 void  $draw_filled_circle(i16 x, i16 y, u8 r, u8 color);
