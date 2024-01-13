@@ -31,10 +31,13 @@ static void draw_str(
         {
             int tr = r + y;
             int tp = r / 8;
+            if(tr < 0) continue;
             if(tr >= h) break;
             for(int c = 0; c < sw; ++c)
             {
                 int tc = c + x + (int8_t)font[int(cc) * 2 + 0];
+                if(tc < 0)
+                    continue;
                 if(tc >= w)
                     break;
                 uint8_t& t = buf[tr * w + tc];
