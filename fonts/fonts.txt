@@ -43,3 +43,7 @@ https://www.dafont.com/rainyhearts.font
 pixeltimes*
 100% Free
 https://www.dafont.com/pixel-times.font
+
+pixelgeorgia*
+100% Free
+https://www.dafont.com/pixel-georgia.font

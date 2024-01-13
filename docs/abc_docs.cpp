@@ -120,7 +120,8 @@ int main()
             (int)data.size());
         static char const STR_LOWER[] = "the quick brown fox jumps over the lazy dog";
         static char const STR_UPPER[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
-        int h = data[514] + data[512] + 2;
+        static char const STR_SYM[] = "0123456789,.:?![/](\\){|}+-=<>@#$%^%&*';\"";
+        int h = data[514] + data[512] * 2 + 2;
         int w = 2;
         for(char c : STR_UPPER)
             w += data[int(uint8_t(c)) * 2 + 1];
@@ -130,6 +131,8 @@ int main()
         buf.resize(w * h);
         draw_str(data, buf, w, h, 1, 1, STR_UPPER);
         draw_str(data, buf, w, h, 1, data[512] + 1, STR_LOWER);
+        draw_str(data, buf, w, h, 1, data[512] + 1, STR_LOWER);
+        draw_str(data, buf, w, h, 1, data[512] * 2 + 1, STR_SYM);
         stbi_write_png(
             (std::string(DOCS_DIR) + "/font_images/" + std::get<1>(font) + ".png").c_str(),
             w, h, 1, buf.data(), w);
