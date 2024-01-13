@@ -34,7 +34,7 @@ static void draw_str(
             if(tr >= h) break;
             for(int c = 0; c < sw; ++c)
             {
-                int tc = c + x;
+                int tc = c + x + (int8_t)font[int(cc) * 2 + 0];
                 if(tc >= w)
                     break;
                 uint8_t& t = buf[tr * w + tc];
