@@ -92,8 +92,8 @@ int main()
     if(!f) return 1;
 
     fprintf(f, "# Built-in Font Assets\n");
-    fprintf(f, "| Predefined Variable | Line Height | Preview |\n");
-    fprintf(f, "|---|---|---|\n");
+    fprintf(f, "| Predefined Variable | Line Height | Bytes | Preview |\n");
+    fprintf(f, "|---|---|---|---|\n");
 
     std::vector<std::tuple<int, std::string, std::vector<uint8_t>>> fonts;
 
@@ -113,10 +113,13 @@ int main()
 
     for(auto const& font : fonts)
     {
-        fprintf(f, "| `%s` | %d |", std::get<1>(font).c_str(), std::get<0>(font));
+        auto const& data = std::get<2>(font);
+        fprintf(f, "| `%s` | %d | %d |",
+            std::get<1>(font).c_str(),
+            std::get<0>(font),
+            (int)data.size());
         static char const STR_LOWER[] = "the quick brown fox jumps over the lazy dog";
         static char const STR_UPPER[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
-        auto const& data = std::get<2>(font);
         int h = data[514] + data[512] + 2;
         int w = 2;
         for(char c : STR_UPPER)
