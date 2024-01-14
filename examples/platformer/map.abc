@@ -44,6 +44,7 @@ void load_map()
     hearts = MAX_HEARTS;
     level_frames_remaining = TIME_LIMIT_FRAMES;
     keys_required = 0;
+    player_on_ground = true;
 
     u8[] prog& map = maps[current_map].map;
     u8 w = maps[current_map].w;

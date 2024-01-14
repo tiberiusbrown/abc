@@ -97,8 +97,18 @@ void update_pause()
             main_menu();
         else if(pause_menui == 3)
         {
-            pause_menui = 0;
-            state = STATE_CONFIRM;
+            if(single_level)
+            {
+                new_game();
+                single_level = true;
+                lives = 99;
+                state = STATE_INTRO;
+            }
+            else
+            {
+                pause_menui = 0;
+                state = STATE_CONFIRM;
+            }
         }
     }
     else if($just_pressed(B_BUTTON))
@@ -549,6 +559,8 @@ void resolve_player_collision()
         {
             vy = 0;
             py -= t;
+            //if(!player_on_ground)
+            //    $tones_play(SOUND_LANDING);
             player_on_ground = PLAYER_ON_GROUND_FRAMES;
         }
     }

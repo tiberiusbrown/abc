@@ -3,6 +3,9 @@ constexpr tones SOUND_JUMP = tones{
     C5 20 C5# 20 D5 20 D5# 20 E5 20
 };
 
+// landing on the ground
+//constexpr tones SOUND_LANDING = tones{ G3 20 };
+
 // jump on a mob
 constexpr tones SOUND_MOB_JUMP = tones{
     E5 20 D5 20 C5 20 D5 20 E5 20
