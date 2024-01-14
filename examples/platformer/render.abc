@@ -1,7 +1,7 @@
 constexpr sprites TILES = sprites{ 16x16 "assets/tiles.png" };
 constexpr sprites OBJECTS = sprites{ 16x16 "assets/objects.png" };
 constexpr sprites PLAYER = sprites{ 16x16 "assets/player.png" };
-constexpr sprites IMG_KEY = sprites{ "assets/key.png" };
+constexpr sprites IMG_KEY = sprites{ 10x6 "assets/key.png" };
 constexpr sprites IMG_HEART = sprites{ 10x8 "assets/heart.png" };
 constexpr sprites TITLE = sprites{ "assets/title.png" };
 
@@ -477,8 +477,8 @@ void render_level()
     // render HUD elements
     for(u8 i = 0; i < MAX_HEARTS; ++i)
         $draw_sprite(119 - i * 9, 0, IMG_HEART, i < hearts);
-    for(u8 i = 0; i < keys; ++i)
-        $draw_sprite(119 - i * 9, 8, IMG_KEY, 0);
+    for(u8 i = 0; i < keys_required; ++i)
+        $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
     $draw_filled_rect(0, 0, 20, 6, BLACK);
     $draw_textf(0, 0, FONT_BR6, "%05u", score);
     $draw_filled_rect(57, 0, 13, 6, BLACK);

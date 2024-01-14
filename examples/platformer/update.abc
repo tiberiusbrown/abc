@@ -809,11 +809,9 @@ void touch_object(map_object_t& obj)
     else if(type == OBJ_HEART)
     {
         if(lives < 99)
-        {
             lives += 1;
-            obj.type = OBJ_NONE;
-            $tones_play(SOUND_HEAL);
-        }
+        obj.type = OBJ_NONE;
+        $tones_play(SOUND_HEAL);
     }
     else if(type >= OBJ_MOB && type <= OBJ_MOB_FLY)
     {

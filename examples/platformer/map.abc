@@ -27,7 +27,6 @@ void load_map()
 {
     player_facing_right = true;
     keys = 0;
-    keys_required = 0;
     invincibility_frames = INVINCIBILITY_LEVEL_START;
     jump_frames_remaining = 0;
     vx = 0;
@@ -38,6 +37,7 @@ void load_map()
     score = 0;
     hearts = MAX_HEARTS;
     level_frames_remaining = TIME_LIMIT_FRAMES;
+    keys_required = 0;
 
     u8[] prog& map = maps[current_map].map;
     u8 w = maps[current_map].w;
@@ -68,11 +68,13 @@ void load_map()
     }
 
     $tones_play(SOUND_LEVEL_START);
+
+    $debug_printf("key_required=%u\n", keys_required);
 }
 
 void process_map_tile(u8 x, u8 y, u8 t)
 {
-    if(t < 240) return;
+    if(t < TILE_DOOR0) return;
 
     if(t == TILE_PLAYER)
     {
