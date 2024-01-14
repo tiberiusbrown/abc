@@ -11,12 +11,18 @@ struct map_info_t
 
 constexpr sprites BACKGROUND_MOUNTAIN = sprites{ 128x64 "assets/background.png" };
 constexpr sprites BACKGROUND_CLOUDS = sprites{ 128x64 "assets/background_clouds.png" };
+constexpr sprites BACKGROUND_OVER_UNDER = sprites{ 128x64 "assets/background_over_under.png" };
+constexpr sprites BACKGROUND_CASTLE = sprites{ 128x64 "assets/background_castle.png" };
+constexpr sprites BACKGROUND_NONE = sprites{ 1x8 "assets/background_none.png" };
 
 map_info_t[NUM_MAPS] prog maps = {
     { "Sleepy Meadow", map0, 32, 8, BACKGROUND_MOUNTAIN },
     { "Daring Forest", map1, 32, 16, BACKGROUND_MOUNTAIN },
     { "Grand Old Tree", map2, 16, 32, BACKGROUND_MOUNTAIN },
     { "Floating on Clouds", map_floating, 32, 16, BACKGROUND_CLOUDS },
+    { "Don't Forget a Hard Hat", map_hard_hats, 32, 12, BACKGROUND_CASTLE },
+    { "Easy Breezy", map_wind, 64, 8, BACKGROUND_NONE },
+    { "Over and Under", map_over_under, 48, 28, BACKGROUND_OVER_UNDER },
     { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
     { "Monster Hills - Luke", map_luke2, 32, 8, BACKGROUND_MOUNTAIN },
 };
@@ -59,6 +65,25 @@ void load_map()
             u8 t = map[y * w + x] - 1;
             process_map_tile(x, y, t);
         }
+    }
+
+    if(w == 64 && h == 8)
+    {
+        process_map_tile(9, 5, TILE_MOB);
+        process_map_tile(14, 3, TILE_COIN);
+        process_map_tile(14, 6, TILE_MOB);
+        process_map_tile(19, 6, TILE_MOB);
+        process_map_tile(26, 6, TILE_MOB);
+        process_map_tile(26, 4, TILE_COIN);
+        process_map_tile(28, 6, TILE_MOB);
+        process_map_tile(18, 1, TILE_COIN);
+        process_map_tile(30, 1, TILE_HEART);
+        process_map_tile(21, 3, TILE_COIN);
+        process_map_tile(36, 6, TILE_MOB_HELM);
+        process_map_tile(44, 3, TILE_MOB);
+        process_map_tile(52, 1, TILE_SUPERCOIN);
+        process_map_tile(52, 6, TILE_MOB_HORN);
+        process_map_tile(60, 2, TILE_COIN);
     }
 
     if(total_objects > MAX_OBJECTS)

@@ -166,7 +166,7 @@ void update_menu()
         menu_spritex += 1;
     if(menu_spritex > 160)
     {
-        if(++menu_sprite > 10)
+        if(++menu_sprite > 11)
             menu_sprite = 8;
         menu_spritex = 0;
     }
