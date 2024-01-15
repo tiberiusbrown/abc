@@ -142,24 +142,63 @@ void process_map_tile(u8 x, u8 y, u8 t)
             xo = 2;
             yo = 3;
         }
-        add_object({ t - 240, x * 16, y * 16, xo, yo, 16 - xo * 2, 16 - yo, true });
+        u8 w = 16 - xo * 2;
+        i16 a = x * 16 + xo - 1;
+        i16 b = x * 16 + xo + w + 1;
+        i16 yc = y * 16 + 8;
+        i16 yd = y * 16 + 16;
+        while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
+            a -= 16;
+        a += 18 - xo * 2;
+        while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
+            b += 16;
+        b -= 34 - xo * 2;
+        add_object({ t - 240, x * 16, y * 16, xo, yo, w, 16 - yo, true, 0, a, b });
     }
     else if(t == TILE_MOB_BAT)
     {
         u8 tt = ((x * 37 + y * 23) & 15) * 3;
-        //$debug_printf("%u %u %u\n", x, y, tt);
-        add_object({ OBJ_MOB_BAT, x * 16 + tt, y * 16, 1, 4, 14, 9, true, 0, tt });
+        add_object({ OBJ_MOB_BAT, x * 16 + tt, y * 16, 1, 4, 14, 9, true, 0, x * 16, (x + 3) * 16 });
     }
     else if(t == TILE_MOB_FLY)
     {
         u8 tt = ((x * 37 + y * 23) & 15) * 3;
-        //$debug_printf("%u %u %u\n", x, y, tt);
-        add_object({ OBJ_MOB_FLY, x * 16, y * 16 + tt, 2, 2, 12, 14, true, 0, tt });
+        add_object({ OBJ_MOB_FLY, x * 16, y * 16 + tt, 2, 2, 12, 14, true, 0, y * 16, (y + 3) * 16 });
     }
     else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
     {
         keys_required = t - TILE_DOOR0;
     }
+}
+
+bool mob_solid(i16 x, i16 y, bool bottom)
+{
+    // collision against left map edge
+    if(x < 0)
+        return true;
+    
+    // allow the mob to fly above the map
+    if(y < 0)
+        return false;
+
+    x >>= 4;
+    y >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(x >= w)
+        return true;
+
+    // allow the mob to fall through the floor
+    if(y >= map_height)
+        return false;
+    u8 t = maps[current_map].map[y * w + x];
+    t -= 1;
+    if(t >= 240) return false;
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
 }
 
 void add_object(map_object_t obj)

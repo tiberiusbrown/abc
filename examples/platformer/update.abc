@@ -589,52 +589,55 @@ void update_map_objects()
                     obj.type = OBJ_NONE;
                 return;
             }
-            if(type <= OBJ_MOB_HELM)
+            if(type <= OBJ_MOB_BAT)
             {
+                i16 x = obj.x;
                 if(obj.moving_right)
                 {
-                    obj.x += 1;
-                    i16 x = obj.x + obj.xo + obj.w;
-                    if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                    i16 b = obj.b;
+                    x += 1;
+                    if(x > b)
                     {
-                        obj.x -= 1;
+                        x = b;
                         obj.moving_right = false;
-                    }
+                    };
                 }
                 else
                 {
-                    obj.x -= 1;
-                    float x = obj.x + obj.xo - 1;
-                    if(mob_solid(mapdata, x, obj.y + 8, false) || !mob_solid(mapdata, x, obj.y + 16, true))
+                    i16 a = obj.a;
+                    x -= 1;
+                    if(x < a)
                     {
-                        obj.x += 1;
+                        x = a;
                         obj.moving_right = true;
-                    }
+                    };
                 }
-            }
-            else if(type == OBJ_MOB_BAT)
-            {
-                if(obj.moving_right)
-                    obj.x += 1;
-                else
-                    obj.x -= 1;
-                if(++obj.t >= 48)
-                {
-                    obj.t = 0;
-                    obj.moving_right = !obj.moving_right;
-                }
+                obj.x = x;
             }
             else if(type == OBJ_MOB_FLY)
             {
+                i16 y = obj.y;
                 if(obj.moving_right)
-                    obj.y += 1;
-                else
-                    obj.y -= 1;
-                if(++obj.t >= 48)
                 {
-                    obj.t = 0;
-                    obj.moving_right = !obj.moving_right;
+                    i16 b = obj.b;
+                    y += 1;
+                    if(y > b)
+                    {
+                        y = b;
+                        obj.moving_right = false;
+                    };
                 }
+                else
+                {
+                    i16 a = obj.a;
+                    y -= 1;
+                    if(y < a)
+                    {
+                        y = a;
+                        obj.moving_right = true;
+                    };
+                }
+                obj.y = y;
             }
         }
 
@@ -761,36 +764,6 @@ bool solid(u8[] prog& mapdata, float x, float y, bool bottom)
     if(t >= 240) return false;
     if(t == TILE_SPIKE)
         player_take_damage();
-    if(t < 64) return true;
-    if(bottom && t < 96) return true;
-    if(t >= 176 && (t & 15) >= 8) return true;
-    return false;
-}
-
-bool mob_solid(u8[] prog& mapdata, i16 x, i16 y, bool bottom)
-{
-    // collision against left map edge
-    if(x < 0)
-        return true;
-    
-    // allow the mob to fly above the map
-    if(y < 0)
-        return false;
-
-    x >>= 4;
-    y >>= 4;
-    u8 w = map_width;
-
-    // collision against right map edge
-    if(x >= w)
-        return true;
-
-    // allow the mob to fall through the floor
-    if(y >= map_height)
-        return false;
-    u8 t = mapdata[y * w + x];
-    t -= 1;
-    if(t >= 240) return false;
     if(t < 64) return true;
     if(bottom && t < 96) return true;
     if(t >= 176 && (t & 15) >= 8) return true;

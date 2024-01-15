@@ -152,7 +152,7 @@ struct map_object_t
     // for mobs
     bool moving_right;
     u8 death_frames;
-    u8 t;
+    i16 a, b; // min and max x/y coords
 };
 map_object_t[MAX_OBJECTS] objects;
 
