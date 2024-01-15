@@ -184,7 +184,7 @@ void render_level_select()
                     x = w - 48;
             }
             $draw_text_P(10 - x, y, FONT_BR6, maps[j].name);
-            $draw_filled_rect(0, y, 9, 6, BLACK);
+            $draw_filled_rect(0, y, 10, 6, BLACK);
             $draw_text_P(0, y, FONT_BR6, "->");
         }
         else

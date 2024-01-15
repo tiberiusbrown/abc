@@ -99,7 +99,9 @@ void update_pause()
         {
             if(single_level)
             {
+                u8 level = current_map;
                 new_game();
+                current_map = level;
                 single_level = true;
                 lives = 99;
                 state = STATE_INTRO;
@@ -802,7 +804,7 @@ void touch_object(map_object_t& obj)
     {
         if(obj.death_frames != 0)
             return;
-        if(type == OBJ_MOB_HORN || py > obj.y + obj.yo || vy <= 0)
+        if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
         {
             if(obj.death_frames == 0)
                 player_take_damage();
