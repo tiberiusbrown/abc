@@ -25,6 +25,7 @@ map_info_t[NUM_MAPS] prog maps = {
     { "Over and Under", map_over_under, 48, 28, BACKGROUND_OVER_UNDER },
     { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
     { "Monster Hills - Luke", map_luke2, 32, 8, BACKGROUND_MOUNTAIN },
+    { "Sky Strolling", map_luke5, 24, 18, BACKGROUND_CLOUDS },
 };
 
 u16 total_objects;
