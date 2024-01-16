@@ -14,7 +14,7 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )
-
+    
 bin2h(
     SOURCE_FILE   examples/basic/main.abc
     HEADER_FILE   "${GENHEADER_DIR}/basic_main.hpp"
