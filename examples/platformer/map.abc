@@ -24,7 +24,7 @@ map_info_t[NUM_MAPS] prog maps = {
     { "Easy Breezy", map_wind, 64, 8, BACKGROUND_NONE },
     { "Over and Under", map_over_under, 48, 28, BACKGROUND_OVER_UNDER },
     { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
-    { "Monster Hills - Luke", map_luke2, 32, 8, BACKGROUND_MOUNTAIN },
+    { "Monster Hills - Luke", map_luke2, 36, 8, BACKGROUND_MOUNTAIN },
     { "Sky Strolling", map_luke5, 24, 18, BACKGROUND_CLOUDS },
 };
 

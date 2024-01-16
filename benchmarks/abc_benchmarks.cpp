@@ -38,6 +38,22 @@ static void out_txt(char const* fmt, ...)
     va_end(v);
 }
 
+static uint64_t measure()
+{
+    uint64_t cycle_a, cycle_b, cycles_abc, cycles_native;
+
+    arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
+    arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
+    assert(arduboy->paused);
+    cycle_a = arduboy->cpu.cycle_count;
+    arduboy->paused = false;
+    arduboy->advance(10'000'000'000'000ull); // up to 10 seconds
+    assert(arduboy->paused);
+    cycle_b = arduboy->cpu.cycle_count;
+
+    return cycle_b - cycle_a;
+}
+
 static void bench(char const* name)
 {
     arduboy->reset();
@@ -82,18 +98,7 @@ static void bench(char const* name)
         assert(t.empty());
     }
 
-    uint64_t cycle_a, cycle_b, cycles_abc, cycles_native;
-
-    arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
-    arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
-    assert(arduboy->paused);
-    cycle_a = arduboy->cpu.cycle_count;
-    arduboy->paused = false;
-    arduboy->advance(10'000'000'000'000ull); // up to 10 seconds
-    assert(arduboy->paused);
-    cycle_b = arduboy->cpu.cycle_count;
-
-    cycles_abc = cycle_b - cycle_a;
+    uint64_t cycles_abc = measure();
 
     {
         std::string filename =
@@ -105,16 +110,7 @@ static void bench(char const* name)
         assert(t.empty());
     }
 
-    arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
-    arduboy->advance(1'000'000'000'000ull); // up to 1 second init
-    assert(arduboy->paused);
-    cycle_a = arduboy->cpu.cycle_count;
-    arduboy->paused = false;
-    arduboy->advance(60'000'000'000'000ull); // up to 60 seconds
-    assert(arduboy->paused);
-    cycle_b = arduboy->cpu.cycle_count;
-
-    cycles_native = cycle_b - cycle_a;
+    uint64_t cycles_native = measure();
 
     double slowdown = double(cycles_abc) / cycles_native;
     out("<details><summary>%s: %.2fx slowdown",
