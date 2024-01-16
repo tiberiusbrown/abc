@@ -849,7 +849,8 @@ I_GETG:
     subi r27, -2
     ld   r16, X
     st   Y+, r16
-    call delay_11
+    lpm
+    lpm
     dispatch
 
 I_GETG2:
@@ -864,8 +865,6 @@ I_GETG2:
     ld   r17, X+
     st   Y+, r16
     st   Y+, r17
-    lpm
-    rjmp .+0
     rjmp .+0
     dispatch
 
@@ -910,7 +909,8 @@ I_SETG:
     subi r27, -2
     ld   r16, -Y
     st   X, r16
-    call delay_11
+    lpm
+    lpm
     dispatch
 
 I_SETG2:
@@ -921,8 +921,6 @@ I_SETG2:
     ld   r16, -Y
     st   X+, r16
     st   X+, r17
-    lpm
-    rjmp .+0
     rjmp .+0
     dispatch
 

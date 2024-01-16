@@ -51,20 +51,20 @@
  77   setln N (8)
 133   setln N (16)
 245   setln N (32)
- 59   getg VAR
- 59   getg2 VAR
+ 54   getg VAR
+ 54   getg2 VAR
  60   getg4 VAR
  81   getgn VAR (5)
 102   getgn VAR (8)
 158   getgn VAR (16)
 270   getgn VAR (32)
- 59   setg VAR
- 59   setg2 VAR
+ 54   setg VAR
+ 54   setg2 VAR
  60   setg4 VAR
- 81   setgn VAR (5)
-102   setgn VAR (8)
-158   setgn VAR (16)
-270   setgn VAR (32)
+ 82   setgn VAR (5)
+103   setgn VAR (8)
+159   setgn VAR (16)
+271   setgn VAR (32)
 220   getp
 254   getpn 2
 272   getpn 3

@@ -222,7 +222,7 @@ target_include_directories(abc_tests PRIVATE "${GENHEADER_DIR}")
 target_compile_definitions(abc_tests PRIVATE
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"
     )
-
+    
 set_source_files_properties(
     src/ide_common.cpp
     src/abcc.cpp
