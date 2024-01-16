@@ -2891,7 +2891,7 @@ I_BZP:
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
-    call delay_16
+    call delay_15
     dispatch
 
 I_BZP1:
@@ -2913,7 +2913,7 @@ I_BZP1:
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
-    call delay_13
+    call delay_12
     jmp  dispatch_func
     .align 6
 
@@ -2928,7 +2928,7 @@ I_BNZP:
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
-    call delay_16
+    call delay_15
     dispatch
 
 I_BNZP1:
@@ -2950,7 +2950,7 @@ I_BNZP1:
     jmp  jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
-    call delay_13
+    call delay_12
     jmp  dispatch_func
     .align 6
 
