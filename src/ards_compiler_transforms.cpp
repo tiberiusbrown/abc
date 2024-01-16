@@ -193,13 +193,19 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
             return;
         }
         if(n.data == "<<")
-            n.value = n.children[0].value << (uint8_t)n.children[1].value;
+        {
+            uint8_t shift = (uint8_t)n.children[1].value;
+            if(shift > 32) shift = 32;
+            n.value = n.children[0].value << shift;
+        }
         else if(n.data == ">>")
         {
+            uint8_t shift = (uint8_t)n.children[1].value;
+            if(shift > 32) shift = 32;
             if(n.children[0].comp_type.is_signed)
-                n.value = n.children[0].value >> (uint8_t)n.children[1].value;
+                n.value = n.children[0].value >> shift;
             else
-                n.value = (uint64_t)n.children[0].value >> (uint8_t)n.children[1].value;
+                n.value = (uint64_t)n.children[0].value >> shift;
         }
         else
             assert(false);
