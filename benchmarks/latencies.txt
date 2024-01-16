@@ -65,13 +65,13 @@
 103   setgn VAR (8)
 159   setgn VAR (16)
 271   setgn VAR (32)
-220   getp
-253   getpn 2
-271   getpn 3
-289   getpn 4
-361   getpn 8
-505   getpn 16
-793   getpn 32
+219   getp
+252   getpn 2
+270   getpn 3
+288   getpn 4
+360   getpn 8
+504   getpn 16
+792   getpn 32
  18   pop
  18   pop2
  18   pop3
@@ -296,23 +296,23 @@
  18   not (0)
  18   not (1)
  79   bz (not taken)
-165   bz (taken)
+163   bz (taken)
  38   bz1 (not taken)
-129   bz1 (taken)
+127   bz1 (taken)
  79   bnz (not taken)
-165   bnz (taken)
+163   bnz (taken)
  38   bnz1 (not taken)
-129   bnz1 (taken)
+127   bnz1 (taken)
  79   bzp (not taken)
-165   bzp (taken)
+163   bzp (taken)
  39   bzp1 (not taken)
-129   bzp1 (taken)
+127   bzp1 (taken)
  79   bnzp (not taken)
-165   bnzp (taken)
+163   bnzp (taken)
  39   bnzp1 (not taken)
-129   bnzp1 (taken)
-163   jmp
-128   jmp1
-174   call
-136   call1
-123   ret
+127   bnzp1 (taken)
+161   jmp
+126   jmp1
+172   call
+135   call1
+122   ret

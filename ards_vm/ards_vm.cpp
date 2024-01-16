@@ -2820,7 +2820,7 @@ I_BZ:
     brne 1f
     movw r6, r16
     mov  r8, r18
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     call delay_16
     dispatch
@@ -2840,7 +2840,7 @@ I_BZ1:
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     call delay_12
     jmp  dispatch_func
@@ -2854,7 +2854,7 @@ I_BNZ:
     breq 1f
     movw r6, r16
     mov  r8, r18
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     call delay_16
     dispatch
@@ -2874,7 +2874,7 @@ I_BNZ1:
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     call delay_12
     jmp  dispatch_func
@@ -2888,7 +2888,7 @@ I_BZP:
     brne 1f
     movw r6, r16
     mov  r8, r18
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
     call delay_15
@@ -2910,7 +2910,7 @@ I_BZP1:
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
     call delay_12
@@ -2925,7 +2925,7 @@ I_BNZP:
     breq 1f
     movw r6, r16
     mov  r8, r18
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
     call delay_15
@@ -2947,7 +2947,7 @@ I_BNZP1:
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    jmp  jump_to_pc
+    rjmp jump_to_pc
 1:  out  %[spdr], r2
     dec  r28
     call delay_12
@@ -2958,7 +2958,7 @@ I_JMP:
     call read_3_bytes_end
     movw r6, r16
     mov  r8, r18
-    jmp  jump_to_pc
+    rjmp  jump_to_pc
     .align 6
 
 I_JMP1:
@@ -2971,7 +2971,7 @@ I_JMP1:
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    jmp  jump_to_pc
+    rjmp jump_to_pc
     .align 6
 
 I_CALL:
@@ -2988,7 +2988,7 @@ I_CALL:
     sts  %[vm_csp], r26
     movw r6, r16
     mov  r8, r18
-    jmp  jump_to_pc
+    rjmp jump_to_pc
     .align 6
 
 I_CALL1:
@@ -3391,10 +3391,28 @@ jump_to_pc:
     ; see if we need to call ards::Tones::update()
     lds  r16, %[tones_size]
     cpi  r16, %[tones_maxsize]
-    brsh 1f
+    brlo 2f
+    
+1:  ldi  r18, 3
+    fx_enable
+    out  %[spdr], r18
+    lds  r16, %[data_page]+0
+    lds  r17, %[data_page]+1
+    add  r16, r7
+    adc  r17, r8
+    call delay_11
+    out  %[spdr], r17
+    call delay_17
+    out  %[spdr], r16
+    call delay_17
+    out  %[spdr], r6
+    call delay_17
+    out  %[spdr], r2
+    call delay_16
+    dispatch_noalign
     
     ; store vm state
-    sts  %[vm_pc]+0, r6
+2:  sts  %[vm_pc]+0, r6
     sts  %[vm_pc]+1, r7
     sts  %[vm_pc]+2, r8
     sts  %[vm_sp], r28
@@ -3417,23 +3435,7 @@ jump_to_pc:
     lds  r28, %[vm_sp]
     ldi  r29, 0x01
     
-1:  ldi  r18, 3
-    fx_enable
-    out  %[spdr], r18
-    lds  r16, %[data_page]+0
-    lds  r17, %[data_page]+1
-    add  r16, r7
-    adc  r17, r8
-    call delay_11
-    out  %[spdr], r17
-    call delay_17
-    out  %[spdr], r16
-    call delay_17
-    out  %[spdr], r6
-    call delay_17
-    out  %[spdr], r2
-    call delay_16
-    dispatch_noalign
+    rjmp 1b
     
     ; addr to seek to in r16:r18
 seek_to_addr:
