@@ -42,17 +42,16 @@ static uint64_t measure()
 {
     uint64_t cycle_a, cycle_b;
 
-    // HACK: disable timer0 by setting its divider to 0
+    // HACK: disable all interrupts
+    arduboy->cpu.sreg() &= ~absim::SREG_I;
 
     arduboy->allow_nonstep_breakpoints = true;
     arduboy->paused = false;
     arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
-    arduboy->cpu.timer0.divider = 0;
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;
-    arduboy->cpu.timer0.divider = 0;
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds
     assert(arduboy->paused);
     cycle_b = arduboy->cpu.cycle_count;
