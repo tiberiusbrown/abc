@@ -1,4 +1,4 @@
-.global g 32
+.global g 512
 
 p:
     .b f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
@@ -422,7 +422,487 @@ main:
     getpn 32
     sys debug_break
     popn 32
+    
+    p0
+    sys debug_break
+    pop
+    sys debug_break
+    
+    p00
+    sys debug_break
+    pop2
+    sys debug_break
+    
+    pzn 3
+    sys debug_break
+    pop3
+    sys debug_break
+    
+    pzn 4
+    sys debug_break
+    pop4
+    sys debug_break
+    
+    pzn 32
+    sys debug_break
+    popn 32
+    sys debug_break
+    
+    p0
+    sys debug_break
+    refl 1
+    sys debug_break
+    pop3
+    
+    sys debug_break
+    refg g 0
+    sys debug_break
+    pop2
+    
+    sys debug_break
+    refg g 300
+    sys debug_break
+    pop2
+    
+    refg g 0
+    sys debug_break
+    getr
+    sys debug_break
+    pop
+    
+    refg g 0
+    sys debug_break
+    getr2
+    sys debug_break
+    pop2
+    
+    refg g 0
+    sys debug_break
+    getrn 3
+    sys debug_break
+    pop3
+    
+    refg g 0
+    sys debug_break
+    getrn 4
+    sys debug_break
+    pop4
+    
+    refg g 0
+    sys debug_break
+    getrn 8
+    sys debug_break
+    popn 8
+    
+    refg g 0
+    sys debug_break
+    getrn 16
+    sys debug_break
+    popn 16
+    
+    refg g 0
+    sys debug_break
+    getrn 32
+    sys debug_break
+    popn 32
+    
+    p0
+    refg g 0
+    sys debug_break
+    setr
+    sys debug_break
+    
+    p00
+    refg g 0
+    sys debug_break
+    setr2
+    sys debug_break
+    
+    pzn 3
+    refg g 0
+    sys debug_break
+    setrn 3
+    sys debug_break
+    
+    pzn 4
+    refg g 0
+    sys debug_break
+    setrn 4
+    sys debug_break
+    
+    pzn 8
+    refg g 0
+    sys debug_break
+    setrn 8
+    sys debug_break
+    
+    pzn 16
+    refg g 0
+    sys debug_break
+    setrn 16
+    sys debug_break
+    
+    pzn 32
+    refg g 0
+    sys debug_break
+    setrn 32
+    sys debug_break
+    
+    refg g 0
+    push 42
+    sys debug_break
+    aixb1 50
+    sys debug_break
+    
+    refg g 0
+    push 42
+    sys debug_break
+    aidxb 1 50
+    sys debug_break
+    
+    refg g 0
+    push 42
+    push 0
+    sys debug_break
+    aidx 1 50
+    sys debug_break
 
+    pushl p 0
+    push 14
+    sys debug_break
+    pidxb 1 32
+    sys debug_break
+
+    pushl p 0
+    push 14
+    push 0
+    push 0
+    sys debug_break
+    pidx 1 32
+    sys debug_break
+    
+    refg g 0
+    push 32
+    p0
+    p8
+    p0
+    sys debug_break
+    uaidx 1
+    sys debug_break
+
+    pushl p 0
+    push 32
+    p00
+    p8
+    p00
+    sys debug_break
+    upidx 1
+    sys debug_break
+    
+    p0
+    sys debug_break
+    inc
+    sys debug_break
+    pop
+    
+    p1
+    sys debug_break
+    dec
+    sys debug_break
+    pop
+    
+    p00
+    sys debug_break
+    linc 2
+    sys debug_break
+    pop2
+    
+    refg g 0
+    sys debug_break
+    pinc
+    sys debug_break
+    pop
+    
+    refg g 0
+    sys debug_break
+    pinc2
+    sys debug_break
+    pop2
+    
+    refg g 0
+    sys debug_break
+    pinc3
+    sys debug_break
+    pop3
+    
+    refg g 0
+    sys debug_break
+    pinc4
+    sys debug_break
+    pop4
+    
+    refg g 0
+    sys debug_break
+    pdec
+    sys debug_break
+    pop
+    
+    refg g 0
+    sys debug_break
+    pdec2
+    sys debug_break
+    pop2
+    
+    refg g 0
+    sys debug_break
+    pdec3
+    sys debug_break
+    pop3
+    
+    refg g 0
+    sys debug_break
+    pdec4
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pincf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 128
+    push 63
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pincf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 36
+    push 116
+    push 73
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pincf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pdecf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 128
+    push 63
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pdecf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 36
+    push 116
+    push 73
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pdecf
+    sys debug_break
+    pop4
+    
+    p00
+    sys debug_break
+    add
+    sys debug_break
+    pop
+    
+    pzn 4
+    sys debug_break
+    add2
+    sys debug_break
+    pop2
+    
+    pzn 6
+    sys debug_break
+    add3
+    sys debug_break
+    pop3
+    
+    pzn 8
+    sys debug_break
+    add4
+    sys debug_break
+    pop4
+    
+    p00
+    sys debug_break
+    sub
+    sys debug_break
+    pop
+    
+    pzn 4
+    sys debug_break
+    sub2
+    sys debug_break
+    pop2
+    
+    pzn 6
+    sys debug_break
+    sub3
+    sys debug_break
+    pop3
+    
+    pzn 8
+    sys debug_break
+    sub4
+    sys debug_break
+    pop4
+    
+    pzn 3
+    sys debug_break
+    add2b
+    sys debug_break
+    pop2
+    
+    p00
+    sys debug_break
+    mul
+    sys debug_break
+    pop
+    
+    pzn 4
+    sys debug_break
+    mul2
+    sys debug_break
+    pop2
+    
+    pzn 6
+    sys debug_break
+    mul3
+    sys debug_break
+    pop3
+    
+    pzn 8
+    sys debug_break
+    mul4
+    sys debug_break
+    pop4
+    
+    push 48
+    push 117
+    push 7
+    push 0
+    sys debug_break
+    udiv2
+    sys debug_break
+    pop2
+    
+    push 48
+    push 117
+    push 88
+    push 27
+    sys debug_break
+    udiv2
+    sys debug_break
+    pop2
+    
+    push 0
+    push 163
+    push 225
+    push 17
+    push 7
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    udiv4
+    sys debug_break
+    pop2
+    
+    push 0
+    push 163
+    push 225
+    push 17
+    push 128
+    push 29
+    push 44
+    push 4
+    sys debug_break
+    udiv4
+    sys debug_break
+    pop2
+    
+    push 48
+    push 117
+    push 7
+    push 0
+    sys debug_break
+    div2
+    sys debug_break
+    pop2
+    
+    push 48
+    push 117
+    push 88
+    push 27
+    sys debug_break
+    div2
+    sys debug_break
+    pop2
+    
+    push 0
+    push 163
+    push 225
+    push 17
+    push 7
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    div4
+    sys debug_break
+    pop2
+    
+    push 0
+    push 163
+    push 225
+    push 17
+    push 128
+    push 29
+    push 44
+    push 4
+    sys debug_break
+    div4
+    sys debug_break
+    pop2
+    
     ret
 
 $globinit:

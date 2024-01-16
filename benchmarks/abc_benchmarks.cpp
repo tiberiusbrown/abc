@@ -232,13 +232,33 @@ int main()
         "setgn VAR (5)", "setgn VAR (8)", "setgn VAR (16)", "setgn VAR (32)",
         "getp",
         "getpn 2", "getpn 3", "getpn 4", "getpn 8", "getpn 16", "getpn 32",
+        "pop", "pop2", "pop3", "pop4", "popn N",
+        "refl", "refgb", "refg",
+        "getr", "getr2", "getrn 3", "getrn 4", "getrn 8", "getrn 16", "getrn 32",
+        "setr", "setr2", "setrn 3", "setrn 4", "setrn 8", "setrn 16", "setrn 32",
+        "aixb1", "aidxb", "aidx",
+        "pidxb", "pidx",
+        "uaidx", "upidx",
+        "inc", "dec", "linc N",
+        "pinc", "pinc2", "pinc3", "pinc4",
+        "pdec", "pdec2", "pdec3", "pdec4",
+        "pincf (0)", "pincf (1)", "pincf (1000000)",
+        "pdecf (0)", "pdecf (1)", "pdecf (1000000)",
+        "add", "add2", "add3", "add4",
+        "sub", "sub2", "sub3", "sub4",
+        "add2b",
+        "mul", "mul2", "mul3", "mul4",
+        "udiv2 (30000 / 7)", "udiv2 (30000 / 7000)",
+        "udiv4 (300000000 / 7)", "udiv4 (300000000 / 70000000)",
+        "div2 (30000 / 7)", "div2 (30000 / 7000)",
+        "div4 (300000000 / 7)", "div4 (300000000 / 70000000)",
     };
     (void)measure();
     uint64_t bn = measure();
     for(auto const* i : INSTRS)
     {
         uint64_t c = measure() - bn;
-        fprintf(fout, "%-20s %3" PRIu64 "\n", i, c);
+        fprintf(fout, "%-30s %3" PRIu64 "\n", i, c);
     }
 
     fclose(fout);

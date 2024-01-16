@@ -1,74 +1,141 @@
-p0                    18
-p1                    18
-p2                    18
-p3                    18
-p4                    18
-p5                    18
-p6                    18
-p7                    18
-p8                    18
-p16                   18
-p32                   18
-p64                   18
-p128                  18
-p00                   18
-push N                36
-push2 N               54
-push3 N               72
-push4 N               90
-pzn 3                 38
-pzn 4                 44
-pzn 8                 58
-pzn 16                86
-pzn 32               142
-dup                   18
-dup2                  19
-dup3                  19
-dup4                  19
-dup5                  19
-dup6                  19
-dup7                  19
-dup8                  19
-dupw                  23
-dupw2                 23
-dupw3                 23
-dupw4                 23
-dupw5                 23
-dupw6                 23
-dupw7                 23
-dupw8                 23
-getl N                36
-getl2 N               36
-getl4 N               40
-getln N (5)           56
-getln N (8)           77
-getln N (16)         133
-getln N (32)         245
-setl N                36
-setl2 N               36
-setl4 N               41
-setln N (5)           56
-setln N (8)           77
-setln N (16)         133
-setln N (32)         245
-getg VAR              59
-getg2 VAR             59
-getg4 VAR             60
-getgn VAR (5)         81
-getgn VAR (8)        102
-getgn VAR (16)       158
-getgn VAR (32)       270
-setg VAR              59
-setg2 VAR             59
-setg4 VAR             60
-setgn VAR (5)         81
-setgn VAR (8)        102
-setgn VAR (16)       158
-setgn VAR (32)       270
-getp                 220
-getpn 2              254
-getpn 3              272
-getpn 4              290
-getpn 8              362
-getpn 16             506
-getpn 32             794
+p0                              18
+p1                              18
+p2                              18
+p3                              18
+p4                              18
+p5                              18
+p6                              18
+p7                              18
+p8                              18
+p16                             18
+p32                             18
+p64                             18
+p128                            18
+p00                             18
+push N                          36
+push2 N                         54
+push3 N                         72
+push4 N                         90
+pzn 3                           38
+pzn 4                           44
+pzn 8                           58
+pzn 16                          86
+pzn 32                         142
+dup                             18
+dup2                            19
+dup3                            19
+dup4                            19
+dup5                            19
+dup6                            19
+dup7                            19
+dup8                            19
+dupw                            23
+dupw2                           23
+dupw3                           23
+dupw4                           23
+dupw5                           23
+dupw6                           23
+dupw7                           23
+dupw8                           23
+getl N                          36
+getl2 N                         36
+getl4 N                         40
+getln N (5)                     56
+getln N (8)                     77
+getln N (16)                   133
+getln N (32)                   245
+setl N                          36
+setl2 N                         36
+setl4 N                         41
+setln N (5)                     56
+setln N (8)                     77
+setln N (16)                   133
+setln N (32)                   245
+getg VAR                        59
+getg2 VAR                       59
+getg4 VAR                       60
+getgn VAR (5)                   81
+getgn VAR (8)                  102
+getgn VAR (16)                 158
+getgn VAR (32)                 270
+setg VAR                        59
+setg2 VAR                       59
+setg4 VAR                       60
+setgn VAR (5)                   81
+setgn VAR (8)                  102
+setgn VAR (16)                 158
+setgn VAR (32)                 270
+getp                           220
+getpn 2                        254
+getpn 3                        272
+getpn 4                        290
+getpn 8                        362
+getpn 16                       506
+getpn 32                       794
+pop                             18
+pop2                            18
+pop3                            18
+pop4                            18
+popn N                          36
+refl                            36
+refgb                           36
+refg                            54
+getr                            19
+getr2                           23
+getrn 3                         46
+getrn 4                         53
+getrn 8                         81
+getrn 16                       137
+getrn 32                       249
+setr                            19
+setr2                           23
+setrn 3                         45
+setrn 4                         52
+setrn 8                         80
+setrn 16                       136
+setrn 32                       248
+aixb1                           36
+aidxb                           58
+aidx                           102
+pidxb                           62
+pidx                           131
+uaidx                           73
+upidx                           91
+inc                             18
+dec                             18
+linc N                          39
+pinc                            22
+pinc2                           29
+pinc3                           39
+pinc4                           46
+pdec                            22
+pdec2                           29
+pdec3                           39
+pdec4                           46
+pincf (0)                      145
+pincf (1)                      136
+pincf (1000000)                186
+pdecf (0)                      146
+pdecf (1)                      125
+pdecf (1000000)                187
+add                             18
+add2                            25
+add3                            32
+add4                            39
+sub                             18
+sub2                            25
+sub3                            32
+sub4                            39
+add2b                           23
+mul                             19
+mul2                            32
+mul3                            49
+mul4                            74
+udiv2 (30000 / 7)              231
+udiv2 (30000 / 7000)           225
+udiv4 (300000000 / 7)          664
+udiv4 (300000000 / 70000000)   622
+div2 (30000 / 7)               249
+div2 (30000 / 7000)            243
+div4 (300000000 / 7)           682
+div4 (300000000 / 70000000)    640
