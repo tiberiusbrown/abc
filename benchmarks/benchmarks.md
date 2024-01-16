@@ -180,10 +180,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble3: 32.87x slowdown</summary>
+<details><summary>bubble3: 32.90x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 71002</td><td>Cycles: 2333861</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 2335877</td></tr>
 <tr>
 <td>
 
@@ -270,10 +270,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble4: 27.43x slowdown</summary>
+<details><summary>bubble4: 27.50x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 89146</td><td>Cycles: 2445406</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2451549</td></tr>
 <tr>
 <td>
 
@@ -413,10 +413,10 @@ void main()
 </table>
 </details>
 
-<details><summary>sieve: 50.86x slowdown</summary>
+<details><summary>sieve: 61.19x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 1805</td><td>Cycles: 91800</td></tr>
+<tr><td>Cycles: 20499</td><td>Cycles: 1254255</td></tr>
 <tr>
 <td>
 
@@ -427,20 +427,20 @@ using u8 = uint8_t;
 
 inline void debug_break() { asm volatile("break\n"); }
 
-constexpr u8 SQRT_N = 10;
-constexpr u8 N = SQRT_N * SQRT_N;
+constexpr u8 SQRT_N = 30;
+constexpr u16 N = SQRT_N * SQRT_N;
 bool A[N];
 
 int main()
 {
     debug_break();
     
-    for(u8 i = 0; i < N; ++i)
+    for(u16 i = 0; i < N; ++i)
         A[i] = true;
     for(u8 i = 2; i < SQRT_N; ++i)
     {
         if(A[i])
-            for(u8 j = i * i; j < N; j += i)
+            for(u16 j = i * i; j < N; j += i)
                 A[j] = false;
     }
     
@@ -453,20 +453,20 @@ int main()
 <td>
 
 ```c
-constexpr u8 SQRT_N = 10;
-constexpr u8 N = SQRT_N * SQRT_N;
+constexpr u8 SQRT_N = 30;
+constexpr u16 N = SQRT_N * SQRT_N;
 bool[N] A;
 
 void main()
 {
     $debug_break();
     
-    for(u8 i = 0; i < N; ++i)
+    for(u16 i = 0; i < N; ++i)
         A[i] = true;
     for(u8 i = 2; i < SQRT_N; ++i)
     {
         if(A[i])
-            for(u8 j = i * i; j < N; j += i)
+            for(u16 j = i * i; j < N; j += i)
                 A[j] = false;
     }
 

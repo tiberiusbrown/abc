@@ -1,0 +1,74 @@
+p0                    18
+p1                    18
+p2                    18
+p3                    18
+p4                    18
+p5                    18
+p6                    18
+p7                    18
+p8                    18
+p16                   18
+p32                   18
+p64                   18
+p128                  18
+p00                   18
+push N                36
+push2 N               54
+push3 N               72
+push4 N               90
+pzn 3                 38
+pzn 4                 44
+pzn 8                 58
+pzn 16                86
+pzn 32               142
+dup                   18
+dup2                  19
+dup3                  19
+dup4                  19
+dup5                  19
+dup6                  19
+dup7                  19
+dup8                  19
+dupw                  23
+dupw2                 23
+dupw3                 23
+dupw4                 23
+dupw5                 23
+dupw6                 23
+dupw7                 23
+dupw8                 23
+getl N                36
+getl2 N               36
+getl4 N               40
+getln N (5)           56
+getln N (8)           77
+getln N (16)         133
+getln N (32)         245
+setl N                36
+setl2 N               36
+setl4 N               41
+setln N (5)           56
+setln N (8)           77
+setln N (16)         133
+setln N (32)         245
+getg VAR              59
+getg2 VAR             59
+getg4 VAR             60
+getgn VAR (5)         81
+getgn VAR (8)        102
+getgn VAR (16)       158
+getgn VAR (32)       270
+setg VAR              59
+setg2 VAR             59
+setg4 VAR             60
+setgn VAR (5)         81
+setgn VAR (8)        102
+setgn VAR (16)       158
+setgn VAR (32)       270
+getp                 220
+getpn 2              254
+getpn 3              272
+getpn 4              290
+getpn 8              362
+getpn 16             506
+getpn 32             794

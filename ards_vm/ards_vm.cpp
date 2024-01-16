@@ -458,6 +458,7 @@ I_PUSH4:
     adc  r8, r2
     lpm
     lpm
+    nop
     jmp  dispatch_func
     .align 6
 
@@ -723,7 +724,7 @@ I_GETL:
     st   Y+, r0
     lpm
     lpm
-    nop
+    rjmp .+0
     dispatch
     
 I_GETL2:
@@ -739,7 +740,8 @@ I_GETL2:
     ld   r1, X
     st   Y+, r0
     st   Y+, r1
-    lpm
+    rjmp .+0
+    rjmp .+0
     dispatch
     
 I_GETL4:

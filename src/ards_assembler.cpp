@@ -269,6 +269,12 @@ error_t assembler_t::assemble(std::istream& f)
         if(!(f >> t))
             break;
         if(t.empty()) continue;
+        if(t[0] == ';')
+        {
+            std::string line;
+            std::getline(f, line);
+            continue;
+        }
         if(t.back() == ':')
         {
             t.pop_back();
