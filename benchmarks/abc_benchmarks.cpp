@@ -321,7 +321,7 @@ int main()
     for(auto const* i : INSTRS)
     {
         uint64_t c = measure() - bn;
-        fprintf(fout, "    %-30s %3" PRIu64 "\n", i, c);
+        fprintf(fout, "%3" PRIu64 "   %s\n", c, i);
     }
 
     fclose(fout);
