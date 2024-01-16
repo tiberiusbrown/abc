@@ -4,7 +4,41 @@ p:
     .b f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
     .b f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
 
+call_long:
+    sys debug_break
+    ret
+
 main:
+
+$L_main_0:
+
+    jmp $L_main_start
+
+    ; stuff for measuring branch latencies
+
+$L_main_1:
+    sys debug_break
+    jmp $L_main_2
+
+$L_main_4:
+    sys debug_break
+    jmp $L_main_5
+
+$L_main_7:
+    sys debug_break
+    pop
+    jmp $L_main_8
+
+$L_main_15:
+    sys debug_break
+    pop
+    jmp $L_main_16
+
+$L_main_10:
+    sys debug_break
+    jmp $L_main_11
+
+$L_main_start:
 
     ; measure break -> break latency
     sys debug_break
@@ -1567,6 +1601,533 @@ main:
     sys debug_break
     pop4
     
+    p0
+    sys debug_break
+    comp
+    sys debug_break
+    pop
+    
+    p00
+    sys debug_break
+    comp2
+    sys debug_break
+    pop2
+    
+    pzn 3
+    sys debug_break
+    comp3
+    sys debug_break
+    pop3
+    
+    pzn 4
+    sys debug_break
+    comp4
+    sys debug_break
+    pop4
+    
+    push 0
+    sys debug_break
+    bool
+    sys debug_break
+    pop
+    
+    push 1
+    sys debug_break
+    bool
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    sys debug_break
+    bool2
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    sys debug_break
+    bool2
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    bool3
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    bool3
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    bool4
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    bool4
+    sys debug_break
+    pop
+    
+    push 0
+    push 1
+    sys debug_break
+    cult
+    sys debug_break
+    pop
+    
+    push 1
+    push 0
+    sys debug_break
+    cult
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 1
+    push 1
+    sys debug_break
+    cult2
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 0
+    push 0
+    sys debug_break
+    cult2
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    cult3
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    cult3
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    cult4
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    cult4
+    sys debug_break
+    pop
+    
+    push 0
+    push 1
+    sys debug_break
+    cslt
+    sys debug_break
+    pop
+    
+    push 1
+    push 0
+    sys debug_break
+    cslt
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 1
+    push 1
+    sys debug_break
+    cslt2
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 0
+    push 0
+    sys debug_break
+    cslt2
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    cslt3
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    cslt3
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    cslt4
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    cslt4
+    sys debug_break
+    pop
+    
+    push 0
+    push 1
+    sys debug_break
+    cule
+    sys debug_break
+    pop
+    
+    push 1
+    push 0
+    sys debug_break
+    cule
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 1
+    push 1
+    sys debug_break
+    cule2
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 0
+    push 0
+    sys debug_break
+    cule2
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    cule3
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    cule3
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    cule4
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    cule4
+    sys debug_break
+    pop
+    
+    push 0
+    push 1
+    sys debug_break
+    csle
+    sys debug_break
+    pop
+    
+    push 1
+    push 0
+    sys debug_break
+    csle
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 1
+    push 1
+    sys debug_break
+    csle2
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 0
+    push 0
+    sys debug_break
+    csle2
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    csle3
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    csle3
+    sys debug_break
+    pop
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    push 1
+    push 1
+    push 1
+    push 1
+    sys debug_break
+    csle4
+    sys debug_break
+    pop
+    
+    push 1
+    push 1
+    push 1
+    push 1
+    push 0
+    push 0
+    push 0
+    push 0
+    sys debug_break
+    csle4
+    sys debug_break
+    pop
+    
+    push 0
+    sys debug_break
+    not
+    sys debug_break
+    pop
+    
+    push 1
+    sys debug_break
+    not
+    sys debug_break
+    pop
+    
+    push 1
+    sys debug_break
+    bz $L_main_0
+    sys debug_break
+    
+    push 0
+    sys debug_break
+    bz $L_main_1
+$L_main_2:
+
+    push 1
+    sys debug_break
+    bz $L_main_3
+    sys debug_break
+
+    push 0
+    sys debug_break
+    bz $L_main_3
+$L_main_3:
+    sys debug_break
+    
+    push 0
+    sys debug_break
+    bnz $L_main_0
+    sys debug_break
+    
+    push 1
+    sys debug_break
+    bnz $L_main_4
+$L_main_5:
+
+    push 0
+    sys debug_break
+    bnz $L_main_6
+    sys debug_break
+
+    push 1
+    sys debug_break
+    bnz $L_main_6
+    nop
+$L_main_6:
+    sys debug_break
+    
+    push 1
+    sys debug_break
+    bzp $L_main_0
+    sys debug_break
+    
+    push 0
+    sys debug_break
+    bzp $L_main_7
+$L_main_8:
+    
+    push 1
+    sys debug_break
+    bzp $L_main_14
+    sys debug_break
+    
+    push 0
+    sys debug_break
+    bzp $L_main_14
+$L_main_14:
+    sys debug_break
+    pop
+    
+    push 0
+    sys debug_break
+    bnzp $L_main_0
+    sys debug_break
+    
+    push 1
+    sys debug_break
+    bnzp $L_main_15
+$L_main_16:
+    
+    push 0
+    sys debug_break
+    bnzp $L_main_17
+    sys debug_break
+    
+    push 1
+    sys debug_break
+    bnzp $L_main_17
+$L_main_17:
+    sys debug_break
+    pop
+
+    sys debug_break
+    jmp $L_main_10
+$L_main_11:
+
+    sys debug_break
+    jmp $L_main_9
+$L_main_9:
+    sys debug_break
+    
+    sys debug_break
+    call call_long
+    
+    sys debug_break
+    call $L_main_12
+    jmp $L_main_13
+    
+$L_main_12:
+    sys debug_break
+    ret
+$L_main_13:
+
+    call $L_main_12
+    sys debug_break
+
     ret
 
 $globinit:

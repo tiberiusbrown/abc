@@ -118,6 +118,7 @@ void assembler_t::push_global(std::istream& f, bool has_offset)
 
 static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
 {
+    { "nop", I_NOP },
     { "p0", I_P0 },
     { "p1", I_P1 },
     { "p2", I_P2 },

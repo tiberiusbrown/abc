@@ -43,15 +43,16 @@ static uint64_t measure()
     uint64_t cycle_a, cycle_b;
 
     // HACK: disable timer0 by setting its divider to 0
-    arduboy->cpu.timer0.divider = 0;
 
     arduboy->allow_nonstep_breakpoints = true;
     arduboy->paused = false;
     arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
+    arduboy->cpu.timer0.divider = 0;
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;
+    arduboy->cpu.timer0.divider = 0;
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds
     assert(arduboy->paused);
     cycle_b = arduboy->cpu.cycle_count;
@@ -271,13 +272,56 @@ int main()
         "and", "and2", "and3", "and4",
         "or", "or2", "or3", "or4",
         "xor", "xor2", "xor3", "xor4",
+        "comp", "comp2", "comp3", "comp4",
+        "bool (0)", "bool (1)",
+        "bool2 (0)", "bool2 (1)",
+        "bool3 (0)", "bool3 (1)",
+        "bool4 (0)", "bool4 (1)",
+        "cult (pass)", "cult (fail)",
+        "cult2 (pass)", "cult2 (fail)",
+        "cult3 (pass)", "cult3 (fail)",
+        "cult4 (pass)", "cult4 (fail)",
+        "cslt (pass)", "cslt (fail)",
+        "cslt2 (pass)", "cslt2 (fail)",
+        "cslt3 (pass)", "cslt3 (fail)",
+        "cslt4 (pass)", "cslt4 (fail)",
+        "cule (pass)", "cule (fail)",
+        "cule2 (pass)", "cule2 (fail)",
+        "cule3 (pass)", "cule3 (fail)",
+        "cule4 (pass)", "cule4 (fail)",
+        "csle (pass)", "csle (fail)",
+        "csle2 (pass)", "csle2 (fail)",
+        "csle3 (pass)", "csle3 (fail)",
+        "csle4 (pass)", "csle4 (fail)",
+        // TODO: CFEQ
+        // TODO: CFLT
+        // TODO: CFLE
+        "not (0)", "not (1)",
+        // TODO: FADD
+        // TODO: FSUB
+        // TODO: FMUL
+        // TODO: FDIV
+        // TODO: F2I
+        // TODO: F2U
+        // TODO: I2F
+        // TODO: U2F
+        "bz (not taken)", "bz (taken)",
+        "bz1 (not taken)", "bz1 (taken)",
+        "bnz (not taken)", "bnz (taken)",
+        "bnz1 (not taken)", "bnz1 (taken)",
+        "bzp (not taken)", "bzp (taken)",
+        "bzp1 (not taken)", "bzp1 (taken)",
+        "bnzp (not taken)", "bnzp (taken)",
+        "bnzp1 (not taken)", "bnzp1 (taken)",
+        "jmp", "jmp1",
+        "call", "call1", "ret",
     };
     (void)measure();
     uint64_t bn = measure();
     for(auto const* i : INSTRS)
     {
         uint64_t c = measure() - bn;
-        fprintf(fout, "%-30s %3" PRIu64 "\n", i, c);
+        fprintf(fout, "    %-30s %3" PRIu64 "\n", i, c);
     }
 
     fclose(fout);
