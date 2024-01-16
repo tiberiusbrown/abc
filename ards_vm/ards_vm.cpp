@@ -979,7 +979,7 @@ I_GETPN:
     st   Y+, r0
     dec  r1
     brne 1b
-    call delay_9
+    call delay_8
     jmp  jump_to_pc
     .align 6
 
