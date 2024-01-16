@@ -3028,7 +3028,7 @@ I_RET:
 I_SYS:
     ldi  r30, lo8(%[sys_funcs])
     ldi  r31, hi8(%[sys_funcs])
-    nop
+    rjmp .+0
     rcall read_2_bytes_nodelay
     add  r30, r16
     adc  r31, r17
