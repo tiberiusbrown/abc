@@ -1613,26 +1613,24 @@ I_ADD4:
     dispatch
 
 I_SUB:
-    ld   r10, -Y
     ld   r14, -Y
-    sub  r14, r10
-    st   Y+, r14
+    sub  r14, r9
+    mov  r9, r14
+    lpm
     dispatch
     ; TODO: SPACE HERE
 
 I_SUB2:
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
     sub  r14, r10
-    sbc  r15, r11
+    sbc  r15, r9
     st   Y+, r14
-    st   Y+, r15
+    mov  r9, r15
     dispatch
 
 I_SUB3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
@@ -1640,14 +1638,13 @@ I_SUB3:
     ld   r14, -Y
     sub  r14, r10
     sbc  r15, r11
-    sbc  r16, r12
+    sbc  r16, r9
     st   Y+, r14
     st   Y+, r15
-    st   Y+, r16
+    mov  r9, r16
     dispatch
 
 I_SUB4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -1658,28 +1655,27 @@ I_SUB4:
     sub  r14, r10
     sbc  r15, r11
     sbc  r16, r12
-    sbc  r17, r13
+    sbc  r17, r9
     st   Y+, r14
     st   Y+, r15
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
     dispatch
 
 I_ADD2B:
-    ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
-    add  r14, r10
+    add  r14, r9
     adc  r15, r2
     st   Y+, r14
-    st   Y+, r15
+    mov  r9, r15
     dispatch
 
 I_MUL:
-    ld   r10, -Y
     ld   r14, -Y
-    mul  r14, r10
-    st   Y+, r0
+    mul  r14, r9
+    mov  r9, r0
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
@@ -1694,18 +1690,17 @@ I_MUL2:
     ; ========
     ;    C1 C0
     ;
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
     mul  r14, r10 ; A0*B0
     movw r18, r0
-    mul  r14, r11 ; A0*B1
+    mul  r14, r9 ; A0*B1
     add  r19, r0
     mul  r15, r10 ; A1*B0
     add  r19, r0
     st   Y+, r18
-    st   Y+, r19
+    mov  r9, r19
     dispatch
 
 I_MUL3:
@@ -1722,7 +1717,6 @@ I_MUL3:
     ; ===========
     ;    C2 C1 C0
     ;   
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
@@ -1731,20 +1725,19 @@ I_MUL3:
     mul  r14, r10 ; A0*B0
     movw r18, r0
     mul  r16, r10 ; A2*B0
-    mov  r20, r0
+    mov  r9, r0
     mul  r15, r10 ; A1*B0
     add  r19, r0
-    adc  r20, r1
+    adc  r9, r1
     mul  r14, r11 ; A0*B1
     add  r19, r0
-    adc  r20, r1
+    adc  r9, r1
     mul  r15, r11 ; A1*B1
-    add  r20, r0
-    mul  r14, r12 ; A0*B2
-    add  r20, r0
+    add  r9, r0
+    mul  r14, r9 ; A0*B2
+    add  r9, r0
     st   Y+, r18
     st   Y+, r19
-    st   Y+, r20
     dispatch
 
 I_MUL4:
@@ -1753,7 +1746,7 @@ I_MUL4:
     .align 6
 
 I_UDIV2:
-    ld   r23, -Y
+    mov  r23, r9
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
@@ -1767,12 +1760,12 @@ I_UDIV2:
     ; clobbers:             r21, r26:r27
 1:  call __udivmodhi4
     st   Y+, r22
-    st   Y+, r23
+    mov  r9, r23
 udiv4_dispatch:
     dispatch
 
 I_UDIV4:
-    ld   r21, -Y
+    mov   r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -1796,12 +1789,12 @@ I_UDIV4:
     st   Y+, r18
     st   Y+, r19
     st   Y+, r20
-    st   Y+, r21
+    mov  r9, r21
     rjmp udiv4_dispatch
     .align 6
 
 I_DIV2:
-    ld   r23, -Y
+    mov  r23, r9
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
@@ -1815,12 +1808,12 @@ I_DIV2:
     ; clobbers:             r21, r26:r27
 1:  call __divmodhi4
     st   Y+, r22
-    st   Y+, r23
+    mov  r9, r23
 div4_dispatch:
     dispatch
 
 I_DIV4:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -1844,12 +1837,12 @@ I_DIV4:
     st   Y+, r18
     st   Y+, r19
     st   Y+, r20
-    st   Y+, r21
+    mov  r9, r21
     rjmp div4_dispatch
     .align 6
 
 I_UMOD2:
-    ld   r23, -Y
+    mov  r23, r9
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
@@ -1863,12 +1856,12 @@ I_UMOD2:
     ; clobbers:             r21, r26:r27
 1:  call __udivmodhi4
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
 umod4_dispatch:
     dispatch
 
 I_UMOD4:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -1892,12 +1885,12 @@ I_UMOD4:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     rjmp umod4_dispatch
     .align 6
 
 I_MOD2:
-    ld   r23, -Y
+    mov  r23, r9
     ld   r22, -Y
     ld   r25, -Y
     ld   r24, -Y
@@ -1911,12 +1904,12 @@ I_MOD2:
     ; clobbers:             r21, r26:r27
 1:  call __divmodhi4
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
 mod4_dispatch:
     dispatch
 
 I_MOD4:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -1940,7 +1933,7 @@ I_MOD4:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     rjmp mod4_dispatch
     .align 6
 
@@ -3135,7 +3128,6 @@ instr_mul4:
     ;    ===========
     ;    C3 C2 C1 C0
     ;   
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -3167,12 +3159,12 @@ instr_mul4:
     add  r21, r0
     mul  r15, r12 ; A1*B2
     add  r21, r0
-    mul  r14, r13 ; A0*B3
+    mul  r14, r9 ; A0*B3
     add  r21, r0
     st   Y+, r18
     st   Y+, r19
     st   Y+, r20
-    st   Y+, r21
+    mov  r9, r21
     dispatch_noalign
 
 read_4_bytes:

@@ -833,8 +833,6 @@ $L_main_start:
     add4
     sys debug_break
     pop4
-
-    jmp infinite
     
     p00
     sys debug_break
@@ -1065,6 +1063,8 @@ $L_main_start:
     mod4
     sys debug_break
     pop2
+
+    jmp infinite
     
     push 0
     push 0
