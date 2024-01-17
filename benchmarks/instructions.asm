@@ -2181,8 +2181,6 @@ $L_main_start:
     not
     sys debug_break
     pop
-
-    jmp infinite
     
     push 1
     sys debug_break
@@ -2270,6 +2268,8 @@ $L_main_16:
 $L_main_17:
     sys debug_break
     pop
+
+    jmp infinite
 
     sys debug_break
     jmp $L_main_10

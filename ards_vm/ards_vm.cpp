@@ -957,9 +957,9 @@ I_SETG2:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
-    st   X+, r9
     ld   r17, -Y
     st   X+, r17
+    st   X+, r9
     ld   r9, -Y
     rjmp .+0
     dispatch
@@ -2818,10 +2818,10 @@ I_U2F:
     dispatch
 
 I_BZ:
-    ld   r0, -Y
-    nop
+    mov  r1, r9
+    ld   r9, -Y
     call read_3_bytes_end_nodelay
-    cp   r0, r2
+    cp   r1, r2
     brne 1f
     movw r6, r16
     mov  r8, r18
@@ -2831,11 +2831,12 @@ I_BZ:
     dispatch
 
 I_BZ1:
-    ld   r16, -Y
+    mov  r16, r9
+    ld   r9, -Y
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
+    nop
     in   r0, %[spdr]
     cp   r16, r2
     brne 1f
@@ -2847,15 +2848,15 @@ I_BZ1:
     adc  r8, r1
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    call delay_12
+    call delay_13
     jmp  dispatch_func
     .align 6
 
 I_BNZ:
-    ld   r0, -Y
-    nop
+    mov  r1, r9
+    ld   r9, -Y
     call read_3_bytes_end_nodelay
-    cp   r0, r2
+    cp   r1, r2
     breq 1f
     movw r6, r16
     mov  r8, r18
@@ -2865,11 +2866,12 @@ I_BNZ:
     dispatch
 
 I_BNZ1:
-    ld   r16, -Y
+    mov  r16, r9
+    ld   r9, -Y
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
+    nop
     in   r0, %[spdr]
     cp   r16, r2
     breq 1f
@@ -2881,33 +2883,30 @@ I_BNZ1:
     adc  r8, r1
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    call delay_12
+    call delay_13
     jmp  dispatch_func
     .align 6
 
 I_BZP:
-    ld   r0, -Y
-    inc  r28
-    call read_3_bytes_end_nodelay
-    cp   r0, r2
+    call read_3_bytes_end
+    cp   r9, r2
     brne 1f
     movw r6, r16
     mov  r8, r18
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    dec  r28
-    call delay_15
+    ld   r9, -Y
+    call delay_14
     dispatch
 
 I_BZP1:
-    ld   r16, -Y
-    inc  r28
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    nop
+    rjmp .+0
+    rjmp .+0
     in   r0, %[spdr]
-    cp   r16, r2
+    cp   r9, r2
     brne 1f
     mov  r1, r0
     lsl  r1
@@ -2917,34 +2916,31 @@ I_BZP1:
     adc  r8, r1
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    dec  r28
-    call delay_12
+    ld   r9, -Y
+    call delay_11
     jmp  dispatch_func
     .align 6
 
 I_BNZP:
-    ld   r0, -Y
-    inc  r28
-    call read_3_bytes_end_nodelay
-    cp   r0, r2
+    call read_3_bytes_end
+    cp   r9, r2
     breq 1f
     movw r6, r16
     mov  r8, r18
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    dec  r28
-    call delay_15
+    ld   r9, -Y
+    call delay_14
     dispatch
 
 I_BNZP1:
-    ld   r16, -Y
-    inc  r28
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    nop
+    rjmp .+0
+    rjmp .+0
     in   r0, %[spdr]
-    cp   r16, r2
+    cp   r9, r2
     breq 1f
     mov  r1, r0
     lsl  r1
@@ -2954,8 +2950,8 @@ I_BNZP1:
     adc  r8, r1
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    dec  r28
-    call delay_12
+    ld   r9, -Y
+    call delay_11
     jmp  dispatch_func
     .align 6
 
@@ -3200,6 +3196,7 @@ store_vm_state:
     sts  %[vm_pc]+2, r8
     
     ; stack pointer: stack always begins at 0x100
+    st   Y+, r9
     sts  %[vm_sp], r28
 
     clr  r1
@@ -3231,6 +3228,7 @@ restore_vm_state:
     ; stack pointer: stack always begins at 0x100
     lds  r28, %[vm_sp]
     ldi  r29, 0x01
+    ld   r9, -Y
 
     dispatch_noalign
 
@@ -3419,6 +3417,7 @@ jump_to_pc:
 2:  sts  %[vm_pc]+0, r6
     sts  %[vm_pc]+1, r7
     sts  %[vm_pc]+2, r8
+    st   Y+, r9
     sts  %[vm_sp], r28
     clr  r1
     
@@ -3438,6 +3437,7 @@ jump_to_pc:
     lds  r8, %[vm_pc]+2
     lds  r28, %[vm_sp]
     ldi  r29, 0x01
+    ld   r9, -Y
     
     rjmp 1b
     
@@ -3472,6 +3472,7 @@ call_vm_error:
     sts  %[vm_pc]+2, r8
     
     ; stack pointer: stack always begins at 0x100
+    st   Y+, r9
     sts  %[vm_sp], r28
 
     clr  r1
@@ -3519,6 +3520,8 @@ void vm_run()
     
     // entry point in header
     *(volatile uint24_t*)&vm.pc = 20;
+    *(volatile uint8_t*)&vm.sp = 1;
+    
     FX::seekData(20);
 
     // kick off execution
