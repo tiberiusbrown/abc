@@ -1938,7 +1938,7 @@ I_MOD4:
     .align 6
 
 I_LSL:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r16, -Y
     
     cpi  r20, 8
@@ -1955,31 +1955,31 @@ I_LSL:
     sbrc r20, 0
     lsl  r16
 
-    st   Y+, r16
+    mov  r9, r16
 1:  dispatch_noalign
-2:  st   Y+, r2
+2:  clr  r9
     rjmp 1b
     .align 6
 
 I_LSL2:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r17, -Y
     ld   r16, -Y
     cpi  r20, 16
     brlo 2f
     st   Y+, r2
-    st   Y+, r2
+    clr  r9
     rjmp 3f
 1:  lsl  r16
     rol  r17
 2:  dec  r20
     brpl 1b
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
 3:  dispatch
 
 I_LSL3:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
@@ -1987,7 +1987,7 @@ I_LSL3:
     brlo 2f
     st   Y+, r2
     st   Y+, r2
-    st   Y+, r2
+    clr  r9
     rjmp 3f
 1:  lsl  r16
     rol  r17
@@ -1996,11 +1996,11 @@ I_LSL3:
     brpl 1b
     st   Y+, r16
     st   Y+, r17
-    st   Y+, r18
+    mov  r9, r18
 3:  dispatch
 
 I_LSL4:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r19, -Y
     ld   r18, -Y
     ld   r17, -Y
@@ -2010,7 +2010,7 @@ I_LSL4:
     st   Y+, r2
     st   Y+, r2
     st   Y+, r2
-    st   Y+, r2
+    clr  r9
     rjmp 3f
 1:  lsl  r16
     rol  r17
@@ -2021,11 +2021,11 @@ I_LSL4:
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    st   Y+, r19
+    mov  r9, r19
 3:  dispatch
 
 I_LSR:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r16, -Y
     
     cpi  r20, 8
@@ -2042,31 +2042,31 @@ I_LSR:
     sbrc r20, 0
     lsr  r16
 
-    st   Y+, r16
+    mov  r9, r16
 1:  dispatch_noalign
-2:  st   Y+, r2
+2:  mov  r9, r2
     rjmp 1b
     .align 6
 
 I_LSR2:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r17, -Y
     ld   r16, -Y
     cpi  r20, 16
     brlo 2f
     st   Y+, r2
-    st   Y+, r2
+    mov  r9, r2
     rjmp 3f
 1:  lsr  r17
     ror  r16
 2:  dec  r20
     brpl 1b
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
 3:  dispatch
 
 I_LSR3:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
@@ -2074,7 +2074,7 @@ I_LSR3:
     brlo 2f
     st   Y+, r2
     st   Y+, r2
-    st   Y+, r2
+    mov  r9, r2
     rjmp 3f
 1:  lsr  r18
     ror  r17
@@ -2083,11 +2083,11 @@ I_LSR3:
     brpl 1b
     st   Y+, r16
     st   Y+, r17
-    st   Y+, r18
+    mov  r9, r18
 3:  dispatch
 
 I_LSR4:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r19, -Y
     ld   r18, -Y
     ld   r17, -Y
@@ -2097,7 +2097,7 @@ I_LSR4:
     st   Y+, r2
     st   Y+, r2
     st   Y+, r2
-    st   Y+, r2
+    mov  r9, r2
     rjmp 3f
 1:  lsr  r19
     ror  r18
@@ -2108,27 +2108,27 @@ I_LSR4:
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    st   Y+, r19
+    mov  r9, r19
 3:  dispatch
 
 I_ASR:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r16, -Y
     cpi  r20, 7
     brlo 2f
     ldi  r21, 0x00
     sbrc r16, 7
     ldi  r21, 0xff
-    st   Y+, r21
+    mov  r9, r21
     rjmp 3f
 1:  asr  r16
 2:  dec  r20
     brpl 1b
-    st   Y+, r16
+    mov  r9, r16
 3:  dispatch
 
 I_ASR2:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r17, -Y
     ld   r16, -Y
     cpi  r20, 16
@@ -2137,18 +2137,18 @@ I_ASR2:
     sbrc r17, 7
     ldi  r21, 0xff
     st   Y+, r21
-    st   Y+, r21
+    mov  r9, r21
     rjmp 3f
 1:  asr  r17
     ror  r16
 2:  dec  r20
     brpl 1b
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
 3:  dispatch
 
 I_ASR3:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
@@ -2159,7 +2159,7 @@ I_ASR3:
     ldi  r21, 0xff
     st   Y+, r21
     st   Y+, r21
-    st   Y+, r21
+    mov  r9, r21
     rjmp 3f
 1:  asr  r18
     ror  r17
@@ -2168,12 +2168,12 @@ I_ASR3:
     brpl 1b
     st   Y+, r16
     st   Y+, r17
-    st   Y+, r18
+    mov  r9, r18
 dispatch_for_asr4:
 3:  dispatch
 
 I_ASR4:
-    ld   r20, -Y
+    mov  r20, r9
     ld   r19, -Y
     ld   r18, -Y
     ld   r17, -Y
@@ -2186,7 +2186,7 @@ I_ASR4:
     st   Y+, r21
     st   Y+, r21
     st   Y+, r21
-    st   Y+, r21
+    mov  r9, r21
     rjmp dispatch_for_asr4
 1:  asr  r19
     ror  r18
@@ -2197,207 +2197,183 @@ I_ASR4:
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    st   Y+, r19
+    mov  r9, r19
 3:  rjmp dispatch_for_asr4
     .align 6
 
 I_AND:
-    ld   r10, -Y
     ld   r14, -Y
-    and  r14, r10
+    and  r14, r9
     st   Y+, r14
-    dispatch
-
-I_AND2:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    and  r14, r10
-    and  r15, r11
-    st   Y+, r14
-    st   Y+, r15
-    dispatch
-
-I_AND3:
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    and  r14, r10
-    and  r15, r11
-    and  r16, r12
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    dispatch
-
-I_AND4:
-    ld   r13, -Y
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    and  r14, r10
-    and  r15, r11
-    and  r16, r12
-    and  r17, r13
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    st   Y+, r17
-    dispatch
-
-I_OR:
-    ld   r10, -Y
-    ld   r14, -Y
-    or   r14, r10
-    st   Y+, r14
-    dispatch
-
-I_OR2:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    or   r14, r10
-    or   r15, r11
-    st   Y+, r14
-    st   Y+, r15
-    dispatch
-
-I_OR3:
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    or   r14, r10
-    or   r15, r11
-    or   r16, r12
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    dispatch
-
-I_OR4:
-    ld   r13, -Y
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    or   r14, r10
-    or   r15, r11
-    or   r16, r12
-    or   r17, r13
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    st   Y+, r17
-    dispatch
-
-I_XOR:
-    ld   r10, -Y
-    ld   r14, -Y
-    eor  r14, r10
-    st   Y+, r14
-    dispatch
-
-I_XOR2:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    eor  r14, r10
-    eor  r15, r11
-    st   Y+, r14
-    st   Y+, r15
-    dispatch
-
-I_XOR3:
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    eor  r14, r10
-    eor  r15, r11
-    eor  r16, r12
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    dispatch
-
-I_XOR4:
-    ld   r13, -Y
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    eor  r14, r10
-    eor  r15, r11
-    eor  r16, r12
-    eor  r17, r13
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    st   Y+, r17
-    dispatch
-
-I_COMP:
-    ld   r10, -Y
-    com  r10
-    st   Y+, r10
     rjmp .+0
     dispatch
 
-I_COMP2:
+I_AND2:
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    and  r10, r14
+    and  r9, r15
+    st   Y+, r10
+    dispatch
+
+I_AND3:
     ld   r11, -Y
     ld   r10, -Y
-    com  r10
-    com  r11
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    and  r10, r14
+    and  r11, r15
+    and  r9, r16
     st   Y+, r10
     st   Y+, r11
+    dispatch
+
+I_AND4:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    and  r10, r14
+    and  r11, r15
+    and  r12, r16
+    and  r9, r17
+    st   Y+, r10
+    st   Y+, r11
+    st   Y+, r12
+    dispatch
+
+I_OR:
+    ld   r14, -Y
+    or   r14, r9
+    st   Y+, r14
+    rjmp .+0
+    dispatch
+
+I_OR2:
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    or   r10, r14
+    or   r9, r15
+    st   Y+, r10
+    dispatch
+
+I_OR3:
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    or   r10, r14
+    or   r11, r15
+    or   r9, r16
+    st   Y+, r10
+    st   Y+, r11
+    dispatch
+
+I_OR4:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    or   r10, r14
+    or   r11, r15
+    or   r12, r16
+    or   r9, r17
+    st   Y+, r10
+    st   Y+, r11
+    st   Y+, r12
+    dispatch
+
+I_XOR:
+    ld   r14, -Y
+    eor  r14, r9
+    st   Y+, r14
+    rjmp .+0
+    dispatch
+
+I_XOR2:
+    ld   r10, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    eor  r10, r14
+    eor  r9, r15
+    st   Y+, r10
+    dispatch
+
+I_XOR3:
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    eor  r10, r14
+    eor  r11, r15
+    eor  r9, r16
+    st   Y+, r10
+    st   Y+, r11
+    dispatch
+
+I_XOR4:
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    eor  r10, r14
+    eor  r11, r15
+    eor  r12, r16
+    eor  r9, r17
+    st   Y+, r10
+    st   Y+, r11
+    st   Y+, r12
+    dispatch
+
+I_COMP:
+    com  r9
+    lpm
+    lpm
+    dispatch
+
+I_COMP2:
+    ld   r10, -Y
+    com  r10
+    com  r9
+    st   Y+, r10
+    nop
     dispatch
 
 I_COMP3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     com  r10
     com  r11
-    com  r12
+    com  r9
     st   Y+, r10
     st   Y+, r11
-    st   Y+, r12
     dispatch
 
 I_COMP4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     com  r10
     com  r11
     com  r12
-    com  r13
+    com  r9
     st   Y+, r10
     st   Y+, r11
     st   Y+, r12
-    st   Y+, r13
     dispatch
 
 I_BOOL:
