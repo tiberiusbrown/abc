@@ -165,7 +165,7 @@ int abc_benchmarks()
 {
     arduboy = std::make_unique<absim::arduboy_t>();
 
-#if 0
+#if 1
     fout = fopen(BENCHMARKS_DIR "/benchmarks.txt", "w");
     if(!fout) return 1;
     fmd = fopen(BENCHMARKS_DIR "/benchmarks.md", "w");
