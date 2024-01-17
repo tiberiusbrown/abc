@@ -390,8 +390,6 @@ $L_main_start:
     getg4 g 0
     sys debug_break
     pop4
-
-    jmp infinite
     
     push 5
     sys debug_break
@@ -455,6 +453,8 @@ $L_main_start:
     sys debug_break
     setgn g 0
     sys debug_break
+
+    jmp infinite
     
     pushl p 0
     sys debug_break

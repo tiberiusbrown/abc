@@ -915,30 +915,40 @@ I_GETG4:
     st   Y+, r17
     st   Y+, r18
     rjmp getg4_dispatch
+    .align 6
 
 I_GETGN:
-    ld   r18, -Y
-    mov  r19, r18
-    add  r19, r28
+    mov  r18, r9
+    dec r9
+    add  r9, r28
     brcc 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  call read_2_bytes_nodelay
-    movw r26, r16
+1:  rjmp .+0
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r20, 2
+    add  r6, r20
+    adc  r7, r2
+    adc  r8, r2
+    call delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2 
     subi r27, -2
 2:  ld   r0, X+
     st   Y+, r0
     dec  r18
     brne 2b
-    ; call delay_8 ; TODO: remove this when GETGN(1) is not allowed
-    dispatch
+    ld   r9, -Y
+    rjmp getg4_dispatch
+    .align 6
 
 I_SETG:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
-    ld   r16, -Y
-    st   X, r16
+    st   X, r9
+    ld   r9, -Y
     lpm
     lpm
     dispatch
@@ -947,39 +957,48 @@ I_SETG2:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
+    st   X+, r9
     ld   r17, -Y
-    ld   r16, -Y
-    st   X+, r16
     st   X+, r17
+    ld   r9, -Y
     rjmp .+0
     dispatch
 
 I_SETG4:
-    call read_2_bytes
-    movw r26, r16
-    subi r27, -2
-    ld   r19, -Y
+    mov  r19, r9
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r20, 2
+    add  r6, r20
+    adc  r7, r2
+    adc  r8, r2
+    call delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2
+    subi r27, -2
     st   X+, r16
     st   X+, r17
     st   X+, r18
     st   X+, r19
+    ld   r9, -Y
+    lpm
+    rjmp .+0
     dispatch
 
 I_SETGN:
     call read_2_bytes
     movw r26, r16
     subi r27, -2
-    ld   r16, -Y
-    add  r26, r16
+    add  r26, r9
     adc  r27, r2
 1:  ld   r0, -Y
     st   -X, r0
-    dec  r16
+    dec  r9
     brne 1b
-    ; call delay_8 ; TODO: remove this when SETGN(1) is not allowed
+    ld   r9, -Y
     dispatch
 
 I_GETP:

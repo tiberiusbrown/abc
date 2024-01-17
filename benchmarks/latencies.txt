@@ -60,17 +60,17 @@
  54   getg VAR
  54   getg2 VAR
  55   getg4 VAR
-126   getgn VAR (5)
-126   getgn VAR (8)
-126   getgn VAR (16)
-126   getgn VAR (32)
-126   setg VAR
-126   setg2 VAR
-126   setg4 VAR
-126   setgn VAR (5)
-126   setgn VAR (8)
-126   setgn VAR (16)
-126   setgn VAR (32)
+ 77   getgn VAR (5)
+ 98   getgn VAR (8)
+154   getgn VAR (16)
+266   getgn VAR (32)
+ 54   setg VAR
+ 54   setg2 VAR
+ 54   setg4 VAR
+ 82   setgn VAR (5)
+103   setgn VAR (8)
+159   setgn VAR (16)
+271   setgn VAR (32)
 126   getp
 126   getpn 2
 126   getpn 3
