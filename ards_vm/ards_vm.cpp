@@ -2377,74 +2377,68 @@ I_COMP4:
     dispatch
 
 I_BOOL:
-    ld   r0, -Y
     ldi  r16, 0
-    cpse r0, r2
+    cpse r9, r2
     ldi  r16, 1
-    st   Y+, r16
+    mov  r9, r16
+    lpm
     dispatch
 
 I_BOOL2:
-    ld   r0, -Y
     ld   r1, -Y
-    or   r0, r1
+    or   r9, r1
     ldi  r16, 0
-    cpse r0, r2
+    cpse r9, r2
     ldi  r16, 1
-    st   Y+, r16
+    mov  r9, r16
     dispatch
 
 I_BOOL3:
-    ld   r0, -Y
     ld   r1, -Y
-    or   r0, r1
+    or   r9, r1
     ld   r1, -Y
-    or   r0, r1
+    or   r9, r1
     ldi  r16, 0
-    cpse r0, r2
+    cpse r9, r2
     ldi  r16, 1
-    st   Y+, r16
+    mov  r9, r16
     dispatch
 
 I_BOOL4:
-    ld   r0, -Y
     ld   r1, -Y
-    or   r0, r1
+    or   r9, r1
     ld   r1, -Y
-    or   r0, r1
+    or   r9, r1
     ld   r1, -Y
-    or   r0, r1
+    or   r9, r1
     ldi  r16, 0
-    cpse r0, r2
+    cpse r9, r2
     ldi  r16, 1
-    st   Y+, r16
+    mov  r9, r16
     dispatch
 
 I_CULT:
-    ld   r10, -Y
     ld   r14, -Y
     ldi  r18, 1
-    cp   r14, r10
+    cp   r14, r9
     brlo 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULT2:
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
-    cpc  r15, r11
+    cpc  r15, r9
     brlo 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULT3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
@@ -2453,14 +2447,13 @@ I_CULT3:
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
-    cpc  r16, r12
+    cpc  r16, r9
     brlo 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULT4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -2472,37 +2465,34 @@ I_CULT4:
     cp   r14, r10
     cpc  r15, r11
     cpc  r16, r12
-    cpc  r17, r13
+    cpc  r17, r9
     brlo 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLT:
-    ld   r10, -Y
     ld   r14, -Y
     ldi  r18, 1
-    cp   r14, r10
+    cp   r14, r9
     brlt 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLT2:
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
     ldi  r18, 1
     cp   r14, r10
-    cpc  r15, r11
+    cpc  r15, r9
     brlt 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLT3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
@@ -2511,14 +2501,13 @@ I_CSLT3:
     ldi  r18, 1
     cp   r14, r10
     cpc  r15, r11
-    cpc  r16, r12
+    cpc  r16, r9
     brlt 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLT4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -2530,37 +2519,34 @@ I_CSLT4:
     cp   r14, r10
     cpc  r15, r11
     cpc  r16, r12
-    cpc  r17, r13
+    cpc  r17, r9
     brlt 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULE:
-    ld   r10, -Y
     ld   r14, -Y
     ldi  r18, 1
-    cp   r10, r14
+    cp   r9, r14
     brsh 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULE2:
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
-    cpc  r11, r15
+    cpc  r9, r15
     brsh 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULE3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
@@ -2569,14 +2555,13 @@ I_CULE3:
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
-    cpc  r12, r16
+    cpc  r9, r16
     brsh 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CULE4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -2588,37 +2573,34 @@ I_CULE4:
     cp   r10, r14
     cpc  r11, r15
     cpc  r12, r16
-    cpc  r13, r17
+    cpc  r9, r17
     brsh 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLE:
-    ld   r10, -Y
     ld   r14, -Y
     ldi  r18, 1
-    cp   r10, r14
+    cp   r9, r14
     brge 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLE2:
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
     ldi  r18, 1
     cp   r10, r14
-    cpc  r11, r15
+    cpc  r9, r15
     brge 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLE3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
@@ -2627,14 +2609,13 @@ I_CSLE3:
     ldi  r18, 1
     cp   r10, r14
     cpc  r11, r15
-    cpc  r12, r16
+    cpc  r9, r16
     brge 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CSLE4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -2646,14 +2627,14 @@ I_CSLE4:
     cp   r10, r14
     cpc  r11, r15
     cpc  r12, r16
-    cpc  r13, r17
+    cpc  r9, r17
     brge 1f
     ldi  r18, 0
-1:  st   Y+, r18
+1:  mov  r9, r18
     dispatch
 
 I_CFEQ:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2666,11 +2647,11 @@ I_CFEQ:
     ldi  r16, 1
     cpse r24, __zero_reg__
     ldi  r16, 0
-    st   Y+, r16
+    mov  r9, r16
     dispatch
 
 I_CFLT:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2683,11 +2664,11 @@ I_CFLT:
     rol  r24
     clr  r24
     rol  r24
-    st   Y+, r24
+    mov  r9, r24
     dispatch
 
 I_CFLE:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2701,7 +2682,7 @@ I_CFLE:
     cp   __zero_reg__, r24
     brge 1f
     ldi  r16, 0
-1:  st   Y+, r16
+1:  mov  r9, r16
     dispatch
 
 I_NOT:
