@@ -1337,25 +1337,24 @@ I_REFGB:
     dispatch
 
 I_INC:
-    ld   r0, -Y
-    inc  r0
-    st   Y+, r0
-    rjmp .+0
-    dispatch
+    inc  r9
+    lpm
+    jmp  dispatch_func
     ; TODO: SPACE HERE
+    .align 6
 
 I_DEC:
-    ld   r0, -Y
-    dec  r0
-    st   Y+, r0
-    rjmp .+0
-    dispatch
+    dec r9
+    lpm
+    jmp  dispatch_func
     ; TODO: SPACE HERE
+    .align 6
 
 I_LINC:
-    lpm
-    lpm
+    rjmp .+0
+    rjmp .+0
     movw r26, r28
+    adiw r26, 1
     read_byte
     sub  r26, r0
     ld   r0, X
@@ -1367,22 +1366,22 @@ I_LINC:
     dispatch
 
 I_PINC:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
-    st   Y+, r16
+    mov  r9, r16
     inc  r16
     st   -X, r16
     dispatch
     ; TODO: SPACE HERE
 
 I_PINC2:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
     ld   r17, X+
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
     add  r16, r4
     adc  r17, r2
     st   -X, r17
@@ -1390,18 +1389,18 @@ I_PINC2:
     dispatch
 
 I_PINC3:
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r27, -Y
+1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
     ld   r17, X+
     ld   r18, X+
     st   Y+, r16
     st   Y+, r17
-    st   Y+, r18
+    mov  r9, r18
     add  r16, r4
     adc  r17, r2
     adc  r18, r2
@@ -1411,11 +1410,11 @@ I_PINC3:
     dispatch
 
 I_PINC4:
-    cpi  r28, 254
+    cpi  r28, 253
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r27, -Y
+1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
     ld   r17, X+
@@ -1424,7 +1423,7 @@ I_PINC4:
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    st   Y+, r19
+    mov  r9, r19
     add  r16, r4
     adc  r17, r2
     adc  r18, r2
@@ -1436,22 +1435,22 @@ I_PINC4:
     dispatch
 
 I_PDEC:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
-    st   Y+, r16
+    mov  r9, r16
     dec  r16
     st   -X, r16
     dispatch
     ; TODO: SPACE HERE
 
 I_PDEC2:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
     ld   r17, X+
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
     sub  r16, r4
     sbc  r17, r2
     st   -X, r17
@@ -1459,18 +1458,18 @@ I_PDEC2:
     dispatch
 
 I_PDEC3:
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r27, -Y
+1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
     ld   r17, X+
     ld   r18, X+
     st   Y+, r16
     st   Y+, r17
-    st   Y+, r18
+    mov  r9, r18
     sub  r16, r4
     sbc  r17, r2
     sbc  r18, r2
@@ -1480,11 +1479,11 @@ I_PDEC3:
     dispatch
 
 I_PDEC4:
-    cpi  r28, 254
+    cpi  r28, 253
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r27, -Y
+1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
     ld   r17, X+
@@ -1493,7 +1492,7 @@ I_PDEC4:
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    st   Y+, r19
+    mov  r9, r19
     sub  r16, r4
     sbc  r17, r2
     sbc  r18, r2

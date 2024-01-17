@@ -107,17 +107,17 @@
 129   pidx
  70   uaidx
  89   upidx
-126   inc
-126   dec
-126   linc N
-126   pinc
-126   pinc2
-126   pinc3
-126   pinc4
-126   pdec
-126   pdec2
-126   pdec3
-126   pdec4
+ 18   inc
+ 18   dec
+ 36   linc N
+ 20   pinc
+ 27   pinc2
+ 37   pinc3
+ 44   pinc4
+ 20   pdec
+ 27   pdec2
+ 37   pdec3
+ 44   pdec4
 126   pincf (0)
 126   pincf (1)
 126   pincf (1000000)

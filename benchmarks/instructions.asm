@@ -671,8 +671,6 @@ $L_main_start:
     sys debug_break
     upidx 1
     sys debug_break
-
-    jmp infinite
     
     p0
     sys debug_break
@@ -739,6 +737,8 @@ $L_main_start:
     pdec4
     sys debug_break
     pop4
+
+    jmp infinite
     
     push 0
     push 0
