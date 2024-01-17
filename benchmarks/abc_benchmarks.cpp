@@ -160,7 +160,7 @@ static void bench(char const* name)
         double(cycles_abc) / cycles_native);
 }
 
-int main()
+int abc_benchmarks()
 {
     arduboy = std::make_unique<absim::arduboy_t>();
 

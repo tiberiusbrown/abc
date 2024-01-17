@@ -209,17 +209,17 @@ if((WIN32 OR APPLE OR UNIX) AND NOT EMSCRIPTEN)
     target_link_libraries(abc PRIVATE nfd)
 endif()
 
-add_executable(abc_benchmarks benchmarks/abc_benchmarks.cpp)
-target_link_libraries(abc_benchmarks PRIVATE ardenslib ards_compiler)
-target_include_directories(abc_benchmarks PRIVATE "${GENHEADER_DIR}")
-target_compile_definitions(abc_benchmarks PRIVATE
-    -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
+add_executable(abc_integration
+    benchmarks/abc_benchmarks.cpp
+    docs/abc_docs.cpp
+    tests/abc_tests.cpp
+    src/abc_integration.cpp
     )
-
-add_executable(abc_tests tests/abc_tests.cpp)
-target_link_libraries(abc_tests PRIVATE ardenslib ards_compiler)
-target_include_directories(abc_tests PRIVATE "${GENHEADER_DIR}")
-target_compile_definitions(abc_tests PRIVATE
+target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler)
+target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
+target_compile_definitions(abc_integration PRIVATE
+    -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
+    -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"
     )
     
@@ -228,16 +228,6 @@ set_source_files_properties(
     src/abcc.cpp
     PROPERTIES
         COMPILE_OPTIONS "-DABC_VERSION=\"${ABC_VERSION}\""
-    )
-
-add_executable(abc_docs docs/abc_docs.cpp)
-target_link_libraries(abc_docs PRIVATE ards_compiler)
-target_include_directories(abc_docs PRIVATE
-    "${GENHEADER_DIR}"
-    "deps/Ardens/deps"
-    )
-target_compile_definitions(abc_docs PRIVATE
-    -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     )
 
 if(EMSCRIPTEN)

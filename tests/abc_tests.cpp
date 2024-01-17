@@ -70,11 +70,13 @@ static bool test(std::string const& fpath, std::string const& fname)
     return arduboy->cpu.data[0x0635] == 0;
 }
 
-int main()
+int abc_tests()
 {
     int r = 0;
     namespace fs = std::filesystem;
     arduboy = std::make_unique<absim::arduboy_t>();
+
+    printf("\nRunning tests...\n\n");
 
     for(auto const& entry : fs::recursive_directory_iterator(TESTS_DIR))
     {

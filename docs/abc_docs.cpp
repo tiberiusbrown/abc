@@ -51,7 +51,7 @@ static void draw_str(
     }
 }
 
-int main()
+int abc_docs()
 {
     std::map<std::string, ards::sysfunc_t> const sys_names(
         ards::sys_names.begin(), ards::sys_names.end());
