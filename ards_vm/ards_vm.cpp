@@ -1231,7 +1231,7 @@ I_UAIDX:
     adc  r23, r21
     st   Y+, r22
     st   Y+, r23
-    jmp  dispatch_func
+    rjmp uaidx_dispatch
     .align 6
 
 I_UPIDX:
@@ -1254,6 +1254,7 @@ I_REFL:
     lpm
     lpm
     nop
+uaidx_dispatch:
     dispatch
 
 I_REFG:
@@ -1450,6 +1451,8 @@ I_PDEC4:
     st   -X, r18
     st   -X, r17
     st   -X, r16
+pincf_dispatch:
+pdecf_dispatch:
     dispatch
 
 I_PINCF:
@@ -1479,7 +1482,7 @@ I_PINCF:
     st   -X, r24
     st   -X, r23
     st   -X, r22
-    call dispatch_func
+    rjmp pincf_dispatch
     .align 6
 
 I_PDECF:
@@ -1509,7 +1512,7 @@ I_PDECF:
     st   -X, r24
     st   -X, r23
     st   -X, r22
-    call dispatch_func
+    rjmp pdecf_dispatch
     .align 6
 
 I_ADD:
@@ -1721,6 +1724,7 @@ I_UDIV2:
 1:  call __udivmodhi4
     st   Y+, r22
     st   Y+, r23
+udiv4_dispatch:
     dispatch
 
 I_UDIV4:
@@ -1749,7 +1753,7 @@ I_UDIV4:
     st   Y+, r19
     st   Y+, r20
     st   Y+, r21
-    jmp dispatch_func
+    rjmp udiv4_dispatch
     .align 6
 
 I_DIV2:
@@ -1768,6 +1772,7 @@ I_DIV2:
 1:  call __divmodhi4
     st   Y+, r22
     st   Y+, r23
+div4_dispatch:
     dispatch
 
 I_DIV4:
@@ -1796,7 +1801,7 @@ I_DIV4:
     st   Y+, r19
     st   Y+, r20
     st   Y+, r21
-    jmp dispatch_func
+    rjmp div4_dispatch
     .align 6
 
 I_UMOD2:
@@ -1815,6 +1820,7 @@ I_UMOD2:
 1:  call __udivmodhi4
     st   Y+, r24
     st   Y+, r25
+umod4_dispatch:
     dispatch
 
 I_UMOD4:
@@ -1843,7 +1849,7 @@ I_UMOD4:
     st   Y+, r23
     st   Y+, r24
     st   Y+, r25
-    jmp dispatch_func
+    rjmp umod4_dispatch
     .align 6
 
 I_MOD2:
@@ -1862,6 +1868,7 @@ I_MOD2:
 1:  call __divmodhi4
     st   Y+, r24
     st   Y+, r25
+mod4_dispatch:
     dispatch
 
 I_MOD4:
@@ -1890,7 +1897,7 @@ I_MOD4:
     st   Y+, r23
     st   Y+, r24
     st   Y+, r25
-    jmp dispatch_func
+    rjmp mod4_dispatch
     .align 6
 
 I_LSL:
