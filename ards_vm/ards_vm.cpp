@@ -856,7 +856,12 @@ I_GETG:
     st   Y+, r16
     lpm
     lpm
-    dispatch
+    dispatch_noalign
+getg4_delay_12:
+    lpm
+    rjmp .+0
+    ret
+    .align 6
 
 I_GETG2:
     cpi  r28, 254
@@ -871,15 +876,26 @@ I_GETG2:
     st   Y+, r16
     st   Y+, r17
     rjmp .+0
-    dispatch
+    dispatch_noalign
+getg4_branch_delay:
+    rjmp .+0
+    rjmp 1f
+    .align 6
 
 I_GETG4:
     cpi  r28, 252
-    brlo 1f
+    brlo getg4_branch_delay
     ldi  r24, 5
     jmp  call_vm_error
-1:  call read_2_bytes_nodelay
-    movw r26, r16
+1:  in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall getg4_delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2
     subi r27, -2
     ld   r16, X+
     ld   r17, X+
