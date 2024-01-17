@@ -1173,12 +1173,12 @@ I_AIDXB:
     ldi  r24, 2
     jmp  call_vm_error
 1:  mul  r16, r20
-    movw r22, r0
     ld   r21, -Y
     ld   r20, -Y
-    add  r22, r20
-    adc  r9, r21
-    st   Y+, r22
+    add  r0, r20
+    adc  r1, r21
+    st   Y+, r0
+    mov  r9, r1
     dispatch
 
 I_AIDX:
