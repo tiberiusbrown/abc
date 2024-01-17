@@ -118,12 +118,12 @@
  27   pdec2
  37   pdec3
  44   pdec4
-126   pincf (0)
-126   pincf (1)
-126   pincf (1000000)
-126   pdecf (0)
-126   pdecf (1)
-126   pdecf (1000000)
+141   pincf (0)
+132   pincf (1)
+182   pincf (1000000)
+142   pdecf (0)
+121   pdecf (1)
+183   pdecf (1000000)
 126   add
 126   add2
 126   add3

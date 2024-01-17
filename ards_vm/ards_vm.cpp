@@ -1506,11 +1506,11 @@ pdecf_dispatch:
     dispatch
 
 I_PINCF:
-    cpi  r28, 254
+    cpi  r28, 253
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r27, -Y
+1:  mov  r27, r9
     ld   r26, -Y
     ld   r22, X+
     ld   r23, X+
@@ -1519,7 +1519,7 @@ I_PINCF:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     movw r16, r26
     clr  r1
     ldi  r18, 0
@@ -1536,11 +1536,11 @@ I_PINCF:
     .align 6
 
 I_PDECF:
-    cpi  r28, 254
+    cpi  r28, 253
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r27, -Y
+1:  mov  r27, r9
     ld   r26, -Y
     ld   r22, X+
     ld   r23, X+
@@ -1549,7 +1549,7 @@ I_PDECF:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     movw r16, r26
     clr  r1
     ldi  r18, 0

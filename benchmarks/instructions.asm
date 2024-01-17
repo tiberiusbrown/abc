@@ -737,80 +737,80 @@ $L_main_start:
     pdec4
     sys debug_break
     pop4
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pincf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 128
+    push 63
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pincf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 36
+    push 116
+    push 73
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pincf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 0
+    push 0
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pdecf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 0
+    push 128
+    push 63
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pdecf
+    sys debug_break
+    pop4
+    
+    push 0
+    push 36
+    push 116
+    push 73
+    refg g 0
+    setrn 4
+    refg g 0
+    sys debug_break
+    pdecf
+    sys debug_break
+    pop4
 
     jmp infinite
-    
-    push 0
-    push 0
-    push 0
-    push 0
-    refg g 0
-    setrn 4
-    refg g 0
-    sys debug_break
-    pincf
-    sys debug_break
-    pop4
-    
-    push 0
-    push 0
-    push 128
-    push 63
-    refg g 0
-    setrn 4
-    refg g 0
-    sys debug_break
-    pincf
-    sys debug_break
-    pop4
-    
-    push 0
-    push 36
-    push 116
-    push 73
-    refg g 0
-    setrn 4
-    refg g 0
-    sys debug_break
-    pincf
-    sys debug_break
-    pop4
-    
-    push 0
-    push 0
-    push 0
-    push 0
-    refg g 0
-    setrn 4
-    refg g 0
-    sys debug_break
-    pdecf
-    sys debug_break
-    pop4
-    
-    push 0
-    push 0
-    push 128
-    push 63
-    refg g 0
-    setrn 4
-    refg g 0
-    sys debug_break
-    pdecf
-    sys debug_break
-    pop4
-    
-    push 0
-    push 36
-    push 116
-    push 73
-    refg g 0
-    setrn 4
-    refg g 0
-    sys debug_break
-    pdecf
-    sys debug_break
-    pop4
     
     p00
     sys debug_break
