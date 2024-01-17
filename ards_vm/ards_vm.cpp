@@ -576,10 +576,10 @@ I_DUP6:
     cpi  r28, 255
     breq 1f
     movw r26, r28
-    subi r26, 2
+    subi r26, 6
     ld   r9, X
     dispatch_noalign
-1:  ldi  r24, 6
+1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
@@ -792,8 +792,8 @@ I_SETL:
     dispatch_delay
     read_byte
     mov  r16, r9
-    ld   r9, -Y
     movw r26, r28
+    ld   r9, -Y
     sub  r26, r0
     st   X, r16
     lpm
@@ -805,8 +805,8 @@ I_SETL2:
     read_byte
     mov  r17, r9
     ld   r16, -Y
-    ld   r9, -Y
     movw r26, r28
+    ld   r9, -Y
     sub  r26, r0
     st   X+, r16
     st   X+, r17
@@ -819,8 +819,8 @@ I_SETL4:
     ld   r17, -Y
     ld   r16, -Y
     read_byte
-    ld   r9, -Y
     movw r26, r28
+    ld   r9, -Y
     sub  r26, r0
     st   X+, r16
     st   X+, r17
@@ -2203,8 +2203,8 @@ I_ASR4:
 
 I_AND:
     ld   r14, -Y
-    and  r14, r9
-    st   Y+, r14
+    and  r9, r14
+    rjmp .+0
     rjmp .+0
     dispatch
 
@@ -2249,8 +2249,8 @@ I_AND4:
 
 I_OR:
     ld   r14, -Y
-    or   r14, r9
-    st   Y+, r14
+    or   r9, r14
+    rjmp .+0
     rjmp .+0
     dispatch
 
@@ -2295,8 +2295,8 @@ I_OR4:
 
 I_XOR:
     ld   r14, -Y
-    eor  r14, r9
-    st   Y+, r14
+    eor  r9, r14
+    rjmp .+0
     rjmp .+0
     dispatch
 
