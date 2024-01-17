@@ -922,7 +922,6 @@ I_GETGN:
     st   Y+, r0
     dec  r18
     brne 2b
-    ; call delay_8 ; TODO: remove this when GETGN(1) is not allowed
     dispatch
 
 I_SETG:
@@ -972,8 +971,16 @@ I_SETG4:
     dispatch
 
 I_SETGN:
-    call read_2_bytes
-    movw r26, r16
+    rcall setg4_delay_7
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall setg4_delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2
     subi r27, -2
     ld   r16, -Y
     add  r26, r16
@@ -982,7 +989,6 @@ I_SETGN:
     st   -X, r0
     dec  r16
     brne 1b
-    ; call delay_8 ; TODO: remove this when SETGN(1) is not allowed
     dispatch
 
 I_GETP:
