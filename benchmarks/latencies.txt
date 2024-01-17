@@ -66,7 +66,7 @@
 270   getgn VAR (32)
  54   setg VAR
  54   setg2 VAR
- 60   setg4 VAR
+ 55   setg4 VAR
  82   setgn VAR (5)
 103   setgn VAR (8)
 159   setgn VAR (16)

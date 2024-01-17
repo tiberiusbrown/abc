@@ -858,6 +858,7 @@ I_GETG:
     lpm
     dispatch_noalign
 getg4_delay_12:
+setg4_delay_12:
     lpm
     rjmp .+0
     ret
@@ -943,11 +944,22 @@ I_SETG2:
     st   X+, r16
     st   X+, r17
     rjmp .+0
-    dispatch
+    dispatch_noalign
+setg4_delay_7:
+    ret
+    .align 6
 
 I_SETG4:
-    call read_2_bytes
-    movw r26, r16
+    rcall setg4_delay_7
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall setg4_delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2
     subi r27, -2
     ld   r19, -Y
     ld   r18, -Y
