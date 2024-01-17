@@ -49,6 +49,7 @@ static uint64_t measure()
     arduboy->paused = false;
     arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
+    arduboy->cpu.sreg() &= ~absim::SREG_I;
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;
@@ -164,6 +165,7 @@ int abc_benchmarks()
 {
     arduboy = std::make_unique<absim::arduboy_t>();
 
+#if 0
     fout = fopen(BENCHMARKS_DIR "/benchmarks.txt", "w");
     if(!fout) return 1;
     fmd = fopen(BENCHMARKS_DIR "/benchmarks.md", "w");
@@ -190,6 +192,7 @@ int abc_benchmarks()
 
     fclose(fout);
     fclose(fmd);
+#endif
 
     fout = fopen(BENCHMARKS_DIR "/latencies.txt", "w");
     if(!fout) return 1;
@@ -201,6 +204,11 @@ int abc_benchmarks()
             assert(e.msg.empty());
             e = a.link();
             assert(e.msg.empty());
+        }
+        {
+            FILE* fbin = fopen(BENCHMARKS_DIR "/instructions.bin", "wb");
+            fwrite(a.data().data(), 1, a.data().size(), fbin);
+            fclose(fbin);
         }
         {
             std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);

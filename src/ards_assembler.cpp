@@ -325,7 +325,7 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "pzn")
         {
             push_instr(I_PZN);
-            push_imm(read_imm(f, error), 1);
+            push_imm(read_imm(f, error) - 1, 1);
         }
         else if(t == "popn")
         {

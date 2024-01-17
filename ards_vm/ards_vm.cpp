@@ -233,161 +233,169 @@ I_NOP:
     ; TODO: SPACE HERE
 
 I_PUSH:
-    dispatch_delay
-    read_byte
-    call delay_8
+    st   Y+, r9
     cpi  r28, 255
-    brne 1f
-    ldi  r24, 5
+    breq 1f
+    lpm
+    read_byte
+    mov  r9, r0
+    call delay_12
+    dispatch_noalign
+1:  ldi  r24, 5
     jmp  call_vm_error
-1:  st   Y+, r0
-    dispatch
+    .align 6
 
 I_P0:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  st   Y+, r2
-    rjmp .+0
+1:  ldi  r16, 0
+    mov  r9, r16
     dispatch
 
 I_P1:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 1
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P2:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 2
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P3:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 3
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P4:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 4
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P5:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 5
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P6:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 6
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P7:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 7
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P8:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 8
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P16:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 16
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P32:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 32
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P64:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 64
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P128:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  ldi  r16, 128
-    st   Y+, r16
-    nop
+    mov  r9, r16
     dispatch
 
 I_P00:
     cpi  r28, 254
-    brlo 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  st   Y+, r2
+    brsh 1f
+    st   Y+, r9
     st   Y+, r2
-    dispatch
+    clr  r9
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_PZN:
-    dispatch_delay
+    st   Y+, r9
+    clr  r9
+    rjmp .+0
+    rjmp .+0
     read_byte
-    mov  r1, r0
-    neg  r1
-    cp   r28, r1
+    neg  r0
+    cp   r28, r0
     brsh 2f
+    neg  r0
     sbrc r0, 0
     st   Y+, r2
     lsr  r0
@@ -401,23 +409,26 @@ I_PZN:
     .align 6
 
 I_PUSHG:
-    dispatch_delay
+    st   Y+, r9
+    lpm
+    rjmp .+0
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
     call delay_14
-    in   r0, %[spdr]
+    in   r9, %[spdr]
     out  %[spdr], r2
-    st   Y+, r0
     ldi  r16, 2
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    call delay_10
+    call delay_12
     dispatch
 
 I_PUSHL:
-    dispatch_delay
+    st   Y+, r9
+    lpm
+    rjmp .+0
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
@@ -426,345 +437,336 @@ I_PUSHL:
     out  %[spdr], r2
     st   Y+, r0
     call delay_14
-    in   r0, %[spdr]
+    in   r9, %[spdr]
     out  %[spdr], r2
-    st   Y+, r0
     ldi  r16, 3
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    call delay_10
+    call delay_12
     dispatch
 
 I_PUSH4:
-    dispatch_delay
-    in   r0, %[spdr]
-    out  %[spdr], r2
-    st   Y+, r0
-    call delay_14
-    in   r0, %[spdr]
-    out  %[spdr], r2
-    st   Y+, r0
-    call delay_14
-    in   r0, %[spdr]
-    out  %[spdr], r2
-    st   Y+, r0
-    call delay_14
-    in   r0, %[spdr]
-    out  %[spdr], r2
-    st   Y+, r0
+    st   Y+, r9
     ldi  r16, 4
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    lpm
-    lpm
     nop
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    st   Y+, r0
+    call delay_14
+    in   r9, %[spdr]
+    out  %[spdr], r2
+    call delay_13
     jmp  dispatch_func
     .align 6
 
 I_SEXT:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
-    ld   r0, -Y
-    inc  r28
     ldi  r16, 0xff
-    sbrs r0, 7
+    sbrs r9, 7
     ldi  r16, 0x00
-    st   Y+, r16
+    mov  r9, r16
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_SEXT2:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
-    ld   r0, -Y
-    inc  r28
     ldi  r16, 0xff
-    sbrs r0, 7
+    sbrs r9, 7
     ldi  r16, 0x00
     st   Y+, r16
-    st   Y+, r16
+    mov  r9, r16
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_SEXT3:
+    st   Y+, r9
     cpi  r28, 253
     brsh 1f
-    ld   r0, -Y
-    inc  r28
     ldi  r16, 0xff
-    sbrs r0, 7
+    sbrs r9, 7
     ldi  r16, 0x00
     st   Y+, r16
     st   Y+, r16
-    st   Y+, r16
+    mov  r9, r16
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
-    ld   r0, -Y
-    inc  r28
-    st   Y+, r0
+    lpm
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP2:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
     subi r26, 2
-    ld   r0, X
-    st   Y+, r0
+    ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP3:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
     subi r26, 3
-    ld   r0, X
-    st   Y+, r0
+    ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP4:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
     subi r26, 4
-    ld   r0, X
-    st   Y+, r0
+    ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP5:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
     subi r26, 5
-    ld   r0, X
-    st   Y+, r0
+    ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP6:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
-    subi r26, 6
-    ld   r0, X
-    st   Y+, r0
+    subi r26, 2
+    ld   r9, X
     dispatch_noalign
-1:  ldi  r24, 5
+1:  ldi  r24, 6
     jmp  call_vm_error
     .align 6
 
 I_DUP7:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
     subi r26, 7
-    ld   r0, X
-    st   Y+, r0
+    ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUP8:
+    st   Y+, r9
     cpi  r28, 255
     breq 1f
     movw r26, r28
     subi r26, 8
-    ld   r0, X
-    st   Y+, r0
+    ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 2
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW2:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 3
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW3:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 4
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW4:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 5
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW5:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 6
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW6:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 7
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW7:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 8
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_DUPW8:
+    st   Y+, r9
     cpi  r28, 254
     brsh 1f
     movw r26, r28
     subi r26, 9
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
+    ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_GETL:
+    st   Y+, r9
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  lpm
+1:  nop
     movw r26, r28
     read_byte
     sub  r26, r0
-    ld   r0, X
-    st   Y+, r0
-    lpm
-    lpm
-    rjmp .+0
+    ld   r9, X
+    call delay_10
     dispatch
     
 I_GETL2:
+    st   Y+, r9
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  lpm
+1:  nop
     movw r26, r28
     read_byte
     sub  r26, r0
     ld   r0, X+
-    ld   r1, X
+    ld   r9, X
     st   Y+, r0
-    st   Y+, r1
-    rjmp .+0
-    rjmp .+0
+    lpm
+    lpm
     dispatch
     
 I_GETL4:
+    st   Y+, r9
     cpi  r28, 252
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  lpm
+1:  nop
     movw r26, r28
     read_byte
     sub  r26, r0
     ld   r16, X+
     ld   r17, X+
     ld   r18, X+
-    ld   r19, X+
+    ld   r9, X+
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    st   Y+, r19
     dispatch
 
 I_GETLN:

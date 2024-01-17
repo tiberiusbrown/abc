@@ -16,17 +16,17 @@
  54   push2 N
  72   push3 N
  90   push4 N
- 37   pzn 3
- 43   pzn 4
- 57   pzn 8
- 85   pzn 16
-141   pzn 32
- 21   sext
- 21   sext (neg)
- 23   sext2
- 23   sext2 (neg)
- 25   sext3
- 25   sext3 (neg)
+ 36   pzn 3
+ 36   pzn 4
+ 51   pzn 8
+ 79   pzn 16
+135   pzn 32
+ 19   sext
+ 19   sext (neg)
+ 21   sext2
+ 21   sext2 (neg)
+ 23   sext3
+ 23   sext3 (neg)
  18   dup
  19   dup2
  19   dup3
@@ -45,280 +45,280 @@
  23   dupw8
  36   getl N
  36   getl2 N
- 40   getl4 N
- 56   getln N (5)
- 77   getln N (8)
-133   getln N (16)
-245   getln N (32)
- 36   setl N
- 36   setl2 N
- 41   setl4 N
- 56   setln N (5)
- 77   setln N (8)
-133   setln N (16)
-245   setln N (32)
- 54   getg VAR
- 54   getg2 VAR
- 60   getg4 VAR
- 81   getgn VAR (5)
-102   getgn VAR (8)
-158   getgn VAR (16)
-270   getgn VAR (32)
- 54   setg VAR
- 54   setg2 VAR
- 60   setg4 VAR
- 82   setgn VAR (5)
-103   setgn VAR (8)
-159   setgn VAR (16)
-271   setgn VAR (32)
-219   getp
-239   getpn 2
-257   getpn 3
-275   getpn 4
-347   getpn 8
-491   getpn 16
-779   getpn 32
- 18   pop
- 18   pop2
- 18   pop3
- 18   pop4
- 36   popn N
- 36   refl
- 36   refgb
- 54   refg
- 19   getr
- 23   getr2
- 46   getrn 3
- 53   getrn 4
- 81   getrn 8
-137   getrn 16
-249   getrn 32
- 19   setr
- 23   setr2
- 45   setrn 3
- 52   setrn 4
- 80   setrn 8
-136   setrn 16
-248   setrn 32
- 36   aixb1
- 58   aidxb
-102   aidx
- 62   pidxb
-131   pidx
- 72   uaidx
- 91   upidx
- 18   inc
- 18   dec
- 36   linc N
- 22   pinc
- 29   pinc2
- 39   pinc3
- 46   pinc4
- 22   pdec
- 29   pdec2
- 39   pdec3
- 46   pdec4
-143   pincf (0)
-134   pincf (1)
-184   pincf (1000000)
-144   pdecf (0)
-123   pdecf (1)
-185   pdecf (1000000)
- 18   add
- 25   add2
- 32   add3
- 39   add4
- 18   sub
- 25   sub2
- 32   sub3
- 39   sub4
- 23   add2b
- 19   mul
- 32   mul2
- 49   mul3
- 74   mul4
-231   udiv2 (30000 / 7)
-225   udiv2 (30000 / 7000)
-663   udiv4 (300000000 / 7)
-621   udiv4 (300000000 / 70000000)
-249   div2 (30000 / 7)
-243   div2 (30000 / 7000)
-681   div4 (300000000 / 7)
-639   div4 (300000000 / 70000000)
-231   umod2 (30000 / 7)
-225   umod2 (30000 / 7000)
-663   umod4 (300000000 / 7)
-621   umod4 (300000000 / 70000000)
-249   mod2 (30000 / 7)
-243   mod2 (30000 / 7000)
-681   mod4 (300000000 / 7)
-639   mod4 (300000000 / 70000000)
- 29   lsl (0)
- 29   lsl (1)
- 29   lsl (4)
- 29   lsl (7)
- 22   lsl (8)
- 22   lsl (64)
- 26   lsl2 (0)
- 31   lsl2 (1)
- 46   lsl2 (4)
- 66   lsl2 (8)
-101   lsl2 (15)
- 25   lsl2 (16)
- 25   lsl2 (64)
- 30   lsl3 (0)
- 36   lsl3 (1)
- 54   lsl3 (4)
- 78   lsl3 (8)
+ 38   getl4 N
+126   getln N (5)
+126   getln N (8)
+126   getln N (16)
+126   getln N (32)
+126   setl N
+126   setl2 N
+126   setl4 N
+126   setln N (5)
+126   setln N (8)
+126   setln N (16)
+126   setln N (32)
+126   getg VAR
+126   getg2 VAR
+126   getg4 VAR
+126   getgn VAR (5)
+126   getgn VAR (8)
+126   getgn VAR (16)
+126   getgn VAR (32)
+126   setg VAR
+126   setg2 VAR
+126   setg4 VAR
+126   setgn VAR (5)
+126   setgn VAR (8)
+126   setgn VAR (16)
+126   setgn VAR (32)
+126   getp
+126   getpn 2
+126   getpn 3
+126   getpn 4
+126   getpn 8
+126   getpn 16
+126   getpn 32
+126   pop
+126   pop2
+126   pop3
+126   pop4
+126   popn N
+126   refl
+126   refgb
+126   refg
+126   getr
+126   getr2
+126   getrn 3
+126   getrn 4
+126   getrn 8
+126   getrn 16
+126   getrn 32
+126   setr
+126   setr2
+126   setrn 3
+126   setrn 4
+126   setrn 8
+126   setrn 16
+126   setrn 32
+126   aixb1
+126   aidxb
+126   aidx
+126   pidxb
+126   pidx
+126   uaidx
+126   upidx
+126   inc
+126   dec
+126   linc N
+126   pinc
+126   pinc2
+126   pinc3
+126   pinc4
+126   pdec
+126   pdec2
+126   pdec3
+126   pdec4
+126   pincf (0)
+126   pincf (1)
+126   pincf (1000000)
+126   pdecf (0)
+126   pdecf (1)
+126   pdecf (1000000)
+126   add
+126   add2
+126   add3
+126   add4
+126   sub
+126   sub2
+126   sub3
+126   sub4
+126   add2b
+126   mul
+126   mul2
+126   mul3
+126   mul4
+126   udiv2 (30000 / 7)
+126   udiv2 (30000 / 7000)
+126   udiv4 (300000000 / 7)
+126   udiv4 (300000000 / 70000000)
+126   div2 (30000 / 7)
+126   div2 (30000 / 7000)
+126   div4 (300000000 / 7)
+126   div4 (300000000 / 70000000)
+126   umod2 (30000 / 7)
+126   umod2 (30000 / 7000)
+126   umod4 (300000000 / 7)
+126   umod4 (300000000 / 70000000)
+126   mod2 (30000 / 7)
+126   mod2 (30000 / 7000)
+126   mod4 (300000000 / 7)
+126   mod4 (300000000 / 70000000)
+126   lsl (0)
+126   lsl (1)
+126   lsl (4)
+126   lsl (7)
+126   lsl (8)
+126   lsl (64)
+126   lsl2 (0)
+126   lsl2 (1)
+126   lsl2 (4)
+126   lsl2 (8)
+126   lsl2 (15)
+126   lsl2 (16)
+126   lsl2 (64)
+126   lsl3 (0)
+126   lsl3 (1)
+126   lsl3 (4)
+126   lsl3 (8)
 126   lsl3 (16)
-168   lsl3 (23)
- 29   lsl3 (24)
- 29   lsl3 (64)
- 34   lsl4 (0)
- 41   lsl4 (1)
- 62   lsl4 (4)
- 90   lsl4 (8)
-146   lsl4 (16)
-202   lsl4 (24)
-251   lsl4 (31)
- 33   lsl4 (32)
- 33   lsl4 (64)
- 29   lsr (0)
- 29   lsr (1)
- 29   lsr (4)
- 29   lsr (7)
- 22   lsr (8)
- 22   lsr (64)
- 26   lsr2 (0)
- 31   lsr2 (1)
- 46   lsr2 (4)
- 66   lsr2 (8)
-101   lsr2 (15)
- 25   lsr2 (16)
- 25   lsr2 (64)
- 30   lsr3 (0)
- 36   lsr3 (1)
- 54   lsr3 (4)
- 78   lsr3 (8)
+126   lsl3 (23)
+126   lsl3 (24)
+126   lsl3 (64)
+126   lsl4 (0)
+126   lsl4 (1)
+126   lsl4 (4)
+126   lsl4 (8)
+126   lsl4 (16)
+126   lsl4 (24)
+126   lsl4 (31)
+126   lsl4 (32)
+126   lsl4 (64)
+126   lsr (0)
+126   lsr (1)
+126   lsr (4)
+126   lsr (7)
+126   lsr (8)
+126   lsr (64)
+126   lsr2 (0)
+126   lsr2 (1)
+126   lsr2 (4)
+126   lsr2 (8)
+126   lsr2 (15)
+126   lsr2 (16)
+126   lsr2 (64)
+126   lsr3 (0)
+126   lsr3 (1)
+126   lsr3 (4)
+126   lsr3 (8)
 126   lsr3 (16)
-168   lsr3 (23)
- 29   lsr3 (24)
- 29   lsr3 (64)
- 34   lsr4 (0)
- 41   lsr4 (1)
- 62   lsr4 (4)
- 90   lsr4 (8)
-146   lsr4 (16)
-202   lsr4 (24)
-251   lsr4 (31)
- 33   lsr4 (32)
- 33   lsr4 (64)
- 22   asr (0)
- 26   asr (1)
- 38   asr (4)
- 24   asr (7)
- 24   asr (8)
- 24   asr (64)
- 26   asr2 (0)
- 31   asr2 (1)
- 46   asr2 (4)
- 66   asr2 (8)
-101   asr2 (15)
- 28   asr2 (16)
- 28   asr2 (64)
- 30   asr3 (0)
- 36   asr3 (1)
- 54   asr3 (4)
- 78   asr3 (8)
+126   lsr3 (23)
+126   lsr3 (24)
+126   lsr3 (64)
+126   lsr4 (0)
+126   lsr4 (1)
+126   lsr4 (4)
+126   lsr4 (8)
+126   lsr4 (16)
+126   lsr4 (24)
+126   lsr4 (31)
+126   lsr4 (32)
+126   lsr4 (64)
+126   asr (0)
+126   asr (1)
+126   asr (4)
+126   asr (7)
+126   asr (8)
+126   asr (64)
+126   asr2 (0)
+126   asr2 (1)
+126   asr2 (4)
+126   asr2 (8)
+126   asr2 (15)
+126   asr2 (16)
+126   asr2 (64)
+126   asr3 (0)
+126   asr3 (1)
+126   asr3 (4)
+126   asr3 (8)
 126   asr3 (16)
-168   asr3 (23)
- 32   asr3 (24)
- 32   asr3 (64)
- 36   asr4 (0)
- 43   asr4 (1)
- 64   asr4 (4)
- 92   asr4 (8)
-148   asr4 (16)
-204   asr4 (24)
-253   asr4 (31)
- 36   asr4 (32)
- 36   asr4 (64)
- 18   and
- 25   and2
- 32   and3
- 39   and4
- 18   or
- 25   or2
- 32   or3
- 39   or4
- 18   xor
- 25   xor2
- 32   xor3
- 39   xor4
- 18   comp
- 21   comp2
- 26   comp3
- 31   comp4
- 18   bool (0)
- 18   bool (1)
- 21   bool2 (0)
- 21   bool2 (1)
- 24   bool3 (0)
- 24   bool3 (1)
- 27   bool4 (0)
- 27   bool4 (1)
- 21   cult (pass)
- 21   cult (fail)
- 26   cult2 (pass)
- 26   cult2 (fail)
- 31   cult3 (pass)
- 31   cult3 (fail)
- 36   cult4 (pass)
- 36   cult4 (fail)
- 21   cslt (pass)
- 21   cslt (fail)
- 26   cslt2 (pass)
- 26   cslt2 (fail)
- 31   cslt3 (pass)
- 31   cslt3 (fail)
- 36   cslt4 (pass)
- 36   cslt4 (fail)
- 21   cule (pass)
- 21   cule (fail)
- 26   cule2 (pass)
- 26   cule2 (fail)
- 31   cule3 (pass)
- 31   cule3 (fail)
- 36   cule4 (pass)
- 36   cule4 (fail)
- 21   csle (pass)
- 21   csle (fail)
- 26   csle2 (pass)
- 26   csle2 (fail)
- 31   csle3 (pass)
- 31   csle3 (fail)
- 36   csle4 (pass)
- 36   csle4 (fail)
- 18   not (0)
- 18   not (1)
- 79   bz (not taken)
-163   bz (taken)
- 38   bz1 (not taken)
-127   bz1 (taken)
- 79   bnz (not taken)
-163   bnz (taken)
- 38   bnz1 (not taken)
-127   bnz1 (taken)
- 79   bzp (not taken)
-163   bzp (taken)
- 39   bzp1 (not taken)
-127   bzp1 (taken)
- 79   bnzp (not taken)
-163   bnzp (taken)
- 39   bnzp1 (not taken)
-127   bnzp1 (taken)
-161   jmp
+126   asr3 (23)
+126   asr3 (24)
+126   asr3 (64)
+126   asr4 (0)
+126   asr4 (1)
+126   asr4 (4)
+126   asr4 (8)
+126   asr4 (16)
+126   asr4 (24)
+126   asr4 (31)
+126   asr4 (32)
+126   asr4 (64)
+126   and
+126   and2
+126   and3
+126   and4
+126   or
+126   or2
+126   or3
+126   or4
+126   xor
+126   xor2
+126   xor3
+126   xor4
+126   comp
+126   comp2
+126   comp3
+126   comp4
+126   bool (0)
+126   bool (1)
+126   bool2 (0)
+126   bool2 (1)
+126   bool3 (0)
+126   bool3 (1)
+126   bool4 (0)
+126   bool4 (1)
+126   cult (pass)
+126   cult (fail)
+126   cult2 (pass)
+126   cult2 (fail)
+126   cult3 (pass)
+126   cult3 (fail)
+126   cult4 (pass)
+126   cult4 (fail)
+126   cslt (pass)
+126   cslt (fail)
+126   cslt2 (pass)
+126   cslt2 (fail)
+126   cslt3 (pass)
+126   cslt3 (fail)
+126   cslt4 (pass)
+126   cslt4 (fail)
+126   cule (pass)
+126   cule (fail)
+126   cule2 (pass)
+126   cule2 (fail)
+126   cule3 (pass)
+126   cule3 (fail)
+126   cule4 (pass)
+126   cule4 (fail)
+126   csle (pass)
+126   csle (fail)
+126   csle2 (pass)
+126   csle2 (fail)
+126   csle3 (pass)
+126   csle3 (fail)
+126   csle4 (pass)
+126   csle4 (fail)
+126   not (0)
+126   not (1)
+126   bz (not taken)
+126   bz (taken)
+126   bz1 (not taken)
+126   bz1 (taken)
+126   bnz (not taken)
+126   bnz (taken)
+126   bnz1 (not taken)
+126   bnz1 (taken)
+126   bzp (not taken)
+126   bzp (taken)
+126   bzp1 (not taken)
+126   bzp1 (taken)
+126   bnzp (not taken)
+126   bnzp (taken)
+126   bnzp1 (not taken)
+126   bnzp1 (taken)
+126   jmp
 126   jmp1
-172   call
-135   call1
-122   ret
+126   call
+126   call1
+126   ret

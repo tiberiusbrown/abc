@@ -8,6 +8,10 @@ call_long:
     sys debug_break
     ret
 
+infinite:
+    sys debug_break
+    jmp infinite
+
 main:
 
 $L_main_0:
@@ -142,7 +146,7 @@ $L_main_start:
     pop3
     
     sys debug_break
-    pzn 4
+    pzn 3
     sys debug_break
     pop4
     
@@ -291,6 +295,8 @@ $L_main_start:
     getl4 42
     sys debug_break
     pop4
+
+    jmp infinite
     
     push 5
     sys debug_break
