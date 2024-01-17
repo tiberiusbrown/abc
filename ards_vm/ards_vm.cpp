@@ -770,13 +770,13 @@ I_GETL4:
     dispatch
 
 I_GETLN:
-    ld   r16, -Y
-    mov  r17, r16
-    add  r17, r28
+    mov  r16, r9
+    add  r9, r28
     brcc 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  dec  r16
+    ld   r9, -Y
     read_byte
     movw r26, r28
     sub  r26, r0
@@ -786,46 +786,47 @@ I_GETLN:
     st   Y+, r0
     dec  r16
     brne 2b
-    ; call delay_8 ; TODO: remove this when GETLN(1) is not allowed
     dispatch
 
 I_SETL:
     dispatch_delay
     read_byte
-    ld   r16, -Y
+    mov  r16, r9
+    ld   r9, -Y
     movw r26, r28
     sub  r26, r0
     st   X, r16
     lpm
     lpm
-    nop
     dispatch
 
 I_SETL2:
     dispatch_delay
     read_byte
-    ld   r17, -Y
+    mov  r17, r9
     ld   r16, -Y
+    ld   r9, -Y
     movw r26, r28
     sub  r26, r0
     st   X+, r16
     st   X+, r17
-    lpm
+    rjmp .+0
     dispatch
 
 I_SETL4:
-    dispatch_delay
-    read_byte
-    ld   r19, -Y
+    mov  r19, r9
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
+    read_byte
+    ld   r9, -Y
     movw r26, r28
     sub  r26, r0
     st   X+, r16
     st   X+, r17
     st   X+, r18
     st   X+, r19
+    nop
     dispatch
  
 I_SETLN:

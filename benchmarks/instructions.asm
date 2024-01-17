@@ -295,8 +295,6 @@ $L_main_start:
     getl4 42
     sys debug_break
     pop4
-
-    jmp infinite
     
     push 5
     sys debug_break
@@ -346,6 +344,8 @@ $L_main_start:
     setl4 4
     sys debug_break
     pop4
+
+    jmp infinite
     
     pzn 5
     pzn 5
