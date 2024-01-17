@@ -977,11 +977,13 @@ I_GETPN:
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    rjmp .+0
+    nop
     dec  r1
+    cp   r1, r4
     brne 1b
-    lpm
-    lpm
+    call delay_10
+    in   r0, %[spdr]
+    st   Y+, r0
     jmp  jump_to_pc
     .align 6
 

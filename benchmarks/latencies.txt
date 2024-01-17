@@ -66,12 +66,12 @@
 159   setgn VAR (16)
 271   setgn VAR (32)
 219   getp
-250   getpn 2
-268   getpn 3
-286   getpn 4
-358   getpn 8
-502   getpn 16
-790   getpn 32
+239   getpn 2
+257   getpn 3
+275   getpn 4
+347   getpn 8
+491   getpn 16
+779   getpn 32
  18   pop
  18   pop2
  18   pop3
