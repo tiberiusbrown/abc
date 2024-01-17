@@ -21,6 +21,12 @@
  58   pzn 8
  86   pzn 16
 142   pzn 32
+ 21   sext
+ 21   sext (neg)
+ 23   sext2
+ 23   sext2 (neg)
+ 25   sext3
+ 25   sext3 (neg)
  18   dup
  19   dup2
  19   dup3

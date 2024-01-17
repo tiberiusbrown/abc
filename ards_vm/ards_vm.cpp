@@ -464,37 +464,37 @@ I_PUSH4:
 
 I_SEXT:
     cpi  r28, 255
-    brne 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  ld   r0, -Y
+    breq 1f
+    ld   r0, -Y
     inc  r28
     ldi  r16, 0xff
     sbrs r0, 7
     ldi  r16, 0x00
     st   Y+, r16
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_SEXT2:
     cpi  r28, 254
-    brlo 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  ld   r0, -Y
+    brsh 1f
+    ld   r0, -Y
     inc  r28
     ldi  r16, 0xff
     sbrs r0, 7
     ldi  r16, 0x00
     st   Y+, r16
     st   Y+, r16
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_SEXT3:
     cpi  r28, 253
-    brlo 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  ld   r0, -Y
+    brsh 1f
+    ld   r0, -Y
     inc  r28
     ldi  r16, 0xff
     sbrs r0, 7
@@ -502,7 +502,10 @@ I_SEXT3:
     st   Y+, r16
     st   Y+, r16
     st   Y+, r16
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_DUP:
     cpi  r28, 255

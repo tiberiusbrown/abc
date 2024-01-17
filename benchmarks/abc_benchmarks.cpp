@@ -220,6 +220,7 @@ int main()
         "p8", "p16", "p32", "p64", "p128",
         "p00", "push N", "push2 N", "push3 N", "push4 N",
         "pzn 3", "pzn 4", "pzn 8", "pzn 16", "pzn 32",
+        "sext", "sext (neg)", "sext2", "sext2 (neg)", "sext3", "sext3 (neg)",
         "dup", "dup2", "dup3", "dup4", "dup5", "dup6", "dup7", "dup8",
         "dupw", "dupw2", "dupw3", "dupw4", "dupw5", "dupw6", "dupw7", "dupw8",
         "getl N", "getl2 N", "getl4 N",

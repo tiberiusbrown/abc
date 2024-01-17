@@ -160,6 +160,42 @@ $L_main_start:
     pzn 32
     sys debug_break
     popn 32
+
+    push 0
+    sys debug_break
+    sext
+    sys debug_break
+    pop2
+
+    push 128
+    sys debug_break
+    sext
+    sys debug_break
+    pop2
+
+    push 0
+    sys debug_break
+    sext2
+    sys debug_break
+    pop3
+
+    push 128
+    sys debug_break
+    sext2
+    sys debug_break
+    pop3
+
+    push 0
+    sys debug_break
+    sext3
+    sys debug_break
+    pop4
+
+    push 128
+    sys debug_break
+    sext3
+    sys debug_break
+    pop4
     
     sys debug_break
     dup
