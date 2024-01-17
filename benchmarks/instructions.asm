@@ -620,8 +620,6 @@ $L_main_start:
     sys debug_break
     setrn 32
     sys debug_break
-
-    jmp infinite
     
     refg g 0
     push 42
@@ -673,6 +671,8 @@ $L_main_start:
     sys debug_break
     upidx 1
     sys debug_break
+
+    jmp infinite
     
     p0
     sys debug_break

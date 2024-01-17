@@ -1143,9 +1143,9 @@ I_POPN:
     dispatch
 
 I_AIXB1:
-    ld   r20, -Y
+    mov  r20, r9
     lpm
-    rjmp .+0
+    lpm
     read_byte
     ; r0:  num elems
     ; r20: index
@@ -1153,17 +1153,17 @@ I_AIXB1:
     brlo 1f
     ldi  r24, 2
     jmp  call_vm_error
-1:  ld   r23, -Y
+1:  ld   r9, -Y
     ld   r22, -Y
     add  r22, r20
-    adc  r23, r2
+    adc  r9, r2
     st   Y+, r22
-    st   Y+, r23
+    rjmp .+0
     dispatch
 
 I_AIDXB:
-    ld   r20, -Y
-    nop
+    mov  r20, r9
+    rjmp .+0
     call read_2_bytes_nodelay
     ; r16: elem size
     ; r17: num elems
@@ -1177,13 +1177,12 @@ I_AIDXB:
     ld   r21, -Y
     ld   r20, -Y
     add  r22, r20
-    adc  r23, r21
+    adc  r9, r21
     st   Y+, r22
-    st   Y+, r23
     dispatch
 
 I_AIDX:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     call read_4_bytes_nodelay
     cp   r20, r18
@@ -1215,20 +1214,20 @@ I_AIDX:
     add  r22, r20
     adc  r23, r21
     st   Y+, r22
-    st   Y+, r23
+    mov  r9, r23
     dispatch
 
 I_PIDXB:
     ; load index into r10
-    ld   r10, -Y
-    ; load progref into r13:r15
-    ld   r15, -Y
+    mov  r10, r9
+    ; load progref into r13:r14:r9
+    ld   r9, -Y
     ld   r14, -Y
-    nop
+    ld   r13, -Y
     ; load elem size into r16
     ; load elem count into r17
+    ; TODO: inline this?
     call read_2_bytes_nodelay
-    ld   r13, -Y
     ; bounds check index against elem count
     cp   r10, r17
     brlo 1f
@@ -1238,11 +1237,10 @@ I_PIDXB:
 1:  mul  r10, r16 ; index * elem size
     add  r13, r0
     adc  r14, r1
-    adc  r15, r2
+    adc  r9, r2
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    st   Y+, r15
     dispatch
 
 I_PIDX:
@@ -1251,7 +1249,7 @@ I_PIDX:
     .align 6
 
 I_UAIDX:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     call read_2_bytes_nodelay
     ld   r19, -Y
@@ -1285,7 +1283,7 @@ I_UAIDX:
     add  r22, r20
     adc  r23, r21
     st   Y+, r22
-    st   Y+, r23
+    mov  r9, r23
     rjmp uaidx_dispatch
     .align 6
 
@@ -3324,7 +3322,7 @@ pidx_impl:
     movw r20, r16
 
     ; load index into r10:r12
-    ld   r12, -Y
+    mov  r12, r9
     ld   r11, -Y
     ld   r10, -Y
     
@@ -3379,7 +3377,7 @@ pidx_impl:
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    st   Y+, r15
+    mov  r9, r15
     dispatch
     
 upidx_impl:
@@ -3389,7 +3387,7 @@ upidx_impl:
     movw r20, r16
 
     ; load index into r10:r12
-    ld   r12, -Y
+    mov  r12, r9
     ld   r11, -Y
     ld   r10, -Y
     
@@ -3446,7 +3444,7 @@ upidx_impl:
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    st   Y+, r15
+    mov  r9, r15
     dispatch
     
 jump_to_pc:

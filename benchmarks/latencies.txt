@@ -100,13 +100,13 @@
  82   setrn 8
 138   setrn 16
 250   setrn 32
-126   aixb1
-126   aidxb
-126   aidx
-126   pidxb
-126   pidx
-126   uaidx
-126   upidx
+ 36   aixb1
+ 56   aidxb
+100   aidx
+ 58   pidxb
+129   pidx
+ 70   uaidx
+ 89   upidx
 126   inc
 126   dec
 126   linc N
