@@ -53,13 +53,13 @@
  36   setl N
  36   setl2 N
  36   setl4 N
-126   setln N (5)
-126   setln N (8)
-126   setln N (16)
-126   setln N (32)
-126   getg VAR
-126   getg2 VAR
-126   getg4 VAR
+ 56   setln N (5)
+ 77   setln N (8)
+133   setln N (16)
+245   setln N (32)
+ 54   getg VAR
+ 54   getg2 VAR
+ 55   getg4 VAR
 126   getgn VAR (5)
 126   getgn VAR (8)
 126   getgn VAR (16)

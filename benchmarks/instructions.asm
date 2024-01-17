@@ -15,7 +15,6 @@ infinite:
 main:
 
 $L_main_0:
-
     jmp $L_main_start
 
     ; stuff for measuring branch latencies
@@ -344,8 +343,6 @@ $L_main_start:
     setl4 4
     sys debug_break
     pop4
-
-    jmp infinite
     
     pzn 5
     pzn 5
@@ -393,6 +390,8 @@ $L_main_start:
     getg4 g 0
     sys debug_break
     pop4
+
+    jmp infinite
     
     push 5
     sys debug_break
