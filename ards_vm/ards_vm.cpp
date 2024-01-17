@@ -387,17 +387,18 @@ I_PZN:
     mov  r1, r0
     neg  r1
     cp   r28, r1
-    brlo 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  sbrc r0, 0
+    brsh 2f
+    sbrc r0, 0
     st   Y+, r2
     lsr  r0
-2:  st   Y+, r2
+1:  st   Y+, r2
     st   Y+, r2
     dec  r0
-    brne 2b
-    dispatch
+    brne 1b
+    dispatch_noalign
+2:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_PUSHG:
     dispatch_delay

@@ -16,11 +16,11 @@
  54   push2 N
  72   push3 N
  90   push4 N
- 38   pzn 3
- 44   pzn 4
- 58   pzn 8
- 86   pzn 16
-142   pzn 32
+ 37   pzn 3
+ 43   pzn 4
+ 57   pzn 8
+ 85   pzn 16
+141   pzn 32
  21   sext
  21   sext (neg)
  23   sext2
