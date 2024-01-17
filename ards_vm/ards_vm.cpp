@@ -973,13 +973,15 @@ I_GETPN:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-1:  call delay_11
+1:  call delay_9
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
+    rjmp .+0
     dec  r1
     brne 1b
-    call delay_8
+    lpm
+    lpm
     jmp  jump_to_pc
     .align 6
 
