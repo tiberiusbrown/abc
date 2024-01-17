@@ -2858,7 +2858,7 @@ I_BZ1:
     adc  r8, r1
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    call delay_12
+    call delay_13
     jmp  dispatch_func
     .align 6
 
@@ -2892,7 +2892,7 @@ I_BNZ1:
     adc  r8, r1
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    call delay_12
+    call delay_13
     jmp  dispatch_func
     .align 6
 
