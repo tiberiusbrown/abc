@@ -793,9 +793,9 @@ I_SETL:
     read_byte
     mov  r16, r9
     movw r26, r28
-    ld   r9, -Y
     sub  r26, r0
     st   X, r16
+    ld   r9, -Y
     lpm
     lpm
     dispatch
@@ -806,10 +806,10 @@ I_SETL2:
     mov  r17, r9
     ld   r16, -Y
     movw r26, r28
-    ld   r9, -Y
     sub  r26, r0
     st   X+, r16
     st   X+, r17
+    ld   r9, -Y
     rjmp .+0
     dispatch
 
@@ -820,12 +820,12 @@ I_SETL4:
     ld   r16, -Y
     read_byte
     movw r26, r28
-    ld   r9, -Y
     sub  r26, r0
     st   X+, r16
     st   X+, r17
     st   X+, r18
     st   X+, r19
+    ld   r9, -Y
     nop
     dispatch
  
