@@ -1002,21 +1002,21 @@ I_SETGN:
     dispatch
 
 I_GETP:
-    ld   r18, -Y
+    mov  r18, r9
     ld   r17, -Y
     ld   r16, -Y
+    ; TODO: inline seek_to_addr here
     call seek_to_addr
     call delay_12
-    in   r0, %[spdr]
-    st   Y+, r0
+    in   r9, %[spdr]
     jmp  jump_to_pc
     .align 6
 
 I_GETPN:
-    ld   r18, -Y
+    mov  r18, r9
     ld   r17, -Y
     ld   r16, -Y
-    nop
+    rjmp .+0
     in   r1, %[spdr]
     call seek_to_addr
     add  r6, r4
@@ -1031,66 +1031,67 @@ I_GETPN:
     cp   r1, r4
     brne 1b
     call delay_10
-    in   r0, %[spdr]
-    st   Y+, r0
+    in   r9, %[spdr]
     jmp  jump_to_pc
     .align 6
 
 I_GETR:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
-    ld   r1, X+
-    st   Y+, r1
+    ld   r9, X+
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
 I_GETR2:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r1, X+
     st   Y+, r1
-    ld   r1, X+
-    st   Y+, r1
+    ld   r9, X+
     dispatch
 
 I_GETRN:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     mov  r18, r28
-    rjmp .+0
+    lpm
     read_byte
     add  r18, r0
     brcc 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ld   r1, X+
-    st   Y+, r1
+1:  ld   r9, X+
+    st   Y+, r9
     dec  r0
     brne 1b
-    ; lpm ; TODO: remove this when GETRN(1) is not allowed
+    dec  r28
     dispatch
 
 I_SETR:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r1, -Y
     st   X, r1
+    ld   r9, -Y
     dispatch
     ; TODO: SPACE HERE
 
 I_SETR2:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
     ld   r1, -Y
     ld   r0, -Y
+    ld   r9, -Y
     st   X+, r0
     st   X, r1
     dispatch
 
 I_SETRN:
-    ld   r27, -Y
+    mov  r27, r9
     ld   r26, -Y
-    lpm
+    rjmp .+0
+    rjmp .+0
     read_byte
     add  r26, r0
     adc  r27, r2
@@ -1098,34 +1099,38 @@ I_SETRN:
     st   -X, r1
     dec  r0
     brne 1b
-    ; nop ; TODO: remove this when SETRN(1) is not allowed
+    ld   r9, -Y
     dispatch
 
 I_POP:
     dec  r28
-    lpm
-    lpm
+    ld   r9, Y
+    rjmp .+0
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
 I_POP2:
     subi r28, 2
-    lpm
-    lpm
+    ld   r9, Y
+    rjmp .+0
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
 I_POP3:
     subi r28, 3
-    lpm
-    lpm
+    ld   r9, Y
+    rjmp .+0
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
 I_POP4:
     subi r28, 4
-    lpm
-    lpm
+    ld   r9, Y
+    rjmp .+0
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
@@ -1133,7 +1138,8 @@ I_POPN:
     dispatch_delay
     read_byte
     sub  r28, r0
-    call delay_12
+    ld   r9, Y
+    call delay_10
     dispatch
 
 I_AIXB1:
@@ -1289,49 +1295,47 @@ I_UPIDX:
     .align 6
 
 I_REFL:
+    st   Y+, r9
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  rjmp .+0
-    rjmp .+0
     read_byte
     movw r16, r28
     sub  r16, r0
     st   Y+, r16
-    st   Y+, r17
-    lpm
-    lpm
-    nop
+    mov  r9, r17
+    call delay_8
 uaidx_dispatch:
     dispatch
 
 I_REFG:
-    cpi  r28, 254
+    cpi  r28, 253
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  call read_2_bytes_nodelay
+    st   Y+, r9
     subi r17, -2
     st   Y+, r16
-    st   Y+, r17
+    mov  r9, r17
     lpm
     lpm
-    nop
     dispatch
 
 I_REFGB:
+    st   Y+, r9
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
 1:  rjmp .+0
-    rjmp .+0
     read_byte
     ldi  r17, 2
     st   Y+, r0
-    st   Y+, r17
-    call delay_8
+    mov  r9, r17
+    call delay_9
     dispatch
 
 I_INC:
