@@ -2686,15 +2686,15 @@ I_CFLE:
     dispatch
 
 I_NOT:
-    ld   r0, -Y
     ldi  r16, 1
-    cpse r0, r2
+    cpse r9, r2
     ldi  r16, 0
-    st   Y+, r16
+    mov  r9, r16
+    lpm
     dispatch
 
 I_FADD:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2708,11 +2708,11 @@ I_FADD:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_FSUB:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2726,11 +2726,11 @@ I_FSUB:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_FMUL:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2744,11 +2744,11 @@ I_FMUL:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_FDIV:
-    ld   r21, -Y
+    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
@@ -2762,11 +2762,11 @@ I_FDIV:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_F2I:
-    ld   r25, -Y
+    mov  r25, r9
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
@@ -2775,11 +2775,11 @@ I_F2I:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_F2U:
-    ld   r25, -Y
+    mov  r25, r9
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
@@ -2788,11 +2788,11 @@ I_F2U:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_I2F:
-    ld   r25, -Y
+    mov  r25, r9
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
@@ -2801,11 +2801,11 @@ I_I2F:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_U2F:
-    ld   r25, -Y
+    mov  r25, r9
     ld   r24, -Y
     ld   r23, -Y
     ld   r22, -Y
@@ -2814,7 +2814,7 @@ I_U2F:
     st   Y+, r22
     st   Y+, r23
     st   Y+, r24
-    st   Y+, r25
+    mov  r9, r25
     dispatch
 
 I_BZ:

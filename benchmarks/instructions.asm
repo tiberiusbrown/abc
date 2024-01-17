@@ -2169,8 +2169,6 @@ $L_main_start:
     csle4
     sys debug_break
     pop
-
-    jmp infinite
     
     push 0
     sys debug_break
@@ -2183,6 +2181,8 @@ $L_main_start:
     not
     sys debug_break
     pop
+
+    jmp infinite
     
     push 1
     sys debug_break
