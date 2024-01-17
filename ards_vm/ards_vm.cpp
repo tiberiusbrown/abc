@@ -1566,41 +1566,36 @@ I_PDECF:
     .align 6
 
 I_ADD:
-    ld   r10, -Y
     ld   r14, -Y
-    add  r14, r10
-    st   Y+, r14
+    add  r9, r14
+    rjmp .+0
+    rjmp .+0
     dispatch
     ; TODO: SPACE HERE
 
 I_ADD2:
-    ld   r11, -Y
     ld   r10, -Y
     ld   r15, -Y
     ld   r14, -Y
-    add  r14, r10
-    adc  r15, r11
-    st   Y+, r14
-    st   Y+, r15
+    add  r10, r14
+    adc  r9, r15
+    st   Y+, r10
     dispatch
 
 I_ADD3:
-    ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
     ld   r16, -Y
     ld   r15, -Y
     ld   r14, -Y
-    add  r14, r10
-    adc  r15, r11
-    adc  r16, r12
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
+    add  r10, r14
+    adc  r11, r15
+    adc  r9, r16
+    st   Y+, r10
+    st   Y+, r11
     dispatch
 
 I_ADD4:
-    ld   r13, -Y
     ld   r12, -Y
     ld   r11, -Y
     ld   r10, -Y
@@ -1608,14 +1603,13 @@ I_ADD4:
     ld   r16, -Y
     ld   r15, -Y
     ld   r14, -Y
-    add  r14, r10
-    adc  r15, r11
-    adc  r16, r12
-    adc  r17, r13
-    st   Y+, r14
-    st   Y+, r15
-    st   Y+, r16
-    st   Y+, r17
+    add  r10, r14
+    adc  r11, r15
+    adc  r12, r16
+    adc  r9, r17
+    st   Y+, r10
+    st   Y+, r11
+    st   Y+, r12
     dispatch
 
 I_SUB:

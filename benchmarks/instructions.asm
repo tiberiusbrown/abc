@@ -809,8 +809,6 @@ $L_main_start:
     pdecf
     sys debug_break
     pop4
-
-    jmp infinite
     
     p00
     sys debug_break
@@ -835,6 +833,8 @@ $L_main_start:
     add4
     sys debug_break
     pop4
+
+    jmp infinite
     
     p00
     sys debug_break

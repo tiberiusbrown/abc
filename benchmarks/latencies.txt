@@ -124,10 +124,10 @@
 142   pdecf (0)
 121   pdecf (1)
 183   pdecf (1000000)
-126   add
-126   add2
-126   add3
-126   add4
+ 18   add
+ 21   add2
+ 28   add3
+ 35   add4
 126   sub
 126   sub2
 126   sub3
