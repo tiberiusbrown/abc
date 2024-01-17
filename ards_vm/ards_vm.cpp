@@ -812,11 +812,11 @@ I_SETL2:
     dispatch
 
 I_SETL4:
-    dispatch_delay
-    read_byte
     ld   r19, -Y
     ld   r18, -Y
     ld   r17, -Y
+    nop
+    read_byte
     ld   r16, -Y
     movw r26, r28
     sub  r26, r0
@@ -824,6 +824,7 @@ I_SETL4:
     st   X+, r17
     st   X+, r18
     st   X+, r19
+    nop
     dispatch
  
 I_SETLN:

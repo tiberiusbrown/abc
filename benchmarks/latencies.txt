@@ -52,7 +52,7 @@
 245   getln N (32)
  36   setl N
  36   setl2 N
- 41   setl4 N
+ 36   setl4 N
  56   setln N (5)
  77   setln N (8)
 133   setln N (16)
