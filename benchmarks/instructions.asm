@@ -387,6 +387,12 @@ $L_main_start:
     sys debug_break
     pop4
     
+    push 3
+    sys debug_break
+    getgn g 0
+    sys debug_break
+    popn 5
+    
     push 5
     sys debug_break
     getgn g 0
@@ -424,6 +430,12 @@ $L_main_start:
     pzn 4
     sys debug_break
     setg4 g 0
+    sys debug_break
+    
+    pzn 3
+    push 3
+    sys debug_break
+    setgn g 0
     sys debug_break
     
     pzn 5

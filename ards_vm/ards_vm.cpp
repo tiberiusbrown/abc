@@ -893,6 +893,7 @@ I_GETG4:
     st   Y+, r9
     cpi  r28, 252
     brlo 1f
+getgn_error:
     ldi  r24, 5
     jmp  call_vm_error
 1:  rjmp .+0
@@ -919,10 +920,8 @@ I_GETGN:
     mov  r18, r9
     dec r9
     add  r9, r28
-    brcc 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  rjmp .+0
+    brcs getgn_error
+    lpm
     in   r26, %[spdr]
     out  %[spdr], r2
     ldi  r20, 2
@@ -931,8 +930,15 @@ I_GETGN:
     adc  r8, r2
     call delay_12
     in   r27, %[spdr]
-    out  %[spdr], r2 
+    out  %[spdr], r2
+    sbrc r18, 0
+    rjmp 1f
+    ld   r0, X+
+    st   Y+, r0
+1:  lsr  r18
 2:  ld   r0, X+
+    st   Y+, r0
+    ld   r0, X+
     st   Y+, r0
     dec  r18
     brne 2b
