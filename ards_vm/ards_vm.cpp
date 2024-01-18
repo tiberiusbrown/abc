@@ -778,11 +778,11 @@ I_GETLN:
     st   Y+, r0
     ld   r0, X+
     st   Y+, r0
-2:  ld   r0, X+
-    st   Y+, r0
+2:  ld   r9, X+
+    st   Y+, r9
     dec  r16
     brne 2b
-    ld   r9, -Y
+    dec  r28
     dispatch
 
 I_SETL:
