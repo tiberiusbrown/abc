@@ -828,18 +828,21 @@ I_SETL4:
  
 I_SETLN:
     mov  r16, r9
-    ld   r9, -Y
-    dec  r16
+    subi r16, 2
     lpm
+    rjmp .+0
     read_byte
     movw r26, r28
     sub  r26, r0
+    ld   r0, -Y
+    st   -X, r0
     ld   r0, -Y
     st   -X, r0
 1:  ld   r0, -Y
     st   -X, r0
     dec  r16
     brne 1b
+    ld   r9, -Y
     dispatch
 
 I_GETG:

@@ -53,10 +53,10 @@
  36   setl N
  36   setl2 N
  36   setl4 N
- 56   setln N (5)
- 77   setln N (8)
-133   setln N (16)
-245   setln N (32)
+ 55   setln N (5)
+ 76   setln N (8)
+132   setln N (16)
+244   setln N (32)
  54   getg VAR
  54   getg2 VAR
  54   getg4 VAR
