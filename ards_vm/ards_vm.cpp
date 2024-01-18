@@ -475,9 +475,10 @@ I_SEXT:
     st   Y+, r9
     cpi  r28, 255
     breq 1f
-    clr  r9
-    sbrc r9, 7
-    dec  r9
+    ldi  r16, 0xff
+    sbrs r9, 7
+    ldi  r16, 0x00
+    mov  r9, r16
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
@@ -487,10 +488,11 @@ I_SEXT2:
     st   Y+, r9
     cpi  r28, 254
     brsh 1f
-    clr  r9
-    sbrc r9, 7
-    dec  r9
-    st   Y+, r9
+    ldi  r16, 0xff
+    sbrs r9, 7
+    ldi  r16, 0x00
+    st   Y+, r16
+    mov  r9, r16
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
@@ -500,11 +502,12 @@ I_SEXT3:
     st   Y+, r9
     cpi  r28, 253
     brsh 1f
-    clr  r9
-    sbrc r9, 7
-    dec  r9
-    st   Y+, r9
-    st   Y+, r9
+    ldi  r16, 0xff
+    sbrs r9, 7
+    ldi  r16, 0x00
+    st   Y+, r16
+    st   Y+, r16
+    mov  r9, r16
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
