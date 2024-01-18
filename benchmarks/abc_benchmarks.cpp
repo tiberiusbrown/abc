@@ -201,10 +201,11 @@ int abc_benchmarks()
 #endif
 
 #if 1
-    //fout = fopen(PLATFORMER_DIR "/benchmark.txt", "w");
-    //if(!fout) return 1;
+    fout = fopen(PLATFORMER_DIR "/benchmark.txt", "w");
+    if(!fout) return 1;
     {
-        printf("\nPlatformer benchmark...\n");
+        printf("\n");
+        out_txt("Platformer benchmark...\n");
         auto binary = compile(PLATFORMER_DIR "/benchmark.abc");
         assert(!binary.empty());
         {
@@ -223,11 +224,11 @@ int abc_benchmarks()
         {
             uint64_t cycles = measure();
             total += cycles;
-            printf("    %" PRIu64 "\n", cycles);
+            out_txt("    %" PRIu64 "\n", cycles);
         }
-        printf("    %.0f  (average)\n", double(total) / N);
+        out_txt("    %.0f  (average)\n", double(total) / N);
     }
-    //fclose(fout);
+    fclose(fout);
 #endif
 
     fout = fopen(BENCHMARKS_DIR "/latencies.txt", "w");
