@@ -205,11 +205,13 @@ int abc_benchmarks()
             e = a.link();
             assert(e.msg.empty());
         }
+#if 0
         {
             FILE* fbin = fopen(BENCHMARKS_DIR "/instructions.bin", "wb");
             fwrite(a.data().data(), 1, a.data().size(), fbin);
             fclose(fbin);
         }
+#endif
         {
             std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
             auto t = arduboy->load_file("vm.hex", ss);
