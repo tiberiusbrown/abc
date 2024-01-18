@@ -749,6 +749,7 @@ I_GETL4:
     st   Y+, r9
     cpi  r28, 252
     brlo 1f
+getln_error:
     ldi  r24, 5
     jmp  call_vm_error
 1:  nop
@@ -767,14 +768,14 @@ I_GETL4:
 I_GETLN:
     mov  r16, r9
     add  r9, r28
-    brcc 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  dec  r16
-    rjmp .+0
+    brcs getln_error
+1:  subi r16, 2
+    lpm
     read_byte
     movw r26, r28
     sub  r26, r0
+    ld   r0, X+
+    st   Y+, r0
     ld   r0, X+
     st   Y+, r0
 2:  ld   r0, X+
