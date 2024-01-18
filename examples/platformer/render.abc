@@ -104,11 +104,11 @@ void render_game_over()
         $draw_sprite(76, 8, OBJECTS, 8 + i * 16);
         $draw_sprite(27, 15, OBJECTS, 12 + i * 16);
         i = (i + 1) & 3;
-        $draw_sprite(13, 39, OBJECTS, 10 + i * 16);
+        $draw_sprite(13, 40, OBJECTS, 10 + i * 16);
         i = (i + 1) & 3;
-        $draw_sprite(38, 39, OBJECTS, 9 + i * 16);
+        $draw_sprite(38, 40, OBJECTS, 9 + i * 16);
         i = (i + 1) & 3;
-        $draw_sprite(74, 39, OBJECTS, 9 + i * 16);
+        $draw_sprite(74, 40, OBJECTS, 9 + i * 16);
         $draw_sprite(58, 21, OBJECTS, 11 + i * 16);
         $draw_sprite(56, 39, OBJECTS, 64);
     }
