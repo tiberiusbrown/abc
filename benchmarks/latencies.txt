@@ -107,10 +107,10 @@
  36   aixb1
  55   aidxb
  99   aidx
- 58   pidxb
-129   pidx
+ 57   pidxb
+128   pidx
  70   uaidx
- 89   upidx
+ 88   upidx
  18   inc
  18   dec
  36   linc N

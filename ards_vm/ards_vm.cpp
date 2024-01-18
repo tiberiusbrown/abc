@@ -1250,9 +1250,7 @@ I_PIDXB:
     call read_2_bytes_nodelay
     ; bounds check index against elem count
     cp   r10, r17
-    brlo 1f
-    ldi  r24, 2
-    jmp call_vm_error
+    brsh pidxb_error
     ; compute prog ref + index * elem_size
 1:  mul  r10, r16 ; index * elem size
     add  r13, r0
@@ -1261,7 +1259,11 @@ I_PIDXB:
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    dispatch
+    dispatch_noalign
+pidxb_error:
+    ldi  r24, 2
+    jmp call_vm_error
+    .align 6
 
 I_PIDX:
     jmp pidx_impl
@@ -3274,7 +3276,7 @@ delay_9:
     nop
 delay_8:
     ret
-    
+
 pidx_impl:
     
     ; load elem size into r20:r21
@@ -3298,9 +3300,7 @@ pidx_impl:
     cp   r10, r16
     cpc  r11, r17
     cpc  r12, r18
-    brlo 1f
-    ldi  r24, 2
-    rjmp call_vm_error
+    brsh pidx_error
     
     ; compute prog ref + index * elem_size
     ;
@@ -3319,7 +3319,7 @@ pidx_impl:
     ;    ========
     ;    C2 C1 C0
     ;
-1:  mul  r10, r20 ; A0*B0
+    mul  r10, r20 ; A0*B0
     add  r13, r0
     adc  r14, r1
     adc  r15, r2
@@ -3338,7 +3338,11 @@ pidx_impl:
     st   Y+, r13
     st   Y+, r14
     mov  r9, r15
-    dispatch
+    dispatch_noalign
+
+pidx_error:
+    ldi  r24, 2
+    rjmp call_vm_error
     
 upidx_impl:
     
@@ -3365,9 +3369,7 @@ upidx_impl:
     cp   r10, r16
     cpc  r11, r17
     cpc  r12, r18
-    brlo 1f
-    ldi  r24, 2
-    rjmp call_vm_error
+    brsh pidx_error
     
     ; compute prog ref + index * elem_size
     ;
@@ -3386,7 +3388,7 @@ upidx_impl:
     ;    ========
     ;    C2 C1 C0
     ;
-1:  mul  r10, r20 ; A0*B0
+    mul  r10, r20 ; A0*B0
     add  r13, r0
     adc  r14, r1
     adc  r15, r2
@@ -3405,7 +3407,7 @@ upidx_impl:
     st   Y+, r13
     st   Y+, r14
     mov  r9, r15
-    dispatch
+    dispatch_noalign
     
 jump_to_pc:
     fx_disable
