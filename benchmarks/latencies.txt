@@ -16,17 +16,17 @@
  54   push2 N
  72   push3 N
  90   push4 N
- 37   pzn 3
- 43   pzn 4
- 57   pzn 8
- 85   pzn 16
-141   pzn 32
- 21   sext
- 21   sext (neg)
- 23   sext2
- 23   sext2 (neg)
- 25   sext3
- 25   sext3 (neg)
+ 36   pzn 3
+ 37   pzn 4
+ 51   pzn 8
+ 79   pzn 16
+135   pzn 32
+ 19   sext
+ 19   sext (neg)
+ 21   sext2
+ 21   sext2 (neg)
+ 23   sext3
+ 23   sext3 (neg)
  18   dup
  19   dup2
  19   dup3
@@ -45,11 +45,11 @@
  23   dupw8
  36   getl N
  36   getl2 N
- 40   getl4 N
- 56   getln N (5)
- 77   getln N (8)
-133   getln N (16)
-245   getln N (32)
+ 38   getl4 N
+ 58   getln N (5)
+ 79   getln N (8)
+135   getln N (16)
+247   getln N (32)
  36   setl N
  36   setl2 N
  36   setl4 N
@@ -60,24 +60,24 @@
  54   getg VAR
  54   getg2 VAR
  55   getg4 VAR
- 81   getgn VAR (5)
-102   getgn VAR (8)
-158   getgn VAR (16)
-270   getgn VAR (32)
+ 77   getgn VAR (5)
+ 98   getgn VAR (8)
+154   getgn VAR (16)
+266   getgn VAR (32)
  54   setg VAR
  54   setg2 VAR
- 55   setg4 VAR
+ 54   setg4 VAR
  77   setgn VAR (5)
  98   setgn VAR (8)
 154   setgn VAR (16)
 266   setgn VAR (32)
-219   getp
-239   getpn 2
-257   getpn 3
-275   getpn 4
-347   getpn 8
-491   getpn 16
-779   getpn 32
+216   getp
+237   getpn 2
+255   getpn 3
+273   getpn 4
+345   getpn 8
+489   getpn 16
+777   getpn 32
  18   pop
  18   pop2
  18   pop3
@@ -86,219 +86,219 @@
  36   refl
  36   refgb
  54   refg
- 19   getr
- 23   getr2
- 46   getrn 3
- 53   getrn 4
- 81   getrn 8
-137   getrn 16
-249   getrn 32
- 19   setr
- 23   setr2
- 45   setrn 3
- 52   setrn 4
- 80   setrn 8
-136   setrn 16
-248   setrn 32
+ 18   getr
+ 20   getr2
+ 47   getrn 3
+ 54   getrn 4
+ 82   getrn 8
+138   getrn 16
+250   getrn 32
+ 20   setr
+ 24   setr2
+ 47   setrn 3
+ 54   setrn 4
+ 82   setrn 8
+138   setrn 16
+250   setrn 32
  36   aixb1
- 58   aidxb
-102   aidx
- 62   pidxb
-131   pidx
- 72   uaidx
- 91   upidx
+ 56   aidxb
+100   aidx
+ 58   pidxb
+129   pidx
+ 70   uaidx
+ 89   upidx
  18   inc
  18   dec
  36   linc N
- 22   pinc
- 29   pinc2
- 39   pinc3
- 46   pinc4
- 22   pdec
- 29   pdec2
- 39   pdec3
- 46   pdec4
-143   pincf (0)
-134   pincf (1)
-184   pincf (1000000)
-144   pdecf (0)
-123   pdecf (1)
-185   pdecf (1000000)
+ 20   pinc
+ 27   pinc2
+ 37   pinc3
+ 44   pinc4
+ 20   pdec
+ 27   pdec2
+ 37   pdec3
+ 44   pdec4
+141   pincf (0)
+132   pincf (1)
+182   pincf (1000000)
+142   pdecf (0)
+121   pdecf (1)
+183   pdecf (1000000)
  18   add
- 25   add2
- 32   add3
- 39   add4
+ 21   add2
+ 28   add3
+ 35   add4
  18   sub
- 25   sub2
- 32   sub3
- 39   sub4
- 23   add2b
- 19   mul
- 32   mul2
- 49   mul3
- 74   mul4
-231   udiv2 (30000 / 7)
-225   udiv2 (30000 / 7000)
-663   udiv4 (300000000 / 7)
-621   udiv4 (300000000 / 70000000)
-249   div2 (30000 / 7)
-243   div2 (30000 / 7000)
-681   div4 (300000000 / 7)
-639   div4 (300000000 / 70000000)
-231   umod2 (30000 / 7)
-225   umod2 (30000 / 7000)
-663   umod4 (300000000 / 7)
-621   umod4 (300000000 / 70000000)
-249   mod2 (30000 / 7)
-243   mod2 (30000 / 7000)
-681   mod4 (300000000 / 7)
-639   mod4 (300000000 / 70000000)
- 29   lsl (0)
- 29   lsl (1)
- 29   lsl (4)
- 29   lsl (7)
- 22   lsl (8)
- 22   lsl (64)
- 26   lsl2 (0)
- 31   lsl2 (1)
- 46   lsl2 (4)
- 66   lsl2 (8)
-101   lsl2 (15)
- 25   lsl2 (16)
- 25   lsl2 (64)
- 30   lsl3 (0)
- 36   lsl3 (1)
- 54   lsl3 (4)
- 78   lsl3 (8)
-126   lsl3 (16)
-168   lsl3 (23)
- 29   lsl3 (24)
- 29   lsl3 (64)
- 34   lsl4 (0)
- 41   lsl4 (1)
- 62   lsl4 (4)
- 90   lsl4 (8)
-146   lsl4 (16)
-202   lsl4 (24)
-251   lsl4 (31)
- 33   lsl4 (32)
- 33   lsl4 (64)
- 29   lsr (0)
- 29   lsr (1)
- 29   lsr (4)
- 29   lsr (7)
- 22   lsr (8)
- 22   lsr (64)
- 26   lsr2 (0)
- 31   lsr2 (1)
- 46   lsr2 (4)
- 66   lsr2 (8)
-101   lsr2 (15)
- 25   lsr2 (16)
- 25   lsr2 (64)
- 30   lsr3 (0)
- 36   lsr3 (1)
- 54   lsr3 (4)
- 78   lsr3 (8)
-126   lsr3 (16)
-168   lsr3 (23)
- 29   lsr3 (24)
- 29   lsr3 (64)
- 34   lsr4 (0)
- 41   lsr4 (1)
- 62   lsr4 (4)
- 90   lsr4 (8)
-146   lsr4 (16)
-202   lsr4 (24)
-251   lsr4 (31)
- 33   lsr4 (32)
- 33   lsr4 (64)
- 22   asr (0)
- 26   asr (1)
- 38   asr (4)
- 24   asr (7)
- 24   asr (8)
- 24   asr (64)
- 26   asr2 (0)
- 31   asr2 (1)
- 46   asr2 (4)
- 66   asr2 (8)
-101   asr2 (15)
- 28   asr2 (16)
- 28   asr2 (64)
- 30   asr3 (0)
- 36   asr3 (1)
- 54   asr3 (4)
- 78   asr3 (8)
-126   asr3 (16)
-168   asr3 (23)
- 32   asr3 (24)
- 32   asr3 (64)
- 36   asr4 (0)
- 43   asr4 (1)
- 64   asr4 (4)
- 92   asr4 (8)
-148   asr4 (16)
-204   asr4 (24)
-253   asr4 (31)
- 36   asr4 (32)
- 36   asr4 (64)
+ 22   sub2
+ 29   sub3
+ 36   sub4
+ 20   add2b
+ 18   mul
+ 29   mul2
+ 45   mul3
+ 71   mul4
+229   udiv2 (30000 / 7)
+223   udiv2 (30000 / 7000)
+661   udiv4 (300000000 / 7)
+619   udiv4 (300000000 / 70000000)
+247   div2 (30000 / 7)
+241   div2 (30000 / 7000)
+679   div4 (300000000 / 7)
+637   div4 (300000000 / 70000000)
+229   umod2 (30000 / 7)
+223   umod2 (30000 / 7000)
+661   umod4 (300000000 / 7)
+619   umod4 (300000000 / 70000000)
+247   mod2 (30000 / 7)
+241   mod2 (30000 / 7000)
+679   mod4 (300000000 / 7)
+637   mod4 (300000000 / 70000000)
+ 27   lsl (0)
+ 27   lsl (1)
+ 27   lsl (4)
+ 27   lsl (7)
+ 20   lsl (8)
+ 20   lsl (64)
+ 24   lsl2 (0)
+ 29   lsl2 (1)
+ 44   lsl2 (4)
+ 64   lsl2 (8)
+ 99   lsl2 (15)
+ 23   lsl2 (16)
+ 23   lsl2 (64)
+ 28   lsl3 (0)
+ 34   lsl3 (1)
+ 52   lsl3 (4)
+ 76   lsl3 (8)
+124   lsl3 (16)
+166   lsl3 (23)
+ 27   lsl3 (24)
+ 27   lsl3 (64)
+ 32   lsl4 (0)
+ 39   lsl4 (1)
+ 60   lsl4 (4)
+ 88   lsl4 (8)
+144   lsl4 (16)
+200   lsl4 (24)
+249   lsl4 (31)
+ 31   lsl4 (32)
+ 31   lsl4 (64)
+ 27   lsr (0)
+ 27   lsr (1)
+ 27   lsr (4)
+ 27   lsr (7)
+ 20   lsr (8)
+ 20   lsr (64)
+ 24   lsr2 (0)
+ 29   lsr2 (1)
+ 44   lsr2 (4)
+ 64   lsr2 (8)
+ 99   lsr2 (15)
+ 23   lsr2 (16)
+ 23   lsr2 (64)
+ 28   lsr3 (0)
+ 34   lsr3 (1)
+ 52   lsr3 (4)
+ 76   lsr3 (8)
+124   lsr3 (16)
+166   lsr3 (23)
+ 27   lsr3 (24)
+ 27   lsr3 (64)
+ 32   lsr4 (0)
+ 39   lsr4 (1)
+ 60   lsr4 (4)
+ 88   lsr4 (8)
+144   lsr4 (16)
+200   lsr4 (24)
+249   lsr4 (31)
+ 31   lsr4 (32)
+ 31   lsr4 (64)
+ 20   asr (0)
+ 24   asr (1)
+ 36   asr (4)
+ 22   asr (7)
+ 22   asr (8)
+ 22   asr (64)
+ 24   asr2 (0)
+ 29   asr2 (1)
+ 44   asr2 (4)
+ 64   asr2 (8)
+ 99   asr2 (15)
+ 26   asr2 (16)
+ 26   asr2 (64)
+ 28   asr3 (0)
+ 34   asr3 (1)
+ 52   asr3 (4)
+ 76   asr3 (8)
+124   asr3 (16)
+166   asr3 (23)
+ 30   asr3 (24)
+ 30   asr3 (64)
+ 34   asr4 (0)
+ 41   asr4 (1)
+ 62   asr4 (4)
+ 90   asr4 (8)
+146   asr4 (16)
+202   asr4 (24)
+251   asr4 (31)
+ 34   asr4 (32)
+ 34   asr4 (64)
  18   and
- 25   and2
- 32   and3
- 39   and4
+ 21   and2
+ 28   and3
+ 35   and4
  18   or
- 25   or2
- 32   or3
- 39   or4
+ 21   or2
+ 28   or3
+ 35   or4
  18   xor
- 25   xor2
- 32   xor3
- 39   xor4
+ 21   xor2
+ 28   xor3
+ 35   xor4
  18   comp
- 21   comp2
- 26   comp3
- 31   comp4
+ 18   comp2
+ 22   comp3
+ 27   comp4
  18   bool (0)
  18   bool (1)
- 21   bool2 (0)
- 21   bool2 (1)
- 24   bool3 (0)
- 24   bool3 (1)
- 27   bool4 (0)
- 27   bool4 (1)
- 21   cult (pass)
- 21   cult (fail)
- 26   cult2 (pass)
- 26   cult2 (fail)
- 31   cult3 (pass)
- 31   cult3 (fail)
- 36   cult4 (pass)
- 36   cult4 (fail)
- 21   cslt (pass)
- 21   cslt (fail)
- 26   cslt2 (pass)
- 26   cslt2 (fail)
- 31   cslt3 (pass)
- 31   cslt3 (fail)
- 36   cslt4 (pass)
- 36   cslt4 (fail)
- 21   cule (pass)
- 21   cule (fail)
- 26   cule2 (pass)
- 26   cule2 (fail)
- 31   cule3 (pass)
- 31   cule3 (fail)
- 36   cule4 (pass)
- 36   cule4 (fail)
- 21   csle (pass)
- 21   csle (fail)
- 26   csle2 (pass)
- 26   csle2 (fail)
- 31   csle3 (pass)
- 31   csle3 (fail)
- 36   csle4 (pass)
- 36   csle4 (fail)
+ 18   bool2 (0)
+ 18   bool2 (1)
+ 21   bool3 (0)
+ 21   bool3 (1)
+ 24   bool4 (0)
+ 24   bool4 (1)
+ 18   cult (pass)
+ 18   cult (fail)
+ 23   cult2 (pass)
+ 23   cult2 (fail)
+ 28   cult3 (pass)
+ 28   cult3 (fail)
+ 33   cult4 (pass)
+ 33   cult4 (fail)
+ 18   cslt (pass)
+ 18   cslt (fail)
+ 23   cslt2 (pass)
+ 23   cslt2 (fail)
+ 28   cslt3 (pass)
+ 28   cslt3 (fail)
+ 33   cslt4 (pass)
+ 33   cslt4 (fail)
+ 18   cule (pass)
+ 18   cule (fail)
+ 23   cule2 (pass)
+ 23   cule2 (fail)
+ 28   cule3 (pass)
+ 28   cule3 (fail)
+ 33   cule4 (pass)
+ 33   cule4 (fail)
+ 18   csle (pass)
+ 18   csle (fail)
+ 23   csle2 (pass)
+ 23   csle2 (fail)
+ 28   csle3 (pass)
+ 28   csle3 (fail)
+ 33   csle4 (pass)
+ 33   csle4 (fail)
  18   not (0)
  18   not (1)
  79   bz (not taken)

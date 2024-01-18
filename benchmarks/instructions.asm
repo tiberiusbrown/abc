@@ -11,7 +11,6 @@ call_long:
 main:
 
 $L_main_0:
-
     jmp $L_main_start
 
     ; stuff for measuring branch latencies
