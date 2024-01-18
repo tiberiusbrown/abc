@@ -46,10 +46,10 @@
  36   getl N
  36   getl2 N
  38   getl4 N
- 56   getln N (5)
- 77   getln N (8)
-133   getln N (16)
-245   getln N (32)
+ 58   getln N (5)
+ 79   getln N (8)
+135   getln N (16)
+247   getln N (32)
  36   setl N
  36   setl2 N
  36   setl4 N
