@@ -1,5 +1,20 @@
 constexpr font f = FONT_BR6;
 
+constexpr sprites BALL = sprites{
+    8x8
+    --XXXX--
+    -X....X-
+    X......X
+    X......X
+    X......X
+    X......X
+    -X....X-
+    --XXXX--
+};
+
+int x = 60;
+int y = 28;
+
 int coins = 0;
 
 void loop()
@@ -17,6 +32,12 @@ void loop()
     $draw_text_P(0, 0, f, "Hello World!\nPress A to collect a coin.");
     $draw_textf(0, 20, f, "Coins collected: %d", coins);
     $draw_textf(0, 50, f, "Running for %.2f seconds", float($millis()) / 1000);
+    
+    if($pressed(UP_BUTTON   )) --y;
+    if($pressed(DOWN_BUTTON )) ++y;
+    if($pressed(LEFT_BUTTON )) --x;
+    if($pressed(RIGHT_BUTTON)) ++x;
+    $draw_sprite(x, y, BALL, 0);
     
     $display();
 }
