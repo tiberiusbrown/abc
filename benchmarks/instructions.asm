@@ -291,6 +291,12 @@ $L_main_start:
     sys debug_break
     pop4
     
+    push 3
+    sys debug_break
+    getln 42
+    sys debug_break
+    popn 3
+    
     push 5
     sys debug_break
     getln 42
@@ -339,6 +345,14 @@ $L_main_start:
     setl4 4
     sys debug_break
     pop4
+    
+    pzn 3
+    pzn 3
+    push 3
+    sys debug_break
+    setln 3
+    sys debug_break
+    popn 3
     
     pzn 5
     pzn 5
