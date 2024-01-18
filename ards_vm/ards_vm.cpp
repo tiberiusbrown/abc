@@ -1983,6 +1983,8 @@ I_LSL2:
     mov  r20, r9
     ld   r17, -Y
     ld   r16, -Y
+    cpi  r20, 8
+    breq 4f
     cpi  r20, 16
     brlo 2f
     st   Y+, r2
@@ -1994,7 +1996,11 @@ I_LSL2:
     brpl 1b
     st   Y+, r16
     mov  r9, r17
-3:  dispatch
+3:  dispatch_noalign
+4:  st   Y+, r2
+    mov  r9, r16
+    rjmp 3b
+    .align 6
 
 I_LSL3:
     mov  r20, r9
