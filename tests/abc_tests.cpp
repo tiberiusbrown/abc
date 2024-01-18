@@ -84,7 +84,7 @@ int abc_tests()
         if(entry.path().extension() != ".abc") continue;
         char const* status = "Pass";
         if(!test(entry.path().parent_path().generic_string(), entry.path().filename().generic_string()))
-            status = "fail", r = 1;
+            status = "fail !!!", r = 1;
         printf("%-23s %s\n", entry.path().filename().generic_string().c_str(), status);
     }
 
