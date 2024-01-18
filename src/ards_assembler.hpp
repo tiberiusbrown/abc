@@ -82,8 +82,7 @@ private:
     {
         INSTR,       // instruction opcode
         LABEL,       // label reference
-        GLOBAL,      // global label reference
-        GLOBAL_REF,  // global label reference (raw address)
+        GLOBAL,      // global label reference (raw address)
         IMM,         // immediate value
         FILE,        // file directive
         LINE,        // line directive (imm)

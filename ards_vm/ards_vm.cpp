@@ -862,9 +862,8 @@ I_GETG:
     call delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
-    subi r27, -2
     ld   r9, X
-    call delay_13
+    call delay_14
     dispatch
 
 I_GETG2:
@@ -883,11 +882,10 @@ I_GETG2:
     call delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
-    subi r27, -2
     ld   r16, X+
     ld   r9, X+
     st   Y+, r16
-    call delay_9
+    call delay_10
 getg4_dispatch:
     dispatch
 
@@ -907,7 +905,6 @@ I_GETG4:
     call delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
-    subi r27, -2
     ld   r16, X+
     ld   r17, X+
     ld   r18, X+
@@ -935,7 +932,6 @@ I_GETGN:
     call delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
-    subi r27, -2
 2:  ld   r0, X+
     st   Y+, r0
     dec  r18
@@ -947,22 +943,21 @@ I_GETGN:
 I_SETG:
     call read_2_bytes
     movw r26, r16
-    subi r27, -2
     st   X, r9
     ld   r9, -Y
     lpm
     lpm
+    nop
     dispatch
 
 I_SETG2:
     call read_2_bytes
     movw r26, r16
-    subi r27, -2
     ld   r17, -Y
     st   X+, r17
     st   X+, r9
     ld   r9, -Y
-    rjmp .+0
+    lpm
     dispatch_noalign
 setg4_delay_12:
     rjmp .+0
@@ -986,14 +981,13 @@ I_SETG4:
     call delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
-    subi r27, -2
     st   X+, r16
     st   X+, r17
     st   X+, r18
     st   X+, r19
     ld   r9, -Y
     lpm
-    rjmp .+0
+    lpm
     dispatch
 
 I_SETGN:
@@ -1007,7 +1001,6 @@ I_SETGN:
     rcall setg4_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
-    subi r27, -2
     add  r26, r9
     adc  r27, r2
 1:  ld   r0, -Y

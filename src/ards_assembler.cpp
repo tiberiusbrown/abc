@@ -300,7 +300,6 @@ error_t assembler_t::assemble(std::istream& f)
         {
             push_instr(I_PUSHG);
             push_global(f, true);
-            nodes.back().type = GLOBAL_REF;
         }
         else if(t == "push2")
         {
@@ -584,7 +583,6 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == ".rg")
         {
             push_global(f);
-            nodes.back().type = GLOBAL_REF;
             data_bytes += 2;
         }
         else if(t == ".rp")
@@ -768,7 +766,6 @@ error_t assembler_t::link()
             code_bytes += n.size;
             break;
         case GLOBAL:
-        case GLOBAL_REF:
         {
             size_t offset = 0;
             if(n.label.empty())
@@ -783,8 +780,7 @@ error_t assembler_t::link()
                 }
                 offset = it->second;
                 offset += n.imm;
-                if(n.type == GLOBAL_REF)
-                    offset += 0x200;
+                offset += 0x200;
             }
             linked_data.push_back(uint8_t(offset >> 0));
             if(n.size >= 2)
