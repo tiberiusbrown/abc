@@ -1278,9 +1278,7 @@ I_UAIDX:
     ld   r18, -Y
     cp   r20, r18
     cpc  r21, r19
-    brlo 1f
-    ldi  r24, 2
-    jmp  call_vm_error
+    brsh pidxb_error
     ; A1 A0 : r21 r20
     ; B1 B0 : r17 r16
     ; C1 C0 : r23 r22
@@ -1306,8 +1304,7 @@ I_UAIDX:
     adc  r23, r21
     st   Y+, r22
     mov  r9, r23
-    rjmp uaidx_dispatch
-    .align 6
+    dispatch
 
 I_UPIDX:
     jmp upidx_impl
@@ -1327,7 +1324,6 @@ I_REFL:
     st   Y+, r16
     mov  r9, r17
     call delay_8
-uaidx_dispatch:
     dispatch
 
 I_REFG:
