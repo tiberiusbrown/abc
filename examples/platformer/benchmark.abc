@@ -1,0 +1,37 @@
+import map;
+import update;
+import render;
+import sounds;
+import vars;
+
+void main_menu() {}
+void new_game() {}
+
+void setup()
+{
+    $set_frame_rate(50);
+    current_map = 0;
+    load_map();
+}
+
+void loop()
+{
+    //while(!$next_frame())
+    //    ;
+        
+    $debug_break();
+    
+    update();
+    render();
+    
+    $display();
+    
+    $debug_break();
+}
+
+void main()
+{
+    setup();
+    while(true)
+        loop();
+}

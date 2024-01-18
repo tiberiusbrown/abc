@@ -221,6 +221,7 @@ target_compile_definitions(abc_integration PRIVATE
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
     -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"
+    -DPLATFORMER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/examples/platformer"
     )
     
 set_source_files_properties(

@@ -9,6 +9,7 @@
 #include <cinttypes>
 #include <cstdio>
 #include <cstdarg>
+#include <filesystem>
 #include <fstream>
 #include <sstream>
 #include <string>
@@ -60,6 +61,35 @@ static uint64_t measure()
     return cycle_b - cycle_a;
 }
 
+static std::vector<uint8_t> compile(std::string const& fname)
+{
+    std::string abc_asm;
+    ards::compiler_t c{};
+    std::ostringstream fo;
+    std::filesystem::path p(fname);
+    auto path = p.parent_path().generic_string();
+    auto name = p.stem().generic_string();
+    c.compile(path, name, fo);
+    for(auto const& e : c.errors())
+    {
+        printf("%s ERROR (line %d): %s\n",
+            name.c_str(),
+            (int)e.line_info.first,
+            e.msg.c_str());
+    }
+    if(!c.errors().empty())
+        return {};
+    abc_asm = fo.str();
+
+    ards::assembler_t a{};
+    std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
+    auto e = a.assemble(ss);
+    assert(e.msg.empty());
+    e = a.link();
+    assert(e.msg.empty());
+    return a.data();
+}
+
 static void bench(char const* name)
 {
     arduboy->reset();
@@ -67,31 +97,7 @@ static void bench(char const* name)
     std::string abc_asm;
     std::vector<uint8_t> binary;
 
-    {
-        ards::compiler_t c{};
-        std::ostringstream fo;
-        c.compile(std::string(BENCHMARKS_DIR) + "/" + name, name, fo);
-        for(auto const& e : c.errors())
-        {
-            printf("%s ERROR (line %d): %s\n",
-                name,
-                (int)e.line_info.first,
-                e.msg.c_str());
-        }
-        if(!c.errors().empty())
-            return;
-        abc_asm = fo.str();
-    }
-
-    {
-        ards::assembler_t a{};
-        std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
-        auto e = a.assemble(ss);
-        assert(e.msg.empty());
-        e = a.link();
-        assert(e.msg.empty());
-        binary = a.data();
-    }
+    binary = compile(std::string(BENCHMARKS_DIR) + "/" + name + "/" + name + ".abc");
 
     {
         std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
@@ -192,6 +198,36 @@ int abc_benchmarks()
 
     fclose(fout);
     fclose(fmd);
+#endif
+
+#if 1
+    //fout = fopen(PLATFORMER_DIR "/benchmark.txt", "w");
+    //if(!fout) return 1;
+    {
+        printf("\nPlatformer benchmark...\n");
+        auto binary = compile(PLATFORMER_DIR "/benchmark.abc");
+        assert(!binary.empty());
+        {
+            std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
+            auto t = arduboy->load_file("vm.hex", ss);
+            assert(t.empty());
+        }
+        {
+            std::istrstream ss((char const*)binary.data(), (int)binary.size());
+            auto t = arduboy->load_file("fxdata.bin", ss);
+            assert(t.empty());
+        }
+        constexpr int N = 10;
+        uint64_t total = 0;
+        for(int i = 0; i < N; ++i)
+        {
+            uint64_t cycles = measure();
+            total += cycles;
+            printf("    %" PRIu64 "\n", cycles);
+        }
+        printf("    %.0f  (average)\n", double(total) / N);
+    }
+    //fclose(fout);
 #endif
 
     fout = fopen(BENCHMARKS_DIR "/latencies.txt", "w");
