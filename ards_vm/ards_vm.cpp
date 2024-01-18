@@ -1189,17 +1189,19 @@ I_AIDXB:
     ; r17: num elems
     ; r20: index
     cp   r20, r17
-    brlo 1f
-    ldi  r24, 2
-    jmp  call_vm_error
-1:  mul  r16, r20
+    brsh aidx_error
+    mul  r16, r20
     ld   r21, -Y
     ld   r20, -Y
     add  r0, r20
     adc  r1, r21
     st   Y+, r0
     mov  r9, r1
-    dispatch
+    dispatch_noalign
+aidx_error:
+    ldi  r24, 2
+    jmp  call_vm_error
+    .align 6
 
 I_AIDX:
     mov  r21, r9
@@ -1207,9 +1209,7 @@ I_AIDX:
     call read_4_bytes_nodelay
     cp   r20, r18
     cpc  r21, r19
-    brlo 1f
-    ldi  r24, 2
-    jmp  call_vm_error
+    brsh aidx_error
     ; A1 A0 : r21 r20
     ; B1 B0 : r17 r16
     ; C1 C0 : r23 r22
@@ -1223,7 +1223,7 @@ I_AIDX:
     ; ========
     ;    C1 C0
     ;
-1:  mul  r16, r20
+    mul  r16, r20
     movw r22, r0
     mul  r16, r21
     add  r23, r0
