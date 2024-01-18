@@ -326,10 +326,26 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
+        // replace BOOL; BOOL with BOOL
+        if(i0.instr == I_BOOL && i1.instr == I_BOOL)
+        {
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // replace BOOL; NOT with NOT
         if(i0.instr == I_BOOL && i1.instr == I_NOT)
         {
             i0.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace NOT; BOOL with NOT
+        if(i0.instr == I_NOT && i1.instr == I_BOOL)
+        {
+            i1.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -586,8 +602,29 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
+        // remove PUSH 0; SUB
+        if(i0.instr == I_PUSH && i0.imm == 0 && i1.instr == I_SUB)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
+
+        // remove PUSH 0; PUSH 0; SUB2
+        if( i0.instr == I_PUSH && i0.imm == 0 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_SUB2)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // replace PUSH 0; PUSH 0; PIDX M N (M,N < 256) with PIDXB M N
         if( i0.instr == I_PUSH && i0.imm == 0 &&
@@ -619,6 +656,42 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
+        }
+
+        if(i + 3 >= f.instrs.size()) continue;
+        auto& i3 = f.instrs[i + 3];
+
+        // remove PUSH 0; PUSH 0; PUSH 0; SUB3
+        if( i0.instr == I_PUSH && i0.imm == 0 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_PUSH && i2.imm == 0 &&
+            i3.instr == I_SUB3)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        if(i + 4 >= f.instrs.size()) continue;
+        auto& i4 = f.instrs[i + 4];
+
+        // remove PUSH 0; PUSH 0; PUSH 0; PUSH 0; SUB4
+        if( i0.instr == I_PUSH && i0.imm == 0 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_PUSH && i2.imm == 0 &&
+            i3.instr == I_PUSH && i3.imm == 0 &&
+            i4.instr == I_SUB3)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
         }
     }
     return t;
