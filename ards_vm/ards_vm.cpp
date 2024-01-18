@@ -962,8 +962,9 @@ I_SETG2:
     ld   r17, -Y
     st   X+, r17
     st   X+, r9
-    ld   r9, -Y
     lpm
+setgn_dispatch:
+    ld   r9, -Y
     dispatch_noalign
 setg4_delay_12:
     rjmp .+0
@@ -1009,12 +1010,19 @@ I_SETGN:
     out  %[spdr], r2
     add  r26, r9
     adc  r27, r2
-1:  ld   r0, -Y
+    sbrs r9, 0
+    rjmp 1f
+    ld   r0, -Y
+    st   -X, r0
+1:  lsr r9
+2:  ld   r0, -Y
+    st   -X, r0
+    ld   r0, -Y
     st   -X, r0
     dec  r9
-    brne 1b
-    ld   r9, -Y
-    dispatch
+    brne 2b
+    rjmp setgn_dispatch
+    .align 6
 
 I_GETP:
     mov  r18, r9

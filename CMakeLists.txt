@@ -178,7 +178,7 @@ add_executable(abc ${EXE_TYPE}
     src/ide_import.cpp
     src/ide_main.cpp
     src/ide_player.cpp
-    src/ide_project.cpp 
+    src/ide_project.cpp
     src/ide_project_info.cpp
     src/ide_sys.cpp
     src/ide_texture.cpp
