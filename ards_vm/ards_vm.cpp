@@ -829,11 +829,10 @@ I_SETL4:
 I_SETLN:
     mov  r16, r9
     subi r16, 2
+    movw r26, r28
     ld   r17, -Y
     ld   r18, -Y
-    nop
     read_byte
-    movw r26, r28
     sub  r26, r0
     st   -X, r17
     st   -X, r18
