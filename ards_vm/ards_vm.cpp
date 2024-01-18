@@ -931,7 +931,7 @@ I_GETGN:
     call delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
-    sbrc r18, 0
+    sbrs r18, 0
     rjmp 1f
     ld   r0, X+
     st   Y+, r0

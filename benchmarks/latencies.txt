@@ -60,11 +60,11 @@
  54   getg VAR
  54   getg2 VAR
  54   getg4 VAR
- 56   getgn VAR (3)
- 67   getgn VAR (5)
- 92   getgn VAR (8)
-136   getgn VAR (16)
-224   getgn VAR (32)
+ 59   getgn VAR (3)
+ 70   getgn VAR (5)
+ 89   getgn VAR (8)
+133   getgn VAR (16)
+221   getgn VAR (32)
  54   setg VAR
  54   setg2 VAR
  54   setg4 VAR
