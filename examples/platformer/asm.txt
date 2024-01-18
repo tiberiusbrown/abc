@@ -5973,8 +5973,6 @@ $L_update_score_tally_8:
   .line 266
   p3
   getgn best_time 0
-  pzn   3
-  sub3
   bool3
   not
   bnzp  $L_update_score_tally_9
@@ -6037,14 +6035,10 @@ update_intro:
   bz    $L_update_intro_3
   .line 285
   getg2 score 0
-  p00
-  sub2
   bool2
   not
   bnzp  $L_update_intro_0
   getg2 level_frames_remaining 0
-  p00
-  sub2
   bool2
   not
 $L_update_intro_0:
@@ -6248,8 +6242,6 @@ $L_render_level_select_8:
   dup4
   aidxb 2 10
   getr2
-  p00
-  sub2
   bool2
   bz    $L_render_level_select_9
   .line 198
@@ -6286,8 +6278,6 @@ $L_render_level_select_10:
   dup4
   aidxb 2 10
   getr2
-  p00
-  sub2
   bool2
   bz    $L_render_level_select_11
   .line 204
@@ -6442,8 +6432,6 @@ $L_render_level_select_13:
   dup3
   aidxb 2 10
   getr2
-  p00
-  sub2
   bool2
   bz    $L_render_level_select_16
   .line 233
@@ -6469,8 +6457,6 @@ $L_render_level_select_17:
   dup3
   aidxb 2 10
   getr2
-  p00
-  sub2
   bool2
   bz    $L_render_level_select_18
   .line 237
@@ -6500,8 +6486,6 @@ $L_render_level_select_14:
   .line 242
   p3
   getgn high_score 0
-  pzn   3
-  sub3
   bool3
   bz    $L_render_level_select_20
   .line 243
@@ -6564,8 +6548,6 @@ $L_render_level_select_23:
   .line 252
   p3
   getgn best_time 0
-  pzn   3
-  sub3
   bool3
   bz    $L_render_level_select_24
   .line 254
@@ -6742,8 +6724,6 @@ level_complete:
   getg  current_map 0
   aidxb 2 10
   getr2
-  p00
-  sub2
   bool2
   not
   bnzp  $L_level_complete_0
@@ -7408,8 +7388,6 @@ $L_update_level_53:
   sub2
   dupw
   setg2 level_frames_remaining 0
-  p00
-  sub2
   bool2
   bnz   $L_update_level_54
   .line 495
@@ -9414,8 +9392,6 @@ render_intro:
   sys   draw_textf
   .line 300
   getg2 level_frames_remaining 0
-  p00
-  sub2
   bool2
   bz    $L_render_intro_0
   .line 302
@@ -9515,8 +9491,6 @@ $L_render_intro_2:
   .line 318
   p3
   getgn total_score 0
-  pzn   3
-  sub3
   bool3
   bz    $L_render_intro_3
   .line 321
@@ -9597,8 +9571,6 @@ $L_render_intro_4:
   not
   bzp   $L_render_intro_5
   getg2 level_frames_remaining 0
-  p00
-  sub2
   bool2
 $L_render_intro_5:
   bz    $L_render_intro_8
@@ -10540,7 +10512,7 @@ Compilation succeeded!
 Dev Bin:   73472 bytes    71.8 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8887 bytes     8.7 KB
+Code:       8855 bytes     8.6 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes
