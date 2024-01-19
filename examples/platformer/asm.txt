@@ -4030,8 +4030,7 @@ $L_solid_3:
   getln 11
   dupw8
   getl  9
-  p0
-  mul2
+  mul2b
   getl2 13
   add2
   p0
@@ -4250,8 +4249,7 @@ $L_process_map_tile_0:
   dup
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext2
   i2f
   pzn   3
@@ -4262,8 +4260,7 @@ $L_process_map_tile_0:
   dup2
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext2
   i2f
   p00
@@ -4291,8 +4288,7 @@ $L_process_map_tile_0:
   getg  map_width 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext
   push  129
   p00
@@ -4303,8 +4299,7 @@ $L_process_map_tile_0:
   getg  map_height 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext
   push  65
   p00
@@ -4360,13 +4355,11 @@ $L_process_map_tile_5:
   dup2
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup5
   p0
   p16
-  p0
-  mul2
+  mul2b
   p3
   p3
   push2 2570
@@ -4385,13 +4378,11 @@ $L_process_map_tile_6:
   dup2
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup5
   p0
   p16
-  p0
-  mul2
+  mul2b
   p3
   p3
   push2 2570
@@ -4410,13 +4401,11 @@ $L_process_map_tile_7:
   dup2
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup5
   p0
   p16
-  p0
-  mul2
+  mul2b
   p2
   p4
   push  12
@@ -4436,13 +4425,11 @@ $L_process_map_tile_8:
   dup2
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup5
   p0
   p16
-  p0
-  mul2
+  mul2b
   p2
   p3
   push2 2572
@@ -4487,19 +4474,16 @@ $L_process_map_tile_11:
   dup4
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup5
   add2b
   p1
-  p0
-  sub2
+  sub2b
   .line 148
   dup6
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup7
   add2b
   dup5
@@ -4510,16 +4494,14 @@ $L_process_map_tile_11:
   getl  9
   p0
   p16
-  p0
-  mul2
+  mul2b
   p8
   add2b
   .line 150
   getl  11
   p0
   p16
-  p0
-  mul2
+  mul2b
   p16
   add2b
 $L_process_map_tile_12:
@@ -4540,8 +4522,7 @@ $L_process_map_tile_14:
   .line 152
   dupw7
   p16
-  p0
-  sub2
+  sub2b
   setl2 8
   .line 151
   jmp   $L_process_map_tile_12
@@ -4553,8 +4534,7 @@ $L_process_map_tile_13:
   getl  15
   p0
   p2
-  p0
-  mul2
+  mul2b
   sub2
   add2
   setl2 8
@@ -4588,8 +4568,7 @@ $L_process_map_tile_16:
   getl  15
   p0
   p2
-  p0
-  mul2
+  mul2b
   sub2
   sub2
   setl2 6
@@ -4603,21 +4582,18 @@ $L_process_map_tile_16:
   getl  13
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl  16
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl  16
   getl  16
   getl  16
   p16
   p0
   getl  20
-  p0
-  sub2
+  sub2b
   pop
   p1
   p0
@@ -4650,8 +4626,7 @@ $L_process_map_tile_18:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext
   dup5
   p00
@@ -4660,8 +4635,7 @@ $L_process_map_tile_18:
   dup6
   p0
   p16
-  p0
-  mul2
+  mul2b
   p1
   p4
   push2 2318
@@ -4670,8 +4644,7 @@ $L_process_map_tile_18:
   getl  13
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl  15
   p0
   p3
@@ -4708,13 +4681,11 @@ $L_process_map_tile_19:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   dup6
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext
   dup7
   p00
@@ -4728,8 +4699,7 @@ $L_process_map_tile_19:
   getl  14
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl  16
   p0
   p3
@@ -4887,8 +4857,7 @@ $L_load_map_6:
   dup8
   p0
   getl  12
-  p0
-  mul2
+  mul2b
   p0
   getl  10
   p00
@@ -5052,8 +5021,7 @@ $L_update_credits_0:
   setg  creditsy 0
   p0
   push  140
-  p0
-  sub2
+  sub2b
   bool2
   not
 $L_update_credits_1:
@@ -5439,8 +5407,7 @@ $L_update_level_select_3:
   getg  levelseli 0
   p0
   p4
-  p0
-  sub2
+  sub2b
   bool2
   bnz   $L_update_level_select_5
   .line 150
@@ -5551,8 +5518,7 @@ render_credits:
   push  54
   p0
   getg  creditsy 0
-  p0
-  sub2
+  sub2b
   .line 38
   pushl $PD_37 0
   push  11
@@ -5853,8 +5819,7 @@ $L_update_score_tally_0:
   .line 236
   getg2 score 0
   dup3
-  p0
-  sub2
+  sub2b
   setg2 score 0
   .line 237
   p3
@@ -5898,8 +5863,7 @@ $L_update_score_tally_3:
   .line 247
   getg2 level_frames_remaining 0
   dup3
-  p0
-  sub2
+  sub2b
   setg2 level_frames_remaining 0
   .line 248
   p3
@@ -6148,8 +6112,7 @@ $L_render_level_select_4:
   getg  frame_count 0
   p0
   push  50
-  p0
-  sub2
+  sub2b
   p2
   asr2
   setl2 3
@@ -6157,8 +6120,7 @@ $L_render_level_select_4:
   dup
   p0
   push  48
-  p0
-  sub2
+  sub2b
   dupw4
   cslt2
   bz    $L_render_level_select_5
@@ -6166,8 +6128,7 @@ $L_render_level_select_4:
   dup
   p0
   push  48
-  p0
-  sub2
+  sub2b
   setl2 3
 $L_render_level_select_5:
 $L_render_level_select_6:
@@ -6325,8 +6286,7 @@ $L_render_level_select_10:
   push  124
   p0
   getl  12
-  p0
-  sub2
+  sub2b
   sys   draw_text
   popn  13
   .line 202
@@ -6592,8 +6552,7 @@ $L_render_level_select_23:
   push  124
   p0
   getl  12
-  p0
-  sub2
+  sub2b
   sys   draw_text
   popn  11
   .line 252
@@ -6655,8 +6614,7 @@ $L_render_level_select_25:
   push  124
   p0
   getl  12
-  p0
-  sub2
+  sub2b
   sys   draw_text
   popn  11
   .line 262
@@ -6996,8 +6954,7 @@ $L_update_level_16:
   getl  9
   p0
   getl  10
-  p0
-  mul2
+  mul2b
   p0
   getl  13
   p00
@@ -7131,8 +7088,7 @@ $L_update_level_23:
   dup
   p0
   push  156
-  p0
-  sub2
+  sub2b
   getg  keys 0
   p0
   cule2
@@ -7259,8 +7215,7 @@ $L_update_level_40:
   getg  death_frames 0
   p0
   push  70
-  p0
-  sub2
+  sub2b
   bool2
   bnz   $L_update_level_41
   .line 464
@@ -7335,8 +7290,7 @@ $L_update_level_50:
   getg  map_width 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext2
   i2f
   p00
@@ -7384,8 +7338,7 @@ $L_update_level_53:
   .line 493
   getg2 level_frames_remaining 0
   p1
-  p0
-  sub2
+  sub2b
   dupw
   setg2 level_frames_remaining 0
   bool2
@@ -7406,8 +7359,7 @@ $L_update_level_56:
   getg  map_height 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext2
   i2f
   getg4 py 0
@@ -7929,8 +7881,7 @@ $L_update_map_objects_8:
   .line 610
   dupw3
   p1
-  p0
-  sub2
+  sub2b
   setl2 4
   .line 611
   dupw3
@@ -8012,8 +7963,7 @@ $L_update_map_objects_13:
   .line 635
   dupw3
   p1
-  p0
-  sub2
+  sub2b
   setl2 4
   .line 636
   dupw3
@@ -8141,8 +8091,7 @@ update_camera_position:
   getg  map_width 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext
   push  129
   p00
@@ -8153,8 +8102,7 @@ update_camera_position:
   getg  map_height 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   sext
   push  65
   p00
@@ -8702,8 +8650,7 @@ $L_render_victory_3:
   dup5
   p0
   p8
-  p0
-  mul2
+  mul2b
   sext
   dup7
   p00
@@ -8725,16 +8672,13 @@ $L_render_victory_3:
   dup8
   p0
   p16
-  p0
-  mul2
+  mul2b
   p8
-  p0
-  sub2
+  sub2b
   getl  9
   p0
   p16
-  p0
-  mul2
+  mul2b
   sys   draw_sprite
 $L_render_victory_6:
   pop
@@ -9012,8 +8956,7 @@ $L_render_pause_5:
   push  12
   p0
   getg  pause_menui 0
-  p0
-  mul2
+  mul2b
   add2
   push  66
   p0
@@ -9064,8 +9007,7 @@ $L_render_game_over_3:
   dup5
   p0
   p8
-  p0
-  mul2
+  mul2b
   sext
   dup7
   p00
@@ -9087,16 +9029,13 @@ $L_render_game_over_3:
   dup8
   p0
   p16
-  p0
-  mul2
+  mul2b
   p8
-  p0
-  sub2
+  sub2b
   getl  9
   p0
   p16
-  p0
-  mul2
+  mul2b
   sys   draw_sprite
 $L_render_game_over_6:
   pop
@@ -9133,8 +9072,7 @@ $L_render_game_over_1:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   add2
   pushl $PD_16 0
   p8
@@ -9148,8 +9086,7 @@ $L_render_game_over_1:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   add2
   pushl $PD_16 0
   push  15
@@ -9169,8 +9106,7 @@ $L_render_game_over_1:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   add2
   pushl $PD_16 0
   push  40
@@ -9190,8 +9126,7 @@ $L_render_game_over_1:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   add2
   pushl $PD_16 0
   push  40
@@ -9211,8 +9146,7 @@ $L_render_game_over_1:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   add2
   pushl $PD_16 0
   push  40
@@ -9226,8 +9160,7 @@ $L_render_game_over_1:
   dup3
   p0
   p16
-  p0
-  mul2
+  mul2b
   add2
   pushl $PD_16 0
   push  21
@@ -9268,8 +9201,7 @@ render_menu:
   push2 65534
   getg2 menu_spritex 0
   p16
-  p0
-  sub2
+  sub2b
   sys   draw_sprite
   .line 278
   p1
@@ -9367,8 +9299,7 @@ $L_render_menu_3:
   getg  menui 0
   p0
   push  11
-  p0
-  mul2
+  mul2b
   add2
   push  14
   p0
@@ -9456,8 +9387,7 @@ render_intro:
   push  87
   p0
   getl  12
-  p0
-  sub2
+  sub2b
   sys   draw_text
   popn  11
   .line 300
@@ -9858,8 +9788,7 @@ render_level:
   getg  map_height 0
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl2 20
   p64
   add2b
@@ -9877,8 +9806,7 @@ render_level:
   getln 11
   dupw6
   p64
-  p0
-  sub2
+  sub2b
   getl2 13
   sys   draw_sprite
   .line 393
@@ -9888,8 +9816,7 @@ render_level:
   getln 11
   dupw6
   p64
-  p0
-  sub2
+  sub2b
   getl2 13
   p128
   add2b
@@ -9995,8 +9922,7 @@ $L_render_level_6:
   sext
   add2
   dup4
-  p0
-  mul2
+  mul2b
   getl  14
   sext
   add2
@@ -10053,16 +9979,14 @@ $L_render_level_13:
   getl  10
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl  20
   sext
   add2
   getl  9
   p0
   p16
-  p0
-  mul2
+  mul2b
   getl  23
   sext
   add2
@@ -10286,8 +10210,7 @@ $L_render_level_31:
   getl  10
   p0
   push  9
-  p0
-  mul2
+  mul2b
   sub2
   sys   draw_sprite
 $L_render_level_33:
@@ -10316,8 +10239,7 @@ $L_render_level_34:
   getl  10
   p0
   push  9
-  p0
-  mul2
+  mul2b
   sub2
   sys   draw_sprite
 $L_render_level_36:
@@ -10404,11 +10326,9 @@ $L_render_level_35:
   getg  level_start_frames 0
   p0
   push  78
-  p0
-  sub2
+  sub2b
   push  10
-  p0
-  mul2
+  mul2b
   add2
   setl2 2
 $L_render_level_37:
@@ -10422,11 +10342,9 @@ $L_render_level_37:
   push  12
   p0
   getg  level_start_frames 0
-  p0
-  sub2
+  sub2b
   push  10
-  p0
-  mul2
+  mul2b
   sub2
   setl2 2
 $L_render_level_38:
@@ -10512,7 +10430,7 @@ Compilation succeeded!
 Dev Bin:   73472 bytes    71.8 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8855 bytes     8.6 KB
+Code:       8773 bytes     8.6 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes
