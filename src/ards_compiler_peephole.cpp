@@ -360,6 +360,80 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
+        if(i0.instr == I_REFL)
+        {
+            if(i1.instr == I_GETR)
+            {
+                i0.instr = I_GETL;
+                i1.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETR2)
+            {
+                i0.instr = I_GETL2;
+                i1.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETRN && i1.imm == 4)
+            {
+                i0.instr = I_GETL4;
+                i1.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETRN && i1.imm != 4)
+            {
+                auto offset = i0.imm;
+                auto size = i1.imm;
+                i0.instr = I_PUSH;
+                i0.imm = size;
+                i1.instr = I_GETLN;
+                i1.imm = offset;
+                t = true;
+                continue;
+            }
+        }
+
+        if(i0.instr == I_REFG)
+        {
+            if(i1.instr == I_GETR)
+            {
+                i0.instr = I_GETG;
+                i1.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETR2)
+            {
+                i0.instr = I_GETG2;
+                i1.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETRN && i1.imm == 4)
+            {
+                i0.instr = I_GETG4;
+                i1.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i1.instr == I_GETRN && i1.imm != 4)
+            {
+                auto label = i0.label;
+                auto offset = i0.imm;
+                auto size = i1.imm;
+                i0.instr = I_PUSH;
+                i0.imm = size;
+                i1.instr = I_GETGN;
+                i1.label = label;
+                i1.imm = offset;
+                t = true;
+                continue;
+            }
+        }
+
         // replace NOT; NOT with BOOL
         if(i0.instr == I_NOT && i1.instr == I_NOT)
         {
