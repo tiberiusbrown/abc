@@ -749,6 +749,18 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
 
+        // replace PUSH N (> 0); PUSH 255; ADD2 with PUSH -N; SUB2B
+        if(i0.instr == I_PUSH && i0.imm != 0 &&
+            i1.instr == I_PUSH && i1.imm == 255 &&
+            (i2.instr == I_ADD2 || i2.instr == I_SUB2))
+        {
+            i0.imm = uint8_t(-(int32_t)i0.imm);
+            i1.instr = I_REMOVE;
+            i2.instr = (i2.instr == I_ADD2 ? I_SUB2B : I_ADD2B);
+            t = true;
+            continue;
+        }
+
         // remove PUSH 0; PUSH 0; SUB2
         if( i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_PUSH && i1.imm == 0 &&
