@@ -1192,62 +1192,6 @@ $L_main_start:
     sys debug_break
     pop2
     
-    p000
-    push 0
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 1
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 4
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 8
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 16
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 23
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 24
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
-    p000
-    push 64
-    sys debug_break
-    lsl3
-    sys debug_break
-    pop3
-    
     p0000
     push 0
     sys debug_break
@@ -1402,62 +1346,6 @@ $L_main_start:
     sys debug_break
     pop2
     
-    p000
-    push 0
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 1
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 4
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 8
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 16
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 23
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 24
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 64
-    sys debug_break
-    lsr3
-    sys debug_break
-    pop3
-    
     p0000
     push 0
     sys debug_break
@@ -1611,63 +1499,7 @@ $L_main_start:
     asr2
     sys debug_break
     pop2
-    
-    p000
-    push 0
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 1
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 4
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 8
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 16
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 23
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 24
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
-    p000
-    push 64
-    sys debug_break
-    asr3
-    sys debug_break
-    pop3
-    
+   
     p0000
     push 0
     sys debug_break

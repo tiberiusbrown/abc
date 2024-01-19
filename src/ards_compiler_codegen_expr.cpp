@@ -673,12 +673,17 @@ void compiler_t::codegen_expr(
                 a.line_info });
             return;
         }
+        compiler_type_t t = a.comp_type;
+        if(t.prim_size == 3)
+            t = TYPE_U32;
         codegen_expr(f, frame, a.children[0], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
+        codegen_convert(f, frame, a, t, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, TYPE_U8, a.children[1].comp_type);
         frame.size -= 1;
-        auto index = a.comp_type.prim_size - 1;
+        auto index =
+            t.prim_size == 1 ? 0 :
+            t.prim_size == 2 ? 1 : 2;
         if(a.data == "<<")
             f.instrs.push_back({ instr_t(I_LSL + index), a.line() });
         else if(a.data == ">>")
@@ -690,6 +695,7 @@ void compiler_t::codegen_expr(
         }
         else
             assert(false);
+        codegen_convert(f, frame, a, a.comp_type, t);
         return;
     }
 
