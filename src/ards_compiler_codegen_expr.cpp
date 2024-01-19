@@ -756,16 +756,39 @@ void compiler_t::codegen_expr(
             return;
         }
 
-        // TODO: optimize the case where children[0] is an ident and children[1] is
-        //       an integer constant, directly adjust offset given to REFL/REFG
-        //       instruction instead of below code path
-
         auto const& t = a.children[0].comp_type.without_ref();
         bool prog = t.is_array_ref() ? t.children[0].is_prog : t.is_prog;
+        size_t elem_size = t.children[0].prim_size;
 
         codegen_expr(f, frame, a.children[0], true);
         if(t.is_array_ref())
             codegen_convert(f, frame, a.children[0], t, a.children[0].comp_type);
+
+        // optimize the case where children[1] is an integer constant:
+        // directly adjust offset without bounds checking
+        if(!t.is_array_ref() && a.children[1].type == AST::INT_CONST)
+        {
+            size_t array_size = t.array_size();
+            int64_t v = a.children[1].value;
+            if(v < 0 || (size_t)v >= array_size)
+            {
+                errs.push_back({
+                    "Array index out of bounds",
+                    a.children[1].line_info });
+                return;
+            }
+            else
+            {
+                uint32_t x = (uint32_t)(v * elem_size);
+                auto line = a.children[1].line();
+                f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 0) });
+                f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 8) });
+                if(prog)
+                    f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 16) });
+                f.instrs.push_back({ prog ? I_ADD3 : I_ADD2, line });
+                return;
+            }
+        }
 
         // construct index
         codegen_expr(f, frame, a.children[1], false);
@@ -774,7 +797,6 @@ void compiler_t::codegen_expr(
             prog ? TYPE_U24 : TYPE_U16,
             a.children[1].comp_type);
 
-        size_t elem_size = t.children[0].prim_size;
         if(t.is_array_ref())
         {
             f.instrs.push_back({
