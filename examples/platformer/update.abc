@@ -571,8 +571,8 @@ void resolve_player_collision()
 void update_map_objects()
 {
     u8[] prog& mapdata = maps[current_map].map;
-    i16 px0 = $round(px) + i16(-PXOFF + 1);
-    i16 py0 = $round(py) + i16(-PYOFF + 1);
+    i16 px0 = i16($round(px)) + i16(-PXOFF + 1);
+    i16 py0 = i16($round(py)) + i16(-PYOFF + 1);
     i16 px1 = px0 + i16(PHEH * 2 - 1);
     i16 py1 = py0 + i16(PHEV * 2 - 1);
     mob_jumped = false;

@@ -7746,20 +7746,17 @@ update_map_objects:
   .line 574
   getg4 px 0
   sys   round
-  p00
-  push2 49376
-  fadd
   f2i
   pop2
+  push2 65529
+  add2
   .line 575
   getg4 py 0
   sys   round
-  p00
-  p16
-  push  193
-  fadd
   f2i
   pop2
+  push2 65527
+  add2
   .line 576
   dupw3
   push  13
@@ -10418,7 +10415,7 @@ Compilation succeeded!
 Dev Bin:   73216 bytes    71.5 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8667 bytes     8.5 KB
+Code:       8665 bytes     8.5 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes
