@@ -179,7 +179,11 @@ unary_expr          <- '++' unary_expr /
                        unary_op unary_expr /
                        postfix_expr
 postfix_expr        <- primary_expr postfix*
-postfix             <- '(' arg_expr_list? ')' / '[' expr ']' / '.' ident / '++' / '--'
+postfix             <- '(' arg_expr_list? ')' /
+                       '[' expr ']' / # '[' expr (':' expr)? ']' /
+                       '.' ident /
+                       '++' /
+                       '--'
 
 primary_expr        <- hex_literal /
                        float_literal /
@@ -431,23 +435,31 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         {
             ast_node_t b = std::any_cast<ast_node_t>(v[i]);
             ast_node_t pair{ v.line_info(), AST::NONE, v.token() };
-            if(b.type == AST::FUNC_ARGS)
+            auto type = b.type;
+            if(type == AST::FUNC_ARGS)
+            {
                 pair.type = AST::FUNC_CALL;
-            else if(b.type == AST::ARRAY_INDEX || b.type == AST::STRUCT_MEMBER)
-            {
-                pair.type = b.type;
-                auto t = std::move(b.children[0]);
-                b = std::move(t);
-            }
-            else if(b.type == AST::OP_INC_POST || b.type == AST::OP_DEC_POST)
-            {
-                pair.type = b.type;
                 pair.children.emplace_back(std::move(a));
-                a = std::move(pair);
-                return a;
+                pair.children.emplace_back(std::move(b));
             }
-            pair.children.emplace_back(std::move(a));
-            pair.children.emplace_back(std::move(b));
+            else if(type == AST::ARRAY_INDEX || b.type == AST::STRUCT_MEMBER)
+            {
+                pair.type = type;
+                pair.children.emplace_back(std::move(a));
+                pair.children.emplace_back(std::move(b.children[0]));
+            }
+            else if(b.type == AST::ARRAY_SLICE)
+            {
+                pair.type = type;
+                pair.children.emplace_back(std::move(a));
+                pair.children.emplace_back(std::move(b.children[0]));
+                pair.children.emplace_back(std::move(b.children[1]));
+            }
+            else if(type == AST::OP_INC_POST || type == AST::OP_DEC_POST)
+            {
+                pair.type = type;
+                pair.children.emplace_back(std::move(a));
+            }
             a = std::move(pair);
         }
         return a;
@@ -465,11 +477,19 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             }
             return a;
         }
-        else if(v.choice() == 1)
+        else if(v.choice() == 1 && v.size() == 1)
         {
             // array indexing
             ast_node_t a = { v.line_info(), AST::ARRAY_INDEX, v.token() };
             a.children.push_back(std::any_cast<ast_node_t>(v[0]));
+            return a;
+        }
+        else if(v.choice() == 1 && v.size() == 2)
+        {
+            // array slice
+            ast_node_t a = { v.line_info(), AST::ARRAY_SLICE, v.token() };
+            a.children.push_back(std::any_cast<ast_node_t>(v[0]));
+            a.children.push_back(std::any_cast<ast_node_t>(v[1]));
             return a;
         }
         else if(v.choice() == 2)

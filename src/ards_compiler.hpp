@@ -87,6 +87,7 @@ enum class AST
 
     ARRAY_LEN,     // same structure as FUNC_CALL
     ARRAY_INDEX,   // children are array and index
+    ARRAY_SLICE,   // children are array, start-index, and stop-index
     STRUCT_MEMBER, // children are struct and member
 
     COMPOUND_LITERAL, // children are elements

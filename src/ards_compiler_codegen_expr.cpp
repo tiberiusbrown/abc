@@ -719,6 +719,33 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    //case AST::ARRAY_SLICE:
+    //{
+    //    auto const& t = a.children[0].comp_type.without_ref();
+    //    assert(t.is_array() || t.is_array_ref());
+    //
+    //    uint32_t elem_size = (uint32_t)t.children[0].prim_size;
+    //    uint32_t ref_size = t.children[0].is_prog ? 3 : 2;
+    //    if(t.is_array_ref())
+    //        ref_size *= 2;
+    //
+    //    // generate ref
+    //    codegen_expr(f, frame, a.children[0], true);
+    //    
+    //    // bounds-check start
+    //    f.instrs.push_back({ I_PUSH, a.line(), ref_size });
+    //    f.instrs.push_back({ I_GETLN, a.line(), ref_size });
+    //    frame.size += ref_size;
+    //    if(t.is_array_ref())
+    //        f.instrs.push_back({ I_UAIDX, a.line(), elem_size });
+    //    else
+    //        f.instrs.push_back({ I_AIDX, a.line(), elem_size, (uint32_t)t.array_size() });
+    //
+    //    // bounds-check stop
+    //
+    //    return;
+    //}
+
     case AST::STRUCT_MEMBER:
     {
         std::string name = std::string(a.children[1].data);

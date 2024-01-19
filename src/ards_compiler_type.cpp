@@ -494,6 +494,23 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         a.comp_type = t0.children[0].with_ref();
         break;
     }
+    case AST::ARRAY_SLICE:
+    {
+        assert(a.children.size() == 3);
+        type_annotate_recurse(a.children[0], frame);
+        type_annotate_recurse(a.children[1], frame);
+        type_annotate_recurse(a.children[2], frame);
+        auto t0 = a.children[0].comp_type.without_ref();
+        if(!t0.is_array() && !t0.is_array_ref())
+        {
+            errs.push_back({
+                "\"" + std::string(a.children[0].data) +
+                "\" is not an array", a.line_info });
+            break;
+        }
+        a.comp_type = t0.children[0].with_array_ref();
+        break;
+    }
     case AST::STRUCT_MEMBER:
     {
         assert(a.children.size() == 2);

@@ -403,7 +403,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             type_annotate(a.children[2], frame, type.without_ref().prim_size);
             // TODO: handle array reference initializers
             //assert(!type.is_array_ref());
-            bool ref = type.is_any_ref();
+            bool ref = type.is_ref();
             if(ref && a.children[2].type == AST::COMPOUND_LITERAL)
             {
                 errs.push_back({
