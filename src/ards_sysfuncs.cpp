@@ -44,6 +44,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "strlen_P",             SYS_STRLEN_P             },
     { "strcmp",               SYS_STRCMP               },
     { "strcmp_P",             SYS_STRCMP_P             },
+    { "strcmp_PP",            SYS_STRCMP_PP            },
     { "strcpy",               SYS_STRCPY               },
     { "strcpy_P",             SYS_STRCPY_P             },
     { "format",               SYS_FORMAT               },
@@ -127,7 +128,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_MOD,                  { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" }}},
     { SYS_POW,                  { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" }}},
     { SYS_SQRT,                 { TYPE_FLOAT, { TYPE_FLOAT }, { "x" }}},
-    { SYS_GENERATE_RANDOM_SEED, { TYPE_VOID,  { }, { }}},
+    { SYS_GENERATE_RANDOM_SEED, { TYPE_U32,   { }, { }}},
     { SYS_INIT_RANDOM_SEED,     { TYPE_VOID,  { }, { }}},
     { SYS_RANDOM,               { TYPE_U32,   { TYPE_U32, TYPE_U32 }, { "lo", "hi" }}},
 };

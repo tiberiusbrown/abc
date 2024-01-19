@@ -153,8 +153,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) + "\" is not a primitive type",
-                a.children[0].line_info });
-            break;
+                    a.children[0].line_info });
+                    break;
         }
         if(op == "!")
             a.comp_type = TYPE_BOOL;
@@ -189,17 +189,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             {
                 // generate calls to strcpy for char array assignment
                 a.comp_type = TYPE_STR;
-                ast_node_t func_call{};
-                ast_node_t ident{};
-                ast_node_t func_args{};
-                func_call.line_info = a.line_info;
-                ident.line_info = a.line_info;
-                func_args.line_info = a.line_info;
-                func_call.type = AST::FUNC_CALL;
-                ident.type = AST::IDENT;
+                ast_node_t func_call{ a.line_info, AST::FUNC_CALL };
+                ast_node_t ident{ a.line_info, AST::IDENT };
+                ast_node_t func_args{ a.line_info, AST::FUNC_ARGS };
                 ident.data = a.children[1].comp_type.is_prog_string() ?
                     "$strcpy_P" : "$strcpy";
-                func_args.type = AST::FUNC_ARGS;
                 func_args.children.emplace_back(std::move(a.children[0]));
                 func_args.children.emplace_back(std::move(a.children[1]));
                 func_call.children.emplace_back(std::move(ident));
@@ -247,6 +241,50 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         assert(a.children.size() == 2);
         for(auto& child : a.children)
             type_annotate_recurse(child, frame);
+
+        // generate calls to strcmp* family of methods
+        if(a.type == AST::OP_EQUALITY &&
+            a.children[0].comp_type.is_string() &&
+            a.children[1].comp_type.is_string())
+        {
+            ast_node_t logical_op{ a.line_info };
+            ast_node_t func_call{ a.line_info,  AST::FUNC_CALL };
+            ast_node_t ident{ a.line_info, AST::IDENT };
+            ast_node_t func_args{ a.line_info, AST::FUNC_ARGS };
+            func_call.line_info = a.line_info;
+            ident.line_info = a.line_info;
+            func_args.line_info = a.line_info;
+            ident.data =
+                a.children[0].comp_type.is_prog_string() ?
+                (a.children[1].comp_type.is_prog_string() ? "$strcmp_PP" : "$strcmp_P") :
+                (a.children[1].comp_type.is_prog_string() ? "$strcmp_P" : "$strcmp");
+            {
+                auto* arg0 = &a.children[0];
+                auto* arg1 = &a.children[1];
+                if(arg0->comp_type.is_prog_string())
+                    std::swap(arg0, arg1);
+                func_args.children.emplace_back(std::move(*arg0));
+                func_args.children.emplace_back(std::move(*arg1));
+            }
+            func_call.children.emplace_back(std::move(ident));
+            func_call.children.emplace_back(std::move(func_args));
+            if(a.data == "==")
+            {
+                logical_op.type = AST::OP_UNARY;
+                logical_op.children.emplace_back(ast_node_t{ a.line_info, AST::TOKEN, "!" });
+            }
+            else
+            {
+                logical_op.type = AST::OP_CAST;
+                logical_op.children.emplace_back(ast_node_t{ a.line_info });
+                logical_op.children.back().comp_type = TYPE_BOOL;
+            }
+            logical_op.children.emplace_back(std::move(func_call));
+            a = std::move(logical_op);
+            type_annotate_recurse(a, frame);
+            return;
+        }
+
         auto t0 = a.children[0].comp_type.without_ref();
         auto t1 = a.children[1].comp_type.without_ref();
 

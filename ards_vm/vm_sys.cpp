@@ -613,13 +613,12 @@ static void sys_strcmp_P()
 static void sys_strcmp_PP()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
-    uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint24_t n0 = vm_pop<uint24_t>(ptr);
+    uint24_t b0 = vm_pop<uint24_t>(ptr);
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    char const* p0 = reinterpret_cast<char const*>(b0);
     char c0, c1;
     for(;;)
     {
@@ -633,7 +632,6 @@ static void sys_strcmp_PP()
         if(c0 != c1) break;
     }
     vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
-    (void)FX::readEnd();
     FX::seekData(ards::vm.pc);
 }
 

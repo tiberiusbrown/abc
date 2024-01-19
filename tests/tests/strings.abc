@@ -22,22 +22,34 @@ void main()
     str2 = "what" ; $assert($strcmp(str, str2) <  0);
     str2 = "aaaa" ; $assert($strcmp(str, str2) >  0);
     
-    //$strcpy_P(str, "hi"    ); $assert($strcmp_P(str, "hi"    ) == 0);
-    //$strcpy_P(str, "longer"); $assert($strcmp_P(str, "long"  ) == 0);
-    //$strcpy_P(str, "wheezy"); $assert($strcmp_P(str, "wheezy") != 0);
+    str = "hi"    ; $assert(str == "hi"    );
+    str = "longer"; $assert(str == "long"  );
+    str = "wheezy"; $assert(str != "wheezy");
     
     //$strcpy(str2, str);
     //$assert($strcmp(str, str2) == 0);
     //$assert($strcmp(str2, str) == 0);
     
     $format(str, "%u", 42);
-    $assert($strcmp_P(str, "42") == 0);
+    $assert(str == "42");
     
     $format(str, "%03u", 42);
-    $assert($strcmp_P(str, "042") == 0);
+    $assert(str == "042");
     
     $format(str, "%04u", 42);
-    $assert($strcmp_P(str, "0042") == 0);
+    $assert(str == "0042");
+    
+    {
+        char[10] str;
+        char[20] str2;
+        str = "What";
+        str2 = str;
+        $assert(str == str2);
+        $assert(str == "What");
+        $assert("What" == str);
+        $assert("What" == "What");
+        $assert("What?" != str);
+    }
     
     $debug_break();
 }
