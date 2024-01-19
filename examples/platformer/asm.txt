@@ -4784,25 +4784,19 @@ load_map:
   p1
   setg  player_on_ground 0
   .line 50
-  pushl maps 0
+  pushl maps 6
   getg  current_map 0
   pidxb 17 10
-  p6
-  add3b
   getpn 6
   .line 51
-  pushl maps 0
+  pushl maps 12
   getg  current_map 0
   pidxb 17 10
-  push  12
-  add3b
   getp
   .line 52
-  pushl maps 0
+  pushl maps 13
   getg  current_map 0
   pidxb 17 10
-  push  13
-  add3b
   getp
   .line 53
   dup2
@@ -5087,11 +5081,9 @@ $L_mob_solid_2:
   ret
 $L_mob_solid_3:
   .line 196
-  pushl maps 0
+  pushl maps 6
   getg  current_map 0
   pidxb 17 10
-  p6
-  add3b
   getpn 6
   getl2 11
   sext
@@ -6934,11 +6926,9 @@ $L_update_level_15:
 $L_update_level_16:
   bz    $L_update_level_34
   .line 394
-  pushl maps 0
+  pushl maps 6
   getg  current_map 0
   pidxb 17 10
-  p6
-  add3b
   getpn 6
   getl  9
   p0
@@ -7429,11 +7419,9 @@ $L_player_take_damage_3:
 resolve_player_collision:
   .file update
   .line 518
-  pushl maps 0
+  pushl maps 6
   getg  current_map 0
   pidxb 17 10
-  p6
-  add3b
   getpn 6
   .line 521
   getg4 vx 0
@@ -7723,11 +7711,9 @@ $L_resolve_player_collision_17:
 update_map_objects:
   .file update
   .line 573
-  pushl maps 0
+  pushl maps 6
   getg  current_map 0
   pidxb 17 10
-  p6
-  add3b
   getpn 6
   .line 574
   getg4 px 0
@@ -9739,20 +9725,16 @@ render_level:
   sub2
   pop
   .line 382
-  pushl maps 0
+  pushl maps 6
   getg  current_map 0
   pidxb 17 10
-  p6
-  add3b
   getpn 6
   .line 383
   getg  map_width 0
   .line 387
-  pushl maps 0
+  pushl maps 14
   getg  current_map 0
   pidxb 17 10
-  push  14
-  add3b
   getpn 3
   .line 389
   p00
@@ -10395,7 +10377,7 @@ Compilation succeeded!
 Dev Bin:   73216 bytes    71.5 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8642 bytes     8.4 KB
+Code:       8621 bytes     8.4 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes

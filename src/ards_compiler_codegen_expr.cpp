@@ -339,41 +339,7 @@ void compiler_t::codegen_expr(
 
     case AST::IDENT:
     {
-        std::string name(a.data);
-        if(auto* local = resolve_local(frame, a))
-        {
-            assert(!local->var.is_constexpr);
-            uint8_t offset = (uint8_t)(frame.size - local->frame_offset);
-            f.instrs.push_back({ I_REFL, a.line(), offset });
-            frame.size += 2;
-            return;
-        }
-        if(auto* global = resolve_global(a))
-        {
-            assert(!global->var.is_constexpr);
-            bool prog = global->var.type.is_prog;
-            if(global->is_constexpr_ref())
-            {
-                if(prog)
-                    f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, global->constexpr_ref });
-                else
-                    f.instrs.push_back({ I_PUSHG, a.line(), 0, 0, global->constexpr_ref });
-                frame.size += (prog ? 3 : 2);
-                return;
-            }
-            if(prog)
-            {
-                f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, global->name });
-                frame.size += 3;
-            }
-            else
-            {
-                f.instrs.push_back({ I_REFG, a.line(), 0, 0, global->name });
-                frame.size += 2;
-            }
-            return;
-        }
-        errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
+        codegen_expr_ident(f, frame, a, 0);
         return;
     }
 
@@ -748,71 +714,8 @@ void compiler_t::codegen_expr(
 
     case AST::ARRAY_INDEX:
     {
-        if(a.children[1].comp_type.is_float)
-        {
-            errs.push_back({
-                "Array indices may not be floating point values",
-                a.line_info });
-            return;
-        }
-
-        auto const& t = a.children[0].comp_type.without_ref();
-        bool prog = t.is_array_ref() ? t.children[0].is_prog : t.is_prog;
-        size_t elem_size = t.children[0].prim_size;
-
-        codegen_expr(f, frame, a.children[0], true);
-        if(t.is_array_ref())
-            codegen_convert(f, frame, a.children[0], t, a.children[0].comp_type);
-
-        // optimize the case where children[1] is an integer constant:
-        // directly adjust offset without bounds checking
-        if(!t.is_array_ref() && a.children[1].type == AST::INT_CONST)
-        {
-            size_t array_size = t.array_size();
-            int64_t v = a.children[1].value;
-            if(v < 0 || (size_t)v >= array_size)
-            {
-                errs.push_back({
-                    "Array index out of bounds",
-                    a.children[1].line_info });
-                return;
-            }
-            else
-            {
-                uint32_t x = (uint32_t)(v * elem_size);
-                auto line = a.children[1].line();
-                f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 0) });
-                f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 8) });
-                if(prog)
-                    f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 16) });
-                f.instrs.push_back({ prog ? I_ADD3 : I_ADD2, line });
-                return;
-            }
-        }
-
-        // construct index
-        codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(
-            f, frame, a,
-            prog ? TYPE_U24 : TYPE_U16,
-            a.children[1].comp_type);
-
-        if(t.is_array_ref())
-        {
-            f.instrs.push_back({
-                prog ? I_UPIDX : I_UAIDX, a.line(),
-                (uint16_t)elem_size });
-            frame.size -= prog ? 6 : 4;
-        }
-        else
-        {
-            size_t size = t.prim_size;
-            size_t num_elems = size / elem_size;
-            f.instrs.push_back({
-                prog ? I_PIDX : I_AIDX, a.line(),
-                (uint16_t)elem_size, (uint32_t)num_elems });
-            frame.size -= prog ? 3 : 2;
-        }
+        size_t offset = 0;
+        codegen_expr_array_index(f, frame, a, offset);
         return;
     }
 
@@ -822,7 +725,18 @@ void compiler_t::codegen_expr(
         size_t offset = 0;
         auto const* t = resolve_member(a.children[0], name, &offset);
         if(!t) return;
-        codegen_expr(f, frame, a.children[0], true);
+
+        // check for array of structs: a[i].x
+        // try to add offset to array reference
+        if(offset != 0 && (
+            a.children[0].type == AST::ARRAY_INDEX
+            ))
+        {
+            codegen_expr_array_index(f, frame, a.children[0], offset);
+        }
+        else
+            codegen_expr(f, frame, a.children[0], true);
+
         {
             auto const* reft = &a.children[0].comp_type;
             while(reft->is_ref() && reft->children[0].is_ref())
@@ -958,6 +872,124 @@ void compiler_t::codegen_expr(
         assert(false);
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });
         return;
+    }
+}
+
+void compiler_t::codegen_expr_ident(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a, size_t offset)
+{
+    std::string name(a.data);
+    if(auto* local = resolve_local(frame, a))
+    {
+        assert(!local->var.is_constexpr);
+        uint8_t frame_offset = (uint8_t)(frame.size - local->frame_offset - offset);
+        f.instrs.push_back({ I_REFL, a.line(), frame_offset });
+        frame.size += 2;
+        return;
+    }
+    if(auto* global = resolve_global(a))
+    {
+        assert(!global->var.is_constexpr);
+        bool prog = global->var.type.is_prog;
+        if(global->is_constexpr_ref())
+        {
+            if(prog)
+                f.instrs.push_back({ I_PUSHL, a.line(), (uint32_t)offset, 0, global->constexpr_ref });
+            else
+                f.instrs.push_back({ I_PUSHG, a.line(), (uint32_t)offset, 0, global->constexpr_ref });
+            frame.size += (prog ? 3 : 2);
+            return;
+        }
+        if(prog)
+        {
+            f.instrs.push_back({ I_PUSHL, a.line(), (uint32_t)offset, 0, global->name });
+            frame.size += 3;
+        }
+        else
+        {
+            f.instrs.push_back({ I_REFG, a.line(), (uint32_t)offset, 0, global->name });
+            frame.size += 2;
+        }
+        return;
+    }
+    errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
+}
+
+void compiler_t::codegen_expr_array_index(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a, size_t& offset)
+{
+    if(a.children[1].comp_type.is_float)
+    {
+        errs.push_back({
+            "Array indices may not be floating point values",
+            a.line_info });
+        return;
+    }
+
+    auto const& t = a.children[0].comp_type.without_ref();
+    bool prog = t.is_array_ref() ? t.children[0].is_prog : t.is_prog;
+    size_t elem_size = t.children[0].prim_size;
+
+    if(a.children[0].type == AST::IDENT)
+    {
+        codegen_expr_ident(f, frame, a.children[0], offset);
+        offset = 0;
+    }
+    else
+        codegen_expr(f, frame, a.children[0], true);
+    if(t.is_array_ref())
+        codegen_convert(f, frame, a.children[0], t, a.children[0].comp_type);
+
+    // optimize the case where children[1] is an integer constant:
+    // directly adjust offset without bounds checking
+    if(!t.is_array_ref() && a.children[1].type == AST::INT_CONST)
+    {
+        size_t array_size = t.array_size();
+        int64_t v = a.children[1].value;
+        if(v < 0 || (size_t)v >= array_size)
+        {
+            errs.push_back({
+                "Array index out of bounds",
+                a.children[1].line_info });
+            return;
+        }
+        else
+        {
+            uint32_t x = (uint32_t)(v * elem_size);
+            auto line = a.children[1].line();
+            f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 0) });
+            f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 8) });
+            if(prog)
+                f.instrs.push_back({ I_PUSH, line, uint8_t(x >> 16) });
+            f.instrs.push_back({ prog ? I_ADD3 : I_ADD2, line });
+            return;
+        }
+    }
+
+    // construct index
+    codegen_expr(f, frame, a.children[1], false);
+    codegen_convert(
+        f, frame, a,
+        prog ? TYPE_U24 : TYPE_U16,
+        a.children[1].comp_type);
+
+    if(t.is_array_ref())
+    {
+        f.instrs.push_back({
+            prog ? I_UPIDX : I_UAIDX, a.line(),
+            (uint16_t)elem_size });
+        frame.size -= prog ? 6 : 4;
+    }
+    else
+    {
+        size_t size = t.prim_size;
+        size_t num_elems = size / elem_size;
+        f.instrs.push_back({
+            prog ? I_PIDX : I_AIDX, a.line(),
+            (uint16_t)elem_size, (uint32_t)num_elems });
+        frame.size -= prog ? 3 : 2;
     }
 }
 
