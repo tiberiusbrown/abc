@@ -1797,12 +1797,6 @@ $L_main_start:
     sys debug_break
     pop2
     
-    p000
-    sys debug_break
-    comp3
-    sys debug_break
-    pop3
-    
     p0000
     sys debug_break
     comp4

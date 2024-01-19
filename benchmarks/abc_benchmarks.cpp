@@ -320,7 +320,7 @@ int abc_benchmarks()
         "and", "and2", "and4",
         "or", "or2", "or4",
         "xor", "xor2", "xor4",
-        "comp", "comp2", "comp3", "comp4",
+        "comp", "comp2", "comp4",
         "bool (0)", "bool (1)",
         "bool2 (0)", "bool2 (1)",
         "bool3 (0)", "bool3 (1)",

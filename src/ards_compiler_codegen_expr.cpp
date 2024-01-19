@@ -294,9 +294,16 @@ void compiler_t::codegen_expr(
                     a.line_info });
                 return;
             }
-            auto size = a.children[1].comp_type.prim_size;
+            compiler_type_t t = a.comp_type;
+            if(t.prim_size == 3)
+                t = TYPE_U32;
+            int index =
+                t.prim_size == 1 ? 0 :
+                t.prim_size == 2 ? 1 : 2;
             codegen_expr(f, frame, a.children[1], false);
-            f.instrs.push_back({ instr_t(I_COMP + size - 1), a.children[1].line() });
+            codegen_convert(f, frame, a.children[1], t, a.children[1].comp_type);
+            f.instrs.push_back({ instr_t(I_COMP + index), a.children[1].line() });
+            codegen_convert(f, frame, a.children[1], a.comp_type, t);
         }
         else
         {

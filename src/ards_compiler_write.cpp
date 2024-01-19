@@ -178,7 +178,6 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_XOR4:  f << "xor4"; break;
     case I_COMP:  f << "comp"; break;
     case I_COMP2: f << "comp2"; break;
-    case I_COMP3: f << "comp3"; break;
     case I_COMP4: f << "comp4"; break;
 
     case I_BOOL:  f << "bool"; break;

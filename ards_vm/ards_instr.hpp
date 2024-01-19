@@ -237,7 +237,6 @@ enum instr_t : uint8_t
     I_XOR4,
     I_COMP,
     I_COMP2,
-    I_COMP3,
     I_COMP4,
 
     I_BOOL,  // a | (a!=0)

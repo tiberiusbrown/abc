@@ -217,7 +217,6 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "xor4", I_XOR4 },
     { "comp",  I_COMP },
     { "comp2", I_COMP2 },
-    { "comp3", I_COMP3 },
     { "comp4", I_COMP4 },
     { "asr", I_ASR },
     { "asr2", I_ASR2 },

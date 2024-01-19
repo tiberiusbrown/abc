@@ -2402,16 +2402,6 @@ I_COMP2:
     nop
     dispatch
 
-I_COMP3:
-    ld   r11, -Y
-    ld   r10, -Y
-    com  r10
-    com  r11
-    com  r9
-    st   Y+, r10
-    st   Y+, r11
-    dispatch
-
 I_COMP4:
     ld   r12, -Y
     ld   r11, -Y

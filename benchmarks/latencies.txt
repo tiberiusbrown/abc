@@ -261,7 +261,6 @@
  35   xor4
  18   comp
  18   comp2
- 22   comp3
  27   comp4
  18   bool (0)
  18   bool (1)
