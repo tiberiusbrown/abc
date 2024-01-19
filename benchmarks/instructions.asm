@@ -351,7 +351,7 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 4
+    p0000
     push 42
     push 42
     push 42
@@ -361,8 +361,8 @@ $L_main_start:
     sys debug_break
     pop4
     
-    pzn 3
-    pzn 3
+    p000
+    p000
     push 3
     sys debug_break
     setln 3
@@ -456,12 +456,12 @@ $L_main_start:
     setg2 g 0
     sys debug_break
     
-    pzn 4
+    p0000
     sys debug_break
     setg4 g 0
     sys debug_break
     
-    pzn 3
+    p000
     push 3
     sys debug_break
     setgn g 0
@@ -543,12 +543,12 @@ $L_main_start:
     pop2
     sys debug_break
     
-    pzn 3
+    p000
     sys debug_break
     pop3
     sys debug_break
     
-    pzn 4
+    p0000
     sys debug_break
     pop4
     sys debug_break
@@ -628,13 +628,13 @@ $L_main_start:
     setr2
     sys debug_break
     
-    pzn 3
+    p000
     refg g 0
     sys debug_break
     setrn 3
     sys debug_break
     
-    pzn 4
+    p0000
     refg g 0
     sys debug_break
     setrn 4
@@ -853,7 +853,7 @@ $L_main_start:
     sys debug_break
     pop
     
-    pzn 4
+    p0000
     sys debug_break
     add2
     sys debug_break
@@ -877,7 +877,7 @@ $L_main_start:
     sys debug_break
     pop
     
-    pzn 4
+    p0000
     sys debug_break
     sub2
     sys debug_break
@@ -895,7 +895,7 @@ $L_main_start:
     sys debug_break
     pop4
     
-    pzn 3
+    p000
     sys debug_break
     add2b
     sys debug_break
@@ -907,7 +907,7 @@ $L_main_start:
     sys debug_break
     pop
     
-    pzn 4
+    p0000
     sys debug_break
     mul2
     sys debug_break
@@ -1192,119 +1192,119 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 3
+    p000
     push 0
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 1
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 4
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 8
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 16
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 23
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 24
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 64
     sys debug_break
     lsl3
     sys debug_break
     pop3
     
-    pzn 4
+    p0000
     push 0
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 1
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 4
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 8
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 16
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 24
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 31
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 32
     sys debug_break
     lsl4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 64
     sys debug_break
     lsl4
@@ -1402,119 +1402,119 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 3
+    p000
     push 0
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 1
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 4
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 8
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 16
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 23
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 24
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 64
     sys debug_break
     lsr3
     sys debug_break
     pop3
     
-    pzn 4
+    p0000
     push 0
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 1
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 4
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 8
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 16
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 24
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 31
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 32
     sys debug_break
     lsr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 64
     sys debug_break
     lsr4
@@ -1612,119 +1612,119 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 3
+    p000
     push 0
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 1
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 4
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 8
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 16
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 23
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 24
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 3
+    p000
     push 64
     sys debug_break
     asr3
     sys debug_break
     pop3
     
-    pzn 4
+    p0000
     push 0
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 1
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 4
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 8
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 16
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 24
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 31
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 32
     sys debug_break
     asr4
     sys debug_break
     pop4
     
-    pzn 4
+    p0000
     push 64
     sys debug_break
     asr4
@@ -1737,7 +1737,7 @@ $L_main_start:
     sys debug_break
     pop
     
-    pzn 4
+    p0000
     sys debug_break
     and2
     sys debug_break
@@ -1761,7 +1761,7 @@ $L_main_start:
     sys debug_break
     pop
     
-    pzn 4
+    p0000
     sys debug_break
     or2
     sys debug_break
@@ -1785,7 +1785,7 @@ $L_main_start:
     sys debug_break
     pop
     
-    pzn 4
+    p0000
     sys debug_break
     xor2
     sys debug_break
@@ -1815,13 +1815,13 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 3
+    p000
     sys debug_break
     comp3
     sys debug_break
     pop3
     
-    pzn 4
+    p0000
     sys debug_break
     comp4
     sys debug_break

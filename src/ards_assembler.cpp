@@ -328,7 +328,14 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "pzn")
         {
             push_instr(I_PZN);
-            push_imm(read_imm(f, error) - 1, 1);
+            auto n = read_imm(f, error);
+            assert(n >= 5);
+            if(n < 5)
+            {
+                error.msg = "PZN instr imm must be >= 5";
+                continue;
+            }
+            push_imm(n - 3, 1);
         }
         else if(t == "popn")
         {

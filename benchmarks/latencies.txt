@@ -14,12 +14,12 @@
  18   p00
  20   p000
  22   p0000
- 43   pzn 5
- 44   pzn 6
- 50   pzn 7
- 51   pzn 8
- 79   pzn 16
-135   pzn 32
+ 36   pzn 5
+ 37   pzn 6
+ 43   pzn 7
+ 44   pzn 8
+ 72   pzn 16
+128   pzn 32
  36   push N
  54   push2 N
  72   push3 N

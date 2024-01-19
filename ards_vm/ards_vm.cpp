@@ -414,8 +414,8 @@ I_P0000:
 I_PZN:
     st   Y+, r9
     clr  r9
-    rjmp .+0
-    rjmp .+0
+    st   Y+, r2
+    st   Y+, r2
     read_byte
     neg  r0
     cp   r28, r0
