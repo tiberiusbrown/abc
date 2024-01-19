@@ -133,6 +133,7 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_SUB3:  f << "sub3"; break;
     case I_SUB4:  f << "sub4"; break;
     case I_ADD2B: f << "add2b"; break;
+    case I_SUB2B: f << "sub2b"; break;
 
     case I_MUL:   f << "mul"; break;
     case I_MUL2:  f << "mul2"; break;

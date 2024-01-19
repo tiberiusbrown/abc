@@ -485,6 +485,15 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
+        // replace PUSH 0; SUB2 with SUB2B
+        if(i0.instr == I_PUSH && i0.imm == 0 && i1.instr == I_SUB2)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_SUB2B;
+            t = true;
+            continue;
+        }
+
         // replace PUSH 1; GETLN <N> with GETL <N>
         // replace PUSH 1; SETLN <N> with SETL <N>
         // replace PUSH 1; GETGN <N> with GETG <N>

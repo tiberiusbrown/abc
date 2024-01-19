@@ -181,6 +181,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "sub3", I_SUB3 },
     { "sub4", I_SUB4 },
     { "add2b", I_ADD2B },
+    { "sub2b", I_SUB2B },
     { "mul", I_MUL },
     { "mul2", I_MUL2 },
     { "mul3", I_MUL3 },
