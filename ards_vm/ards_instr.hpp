@@ -194,6 +194,7 @@ enum instr_t : uint8_t
 
     I_ADD2B, // a0 a1 b0 | (a+b)0 (a+b)1
     I_SUB2B,
+    I_MUL2B,
 
     I_MUL,
     I_MUL2,

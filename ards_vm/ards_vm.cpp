@@ -1698,6 +1698,26 @@ I_SUB2B:
     mov  r9, r15
     dispatch
 
+I_MUL2B:
+    ;
+    ;    A1 A0
+    ;       B0
+    ;    =====
+    ;    A0*B0
+    ; A1*B0
+    ; ========
+    ;    C1 C0
+    ;
+    ld   r15, -Y
+    ld   r14, -Y
+    mul  r14, r9 ; A0*B0
+    movw r18, r0
+    mul  r15, r9 ; A1*B0
+    add  r19, r0
+    st   Y+, r18
+    mov  r9, r19
+    dispatch
+
 I_MUL:
     ld   r14, -Y
     mul  r14, r9
