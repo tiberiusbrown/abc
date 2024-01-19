@@ -1714,6 +1714,18 @@ I_ADD2B:
     mov  r9, r15
     dispatch
 
+I_ADD3B:
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    add  r14, r9
+    adc  r15, r2
+    adc  r16, r2
+    st   Y+, r14
+    st   Y+, r15
+    mov  r9, r16
+    dispatch
+
 I_SUB2B:
     ld   r15, -Y
     ld   r14, -Y

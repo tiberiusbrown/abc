@@ -4629,8 +4629,7 @@ $L_process_map_tile_18:
   mul2b
   sext
   dup5
-  p00
-  add3
+  add3b
   pop
   dup6
   p0
@@ -4688,8 +4687,7 @@ $L_process_map_tile_19:
   mul2b
   sext
   dup7
-  p00
-  add3
+  add3b
   pop
   p2
   p2
@@ -4790,24 +4788,21 @@ load_map:
   getg  current_map 0
   pidxb 17 10
   p6
-  p00
-  add3
+  add3b
   getpn 6
   .line 51
   pushl maps 0
   getg  current_map 0
   pidxb 17 10
   push  12
-  p00
-  add3
+  add3b
   getp
   .line 52
   pushl maps 0
   getg  current_map 0
   pidxb 17 10
   push  13
-  p00
-  add3
+  add3b
   getp
   .line 53
   dup2
@@ -4860,8 +4855,7 @@ $L_load_map_6:
   mul2b
   p0
   getl  10
-  p00
-  add3
+  add3b
   upidx 1
   getp
   dec
@@ -5097,8 +5091,7 @@ $L_mob_solid_3:
   getg  current_map 0
   pidxb 17 10
   p6
-  p00
-  add3
+  add3b
   getpn 6
   getl2 11
   sext
@@ -5432,8 +5425,7 @@ $L_update_level_select_5:
   add2b
   p0
   p1
-  p00
-  add3
+  add3b
   push  10
   p00
   cslt3
@@ -5825,8 +5817,7 @@ $L_update_score_tally_0:
   p3
   getgn total_score 0
   dup4
-  p00
-  add3
+  add3b
   p3
   setgn total_score 0
   .line 238
@@ -5869,8 +5860,7 @@ $L_update_score_tally_3:
   p3
   getgn total_score 0
   dup4
-  p00
-  add3
+  add3b
   p3
   setgn total_score 0
   .line 249
@@ -6948,8 +6938,7 @@ $L_update_level_16:
   getg  current_map 0
   pidxb 17 10
   p6
-  p00
-  add3
+  add3b
   getpn 6
   getl  9
   p0
@@ -6957,8 +6946,7 @@ $L_update_level_16:
   mul2b
   p0
   getl  13
-  p00
-  add3
+  add3b
   upidx 1
   getp
   .line 395
@@ -7445,8 +7433,7 @@ resolve_player_collision:
   getg  current_map 0
   pidxb 17 10
   p6
-  p00
-  add3
+  add3b
   getpn 6
   .line 521
   getg4 vx 0
@@ -7740,8 +7727,7 @@ update_map_objects:
   getg  current_map 0
   pidxb 17 10
   p6
-  p00
-  add3
+  add3b
   getpn 6
   .line 574
   getg4 px 0
@@ -8650,8 +8636,7 @@ $L_render_victory_3:
   mul2b
   sext
   dup7
-  p00
-  add3
+  add3b
   pidx  1 40
   getp
   dec
@@ -9007,8 +8992,7 @@ $L_render_game_over_3:
   mul2b
   sext
   dup7
-  p00
-  add3
+  add3b
   pidx  1 40
   getp
   dec
@@ -9759,8 +9743,7 @@ render_level:
   getg  current_map 0
   pidxb 17 10
   p6
-  p00
-  add3
+  add3b
   getpn 6
   .line 383
   getg  map_width 0
@@ -9769,8 +9752,7 @@ render_level:
   getg  current_map 0
   pidxb 17 10
   push  14
-  p00
-  add3
+  add3b
   getpn 3
   .line 389
   p00
@@ -9936,8 +9918,7 @@ $L_render_level_9:
   dupw8
   p0
   getl  10
-  p00
-  add3
+  add3b
   upidx 1
   getp
   dec
@@ -10260,8 +10241,7 @@ $L_render_level_35:
   getg2 level_frames_remaining 0
   p0
   push  49
-  p00
-  add3
+  add3b
   pop
   p00
   push  50
@@ -10415,7 +10395,7 @@ Compilation succeeded!
 Dev Bin:   73216 bytes    71.5 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8662 bytes     8.5 KB
+Code:       8642 bytes     8.4 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes
