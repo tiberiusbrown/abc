@@ -1743,12 +1743,6 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 6
-    sys debug_break
-    and3
-    sys debug_break
-    pop3
-    
     pzn 8
     sys debug_break
     and4
@@ -1767,12 +1761,6 @@ $L_main_start:
     sys debug_break
     pop2
     
-    pzn 6
-    sys debug_break
-    or3
-    sys debug_break
-    pop3
-    
     pzn 8
     sys debug_break
     or4
@@ -1790,12 +1778,6 @@ $L_main_start:
     xor2
     sys debug_break
     pop2
-    
-    pzn 6
-    sys debug_break
-    xor3
-    sys debug_break
-    pop3
     
     pzn 8
     sys debug_break

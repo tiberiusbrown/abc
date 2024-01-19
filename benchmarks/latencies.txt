@@ -252,15 +252,12 @@
  34   asr4 (64)
  18   and
  21   and2
- 28   and3
  35   and4
  18   or
  21   or2
- 28   or3
  35   or4
  18   xor
  21   xor2
- 28   xor3
  35   xor4
  18   comp
  18   comp2

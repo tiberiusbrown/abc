@@ -697,18 +697,24 @@ void compiler_t::codegen_expr(
                 a.line_info });
             return;
         }
+        compiler_type_t t = a.comp_type;
+        if(t.prim_size == 3)
+            t = TYPE_U32;
         codegen_expr(f, frame, a.children[0], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+        codegen_convert(f, frame, a, t, a.children[1].comp_type);
         codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
-        auto size = a.comp_type.prim_size;
-        frame.size -= size;
+        codegen_convert(f, frame, a, t, a.children[1].comp_type);
+        frame.size -= t.prim_size;
+        int index =
+            t.prim_size == 1 ? 0 :
+            t.prim_size == 2 ? 1 : 2;
         if(a.type == AST::OP_BITWISE_AND)
-            f.instrs.push_back({ instr_t(I_AND + size - 1), a.line() });
+            f.instrs.push_back({ instr_t(I_AND + index), a.line() });
         else if(a.type == AST::OP_BITWISE_OR)
-            f.instrs.push_back({ instr_t(I_OR + size - 1), a.line() });
+            f.instrs.push_back({ instr_t(I_OR + index), a.line() });
         else if(a.type == AST::OP_BITWISE_XOR)
-            f.instrs.push_back({ instr_t(I_XOR + size - 1), a.line() });
+            f.instrs.push_back({ instr_t(I_XOR + index), a.line() });
+        codegen_convert(f, frame, a, a.comp_type, t);
         return;
     }
 

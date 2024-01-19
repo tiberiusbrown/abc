@@ -291,10 +291,10 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if((a.type == AST::OP_BITWISE_AND ||
             a.type == AST::OP_BITWISE_OR ||
             a.type == AST::OP_BITWISE_XOR) &&
-            (t0.is_bool || t1.is_bool))
+            (t0.is_bool || t1.is_bool || t0.is_float || t1.is_float))
         {
             errs.push_back({
-                "Bitwise and, or, and xor may not operate on boolean types.",
+                "Bitwise and, or, and xor may not operate on boolean or floating-point types.",
                 a.line_info });
             return;
         }

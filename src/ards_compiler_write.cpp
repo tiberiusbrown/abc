@@ -169,15 +169,12 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
 
     case I_AND:   f << "and"; break;
     case I_AND2:  f << "and2"; break;
-    case I_AND3:  f << "and3"; break;
     case I_AND4:  f << "and4"; break;
     case I_OR:    f << "or"; break;
     case I_OR2:   f << "or2"; break;
-    case I_OR3:   f << "or3"; break;
     case I_OR4:   f << "or4"; break;
     case I_XOR:   f << "xor"; break;
     case I_XOR2:  f << "xor2"; break;
-    case I_XOR3:  f << "xor3"; break;
     case I_XOR4:  f << "xor4"; break;
     case I_COMP:  f << "comp"; break;
     case I_COMP2: f << "comp2"; break;

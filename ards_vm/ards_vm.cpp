@@ -2305,19 +2305,6 @@ I_AND2:
     st   Y+, r10
     dispatch
 
-I_AND3:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    and  r10, r14
-    and  r11, r15
-    and  r9, r16
-    st   Y+, r10
-    st   Y+, r11
-    dispatch
-
 I_AND4:
     ld   r12, -Y
     ld   r11, -Y
@@ -2351,19 +2338,6 @@ I_OR2:
     st   Y+, r10
     dispatch
 
-I_OR3:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    or   r10, r14
-    or   r11, r15
-    or   r9, r16
-    st   Y+, r10
-    st   Y+, r11
-    dispatch
-
 I_OR4:
     ld   r12, -Y
     ld   r11, -Y
@@ -2395,19 +2369,6 @@ I_XOR2:
     eor  r10, r14
     eor  r9, r15
     st   Y+, r10
-    dispatch
-
-I_XOR3:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    eor  r10, r14
-    eor  r11, r15
-    eor  r9, r16
-    st   Y+, r10
-    st   Y+, r11
     dispatch
 
 I_XOR4:
