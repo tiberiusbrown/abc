@@ -180,8 +180,38 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         type_annotate_recurse(a.children[0], frame);
         a.comp_type = a.children[0].comp_type.without_ref();
         if(a.children[1].type != AST::COMPOUND_LITERAL)
-            a.children[1].insert_cast(a.comp_type.without_ref());
-        type_annotate_recurse(a.children[1], frame);
+        {
+            type_annotate_recurse(a.children[1], frame);
+
+            if(a.children[0].comp_type.is_any_ref() &&
+                a.children[0].comp_type.is_nonprog_string() &&
+                a.children[1].comp_type.is_string())
+            {
+                a.comp_type = TYPE_STR;
+                ast_node_t func_call{};
+                ast_node_t ident{};
+                ast_node_t func_args{};
+                func_call.line_info = a.line_info;
+                ident.line_info = a.line_info;
+                func_args.line_info = a.line_info;
+                func_call.type = AST::FUNC_CALL;
+                ident.type = AST::IDENT;
+                ident.data = a.children[1].comp_type.is_prog_string() ?
+                    "$strcpy_P" : "$strcpy";
+                func_args.type = AST::FUNC_ARGS;
+                func_args.children.emplace_back(std::move(a.children[0]));
+                func_args.children.emplace_back(std::move(a.children[1]));
+                func_call.children.emplace_back(std::move(ident));
+                func_call.children.emplace_back(std::move(func_args));
+                a = std::move(func_call);
+                type_annotate_recurse(a, frame);
+                return;
+            }
+            else
+            {
+                a.children[1].insert_cast(a.comp_type.without_ref());
+            }
+        }
         break;
     }
     case AST::OP_COMPOUND_ASSIGNMENT_DEREF:

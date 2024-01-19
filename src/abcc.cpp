@@ -61,7 +61,7 @@ int main(int argc, char** argv)
     catch(const std::exception& err) {
         std::cerr << err.what() << std::endl;
         std::cerr << args;
-        std::exit(1);
+        //std::exit(1);
     }
 
     bool show_asm = false;
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 #endif
 
 #ifndef NDEBUG
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble3/bubble3.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/struct_ref_bug.abc";

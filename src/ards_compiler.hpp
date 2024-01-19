@@ -255,6 +255,33 @@ struct compiler_type_t
         r.prim_size = is_prog ? 6 : 4;
         return r;
     }
+
+    bool is_nonprog_string() const
+    {
+        if(type == ARRAY || type == ARRAY_REF)
+            return children[0].is_char && !children[0].is_prog;
+        if(type == REF)
+            return children[0].is_nonprog_string();
+        return false;
+    }
+
+    bool is_prog_string() const
+    {
+        if(type == ARRAY || type == ARRAY_REF)
+            return children[0].is_char && children[0].is_prog;
+        if(type == REF)
+            return children[0].is_prog_string();
+        return false;
+    }
+
+    bool is_string() const
+    {
+        if(type == ARRAY || type == ARRAY_REF)
+            return children[0].is_char;
+        if(type == REF)
+            return children[0].is_string();
+        return false;
+    }
 };
 
 const compiler_type_t TYPE_NONE = { 0, true };
