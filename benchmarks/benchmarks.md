@@ -480,10 +480,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.45x slowdown (2.21x speedup)</summary>
+<details><summary>text: 0.48x slowdown (2.08x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 93801</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 99899</td></tr>
 <tr>
 <td>
 
@@ -539,10 +539,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 4.49x slowdown</summary>
+<details><summary>tilessprite: 4.46x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 44482</td><td>Cycles: 199598</td></tr>
+<tr><td>Cycles: 44482</td><td>Cycles: 198190</td></tr>
 <tr>
 <td>
 
@@ -621,10 +621,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite16: 2.45x slowdown</summary>
+<details><summary>tilessprite16: 2.43x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 26978</td><td>Cycles: 65990</td></tr>
+<tr><td>Cycles: 26978</td><td>Cycles: 65638</td></tr>
 <tr>
 <td>
 

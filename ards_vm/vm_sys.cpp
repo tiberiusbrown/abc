@@ -363,12 +363,15 @@ static void sys_draw_sprite_selfmask()
     draw_sprite_helper(4);
 }
 
-static void draw_char(uint24_t font, int16_t x, int16_t y, uint8_t w, uint8_t h, char c)
+static void draw_char(uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h, char c)
 {
+    FX::seekData(font + uint8_t(c) * 2);
+    int8_t lsb = (int8_t)FX::readPendingUInt8();
+    uint8_t adv = FX::readPendingLastUInt8();
     SpritesU::drawBasic(
-        x, y, w, h, font + 513 + 5, uint8_t(c),
+        x + lsb, y, w, h, font + 513 + 5, uint8_t(c),
         SpritesU::MODE_SELFMASKFX);
-        //SpritesU::MODE_OVERWRITEFX);
+    x += adv;
 }
 
 static void sys_draw_text()
@@ -401,11 +404,7 @@ static void sys_draw_text()
             continue;
         }
         
-        FX::seekData(font + uint8_t(c) * 2);
-        int8_t lsb = (int8_t)FX::readPendingUInt8();
-        uint8_t adv = FX::readPendingLastUInt8();
-        draw_char(font, x + lsb, y, w, h, c);
-        x += adv;
+        draw_char(font, x, y, w, h, c);
     }
     
     FX::seekData(ards::vm.pc);
@@ -444,11 +443,7 @@ static void sys_draw_text_P()
             continue;
         }
         
-        FX::seekData(font + uint8_t(c) * 2);
-        int8_t lsb = (int8_t)FX::readPendingUInt8();
-        uint8_t adv = FX::readPendingLastUInt8();
-        draw_char(font, x + lsb, y, w, h, c);
-        x += adv;
+        draw_char(font, x, y, w, h, c);
     }
     
     FX::seekData(ards::vm.pc);
@@ -940,11 +935,7 @@ static void format_exec_draw(char c)
     }
     else
     {
-        FX::seekData(u->font + uint8_t(c) * 2);
-        int8_t lsb = (int8_t)FX::readPendingUInt8();
-        uint8_t adv = FX::readPendingLastUInt8();
-        draw_char(u->font, u->x + lsb, u->y, u->w, u->h, c);
-        u->x += adv;
+        draw_char(u->font, u->x, u->y, u->w, u->h, c);
     }
 }
 
