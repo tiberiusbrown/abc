@@ -4252,7 +4252,7 @@ $L_process_map_tile_0:
   mul2b
   sext2
   i2f
-  pzn   3
+  p000
   push  65
   fadd
   setg4 px 0
@@ -4274,7 +4274,7 @@ $L_process_map_tile_0:
   p128
   push  66
   fsub
-  pzn   3
+  p000
   push  66
   fadd
   setg4 camx 0
@@ -4308,18 +4308,18 @@ $L_process_map_tile_0:
   i2f
   .line 115
   getg4 camx 0
-  pzn   4
+  p0000
   cflt
   bz    $L_process_map_tile_1
-  pzn   4
+  p0000
   setg4 camx 0
 $L_process_map_tile_1:
   .line 116
   getg4 camy 0
-  pzn   4
+  p0000
   cflt
   bz    $L_process_map_tile_2
-  pzn   4
+  p0000
   setg4 camy 0
 $L_process_map_tile_2:
   .line 117
@@ -4339,7 +4339,7 @@ $L_process_map_tile_3:
   setg4 camy 0
 $L_process_map_tile_4:
   .line 119
-  pzn   4
+  p0000
   setg4 dcamx 0
   popn  8
   .line 106
@@ -4756,10 +4756,10 @@ load_map:
   p0
   setg  jump_frames_remaining 0
   .line 39
-  pzn   4
+  p0000
   setg4 vx 0
   .line 40
-  pzn   4
+  p0000
   setg4 vy 0
   .line 41
   push  90
@@ -4992,7 +4992,7 @@ $L_load_map_11:
   sys   tones_play
   .line 99
   getg  keys_required 0
-  pzn   3
+  p000
   pushl $PD_35 0
   push  17
   p00
@@ -5494,11 +5494,11 @@ new_game:
   p5
   setg  lives 0
   .line 24
-  pzn   3
+  p000
   p3
   setgn total_score 0
   .line 25
-  pzn   3
+  p000
   p3
   setgn total_time 0
   .line 26
@@ -5600,7 +5600,7 @@ render_credits:
   p0
   push  17
   p128
-  pzn   4
+  p0000
   sys   draw_filled_rect
   .line 47
   p00
@@ -5615,7 +5615,7 @@ render_credits:
   p2
   p128
   push  14
-  pzn   3
+  p000
   sys   draw_filled_rect
   pop2
   ret
@@ -6150,7 +6150,7 @@ $L_render_level_select_6:
   p6
   push  10
   dup7
-  pzn   3
+  p000
   sys   draw_filled_rect
   .line 188
   pushl $PD_49 0
@@ -6158,7 +6158,7 @@ $L_render_level_select_6:
   p00
   pushl $PD_36 0
   getl  13
-  pzn   3
+  p000
   sys   draw_text_P
   pop3
   .line 176
@@ -6186,7 +6186,7 @@ $L_render_level_select_7:
   p00
   pushl $PD_36 0
   getl  14
-  pzn   3
+  p000
   sys   draw_textf
 $L_render_level_select_8:
   .line 195
@@ -6252,15 +6252,15 @@ $L_render_level_select_10:
   getl2 12
   p00
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   getl2 16
   p00
   push  50
-  pzn   3
+  p000
   udiv4
   pushl $PD_53 0
   p7
@@ -6315,21 +6315,21 @@ $L_render_level_select_1:
   p1
   p128
   p7
-  pzn   3
+  p000
   sys   draw_filled_rect
   .line 218
   p1
   p1
   p128
   push  44
-  pzn   3
+  p000
   sys   draw_filled_rect
   .line 219
   p1
   p1
   p128
   push  60
-  pzn   3
+  p000
   sys   draw_filled_rect
   .line 220
   p1
@@ -6517,16 +6517,16 @@ $L_render_level_select_23:
   getgn best_time 0
   p0
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   p3
   getgn best_time 0
   p0
   push  50
-  pzn   3
+  p000
   udiv4
   pushl $PD_61 0
   p7
@@ -6579,16 +6579,16 @@ $L_render_level_select_25:
   getln 13
   p0
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   p3
   getln 17
   p0
   push  50
-  pzn   3
+  p000
   udiv4
   pushl $PD_63 0
   p7
@@ -6783,7 +6783,7 @@ update_level:
 $L_update_level_0:
   setg  player_moving 0
   .line 346
-  pzn   3
+  p000
   push  62
   .line 347
   getg  player_on_ground 0
@@ -6811,12 +6811,12 @@ $L_update_level_1:
   cflt
   bzp   $L_update_level_2
   getl4 12
-  pzn   4
+  p0000
   cflt
 $L_update_level_2:
   bz    $L_update_level_3
   .line 354
-  pzn   4
+  p0000
   setl4 12
 $L_update_level_3:
   .line 355
@@ -6842,13 +6842,13 @@ $L_update_level_4:
   getg4 vx 0
   cflt
   bzp   $L_update_level_5
-  pzn   4
+  p0000
   getl4 16
   cflt
 $L_update_level_5:
   bz    $L_update_level_6
   .line 362
-  pzn   4
+  p0000
   setl4 12
 $L_update_level_6:
   .line 363
@@ -7151,13 +7151,13 @@ $L_update_level_36:
   getg  death_frames 0
   bz    $L_update_level_44
   .line 446
-  pzn   4
+  p0000
   setl4 8
   .line 447
-  pzn   4
+  p0000
   setl4 4
   .line 448
-  pzn   4
+  p0000
   setg4 vx 0
   .line 449
   getg  death_frames 0
@@ -7206,7 +7206,7 @@ $L_update_level_39:
   cult2
   bz    $L_update_level_40
   .line 462
-  pzn   4
+  p0000
   setg4 vy 0
   .line 461
   jmp   $L_update_level_42
@@ -7450,7 +7450,7 @@ resolve_player_collision:
   getpn 6
   .line 521
   getg4 vx 0
-  pzn   4
+  p0000
   cflt
   bzp   $L_resolve_player_collision_0
   .line 522
@@ -7518,7 +7518,7 @@ $L_resolve_player_collision_2:
   jmp   $L_resolve_player_collision_8
 $L_resolve_player_collision_3:
   .line 531
-  pzn   4
+  p0000
   getg4 vx 0
   cflt
   bzp   $L_resolve_player_collision_4
@@ -7584,7 +7584,7 @@ $L_resolve_player_collision_7:
 $L_resolve_player_collision_8:
   .line 541
   getg4 vy 0
-  pzn   4
+  p0000
   cflt
   bzp   $L_resolve_player_collision_9
   .line 542
@@ -7642,7 +7642,7 @@ $L_resolve_player_collision_9:
   cfle
   bz    $L_resolve_player_collision_11
   .line 548
-  pzn   4
+  p0000
   setg4 vy 0
   .line 549
   p0
@@ -7658,7 +7658,7 @@ $L_resolve_player_collision_11:
   jmp   $L_resolve_player_collision_17
 $L_resolve_player_collision_12:
   .line 555
-  pzn   4
+  p0000
   getg4 vy 0
   cflt
   bzp   $L_resolve_player_collision_13
@@ -7716,7 +7716,7 @@ $L_resolve_player_collision_13:
   cfle
   bz    $L_resolve_player_collision_15
   .line 562
-  pzn   4
+  p0000
   setg4 vy 0
   .line 563
   getg4 py 0
@@ -8061,7 +8061,7 @@ $L_update_map_objects_1:
   getg  mob_jumped 0
   bz    $L_update_map_objects_21
   .line 659
-  pzn   3
+  p000
   push  192
   setg4 vy 0
   .line 660
@@ -8122,7 +8122,7 @@ update_camera_position:
   bz    $L_update_camera_position_0
   .line 675
   getl4 12
-  pzn   3
+  p000
   push  65
   fadd
   setl4 12
@@ -8131,7 +8131,7 @@ update_camera_position:
 $L_update_camera_position_0:
   .line 677
   getl4 12
-  pzn   3
+  p000
   push  65
   fsub
   setl4 12
@@ -8203,18 +8203,18 @@ $L_update_camera_position_6:
 $L_update_camera_position_7:
   .line 693
   getl4 12
-  pzn   4
+  p0000
   cflt
   bz    $L_update_camera_position_8
-  pzn   4
+  p0000
   setl4 12
 $L_update_camera_position_8:
   .line 694
   getl4 16
-  pzn   4
+  p0000
   cflt
   bz    $L_update_camera_position_9
-  pzn   4
+  p0000
   setl4 16
 $L_update_camera_position_9:
   .line 695
@@ -8450,7 +8450,7 @@ $L_touch_object_6:
   cflt
   bnzp  $L_touch_object_7
   getg4 vy 0
-  pzn   4
+  p0000
   cfle
 $L_touch_object_7:
   bz    $L_touch_object_9
@@ -8737,16 +8737,16 @@ $L_render_victory_7:
   getgn total_time 0
   p0
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   p3
   getgn total_time 0
   p0
   push  50
-  pzn   3
+  p000
   udiv4
   pushl $PD_68 0
   p7
@@ -8772,9 +8772,9 @@ $L_render_victory_7:
   push  40
   p0
   getl  12
-  pzn   3
+  p000
   p2
-  pzn   3
+  p000
   udiv4
   pop2
   sub2
@@ -8825,7 +8825,7 @@ render_pause:
   .line 54
   p00
   pushl $PD_70 0
-  pzn   4
+  p0000
   sys   draw_sprite
   .line 58
   dup
@@ -9208,7 +9208,7 @@ render_menu:
   p2
   p128
   push  14
-  pzn   3
+  p000
   sys   draw_filled_rect
   .line 282
   getg  save_exists 0
@@ -9351,16 +9351,16 @@ render_intro:
   getg2 level_frames_remaining 0
   p00
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   .line 306
   getg2 level_frames_remaining 0
   p00
   push  50
-  pzn   3
+  p000
   udiv4
   .line 305
   pushl $PD_92 0
@@ -9448,17 +9448,17 @@ $L_render_intro_2:
   getgn total_time 0
   p0
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   .line 325
   p3
   getgn total_time 0
   p0
   push  50
-  pzn   3
+  p000
   udiv4
   .line 324
   pushl $PD_96 0
@@ -9485,9 +9485,9 @@ $L_render_intro_2:
   push  111
   p0
   getl  12
-  pzn   3
+  p000
   p2
-  pzn   3
+  p000
   udiv4
   pop2
   sub2
@@ -9545,16 +9545,16 @@ $L_render_intro_5:
   dupw
   p00
   push  50
-  pzn   3
+  p000
   umod4
   p2
-  pzn   3
+  p000
   mul4
   .line 342
   dupw5
   p00
   push  50
-  pzn   3
+  p000
   udiv4
   .line 341
   pushl $PD_99 0
@@ -9581,9 +9581,9 @@ $L_render_intro_5:
   push  110
   p0
   getl  12
-  pzn   3
+  p000
   p2
-  pzn   3
+  p000
   udiv4
   pop2
   sub2
@@ -9617,7 +9617,7 @@ $L_render_intro_6:
   p1
   p1
   push2 11813
-  pzn   3
+  p000
   sys   draw_filled_rect
   .line 352
   pzn   10
@@ -9652,9 +9652,9 @@ $L_render_intro_6:
   push  17
   p0
   getl  12
-  pzn   3
+  p000
   p2
-  pzn   3
+  p000
   udiv4
   pop2
   sub2
@@ -9679,7 +9679,7 @@ $L_render_intro_8:
   sys   draw_sprite
   .line 360
   getg  lives 0
-  pzn   3
+  p000
   pushl $PD_103 0
   p4
   p00
@@ -9731,14 +9731,14 @@ render_level:
   dupw3
   sext2
   p16
-  pzn   3
+  p000
   div4
   pop3
   .line 379
   dupw2
   sext2
   p16
-  pzn   3
+  p000
   div4
   pop3
   .line 380
@@ -10151,7 +10151,7 @@ $L_render_level_29:
   getg4 px 0
   getg4 camx 0
   fsub
-  pzn   3
+  p000
   push  65
   fsub
   .line 476
@@ -10240,7 +10240,7 @@ $L_render_level_35:
   p0
   p6
   push  20
-  pzn   4
+  p0000
   sys   draw_filled_rect
   .line 486
   getg2 score 0
@@ -10249,7 +10249,7 @@ $L_render_level_35:
   p3
   p00
   pushl $PD_36 0
-  pzn   4
+  p0000
   sys   draw_textf
   .line 487
   p0
@@ -10268,7 +10268,7 @@ $L_render_level_35:
   pop
   p00
   push  50
-  pzn   3
+  p000
   udiv4
   pushl $PD_106 0
   p3
@@ -10296,9 +10296,9 @@ $L_render_level_35:
   p64
   p0
   dup3
-  pzn   3
+  p000
   p2
-  pzn   3
+  p000
   udiv4
   pop2
   sub2
@@ -10365,11 +10365,11 @@ main_menu:
   sys   load
   bnz   $L_main_menu_0
   .line 11
-  pzn   3
+  p000
   p3
   setgn total_score 0
   .line 12
-  pzn   3
+  p000
   p3
   setgn total_time 0
   .line 13
@@ -10415,10 +10415,10 @@ $L_main_0:
 
 Compilation succeeded!
 ======================
-Dev Bin:   73472 bytes    71.8 KB
+Dev Bin:   73216 bytes    71.5 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8755 bytes     8.5 KB
+Code:       8667 bytes     8.5 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes

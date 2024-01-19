@@ -116,6 +116,46 @@ $L_main_start:
     pop2
     
     sys debug_break
+    p000
+    sys debug_break
+    pop3
+    
+    sys debug_break
+    p0000
+    sys debug_break
+    pop4
+    
+    sys debug_break
+    pzn 5
+    sys debug_break
+    popn 5
+    
+    sys debug_break
+    pzn 6
+    sys debug_break
+    popn 6
+    
+    sys debug_break
+    pzn 7
+    sys debug_break
+    popn 7
+    
+    sys debug_break
+    pzn 8
+    sys debug_break
+    popn 8
+    
+    sys debug_break
+    pzn 16
+    sys debug_break
+    popn 16
+    
+    sys debug_break
+    pzn 32
+    sys debug_break
+    popn 32
+    
+    sys debug_break
     push 42
     sys debug_break
     pop
@@ -134,31 +174,6 @@ $L_main_start:
     push4 42424242
     sys debug_break
     pop4
-    
-    sys debug_break
-    pzn 3
-    sys debug_break
-    pop3
-    
-    sys debug_break
-    pzn 4
-    sys debug_break
-    pop4
-    
-    sys debug_break
-    pzn 8
-    sys debug_break
-    popn 8
-    
-    sys debug_break
-    pzn 16
-    sys debug_break
-    popn 16
-    
-    sys debug_break
-    pzn 32
-    sys debug_break
-    popn 32
 
     push 0
     sys debug_break

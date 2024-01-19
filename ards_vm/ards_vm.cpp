@@ -386,6 +386,31 @@ I_P00:
     jmp  call_vm_error
     .align 6
 
+I_P000:
+    cpi  r28, 254
+    brsh 1f
+    st   Y+, r9
+    st   Y+, r2
+    st   Y+, r2
+    clr  r9
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_P0000:
+    cpi  r28, 254
+    brsh 1f
+    st   Y+, r9
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    clr  r9
+    dispatch_noalign
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
 I_PZN:
     st   Y+, r9
     clr  r9

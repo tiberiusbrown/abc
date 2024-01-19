@@ -880,7 +880,7 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
                         break;
                 }
                 j -= i;
-                if(j > 2)
+                if(j > 4)
                 {
                     if(j > 255) j = 255;
                     i0.instr = I_PZN;
@@ -890,34 +890,56 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
                     t = true;
                     continue;
                 }
-
-                i0.instr = I_P00;
-                i1.instr = I_REMOVE;
-                t = true;
-                continue;
+                if(j == 4)
+                {
+                    i0.instr = I_P0000;
+                    i1.instr = I_REMOVE;
+                    f.instrs[i + 2].instr = I_REMOVE;
+                    f.instrs[i + 3].instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
+                if(j == 3)
+                {
+                    i0.instr = I_P000;
+                    i1.instr = I_REMOVE;
+                    f.instrs[i + 2].instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
+                if(j == 2)
+                {
+                    i0.instr = I_P00;
+                    i1.instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
             }
-            static std::unordered_map<uint32_t, instr_t> const push_instrs =
+            else
             {
-                { 0, I_P0 },
-                { 1, I_P1 },
-                { 2, I_P2 },
-                { 3, I_P3 },
-                { 4, I_P4 },
-                { 5, I_P5 },
-                { 6, I_P6 },
-                { 7, I_P7 },
-                { 8, I_P8 },
-                { 16, I_P16 },
-                { 32, I_P32 },
-                { 64, I_P64 },
-                { 128, I_P128 },
-            };
-            auto it = push_instrs.find(i0.imm);
-            if(it != push_instrs.end())
-            {
-                i0.instr = it->second;
-                t = true;
-                continue;
+                static std::unordered_map<uint32_t, instr_t> const push_instrs =
+                {
+                    { 0, I_P0 },
+                    { 1, I_P1 },
+                    { 2, I_P2 },
+                    { 3, I_P3 },
+                    { 4, I_P4 },
+                    { 5, I_P5 },
+                    { 6, I_P6 },
+                    { 7, I_P7 },
+                    { 8, I_P8 },
+                    { 16, I_P16 },
+                    { 32, I_P32 },
+                    { 64, I_P64 },
+                    { 128, I_P128 },
+                };
+                auto it = push_instrs.find(i0.imm);
+                if(it != push_instrs.end())
+                {
+                    i0.instr = it->second;
+                    t = true;
+                    continue;
+                }
             }
         }
 

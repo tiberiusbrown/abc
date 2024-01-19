@@ -12,15 +12,18 @@
  18   p64
  18   p128
  18   p00
+ 20   p000
+ 22   p0000
+ 43   pzn 5
+ 44   pzn 6
+ 50   pzn 7
+ 51   pzn 8
+ 79   pzn 16
+135   pzn 32
  36   push N
  54   push2 N
  72   push3 N
  90   push4 N
- 36   pzn 3
- 37   pzn 4
- 51   pzn 8
- 79   pzn 16
-135   pzn 32
  18   sext
  18   sext (neg)
  19   set2

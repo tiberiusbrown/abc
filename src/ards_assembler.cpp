@@ -133,6 +133,8 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "p64", I_P64 },
     { "p128", I_P128 },
     { "p00", I_P00 },
+    { "p000", I_P000 },
+    { "p0000", I_P0000 },
     { "sext", I_SEXT },
     { "sext2", I_SEXT2 },
     { "sext3", I_SEXT3 },

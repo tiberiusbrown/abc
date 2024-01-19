@@ -87,6 +87,8 @@ enum instr_t : uint8_t
     I_P64,   // push 64
     I_P128,  // push 128
     I_P00,   // push 0; push 0
+    I_P000,  // push 0; push 0; push 0
+    I_P0000, // push 0; push 0; push 0; push 0
     I_PZN,   // push 0 (<imm8> times, imm > 2)
     I_PUSHG, // push imm16
     I_PUSHL, // push imm24
