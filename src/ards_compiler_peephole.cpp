@@ -20,6 +20,8 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_simplify_derefs(f))
         ;
+    while(peephole_bake_offsets(f))
+        ;
     while(peephole_pre_push_compress(f))
         ;
     while(peephole_ref(f))
@@ -254,6 +256,47 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
         //    t = true;
         //    continue;
         //}
+    }
+    return t;
+}
+
+bool compiler_t::peephole_bake_offsets(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 3 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+        auto& i2 = f.instrs[i + 2];
+        auto& i3 = f.instrs[i + 3];
+
+        // convert REFL N; PUSH ..; PUSH ..; ADD2 to REFL N-..
+        // convert REFG N; PUSH ..; PUSH ..; ADD2 to REFG N+..
+        if(i1.instr == I_PUSH && i2.instr == I_PUSH && i3.instr == I_ADD2)
+        {
+            if(i0.instr == I_REFL)
+            {
+                assert(i2.imm == 0);
+                i0.imm -= i1.imm;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                i3.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            if(i0.instr == I_REFG)
+            {
+                i0.imm += i1.imm;
+                i0.imm += i2.imm * 256;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                i3.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+        }
     }
     return t;
 }

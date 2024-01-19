@@ -10031,17 +10031,13 @@ $L_render_level_17:
   dup3
   cule
   bzp   $L_render_level_18
-  refl  17
-  push  10
-  add2b
+  refl  7
   getr
   bool
 $L_render_level_18:
   bz    $L_render_level_21
   .line 439
-  refl  17
-  push  10
-  add2b
+  refl  7
   getr
   p4
   and
@@ -10085,15 +10081,11 @@ $L_render_level_23:
   p0
   .line 452
   pushl $PD_16 0
-  refl  22
-  p3
-  add2b
+  refl  19
   getr2
   getl2 27
   sub2
-  refl  24
-  p1
-  add2b
+  refl  23
   getr2
   getl2 31
   sub2
@@ -10430,7 +10422,7 @@ Compilation succeeded!
 Dev Bin:   73472 bytes    71.8 KB
 ======================
 Data:      57477 bytes    56.1 KB
-Code:       8773 bytes     8.6 KB
+Code:       8761 bytes     8.6 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     424 bytes
