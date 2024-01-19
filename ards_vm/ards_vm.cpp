@@ -151,7 +151,7 @@ static void __attribute__((used, naked, section(".progmem"))) vm_execute_func()
     asm volatile(
 R"(
     
-        .align 9
+        .align 7
     
 vm_execute:
 
