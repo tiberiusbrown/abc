@@ -288,6 +288,7 @@ int abc_benchmarks()
         "aixb1", "aidxb", "aidx",
         "pidxb", "pidx",
         "uaidx", "upidx",
+        "aslc", "pslc",
         "inc", "dec", "linc N",
         "pinc", "pinc2", "pinc3", "pinc4",
         "pdec", "pdec2", "pdec3", "pdec4",

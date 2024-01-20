@@ -663,12 +663,14 @@ $L_main_start:
     sys debug_break
     aixb1 50
     sys debug_break
+    pop2
     
     refg g 0
     push 42
     sys debug_break
     aidxb 1 50
     sys debug_break
+    pop2
     
     refg g 0
     push 42
@@ -676,12 +678,14 @@ $L_main_start:
     sys debug_break
     aidx 1 50
     sys debug_break
+    pop2
 
     pushl p 0
     push 14
     sys debug_break
     pidxb 1 32
     sys debug_break
+    pop3
 
     pushl p 0
     push 14
@@ -690,6 +694,7 @@ $L_main_start:
     sys debug_break
     pidx 1 32
     sys debug_break
+    pop3
     
     refg g 0
     push 32
@@ -699,6 +704,7 @@ $L_main_start:
     sys debug_break
     uaidx 1
     sys debug_break
+    pop2
 
     pushl p 0
     push 32
@@ -708,6 +714,30 @@ $L_main_start:
     sys debug_break
     upidx 1
     sys debug_break
+    pop3
+    
+    refg g 0
+    push 32
+    p0
+    p0
+    p0
+    p8
+    p0
+    sys debug_break
+    aslc 1
+    sys debug_break
+    pop4
+    
+    pushl p 0
+    push 32
+    p00
+    p000
+    p8
+    p00
+    sys debug_break
+    pslc 1
+    sys debug_break
+    popn 6
     
     p0
     sys debug_break

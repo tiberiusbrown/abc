@@ -114,6 +114,8 @@
 128   pidx
  67   uaidx
  88   upidx
+ 62   aslc
+ 86   pslc
  18   inc
  18   dec
  36   linc N
