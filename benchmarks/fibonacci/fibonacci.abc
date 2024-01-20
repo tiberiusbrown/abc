@@ -9,6 +9,7 @@ u16 f;
 void main()
 {
     $debug_break();
-    f = fib(16);
+    for(u8 i = 0; i < 10; ++i)
+        f = fib(12);
     $debug_break();
 }

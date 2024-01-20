@@ -3339,7 +3339,7 @@ I_JMP1:
 
 I_CALL:
     lds  r26, %[vm_csp]
-    cpi  r26, 93
+    cpi  r26, 45
     brsh 1f
     ldi  r27, 0x06
     ldi  r16, 3
@@ -3364,11 +3364,9 @@ I_CALL:
 
 I_CALL1:
     lds  r26, %[vm_csp]
-    cpi  r26, 93
-    brlo 1f
-    ldi  r24, 6
-    jmp  call_vm_error
-1:  ldi  r27, 0x06
+    cpi  r26, 45
+    brsh 1f
+    ldi  r27, 0x06
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
@@ -3384,6 +3382,8 @@ I_CALL1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc
+1:  ldi  r24, 6
+    jmp  call_vm_error
     .align 6
 
 I_RET:

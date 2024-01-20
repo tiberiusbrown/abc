@@ -360,10 +360,10 @@ void main()
 </table>
 </details>
 
-<details><summary>fibonacci: 19.65x slowdown</summary>
+<details><summary>fibonacci: 19.60x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 87831</td><td>Cycles: 1725875</td></tr>
+<tr><td>Cycles: 128131</td><td>Cycles: 2511604</td></tr>
 <tr>
 <td>
 
@@ -381,7 +381,8 @@ volatile uint16_t f;
 int main()
 {
     asm volatile("break\n");
-    f = fib(16);
+    for(uint8_t i = 0; i < 10; ++i)
+        f = fib(12);
     asm volatile("break\n");
 }
 
@@ -402,7 +403,8 @@ u16 f;
 void main()
 {
     $debug_break();
-    f = fib(16);
+    for(u8 i = 0; i < 10; ++i)
+        f = fib(12);
     $debug_break();
 }
 
