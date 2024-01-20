@@ -1413,13 +1413,13 @@ I_PIDX:
     rcall popn_delay_10
 
     ; load elem count into r16:r18
-    in   16, %[spdr]
+    in   r16, %[spdr]
     out  %[spdr], r2
     rcall popn_delay_16
-    in   17, %[spdr]
+    in   r17, %[spdr]
     out  %[spdr], r2
     rcall popn_delay_16
-    in   18, %[spdr]
+    in   r18, %[spdr]
     out  %[spdr], r2
 
     ; bounds check index against elem count
@@ -1435,9 +1435,14 @@ I_PIDX:
 I_UAIDX:
     mov  r21, r9
     ld   r20, -Y
-    call read_2_bytes_nodelay
     ld   r19, -Y
     ld   r18, -Y
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
     cp   r20, r18
     cpc  r21, r19
     brsh pidxb_error
@@ -1456,19 +1461,21 @@ I_UAIDX:
     ;
 1:  mul  r16, r20
     movw r22, r0
+    ld   r25, -Y
+    ld   r24, -Y
+    add  r22, r24
+    adc  r23, r25
+    in   r17, %[spdr]
+    out  %[spdr], r2
     mul  r16, r21
     add  r23, r0
     mul  r17, r20
     add  r23, r0
-    ld   r21, -Y
-    ld   r20, -Y
-    add  r22, r20
-    adc  r23, r21
     st   Y+, r22
     mov  r9, r23
-slc_dispatch:
-pidxb_dispatch:
-    dispatch
+    rjmp .+0
+    rjmp uaidx_dispatch
+    .align 6
 
 I_UPIDX:
     jmp upidx_impl
@@ -1651,7 +1658,10 @@ I_REFG:
     st   Y+, r16
     mov  r9, r17
     lpm
+uaidx_dispatch:
     lpm
+slc_dispatch:
+pidxb_dispatch:
     dispatch
 
 I_REFGB:
