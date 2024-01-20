@@ -1007,7 +1007,7 @@ I_SETG:
     dispatch
 
 I_SETG2:
-    dispatch_delay
+    rcall setg4_delay_7
     in   r26, %[spdr]
     out  %[spdr], r2
     ldi  r17, 2
@@ -1024,8 +1024,15 @@ I_SETG2:
 setgn_dispatch:
     ld   r9, -Y
     dispatch_noalign
-setg4_delay_12:
+setg4_delay_17:
+    nop
+setg4_delay_16:
     rjmp .+0
+    rjmp .+0
+setg4_delay_12:
+    nop
+setg4_delay_11:
+    nop
     rjmp .+0
 setg4_delay_8:
     nop
@@ -1087,9 +1094,23 @@ I_GETP:
     mov  r18, r9
     ld   r17, -Y
     ld   r16, -Y
-    ; TODO: inline seek_to_addr here
-    call seek_to_addr
-    rcall setg4_delay_12
+    fx_disable
+    ldi  r19, 3
+    fx_enable
+    out  %[spdr], r19
+    lds  r10, %[data_page]+0
+    lds  r11, %[data_page]+1
+    add  r10, r17
+    adc  r11, r18
+    rcall setg4_delay_11
+    out  %[spdr], r11
+    rcall setg4_delay_17
+    out  %[spdr], r10
+    rcall setg4_delay_17
+    out  %[spdr], r16
+    rcall setg4_delay_17
+    out  %[spdr], r2
+    rcall setg4_delay_16
     in   r9, %[spdr]
     jmp  jump_to_pc
 getpn_delay_10:
@@ -1105,10 +1126,12 @@ I_GETPN:
     ld   r16, -Y
     rjmp .+0
     in   r1, %[spdr]
-    call seek_to_addr
+    rjmp getpn_seek_to_addr
+getpn_resume:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
+    rjmp .+0
 1:  rcall getpn_delay_9
     in   r0, %[spdr]
     out  %[spdr], r2
@@ -1127,8 +1150,26 @@ I_GETR:
     ld   r26, -Y
     ld   r9, X+
     rjmp .+0
-    dispatch
-    ; TODO: SPACE HERE
+    dispatch_noalign
+getpn_seek_to_addr:
+    fx_disable
+    ldi  r19, 3
+    fx_enable
+    out  %[spdr], r19
+    lds  r10, %[data_page]+0
+    lds  r11, %[data_page]+1
+    add  r10, r17
+    adc  r11, r18
+    rcall setg4_delay_11
+    out  %[spdr], r11
+    rcall setg4_delay_17
+    out  %[spdr], r10
+    rcall setg4_delay_17
+    out  %[spdr], r16
+    rcall setg4_delay_17
+    out  %[spdr], r2
+    rjmp getpn_resume
+    .align 6
 
 I_GETR2:
     mov  r27, r9
@@ -3700,26 +3741,6 @@ jump_to_pc:
     ld   r9, -Y
     
     rjmp 1b
-    
-    ; addr to seek to in r16:r18
-seek_to_addr:
-    fx_disable
-    ldi  r19, 3
-    fx_enable
-    out  %[spdr], r19
-    lds  r10, %[data_page]+0
-    lds  r11, %[data_page]+1
-    add  r10, r17
-    adc  r11, r18
-    rcall seek_delay_11
-    out  %[spdr], r11
-    rcall seek_delay_17
-    out  %[spdr], r10
-    rcall seek_delay_17
-    out  %[spdr], r16
-    rcall seek_delay_17
-    out  %[spdr], r2
-    ret
 
 seek_delay_17:
     nop

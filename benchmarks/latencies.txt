@@ -78,13 +78,13 @@
  91   setgn VAR (8)
 135   setgn VAR (16)
 223   setgn VAR (32)
-216   getp
-237   getpn 2
-255   getpn 3
-273   getpn 4
-345   getpn 8
-489   getpn 16
-777   getpn 32
+212   getp
+235   getpn 2
+253   getpn 3
+271   getpn 4
+343   getpn 8
+487   getpn 16
+775   getpn 32
  18   pop
  18   pop2
  18   pop3
