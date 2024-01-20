@@ -4,6 +4,8 @@
     "sketch": "ards_vm.ino",
     "output": "build/",
     "buildPreferences": [
+        ["compiler.c.extra_flags", "-mtiny-stack"],
+        ["compiler.cpp.extra_flags", "{compiler.c.extra_flags}"],
         ["compiler.c.elf.extra_flags", "-Wl,--relax -Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x800639"],
         ["compiler.elf2hex.extra_flags", "-R .beforedata"]
     ]
