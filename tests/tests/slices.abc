@@ -1,0 +1,30 @@
+void main()
+{
+    $debug_break();
+    
+    {
+        u8[10] a;
+        for(u8 i = 0; i < len(a); ++i)
+            a[i] = i;
+        
+        u8[]& slice = a[1:4];
+        $assert(a[2] == 2);
+        $assert(slice[1] == 2);
+    }
+    
+    {
+        char[10] str = "Hello";
+        char[10] str2 = "Hell";
+        $assert(str[0:4] == str2);
+    }
+    
+    
+    {
+        char[10] str = "Hello";
+        $assert(str[0:4] == "Hell");
+    }
+    
+    $assert("Hello"[0:4] == "Hell");
+    
+    $debug_break();
+}

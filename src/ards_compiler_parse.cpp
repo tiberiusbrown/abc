@@ -180,7 +180,7 @@ unary_expr          <- '++' unary_expr /
                        postfix_expr
 postfix_expr        <- primary_expr postfix*
 postfix             <- '(' arg_expr_list? ')' /
-                       '[' expr ']' / # '[' expr (':' expr)? ']' /
+                       '[' expr (':' expr)? ']' /
                        '.' ident /
                        '++' /
                        '--'

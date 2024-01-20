@@ -203,7 +203,7 @@ target_include_directories(abc PRIVATE
     deps/emscripten-browser-file
     "${GENHEADER_DIR}"
     )
-
+    
 if((WIN32 OR APPLE OR UNIX) AND NOT EMSCRIPTEN)
     add_subdirectory(deps/nativefiledialog-extended)
     target_link_libraries(abc PRIVATE nfd)

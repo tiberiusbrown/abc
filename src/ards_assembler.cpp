@@ -474,6 +474,16 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_UPIDX);
             push_imm(read_imm(f, error), 2);
         }
+        else if(t == "aslc")
+        {
+            push_instr(I_ASLC);
+            push_imm(read_imm(f, error), 2);
+        }
+        else if(t == "pslc")
+        {
+            push_instr(I_PSLC);
+            push_imm(read_imm(f, error), 2);
+        }
         else if(t == "refl")
         {
             push_instr(I_REFL);

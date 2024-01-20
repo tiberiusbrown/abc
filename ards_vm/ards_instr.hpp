@@ -167,6 +167,15 @@ enum instr_t : uint8_t
              //           imm: 16-bit
              //           i:   24-bit
 
+    I_ASLC,  // aref start stop | (ref+start*imm) (stop-start) with bounds checking
+             //           imm:   16-bit
+             //           start: 16-bit
+             //           stop:  16-bit
+    I_PSLC,  // aref start stop | (ref+start*imm) (stop-start) with bounds checking
+             //           imm:   16-bit
+             //           start: 24-bit
+             //           stop:  24-bit
+
     I_REFL,  // imm8 -> pointer to local var
     I_REFG,  // imm16 -> pointer to global var
     I_REFGB, // imm8 -> pointer to global var

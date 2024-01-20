@@ -738,32 +738,39 @@ void compiler_t::codegen_expr(
         return;
     }
 
-    //case AST::ARRAY_SLICE:
-    //{
-    //    auto const& t = a.children[0].comp_type.without_ref();
-    //    assert(t.is_array() || t.is_array_ref());
-    //
-    //    uint32_t elem_size = (uint32_t)t.children[0].prim_size;
-    //    uint32_t ref_size = t.children[0].is_prog ? 3 : 2;
-    //    if(t.is_array_ref())
-    //        ref_size *= 2;
-    //
-    //    // generate ref
-    //    codegen_expr(f, frame, a.children[0], true);
-    //    
-    //    // bounds-check start
-    //    f.instrs.push_back({ I_PUSH, a.line(), ref_size });
-    //    f.instrs.push_back({ I_GETLN, a.line(), ref_size });
-    //    frame.size += ref_size;
-    //    if(t.is_array_ref())
-    //        f.instrs.push_back({ I_UAIDX, a.line(), elem_size });
-    //    else
-    //        f.instrs.push_back({ I_AIDX, a.line(), elem_size, (uint32_t)t.array_size() });
-    //
-    //    // bounds-check stop
-    //
-    //    return;
-    //}
+    case AST::ARRAY_SLICE:
+    {
+        auto const& t = a.children[0].comp_type.without_ref();
+    
+        uint32_t elem_size = (uint32_t)t.children[0].prim_size;
+        bool prog = t.children[0].is_prog;
+
+        // TODO: handle when both start+stop are integer constants
+    
+        // generate ref
+        codegen_expr(f, frame, a.children[0], true);
+        if(!t.is_array_ref())
+        {
+            codegen_convert(f, frame, a.children[0],
+                t.children[0].with_array_ref(), a.children[0].comp_type);
+        }
+        
+        // generate start
+        codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a.children[1],
+            prog ? TYPE_U24 : TYPE_U16, a.children[1].comp_type);
+
+        // generate stop
+        codegen_expr(f, frame, a.children[2], false);
+        codegen_convert(f, frame, a.children[2],
+            prog ? TYPE_U24 : TYPE_U16, a.children[2].comp_type);
+
+        // construct slice ref
+        f.instrs.push_back({ prog ? I_PSLC : I_ASLC, a.line(), elem_size });
+        frame.size -= (prog ? 6 : 4);
+    
+        return;
+    }
 
     case AST::STRUCT_MEMBER:
     {
