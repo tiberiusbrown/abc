@@ -1356,8 +1356,15 @@ I_PIDXB:
     ld   r13, -Y
     ; load elem size into r16
     ; load elem count into r17
-    ; TODO: inline this?
-    call read_2_bytes_nodelay
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall popn_delay_12
+    in   r17, %[spdr]
+    out  %[spdr], r2
     ; bounds check index against elem count
     cp   r10, r17
     brsh pidxb_error
@@ -1369,7 +1376,8 @@ I_PIDXB:
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    dispatch_noalign
+    lpm
+    rjmp pidxb_dispatch
 pidxb_error:
     ldi  r24, 2
     jmp call_vm_error
@@ -1415,6 +1423,7 @@ I_UAIDX:
     st   Y+, r22
     mov  r9, r23
 slc_dispatch:
+pidxb_dispatch:
     dispatch
 
 I_UPIDX:
