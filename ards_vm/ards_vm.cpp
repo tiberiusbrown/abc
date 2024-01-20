@@ -3522,44 +3522,50 @@ instr_mul4:
 store_vm_state:
 
     ; pc
+    ; these regs are call-saved, but we store them anyway to
+    ; allow finding file/line info in error handling
     sts  %[vm_pc]+0, r6
     sts  %[vm_pc]+1, r7
     sts  %[vm_pc]+2, r8
     
     ; stack pointer: stack always begins at 0x100
+    ; these regs are call-saved but are needed by sys funcs
     st   Y+, r9
     sts  %[vm_sp], r28
 
     clr  r1
 
     icall
-    
-restore_vm_state:
 
     ; 0 constant
-    clr  r2
+    ;clr  r2
     
     ; 32 constant
-    ldi  r16, 32
-    mov  r3, r16
+    ;ldi  r16, 32
+    ;mov  r3, r16
     
     ; 1 constant
-    ldi  r16, 1
-    mov  r4, r16
+    ;ldi  r16, 1
+    ;mov  r4, r16
     
     ; pm_hi8(vm_execute) constant
-    ldi  r16, pm_hi8(vm_execute)
-    mov  r5, r16
+    ;ldi  r16, pm_hi8(vm_execute)
+    ;mov  r5, r16
     
     ; pc
-    lds  r6, %[vm_pc]+0
-    lds  r7, %[vm_pc]+1
-    lds  r8, %[vm_pc]+2
+    ;lds  r6, %[vm_pc]+0
+    ;lds  r7, %[vm_pc]+1
+    ;lds  r8, %[vm_pc]+2
     
     ; stack pointer: stack always begins at 0x100
     lds  r28, %[vm_sp]
     ldi  r29, 0x01
     ld   r9, -Y
+
+    ; assuming 4 cycles from the ret of FX::seekData()
+    ; and 5 cycles of above delay, we might need these
+    ; extra 7 cycles delay before dispatch
+    rcall seek_delay_7
 
     dispatch_noalign
 
@@ -3715,30 +3721,32 @@ jump_to_pc:
     dispatch_noalign
     
     ; store vm state
-2:  sts  %[vm_pc]+0, r6
-    sts  %[vm_pc]+1, r7
-    sts  %[vm_pc]+2, r8
-    st   Y+, r9
-    sts  %[vm_sp], r28
+    ; all regs are call saved except the zero reg
+2:  ;sts  %[vm_pc]+0, r6
+    ;sts  %[vm_pc]+1, r7
+    ;sts  %[vm_pc]+2, r8
+    ;st   Y+, r9
+    ;sts  %[vm_sp], r28
     clr  r1
     
     ; call ards::Tones::update()
     call %x[tones_update]
     
     ; restore vm state
-    clr  r2
-    ldi  r16, 32
-    mov  r3, r16
-    ldi  r16, 1
-    mov  r4, r16
-    ldi  r16, pm_hi8(vm_execute)
-    mov  r5, r16
-    lds  r6, %[vm_pc]+0
-    lds  r7, %[vm_pc]+1
-    lds  r8, %[vm_pc]+2
-    lds  r28, %[vm_sp]
-    ldi  r29, 0x01
-    ld   r9, -Y
+    ; all regs are call-saved!
+    ;clr  r2
+    ;ldi  r16, 32
+    ;mov  r3, r16
+    ;ldi  r16, 1
+    ;mov  r4, r16
+    ;ldi  r16, pm_hi8(vm_execute)
+    ;mov  r5, r16
+    ;lds  r6, %[vm_pc]+0
+    ;lds  r7, %[vm_pc]+1
+    ;lds  r8, %[vm_pc]+2
+    ;lds  r28, %[vm_sp]
+    ;ldi  r29, 0x01
+    ;ld   r9, -Y
     
     rjmp 1b
 
@@ -3750,6 +3758,7 @@ seek_delay_16:
 seek_delay_11:
     rjmp .+0
     rjmp .+0
+seek_delay_7:
     ret
     
 dispatch_func:
@@ -3818,8 +3827,46 @@ void vm_run()
 
     // kick off execution
     asm volatile(R"(
-        jmp restore_vm_state
-    )");
+        ; 0 constant
+        clr  r2
+        
+        ; 32 constant
+        ldi  r16, 32
+        mov  r3, r16
+        
+        ; 1 constant
+        ldi  r16, 1
+        mov  r4, r16
+        
+        ; pm_hi8(vm_execute) constant
+        ldi  r16, pm_hi8(vm_execute)
+        mov  r5, r16
+        
+        ; pc
+        lds  r6, %[vm_pc]+0
+        lds  r7, %[vm_pc]+1
+        lds  r8, %[vm_pc]+2
+        
+        ; stack pointer: stack always begins at 0x100
+        lds  r28, %[vm_sp]
+        ldi  r29, 0x01
+        ld   r9, -Y
+
+        in   r0, %[spdr]
+        out  %[spdr], r2
+        add  r6, r4
+        adc  r7, r2
+        adc  r8, r2
+        mul  r0, r3
+        movw r30, r0
+        add  r31, r5
+        ijmp
+    )"
+    :
+    : [spdr]          "i" (_SFR_IO_ADDR(SPDR))
+    , [vm_sp]         ""  (&ards::vm.sp)
+    , [vm_pc]         ""  (&ards::vm.pc)
+    );
 
 }
 
