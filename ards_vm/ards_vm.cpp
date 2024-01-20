@@ -3399,27 +3399,6 @@ I_RET:
 I_SYS:
     ldi  r30, lo8(%[sys_funcs])
     ldi  r31, hi8(%[sys_funcs])
-    ldi  r17, 2
-    add  r6, r17
-    adc  r7, r2
-    adc  r8, r2
-    nop
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    rcall branch_delay_15
-    add  r30, r16
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    adc  r31, r17
-    lpm  r0, Z+
-    lpm  r31, Z
-    mov  r30, r0
-    rjmp store_vm_state
-    .align 6
-
-I_SYSB:
-    ldi  r30, lo8(%[sys_funcs])
-    ldi  r31, hi8(%[sys_funcs])
     add  r6, r4
     adc  r7, r2
     adc  r8, r2

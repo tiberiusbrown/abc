@@ -5,7 +5,7 @@
 namespace ards
 {
 
-enum sysfunc_t : uint16_t
+enum sysfunc_t : uint8_t
 {
     SYS_DISPLAY,
     SYS_DRAW_PIXEL,
@@ -68,6 +68,8 @@ enum sysfunc_t : uint16_t
 
     SYS_NUM
 };
+
+static_assert(SYS_NUM < 128);
 
 enum instr_t : uint8_t
 {
@@ -301,8 +303,7 @@ enum instr_t : uint8_t
     //I_CALL2,// imm16 rel offset
     I_RET,
 
-    I_SYS,   // call sysfunc (imm16)
-    I_SYSB,  // call sysfunc (imm8)
+    I_SYS,   // call sysfunc (imm8)
 
     //
     // pseudo-instructions just for compiler optimizations
