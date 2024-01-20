@@ -3339,7 +3339,7 @@ I_JMP1:
 
 I_CALL:
     lds  r26, %[vm_csp]
-    cpi  r26, 45
+    cpi  r26, %[MAX_CALLS] * 3 - 3
     brsh 1f
     ldi  r27, 0x06
     ldi  r16, 3
@@ -3364,7 +3364,7 @@ I_CALL:
 
 I_CALL1:
     lds  r26, %[vm_csp]
-    cpi  r26, 45
+    cpi  r26, %[MAX_CALLS] * 3 - 3
     brsh 1f
     ldi  r27, 0x06
     add  r6, r4
@@ -3399,9 +3399,17 @@ I_RET:
 I_SYS:
     ldi  r30, lo8(%[sys_funcs])
     ldi  r31, hi8(%[sys_funcs])
-    rjmp .+0
-    rcall read_2_bytes_nodelay
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    nop
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    rcall branch_delay_15
     add  r30, r16
+    in   r17, %[spdr]
+    out  %[spdr], r2
     adc  r31, r17
     lpm  r0, Z+
     lpm  r31, Z
@@ -3490,73 +3498,6 @@ instr_mul4:
     mov  r9, r21
     dispatch_noalign
 
-read_4_bytes:
-    lpm
-read_4_bytes_nodelay:
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    ldi  r17, 4
-    add  r6, r17
-    adc  r7, r2
-    adc  r8, r2
-    call delay_12
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    call delay_16
-    in   r18, %[spdr]
-    out  %[spdr], r2
-    call delay_16
-    in   r19, %[spdr]
-    out  %[spdr], r2
-    ret
-
-read_3_bytes:
-    lpm
-read_3_bytes_nodelay:
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    ldi  r17, 3
-    add  r6, r17
-    adc  r7, r2
-    adc  r8, r2
-    call delay_12
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    call delay_16
-    in   r18, %[spdr]
-    out  %[spdr], r2
-    ret
-
-read_3_bytes_end:
-    lpm
-read_3_bytes_end_nodelay:
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    ldi  r17, 3
-    add  r6, r17
-    adc  r7, r2
-    adc  r8, r2
-    call delay_12
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    call delay_16
-    in   r18, %[spdr]
-    ret
-
-read_2_bytes:
-    lpm
-read_2_bytes_nodelay:
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    ldi  r17, 2
-    add  r6, r17
-    adc  r7, r2
-    adc  r8, r2
-    call delay_12
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    ret
-
     ; these two methods are used by the SYS instruction
 store_vm_state:
 
@@ -3601,29 +3542,6 @@ restore_vm_state:
     ld   r9, -Y
 
     dispatch_noalign
-
-    ; the following delays assume a call via call, NOT rcall
-    ; make sure you compile/link WITHOUT linker relaxing!
-delay_17:
-    nop
-delay_16:
-    nop
-delay_15:
-    nop
-delay_14:
-    nop
-delay_13:
-    nop
-delay_12:
-    nop
-delay_11:
-    nop
-delay_10:
-    nop
-delay_9:
-    nop
-delay_8:
-    ret
 
 pidx_part2:
     
@@ -3765,15 +3683,15 @@ jump_to_pc:
     lds  r17, %[data_page]+1
     add  r16, r7
     adc  r17, r8
-    call delay_11
+    rcall seek_delay_11
     out  %[spdr], r17
-    call delay_17
+    rcall seek_delay_17
     out  %[spdr], r16
-    call delay_17
+    rcall seek_delay_17
     out  %[spdr], r6
-    call delay_17
+    rcall seek_delay_17
     out  %[spdr], r2
-    call delay_16
+    rcall seek_delay_16
     dispatch_noalign
     
     ; store vm state
@@ -3814,14 +3732,24 @@ seek_to_addr:
     lds  r11, %[data_page]+1
     add  r10, r17
     adc  r11, r18
-    call delay_11
+    rcall seek_delay_11
     out  %[spdr], r11
-    call delay_17
+    rcall seek_delay_17
     out  %[spdr], r10
-    call delay_17
+    rcall seek_delay_17
     out  %[spdr], r16
-    call delay_17
+    rcall seek_delay_17
     out  %[spdr], r2
+    ret
+
+seek_delay_17:
+    nop
+seek_delay_16:
+    rjmp .+0
+    lpm
+seek_delay_11:
+    rjmp .+0
+    rjmp .+0
     ret
     
 dispatch_func:
@@ -3860,6 +3788,7 @@ call_vm_error:
     , [tones_update]  ""  (ards::Tones::update)
     , [tones_size]    ""  (&ards::detail::buffer_size)
     , [tones_maxsize] ""  (sizeof(ards::detail::buffer))
+    , [MAX_CALLS]     ""  (MAX_CALLS)
     );
 }
 
