@@ -1238,6 +1238,7 @@ popn_delay_12:
     rjmp .+0
 popn_delay_10:
     lpm
+popn_delay_7:
     ret
     .align 6
 
@@ -1379,12 +1380,55 @@ I_PIDXB:
     lpm
     rjmp pidxb_dispatch
 pidxb_error:
+pidx_error:
     ldi  r24, 2
     jmp call_vm_error
     .align 6
 
 I_PIDX:
-    jmp pidx_impl
+
+    rcall popn_delay_7
+
+    ; load elem size into r20:r21
+    in   r20, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 5
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    
+    ; load index into r10:r12
+    mov  r12, r9
+    ld   r11, -Y
+    ld   r10, -Y
+    rcall popn_delay_7
+
+    in   r21, %[spdr]
+    out  %[spdr], r2
+    
+    ; load progref into r13:r15
+    ld   r15, -Y
+    ld   r14, -Y
+    ld   r13, -Y
+    rcall popn_delay_10
+
+    ; load elem count into r16:r18
+    in   16, %[spdr]
+    out  %[spdr], r2
+    rcall popn_delay_16
+    in   17, %[spdr]
+    out  %[spdr], r2
+    rcall popn_delay_16
+    in   18, %[spdr]
+    out  %[spdr], r2
+
+    ; bounds check index against elem count
+    cp   r10, r16
+    cpc  r11, r17
+    cpc  r12, r18
+    brsh pidx_error
+
+    jmp pidx_part2
     ; TODO: SPACE HERE
     .align 6
 
@@ -3475,30 +3519,7 @@ delay_9:
 delay_8:
     ret
 
-pidx_impl:
-    
-    ; load elem size into r20:r21
-    call read_2_bytes_nodelay
-    movw r20, r16
-
-    ; load index into r10:r12
-    mov  r12, r9
-    ld   r11, -Y
-    ld   r10, -Y
-    
-    ; load progref into r13:r15
-    ld   r15, -Y
-    ld   r14, -Y
-    ld   r13, -Y
-    
-    ; load elem count into r16:r18
-    call read_3_bytes_nodelay
-    
-    ; bounds check index against elem count
-    cp   r10, r16
-    cpc  r11, r17
-    cpc  r12, r18
-    brsh pidx_error
+pidx_part2:
     
     ; compute prog ref + index * elem_size
     ;
@@ -3538,15 +3559,27 @@ pidx_impl:
     mov  r9, r15
     dispatch_noalign
 
-pidx_error:
-    ldi  r24, 2
-    rjmp call_vm_error
+upidx_delay_12:
+    rjmp .+0
+upidx_delay_10:
+    lpm
+upidx_delay_7:
+    ret
     
 upidx_impl:
     
     ; load elem size into r20:r21
-    call read_2_bytes_nodelay
-    movw r20, r16
+    lpm
+    rjmp .+0
+    in   r20, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall upidx_delay_12
+    in   r21, %[spdr]
+    out  %[spdr], r2
 
     ; load index into r10:r12
     mov  r12, r9
@@ -3567,7 +3600,7 @@ upidx_impl:
     cp   r10, r16
     cpc  r11, r17
     cpc  r12, r18
-    brsh pidx_error
+    brsh upidx_error
     
     ; compute prog ref + index * elem_size
     ;
@@ -3606,6 +3639,10 @@ upidx_impl:
     st   Y+, r14
     mov  r9, r15
     dispatch_noalign
+
+upidx_error:
+    ldi  r24, 2
+    rjmp call_vm_error
     
 jump_to_pc:
     fx_disable
