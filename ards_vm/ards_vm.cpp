@@ -237,7 +237,10 @@ I_PUSH:
     lpm
     read_byte
     mov  r9, r0
-    call delay_12
+    lpm
+    lpm
+    lpm
+    lpm
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
@@ -438,15 +441,24 @@ I_PUSHG:
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    rcall pushg_delay_14
     in   r9, %[spdr]
     out  %[spdr], r2
     ldi  r16, 2
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    call delay_12
-    dispatch
+    rcall pushg_delay_12
+    dispatch_noalign
+pushg_delay_14:
+    nop
+pushg_delay_13:
+    nop
+pushg_delay_12:
+    lpm
+    rjmp .+0
+    ret
+    .align 6
 
 I_PUSHL:
     st   Y+, r9
@@ -455,18 +467,19 @@ I_PUSHL:
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    rcall pushg_delay_14
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    rcall pushg_delay_14
     in   r9, %[spdr]
     out  %[spdr], r2
     ldi  r16, 3
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    call delay_12
+    rcall pushg_delay_12
+push4_dispatch:
     dispatch
 
 I_PUSH4:
@@ -479,19 +492,19 @@ I_PUSH4:
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    rcall pushg_delay_14
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    rcall pushg_delay_14
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
-    call delay_14
+    rcall pushg_delay_14
     in   r9, %[spdr]
     out  %[spdr], r2
-    call delay_13
-    jmp  dispatch_func
+    rcall pushg_delay_14
+    rjmp push4_dispatch
     .align 6
 
 I_SEXT:
@@ -748,7 +761,10 @@ I_GETL:
     read_byte
     sub  r26, r0
     ld   r9, X
-    call delay_10
+    lpm
+    lpm
+    rjmp .+0
+    rjmp .+0
     dispatch
     
 I_GETL2:
@@ -879,12 +895,20 @@ I_GETG:
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    call delay_12
+    rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
     ld   r9, X
-    call delay_14
-    dispatch
+    rcall getg_delay_14
+    dispatch_noalign
+getg_delay_14:
+    rjmp .+0
+getg_delay_12:
+    rjmp .+0
+getg_delay_10:
+    lpm
+    ret
+    .align 6
 
 I_GETG2:
     st   Y+, r9
@@ -899,13 +923,13 @@ I_GETG2:
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    call delay_12
+    rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
     ld   r16, X+
     ld   r9, X+
     st   Y+, r16
-    call delay_10
+    rcall getg_delay_10
 getg4_dispatch:
     dispatch
 
@@ -923,7 +947,7 @@ getgn_error:
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    call delay_12
+    rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2 
     ld   r16, X+
@@ -948,7 +972,7 @@ I_GETGN:
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    call delay_12
+    rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
     sbrs r18, 0
@@ -967,28 +991,43 @@ I_GETGN:
     .align 6
 
 I_SETG:
-    call read_2_bytes
-    movw r26, r16
+    dispatch_delay
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall getg_delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2
     st   X, r9
     ld   r9, -Y
-    lpm
-    lpm
-    nop
+    rcall getg_delay_12
     dispatch
 
 I_SETG2:
-    call read_2_bytes
-    movw r26, r16
+    dispatch_delay
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall getg_delay_12
+    in   r27, %[spdr]
+    out  %[spdr], r2
     ld   r17, -Y
     st   X+, r17
     st   X+, r9
-    lpm
+    rcall setg4_delay_8
 setgn_dispatch:
     ld   r9, -Y
     dispatch_noalign
 setg4_delay_12:
     rjmp .+0
     rjmp .+0
+setg4_delay_8:
     nop
 setg4_delay_7:
     ret
@@ -1005,7 +1044,7 @@ I_SETG4:
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    call delay_12
+    rcall setg4_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
     st   X+, r16
@@ -1050,9 +1089,14 @@ I_GETP:
     ld   r16, -Y
     ; TODO: inline seek_to_addr here
     call seek_to_addr
-    call delay_12
+    rcall setg4_delay_12
     in   r9, %[spdr]
     jmp  jump_to_pc
+getpn_delay_10:
+    nop
+getpn_delay_9:
+    rjmp .+0
+    ret
     .align 6
 
 I_GETPN:
@@ -1065,7 +1109,7 @@ I_GETPN:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-1:  call delay_9
+1:  rcall getpn_delay_9
     in   r0, %[spdr]
     out  %[spdr], r2
     st   Y+, r0
@@ -1073,7 +1117,7 @@ I_GETPN:
     dec  r1
     cp   r1, r4
     brne 1b
-    call delay_10
+    rcall getpn_delay_10
     in   r9, %[spdr]
     jmp  jump_to_pc
     .align 6
@@ -1182,8 +1226,14 @@ I_POPN:
     read_byte
     sub  r28, r0
     ld   r9, Y
-    call delay_10
-    dispatch
+    rcall popn_delay_10
+    dispatch_noalign
+popn_delay_12:
+    rjmp .+0
+popn_delay_10:
+    lpm
+    ret
+    .align 6
 
 I_AIXB1:
     mov  r20, r9
@@ -1202,12 +1252,27 @@ I_AIXB1:
     adc  r9, r2
     st   Y+, r22
     rjmp .+0
-    dispatch
+aidxb_dispatch:
+    dispatch_noalign
+aidx_error:
+    ldi  r24, 2
+    jmp  call_vm_error
+    .align 6
 
 I_AIDXB:
     mov  r20, r9
-    rjmp .+0
-    call read_2_bytes_nodelay
+    lpm
+    lpm
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 2
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall popn_delay_12
+    in   r17, %[spdr]
+    out  %[spdr], r2
+
     ; r16: elem size
     ; r17: num elems
     ; r20: index
@@ -1220,10 +1285,8 @@ I_AIDXB:
     adc  r1, r21
     st   Y+, r0
     mov  r9, r1
-    dispatch_noalign
-aidx_error:
-    ldi  r24, 2
-    jmp  call_vm_error
+    nop
+    rjmp aidxb_dispatch
     .align 6
 
 I_AIDX:

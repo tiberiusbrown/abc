@@ -100,8 +100,8 @@ static void bench(char const* name)
     binary = compile(std::string(BENCHMARKS_DIR) + "/" + name + "/" + name + ".abc");
 
     {
-        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
-        auto t = arduboy->load_file("vm.hex", ss);
+        std::ifstream vmhex(VMHEX_FILE);
+        auto t = arduboy->load_file("vm.hex", vmhex);
         assert(t.empty());
     }
     {
@@ -250,8 +250,8 @@ int abc_benchmarks()
         }
 #endif
         {
-            std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
-            auto t = arduboy->load_file("vm.hex", ss);
+            std::ifstream vmhex(VMHEX_FILE);
+            auto t = arduboy->load_file("vm.hex", vmhex);
             assert(t.empty());
         }
         {

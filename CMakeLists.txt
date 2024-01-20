@@ -218,6 +218,7 @@ add_executable(abc_integration
 target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler)
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
 target_compile_definitions(abc_integration PRIVATE
+    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/ards_vm/build/ards_vm.ino.hex"
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
     -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"

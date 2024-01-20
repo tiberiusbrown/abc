@@ -44,8 +44,8 @@ static bool test(std::string const& fpath, std::string const& fname)
     }
 
     {
-        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, VM_HEX_ARDUBOYFX_SIZE);
-        auto t = arduboy->load_file("vm.hex", ss);
+        std::ifstream vmhex(VMHEX_FILE);
+        auto t = arduboy->load_file("vm.hex", vmhex);
         assert(t.empty());
     }
     {
