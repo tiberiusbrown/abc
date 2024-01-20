@@ -3307,7 +3307,18 @@ I_BNZP1:
     .align 6
 
 I_JMP:
-    call read_3_bytes_end
+    ldi  r16, 3
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
+    lpm
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    rcall branch_delay_16
+    in   r17, %[spdr]
+    out  %[spdr], r2
+    rcall branch_delay_16
+    in   r18, %[spdr]
     movw r6, r16
     mov  r8, r18
     rjmp  jump_to_pc
@@ -3329,18 +3340,26 @@ I_JMP1:
 I_CALL:
     lds  r26, %[vm_csp]
     cpi  r26, 93
-    brlo 1f
-    ldi  r24, 6
-    jmp  call_vm_error
-1:  ldi  r27, 0x06
-    call read_3_bytes_end_nodelay
+    brsh 1f
+    ldi  r27, 0x06
+    ldi  r16, 3
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
     st   X+, r6
     st   X+, r7
     st   X+, r8
+    in   r6, %[spdr]
+    out  %[spdr], r2
+    rcall branch_delay_16
+    in   r7, %[spdr]
+    out  %[spdr], r2
+    rcall branch_delay_16
+    in   r8, %[spdr]
     sts  %[vm_csp], r26
-    movw r6, r16
-    mov  r8, r18
     rjmp jump_to_pc
+1:  ldi  r24, 6
+    jmp  call_vm_error
     .align 6
 
 I_CALL1:

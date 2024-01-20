@@ -298,8 +298,8 @@
 158   bnzp (taken)
  39   bnzp1 (not taken)
 127   bnzp1 (taken)
-161   jmp
+157   jmp
 126   jmp1
-172   call
+165   call
 135   call1
 122   ret
