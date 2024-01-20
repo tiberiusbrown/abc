@@ -1474,6 +1474,7 @@ I_UAIDX:
     st   Y+, r22
     mov  r9, r23
     rjmp .+0
+    lpm
     rjmp uaidx_dispatch
     .align 6
 
@@ -1640,11 +1641,16 @@ I_REFL:
     sub  r16, r0
     st   Y+, r16
     mov  r9, r17
-    call delay_8
+    rcall refl_delay_8
     dispatch_noalign
 pslc_error:
     ldi  r24, 2
     jmp call_vm_error
+refl_delay_11:
+    lpm
+refl_delay_8:
+    nop
+    ret
     .align 6
 
 I_REFG:
@@ -1652,14 +1658,23 @@ I_REFG:
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  call read_2_bytes_nodelay
+1:  lpm
+    ldi  r18, 2
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    add  r6, r18
+    adc  r7, r2
+    adc  r8, r2
     st   Y+, r9
+    rcall refl_delay_11
+    in   r17, %[spdr]
+    out  %[spdr], r2
     subi r17, -2
     st   Y+, r16
     mov  r9, r17
-    lpm
+    rcall refl_delay_11
+    nop
 uaidx_dispatch:
-    lpm
 slc_dispatch:
 pidxb_dispatch:
     dispatch
@@ -1675,20 +1690,22 @@ I_REFGB:
     ldi  r17, 2
     st   Y+, r0
     mov  r9, r17
-    call delay_9
+    rcall refl_delay_8
+inc_dispatch:
+    nop
     dispatch
 
 I_INC:
     inc  r9
     lpm
-    jmp  dispatch_func
+    rjmp inc_dispatch
     ; TODO: SPACE HERE
     .align 6
 
 I_DEC:
     dec r9
     lpm
-    jmp  dispatch_func
+    rjmp inc_dispatch
     ; TODO: SPACE HERE
     .align 6
 
