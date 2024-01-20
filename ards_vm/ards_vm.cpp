@@ -1218,8 +1218,11 @@ I_POP4:
     ld   r9, Y
     rjmp .+0
     rjmp .+0
+    dispatch_noalign
+aidx_part2:
+    st   Y+, r22
+    mov  r9, r23
     dispatch
-    ; TODO: SPACE HERE
 
 I_POPN:
     dispatch_delay
@@ -1228,6 +1231,9 @@ I_POPN:
     ld   r9, Y
     rcall popn_delay_10
     dispatch_noalign
+popn_delay_16:
+    rjmp .+0
+    rjmp .+0
 popn_delay_12:
     rjmp .+0
 popn_delay_10:
@@ -1287,12 +1293,31 @@ I_AIDXB:
     mov  r9, r1
     nop
     rjmp aidxb_dispatch
+aidx_delay_4:
+    rjmp aidx_delay_4_return
     .align 6
 
 I_AIDX:
     mov  r21, r9
     ld   r20, -Y
-    call read_4_bytes_nodelay
+    rjmp aidx_delay_4
+aidx_delay_4_return:
+    in   r16, %[spdr]
+    out  %[spdr], r2
+    ldi  r17, 4
+    add  r6, r17
+    adc  r7, r2
+    adc  r8, r2
+    rcall popn_delay_12
+    in   r17, %[spdr]
+    out  %[spdr], r2
+    rcall popn_delay_16
+    in   r18, %[spdr]
+    out  %[spdr], r2
+    rcall popn_delay_16
+    in   r19, %[spdr]
+    out  %[spdr], r2
+
     cp   r20, r18
     cpc  r21, r19
     brsh aidx_error
@@ -1319,9 +1344,8 @@ I_AIDX:
     ld   r20, -Y
     add  r22, r20
     adc  r23, r21
-    st   Y+, r22
-    mov  r9, r23
-    dispatch
+    rjmp aidx_part2
+    .align 6
 
 I_PIDXB:
     ; load index into r10

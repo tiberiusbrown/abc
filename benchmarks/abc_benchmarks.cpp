@@ -3,7 +3,6 @@
 #include <absim.hpp>
 #include <ards_assembler.hpp>
 #include <ards_compiler.hpp>
-#include <vm_hex_arduboyfx.hpp>
 
 #include <cassert>
 #include <cinttypes>
@@ -209,8 +208,8 @@ int abc_benchmarks()
         auto binary = compile(PLATFORMER_DIR "/benchmark.abc");
         assert(!binary.empty());
         {
-            std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
-            auto t = arduboy->load_file("vm.hex", ss);
+            std::ifstream vmhex(VMHEX_FILE);
+            auto t = arduboy->load_file("vm.hex", vmhex);
             assert(t.empty());
         }
         {
