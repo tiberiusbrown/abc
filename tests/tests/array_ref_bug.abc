@@ -1,0 +1,21 @@
+u8[4] a = { 1, 2, 3, 4 };
+
+u8[4]& r = a;
+
+u8[4] f()
+{
+    return r;
+}
+
+void main()
+{
+    $debug_break();
+    
+    u8[4] t = f();
+    $assert(t[0] == 1);
+    $assert(t[1] == 2);
+    $assert(t[2] == 3);
+    $assert(t[3] == 4);
+    
+    $debug_break();
+}
