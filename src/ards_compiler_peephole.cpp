@@ -16,6 +16,8 @@ static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
 
 void compiler_t::peephole(compiler_func_t& f)
 {
+    while(peephole_bake_getpn(f))
+        ;
     while(peephole_remove_pop(f))
         ;
     while(peephole_simplify_derefs(f))
@@ -38,6 +40,55 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_compress_duplicate_pushes(f))
         ;
+}
+
+bool compiler_t::peephole_bake_getpn(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+
+        // replace PUSHL <LABEL>; GETPN <N> with a bunch of pushes
+        if(i0.instr == I_PUSHL && i1.instr == I_GETPN && i1.imm <= 16)
+        {
+            // locate label
+            auto offset = i0.imm;
+            auto n = i1.imm;
+            auto it = progdata.find(i0.label);
+            if(it == progdata.end())
+                continue;
+            auto const& d = it->second.data;
+            if(offset + n > d.size())
+                continue;
+            bool valid = true;
+            for(auto const& p : it->second.relocs_glob)
+                if(p.first >= offset && p.first < offset + n)
+                    valid = false;
+            for(auto const& p : it->second.relocs_prog)
+                if(p.first >= offset && p.first < offset + n)
+                    valid = false;
+            if(!valid)
+                continue;
+
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            
+            f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH });
+
+            // i0, i1 invalidated now
+
+            for(size_t j = 0; j < n; ++j)
+                f.instrs[i + j].imm = d[offset + j];
+            t = true;
+            continue;
+        }
+    }
+
+    return t;
 }
 
 bool compiler_t::peephole_remove_pop(compiler_func_t& f)

@@ -185,6 +185,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
 
             if(a.children[0].comp_type.is_any_ref() &&
                 a.children[0].comp_type.is_nonprog_string() &&
+                a.children[1].comp_type.is_any_ref() &&
                 a.children[1].comp_type.is_string())
             {
                 // generate calls to strcpy for char array assignment
