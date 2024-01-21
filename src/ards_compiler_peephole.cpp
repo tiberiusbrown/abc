@@ -16,13 +16,13 @@ static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
 
 void compiler_t::peephole(compiler_func_t& f)
 {
+    while(peephole_bake_offsets(f))
+        ;
     while(peephole_bake_getpn(f))
         ;
     while(peephole_remove_pop(f))
         ;
     while(peephole_simplify_derefs(f))
-        ;
-    while(peephole_bake_offsets(f))
         ;
     while(peephole_pre_push_compress(f))
         ;
@@ -347,6 +347,27 @@ bool compiler_t::peephole_bake_offsets(compiler_func_t& f)
                 t = true;
                 continue;
             }
+        }
+
+        if(i + 4 >= f.instrs.size()) continue;
+        auto& i4 = f.instrs[i + 4];
+
+        // convert PUSHL <LABEL>; PUSH ..; PUSH ..; PUSH ...; ADD3 to PUSHL LABEL+..
+        if( i0.instr == I_PUSHL &&
+            i1.instr == I_PUSH &&
+            i2.instr == I_PUSH &&
+            i3.instr == I_PUSH &&
+            i4.instr == I_ADD3)
+        {
+            i0.imm += i1.imm;
+            i0.imm += i2.imm * (1 << 8);
+            i0.imm += i3.imm * (1 << 16);
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
         }
     }
     return t;
