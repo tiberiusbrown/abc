@@ -3194,10 +3194,9 @@ I_BZ1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    nop
-    in   r0, %[spdr]
     cp   r16, r2
     brne 1f
+    in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
     sbc  r1, r1
@@ -3239,10 +3238,9 @@ I_BNZ1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    nop
-    in   r0, %[spdr]
     cp   r16, r2
     breq 1f
+    in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
     sbc  r1, r1
@@ -3348,11 +3346,7 @@ I_BNZP1:
     .align 6
 
 I_JMP:
-    ldi  r16, 3
-    add  r6, r16
-    adc  r7, r2
-    adc  r8, r2
-    lpm
+    dispatch_delay
     in   r16, %[spdr]
     out  %[spdr], r2
     rcall branch_delay_16
