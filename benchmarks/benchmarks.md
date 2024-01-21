@@ -90,10 +90,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble2: 35.34x slowdown</summary>
+<details><summary>bubble2: 35.30x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 52858</td><td>Cycles: 1867833</td></tr>
+<tr><td>Cycles: 52858</td><td>Cycles: 1865817</td></tr>
 <tr>
 <td>
 
@@ -180,10 +180,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble3: 32.18x slowdown</summary>
+<details><summary>bubble3: 32.16x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 71002</td><td>Cycles: 2285145</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 2283129</td></tr>
 <tr>
 <td>
 
@@ -270,10 +270,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble4: 26.92x slowdown</summary>
+<details><summary>bubble4: 26.90x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 89146</td><td>Cycles: 2400057</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2398041</td></tr>
 <tr>
 <td>
 
@@ -415,10 +415,10 @@ void main()
 </table>
 </details>
 
-<details><summary>sieve: 59.11x slowdown</summary>
+<details><summary>sieve: 59.00x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 20499</td><td>Cycles: 1211706</td></tr>
+<tr><td>Cycles: 20499</td><td>Cycles: 1209529</td></tr>
 <tr>
 <td>
 
