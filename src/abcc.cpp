@@ -66,7 +66,9 @@ int main(int argc, char** argv)
     catch(const std::exception& err) {
         std::cerr << err.what() << std::endl;
         std::cerr << args;
-        //std::exit(1);
+#ifdef NDEBUG
+        std::exit(1);
+#endif
     }
 
     bool show_asm = false;
