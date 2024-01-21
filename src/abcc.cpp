@@ -9,9 +9,14 @@
 
 #include <argparse/argparse.hpp>
 
-#define PROFILE_COUNT 100
-#define PROFILING (PROFILE_COUNT > 1)
+#define PROFILE_COUNT 1
 
+#ifndef NDEBUG
+#undef PROFILE_COUNT
+#define PROFILE_COUNT 1
+#endif
+
+#define PROFILING (PROFILE_COUNT > 1)
 #if PROFILING
 #include <ctime>
 #endif
@@ -69,16 +74,16 @@ int main(int argc, char** argv)
     show_asm = true;
 #endif
 
+#if PROFILING
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
+#endif
+
 #ifndef NDEBUG
     psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble3/bubble3.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/struct_ref_bug.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
-#endif
-
-#if PROFILING
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
 #endif
 
     if(psrc.empty())

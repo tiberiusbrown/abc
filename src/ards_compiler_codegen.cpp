@@ -495,6 +495,13 @@ void compiler_t::codegen_convert(
     auto const& rto = orig_to.without_ref();
 
     auto* pfrom = &orig_from;
+    if(rto.is_array() && rfrom.is_array_ref())
+    {
+        errs.push_back({
+            "Cannot create array from unsized array reference",
+            n.line_info });
+        return;
+    }
     if(rto.is_array_ref())
     {
         if((rfrom.is_array() || rfrom.is_array_ref()) && rfrom.children[0] != rto.children[0])
