@@ -3384,15 +3384,16 @@ I_CALL:
     brsh 1f
     ldi  r27, 0x06
     ldi  r16, 3
-    add  r6, r16
-    adc  r7, r2
-    adc  r8, r2
-    st   X+, r6
-    st   X+, r7
-    st   X+, r8
+    add  r16, r6
     in   r6, %[spdr]
     out  %[spdr], r2
-    rcall branch_delay_16
+    adc  r7, r2
+    adc  r8, r2
+    st   X+, r16
+    st   X+, r7
+    st   X+, r8
+    nop
+    rcall branch_delay_7
     in   r7, %[spdr]
     out  %[spdr], r2
     rcall branch_delay_16
@@ -3443,8 +3444,7 @@ I_SYS:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    ; TODO: why can't this be 2-cycle delay?
-    lpm
+    rjmp .+0
     in   r0, %[spdr]
     out  %[spdr], r2
     add  r30, r0

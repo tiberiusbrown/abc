@@ -300,6 +300,6 @@
 127   bnzp1 (taken)
 157   jmp
 126   jmp1
-165   call
+157   call
 134   call1
 122   ret
