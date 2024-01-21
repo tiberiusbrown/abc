@@ -3175,10 +3175,10 @@ I_BZ:
     rcall branch_delay_16
     in   r17, %[spdr]
     out  %[spdr], r2
-    rcall branch_delay_15
+    rcall branch_delay_14
     cp   r1, r2
-    in   r18, %[spdr]
     brne 1f
+    in   r18, %[spdr]
     movw r6, r16
     mov  r8, r18
     rjmp jump_to_pc
@@ -3221,10 +3221,10 @@ I_BNZ:
     rcall branch_delay_16
     in   r17, %[spdr]
     out  %[spdr], r2
-    rcall branch_delay_15
+    rcall branch_delay_14
     cp   r1, r2
-    in   r18, %[spdr]
     breq 1f
+    in   r18, %[spdr]
     movw r6, r16
     mov  r8, r18
     rjmp jump_to_pc
