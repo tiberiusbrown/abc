@@ -179,7 +179,6 @@ enum instr_t : uint8_t
              //           stop:  24-bit
 
     I_REFL,  // imm8 -> pointer to local var
-    I_REFG,  // imm16 -> pointer to global var
     I_REFGB, // imm8 -> pointer to global var
     
     I_INC,

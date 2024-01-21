@@ -92,7 +92,6 @@
  36   popn N
  36   refl
  36   refgb
- 54   refg
  18   getr
  20   getr2
  47   getrn 3

@@ -1694,32 +1694,6 @@ refl_delay_8:
     ret
     .align 6
 
-I_REFG:
-    cpi  r28, 253
-    brlo 1f
-    ldi  r24, 5
-    jmp  call_vm_error
-1:  lpm
-    ldi  r18, 2
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    add  r6, r18
-    adc  r7, r2
-    adc  r8, r2
-    st   Y+, r9
-    rcall refl_delay_11
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    subi r17, -2
-    st   Y+, r16
-    mov  r9, r17
-    rcall refl_delay_11
-    nop
-uaidx_dispatch:
-slc_dispatch:
-pidxb_dispatch:
-    dispatch
-
 I_REFGB:
     st   Y+, r9
     cpi  r28, 254
@@ -1734,6 +1708,9 @@ I_REFGB:
     rcall refl_delay_8
 inc_dispatch:
     nop
+uaidx_dispatch:
+slc_dispatch:
+pidxb_dispatch:
     dispatch
 
 I_INC:

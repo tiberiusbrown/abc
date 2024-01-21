@@ -296,8 +296,27 @@ error_t assembler_t::assemble(std::istream& f)
         }
         else if(t == "pushg")
         {
-            push_instr(I_PUSHG);
-            push_global(f, true);
+            std::string label = read_label(f, error);
+            if(!error.msg.empty()) return error;
+            uint32_t offset = 0;
+            f >> offset;
+            if(auto git = globals.find(label); git != globals.end())
+            {
+                uint32_t imm = (uint32_t)git->second + offset;
+                if(imm < 256)
+                {
+                    push_instr(I_REFGB);
+                    push_imm(imm, 1);
+                }
+                else
+                {
+                    imm += 0x200;
+                    push_instr(I_PUSH2);
+                    push_imm(imm, 2);
+                }
+            }
+            else
+                return { "Unknown global \"" + label + "\"" };
         }
         else if(t == "push2")
         {
@@ -488,25 +507,6 @@ error_t assembler_t::assemble(std::istream& f)
         {
             push_instr(I_REFL);
             push_imm(read_imm(f, error), 1);
-        }
-        else if(t == "refg")
-        {
-            push_instr(I_REFG);
-            push_global(f, true);
-            auto& g = nodes.back();
-            if(auto git = globals.find(g.label); git != globals.end())
-            {
-                g.imm += (uint32_t)git->second;
-                if(g.imm < 256)
-                {
-                    g.size = 1;
-                    byte_count -= 1;
-                    nodes[nodes.size() - 2].instr = I_REFGB;
-                }
-                g.label.clear();
-            }
-            else
-                return { "Unknown global \"" + g.label + "\"" };
         }
         else if(t == "refgb")
         {

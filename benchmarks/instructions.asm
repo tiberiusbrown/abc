@@ -565,114 +565,109 @@ $L_main_start:
     pop3
     
     sys debug_break
-    refg g 0
+    pushg g 0
     sys debug_break
     pop2
     
-    sys debug_break
-    refg g 300
-    sys debug_break
-    pop2
-    
-    refg g 0
+    pushg g 0
     sys debug_break
     getr
     sys debug_break
     pop
     
-    refg g 0
+    pushg g 0
     sys debug_break
     getr2
     sys debug_break
     pop2
     
-    refg g 0
+    pushg g 0
     sys debug_break
     getrn 3
     sys debug_break
     pop3
     
-    refg g 0
+    pushg g 0
     sys debug_break
     getrn 4
     sys debug_break
     pop4
     
-    refg g 0
+    pushg g 0
     sys debug_break
     getrn 8
     sys debug_break
     popn 8
     
-    refg g 0
+    pushg g 0
     sys debug_break
     getrn 16
     sys debug_break
     popn 16
     
-    refg g 0
+    pushg g 0
     sys debug_break
     getrn 32
     sys debug_break
     popn 32
     
     p0
-    refg g 0
+    pushg g 0
     sys debug_break
     setr
     sys debug_break
     
     p00
-    refg g 0
+    pushg g 0
     sys debug_break
     setr2
     sys debug_break
     
     p000
-    refg g 0
+    pushg g 0
     sys debug_break
     setrn 3
     sys debug_break
     
     p0000
-    refg g 0
+    pushg g 0
     sys debug_break
     setrn 4
     sys debug_break
     
     pzn 8
-    refg g 0
+    pushg g 0
     sys debug_break
     setrn 8
     sys debug_break
     
     pzn 16
-    refg g 0
+    pushg g 0
     sys debug_break
     setrn 16
     sys debug_break
     
     pzn 32
-    refg g 0
+    pushg g 0
     sys debug_break
     setrn 32
     sys debug_break
     
-    refg g 0
+    pushg g 0
     push 42
     sys debug_break
     aixb1 50
     sys debug_break
     pop2
     
-    refg g 0
+    pushg g 0
     push 42
     sys debug_break
     aidxb 1 50
     sys debug_break
     pop2
     
-    refg g 0
+    pushg g 0
     push 42
     push 0
     sys debug_break
@@ -696,7 +691,7 @@ $L_main_start:
     sys debug_break
     pop3
     
-    refg g 0
+    pushg g 0
     push 32
     p0
     p8
@@ -716,7 +711,7 @@ $L_main_start:
     sys debug_break
     pop3
     
-    refg g 0
+    pushg g 0
     push 32
     p0
     p0
@@ -757,49 +752,49 @@ $L_main_start:
     sys debug_break
     pop2
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pinc
     sys debug_break
     pop
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pinc2
     sys debug_break
     pop2
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pinc3
     sys debug_break
     pop3
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pinc4
     sys debug_break
     pop4
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pdec
     sys debug_break
     pop
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pdec2
     sys debug_break
     pop2
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pdec3
     sys debug_break
     pop3
     
-    refg g 0
+    pushg g 0
     sys debug_break
     pdec4
     sys debug_break
@@ -809,9 +804,9 @@ $L_main_start:
     push 0
     push 0
     push 0
-    refg g 0
+    pushg g 0
     setrn 4
-    refg g 0
+    pushg g 0
     sys debug_break
     pincf
     sys debug_break
@@ -821,9 +816,9 @@ $L_main_start:
     push 0
     push 128
     push 63
-    refg g 0
+    pushg g 0
     setrn 4
-    refg g 0
+    pushg g 0
     sys debug_break
     pincf
     sys debug_break
@@ -833,9 +828,9 @@ $L_main_start:
     push 36
     push 116
     push 73
-    refg g 0
+    pushg g 0
     setrn 4
-    refg g 0
+    pushg g 0
     sys debug_break
     pincf
     sys debug_break
@@ -845,9 +840,9 @@ $L_main_start:
     push 0
     push 0
     push 0
-    refg g 0
+    pushg g 0
     setrn 4
-    refg g 0
+    pushg g 0
     sys debug_break
     pdecf
     sys debug_break
@@ -857,9 +852,9 @@ $L_main_start:
     push 0
     push 128
     push 63
-    refg g 0
+    pushg g 0
     setrn 4
-    refg g 0
+    pushg g 0
     sys debug_break
     pdecf
     sys debug_break
@@ -869,9 +864,9 @@ $L_main_start:
     push 36
     push 116
     push 73
-    refg g 0
+    pushg g 0
     setrn 4
-    refg g 0
+    pushg g 0
     sys debug_break
     pdecf
     sys debug_break

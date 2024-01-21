@@ -111,7 +111,6 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_PSLC:  f << "pslc  " << instr.imm; break;
 
     case I_REFL:  f << "refl  " << instr.imm; break;
-    case I_REFG:  f << "refg  " << instr.label << " " << instr.imm; break;
     case I_REFGB: assert(false); break;
 
     case I_INC:   f << "inc"; break;
