@@ -3189,13 +3189,13 @@ bnz1_dispatch:
     dispatch
 
 I_BZ1:
-    mov  r16, r9
-    ld   r9, -Y
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    cp   r16, r2
+    cp   r9, r2
     brne 1f
+    mov  r16, r9
+    ld   r9, -Y
     in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
@@ -3204,7 +3204,8 @@ I_BZ1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc
-1:  out  %[spdr], r2
+1:  ld   r9, -Y
+    out  %[spdr], r2
     rcall branch_delay_14
     rjmp bz1_dispatch
     .align 6
@@ -3233,13 +3234,13 @@ I_BNZ:
     dispatch
 
 I_BNZ1:
-    mov  r16, r9
-    ld   r9, -Y
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    cp   r16, r2
+    cp   r9, r2
     breq 1f
+    mov  r16, r9
+    ld   r9, -Y
     in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
@@ -3248,9 +3249,10 @@ I_BNZ1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc
-1:  out  %[spdr], r2
+1:  ld   r9, -Y
+    out  %[spdr], r2
     rcall branch_delay_14
-    rjmp bnz1_dispatch
+    rjmp bz1_dispatch
     .align 6
 
 I_BZP:
