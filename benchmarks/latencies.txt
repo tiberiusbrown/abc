@@ -26,7 +26,7 @@
  90   push4 N
  18   sext
  18   sext (neg)
- 19   set2
+ 19   sext2
  19   sext2 (neg)
  21   sext3
  21   sext3 (neg)
@@ -292,11 +292,11 @@
 126   bnz1 (taken)
  74   bzp (not taken)
 158   bzp (taken)
- 39   bzp1 (not taken)
+ 36   bzp1 (not taken)
 127   bzp1 (taken)
  74   bnzp (not taken)
 158   bnzp (taken)
- 39   bnzp1 (not taken)
+ 36   bnzp1 (not taken)
 127   bnzp1 (taken)
 157   jmp
 126   jmp1

@@ -3285,10 +3285,10 @@ I_BZP1:
     adc  r7, r2
     adc  r8, r2
     rjmp .+0
-    rjmp .+0
-    in   r0, %[spdr]
     cp   r9, r2
     brne 1f
+    rjmp .+0
+    in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
     sbc  r1, r1
@@ -3330,10 +3330,10 @@ I_BNZP1:
     adc  r7, r2
     adc  r8, r2
     rjmp .+0
-    rjmp .+0
-    in   r0, %[spdr]
     cp   r9, r2
     breq 1f
+    rjmp .+0
+    in   r0, %[spdr]
     mov  r1, r0
     lsl  r1
     sbc  r1, r1

@@ -267,7 +267,7 @@ int abc_benchmarks()
         "p00", "p000", "p0000",
         "pzn 5", "pzn 6", "pzn 7", "pzn 8", "pzn 16", "pzn 32",
         "push N", "push2 N", "push3 N", "push4 N",
-        "sext", "sext (neg)", "set2", "sext2 (neg)", "sext3", "sext3 (neg)",
+        "sext", "sext (neg)", "sext2", "sext2 (neg)", "sext3", "sext3 (neg)",
         "dup", "dup2", "dup3", "dup4", "dup5", "dup6", "dup7", "dup8",
         "dupw", "dupw2", "dupw3", "dupw4", "dupw5", "dupw6", "dupw7", "dupw8",
         "getl N", "getl2 N", "getl4 N",
