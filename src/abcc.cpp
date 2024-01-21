@@ -9,7 +9,7 @@
 
 #include <argparse/argparse.hpp>
 
-#define PROFILE_COUNT 1
+#define PROFILE_COUNT 100
 #define PROFILING (PROFILE_COUNT > 1)
 
 #if PROFILING
@@ -77,6 +77,10 @@ int main(int argc, char** argv)
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
 #endif
 
+#if PROFILING
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
+#endif
+
     if(psrc.empty())
     {
         usage(argv[0]);
@@ -90,14 +94,17 @@ int main(int argc, char** argv)
     ards::compiler_t c;
     ards::assembler_t a;
 
-    std::stringstream fasm;
-
 #if PROFILING
     auto ta = clock();
 
     for(int prof = 0; prof < PROFILE_COUNT; ++prof)
     {
 #endif
+
+    c = {};
+    a = {};
+
+    std::stringstream fasm;
 
     c.compile(psrc.parent_path().generic_string(), psrc.stem().generic_string(), fasm);
     for(auto const& e : c.errors())

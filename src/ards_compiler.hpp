@@ -443,6 +443,7 @@ struct compiler_progdata_t
     std::vector<uint8_t> data;
     std::vector<std::pair<size_t, std::string>> relocs_prog;
     std::vector<std::pair<size_t, std::string>> relocs_glob;
+    std::vector<std::pair<size_t, std::string>> inter_labels;
 };
 
 struct compiler_constexpr_ref_t
@@ -577,6 +578,8 @@ private:
     std::string progdata_label();
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
+    void try_merge_progdata(
+        std::string const& label, compiler_progdata_t& pdata);
     void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
     void progdata_zero(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
 

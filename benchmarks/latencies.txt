@@ -142,6 +142,9 @@
  29   sub3
  36   sub4
  20   add2b
+ 20   sub2b
+ 24   mul2b
+ 25   add3b
  18   mul
  29   mul2
  45   mul3
@@ -244,10 +247,10 @@
  18   bool (1)
  18   bool2 (0)
  18   bool2 (1)
- 21   bool3 (0)
- 21   bool3 (1)
- 24   bool4 (0)
- 24   bool4 (1)
+ 20   bool3 (0)
+ 20   bool3 (1)
+ 23   bool4 (0)
+ 23   bool4 (1)
  18   cult (pass)
  18   cult (fail)
  22   cult2 (pass)

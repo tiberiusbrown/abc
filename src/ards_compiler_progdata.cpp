@@ -1,5 +1,6 @@
 #include "ards_compiler.hpp"
 
+#include <algorithm>
 #include <sstream>
 
 #include <cassert>
@@ -22,6 +23,7 @@ void compiler_t::add_custom_progdata(std::string const& label, std::vector<uint8
     auto& pdata = progdata[label];
     assert(pdata.data.empty());
     pdata.data = std::move(data);
+    try_merge_progdata(label, pdata);
 }
 
 void compiler_t::add_progdata(
@@ -30,6 +32,47 @@ void compiler_t::add_progdata(
     auto& pdata = progdata[label];
     assert(pdata.data.empty());
     progdata_expr(n, t, pdata);
+    try_merge_progdata(label, pdata);
+}
+
+void compiler_t::try_merge_progdata(
+    std::string const& label, compiler_progdata_t & pdata)
+{
+    auto const& data = pdata.data;
+    if(!pdata.relocs_glob.empty()) return;
+    if(!pdata.relocs_prog.empty()) return;
+    for(auto& [k, pd] : progdata)
+    {
+        if(k == label)
+            continue;
+        // search for data inside pd.data
+        for(auto it = pd.data.begin();;)
+        {
+            it = std::search(
+                it, pd.data.end(),
+                data.begin(), data.end());
+            if(it == pd.data.end())
+                break;
+
+            // we found a subsequence match: ensure there are no relocs inside it
+            size_t index = size_t(it - pd.data.begin());
+            bool valid = true;
+            for(auto const& p : pd.relocs_glob)
+                if(p.first >= index && p.first < index + data.size())
+                    valid = false;
+            for(auto const& p : pd.relocs_prog)
+                if(p.first >= index && p.first < index + data.size())
+                    valid = false;
+            if(!valid)
+                continue;
+
+            // add a intermediate label into pd
+            pd.inter_labels.push_back({ index, label });
+            std::sort(pd.inter_labels.begin(), pd.inter_labels.end());
+            pdata.data.clear();
+            return;
+        }
+    }
 }
 
 void compiler_t::progdata_zero(

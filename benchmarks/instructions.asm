@@ -931,6 +931,24 @@ $L_main_start:
     sys debug_break
     pop2
     
+    p000
+    sys debug_break
+    sub2b
+    sys debug_break
+    pop2
+    
+    p000
+    sys debug_break
+    mul2b
+    sys debug_break
+    pop2
+    
+    p0000
+    sys debug_break
+    add3b
+    sys debug_break
+    pop3
+    
     p00
     sys debug_break
     mul

@@ -295,7 +295,7 @@ int abc_benchmarks()
         "pdecf (0)", "pdecf (1)", "pdecf (1000000)",
         "add", "add2", "add3", "add4",
         "sub", "sub2", "sub3", "sub4",
-        "add2b",
+        "add2b", "sub2b", "mul2b", "add3b",
         "mul", "mul2", "mul3", "mul4",
         "udiv2 (30000 / 7)", "udiv2 (30000 / 7000)",
         "udiv4 (300000000 / 7)", "udiv4 (300000000 / 70000000)",

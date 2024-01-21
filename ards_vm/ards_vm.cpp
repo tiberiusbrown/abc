@@ -2726,27 +2726,25 @@ I_BOOL2:
     dispatch
 
 I_BOOL3:
-    ld   r1, -Y
-    or   r9, r1
-    ld   r1, -Y
-    or   r9, r1
-    ldi  r16, 0
-    cpse r9, r2
-    ldi  r16, 1
-    mov  r9, r16
+    ld   r10, -Y
+    or   r10, r9
+    ld   r11, -Y
+    or   r10, r11
+    clr  r9
+    cpse r10, r2
+    mov  r9, r4
     dispatch
 
 I_BOOL4:
-    ld   r1, -Y
-    or   r9, r1
-    ld   r1, -Y
-    or   r9, r1
-    ld   r1, -Y
-    or   r9, r1
-    ldi  r16, 0
-    cpse r9, r2
-    ldi  r16, 1
-    mov  r9, r16
+    ld   r10, -Y
+    or   r10, r9
+    ld   r11, -Y
+    or   r10, r11
+    ld   r11, -Y
+    or   r10, r11
+    clr  r9
+    cpse r10, r2
+    mov  r9, r4
     dispatch
 
 I_CULT:

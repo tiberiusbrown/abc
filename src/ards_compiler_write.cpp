@@ -269,9 +269,12 @@ void compiler_t::write(std::ostream& f)
 
     for(auto const& [label, pd] : progdata)
     {
+        if(pd.data.empty())
+            continue;
         f << label << ":\n";
         size_t rp = 0;
         size_t rg = 0;
+        size_t rl = 0;
         for(size_t i = 0; i < pd.data.size(); ++i)
         {
             if(rp < pd.relocs_prog.size() && pd.relocs_prog[rp].first == i)
@@ -288,13 +291,25 @@ void compiler_t::write(std::ostream& f)
                 i += 1;
                 continue;
             }
+            if(rl < pd.inter_labels.size() && pd.inter_labels[rl].first == i)
+            {
+                while(rl < pd.inter_labels.size() && pd.inter_labels[rl].first == i)
+                {
+                    f << pd.inter_labels[rl].second << ":\n";
+                    rl += 1;
+                }
+                i -= 1;
+                continue;
+            }
 
             size_t num = 1;
+            // TODO: optimize this?
             for(; num < 16; ++num)
             {
                 if(!(i + num < pd.data.size() &&
                     (rp >= pd.relocs_prog.size() || pd.relocs_prog[rp].first > i + num) &&
-                    (rg >= pd.relocs_glob.size() || pd.relocs_glob[rg].first > i + num)))
+                    (rg >= pd.relocs_glob.size() || pd.relocs_glob[rg].first > i + num) &&
+                    (rl >= pd.inter_labels.size() || pd.inter_labels[rl].first > i + num) ))
                     break;
             }
 

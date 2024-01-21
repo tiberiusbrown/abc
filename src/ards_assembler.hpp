@@ -26,6 +26,9 @@ struct assembler_t
         , globals_bytes(0)
         , byte_count(256) // header page
         , saved_bytes(0)
+        , code_bytes(0)
+        , data_bytes(0)
+        , debug_bytes(0)
         , error{}
     {}
     error_t assemble(std::istream& f);
