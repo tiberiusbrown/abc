@@ -950,7 +950,7 @@ void compiler_t::codegen_expr_ident(
             if(prog)
                 f.instrs.push_back({ I_PUSHL, a.line(), (uint32_t)offset, 0, global->constexpr_ref });
             else
-                f.instrs.push_back({ I_PUSHG, a.line(), (uint32_t)offset, 0, global->constexpr_ref });
+                f.instrs.push_back({ I_REFG, a.line(), (uint32_t)offset, 0, global->constexpr_ref });
             frame.size += (prog ? 3 : 2);
             return;
         }

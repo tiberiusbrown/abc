@@ -389,7 +389,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(it != globals.end())
         {
             a.comp_type = it->second.var.type;
-            if(!it->second.var.is_constexpr)
+            if(!it->second.var.is_constexpr && !it->second.is_constexpr_ref())
                 a.comp_type = a.comp_type.with_ref();
             return;
         }
