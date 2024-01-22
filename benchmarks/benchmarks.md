@@ -360,6 +360,124 @@ void main()
 </table>
 </details>
 
+<details><summary>mat3rotation: 1.39x slowdown</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 131401</td><td>Cycles: 182556</td></tr>
+<tr>
+<td>
+
+```c
+#include <stdint.h>
+#include <stddef.h>
+#include <math.h>
+
+struct mat3 { float d[9]; };
+
+// a: yaw
+// b: pitch
+// c: roll
+__attribute__((noinline))
+mat3 rot(float a, float b, float c)
+{
+    mat3 m;
+    
+    float sa = sinf(a);
+    float ca = cosf(a);
+    float sb = sinf(b);
+    float cb = cosf(b);
+    float sc = sinf(c);
+    float cc = cosf(c);
+    float sasb = sa * sb;
+    float casb = ca * sb;
+
+    m.d[0] = cb * cc;
+    m.d[1] = cb * sc;
+    m.d[2] = -sb;
+
+    m.d[3] = sasb * cc - ca * sc;
+    m.d[4] = sasb * sc + ca * cc;
+    m.d[5] = sa * cb;
+
+    m.d[6] = casb * cc + sa * sc;
+    m.d[7] = casb * sc - sa * cc;
+    m.d[8] = ca * cb;
+
+    return m;
+}
+
+volatile mat3 r;
+
+int main()
+{
+    r = rot(0, 0, 0);
+    
+    asm volatile("break\n");
+    
+    for(uint8_t i = 0; i < 10; ++i)
+        r = rot(1.23, 4.56, 0.789);
+    
+    asm volatile("break\n");
+}
+
+```
+
+</td>
+<td>
+
+```c
+struct mat3 { float[9] d; };
+
+// a: yaw
+// b: pitch
+// c: roll
+mat3 rot(float a, float b, float c)
+{
+    mat3 m;
+    
+    float sa = $sin(a);
+    float ca = $cos(a);
+    float sb = $sin(b);
+    float cb = $cos(b);
+    float sc = $sin(c);
+    float cc = $cos(c);
+    float sasb = sa * sb;
+    float casb = ca * sb;
+
+    m.d[0] = cb * cc;
+    m.d[1] = cb * sc;
+    m.d[2] = -sb;
+
+    m.d[3] = sasb * cc - ca * sc;
+    m.d[4] = sasb * sc + ca * cc;
+    m.d[5] = sa * cb;
+
+    m.d[6] = casb * cc + sa * sc;
+    m.d[7] = casb * sc - sa * cc;
+    m.d[8] = ca * cb;
+
+    return m;
+}
+
+mat3 r;
+
+void main()
+{
+    $debug_break();
+    
+    for(u8 i = 0; i < 10; ++i)
+        r = rot(1.23, 4.56, 0.789);
+    
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
 <details><summary>fibonacci: 19.53x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>

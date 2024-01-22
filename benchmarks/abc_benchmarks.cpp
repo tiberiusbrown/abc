@@ -188,6 +188,7 @@ int abc_benchmarks()
     bench("bubble2");
     bench("bubble3");
     bench("bubble4");
+    bench("mat3rotation");
     bench("fibonacci");
     bench("sieve");
     bench("text");
