@@ -360,10 +360,10 @@ void main()
 </table>
 </details>
 
-<details><summary>mat3rotation: 1.39x slowdown</summary>
+<details><summary>mat3rotation: 1.37x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 131401</td><td>Cycles: 182556</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 18036</td></tr>
 <tr>
 <td>
 
@@ -414,8 +414,7 @@ int main()
     
     asm volatile("break\n");
     
-    for(uint8_t i = 0; i < 10; ++i)
-        r = rot(1.23, 4.56, 0.789);
+    r = rot(1.23, 4.56, 0.789);
     
     asm volatile("break\n");
 }
@@ -465,8 +464,7 @@ void main()
 {
     $debug_break();
     
-    for(u8 i = 0; i < 10; ++i)
-        r = rot(1.23, 4.56, 0.789);
+    r = rot(1.23, 4.56, 0.789);
     
     $debug_break();
 }
