@@ -34,7 +34,7 @@ u16 score;
 
 bool single_level;
 
-constexpr u8 NUM_MAPS = 10;
+constexpr u8 NUM_MAPS = 12;
 
 // index of current map
 u8 current_map;

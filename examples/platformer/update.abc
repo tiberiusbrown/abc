@@ -589,7 +589,7 @@ void update_map_objects()
             {
                 if(--obj.death_frames == 0)
                     obj.type = OBJ_NONE;
-                return;
+                continue;
             }
             if(type <= OBJ_MOB_BAT)
             {

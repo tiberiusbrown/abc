@@ -18,14 +18,16 @@ constexpr sprites BACKGROUND_NONE = sprites{ 1x8 "assets/background_none.png" };
 map_info_t[NUM_MAPS] prog maps = {
     { "Sleepy Meadow", map0, 32, 8, BACKGROUND_MOUNTAIN },
     { "Daring Forest", map1, 32, 16, BACKGROUND_MOUNTAIN },
+    { "Construction Zone", map_construction, 32, 10, BACKGROUND_CASTLE },
     { "Grand Old Tree", map2, 16, 32, BACKGROUND_MOUNTAIN },
     { "Floating on Clouds", map_floating, 32, 16, BACKGROUND_CLOUDS },
     { "Don't Forget a Hard Hat", map_hard_hats, 32, 12, BACKGROUND_CASTLE },
     { "Easy Breezy", map_wind, 64, 8, BACKGROUND_NONE },
-    { "Over and Under", map_over_under, 48, 28, BACKGROUND_OVER_UNDER },
+    { "We Three Keys", map_we_three_keys, 32, 16, BACKGROUND_CASTLE },
     { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
-    { "Monster Hills - Luke", map_luke2, 36, 8, BACKGROUND_MOUNTAIN },
+    { "The Hills Have Horns", map_luke2, 36, 8, BACKGROUND_MOUNTAIN },
     { "Sky Strolling", map_luke5, 24, 18, BACKGROUND_CLOUDS },
+    { "Over and Under", map_over_under, 48, 28, BACKGROUND_OVER_UNDER },
 };
 
 u16 total_objects;
