@@ -1,3 +1,9 @@
+#title "Dazzle Dash"
+#description "A cute fast-paced platformer for speedrunning!"
+#author "Peter Brown"
+#version "1.0"
+#sourceUrl "https://github.com/tiberiusbrown/abc/tree/master/examples/platformer"
+
 import map;
 import update;
 import render;

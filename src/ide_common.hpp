@@ -58,6 +58,7 @@ struct project_t
     cached_file_t root;
     std::map<std::string, std::vector<ards::error_t>> errors;
     std::vector<uint8_t> binary;
+    std::unordered_map<std::string, std::string> arduboy_directives;
     bool has_save;
     void update_cached_files();
     bool active() { return !root.path.empty(); }

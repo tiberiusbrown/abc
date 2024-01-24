@@ -34,6 +34,7 @@ enum class AST
     //
 
     PROGRAM,      // children are global declarations and functions
+    ARDUBOY_DIRECTIVE, // children are keyword and string literal
     IMPORT_STMT,  // child is path string literal
     BLOCK,        // children are child statements
     EMPTY_STMT,
@@ -499,6 +500,11 @@ struct compiler_t
 
     std::string error_file() const { return current_path + "/" + current_file + ".abc"; }
 
+    std::unordered_map<std::string, std::string> arduboy_directives() const
+    {
+        return arduboy_file_directives;
+    }
+
     //
     // "Private but technically public" API
     //
@@ -653,6 +659,8 @@ private:
     // track files already parsed
     std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;
     std::unordered_set<std::string> import_set;
+
+    std::unordered_map<std::string, std::string> arduboy_file_directives;
 };
 
 }

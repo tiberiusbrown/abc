@@ -40,8 +40,8 @@ void render_credits()
     $draw_text_P(37, y + 47, FONT_BR6, "Tiles and Sprites");
     $draw_text_P(41, y + 54, MAIN_FONT, "Kenney.nl");
     $draw_text_P(54, y + 74, FONT_BR6, "Levels");
-    $draw_text_P(32, y + 81, MAIN_FONT, "Peter Brown");
-    $draw_text_P(34, y + 92, MAIN_FONT, "Luke Brown");
+    $draw_text_P(34, y + 81, MAIN_FONT, "Luke Brown");
+    $draw_text_P(32, y + 92, MAIN_FONT, "Peter Brown");
 
     $draw_filled_rect(0, 0, 128, 17, BLACK);
     $draw_sprite(13, 2, TITLE, 0);

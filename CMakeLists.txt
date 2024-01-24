@@ -142,6 +142,7 @@ target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
 target_include_directories(ards_compiler PRIVATE "${GENHEADER_DIR}")
+target_link_libraries(ards_compiler PRIVATE fmt)
 
 add_executable(abcc
     src/abcc.cpp

@@ -126,7 +126,7 @@ R"(
 
 program             <- global_stmt*
 
-global_stmt         <- import_stmt / struct_stmt / decl_stmt / func_stmt
+global_stmt         <- import_stmt / struct_stmt / decl_stmt / func_stmt / arduboy_directive
 import_stmt         <- 'import' import_path ';'
 import_path         <- ident ('.' ident)*
 decl_stmt           <- 'constexpr' type_name decl_stmt_item_list ';' /
@@ -137,6 +137,9 @@ decl_stmt_item      <- ident ('=' expr)?
 struct_stmt         <- 'struct' ident '{' struct_decl_stmt* '}' ';'
 struct_decl_stmt    <- type_name ident (',' ident)* ';'
 func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
+arduboy_directive   <- arduboy_keyword string_literal
+arduboy_keyword     <- '#' < [a-zA-Z_]+ >
+
 compound_stmt       <- '{' stmt* '}'
 stmt                <- compound_stmt /
                        return_stmt   /
@@ -544,6 +547,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["unary_op"         ] = token;
     p["sprite_row"       ] = token;
     p["tones_note"       ] = token;
+    p["arduboy_keyword"  ] = token;
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
     p["bitwise_or_expr"    ] = infix<AST::OP_BITWISE_OR>;
@@ -555,6 +559,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["shift_expr"         ] = infix<AST::OP_SHIFT>;
     p["additive_expr"      ] = infix<AST::OP_ADDITIVE>;
     p["multiplicative_expr"] = infix<AST::OP_MULTIPLICATIVE>;
+
+    p["arduboy_directive"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::ARDUBOY_DIRECTIVE, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
 
     p["string_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::STRING_LITERAL, v.token() };

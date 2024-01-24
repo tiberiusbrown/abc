@@ -18,7 +18,8 @@ size_t zip_write_data(
     void* data, mz_uint64 file_ofs, const void* pBuf, size_t n);
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save);
+    std::vector<uint8_t> const& binary, bool has_save,
+    std::unordered_map<std::string, std::string> const& fd);
 
 static void export_compiled_fxdata(std::string const& filename)
 {
@@ -115,6 +116,6 @@ void export_menu_items()
             return;
         filename = path.get();
 #endif
-        export_arduboy(filename, project.binary, project.has_save);
+        export_arduboy(filename, project.binary, project.has_save, project.arduboy_directives);
     }
 }

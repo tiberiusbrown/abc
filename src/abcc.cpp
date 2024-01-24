@@ -23,7 +23,8 @@
 
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save);
+    std::vector<uint8_t> const& binary, bool has_save,
+    std::unordered_map<std::string, std::string> const& fd);
 
 static void usage(char const* argv0)
 {
@@ -213,7 +214,7 @@ int main(int argc, char** argv)
 
     if(!parduboy.empty())
     {
-        export_arduboy(parduboy.generic_string(), a.data(), a.has_save());
+        export_arduboy(parduboy.generic_string(), a.data(), a.has_save(), c.arduboy_directives());
     }
 
     return 0;
