@@ -3907,7 +3907,7 @@ $PD_106:
   .b 6 50 72 65 73 73 20 41
 
 update_confirm:
-  .file update
+  .file update.abc
   .line 41
   p128
   sys   just_pressed
@@ -3996,11 +3996,11 @@ $L_update_confirm_12:
   ret
 
 $globinit:
-  .file <internal>
+  .file <internal>.abc
   ret
 
 solid:
-  .file update
+  .file update.abc
   .line 743
   getl4 10
   sys   floor
@@ -4150,7 +4150,7 @@ $L_solid_10:
   ret
 
 update:
-  .file update
+  .file update.abc
   .line 3
   sys   poll_buttons
   .line 5
@@ -4275,7 +4275,7 @@ $L_update_20:
   ret
 
 process_map_tile:
-  .file map
+  .file map.abc
   .line 106
   dup3
   push  156
@@ -4784,7 +4784,7 @@ $L_process_map_tile_30:
   ret
 
 load_map:
-  .file map
+  .file map.abc
   .line 37
   p1
   setg  player_facing_right 0
@@ -5033,7 +5033,7 @@ $L_load_map_11:
   ret
 
 update_credits:
-  .file update
+  .file update.abc
   .line 33
   p4
   sys   just_pressed
@@ -5065,7 +5065,7 @@ $L_update_credits_2:
   ret
 
 mob_solid:
-  .file map
+  .file map.abc
   .line 180
   dupw
   p00
@@ -5204,7 +5204,7 @@ $L_mob_solid_9:
   ret
 
 add_object:
-  .file map
+  .file map.abc
   .line 209
   getg2 total_objects 0
   p1
@@ -5243,7 +5243,7 @@ $L_add_object_1:
   ret
 
 update_victory:
-  .file update
+  .file update.abc
   .line 129
   p4
   sys   just_pressed
@@ -5254,7 +5254,7 @@ $L_update_victory_0:
   ret
 
 update_pause:
-  .file update
+  .file update.abc
   .line 77
   p128
   sys   just_pressed
@@ -5385,7 +5385,7 @@ $L_update_pause_17:
   ret
 
 update_game_over:
-  .file update
+  .file update.abc
   .line 123
   p4
   sys   just_pressed
@@ -5396,7 +5396,7 @@ $L_update_game_over_0:
   ret
 
 update_level_select:
-  .file update
+  .file update.abc
   .line 135
   p128
   sys   just_pressed
@@ -5514,7 +5514,7 @@ $L_update_level_select_13:
   ret
 
 new_game:
-  .file main
+  .file main.abc
   .line 28
   p0
   setg  current_map 0
@@ -5541,7 +5541,7 @@ new_game:
   ret
 
 render_credits:
-  .file render
+  .file render.abc
   .line 37
   push  54
   p0
@@ -5649,7 +5649,7 @@ render_credits:
   ret
 
 update_sound:
-  .file update
+  .file update.abc
   .line 171
   getg  sound_on 0
   sys   audio_enabled
@@ -5661,7 +5661,7 @@ $L_update_sound_0:
   ret
 
 update_menu:
-  .file update
+  .file update.abc
   .line 177
   getg  frame_count 0
   p1
@@ -5825,7 +5825,7 @@ $L_update_menu_16:
   ret
 
 update_score_tally:
-  .file update
+  .file update.abc
   .line 230
   p00
   getg2 score 0
@@ -6018,7 +6018,7 @@ $L_update_score_tally_16:
   ret
 
 update_intro:
-  .file update
+  .file update.abc
   .line 283
   p8
   sys   just_pressed
@@ -6056,7 +6056,7 @@ $L_update_intro_5:
   ret
 
 render_level_select:
-  .file render
+  .file render.abc
   .line 166
   pushl $PD_48 0
   p4
@@ -6661,7 +6661,7 @@ $L_render_level_select_27:
   ret
 
 update_level_complete:
-  .file update
+  .file update.abc
   .line 296
   getg  frame_count 0
   push  80
@@ -6681,7 +6681,7 @@ $L_update_level_complete_0:
   ret
 
 level_complete:
-  .file update
+  .file update.abc
   .line 306
   p5
   setg  state 0
@@ -6795,7 +6795,7 @@ $L_level_complete_3:
   ret
 
 update_level:
-  .file update
+  .file update.abc
   .line 339
   pzn   8
   .line 342
@@ -7413,7 +7413,7 @@ $L_update_level_59:
   ret
 
 player_take_damage:
-  .file update
+  .file update.abc
   .line 725
   getg  invincibility_frames 0
   bz    $L_player_take_damage_0
@@ -7461,7 +7461,7 @@ $L_player_take_damage_3:
   ret
 
 resolve_player_collision:
-  .file update
+  .file update.abc
   .line 518
   pushl maps 6
   getg  current_map 0
@@ -7753,7 +7753,7 @@ $L_resolve_player_collision_17:
   ret
 
 update_map_objects:
-  .file update
+  .file update.abc
   .line 573
   pushl maps 6
   getg  current_map 0
@@ -8088,7 +8088,7 @@ $L_update_map_objects_21:
   ret
 
 update_camera_position:
-  .file update
+  .file update.abc
   .line 667
   getg4 py 0
   p00
@@ -8288,7 +8288,7 @@ $L_update_camera_position_11:
   ret
 
 player_death:
-  .file update
+  .file update.abc
   .line 708
   getg  death_frames 0
   bz    $L_player_death_0
@@ -8332,7 +8332,7 @@ $L_player_death_1:
   ret
 
 touch_object:
-  .file update
+  .file update.abc
   .line 777
   dupw
   getr
@@ -8526,7 +8526,7 @@ $L_touch_object_18:
   ret
 
 render:
-  .file render
+  .file render.abc
   .line 13
   getg  state 0
   p2
@@ -8643,7 +8643,7 @@ $L_render_19:
   ret
 
 render_victory:
-  .file render
+  .file render.abc
   .line 134
   p0
 $L_render_victory_0:
@@ -8831,7 +8831,7 @@ $L_render_victory_8:
   ret
 
 render_pause:
-  .file render
+  .file render.abc
   .line 53
   call  render_level
   .line 54
@@ -8985,7 +8985,7 @@ $L_render_pause_5:
   ret
 
 loop:
-  .file main
+  .file main.abc
 $L_loop_0:
   .line 47
   sys   next_frame
@@ -8999,7 +8999,7 @@ $L_loop_0:
   ret
 
 render_game_over:
-  .file render
+  .file render.abc
   .line 92
   p0
 $L_render_game_over_0:
@@ -9192,7 +9192,7 @@ $L_render_game_over_1:
   ret
 
 render_menu:
-  .file render
+  .file render.abc
   .line 276
   p00
   pushl $PD_22 0
@@ -9318,7 +9318,7 @@ $L_render_menu_3:
   ret
 
 render_intro:
-  .file render
+  .file render.abc
   .line 298
   p3
   getgn total_score 0
@@ -9721,13 +9721,13 @@ $L_render_intro_9:
   ret
 
 render_level_complete:
-  .file render
+  .file render.abc
   .line 367
   call  render_level
   ret
 
 render_level:
-  .file render
+  .file render.abc
   .line 373
   getg4 camx 0
   sys   round
@@ -10363,7 +10363,7 @@ $L_render_level_39:
   ret
 
 main_menu:
-  .file main
+  .file main.abc
   .line 15
   sys   load
   bnz   $L_main_menu_0
@@ -10390,7 +10390,7 @@ $L_main_menu_0:
   ret
 
 setup:
-  .file main
+  .file main.abc
   .line 39
   push  50
   sys   set_frame_rate
@@ -10405,7 +10405,7 @@ setup:
   ret
 
 main:
-  .file main
+  .file main.abc
   .line 58
   call  setup
 $L_main_0:
