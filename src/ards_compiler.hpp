@@ -620,6 +620,8 @@ private:
     bool peephole_compress_pushes_pushn(compiler_func_t& f);
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
 
+    static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs);
+
     void write(std::ostream& f);
 
     // parse data

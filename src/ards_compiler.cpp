@@ -1,5 +1,6 @@
 #include "ards_compiler.hpp"
 
+#include <algorithm>
 #include <filesystem>
 #include <sstream>
 
@@ -483,6 +484,47 @@ void compiler_t::compile(
         current_file = f.filename;
         if(f.block.type == AST::NONE) continue;
         codegen_function(f);
+    }
+
+    // merge labels of the same address
+    for(auto& [n, f] : funcs)
+    {
+        if(!errs.empty()) return;
+        for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+        {
+            auto& i0 = f.instrs[i];
+            auto const& i1 = f.instrs[i + 1];
+            if(!(i0.is_label && i1.is_label))
+                continue;
+            i0.instr = I_REMOVE;
+            for(auto& [tn, tf] : funcs)
+                for(auto& ti : tf.instrs)
+                    if(!ti.is_label && ti.label == i0.label)
+                        ti.label = i1.label;
+        }
+        clear_removed_instrs(f.instrs);
+    }
+
+    // remove unreferenced labels
+    {
+        std::unordered_set<std::string> all_labels;
+        for(auto& [n, f] : funcs)
+        {
+            if(!errs.empty()) return;
+            for(auto const& i : f.instrs)
+            {
+                if(!i.is_label && !i.label.empty())
+                    all_labels.insert(i.label);
+            }
+        }
+        for(auto& [n, f] : funcs)
+        {
+            if(!errs.empty()) return;
+            for(auto& i : f.instrs)
+                if(i.is_label && all_labels.count(i.label) == 0)
+                    i.instr = I_REMOVE;
+            clear_removed_instrs(f.instrs);
+        }
     }
 
     // peephole optimizations

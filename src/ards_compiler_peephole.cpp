@@ -5,7 +5,7 @@
 namespace ards
 {
 
-static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
+void compiler_t::clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
 {
     auto end = std::remove_if(
         instrs.begin(), instrs.end(),
@@ -814,6 +814,14 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // remove JMP <LABEL>; LABEL:
+        if(i0.instr == I_JMP && i1.is_label && i0.label == i1.label)
+        {
+            i0.instr = I_REMOVE;
             t = true;
             continue;
         }
