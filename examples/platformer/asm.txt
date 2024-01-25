@@ -4617,8 +4617,7 @@ $L_process_map_tile_16:
   p0
   p16
   mul2b
-  getl  16
-  getl  16
+  getl2 16
   getl  16
   p16
   p0
@@ -4627,8 +4626,7 @@ $L_process_map_tile_16:
   pop
   p1
   p0
-  getl2 19
-  getl2 19
+  getl4 19
   call  add_object
   popn  11
   .line 139
@@ -5799,8 +5797,7 @@ update_score_tally:
   cult2
   bz    $L_update_score_tally_0
   .line 235
-  getg2 score 0
-  pop
+  getg  score 0
   setl  1
 $L_update_score_tally_0:
   .line 236
@@ -5842,8 +5839,7 @@ $L_update_score_tally_2:
   cult2
   bz    $L_update_score_tally_3
   .line 246
-  getg2 level_frames_remaining 0
-  pop
+  getg  level_frames_remaining 0
   setl  1
 $L_update_score_tally_3:
   .line 247
@@ -6703,9 +6699,7 @@ $L_level_complete_1:
   getg  was_high_score 0
   bz    $L_level_complete_2
   .line 321
-  p3
-  getln 3
-  pop
+  dupw2
   pushg map_high_scores 0
   getg  current_map 0
   aidxb 2 12
@@ -7827,8 +7821,7 @@ $L_update_map_objects_8:
   sub2b
   setl2 4
   .line 611
-  dupw3
-  dupw3
+  getl4 4
   cslt2
   bz    $L_update_map_objects_9
   .line 613
@@ -7909,8 +7902,7 @@ $L_update_map_objects_13:
   sub2b
   setl2 4
   .line 636
-  dupw3
-  dupw3
+  getl4 4
   cslt2
   bz    $L_update_map_objects_14
   .line 638
@@ -10253,8 +10245,7 @@ $L_render_level_38:
   pushl $PD_23 0
   push  24
   p0
-  getl2 15
-  getl2 15
+  getl4 15
   add2
   sys   draw_text_P
   popn  11
@@ -10321,7 +10312,7 @@ Compilation succeeded!
 Dev Bin:   73984 bytes    72.2 KB
 ======================
 Data:      58230 bytes    56.9 KB
-Code:       8623 bytes     8.4 KB
+Code:       8612 bytes     8.4 KB
 Debug:      2628 bytes     2.6 KB
 ======================
 Globals:     432 bytes

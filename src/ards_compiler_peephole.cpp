@@ -307,6 +307,64 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
         //    t = true;
         //    continue;
         //}
+
+        // replace GETPN <N>; POP with GETPN <N-1>
+        if(i0.instr == I_GETPN && i1.instr == I_POP)
+        {
+            assert(i0.imm > 0);
+            if(i0.imm == 1)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_REMOVE;
+            }
+            else
+            {
+                i0.imm -= 1;
+                i1.instr = I_REMOVE;
+            }
+            t = true;
+            continue;
+        }
+
+        if(i + 2 >= f.instrs.size()) continue;
+        auto& i2 = f.instrs[i + 2];
+
+        // replace PUSH <N>; GETLN <M>; POP with PUSH <N-1>; GETLN <M>
+        // replace PUSH <N>; GETGN <M>; POP with PUSH <N-1>; GETGN <M>
+        if(i0.instr == I_PUSH && i2.instr == I_POP &&
+            (i1.instr == I_GETLN || i1.instr == I_GETGN))
+        {
+            assert(i0.imm > 0);
+            if(i0.imm == 1)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+            }
+            else
+            {
+                i0.imm -= 1;
+                i2.instr = I_REMOVE;
+            }
+            t = true;
+            continue;
+        }
+
+        if(i + 3 >= f.instrs.size()) continue;
+        auto& i3 = f.instrs[i + 3];
+
+        // combine consecutive GETLNs to adjacant stack locations
+        if( i0.instr == I_PUSH && i1.instr == I_GETLN &&
+            i2.instr == I_PUSH && i3.instr == I_GETLN &&
+            i0.imm + i1.imm == i2.imm + i3.imm)
+        {
+            i0.imm += i2.imm;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
     }
     return t;
 }
