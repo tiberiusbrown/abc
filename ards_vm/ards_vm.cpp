@@ -10,6 +10,7 @@
 #include <Arduboy2.h>
 #include <Arduboy2Audio.h>
 
+extern uint8_t draw_char(uint8_t x, uint8_t y, char c);
 extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog);
 
 using sys_func_t = void(*)();
@@ -22,13 +23,6 @@ namespace ards
 {
 
 vm_t vm;
-
-static uint8_t const IMG_ERR[33] PROGMEM =
-{
-    0xff, 0xff, 0xdb, 0xdb, 0xc3, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee,
-    0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 0x00, 0x7e, 0xff, 0xc3, 0xc3,
-    0xff, 0x7e, 0x00, 0xff, 0xff, 0x1b, 0x1b, 0xff, 0xee, 
-};
 
 static char const ERRC_SIG[] PROGMEM = "Game data not found";
 static char const ERRC_IDX[] PROGMEM = "Array index out of bounds";
@@ -48,94 +42,119 @@ static char const* const ERRC[NUM_ERR] PROGMEM =
     ERRC_FRM,
 };
 
+static void draw_pc_line(uint24_t pc, uint8_t y)
+{
+    // find and display file/line info
+    uint8_t num_files = 0;
+    uint24_t file_table = 0;
+    uint24_t line_table = 0;
+    FX::seekData(12);
+    num_files = FX::readPendingUInt8();
+    file_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
+    file_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
+    file_table |= ((uint24_t)FX::readPendingUInt8()     << 16);
+    line_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
+    line_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
+    line_table |= ((uint24_t)FX::readPendingLastUInt8() << 16);
+    uint8_t file = 0;
+    uint16_t line = 0;
+    uint24_t tpc = 0;
+    FX::seekData(line_table);
+    /*
+    Line Table Command Encoding
+    =========================================================
+        0-127     Advance pc by N+1 bytes
+        128-252   Advance line counter by N-127 lines
+        253       Set file to next byte
+        254       Set line counter to next two bytes
+        255       Set pc to next three bytes
+    */
+    while(tpc < pc)
+    {
+        uint8_t t = FX::readPendingUInt8();
+        if(t < 128)
+            tpc += t + 1;
+        else if(t < 253)
+            line += (t - 127);
+        else if(t == 253)
+            file = FX::readPendingUInt8();
+        else if(t == 254)
+        {
+            line = FX::readPendingUInt8();
+            line |= ((uint16_t)FX::readPendingUInt8() << 8);
+        }
+        else if(t == 255)
+        {
+            tpc = FX::readPendingUInt8();
+            tpc |= ((uint16_t)FX::readPendingUInt8() << 8);
+            tpc |= ((uint16_t)FX::readPendingUInt8() << 16);
+        }
+    }
+    (void)FX::readEnd();
+    if(file < num_files)
+    {
+        char fname[32];
+        FX::readDataBytes(file_table + file * 32, (uint8_t*)fname, 32);
+        draw_text(24, y, fname, false);
+        for(uint8_t i = 0; i < 5; ++i)
+        {
+            fname[4 - i] = char('0' + line % 10);
+            line /= 10;
+        }
+        fname[5] = '\0';
+        uint8_t i = 0;
+        while(fname[i] == '0')
+            ++i;
+        draw_text(0, y, &fname[i], false);
+    }
+}
+
 extern "C" __attribute__((used)) void vm_error(error_t e)
 {
     vm.error = (uint8_t)e;
     Arduboy2Base::clear();
     FX::disable();
-    memcpy_P(&Arduboy2Base::sBuffer[0], IMG_ERR, sizeof(IMG_ERR));
-    for(uint8_t i = 0; i < 128; ++i)
-        Arduboy2Base::sBuffer[128+i] = 0x0c;
 
-    char const* t = (char const*)pgm_read_ptr(&ERRC[e - 1]);
-    uint8_t w = draw_text(0, 64, t, true);
-    draw_text(0, 16, t, true);
-    
-    // find and display file/line info
-    if(e > ERR_SIG)
-    {
-        uint24_t pc = vm.pc;
-        uint8_t num_files = 0;
-        uint24_t file_table = 0;
-        uint24_t line_table = 0;
-        FX::seekData(12);
-        num_files = FX::readPendingUInt8();
-        file_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
-        file_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
-        file_table |= ((uint24_t)FX::readPendingUInt8()     << 16);
-        line_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
-        line_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
-        line_table |= ((uint24_t)FX::readPendingLastUInt8() << 16);
-        uint8_t file = 0;
-        uint16_t line = 0;
-        uint24_t tpc = 0;
-        FX::seekData(line_table);
-        /*
-        Line Table Command Encoding
-        =========================================================
-            0-127     Advance pc by N+1 bytes
-            128-252   Advance line counter by N-127 lines
-            253       Set file to next byte
-            254       Set line counter to next two bytes
-            255       Set pc to next three bytes
-        */
-        while(tpc < pc)
-        {
-            uint8_t t = FX::readPendingUInt8();
-            if(t < 128)
-                tpc += t + 1;
-            else if(t < 253)
-                line += (t - 127);
-            else if(t == 253)
-                file = FX::readPendingUInt8();
-            else if(t == 254)
-            {
-                line = FX::readPendingUInt8();
-                line |= ((uint16_t)FX::readPendingUInt8() << 8);
-            }
-            else if(t == 255)
-            {
-                tpc = FX::readPendingUInt8();
-                tpc |= ((uint16_t)FX::readPendingUInt8() << 8);
-                tpc |= ((uint16_t)FX::readPendingUInt8() << 16);
-            }
-        }
-        (void)FX::readEnd();
-        if(file < num_files)
-        {
-            static char const STR_FILE[] PROGMEM = "File:";
-            static char const STR_LINE[] PROGMEM = "Line:";
-            char fname[32];
-            FX::readDataBytes(file_table + file * 32, (uint8_t*)fname, 32);
-            draw_text(0, 32, STR_FILE, true);
-            draw_text(20, 32, fname, false);
-            draw_text(0, 40, STR_LINE, true);
-            for(uint8_t i = 0; i < 5; ++i)
-            {
-                fname[4 - i] = char('0' + line % 10);
-                line /= 10;
-            }
-            fname[5] = '\0';
-            uint8_t i = 0;
-            while(fname[i] == '0')
-                ++i;
-            draw_text(20, 40, &fname[i], false);
-        }
-    }
+    ards::Tones::stop();
 
-    FX::display();
+    uint8_t n = e > ERR_SIG ? vm.csp / 3 + 1 : 0;
+    uint8_t curr = 0;
+    bool redraw = true;
+    constexpr uint8_t NUM_ROWS = 8;
+
     for(;;)
-        Arduboy2Base::idle();
+    {
+        Arduboy2Base::pollButtons();
+
+        if(curr > 0 && Arduboy2Base::justPressed(UP_BUTTON))
+            --curr, redraw = true;
+        if(uint8_t(curr + NUM_ROWS + 1) < n && Arduboy2Base::justPressed(DOWN_BUTTON))
+            ++curr, redraw = true;
+
+        if(redraw)
+        {
+            static char const ERROR[] PROGMEM = "ERROR";
+            draw_text(54, 1, ERROR, true);
+            for(uint8_t i = 0; i < 128; ++i)
+                Arduboy2Base::sBuffer[i] ^= 0x7f;
+            {
+                char const* t = (char const*)pgm_read_ptr(&ERRC[e - 1]);
+                draw_text(0, 8, t, true);
+            }
+            for(uint8_t i = 0; i < NUM_ROWS; ++i)
+            {
+                uint8_t j = curr + i;
+                if(j >= n) break;
+                draw_pc_line(j == 0 ? vm.pc : vm.calls[n - j - 1], i * 6 + 17);
+            }
+            FX::display(CLEAR_BUFFER);
+        }
+
+        redraw = false;
+        uint8_t m = (uint8_t)millis() + 20;
+        while(int8_t(m - (uint8_t)millis()) >= 0)
+            Arduboy2Base::idle();
+    }
 }
 
 

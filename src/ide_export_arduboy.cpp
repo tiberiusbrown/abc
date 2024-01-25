@@ -3,6 +3,11 @@
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
 
+#ifdef _MSC_VER
+// suppress strstream deprecation warnings
+#pragma warning(disable:4996)
+#endif
+
 #include <filesystem>
 #include <fstream>
 #include <memory>

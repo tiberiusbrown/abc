@@ -334,7 +334,7 @@ void compiler_t::write(std::ostream& f)
     {
         uint16_t line = 0;
         f << name << ":\n";
-        f << "  .file " << func.filename << "\n";
+        f << "  .file " << func.filename << ".abc\n";
         for(auto const& instr : func.instrs)
             write_instr(f, instr, line);
         f << "\n";
