@@ -687,10 +687,10 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                     n.children[2].insert_cast(g.var.type);
                 type_annotate(n.children[2], {});
             }
-            if(g.saved && (g.var.type.is_any_nonprog_ref() || g.var.type.has_nonprog_child_ref()))
+            if(g.saved && (g.var.type.is_any_ref() || g.var.type.has_child_ref()))
             {
                 errs.push_back({
-                    "Non-prog references and objects containing non-prog references cannot be declared 'saved'",
+                    "References and objects containing references cannot be declared 'saved'",
                     n.line_info });
                 return;
             }
