@@ -449,7 +449,7 @@ void compiler_t::codegen_expr(
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) + "\" contains references "
-                "and thus cannot be reassigned", a.children[0].line_info });
+                "and thus cannot be assigned to", a.children[0].line_info });
             return;
         }
         auto const& type_noref = a.children[0].comp_type.without_ref();
@@ -497,17 +497,10 @@ void compiler_t::codegen_expr(
                 codegen_convert(f, frame, a, type_noref, a.children[1].comp_type);
             }
         }
-        else if(type_noref.is_array_ref())
+        else if(!type_noref.is_copyable())
         {
             errs.push_back({
-                "Unsized array references are not assignable",
-                a.line_info });
-            return;
-        }
-        else if(type_noref.is_ref() && type_noref.children[0].is_prog)
-        {
-            errs.push_back({
-                "Prog references are not assignable",
+                "Type is not assignable",
                 a.line_info });
             return;
         }

@@ -117,10 +117,17 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
 
 void compiler_t::codegen_function(compiler_func_t& f)
 {
-    if(f.decl.return_type.is_any_ref() && !f.decl.return_type.children[0].is_prog)
+    if(!f.decl.return_type.is_copyable())
     {
         errs.push_back({
-            "Function return type cannot be a non-prog reference",
+            "Return type of function \"" + f.name + "\" is not copyable",
+            f.line_info });
+        return;
+    }
+    if(f.decl.return_type.is_prog)
+    {
+        errs.push_back({
+            "Return type of function \"" + f.name + "\" is prog",
             f.line_info });
         return;
     }

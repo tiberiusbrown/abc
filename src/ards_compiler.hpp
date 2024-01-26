@@ -152,6 +152,10 @@ struct compiler_type_t
     bool is_font() const { return type == FONT; }
     bool is_tones() const { return type == TONES; }
 
+    bool is_any_nonprog_ref() const {
+        return is_any_ref() && (!children[0].is_prog || children[0].is_any_nonprog_ref());
+    }
+
     bool is_label_ref() const
     {
         return is_sprites() || is_font() || is_tones();
@@ -220,6 +224,24 @@ struct compiler_type_t
                     return true;
         }
         return false;
+    }
+
+    bool has_nonprog_child_ref() const
+    {
+        if(is_ref())
+            return children[0].has_nonprog_child_ref();
+        if(is_array() || is_struct())
+        {
+            for(auto const& child : children)
+                if(child.is_any_nonprog_ref() || child.has_nonprog_child_ref())
+                    return true;
+        }
+        return false;
+    }
+
+    bool is_copyable() const
+    {
+        return !(is_any_nonprog_ref() || has_nonprog_child_ref());
     }
 
     auto tie() const
