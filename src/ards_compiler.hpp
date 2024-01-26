@@ -434,6 +434,7 @@ struct compiler_func_t
     std::string filename;
     std::vector<std::string> arg_names;
     std::vector<compiler_instr_t> instrs;
+    std::pair<size_t, size_t> line_info;
     size_t label_count;
     sysfunc_t sys;
     bool is_sys;

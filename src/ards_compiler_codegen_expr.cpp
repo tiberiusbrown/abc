@@ -497,6 +497,20 @@ void compiler_t::codegen_expr(
                 codegen_convert(f, frame, a, type_noref, a.children[1].comp_type);
             }
         }
+        else if(type_noref.is_array_ref())
+        {
+            errs.push_back({
+                "Unsized array references are not assignable",
+                a.line_info });
+            return;
+        }
+        else if(type_noref.is_ref() && type_noref.children[0].is_prog)
+        {
+            errs.push_back({
+                "Prog references are not assignable",
+                a.line_info });
+            return;
+        }
         else
         {
             assert(false);

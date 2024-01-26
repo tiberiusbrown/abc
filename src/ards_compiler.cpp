@@ -812,6 +812,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             f.name = name;
             f.filename = current_file;
             f.block = std::move(n.children[2]);
+            f.line_info = n.line_info;
 
             if(name == "main" && f.decl.return_type != TYPE_VOID)
             {

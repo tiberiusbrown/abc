@@ -117,6 +117,14 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
 
 void compiler_t::codegen_function(compiler_func_t& f)
 {
+    if(f.decl.return_type.is_any_ref() && !f.decl.return_type.children[0].is_prog)
+    {
+        errs.push_back({
+            "Function return type cannot be a non-prog reference",
+            f.line_info });
+        return;
+    }
+
     compiler_frame_t frame{};
 
     frame.push();
