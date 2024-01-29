@@ -501,6 +501,13 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         type_annotate_recurse(a.children[0], frame);
         type_annotate_recurse(a.children[1], frame);
         type_annotate_recurse(a.children[2], frame);
+        if(a.children[1].comp_type.is_float || a.children[2].comp_type.is_float)
+        {
+            errs.push_back({
+                "Array slice indices may not be floating point values",
+                a.line_info });
+            break;
+        }
         auto t0 = a.children[0].comp_type.without_ref();
         if(!t0.is_array() && !t0.is_array_ref())
         {
@@ -509,7 +516,20 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 "\" is not an array", a.line_info });
             break;
         }
-        a.comp_type = t0.children[0].with_array_ref();
+        if(a.children[1].type == AST::INT_CONST && a.children[2].type == AST::INT_CONST)
+        {
+            int64_t n = a.children[2].value - a.children[1].value;
+            if(n < 0)
+            {
+                errs.push_back({"Array slice has negative length", a.line_info});
+                break;
+            }
+            a.comp_type = t0.children[0].with_array((size_t)n).with_ref();
+        }
+        else
+        {
+            a.comp_type = t0.children[0].with_array_ref();
+        }
         break;
     }
     case AST::STRUCT_MEMBER:

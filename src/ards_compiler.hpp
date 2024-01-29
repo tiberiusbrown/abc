@@ -280,6 +280,16 @@ struct compiler_type_t
         return r;
     }
 
+    compiler_type_t with_array(size_t n) const
+    {
+        compiler_type_t r{};
+        r.type = ARRAY;
+        r.prim_size = n * prim_size;
+        r.is_prog = is_prog;
+        r.children.push_back(*this);
+        return r;
+    }
+
     bool is_nonprog_string() const
     {
         if(type == ARRAY || type == ARRAY_REF)

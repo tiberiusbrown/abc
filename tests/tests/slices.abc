@@ -22,6 +22,9 @@ void main()
     {
         char[10] str = "Hello";
         $assert(str[1:4] == "ell");
+        $assert(str == "Hello");
+        str[1:4] = "opp";
+        $assert(str == "Hoppo");
     }
     
     $assert("Hello"[1:4] == "ell");

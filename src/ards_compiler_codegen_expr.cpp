@@ -752,7 +752,17 @@ void compiler_t::codegen_expr(
         uint32_t elem_size = (uint32_t)t.children[0].prim_size;
         bool prog = t.children[0].is_prog;
 
-        // TODO: handle when both start+stop are integer constants
+        // handle when we can compute a simple reference at compile time 
+        if(t.is_array() && a.comp_type.without_ref().is_array())
+        {
+            codegen_expr(f, frame, a.children[0], true);
+            codegen_expr(f, frame, a.children[1], false);
+            codegen_convert(f, frame, a.children[1],
+                prog ? TYPE_U24 : TYPE_U16, a.children[1].comp_type);
+            f.instrs.push_back({ prog ? I_ADD3 : I_ADD2, a.line() });
+            frame.size -= (prog ? 3 : 2);
+            return;
+        }
     
         // generate ref
         codegen_expr(f, frame, a.children[0], true);
@@ -775,6 +785,16 @@ void compiler_t::codegen_expr(
         // construct slice ref
         f.instrs.push_back({ prog ? I_PSLC : I_ASLC, a.line(), elem_size });
         frame.size -= (prog ? 6 : 4);
+
+        // pop length if simple reference
+        if(a.comp_type.without_ref().is_array())
+        {
+            f.instrs.push_back({ I_POP, a.line() });
+            f.instrs.push_back({ I_POP, a.line() });
+            if(prog)
+                f.instrs.push_back({ I_POP, a.line() });
+            frame.size -= (prog ? 3 : 2);
+        }
     
         return;
     }
