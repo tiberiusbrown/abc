@@ -669,12 +669,12 @@ void update_camera_position()
     float xmax = map_width * 16 - 129;
     float ymax = map_height * 16 - 65;
 
-    tcamx += vx * (CAMERA_OFFSET_X_DELTA * 2.5 / PLAYER_MAX_MOVE_VEL_X);
+    tcamx += vx * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
 
     if(player_facing_right)
-        tcamx += CAMERA_OFFSET_X_DELTA * 0.25;
+        tcamx += CAMERA_OFFSET_X_DELTA;
     else
-        tcamx -= CAMERA_OFFSET_X_DELTA * 0.25;
+        tcamx -= CAMERA_OFFSET_X_DELTA;
     
     {
         float dy = tcamy - camy;
