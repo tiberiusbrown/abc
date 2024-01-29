@@ -11,7 +11,7 @@ The compiled binary begins with a 256 byte header.
 | 0x0d | 3 | File Table Offset |
 | 0x10 | 3 | Line Table Offset |
 | 0x13 | 1 | Unused |
-| 0x14 | 12 | Entry point for execution: `call $globinit`, `call main`, `jmp 20` |
+| 0x14 | 12 | Entry point for execution: `call $globinit`, `call main`, `jmp 24` |
 | 0x20 | 224 | Unused |
 
 Following the header is
