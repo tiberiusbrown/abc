@@ -714,7 +714,7 @@ error_t assembler_t::link()
     for(int i = 0; i < 4; ++i)
         linked_data.push_back(0);
 
-    // offset 20: call $globinit, call main and loop
+    // offset 20: call $globinit, loop { call main }
     linked_data.push_back(I_CALL);
     {
         auto it = labels.find("$globinit");
@@ -742,7 +742,7 @@ error_t assembler_t::link()
         linked_data.push_back(uint8_t(offset >> 16));
     }
     linked_data.push_back(I_JMP);
-    linked_data.push_back(20);
+    linked_data.push_back(24);
     linked_data.push_back(0);
     linked_data.push_back(0);
 
