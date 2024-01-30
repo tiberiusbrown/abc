@@ -7,6 +7,7 @@
     - [Array Type Syntax](#array-type-syntax)
     - [Multidimensional Array Syntax](#multidimensional-array-syntax)
     - [Array Decay Behavior](#array-decay-behavior)
+    - [Array Slices](#array-slices)
   - [Strings](#strings)
   - [References](#references)
     - [Unsized Array References](#unsized-array-references)
@@ -29,7 +30,9 @@ ABC's language design is inspired primarily from C/C++. It is designed to be [me
 
 Language features:
 - Functions
-- Limited `constexpr` variables (integral and asset handle types only)
+- Floating point type and built-in mathematical functions
+- Asset types: sprites, fonts, tones
+- Limited `constexpr` variables (numeric and asset handle types only)
 - Essential arithmetic, bitwise, and (short-circuiting) logical operators with same precedence as C
 - Structs
 - Multidimensional arrays (some small syntax differences noted below)
@@ -119,6 +122,12 @@ x = y;
 y[2] = 3;
 $assert(x[2] == 7);
 ```
+
+### Array Slices
+
+Given some array, array [reference](#references), or [UAR](#unsized-array-references) `a`, the syntax `a[start:stop]` is a slice into `a` including indices in the range `[start, stop)`. If the array elements are type `T`, the type of the array slice is
+- `T[stop-start]&` if both `start` and `stop` are compile-time integral constants, or
+- `T[]&` otherwise (see the section on [unsized array references](#unsized-array-references)).
 
 ## Strings
 
@@ -267,16 +276,18 @@ $tones_play(tones{ C4# 50 C4 50 C4b 50 });
 ```
 
 ## `constexpr` Variables
-Variables of integral or asset handle type can be declared `constexpr`. When declared `constexpr`, a variable occupies no storage and its value (calculated at compile time) is inserted directly into any expression in which the variable is used.
+Numeric or asset handle variables can be declared `constexpr`. When declared `constexpr`, a variable occupies no storage and its value (calculated at compile time) is inserted directly into any expression in which the variable is used.
 
 ```cpp
-// Integral types may be declared constexpr
+// Numeric types may be declared constexpr
 constexpr i16 X = 3;
-constexpr i32 Y = X + 2;
+constexpr float Y = X + 2;
 
 // Asset handles may be declared constexpr as well
 constexpr font MY_FONT = font{ 8 "assets/font.ttf" };
 ```
+
+Certain language features, such as [array slices](#array-slices), have behavior that depends on whether or not an integral expression's value is computable at compile-time. Integer literals,  `constexpr` variables, and the `len()` operator on arrays and array references are guaranteed to produce compile-time constants.
 
 ## System Functions
 See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for the current list of system functions.
@@ -285,7 +296,6 @@ See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for 
 See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for the current list of predefined constants.
 
 ## Planned to Include in ABC (TODO)
-- Python-style array slicing (e.g., given `int[6] a;`, the expression `a[2:5]` results in a reference of type `int[3]&` referring to `a[2]`)
 - Function references
 
 ## Intentionally Excluded from ABC
