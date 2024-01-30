@@ -18,13 +18,23 @@ void main()
         $assert(str[0:4] == str2);
     }
     
-    
     {
         char[10] str = "Hello";
         $assert(str[1:4] == "ell");
         $assert(str == "Hello");
         str[1:4] = "opp";
         $assert(str == "Hoppo");
+    }
+    
+    {
+        char[10] str = "Hello";
+        char[]& r = str;
+        $assert(r[1:4] == "ell");
+        //$assert(str == "Hello");
+        //$assert(r == "Hello");
+        //r[1:4] = "opp";
+        //$assert(r == "Hoppo");
+        //$assert(str == "Hoppo");
     }
     
     $assert("Hello"[1:4] == "ell");

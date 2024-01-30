@@ -1,0 +1,10 @@
+void main()
+{
+    $debug_break();
+    
+    char[10] str = "Hello";
+    char[]& r = str;
+    $assert(r[1:4] == "ell");
+    
+    $debug_break();
+}

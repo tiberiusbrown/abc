@@ -77,7 +77,7 @@ bool compiler_t::peephole_bake_getpn(compiler_func_t& f)
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
             
-            f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH });
+            f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH, i0.line });
 
             // i0, i1 invalidated now
 

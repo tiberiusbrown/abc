@@ -766,11 +766,8 @@ void compiler_t::codegen_expr(
     
         // generate ref
         codegen_expr(f, frame, a.children[0], true);
-        if(!t.is_array_ref())
-        {
-            codegen_convert(f, frame, a.children[0],
-                t.children[0].with_array_ref(), a.children[0].comp_type);
-        }
+        codegen_convert(f, frame, a.children[0],
+            t.children[0].with_array_ref(), a.children[0].comp_type);
         
         // generate start
         codegen_expr(f, frame, a.children[1], false);
