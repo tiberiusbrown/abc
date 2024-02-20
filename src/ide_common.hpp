@@ -109,10 +109,6 @@ void export_menu_items();
 // ide_import.cpp
 void import_menu_item();
 
-// ide_new_project.cpp
-void create_default_info_file();
-void new_project();
-
 // ide_welcome.cpp
 void project_welcome();
 

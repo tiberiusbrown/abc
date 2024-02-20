@@ -63,13 +63,6 @@ static void process_arduboy_file(std::vector<uint8_t> const& data)
 
     open_files.clear();
     project.files.swap(files);
-    if(!project.files.count(INFO_FILENAME))
-        create_default_info_file();
-    {
-        auto f = create_project_info_file(INFO_FILENAME);
-        f->dirty = true;
-        f->save();
-    }
     if(project.files.count(main_name))
         open_files[main_name] = create_code_file(main_name);
 
@@ -175,6 +168,10 @@ static void process_zip_file(std::vector<uint8_t> const& data)
     mz_zip_reader_end(&zip);
 
     update_cached_files();
+
+    open_files.clear();
+    if(project.files.count(main_name))
+        open_files[main_name] = create_code_file(main_name);
 }
 
 static void web_upload_handler(
