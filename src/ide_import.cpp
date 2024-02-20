@@ -113,6 +113,19 @@ static void import_arduboy_file()
 }
 #endif
 
+static void try_open_main_abc()
+{
+    for(auto const& child : project.root.children)
+    {
+        if(child.is_dir) continue;
+        if(child.path.filename() == "main.abc")
+        {
+            open_file(child.path);
+            break;
+        }
+    }
+}
+
 #ifndef __EMSCRIPTEN__
 static void open_directory()
 {
@@ -123,15 +136,8 @@ static void open_directory()
     project.root.is_dir = true;
     project.root.path = std::filesystem::path(path.get()).lexically_normal();
     update_cached_files();
-    for(auto const& child : project.root.children)
-    {
-        if(child.is_dir) continue;
-        if(child.path.filename() == "main.abc")
-        {
-            open_file(child.path);
-            break;
-        }
-    }
+    open_files.clear();
+    try_open_main_abc();
 }
 #endif
 
@@ -170,8 +176,7 @@ static void process_zip_file(std::vector<uint8_t> const& data)
     update_cached_files();
 
     open_files.clear();
-    if(project.files.count(main_name))
-        open_files[main_name] = create_code_file(main_name);
+    try_open_main_abc();
 }
 
 static void web_upload_handler(
