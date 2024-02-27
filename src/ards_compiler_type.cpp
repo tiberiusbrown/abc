@@ -607,6 +607,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         break;
     case AST::OP_ASSIGN:
     case AST::OP_ASSIGN_COMPOUND:
+        type_reduce_recurse(a.children[0], size);
         type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);
         break;
     case AST::OP_INC_POST:
