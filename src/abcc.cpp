@@ -39,6 +39,7 @@ int main(int argc, char** argv)
     std::filesystem::path pdata;
     std::filesystem::path psave;
     std::filesystem::path parduboy;
+    std::filesystem::path pasm;
 
     argparse::ArgumentParser args("abcc", ABC_VERSION);
     args.add_argument("<main.abc>")
@@ -60,6 +61,10 @@ int main(int argc, char** argv)
         .help("path to .arduboy output file")
         .metavar("PATH")
         .action([&](std::string const& v) { parduboy = v; });
+    args.add_argument("-S", "--asm")
+        .help("path to .asm output file")
+        .metavar("PATH")
+        .action([&](std::string const& v) { pasm = v; });
 
     try {
         args.parse_args(argc, argv);
@@ -137,6 +142,17 @@ int main(int argc, char** argv)
     if(show_asm)
         std::cout << fasm.str() << std::endl;
 #endif
+
+    if(!pasm.empty())
+    {
+        std::ofstream f(pasm);
+        if(!f)
+        {
+            std::cerr << "Unable to open file: \"" << pasm.generic_string() << "\"" << std::endl;
+            return 1;
+        }
+        f << fasm.str();
+    }
 
     {
         auto e = a.assemble(fasm);
