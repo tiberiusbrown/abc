@@ -887,6 +887,16 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
 
+        // replace PUSH 1; AND; BOOL with PUSH 1; AND
+        if(i0.instr == I_PUSH && i0.imm == 1 &&
+            i1.instr == I_AND &&
+            i2.instr == I_BOOL)
+        {
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // replace PUSH 0; PUSH 0; ADD3 with ADD3B
         if( i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_PUSH && i1.imm == 0 &&
