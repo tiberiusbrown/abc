@@ -141,7 +141,6 @@ static void open_directory()
 }
 #endif
 
-#ifdef __EMSCRIPTEN__
 static void process_zip_file(std::vector<uint8_t> const& data)
 {
     std::error_code ec;
@@ -160,10 +159,12 @@ static void process_zip_file(std::vector<uint8_t> const& data)
             continue;
         auto path = project.root.path / stat.m_filename;
         if(stat.m_is_directory)
-            std::filesystem::create_directory(path, ec);
+            std::filesystem::create_directories(path, ec);
         else
         {
             size_t size = 0;
+            if(path.has_parent_path())
+                std::filesystem::create_directories(path.parent_path(), ec);
             void* p = mz_zip_reader_extract_to_heap(&zip, i, &size, 0);
             if(!p) continue;
             std::ofstream f(path, std::ios::binary);
@@ -179,6 +180,7 @@ static void process_zip_file(std::vector<uint8_t> const& data)
     try_open_main_abc();
 }
 
+#ifdef __EMSCRIPTEN__
 static void web_upload_handler(
     std::string const& filename,
     std::string const& mime_type,
