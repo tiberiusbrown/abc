@@ -402,6 +402,10 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                 else
                     local.var.value = (int64_t)a.children[2].fvalue;
             }
+            else if(local.var.type.is_label_ref())
+            {
+                local.var.label_ref = resolve_label_ref(frame, a.children[2], local.var.type);
+            }
             else
             {
                 errs.push_back({
