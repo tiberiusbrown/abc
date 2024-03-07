@@ -703,7 +703,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v.back())));
         auto& block = a.children.back();
         if(block.children.empty() || block.children.back().type != AST::RETURN_STMT)
-            block.children.push_back({ {}, AST::RETURN_STMT, "" });
+            block.children.push_back({ v.line_info(), AST::RETURN_STMT, ""});
         if(v.size() == 4)
         {
             // arg decls
