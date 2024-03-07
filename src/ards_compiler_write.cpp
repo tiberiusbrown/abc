@@ -16,6 +16,7 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
         f << instr.label << ":\n";
         return;
     }
+    assert(instr.line != 0);
     if(line != instr.line && instr.line != 0)
     {
         line = instr.line;

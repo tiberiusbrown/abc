@@ -475,7 +475,13 @@ void compiler_t::compile(
     compile_recurse(fpath, fname);
 
     // add final ret to global constructor
-    funcs[GLOBINIT_FUNC].instrs.push_back({ I_RET });
+    {
+        uint16_t ret_line = 1;
+        auto& f = funcs[GLOBINIT_FUNC];
+        if(f.instrs.size() > 0)
+            ret_line = f.instrs.back().line;
+        f.instrs.push_back({ I_RET, ret_line });
+    }
 
     // generate code for all functions
     for(auto& [n, f] : funcs)
@@ -780,7 +786,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                     codegen_convert(f, frame, n.children[2], n.children[1].comp_type.without_ref(), n.children[2].comp_type);
                 codegen_store(f, frame, n.children[1]);
                 for(size_t i = 0; i < frame.size; ++i)
-                    f.instrs.push_back({ I_POP });
+                    f.instrs.push_back({ I_POP, n.line()});
             }
         }
         else if(n.type == AST::FUNC_STMT)

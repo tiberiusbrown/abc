@@ -300,7 +300,11 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         // don't need to pop locals after final return statement
         if(&a != &f.block)
         {
-            uint16_t line = f.instrs.empty() ? 0 : f.instrs.back().line;
+            uint16_t line = 0;
+            for(auto it = f.instrs.rbegin(); it != f.instrs.rend(); ++it)
+                if((line = it->line) != 0)
+                    break;
+            assert(line != 0);
             for(size_t i = 0; i < frame.scopes.back().size; ++i)
                 f.instrs.push_back({ I_POP, line });
         }
