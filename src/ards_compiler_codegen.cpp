@@ -386,9 +386,9 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         if(type.is_constexpr)
         {
             type_annotate(a.children[2], frame);
+            local.var.is_constexpr = true;
             if(a.children[2].type == AST::INT_CONST)
             {
-                local.var.is_constexpr = true;
                 if(type.is_float)
                     local.var.fvalue = (double)a.children[2].value;
                 else
@@ -396,7 +396,6 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             }
             else if(a.children[2].type == AST::FLOAT_CONST)
             {
-                local.var.is_constexpr = true;
                 if(type.is_float)
                     local.var.fvalue = a.children[2].fvalue;
                 else
