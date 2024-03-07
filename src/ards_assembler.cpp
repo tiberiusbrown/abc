@@ -311,7 +311,7 @@ error_t assembler_t::assemble(std::istream& f)
                 else
                 {
                     imm += 0x200;
-                    push_instr(I_PUSH2);
+                    push_instr(I_PUSHG);
                     push_imm(imm, 2);
                 }
             }
