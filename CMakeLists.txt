@@ -195,6 +195,8 @@ add_executable(abc ${EXE_TYPE}
 target_link_libraries(abc PRIVATE ardenslib ards_compiler)
 if(WIN32)
     target_link_libraries(abc PRIVATE d3d11)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_libraries(abc PRIVATE X11 Xi Xcursor GL asound dl m pthread)
 endif()
 target_include_directories(abc PRIVATE
     deps/sokol
