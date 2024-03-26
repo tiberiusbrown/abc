@@ -14,6 +14,11 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )
+bin2h(
+    SOURCE_FILE   ards_vm/build/mini/ards_vm.ino.hex
+    HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboymini.hpp"
+    VARIABLE_NAME VM_HEX_ARDUBOYMINI
+    )
     
 bin2h(
     SOURCE_FILE   examples/basic/main.abc

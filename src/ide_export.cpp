@@ -18,8 +18,10 @@ size_t zip_write_data(
     void* data, mz_uint64 file_ofs, const void* pBuf, size_t n);
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save,
+    std::vector<uint8_t> const& binary, bool has_save, bool mini,
     std::unordered_map<std::string, std::string> const& fd);
+void export_interpreter_hex(
+    std::string const& filename, bool mini);
 
 static void export_compiled_fxdata(std::string const& filename)
 {
@@ -92,6 +94,43 @@ static void export_zip()
 }
 #endif
 
+static void export_arduboy_file_menu_clicked(bool mini)
+{
+    std::string filename;
+
+#ifdef __EMSCRIPTEN__
+    filename = "game.arduboy";
+#else
+    NFD::UniquePath path;
+    nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "arduboy" } };
+    auto result = NFD::SaveDialog(path, filterItem, 1, nullptr, "game.arduboy");
+    if(result != NFD_OKAY)
+        return;
+    filename = path.get();
+#endif
+    export_arduboy(
+        filename, project.binary,
+        project.has_save, mini,
+        project.arduboy_directives);
+}
+
+static void export_hex(bool mini)
+{
+    std::string filename;
+    filename = mini ? "abc_interpreter_mini.hex" : "abc_interpreter.hex";
+
+#ifndef __EMSCRIPTEN__
+    NFD::UniquePath path;
+    nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "hex" } };
+    auto result = NFD::SaveDialog(path, filterItem, 1, nullptr, filename.c_str());
+    if(result != NFD_OKAY)
+        return;
+    filename = path.get();
+#endif
+
+    export_interpreter_hex(filename, mini);
+}
+
 void export_menu_items()
 {
     using namespace ImGui;
@@ -100,22 +139,15 @@ void export_menu_items()
         export_zip();
     Separator();
 #endif
+    if(MenuItem("Export interpreter hex (FX)..."))
+        export_hex(false);
+    if(MenuItem("Export interpreter hex (Mini)..."))
+        export_hex(false);
     if(MenuItem("Export development FX data..."))
         export_fxdata();
-    if(MenuItem("Export .arduboy file...") && compile_all())
-    {
-        std::string filename;
-
-#ifdef __EMSCRIPTEN__
-        filename = "game.arduboy";
-#else
-        NFD::UniquePath path;
-        nfdfilteritem_t filterItem[1] = { { "Arduboy Game", "arduboy" } };
-        auto result = NFD::SaveDialog(path, filterItem, 1, nullptr, "game.arduboy");
-        if(result != NFD_OKAY)
-            return;
-        filename = path.get();
-#endif
-        export_arduboy(filename, project.binary, project.has_save, project.arduboy_directives);
-    }
+    Separator();
+    if(MenuItem("Export .arduboy file (FX)...") && compile_all())
+        export_arduboy_file_menu_clicked(false);
+    if(MenuItem("Export .arduboy file (Mini)...") && compile_all())
+        export_arduboy_file_menu_clicked(true);
 }

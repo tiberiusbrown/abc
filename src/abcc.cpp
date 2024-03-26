@@ -23,8 +23,10 @@
 
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save,
+    std::vector<uint8_t> const& binary, bool has_save, bool mini,
     std::unordered_map<std::string, std::string> const& fd);
+void export_interpreter_hex(
+    std::string const& filename, bool mini);
 
 static void usage(char const* argv0)
 {
@@ -40,11 +42,19 @@ int main(int argc, char** argv)
     std::filesystem::path psave;
     std::filesystem::path parduboy;
     std::filesystem::path pasm;
+    std::filesystem::path pinterp;
 
     argparse::ArgumentParser args("abcc", ABC_VERSION);
     args.add_argument("<main.abc>")
         .help("path to top-level ABC source file")
         .action([&](std::string const& v) { psrc = v; });
+    args.add_argument("-m", "--mini")
+        .help("build for Arduboy Mini")
+        .flag();
+    args.add_argument("-i", "--interp")
+        .help("path to interpreter .hex output file")
+        .metavar("PATH")
+        .action([&](std::string const& v) { pinterp = v; });
     args.add_argument("-b", "--bin")
         .help("path to development FX data output file")
         .metavar("PATH")
@@ -228,9 +238,17 @@ int main(int argc, char** argv)
         f.write((char const*)a.data().data() + a.data().size() - 4096, 4096);
     }
 
+    if(!pinterp.empty())
+    {
+        export_interpreter_hex(pinterp.generic_string(), args["--mini"] == true);
+    }
+
     if(!parduboy.empty())
     {
-        export_arduboy(parduboy.generic_string(), a.data(), a.has_save(), c.arduboy_directives());
+        export_arduboy(
+            parduboy.generic_string(),
+            a.data(), a.has_save(), args["--mini"] == true,
+            c.arduboy_directives());
     }
 
     return 0;

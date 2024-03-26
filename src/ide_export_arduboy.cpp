@@ -29,6 +29,10 @@ extern const unsigned char VM_HEX_ARDUBOYFX[];
 extern const size_t VM_HEX_ARDUBOYFX_SIZE;
 #include <vm_hex_arduboyfx.hpp>
 
+extern const unsigned char VM_HEX_ARDUBOYMINI[];
+extern const size_t VM_HEX_ARDUBOYMINI_SIZE;
+#include <vm_hex_arduboymini.hpp>
+
 size_t zip_write_data(
     void* data, mz_uint64 file_ofs, const void* pBuf, size_t n)
 {
@@ -41,9 +45,25 @@ size_t zip_write_data(
     return n;
 }
 
+void export_interpreter_hex(
+    std::string const& filename, bool mini)
+{
+    unsigned char const* data = mini ? VM_HEX_ARDUBOYMINI : VM_HEX_ARDUBOYFX;
+    size_t size = mini ? VM_HEX_ARDUBOYMINI_SIZE : VM_HEX_ARDUBOYFX_SIZE;
+#ifdef __EMSCRIPTEN__
+    emscripten_browser_file::download(
+        filename.c_str(), "application/octet-stream",
+        data, size);
+#else
+    std::ofstream f(filename.c_str(), std::ios::out | std::ios::binary);
+    if(!f) return;
+    f.write((char const*)data, size);
+#endif
+}
+
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save,
+    std::vector<uint8_t> const& binary, bool has_save, bool mini,
     std::unordered_map<std::string, std::string> const& fd)
 {
     std::vector<uint8_t> screenshot_png;
@@ -155,7 +175,7 @@ void export_arduboy(
             w.String("save.bin");
         }
         w.Key("device");
-        w.String("ArduboyFX");
+        w.String(mini ? "ArduboyMini" : "ArduboyFX");
         w.EndObject();
         w.EndArray();
 
@@ -179,7 +199,8 @@ void export_arduboy(
 
     mz_zip_writer_add_mem(
         &zip, "interp.hex",
-        VM_HEX_ARDUBOYFX, VM_HEX_ARDUBOYFX_SIZE,
+        mini ? VM_HEX_ARDUBOYMINI : VM_HEX_ARDUBOYFX,
+        mini ? VM_HEX_ARDUBOYMINI_SIZE : VM_HEX_ARDUBOYFX_SIZE,
         compression);
 
     mz_zip_writer_add_mem(
