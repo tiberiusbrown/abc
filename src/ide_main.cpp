@@ -122,6 +122,14 @@ static void app_event(sapp_event const* e)
         simgui_handle_event(e);
     }
 
+    // allow Ctrl+S
+    if(e->type == SAPP_EVENTTYPE_KEY_DOWN &&
+        (ImGui::IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)) &&
+        e->key_code == SAPP_KEYCODE_S)
+    {
+        sapp_consume_event();
+    }
+
 #ifndef __EMSCRIPTEN__
     if(e->type == SAPP_EVENTTYPE_FILES_DROPPED)
     {

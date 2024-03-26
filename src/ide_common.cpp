@@ -78,6 +78,9 @@ void open_file_t::window()
     if(Begin(window_id().c_str(), &open))
     {
         window_contents();
+        if((IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)) &&
+            IsWindowFocused(ImGuiFocusedFlags_ChildWindows) && IsKeyPressed(ImGuiKey_S, false))
+            save();
     }
     End();
 }
@@ -110,9 +113,10 @@ std::string open_file_t::window_id()
 
 void frame_logic()
 {
-    if(project.active() && ImGui::IsKeyPressed(ImGuiKey_F5, false))
+    if(project.active())
     {
-        player_run();
+        if(ImGui::IsKeyPressed(ImGuiKey_F5, false))
+            player_run();
     }
 
     // save to persistent storage
