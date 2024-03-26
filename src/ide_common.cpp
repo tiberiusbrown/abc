@@ -115,7 +115,7 @@ void frame_logic()
         player_run();
     }
 
-    // save files if dirty
+    // save to persistent storage
     if(stm_now() > save_tick)
     {
         save_tick = UINT64_MAX;
@@ -347,6 +347,8 @@ extern "C" void postsyncfs()
 void init()
 {
     printf("[ABC] IDE " ABC_VERSION " by Peter Brown\n");
+
+    save_tick = UINT64_MAX;
 
 #ifdef __EMSCRIPTEN__
     EM_ASM(
