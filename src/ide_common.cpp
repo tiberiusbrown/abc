@@ -123,6 +123,7 @@ void frame_logic()
         EM_ASM(
             FS.syncfs(function(err) {});
         );
+        printf("[ABC] Saved project\n");
 #endif
     }
 }
@@ -333,6 +334,11 @@ extern "C" void postsyncfs()
             std::ofstream f(project.root.path / "main.abc", std::ios::out | std::ios::binary);
             f.write((char const*)BASIC_MAIN, sizeof(BASIC_MAIN));
         }
+        printf("[ABC] Initialized new project\n");
+    }
+    else
+    {
+        printf("[ABC] Loaded project\n");
     }
     update_cached_files();
 }
@@ -340,7 +346,7 @@ extern "C" void postsyncfs()
 
 void init()
 {
-    printf("ABC IDE " ABC_VERSION " by Peter Brown\n");
+    printf("[ABC] IDE " ABC_VERSION " by Peter Brown\n");
 
 #ifdef __EMSCRIPTEN__
     EM_ASM(
