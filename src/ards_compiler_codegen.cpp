@@ -513,6 +513,15 @@ void compiler_t::codegen_convert(
 {
     if(!errs.empty()) return;
 
+    if(orig_to.is_ref() && orig_from.is_ref() &&
+        orig_to.children[0].is_prog != orig_from.children[0].is_prog)
+    {
+        errs.push_back({
+            "Cannot convert between prog reference and non-prog reference",
+            n.line_info });
+        return;
+    }
+
     auto const& rfrom = orig_from.without_ref();
     auto const& rto = orig_to.without_ref();
 
