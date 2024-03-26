@@ -30,6 +30,7 @@ extern bool player_active;
 extern std::string const main_name;
 extern TextEditor asm_editor;
 extern bool show_sys;
+extern uint64_t save_tick;
 
 // ide_texture.cpp
 struct texture_t

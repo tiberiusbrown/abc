@@ -16,6 +16,8 @@
 #include <basic_main.hpp>
 #endif
 
+#include <sokol_time.h>
+
 #ifndef ABC_VERSION
 #define ABC_VERSION "(unknown version)"
 #endif
@@ -43,6 +45,8 @@ TextEditor asm_editor;
 
 bool show_sys;
 
+uint64_t save_tick;
+
 extern unsigned char const ProggyVector[198188];
 
 #include "font_icons.hpp"
@@ -60,6 +64,7 @@ void open_file_t::save()
     if(!dirty) return;
     save_impl();
     dirty = false;
+    save_tick = stm_now() + 1'000'000'000ull * 500; // 500ms
 }
 
 void open_file_t::window()
@@ -108,6 +113,17 @@ void frame_logic()
     if(project.active() && ImGui::IsKeyPressed(ImGuiKey_F5, false))
     {
         player_run();
+    }
+
+    // save files if dirty
+    if(stm_now() > save_tick)
+    {
+        save_tick = UINT64_MAX;
+#ifdef __EMSCRIPTEN__
+        EM_ASM(
+            FS.syncfs(function(err) {});
+        );
+#endif
     }
 }
 
