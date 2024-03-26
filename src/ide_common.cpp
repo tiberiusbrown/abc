@@ -64,7 +64,7 @@ void open_file_t::save()
     if(!dirty) return;
     save_impl();
     dirty = false;
-    save_tick = stm_now() + 1'000'000'000ull * 500; // 500ms
+    save_tick = stm_now() + 1'000'000ull * 500; // 500ms
 }
 
 void open_file_t::window()
