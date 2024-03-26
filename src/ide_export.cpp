@@ -142,7 +142,7 @@ void export_menu_items()
     if(MenuItem("Export interpreter hex (FX)..."))
         export_hex(false);
     if(MenuItem("Export interpreter hex (Mini)..."))
-        export_hex(false);
+        export_hex(true);
     if(MenuItem("Export development FX data..."))
         export_fxdata();
     Separator();
