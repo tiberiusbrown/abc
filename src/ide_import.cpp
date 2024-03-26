@@ -175,6 +175,7 @@ static void process_zip_file(std::vector<uint8_t> const& data)
     mz_zip_reader_end(&zip);
 
     update_cached_files();
+    dirty_save();
 
     open_files.clear();
     try_open_main_abc();

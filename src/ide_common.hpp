@@ -32,6 +32,8 @@ extern TextEditor asm_editor;
 extern bool show_sys;
 extern uint64_t save_tick;
 
+void dirty_save();
+
 // ide_texture.cpp
 struct texture_t
 {

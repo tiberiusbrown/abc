@@ -64,7 +64,7 @@ void open_file_t::save()
     if(!dirty) return;
     save_impl();
     dirty = false;
-    save_tick = stm_now() + 1'000'000ull * 500; // 500ms
+    dirty_save();
 }
 
 void open_file_t::window()
@@ -343,6 +343,11 @@ extern "C" void postsyncfs()
     update_cached_files();
 }
 #endif
+
+void dirty_save()
+{
+    save_tick = stm_now() + 1'000'000ull * 500; // 500ms
+}
 
 void init()
 {

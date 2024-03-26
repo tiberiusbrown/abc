@@ -105,6 +105,7 @@ static void modal()
         modal_type = MT_NONE;
         CloseCurrentPopup();
         update_cached_files();
+        dirty_save();
     }
     SameLine();
     if(Button("Cancel", button_size))
@@ -135,6 +136,7 @@ static void web_upload_handler(
             f.write((char const*)data.data(), data.size());
     }
     update_cached_files();
+    dirty_save();
 }
 #endif
 
@@ -151,6 +153,7 @@ static void upload_file()
     std::filesystem::path new_path = modal_path / orig_path.filename();
     std::filesystem::copy(orig_path, new_path);
     update_cached_files();
+    dirty_save();
 #endif
 }
 
