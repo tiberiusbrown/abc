@@ -94,16 +94,6 @@ if(MSVC)
     )
 endif()
 
-set(STATIC_CRT      ON  CACHE BOOL "" FORCE)
-add_subdirectory(deps/midifile EXCLUDE_FROM_ALL)
-
-set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
-set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
-set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
-set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
-set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
-add_subdirectory(deps/Ardens)
-
 if(EMSCRIPTEN)
     set(EXTRA_FLAGS "${EXTRA_FLAGS} -O3")
     set(EXTRA_FLAGS "${EXTRA_FLAGS} -flto")
@@ -121,6 +111,16 @@ if(EMSCRIPTEN)
     add_link_options("-sEXPORTED_RUNTIME_METHODS=ccall,FS")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$autoResumeAudioContext','$dynCall']")
 endif()
+
+set(STATIC_CRT      ON  CACHE BOOL "" FORCE)
+add_subdirectory(deps/midifile EXCLUDE_FROM_ALL)
+
+set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
+set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
+set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
+set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
+set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
+add_subdirectory(deps/Ardens)
 
 set(EM_FILE_BROWSER_SOURCES)
 if(EMSCRIPTEN)
