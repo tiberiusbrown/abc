@@ -87,6 +87,15 @@ int main(int argc, char** argv)
 #endif
     }
 
+    if(!psrc.empty() &&
+        pbin.empty() &&
+        pdata.empty() &&
+        psave.empty() &&
+        parduboy.empty() &&
+        pasm.empty() &&
+        pinterp.empty())
+        parduboy = psrc.parent_path() / "game.arduboy";
+
     bool show_asm = false;
 #ifndef NDEBUG
     show_asm = true;
