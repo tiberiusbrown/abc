@@ -31,13 +31,14 @@ struct midi_tone_t
     int start_tick;
     int dur_ticks;
     int note;
-    bool operator<(midi_tone_t const& x)
-    {
-        return
-            std::tie(start_tick, dur_ticks, note) <
-            std::tie(x.start_tick, x.dur_ticks, x.note);
-    }
 };
+
+bool operator<(midi_tone_t const& a, midi_tone_t const& b)
+{
+    return
+        std::tie(a.start_tick, a.dur_ticks, a.note) <
+        std::tie(b.start_tick, b.dur_ticks, b.note);
+}
 
 std::string compiler_t::encode_tones_midi(
     std::vector<uint8_t>& data, std::string const& filename)
