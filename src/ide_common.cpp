@@ -56,6 +56,7 @@ open_file_t::open_file_t(std::string const& filename)
     , rel_path(path.lexically_relative(project.root.path))
     , dirty(false)
     , open(true)
+    , confirming_close(false)
 {
 }
 
@@ -75,7 +76,11 @@ void open_file_t::window()
         { 400 * pixel_ratio, 400 * pixel_ratio },
         ImGuiCond_FirstUseEver);
     dock_next_window_to_welcome();
-    if(Begin(window_id().c_str(), &open))
+        
+    ImGuiWindowFlags window_flags =
+        (dirty ? ImGuiWindowFlags_UnsavedDocument : 0);
+
+    if(Begin(window_id().c_str(), &open, window_flags))
     {
         window_contents();
         if((IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)) &&
@@ -84,6 +89,41 @@ void open_file_t::window()
             save();
     }
     End();
+
+    if(!open && dirty)
+    {
+        open = true;
+        confirming_close = true;
+        OpenPopup("Close Without Saving?");
+    }
+
+    if(confirming_close && BeginPopupModal("Close Without Saving?"))
+    {
+        Text("There are unsaved changes to %s.\n\nClose anyway?\n", filename().c_str());
+
+        if(Button("Close Without Saving"))
+        {
+            CloseCurrentPopup();
+            open = false;
+            confirming_close = false;
+        }
+        SameLine();
+        if(Button("Save and Close"))
+        {
+            save();
+            CloseCurrentPopup();
+            open = false;
+            confirming_close = false;
+        }
+        SameLine();
+        if(Button("Cancel"))
+        {
+            CloseCurrentPopup();
+            confirming_close = false;
+        }
+
+        EndPopup();
+    }
 }
 
 std::string open_file_t::read_as_string() const
@@ -102,9 +142,7 @@ std::string open_file_t::filename() const
 
 std::string open_file_t::window_title()
 {
-    std::string title = filename();
-    if(dirty) title += "*";
-    return title;
+    return filename();
 }
 
 std::string open_file_t::window_id()

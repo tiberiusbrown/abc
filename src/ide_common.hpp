@@ -74,6 +74,7 @@ struct open_file_t
     std::filesystem::path rel_path;
     bool dirty;
     bool open;
+    bool confirming_close;
     open_file_t(std::string const& filename);
     void save();
     void window();
