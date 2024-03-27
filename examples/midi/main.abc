@@ -1,0 +1,17 @@
+void loop()
+{
+    while(!$next_frame())
+        ;
+    
+    $poll_buttons();
+    if($just_pressed(A_BUTTON))
+        $tones_play(tones{ "simple.mid" });
+        
+    $display();
+}
+
+void main()
+{
+    while(true)
+        loop();
+}

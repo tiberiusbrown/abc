@@ -243,6 +243,7 @@ ISR(TIMER4_COMPA_vect)
         else
         {
             OCR3A = period;
+            TCNT3 = 0;
             TIMSK3 = 0x02;
         }
     }

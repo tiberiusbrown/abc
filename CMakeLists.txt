@@ -94,6 +94,16 @@ if(MSVC)
     )
 endif()
 
+set(STATIC_CRT      ON  CACHE BOOL "" FORCE)
+add_subdirectory(deps/midifile EXCLUDE_FROM_ALL)
+
+set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
+set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
+set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
+set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
+set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
+add_subdirectory(deps/Ardens)
+
 if(EMSCRIPTEN)
     set(EXTRA_FLAGS "${EXTRA_FLAGS} -O3")
     set(EXTRA_FLAGS "${EXTRA_FLAGS} -flto")
@@ -147,7 +157,8 @@ target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
 target_include_directories(ards_compiler PRIVATE "${GENHEADER_DIR}")
-target_link_libraries(ards_compiler PRIVATE fmt)
+target_include_directories(ards_compiler PRIVATE deps/midifile/include)
+target_link_libraries(ards_compiler PRIVATE fmt midifile)
 
 add_executable(abcc
     src/abcc.cpp
@@ -158,13 +169,6 @@ target_include_directories(abcc PRIVATE
     "${GENHEADER_DIR}"
     deps/argparse/include
     )
-
-set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
-set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
-set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
-set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
-set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
-add_subdirectory(deps/Ardens)
 
 file(GLOB IMGUI_SOURCES deps/imgui/*.h deps/imgui/*.cpp)
 file(GLOB SOKOL_SOURCES deps/sokol/*.h)

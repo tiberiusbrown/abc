@@ -141,6 +141,7 @@ static void open_directory()
 }
 #endif
 
+#ifdef __EMSCRIPTEN__
 static void process_zip_file(std::vector<uint8_t> const& data)
 {
     std::error_code ec;
@@ -180,6 +181,7 @@ static void process_zip_file(std::vector<uint8_t> const& data)
     open_files.clear();
     try_open_main_abc();
 }
+#endif
 
 #ifdef __EMSCRIPTEN__
 static void web_upload_handler(

@@ -79,7 +79,8 @@ void open_file_t::window()
     {
         window_contents();
         if((IsKeyDown(ImGuiKey_LeftCtrl) || ImGui::IsKeyDown(ImGuiKey_RightCtrl)) &&
-            IsWindowFocused(ImGuiFocusedFlags_ChildWindows) && IsKeyPressed(ImGuiKey_S, false))
+            IsWindowFocused(ImGuiFocusedFlags_ChildWindows) &&
+            IsKeyPressed(ImGuiKey_S, false))
             save();
     }
     End();

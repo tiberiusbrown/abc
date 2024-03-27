@@ -627,6 +627,7 @@ private:
 
     void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_tones(std::vector<uint8_t>& data, ast_node_t const& n);
+    std::string encode_tones_midi(std::vector<uint8_t>& data, std::string const& filename);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 
     // idata encoding:
