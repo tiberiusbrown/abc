@@ -10,12 +10,12 @@ include(cmake/cmake-bin2h/bin2h.cmake)
 set(GENHEADER_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin2h_headers")
 file(MAKE_DIRECTORY "${GENHEADER_DIR}")
 bin2h(
-    SOURCE_FILE   ards_vm/build/ards_vm.ino.hex
+    SOURCE_FILE   interp_arduboy/build/interp_arduboy.ino.hex
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )
 bin2h(
-    SOURCE_FILE   ards_vm/build/mini/ards_vm.ino.hex
+    SOURCE_FILE   interp_arduboy/build_mini/interp_arduboy.ino.hex
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboymini.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYMINI
     )
@@ -129,7 +129,7 @@ endif()
 
 add_library(ards_compiler STATIC
     .editorconfig
-    ards_vm/ards_instr.hpp
+    interp_general/abc_instr.hpp
     src/ards_assembler.cpp
     src/ards_assembler.hpp
     src/ards_compiler.cpp
@@ -151,7 +151,7 @@ add_library(ards_compiler STATIC
     )
 target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/ards_vm"
+    "${CMAKE_CURRENT_SOURCE_DIR}/interp_general"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
@@ -229,7 +229,7 @@ add_executable(abc_integration
 target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler)
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
 target_compile_definitions(abc_integration PRIVATE
-    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/ards_vm/build/ards_vm.ino.hex"
+    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build/interp_arduboy.ino.hex"
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
     -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"

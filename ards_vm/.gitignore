@@ -1,5 +1,0 @@
-build/*
-!build/ards_vm.ino.hex
-!build/mini
-build/mini/*
-!build/mini/ards_vm.ino.hex

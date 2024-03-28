@@ -1,0 +1,4 @@
+build/*
+!build/interp_arduboy.ino.hex
+build_mini/*
+!build_mini/interp_arduboy.ino.hex
