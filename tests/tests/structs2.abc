@@ -1,0 +1,17 @@
+struct pos { i8 x, y; };
+
+u16 t;
+pos[4] p;
+
+void main()
+{
+    $debug_break();
+    
+    t = 4;
+    p[0] = { t, 2 };
+    
+    $assert(p[0].x == 4);
+    $assert(p[0].y == 2);
+    
+    $debug_break();
+}

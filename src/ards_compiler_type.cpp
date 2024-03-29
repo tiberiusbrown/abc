@@ -179,9 +179,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
         a.comp_type = a.children[0].comp_type.without_ref();
+        type_annotate_recurse(a.children[1], frame);
         if(a.children[1].type != AST::COMPOUND_LITERAL)
         {
-            type_annotate_recurse(a.children[1], frame);
 
             if(a.children[0].comp_type.is_any_ref() &&
                 a.children[0].comp_type.is_nonprog_string() &&

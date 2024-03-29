@@ -3,6 +3,7 @@
 enum sysfunc_t
 {
     SYS_DISPLAY,
+    SYS_DISPLAY_NOCLEAR,
     SYS_DRAW_PIXEL,
     SYS_DRAW_HLINE,
     SYS_DRAW_VLINE,

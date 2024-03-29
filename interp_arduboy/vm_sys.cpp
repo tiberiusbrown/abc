@@ -120,6 +120,13 @@ static void sys_display()
     FX::seekData(ards::vm.pc);
 }
 
+static void sys_display_noclear()
+{
+    (void)FX::readEnd();
+    FX::display(false);
+    FX::seekData(ards::vm.pc);
+}
+
 static void sys_draw_pixel()
 {
     auto ptr = vm_pop_begin();
@@ -1188,6 +1195,7 @@ static void sys_random()
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
     sys_display,
+    sys_display_noclear,
     sys_draw_pixel,
     sys_draw_hline,
     sys_draw_vline,
