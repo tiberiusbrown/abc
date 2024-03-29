@@ -1,0 +1,25 @@
+u8 r;
+
+void loop()
+{
+    while(!$next_frame())
+        ;
+
+    ++r;
+    int x = 40;
+    int y = 30;
+    
+    r = 223;
+    
+    $draw_filled_circle(x, y, r + 3, WHITE);
+    $draw_filled_circle(x, y, r, BLACK);
+    
+    $display();
+}
+
+void main()
+{
+    $set_frame_rate(40);
+    while(true)
+        loop();
+}

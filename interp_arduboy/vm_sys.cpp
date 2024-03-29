@@ -209,14 +209,15 @@ static void sys_draw_circle()
     Arduboy2Base::drawCircle(x, y, r, color);
 }
 
-static void draw_fast_vline(int16_t x, int16_t y0, int16_t y1, uint8_t color)
+__attribute__((always_inline))
+static void draw_fast_vline(int16_t x, int16_t y, uint16_t h, uint8_t color)
 {
-    SpritesU::fillRect(x, y0, 1, y1 - y0 + 1, color);
+    SpritesU::fillRect(x, y, 1, h, color);
 }
 
 // adapted from Arduboy2 library (BSD 3-clause)
 static void fill_circle_helper(
-    int16_t x0, int16_t y0, uint8_t r,
+    int16_t x0, int16_t y0, uint16_t r,
     uint8_t sides, int16_t delta, uint8_t color)
 {
     int16_t f = 1 - r;
