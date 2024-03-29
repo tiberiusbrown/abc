@@ -2851,114 +2851,6 @@ I_CSLT4:
 1:  mov  r9, r4
     dispatch
 
-I_CULE:
-    ld   r14, -Y
-    ldi  r18, 1
-    cp   r9, r14
-    brsh 1f
-    ldi  r18, 0
-1:  mov  r9, r18
-    dispatch
-
-I_CULE2:
-    ld   r10, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    cp   r10, r14
-    cpc  r9, r15
-    brsh 1f
-    clr  r9
-    dispatch_noalign
-1:  mov  r9, r4
-    dispatch
-
-I_CULE3:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    cp   r10, r14
-    cpc  r11, r15
-    cpc  r9, r16
-    brsh 1f
-    clr  r9
-    dispatch_noalign
-1:  mov  r9, r4
-    dispatch
-
-I_CULE4:
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    cp   r10, r14
-    cpc  r11, r15
-    cpc  r12, r16
-    cpc  r9, r17
-    brsh 1f
-    clr  r9
-    dispatch_noalign
-1:  mov  r9, r4
-    dispatch
-
-I_CSLE:
-    ld   r14, -Y
-    ldi  r18, 1
-    cp   r9, r14
-    brge 1f
-    ldi  r18, 0
-1:  mov  r9, r18
-    dispatch
-
-I_CSLE2:
-    ld   r10, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    cp   r10, r14
-    cpc  r9, r15
-    brge 1f
-    clr  r9
-    dispatch_noalign
-1:  mov  r9, r4
-    dispatch
-
-I_CSLE3:
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    cp   r10, r14
-    cpc  r11, r15
-    cpc  r9, r16
-    brge 1f
-    clr  r9
-    dispatch_noalign
-1:  mov  r9, r4
-    dispatch
-
-I_CSLE4:
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    cp   r10, r14
-    cpc  r11, r15
-    cpc  r12, r16
-    cpc  r9, r17
-    brge 1f
-    clr  r9
-    dispatch_noalign
-1:  mov  r9, r4
-    dispatch
-
 I_CFEQ:
     mov  r21, r9
     ld   r20, -Y
@@ -2991,23 +2883,6 @@ I_CFLT:
     rol  r24
     mov  r9, r24
     dispatch
-
-I_CFLE:
-    mov  r21, r9
-    ld   r20, -Y
-    ld   r19, -Y
-    ld   r18, -Y
-    ld   r25, -Y
-    ld   r24, -Y
-    ld   r23, -Y
-    ld   r22, -Y
-    clr  r1
-    call __lesf2
-    mov  r9, r4
-    cp   __zero_reg__, r24
-    brge 1f
-    clr  r9
-1:  dispatch
 
 I_NOT:
     ldi  r16, 1

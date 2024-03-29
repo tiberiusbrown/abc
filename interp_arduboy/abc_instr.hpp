@@ -259,18 +259,9 @@ enum instr_t : uint8_t
     I_CSLT2,
     I_CSLT3,
     I_CSLT4,
-    I_CULE,  // a b | a <= b (unsigned)
-    I_CULE2,
-    I_CULE3,
-    I_CULE4,
-    I_CSLE,  // a b | a <= b (signed)
-    I_CSLE2,
-    I_CSLE3,
-    I_CSLE4,
 
     I_CFEQ,
     I_CFLT,
-    I_CFLE,
 
     I_NOT,   // a | !a
 

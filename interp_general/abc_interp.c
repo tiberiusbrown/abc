@@ -260,17 +260,8 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* host)
     case I_CSLT2: goto unknown_instruction;
     case I_CSLT3: goto unknown_instruction;
     case I_CSLT4: goto unknown_instruction;
-    case I_CULE:  goto unknown_instruction;
-    case I_CULE2: goto unknown_instruction;
-    case I_CULE3: goto unknown_instruction;
-    case I_CULE4: goto unknown_instruction;
-    case I_CSLE:  goto unknown_instruction;
-    case I_CSLE2: goto unknown_instruction;
-    case I_CSLE3: goto unknown_instruction;
-    case I_CSLE4: goto unknown_instruction;
     case I_CFEQ:  goto unknown_instruction;
     case I_CFLT:  goto unknown_instruction;
-    case I_CFLE:  goto unknown_instruction;
     case I_NOT:   goto unknown_instruction;
     case I_FADD:  goto unknown_instruction;
     case I_FSUB:  goto unknown_instruction;
@@ -296,7 +287,7 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* host)
     case I_SYS:   goto unknown_instruction;
     default:
     unknown_instruction:
-        assert(false);
+        assert(0);
         return ABC_ERROR;
     }
 }

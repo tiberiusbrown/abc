@@ -331,14 +331,6 @@ int abc_benchmarks()
         "cslt2 (pass)", "cslt2 (fail)",
         "cslt3 (pass)", "cslt3 (fail)",
         "cslt4 (pass)", "cslt4 (fail)",
-        "cule (pass)", "cule (fail)",
-        "cule2 (pass)", "cule2 (fail)",
-        "cule3 (pass)", "cule3 (fail)",
-        "cule4 (pass)", "cule4 (fail)",
-        "csle (pass)", "csle (fail)",
-        "csle2 (pass)", "csle2 (fail)",
-        "csle3 (pass)", "csle3 (fail)",
-        "csle4 (pass)", "csle4 (fail)",
         // TODO: CFEQ
         // TODO: CFLT
         // TODO: CFLE

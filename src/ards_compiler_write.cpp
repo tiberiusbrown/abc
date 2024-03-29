@@ -188,21 +188,12 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     case I_CULT2: f << "cult2"; break;
     case I_CULT3: f << "cult3"; break;
     case I_CULT4: f << "cult4"; break;
-    case I_CULE:  f << "cule"; break;
-    case I_CULE2: f << "cule2"; break;
-    case I_CULE3: f << "cule3"; break;
-    case I_CULE4: f << "cule4"; break;
     case I_CSLT:  f << "cslt"; break;
     case I_CSLT2: f << "cslt2"; break;
     case I_CSLT3: f << "cslt3"; break;
     case I_CSLT4: f << "cslt4"; break;
-    case I_CSLE:  f << "csle"; break;
-    case I_CSLE2: f << "csle2"; break;
-    case I_CSLE3: f << "csle3"; break;
-    case I_CSLE4: f << "csle4"; break;
     case I_CFEQ:  f << "cfeq"; break;
     case I_CFLT:  f << "cflt"; break;
-    case I_CFLE:  f << "cfle"; break;
     case I_NOT:   f << "not"; break;
 
     case I_FADD:  f << "fadd"; break;

@@ -533,9 +533,18 @@ void compiler_t::codegen_expr(
             return;
         }
         assert(a.comp_type == TYPE_BOOL);
+
+        // a <  b  ->   (a < b)
+        // a >  b  ->   (b < a)
+        // a <= b  ->  !(b < a)
+        // a >= b  ->  !(a < b)
+
+        bool negated = (a.data == "!=" || a.data == "<=" || a.data == ">=");
+        bool equality = (a.data == "==" || a.data == "!=");
         size_t i0 = 0, i1 = 1;
-        if(a.data == ">" || a.data == ">=")
+        if(a.data == ">" || a.data == "<=")
             std::swap(i0, i1);
+
         codegen_expr(f, frame, a.children[i0], false);
         codegen_expr(f, frame, a.children[i1], false);
 
@@ -547,41 +556,25 @@ void compiler_t::codegen_expr(
         {
             assert(a.children[0].comp_type.is_float);
             assert(a.children[1].comp_type.is_float);
-            if(a.data == "==" || a.data == "!=")
-            {
-                f.instrs.push_back({ I_CFEQ, a.line() });
-                if(a.data == "!=")
-                    f.instrs.push_back({ I_NOT, a.line() });
-            }
-            else if(a.data == "<=" || a.data == ">=")
-                f.instrs.push_back({ I_CFLE, a.line() });
-            else if(a.data == "<" || a.data == ">")
-                f.instrs.push_back({ I_CFLT, a.line() });
-            else
-                assert(false);
+
+            f.instrs.push_back({ equality ? I_CFEQ : I_CFLT, a.line() });
         }
         else
         {
-            if(a.data == "==" || a.data == "!=")
+            if(equality)
             {
                 f.instrs.push_back({ instr_t(I_SUB + size - 1), a.line() });
                 f.instrs.push_back({ instr_t(I_BOOL + size - 1), a.line() });
-                if(a.data == "==")
-                    f.instrs.push_back({ I_NOT, a.line() });
+                f.instrs.push_back({ I_NOT, a.line() });
             }
-            else if(a.data == "<=" || a.data == ">=")
-            {
-                instr_t i = (a.children[0].comp_type.is_signed ? I_CSLE : I_CULE);
-                f.instrs.push_back({ instr_t(i + size - 1), a.line() });
-            }
-            else if(a.data == "<" || a.data == ">")
+            else
             {
                 instr_t i = (a.children[0].comp_type.is_signed ? I_CSLT : I_CULT);
                 f.instrs.push_back({ instr_t(i + size - 1), a.line() });
             }
-            else
-                assert(false);
         }
+        if(negated)
+            f.instrs.push_back({ I_NOT, a.line() });
         return;
     }
 

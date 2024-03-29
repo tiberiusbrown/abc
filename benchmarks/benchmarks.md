@@ -476,10 +476,10 @@ void main()
 </table>
 </details>
 
-<details><summary>fibonacci: 19.53x slowdown</summary>
+<details><summary>fibonacci: 19.57x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 128131</td><td>Cycles: 2502256</td></tr>
+<tr><td>Cycles: 128131</td><td>Cycles: 2506906</td></tr>
 <tr>
 <td>
 
