@@ -209,6 +209,49 @@ static void sys_draw_circle()
     Arduboy2Base::drawCircle(x, y, r, color);
 }
 
+static void draw_fast_vline(int16_t x, int16_t y0, int16_t y1, uint8_t color)
+{
+    SpritesU::fillRect(x, y0, 1, y1 - y0 + 1, color);
+}
+
+// adapted from Arduboy2 library (BSD 3-clause)
+static void fill_circle_helper(
+    int16_t x0, int16_t y0, uint8_t r,
+    uint8_t sides, int16_t delta, uint8_t color)
+{
+    int16_t f = 1 - r;
+    int16_t ddF_x = 1;
+    int16_t ddF_y = -2 * r;
+    int16_t x = 0;
+    int16_t y = r;
+
+    while (x < y)
+    {
+        if (f >= 0)
+        {
+            y--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+
+        x++;
+        ddF_x += 2;
+        f += ddF_x;
+
+        if (sides & 0x1) // right side
+        {
+            draw_fast_vline(x0+x, y0-y, 2*y+1+delta, color);
+            draw_fast_vline(x0+y, y0-x, 2*x+1+delta, color);
+        }
+
+        if (sides & 0x2) // left side
+        {
+            draw_fast_vline(x0-x, y0-y, 2*y+1+delta, color);
+            draw_fast_vline(x0-y, y0-x, 2*x+1+delta, color);
+        }
+    }
+}
+
 static void sys_draw_filled_circle()
 {
     auto ptr = vm_pop_begin();
@@ -217,7 +260,10 @@ static void sys_draw_filled_circle()
     uint8_t r = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    Arduboy2Base::fillCircle(x, y, r, color);
+
+    draw_fast_vline(x, y-r, 2 * r + 1, color);
+    fill_circle_helper(x, y, r, 3, 0, color);
+    //Arduboy2Base::fillCircle(x, y, r, color);
 }
 
 static void sys_set_frame_rate()
