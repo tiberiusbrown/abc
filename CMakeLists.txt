@@ -127,9 +127,16 @@ if(EMSCRIPTEN)
     set(EM_FILE_BROWSER_SOURCES deps/emscripten-browser-file/emscripten_browser_file.h)
 endif()
 
+add_library(abc_interp STATIC
+    .editorconfig
+    interp_general/abc_instr.h
+    interp_general/abc_interp.h
+    interp_general/abc_interp.c
+    )
+
 add_library(ards_compiler STATIC
     .editorconfig
-    interp_general/abc_instr.hpp
+    interp_arduboy/abc_instr.hpp
     src/ards_assembler.cpp
     src/ards_assembler.hpp
     src/ards_compiler.cpp
@@ -151,7 +158,7 @@ add_library(ards_compiler STATIC
     )
 target_include_directories(ards_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/interp_general"
+    "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"

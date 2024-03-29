@@ -1,11 +1,6 @@
 #pragma once
 
-#include <stdint.h>
-
-namespace ards
-{
-
-enum sysfunc_t : uint8_t
+enum sysfunc_t
 {
     SYS_DISPLAY,
     SYS_DRAW_PIXEL,
@@ -69,9 +64,7 @@ enum sysfunc_t : uint8_t
     SYS_NUM
 };
 
-static_assert(SYS_NUM < 128);
-
-enum instr_t : uint8_t
+enum instr_t
 {
     I_NOP,
 
@@ -314,5 +307,3 @@ enum instr_t : uint8_t
     I_PUSH3,
 
 };
-
-}
