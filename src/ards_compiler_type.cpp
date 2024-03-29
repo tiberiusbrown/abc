@@ -25,7 +25,7 @@ static void implicit_conversion(compiler_type_t& ta, compiler_type_t& tb)
 }
 
 static bool check_prim(
-    compiler_type_t const& t, ast_node_t const& a, std::vector<error_t> errs)
+    compiler_type_t const& t, ast_node_t const& a, std::vector<error_t>& errs)
 {
     if(!t.is_prim())
     {
@@ -289,6 +289,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         auto t0 = a.children[0].comp_type.without_ref();
         auto t1 = a.children[1].comp_type.without_ref();
 
+        if(!check_prim(t0, a.children[0], errs)) break;
+        if(!check_prim(t1, a.children[1], errs)) break;
+
         if((a.type == AST::OP_BITWISE_AND ||
             a.type == AST::OP_BITWISE_OR ||
             a.type == AST::OP_BITWISE_XOR) &&
@@ -313,9 +316,6 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             a.comp_type = TYPE_BOOL;
             break;
         }
-
-        if(!check_prim(t0, a.children[0], errs)) break;
-        if(!check_prim(t1, a.children[1], errs)) break;
 
         t0.is_bool = false;
         t1.is_bool = false;
@@ -648,8 +648,10 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame, siz
     });
 
     type_annotate_recurse(a, frame);
-    transform_constexprs(a, frame);
-    type_reduce_recurse(a, size);
+    if(errs.empty())
+        transform_constexprs(a, frame);
+    if(errs.empty())
+        type_reduce_recurse(a, size);
 
     a.recurse([](ast_node_t& n) {
         for(auto& child : n.children)
