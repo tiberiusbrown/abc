@@ -928,6 +928,7 @@ static uint8_t format_exec_read_inc(uint24_t& fb)
     );
 }
 
+__attribute__((flatten))
 static void format_exec(format_char_func f)
 {
     uint24_t fn;
