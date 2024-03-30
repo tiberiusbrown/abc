@@ -3404,6 +3404,7 @@ instr_mul4:
     st   Y+, r19
     st   Y+, r20
     mov  r9, r21
+seek_dispatch:
     dispatch_noalign
 
     ; these two methods are used by the SYS instruction
@@ -3446,16 +3447,24 @@ store_vm_state:
     ;lds  r8, %[vm_pc]+2
     
     ; stack pointer: stack always begins at 0x100
+    ; r29 was call-saved
     lds  r28, %[vm_sp]
-    ldi  r29, 0x01
+    ;ldi  r29, 0x01
+
+    ; top of stack reg
     ld   r9, -Y
 
     ; assuming 4 cycles from the ret of FX::seekData()
-    ; and 5 cycles of above delay, we might need these
-    ; extra 7 cycles delay before dispatch
-    rcall seek_delay_7
+    ; and 4 cycles of above delay, we might need these
+    ; extra 8 cycles delay before dispatch
 
-    dispatch_noalign
+    in   r0, %[spsr]
+    sbrc r0, 7
+    rjmp seek_dispatch
+    in   r0, %[spsr]
+    sbrc r0, 7
+    rjmp seek_dispatch
+    rjmp seek_dispatch
 
 pidx_part2:
     
@@ -3644,8 +3653,9 @@ seek_delay_16:
     rjmp .+0
     lpm
 seek_delay_11:
-    rjmp .+0
-    rjmp .+0
+    lpm
+seek_delay_8:
+    nop
 seek_delay_7:
     ret
     
