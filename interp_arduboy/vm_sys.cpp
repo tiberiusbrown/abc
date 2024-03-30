@@ -405,12 +405,16 @@ static void reverse_str(char* b, char* p)
 
 static void draw_sprite_helper(uint8_t selfmask_bit)
 {
-    //auto ptr = vm_pop_begin();
-    //int16_t x = vm_pop<int16_t>(ptr);
-    //int16_t y = vm_pop<int16_t>(ptr);
-    //uint24_t image = vm_pop<uint24_t>(ptr);
+#define DRAW_SPRITE_HELPER_OPT 1
+#if !DRAW_SPRITE_HELPER_OPT
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t image = vm_pop<uint24_t>(ptr);
     (void)FX::readEnd();
+#endif
 
+#if DRAW_SPRITE_HELPER_OPT
     void* ptr;
     int16_t x;
     int16_t y;
@@ -421,8 +425,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     uint8_t mode;
     uint16_t frame;
     asm volatile(R"(
-            ;sbi  %[fxport], %[fxbit]
-            ;rcall draw_sprite_helper_delay_17
+            sbi  %[fxport], %[fxbit]
             cbi  %[fxport], %[fxbit]
             ldi  %[w], 3
             out  %[spdr], %[w]
@@ -481,6 +484,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             out  %[spdr], __zero_reg__
             rcall draw_sprite_helper_delay_16
             in   %[mode], %[spdr]
+            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
 
             or   %[mode], %[mask]
@@ -499,13 +503,15 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]    "i"   (FX_BIT)
         , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
+        , [spsr]     "i"   (_SFR_IO_ADDR(SPSR))
         , [datapage] ""    (&FX::programDataPage)
     );
     if(frame >= num)
         vm_error(ards::ERR_FRM);
     SpritesU::drawBasic(x, y, w, h, image, frame, mode);
+#endif
 
-#if 0
+#if !DRAW_SPRITE_HELPER_OPT
     struct
     {
         uint8_t w;
@@ -985,27 +991,25 @@ static uint8_t format_exec_read_inc(uint24_t& fb)
         ld   r26, Z+
         lds  r20, %[datapage]+0
         lds  r21, %[datapage]+1
-        add  r25, r20
-        adc  r26, r21
+        add  r20, r25
+        adc  r21, r26
         lpm
         rjmp .+0
-        out  %[spdr], r26
+        out  %[spdr], r21
         rcall format_read_inc_delay_17
-        out  %[spdr], r25
+        out  %[spdr], r20
         rcall format_read_inc_delay_17
         out  %[spdr], r24
         adiw r24, 1
         adc  r26, __zero_reg__
-        sub  r25, r20
-        sbc  r26, r21
         st   -Z, r26
         st   -Z, r25
         st   -Z, r24
-        lpm
-        rjmp .+0
+        rcall format_read_inc_delay_8
         out  %[spdr], __zero_reg__
         rcall format_read_inc_delay_16
         in   r24, %[spdr]
+        in   r0, %[spsr]
         sbi  %[fxport], %[fxbit]
         ret
 
@@ -1014,13 +1018,16 @@ static uint8_t format_exec_read_inc(uint24_t& fb)
     format_read_inc_delay_16:
         lpm
         lpm
-        lpm
+        rjmp .+0
+    format_read_inc_delay_8:
+        nop
         ret
         )"
         :
         : [fxport]   "i" (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]    "i" (FX_BIT)
         , [spdr]     "i" (_SFR_IO_ADDR(SPDR))
+        , [spsr]     "i" (_SFR_IO_ADDR(SPSR))
         , [datapage] ""  (&FX::programDataPage)
     );
 }
