@@ -875,6 +875,59 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     }
 }
 
+__attribute__((noinline, naked))
+static uint8_t format_exec_read_inc(uint24_t& fb)
+{
+    asm volatile(R"(
+        cbi  %[fxport], %[fxbit]
+        movw r30, r24
+        ldi  r24, 3
+        out  %[spdr], r24
+        ld   r24, Z+
+        ld   r25, Z+
+        ld   r26, Z+
+        lds  r20, %[datapage]+0
+        lds  r21, %[datapage]+1
+        add  r25, r20
+        adc  r26, r21
+        lpm
+        rjmp .+0
+        out  %[spdr], r26
+        rcall format_read_inc_delay_17
+        out  %[spdr], r25
+        rcall format_read_inc_delay_17
+        out  %[spdr], r24
+        adiw r24, 1
+        adc  r26, __zero_reg__
+        sub  r25, r20
+        sbc  r26, r21
+        st   -Z, r26
+        st   -Z, r25
+        st   -Z, r24
+        lpm
+        rjmp .+0
+        out  %[spdr], __zero_reg__
+        rcall format_read_inc_delay_16
+        in   r24, %[spdr]
+        sbi  %[fxport], %[fxbit]
+        ret
+
+    format_read_inc_delay_17:
+        nop
+    format_read_inc_delay_16:
+        lpm
+        lpm
+        lpm
+        ret
+        )"
+        :
+        : [fxport]   "i" (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i" (FX_BIT)
+        , [spdr]     "i" (_SFR_IO_ADDR(SPDR))
+        , [datapage] ""  (&FX::programDataPage)
+    );
+}
+
 static void format_exec(format_char_func f)
 {
     uint24_t fn;
@@ -888,16 +941,18 @@ static void format_exec(format_char_func f)
         
     while(fn != 0)
     {
-        FX::seekData(fb++);
-        char c = (char)FX::readPendingLastUInt8();
+        char c = (char)format_exec_read_inc(fb);
+        //FX::seekData(fb++);
+        //char c = (char)FX::readPendingLastUInt8();
         --fn;
         if(c != '%')
         {
             f(c);
             continue;
         }
-        FX::seekData(fb++);
-        c = (char)FX::readPendingLastUInt8();
+        //FX::seekData(fb++);
+        //c = (char)FX::readPendingLastUInt8();
+        c = (char)format_exec_read_inc(fb);
         --fn;
         switch(c)
         {
@@ -947,8 +1002,9 @@ static void format_exec(format_char_func f)
                 x = vm_pop<uint32_t>(ptr);
                 vm_pop_end(ptr);
             }
-            FX::seekData(fb++);
-            int8_t w = (int8_t)(FX::readPendingLastUInt8() - '0');
+            //FX::seekData(fb++);
+            //int8_t w = (int8_t)(FX::readPendingLastUInt8() - '0');
+            int8_t w = (int8_t)format_exec_read_inc(fb) - '0';
             --fn;
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
             break;
@@ -961,8 +1017,9 @@ static void format_exec(format_char_func f)
                 x = vm_pop<float>(ptr);
                 vm_pop_end(ptr);
             }
-            FX::seekData(fb++);
-            uint8_t prec = FX::readPendingLastUInt8() - '0';
+            //FX::seekData(fb++);
+            //uint8_t prec = FX::readPendingLastUInt8() - '0';
+            uint8_t prec = format_exec_read_inc(fb);
             --fn;
             format_add_float(f, x, prec);
             break;
@@ -1116,15 +1173,20 @@ static void sys_save_exists()
     uint16_t save_size;
     (void)FX::readEnd();
     FX::seekData(10);
-    save_size = FX::readPendingUInt8();
-    save_size |= ((uint16_t)FX::readPendingLastUInt8() << 8);
+    union
+    {
+        uint16_t save_size;
+        uint8_t b[2];
+    } u;
+    u.b[0] = FX::readPendingUInt8();
+    u.b[1] = FX::readPendingLastUInt8();
     //FX::readDataBytes(10, (uint8_t*)&save_size, 2);
     bool r = false;
-    if(save_size > 0 && save_size <= 1024)
+    if(u.save_size > 0 && u.save_size <= 1024)
     {
         uint16_t t;
         FX::seekSave(0);
-        r = (FX::readPendingLastUInt16() == save_size);
+        r = (FX::readPendingLastUInt16() == u.save_size);
     }
     vm_push<bool>(r);
     FX::seekData(ards::vm.pc);
@@ -1135,22 +1197,33 @@ static void sys_save()
     uint16_t save_size;
     (void)FX::readEnd();
     FX::seekData(10);
-    save_size = FX::readPendingUInt8();
-    save_size |= ((uint16_t)FX::readPendingLastUInt8() << 8);
+    union
+    {
+        uint16_t save_size;
+        uint8_t b[2];
+    } u;
+    u.b[0] = FX::readPendingUInt8();
+    u.b[1] = FX::readPendingLastUInt8();
     //FX::readDataBytes(10, (uint8_t*)&save_size, 2);
-    if(save_size > 0 && save_size <= 1024)
-        FX::saveGameState(&ards::vm.globals[0], save_size);
+    if(u.save_size > 0 && u.save_size <= 1024)
+        FX::saveGameState(&ards::vm.globals[0], u.save_size);
     FX::seekData(ards::vm.pc);
 }
 
 static void sys_load()
 {
-    uint16_t save_size;
     (void)FX::readEnd();
-    FX::readDataBytes(10, (uint8_t*)&save_size, 2);
+    FX::seekData(10);
+    union
+    {
+        uint16_t save_size;
+        uint8_t b[2];
+    } u;
+    u.b[0] = FX::readPendingUInt8();
+    u.b[1] = FX::readPendingLastUInt8();
     bool r = false;
-    if(save_size > 0 && save_size <= 1024)
-        r = (bool)FX::loadGameState(&ards::vm.globals[0], save_size);
+    if(u.save_size > 0 && u.save_size <= 1024)
+        r = (bool)FX::loadGameState(&ards::vm.globals[0], u.save_size);
     vm_push<bool>(r);
     FX::seekData(ards::vm.pc);
 }
