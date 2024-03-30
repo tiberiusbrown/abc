@@ -886,6 +886,7 @@ I_SETL4:
     st   X+, r19
     ld   r9, -Y
     nop
+setln_dispatch:
     dispatch
  
 I_SETLN:
@@ -898,12 +899,20 @@ I_SETLN:
     sub  r26, r0
     st   -X, r17
     st   -X, r18
+    lsr  r16
+    brcc 1f
+    ld   r0, -Y
+    st   -X, r0
+    breq setln_dispatch
 1:  ld   r0, -Y
+    st   -X, r0
+    ld   r0, -Y
     st   -X, r0
     dec  r16
     brne 1b
     ld   r9, -Y
-    dispatch
+    rjmp setln_dispatch
+    .align 6
 
 I_GETG:
     st   Y+, r9
