@@ -1205,15 +1205,16 @@ I_GETRN:
     lpm
     read_byte
     add  r18, r0
-    brcc 1f
-    ldi  r24, 5
-    jmp  call_vm_error
+    brcs 2f
 1:  ld   r9, X+
     st   Y+, r9
     dec  r0
     brne 1b
     dec  r28
-    dispatch
+    dispatch_noalign
+2:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_SETR:
     mov  r27, r9

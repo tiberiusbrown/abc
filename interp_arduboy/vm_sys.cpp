@@ -403,9 +403,9 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     ards::detail::fx_read_data_bytes(image, (uint8_t*)&sprite_data, sizeof(sprite_data));
     auto sd = sprite_data;
     sd.mode |= selfmask_bit;
+
     uint16_t frame = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-
     if(frame >= sd.num)
         vm_error(ards::ERR_FRM);
     SpritesU::drawBasic(x, y, sd.w, sd.h, image + 5, frame, sd.mode);
