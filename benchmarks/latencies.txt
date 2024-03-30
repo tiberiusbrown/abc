@@ -101,11 +101,11 @@
 204   getrn 32
  20   setr
  24   setr2
- 47   setrn 3
- 54   setrn 4
- 82   setrn 8
-138   setrn 16
-250   setrn 32
+ 43   setrn 3
+ 51   setrn 4
+ 73   setrn 8
+117   setrn 16
+205   setrn 32
  36   aixb1
  54   aidxb
  97   aidx

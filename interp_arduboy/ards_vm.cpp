@@ -1250,7 +1250,13 @@ I_SETRN:
     read_byte
     add  r26, r0
     adc  r27, r2
+    lsr  r0
+    brcc 1f
+    ld   r1, -Y
+    st   -X, r1
 1:  ld   r1, -Y
+    st   -X, r1
+    ld   r1, -Y
     st   -X, r1
     dec  r0
     brne 1b
