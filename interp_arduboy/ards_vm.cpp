@@ -827,16 +827,20 @@ I_GETLN:
     mov  r16, r9
     add  r9, r28
     brcs getln_error
-1:  subi r16, 2
-    lpm
-    read_byte
-    movw r26, r28
+1:  movw r26, r28
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    in   r0, %[spdr]
+    out  %[spdr], r2
     sub  r26, r0
+    lsr  r16
+    brcc 2f
     ld   r0, X+
     st   Y+, r0
-    ld   r0, X+
+2:  ld   r0, X+
     st   Y+, r0
-2:  ld   r9, X+
+    ld   r9, X+
     st   Y+, r9
     dec  r16
     brne 2b

@@ -49,11 +49,11 @@
  36   getl N
  36   getl2 N
  38   getl4 N
- 40   getln N (3)
- 54   getln N (5)
- 75   getln N (8)
-131   getln N (16)
-243   getln N (32)
+ 38   getln N (3)
+ 49   getln N (5)
+ 68   getln N (8)
+112   getln N (16)
+200   getln N (32)
  36   setl N
  36   setl2 N
  36   setl4 N
