@@ -994,17 +994,16 @@ I_GETGN:
     rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
-    sbrs r18, 0
-    rjmp 1f
+    lsr  r18
+    brcc 1f
     ld   r0, X+
     st   Y+, r0
-1:  lsr  r18
-2:  ld   r0, X+
+1:  ld   r0, X+
     st   Y+, r0
     ld   r0, X+
     st   Y+, r0
     dec  r18
-    brne 2b
+    brne 1b
     ld   r9, -Y
     rjmp getg4_dispatch
     .align 6
