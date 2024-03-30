@@ -290,7 +290,7 @@ static void sys_set_frame_rate()
     auto ptr = vm_pop_begin();
     uint8_t fr = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    ards::vm.frame_dur = 1000 / fr;
+    ards::vm.frame_dur = 1000u / fr;
 }
 
 extern unsigned long volatile timer0_millis;
@@ -1146,8 +1146,8 @@ static void sys_draw_textf()
         user.y = vm_pop<int16_t> (ptr);
         user.font = vm_pop<uint24_t>(ptr);
         vm_pop_end(ptr);
-        (void)FX::readEnd();
     }
+    (void)FX::readEnd();
     
     FX::seekData(user.font + 512);
     user.line_height = FX::readPendingUInt8();
@@ -1208,7 +1208,6 @@ static void sys_save_exists()
     } u;
     u.b[0] = FX::readPendingUInt8();
     u.b[1] = FX::readPendingLastUInt8();
-    //FX::readDataBytes(10, (uint8_t*)&save_size, 2);
     bool r = false;
     if(u.save_size > 0 && u.save_size <= 1024)
     {
@@ -1232,7 +1231,6 @@ static void sys_save()
     } u;
     u.b[0] = FX::readPendingUInt8();
     u.b[1] = FX::readPendingLastUInt8();
-    //FX::readDataBytes(10, (uint8_t*)&save_size, 2);
     if(u.save_size > 0 && u.save_size <= 1024)
         FX::saveGameState(&ards::vm.globals[0], u.save_size);
     FX::seekData(ards::vm.pc);
