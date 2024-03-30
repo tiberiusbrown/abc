@@ -1126,8 +1126,8 @@ static void sys_save_exists()
         FX::seekSave(0);
         r = (FX::readPendingLastUInt16() == save_size);
     }
-    FX::seekData(ards::vm.pc);
     vm_push<bool>(r);
+    FX::seekData(ards::vm.pc);
 }
 
 static void sys_save()
@@ -1151,8 +1151,8 @@ static void sys_load()
     bool r = false;
     if(save_size > 0 && save_size <= 1024)
         r = (bool)FX::loadGameState(&ards::vm.globals[0], save_size);
-    FX::seekData(ards::vm.pc);
     vm_push<bool>(r);
+    FX::seekData(ards::vm.pc);
 }
 
 static void sys_sin()
