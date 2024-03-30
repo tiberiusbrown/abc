@@ -28,6 +28,11 @@ struct Tones
     static void update();
 };
 
+namespace detail
+{
+void fx_read_data_bytes(uint24_t addr, void* dst, size_t num);
+}
+
 }
 
 #ifdef ARDS_TONES_IMPLEMENTATION
@@ -50,7 +55,7 @@ static volatile uint8_t buffer_size;
 // current song address
 static volatile uint24_t addr;
 
-static __attribute__((naked, noinline))
+__attribute__((naked, noinline))
 void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
 {
     // addr: r22,r23,r24
@@ -177,6 +182,8 @@ void Tones::play(uint24_t song)
     PORTC = 0x80;
     if(period >= 256)
         TIMSK3 = 0x02;
+    else if((uint8_t)period == 0)
+        goto end;
     TIMSK4 = 0x40;
 end:
     SREG = sreg;

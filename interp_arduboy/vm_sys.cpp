@@ -394,15 +394,20 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     uint16_t frame = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    FX::seekData(image);
-    uint8_t w = FX::readPendingUInt8();
-    uint8_t h = FX::readPendingUInt8();
-    uint16_t num = FX::readPendingUInt8();
-    num += ((uint16_t)FX::readPendingUInt8() << 8);
-    uint8_t mode = FX::readPendingLastUInt8() | selfmask_bit;
-    if(frame >= num)
+
+    struct
+    {
+        uint8_t w;
+        uint8_t h;
+        uint16_t num;
+        uint8_t mode;
+    } sprite_data;
+    ards::detail::fx_read_data_bytes(image, (uint8_t*)&sprite_data, sizeof(sprite_data));
+    sprite_data.mode |= selfmask_bit;
+
+    if(frame >= sprite_data.num)
         vm_error(ards::ERR_FRM);
-    SpritesU::drawBasic(x, y, w, h, image + 5, frame, mode);
+    SpritesU::drawBasic(x, y, sprite_data.w, sprite_data.h, image + 5, frame, sprite_data.mode);
     FX::seekData(ards::vm.pc);
 }
 
