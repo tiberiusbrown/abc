@@ -303,7 +303,6 @@ static void sys_next_frame()
 
 static void sys_idle()
 {
-    ards::Tones::update();
     Arduboy2Base::idle();
 }
 
