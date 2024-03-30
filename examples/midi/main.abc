@@ -1,6 +1,6 @@
 void main()
 {
-    if(!$tones_playing())
-        $tones_play(tones{ "simple.mid" });
-    $idle();
+    $tones_play(tones{ "simple.mid" });
+    while($tones_playing())
+        $idle();
 }

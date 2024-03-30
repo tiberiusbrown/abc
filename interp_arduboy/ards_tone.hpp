@@ -172,9 +172,13 @@ void Tones::play(uint24_t song)
         sizeof(detail::buffer));
     song += sizeof(detail::buffer);
     detail::addr = song;
-    OCR3A = detail::buffer[0].period;
+    uint16_t period = ards::detail::buffer[0].period;
+    OCR3A = period;
     PORTC = 0x80;
-    detail::enable();
+    if(period >= 256)
+        TIMSK3 = 0x02;
+    TIMSK4 = 0x40;
+end:
     SREG = sreg;
 }
 

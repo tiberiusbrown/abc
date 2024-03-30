@@ -363,7 +363,7 @@ void main()
 <details><summary>mat3rotation: 1.38x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 13138</td><td>Cycles: 18070</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 18067</td></tr>
 <tr>
 <td>
 
