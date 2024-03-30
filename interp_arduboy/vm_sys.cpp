@@ -78,30 +78,104 @@ __attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
     return u.r;
 }
 
-template<class T>
-inline void vm_push(uint8_t*& ptr, T x)
+template<size_t N> struct byte_storage { uint8_t d[N]; };
+
+template<size_t N>
+__attribute__((noinline))
+inline void vm_push_n(uint8_t* ptr, byte_storage<N> x)
 {
-    if((uint8_t)(uintptr_t)ptr + sizeof(T) >= 256)
+    if((uint8_t)(uintptr_t)ptr + N >= 256)
         vm_error(ards::ERR_DST);
-    union
-    {
-        T r;
-        uint8_t b[sizeof(T)];
-    } u;
-    u.r = x;
-    for(size_t i = 0; i < sizeof(T); ++i)
+    static_assert(N <= 4, "");
+    if(N >= 1)
     {
         asm volatile(
             "st %a[ptr]+, %[t]\n"
             : [ptr] "+&e" (ptr)
-            : [t] "r" (u.b[i])
+            : [t] "r" (x.d[0])
+            );
+    }
+    if(N >= 2)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[1])
+            );
+    }
+    if(N >= 3)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[2])
+            );
+    }
+    if(N >= 4)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[3])
             );
     }
     ards::vm.sp = (uint8_t)(uintptr_t)ptr;
 }
 
+template<size_t N>
+__attribute__((always_inline))
+inline void vm_push_n_unsafe(uint8_t*& ptr, byte_storage<N> x)
+{
+    static_assert(N <= 4, "");
+    if(N >= 1)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[0])
+            );
+    }
+    if(N >= 2)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[1])
+            );
+    }
+    if(N >= 3)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[2])
+            );
+    }
+    if(N >= 4)
+    {
+        asm volatile(
+            "st %a[ptr]+, %[t]\n"
+            : [ptr] "+&e" (ptr)
+            : [t] "r" (x.d[3])
+            );
+    }
+}
+
 template<class T>
-inline void vm_push(T x)
+__attribute__((always_inline))
+void vm_push_unsafe(uint8_t*& ptr, T x)
+{
+    union
+    {
+        T x;
+        byte_storage<sizeof(T)> b;
+    } u = { x };
+    vm_push_n_unsafe<sizeof(T)>(ptr, u.b);
+}
+
+template<class T>
+//__attribute__((always_inline))
+void vm_push(T x)
 {
     uint8_t* ptr;
     asm volatile(
@@ -109,8 +183,12 @@ inline void vm_push(T x)
         "ldi  %B[ptr], 1\n"
         : [ptr]   "=&e" (ptr)
         : [vm_sp] ""    (&ards::vm.sp));
-    vm_push<T>(ptr, x);
-    ards::vm.sp = (uint8_t)(uintptr_t)ptr;
+    union
+    {
+        T x;
+        byte_storage<sizeof(T)> b;
+    } u = { x };
+    vm_push_n<sizeof(T)>(ptr, u.b);
 }
 
 static void sys_display()
@@ -1141,7 +1219,7 @@ static void sys_sin()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, sinf(x));
+    vm_push_unsafe<float>(ptr, sinf(x));
     vm_pop_end(ptr);
 }
 
@@ -1149,7 +1227,7 @@ static void sys_cos()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, cosf(x));
+    vm_push_unsafe<float>(ptr, cosf(x));
     vm_pop_end(ptr);
 }
 
@@ -1157,7 +1235,7 @@ static void sys_tan()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, tanf(x));
+    vm_push_unsafe<float>(ptr, tanf(x));
     vm_pop_end(ptr);
 }
 
@@ -1166,7 +1244,7 @@ static void sys_atan2()
     auto ptr = vm_pop_begin();
     float y = vm_pop<float>(ptr);
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, atan2(y, x));
+    vm_push_unsafe<float>(ptr, atan2(y, x));
     vm_pop_end(ptr);
 }
 
@@ -1174,7 +1252,7 @@ static void sys_floor()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, floorf(x));
+    vm_push_unsafe<float>(ptr, floorf(x));
     vm_pop_end(ptr);
 }
 
@@ -1182,7 +1260,7 @@ static void sys_ceil()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, ceilf(x));
+    vm_push_unsafe<float>(ptr, ceilf(x));
     vm_pop_end(ptr);
 }
 
@@ -1190,7 +1268,7 @@ static void sys_round()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, roundf(x));
+    vm_push_unsafe<float>(ptr, roundf(x));
     vm_pop_end(ptr);
 }
 
@@ -1199,7 +1277,7 @@ static void sys_mod()
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     float y = vm_pop<float>(ptr);
-    vm_push<float>(ptr, fmodf(x, y));
+    vm_push_unsafe<float>(ptr, fmodf(x, y));
     vm_pop_end(ptr);
 }
 
@@ -1208,7 +1286,7 @@ static void sys_pow()
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     float y = vm_pop<float>(ptr);
-    vm_push<float>(ptr, powf(x, y));
+    vm_push_unsafe<float>(ptr, powf(x, y));
     vm_pop_end(ptr);
 }
 
@@ -1216,7 +1294,7 @@ static void sys_sqrt()
 {
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
-    vm_push<float>(ptr, sqrtf(x));
+    vm_push_unsafe<float>(ptr, sqrtf(x));
     vm_pop_end(ptr);
 }
 
@@ -1240,7 +1318,7 @@ static void sys_random()
         t = a;
     else
         t = random() % (b - a) + a;
-    vm_push<uint32_t>(ptr, t);
+    vm_push_unsafe<uint32_t>(ptr, t);
     vm_pop_end(ptr);
 }
 
