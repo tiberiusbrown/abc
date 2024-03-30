@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef ARDS_TONES_BUFFER_SIZE
-#define ARDS_TONES_BUFFER_SIZE 2
+#define ARDS_TONES_BUFFER_SIZE 4
 #endif
 
 #ifndef EEPROM_h
