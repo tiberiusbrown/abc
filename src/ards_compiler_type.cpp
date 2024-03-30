@@ -581,7 +581,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         type_reduce_recurse(a.children[1], min_size);
         break;
     case AST::OP_SHIFT:
-        type_reduce_recurse(a.children[0], min_size);
+        type_reduce_recurse(a.children[0], 4);
         type_reduce_recurse(a.children[1], 1);
         break;
     case AST::OP_BITWISE_AND:

@@ -14,19 +14,19 @@ void test_u8()
     
     $assert(a == 45);
     $assert(--a == 44);
-    //$assert(a == 44);
-    //
-    //$assert(a == 44);
-    //$assert(a-- == 44);
-    //$assert(a == 43);
-    //
-    //$assert(a == 43);
-    //$assert(++a == 44);
-    //$assert(a == 44);
-    //
-    //$assert(a == 44);
-    //$assert(a++ == 44);
-    //$assert(a == 45);
+    $assert(a == 44);
+    
+    $assert(a == 44);
+    $assert(a-- == 44);
+    $assert(a == 43);
+    
+    $assert(a == 43);
+    $assert(++a == 44);
+    $assert(a == 44);
+    
+    $assert(a == 44);
+    $assert(a++ == 44);
+    $assert(a == 45);
 }
 
 void test_i8()
@@ -60,12 +60,46 @@ void test_i8()
     $assert(a == 45);
 }
 
+void test_u16()
+{
+    u16 a = 4500;
+    u16 b = 700;
+    $assert(a + b == 5200);
+    $assert(b + a == 5200);
+    $assert(a - b == 3800);
+    $assert(b - a == -3800);
+    $assert(a * b == 3150000);
+    $assert(a / b == 6);
+    $assert(a % b == 300);
+    $assert(a << 1 == 9000);
+    $assert(a >> 1 == 2250);
+    $assert(u8(a >> 11) == u8(2));
+    
+    $assert(a == 4500);
+    $assert(--a == 4499);
+    $assert(a == 4499);
+    
+    $assert(a == 4499);
+    $assert(a-- == 4499);
+    $assert(a == 4498);
+    
+    $assert(a == 4498);
+    $assert(++a == 4499);
+    $assert(a == 4499);
+    
+    $assert(a == 4499);
+    $assert(a++ == 4499);
+    $assert(a == 4500);
+}
+
+
 void main()
 {
     $debug_break();
     
     test_u8();
-    //test_i8();
+    test_i8();
+    test_u16();
     
     $debug_break();
 }
