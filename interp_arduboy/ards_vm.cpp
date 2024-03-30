@@ -1205,16 +1205,19 @@ I_GETRN:
     lpm
     read_byte
     add  r18, r0
-    brcs 2f
+    brcs getrn_error
+    lsr  r0
+    brcc 1f
+    ld   r9, X+
+    st   Y+, r9
 1:  ld   r9, X+
+    st   Y+, r9
+    ld   r9, X+
     st   Y+, r9
     dec  r0
     brne 1b
     dec  r28
-    dispatch_noalign
-2:  ldi  r24, 5
-    jmp  call_vm_error
-    .align 6
+    dispatch
 
 I_SETR:
     mov  r27, r9
@@ -1222,7 +1225,11 @@ I_SETR:
     ld   r1, -Y
     st   X, r1
     ld   r9, -Y
-    dispatch
+    dispatch_noalign
+getrn_error:
+    ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
     ; TODO: SPACE HERE
 
 I_SETR2:
