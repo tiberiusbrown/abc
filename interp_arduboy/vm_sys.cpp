@@ -405,12 +405,107 @@ static void reverse_str(char* b, char* p)
 
 static void draw_sprite_helper(uint8_t selfmask_bit)
 {
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint24_t image = vm_pop<uint24_t>(ptr);
+    //auto ptr = vm_pop_begin();
+    //int16_t x = vm_pop<int16_t>(ptr);
+    //int16_t y = vm_pop<int16_t>(ptr);
+    //uint24_t image = vm_pop<uint24_t>(ptr);
     (void)FX::readEnd();
 
+    void* ptr;
+    int16_t x;
+    int16_t y;
+    uint24_t image;
+    uint8_t w;
+    uint8_t h;
+    uint16_t num;
+    uint8_t mode;
+    uint16_t frame;
+    asm volatile(R"(
+            ;sbi  %[fxport], %[fxbit]
+            ;rcall draw_sprite_helper_delay_17
+            cbi  %[fxport], %[fxbit]
+            ldi  %[w], 3
+            out  %[spdr], %[w]
+            lds  %A[ptr], %[vmsp]
+            ldi  %B[ptr], 1
+            sbiw %A[ptr], 4
+            ld   %C[image], -%a[ptr]
+            ld   %B[image], -%a[ptr]
+            ld   %A[image], -%a[ptr]
+            lds  %A[num], %[datapage]+0
+            lds  %B[num], %[datapage]+1
+            add  %A[num], %B[image]
+            adc  %B[num], %C[image]
+            out  %[spdr], %B[num]
+            ldd  %A[x], %a[ptr]+5
+            ldd  %B[x], %a[ptr]+6
+            ldd  %A[y], %a[ptr]+3
+            ldd  %B[y], %a[ptr]+4
+            ld   %B[frame], -%a[ptr]
+            ld   %A[frame], -%a[ptr]
+            sts  %[vmsp], %A[ptr]
+
+            rjmp 1f
+        draw_sprite_helper_delay_17:
+            nop
+        draw_sprite_helper_delay_16:
+            rjmp .+0
+        draw_sprite_helper_delay_14:
+            lpm
+        draw_sprite_helper_delay_11:
+            rjmp .+0
+            rjmp .+0
+            ret
+        1:  ldi  %[w], 5
+
+            out  %[spdr], %A[num]
+            rcall draw_sprite_helper_delay_17
+            out  %[spdr], %A[image]
+            add  %A[image], %[w]
+            adc  %B[image], __zero_reg__
+            adc  %C[image], __zero_reg__
+            rcall draw_sprite_helper_delay_14
+            out  %[spdr], __zero_reg__
+            rcall draw_sprite_helper_delay_16
+
+            in   %[w], %[spdr]
+            out  %[spdr], __zero_reg__
+            rcall draw_sprite_helper_delay_16
+            in   %[h], %[spdr]
+            out  %[spdr], __zero_reg__
+            rcall draw_sprite_helper_delay_16
+            in   %A[num], %[spdr]
+            out  %[spdr], __zero_reg__
+            rcall draw_sprite_helper_delay_16
+            in   %B[num], %[spdr]
+            out  %[spdr], __zero_reg__
+            rcall draw_sprite_helper_delay_16
+            in   %[mode], %[spdr]
+            sbi  %[fxport], %[fxbit]
+
+            or   %[mode], %[mask]
+        )"
+        : [w]        "=&d" (w)
+        , [h]        "=&r" (h)
+        , [num]      "=&r" (num)
+        , [mode]     "=&r" (mode)
+        , [ptr]      "=&z" (ptr)
+        , [frame]    "=&r" (frame)
+        , [image]    "=&r" (image)
+        , [x]        "=&r" (x)
+        , [y]        "=&r" (y)
+        : [mask]     "r"   (selfmask_bit)
+        , [vmsp]     ""    (&ards::vm.sp)
+        , [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i"   (FX_BIT)
+        , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
+        , [datapage] ""    (&FX::programDataPage)
+    );
+    if(frame >= num)
+        vm_error(ards::ERR_FRM);
+    SpritesU::drawBasic(x, y, w, h, image, frame, mode);
+
+#if 0
     struct
     {
         uint8_t w;
@@ -421,12 +516,14 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     ards::detail::fx_read_data_bytes(image, (uint8_t*)&sprite_data, sizeof(sprite_data));
     auto sd = sprite_data;
     sd.mode |= selfmask_bit;
-
     uint16_t frame = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
+
     if(frame >= sd.num)
         vm_error(ards::ERR_FRM);
     SpritesU::drawBasic(x, y, sd.w, sd.h, image + 5, frame, sd.mode);
+#endif
+
     FX::seekData(ards::vm.pc);
 }
 
