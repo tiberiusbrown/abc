@@ -215,7 +215,7 @@ ISR(TIMER3_COMPA_vect, __attribute((naked)))
         )");
 }
 
-ISR(TIMER4_COMPA_vect)
+ISR(TIMER4_COMPA_vect, __attribute((flatten)))
 {
     uint16_t ticks = ards::detail::buffer[0].ticks;
     if(--ticks == 0)
