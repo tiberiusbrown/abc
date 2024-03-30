@@ -1094,17 +1094,16 @@ I_SETGN:
     out  %[spdr], r2
     add  r26, r9
     adc  r27, r2
-    sbrs r9, 0
-    rjmp 1f
+    lsr  r9
+    brcc 1f
     ld   r0, -Y
     st   -X, r0
-1:  lsr r9
-2:  ld   r0, -Y
+1:  ld   r0, -Y
     st   -X, r0
     ld   r0, -Y
     st   -X, r0
     dec  r9
-    brne 2b
+    brne 1b
     rjmp setgn_dispatch
     .align 6
 

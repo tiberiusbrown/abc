@@ -73,11 +73,11 @@
  54   setg VAR
  54   setg2 VAR
  54   setg4 VAR
- 61   setgn VAR (3)
- 72   setgn VAR (5)
- 91   setgn VAR (8)
-135   setgn VAR (16)
-223   setgn VAR (32)
+ 60   setgn VAR (3)
+ 71   setgn VAR (5)
+ 90   setgn VAR (8)
+134   setgn VAR (16)
+222   setgn VAR (32)
 212   getp
 235   getpn 2
 253   getpn 3
