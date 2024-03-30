@@ -1038,14 +1038,41 @@ struct format_user_buffer
     uint16_t n;
 };
 
+__attribute__((naked))
 static void format_exec_to_buffer(char c)
 {
+    asm volatile(R"(
+        lds  r30, %[format_user]+0
+        lds  r31, %[format_user]+1
+        ldd  r22, Z+2
+        ldd  r23, Z+3
+        cp   r22, __zero_reg__
+        cpc  r23, __zero_reg__
+        breq 1f
+        subi r22, 1
+        sbc  r23, __zero_reg__
+        std  Z+2, r22
+        std  Z+3, r23
+    1:  ld   r26, Z
+        ldd  r27, Z+1
+        st   X+, r24
+        st   Z, r26
+        std  Z+1, r27
+        ret
+        )"
+        :
+        : [format_user] "" (format_user)
+    );
+
+#if 0
+    // C implementation
     format_user_buffer* u = (format_user_buffer*)format_user;
     uint16_t n = u->n;
     if(n == 0) return;
     --n;
     u->n = n;
     st_inc(u->p, (uint8_t)c);
+#endif
 }
 
 struct format_user_draw
