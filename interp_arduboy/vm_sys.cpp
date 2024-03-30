@@ -81,84 +81,24 @@ __attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
 template<size_t N> struct byte_storage { uint8_t d[N]; };
 
 template<size_t N>
+__attribute__((always_inline))
+inline void vm_push_n_unsafe(uint8_t*& ptr, byte_storage<N> x)
+{
+    static_assert(N <= 4, "");
+    if(N >= 1) asm volatile("st %a[ptr]+, %[t]\n" : [ptr] "+&e" (ptr) : [t] "r" (x.d[0]));
+    if(N >= 2) asm volatile("st %a[ptr]+, %[t]\n" : [ptr] "+&e" (ptr) : [t] "r" (x.d[1]));
+    if(N >= 3) asm volatile("st %a[ptr]+, %[t]\n" : [ptr] "+&e" (ptr) : [t] "r" (x.d[2]));
+    if(N >= 4) asm volatile("st %a[ptr]+, %[t]\n" : [ptr] "+&e" (ptr) : [t] "r" (x.d[3]));
+}
+
+template<size_t N>
 __attribute__((noinline))
 inline void vm_push_n(uint8_t* ptr, byte_storage<N> x)
 {
     if((uint8_t)(uintptr_t)ptr + N >= 256)
         vm_error(ards::ERR_DST);
-    static_assert(N <= 4, "");
-    if(N >= 1)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[0])
-            );
-    }
-    if(N >= 2)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[1])
-            );
-    }
-    if(N >= 3)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[2])
-            );
-    }
-    if(N >= 4)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[3])
-            );
-    }
+    vm_push_n_unsafe<N>(ptr, x);
     ards::vm.sp = (uint8_t)(uintptr_t)ptr;
-}
-
-template<size_t N>
-__attribute__((always_inline))
-inline void vm_push_n_unsafe(uint8_t*& ptr, byte_storage<N> x)
-{
-    static_assert(N <= 4, "");
-    if(N >= 1)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[0])
-            );
-    }
-    if(N >= 2)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[1])
-            );
-    }
-    if(N >= 3)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[2])
-            );
-    }
-    if(N >= 4)
-    {
-        asm volatile(
-            "st %a[ptr]+, %[t]\n"
-            : [ptr] "+&e" (ptr)
-            : [t] "r" (x.d[3])
-            );
-    }
 }
 
 template<class T>
@@ -259,8 +199,8 @@ static void sys_draw_rect()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesU::fillRect(x, y, w, 1, color);
-    SpritesU::fillRect(x, y + h - 1, w, 1, color);
     SpritesU::fillRect(x, y, 1, h, color);
+    SpritesU::fillRect(x, y + h - 1, w, 1, color);
     SpritesU::fillRect(x + w - 1, y, 1, h, color);
 }
 
@@ -1313,11 +1253,9 @@ static void sys_random()
     auto ptr = vm_pop_begin();
     uint32_t a = vm_pop<uint32_t>(ptr);
     uint32_t b = vm_pop<uint32_t>(ptr);
-    uint32_t t;
-    if(a >= b)
-        t = a;
-    else
-        t = random() % (b - a) + a;
+    uint32_t t = a;
+    if(a < b)
+        t += random() % (b - a);
     vm_push_unsafe<uint32_t>(ptr, t);
     vm_pop_end(ptr);
 }

@@ -23,7 +23,7 @@ void setup()
     // figure out data/save pages if we are in dev mode
     if(FX::programDataPage == 0x0000)
     {
-        // look for signature
+        // look for dev end signature
         uint24_t addr = uint24_t(16) * 1024 * 1024 - 4;
         FX::seekData(addr);
         uint32_t sig = FX::readPendingLastUInt32();
@@ -42,6 +42,11 @@ void setup()
             (uint8_t*)&FX::programDataPage,
             2);
     }
+
+    // verify start signature
+    FX::seekData(0);
+    if(FX::readPendingLastUInt32() != 0xABC00ABC)
+        vm_error(ards::ERR_SIG);
     
     Arduboy2Audio::begin();
     ards::Tones::setup();
