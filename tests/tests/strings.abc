@@ -39,6 +39,21 @@ void main()
     $format(str, "%04u", 42);
     $assert(str == "0042");
     
+    $format(str, "%.2f", 2.51);
+    $assert(str == "2.51");
+    
+    $format(str, "%.2f", 3.51499);
+    $assert(str == "3.51");
+    
+    $format(str, "%.2f", 4.51501);
+    $assert(str == "4.52");
+    
+    $format(str, "%.1f", 5.515);
+    $assert(str == "5.5");
+    
+    $format(str, "%.1f", 6.55001);
+    $assert(str == "6.6");
+    
     {
         char[10] str;
         char[20] str2;

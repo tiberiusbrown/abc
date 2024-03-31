@@ -1109,7 +1109,7 @@ static void format_exec(format_char_func f)
             }
             //FX::seekData(fb++);
             //int8_t w = (int8_t)(FX::readPendingLastUInt8() - '0');
-            int8_t w = (int8_t)format_exec_read_inc(fb) - '0';
+            int8_t w = (int8_t)(format_exec_read_inc(fb) - '0');
             --fn;
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
             break;
@@ -1124,7 +1124,7 @@ static void format_exec(format_char_func f)
             }
             //FX::seekData(fb++);
             //uint8_t prec = FX::readPendingLastUInt8() - '0';
-            uint8_t prec = format_exec_read_inc(fb);
+            uint8_t prec = format_exec_read_inc(fb) - '0';
             --fn;
             format_add_float(f, x, prec);
             break;
