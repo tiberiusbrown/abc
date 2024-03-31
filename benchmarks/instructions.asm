@@ -4,6 +4,256 @@ p:
     .b f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
     .b f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
 
+unmasked_sprite_small:
+    .b 5 01 08 01 00 02 ff
+
+unmasked_sprite:
+    .b c 08 08 01 00 02 3c 42 81 81 81 81 42 3c
+
+masked_sprite:
+    .b f 08 08 01 00 03 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b 4 ff 42 7e 3c 3c
+
+unmasked_sprite16:
+    .b f 10 10 01 00 02 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b 4 81 81 81 42 3c
+
+masked_sprite16:
+    .b f 10 10 01 00 03 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b f ff 42 7e 3c 3c 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b f ff 42 7e 3c 3c 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b f ff 42 7e 3c 3c 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b 4 ff 42 7e 3c 3c
+
+unmasked_sprite32:
+    .b f 20 20 01 00 02 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b 4 81 81 81 42 3c
+
+masked_sprite128x64:
+    .b f 80 40 01 00 03 3c fe 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b 4 ff 42 ff 3c ff
+
+unmasked_sprite128x64:
+    .b f 80 40 01 00 02 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b 4 81 81 81 42 3c
+
+masked_sprite32:
+    .b f 20 20 01 00 03 3c fe 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
+    .b 4 ff 42 ff 3c ff
+
 call_long:
     sys debug_break
     ret
@@ -2155,6 +2405,78 @@ $L_main_12:
 $L_main_13:
 
     call $L_main_12
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite_small 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite16 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite16 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite32 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite32 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite128x64 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite128x64 0
+    p00
+    p00
+    sys debug_break
+    sys draw_sprite
     sys debug_break
 
     ret
