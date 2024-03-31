@@ -1902,6 +1902,34 @@ $L_main_start:
     sys debug_break
     pop
     
+    pushf 3.5
+    pushf 3.4
+    sys debug_break
+    cfeq
+    sys debug_break
+    pop
+    
+    pushf 3.5
+    pushf 3.4e8
+    sys debug_break
+    cfeq
+    sys debug_break
+    pop
+    
+    pushf 3.5
+    pushf 3.4
+    sys debug_break
+    cflt
+    sys debug_break
+    pop
+    
+    pushf 3.5
+    pushf 3.4e8
+    sys debug_break
+    cflt
+    sys debug_break
+    pop
+    
     push 0
     sys debug_break
     not
@@ -1913,6 +1941,110 @@ $L_main_start:
     not
     sys debug_break
     pop
+    
+    pushf 3.5
+    pushf 3.4
+    sys debug_break
+    fadd
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf 3.4e8
+    sys debug_break
+    fadd
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf -3.4
+    sys debug_break
+    fsub
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf -3.4e8
+    sys debug_break
+    fsub
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf 3.4
+    sys debug_break
+    fmul
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf 3.4e8
+    sys debug_break
+    fmul
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf 3.4
+    sys debug_break
+    fdiv
+    sys debug_break
+    pop4
+    
+    pushf 3.5
+    pushf 3.4e8
+    sys debug_break
+    fdiv
+    sys debug_break
+    pop4
+    
+    pushf 3.4
+    sys debug_break
+    f2i
+    sys debug_break
+    pop4
+    
+    pushf 3.4e8
+    sys debug_break
+    f2i
+    sys debug_break
+    pop4
+    
+    pushf 3.4
+    sys debug_break
+    f2u
+    sys debug_break
+    pop4
+    
+    pushf 3.4e8
+    sys debug_break
+    f2u
+    sys debug_break
+    pop4
+    
+    push4 3
+    sys debug_break
+    i2f
+    sys debug_break
+    pop4
+    
+    push4 340000000
+    sys debug_break
+    i2f
+    sys debug_break
+    pop4
+    
+    push4 3
+    sys debug_break
+    u2f
+    sys debug_break
+    pop4
+    
+    push4 340000000
+    sys debug_break
+    u2f
+    sys debug_break
+    pop4
     
     push 1
     sys debug_break

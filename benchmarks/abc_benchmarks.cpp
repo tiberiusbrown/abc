@@ -331,18 +331,17 @@ int abc_benchmarks()
         "cslt2 (pass)", "cslt2 (fail)",
         "cslt3 (pass)", "cslt3 (fail)",
         "cslt4 (pass)", "cslt4 (fail)",
-        // TODO: CFEQ
-        // TODO: CFLT
-        // TODO: CFLE
+        "cfeq (3.5, 3.4)", "cfeq (3.5, 3.4e8)",
+        "cflt (3.5, 3.4)", "cflt (3.5, 3.4e8)",
         "not (0)", "not (1)",
-        // TODO: FADD
-        // TODO: FSUB
-        // TODO: FMUL
-        // TODO: FDIV
-        // TODO: F2I
-        // TODO: F2U
-        // TODO: I2F
-        // TODO: U2F
+        "fadd (3.5, 3.4)", "fadd (3.5, 3.4e8)",
+        "fsub (3.5, -3.4)", "fsub (3.5, -3.4e8)",
+        "fmul (3.5, 3.4)", "fmul (3.5, 3.4e8)",
+        "fdiv (3.5, 3.4)", "fdiv (3.5, 3.4e8)",
+        "f2i (3.4)", "f2i (3.4e8)",
+        "f2u (3.4)", "f2u (3.4e8)",
+        "i2f (3)", "i2f (340000000)",
+        "u2f (3)", "u2f (340000000)",
         "bz (not taken)", "bz (taken)",
         "bz1 (not taken)", "bz1 (taken)",
         "bnz (not taken)", "bnz (taken)",

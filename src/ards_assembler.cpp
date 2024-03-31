@@ -331,6 +331,17 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_PUSH4);
             push_imm(read_imm(f, error), 4);
         }
+        else if(t == "pushf")
+        {
+            push_instr(I_PUSH4);
+            union
+            {
+                float f;
+                uint32_t i;
+            } u;
+            f >> u.f;
+            push_imm(u.i, 4);
+        }
         else if(t == "popn")
         {
             push_instr(I_POPN);
