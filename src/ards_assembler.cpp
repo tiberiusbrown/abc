@@ -135,6 +135,8 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "p00", I_P00 },
     { "p000", I_P000 },
     { "p0000", I_P0000 },
+    { "pz8", I_PZ8 },
+    { "pz16", I_PZ16 },
     { "sext", I_SEXT },
     { "sext2", I_SEXT2 },
     { "sext3", I_SEXT3 },
@@ -328,18 +330,6 @@ error_t assembler_t::assemble(std::istream& f)
         {
             push_instr(I_PUSH4);
             push_imm(read_imm(f, error), 4);
-        }
-        else if(t == "pzn")
-        {
-            push_instr(I_PZN);
-            auto n = read_imm(f, error);
-            assert(n >= 5);
-            if(n < 5)
-            {
-                error.msg = "PZN instr imm must be >= 5";
-                continue;
-            }
-            push_imm(n - 3, 1);
         }
         else if(t == "popn")
         {

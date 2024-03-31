@@ -1052,12 +1052,17 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
                         break;
                 }
                 j -= i;
-                if(j > 4)
+                if(j == 16)
                 {
-                    if(j > 255) j = 255;
-                    i0.instr = I_PZN;
-                    i0.imm = (uint8_t)j;
-                    assert(i0.imm >= 5);
+                    i0.instr = I_PZ16;
+                    for(size_t k = i + 1; k < i + j; ++k)
+                        f.instrs[k].instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
+                if(j == 8)
+                {
+                    i0.instr = I_PZ8;
                     for(size_t k = i + 1; k < i + j; ++k)
                         f.instrs[k].instr = I_REMOVE;
                     t = true;

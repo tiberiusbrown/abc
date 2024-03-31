@@ -431,25 +431,45 @@ I_P0000:
     jmp  call_vm_error
     .align 6
 
-I_PZN:
+I_PZ8:
+    cpi  r28, 248
+    brsh 1f
     st   Y+, r9
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
     clr  r9
-    st   Y+, r2
-    st   Y+, r2
-    read_byte
-    neg  r0
-    cp   r28, r0
-    brsh 2f
-    neg  r0
-    sbrc r0, 0
-    st   Y+, r2
-    lsr  r0
-1:  st   Y+, r2
-    st   Y+, r2
-    dec  r0
-    brne 1b
     dispatch_noalign
-2:  ldi  r24, 5
+1:  ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
+
+I_PZ16:
+    cpi  r28, 248
+    brsh 1f
+    st   Y+, r9
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    clr  r9
+    dispatch_noalign
+1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
