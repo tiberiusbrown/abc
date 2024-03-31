@@ -407,7 +407,7 @@ I_P00:
     .align 6
 
 I_P000:
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
     st   Y+, r9
     st   Y+, r2
@@ -419,7 +419,7 @@ I_P000:
     .align 6
 
 I_P0000:
-    cpi  r28, 254
+    cpi  r28, 252
     brsh 1f
     st   Y+, r9
     st   Y+, r2
