@@ -990,7 +990,7 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             i1.instr == I_PUSH && i1.imm == 0 &&
             i2.instr == I_PUSH && i2.imm == 0 &&
             i3.instr == I_PUSH && i3.imm == 0 &&
-            i4.instr == I_SUB3)
+            i4.instr == I_SUB4)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
