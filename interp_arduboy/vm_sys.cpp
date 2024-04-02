@@ -11,6 +11,9 @@
 #define SPRITESU_RECT
 #include "SpritesU.hpp"
 
+#define SPRITESABC_IMPLEMENTATION
+#include "SpritesABC.hpp"
+
 #include "ards_tone.hpp"
 
 #include "ards_vm.hpp"
@@ -508,7 +511,8 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     );
     if(frame >= num)
         vm_error(ards::ERR_FRM);
-    SpritesU::drawBasic(x, y, w, h, image, frame, mode);
+    //SpritesU::drawBasic(x, y, w, h, image, frame, mode);
+    SpritesABC::draw(x, y, w, h, image, frame, mode);
 #endif
 
 #if !DRAW_SPRITE_HELPER_OPT
@@ -548,7 +552,8 @@ static void draw_char(uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h
     FX::seekData(font + uint8_t(c) * 2);
     int8_t lsb = (int8_t)FX::readPendingUInt8();
     uint8_t adv = FX::readPendingLastUInt8();
-    SpritesU::drawBasic(
+    //SpritesU::drawBasic(
+    SpritesABC::draw(
         x + lsb, y, w, h, font + 513 + 5, uint8_t(c),
         SpritesU::MODE_SELFMASKFX);
     x += adv;

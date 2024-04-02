@@ -249,7 +249,7 @@ set_source_files_properties(
     PROPERTIES
         COMPILE_OPTIONS "-DABC_VERSION=\"${ABC_VERSION}\""
     )
-
+    
 if(EMSCRIPTEN)
     target_link_options(abc PRIVATE "-lidbfs.js")
 endif()

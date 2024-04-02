@@ -1,7 +1,15 @@
 constexpr font f = FONT_BR6;
 
 constexpr sprites BALL = sprites{
-    8x8
+    8x16
+    --XXXX--
+    -X....X-
+    X......X
+    X......X
+    X......X
+    X......X
+    -X....X-
+    --XXXX--
     --XXXX--
     -X....X-
     X......X
