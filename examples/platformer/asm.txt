@@ -5423,17 +5423,13 @@ $L_update_level_select_3:
   bz    $L_update_level_select_8
   .line 148
   getg  levelseli 0
-  p0
   p4
-  sub2b
-  bool2
+  sub
   bnz   $L_update_level_select_5
   .line 150
   getg  levelseloff 0
-  p0
   p7
-  p0
-  cult2
+  cult
   bz    $L_update_level_select_4
   .line 151
   getg  levelseloff 0
@@ -7201,10 +7197,8 @@ $L_update_level_38:
 $L_update_level_39:
   .line 461
   push  70
-  p0
   getg  death_frames 0
-  p0
-  cult2
+  cult
   bz    $L_update_level_40
   .line 462
   p0000
@@ -7214,10 +7208,8 @@ $L_update_level_39:
 $L_update_level_40:
   .line 463
   getg  death_frames 0
-  p0
   push  70
-  sub2b
-  bool2
+  sub
   bnz   $L_update_level_44
   .line 464
   p00

@@ -60,7 +60,7 @@ static void insert_aref(ast_node_t& a, compiler_type_t const& t)
 void ast_node_t::insert_cast(compiler_type_t const& t)
 {
     auto ta = std::move(*this);
-    *this = { line_info, AST::OP_CAST };
+    *this = { ta.line_info, AST::OP_CAST };
     parent = ta.parent;
     ta.parent = this;
     comp_type = t;
@@ -135,15 +135,19 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         break;
     case AST::TYPE_ARRAY:
         type_annotate_recurse(a.children[0], frame);
+        transform_constexprs(a.children[0], frame);
         break;
     case AST::TYPE_PROG:
         type_annotate_recurse(a.children[0], frame);
         break;
     case AST::OP_CAST:
+    {
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[1], frame);
         a.comp_type = a.children[0].comp_type;
+        transform_constexprs(a, frame);
         break;
+    }
     case AST::OP_UNARY:
     {
         assert(a.children.size() == 2);
@@ -164,6 +168,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         {
             assert(false);
         }
+        transform_constexprs(a, frame);
         break;
     }
     case AST::OP_LOGICAL_AND:
@@ -172,6 +177,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         for(auto& child : a.children)
             type_annotate_recurse(child, frame);
         a.comp_type = TYPE_BOOL;
+        transform_constexprs(a, frame);
         break;
     case AST::OP_ASSIGN:
     case AST::OP_ASSIGN_COMPOUND:
@@ -206,6 +212,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             else
             {
                 a.children[1].insert_cast(a.comp_type.without_ref());
+                transform_constexprs(a.children[1], frame);
             }
         }
         break;
@@ -223,6 +230,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(!check_prim(a.children[0], errs)) break;
         if(!check_prim(a.children[1], errs)) break;
         a.comp_type = a.children[0].comp_type.without_ref();
+        transform_constexprs(a, frame);
         break;
     case AST::OP_INC_POST:
     case AST::OP_DEC_POST:
@@ -289,8 +297,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         auto t0 = a.children[0].comp_type.without_ref();
         auto t1 = a.children[1].comp_type.without_ref();
 
-        if(!check_prim(t0, a.children[0], errs)) break;
-        if(!check_prim(t1, a.children[1], errs)) break;
+        if(!check_prim(t0, a.children[0], errs) || !check_prim(t1, a.children[1], errs))
+        {
+            transform_constexprs(a, frame);
+            break;
+        }
 
         if((a.type == AST::OP_BITWISE_AND ||
             a.type == AST::OP_BITWISE_OR ||
@@ -314,6 +325,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             (t0.is_label_ref() && t1.is_label_ref() && t0.type == t1.type))
         {
             a.comp_type = TYPE_BOOL;
+            transform_constexprs(a, frame);
             break;
         }
 
@@ -347,6 +359,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             implicit_conversion(t1, t0);
         }
 
+        //a.comp_type = t0;
+        //transform_constexprs(a, frame);
+        //if(a.type == AST::INT_CONST || a.type == AST::FLOAT_CONST)
+        //    break;
+
         if(!is_float && is_divmod)
         {
             if(t0.prim_size < 2 && t1.prim_size < 2)
@@ -359,6 +376,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             a.children[0].insert_cast(t0);
         if(ref1 || t1 != a.children[1].comp_type)
             a.children[1].insert_cast(t1);
+        transform_constexprs(a.children[0], frame);
+        transform_constexprs(a.children[1], frame);
 
         if(a.type == AST::OP_EQUALITY || a.type == AST::OP_RELATIONAL)
             a.comp_type = TYPE_BOOL;
@@ -366,6 +385,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             a.comp_type = TYPE_FLOAT;
         else
             a.comp_type = a.children[0].comp_type.without_ref();
+        transform_constexprs(a, frame);
         break;
     }
     case AST::INT_CONST:
@@ -383,6 +403,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 a.comp_type = jt->second.var.type;
                 if(!jt->second.var.is_constexpr)
                     a.comp_type = a.comp_type.with_ref();
+                transform_constexprs(a, frame);
                 return;
             }
         }
@@ -392,6 +413,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             a.comp_type = it->second.var.type;
             if(!it->second.var.is_constexpr && !it->second.is_constexpr_ref())
                 a.comp_type = a.comp_type.with_ref();
+            transform_constexprs(a, frame);
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
@@ -474,7 +496,10 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 insert_aref(c, t);
             }
             else if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
+            {
                 c.insert_cast(t);
+                transform_constexprs(c, frame);
+            }
         }
         a.comp_type = f.decl.return_type;
         break;
@@ -648,8 +673,6 @@ void compiler_t::type_annotate(ast_node_t& a, compiler_frame_t const& frame, siz
     });
 
     type_annotate_recurse(a, frame);
-    if(errs.empty())
-        transform_constexprs(a, frame);
     if(errs.empty())
         type_reduce_recurse(a, size);
 

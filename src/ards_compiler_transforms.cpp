@@ -48,9 +48,6 @@ void compiler_t::transform_array_len(ast_node_t& n)
 void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& frame)
 {
     if(!errs.empty()) return;
-    //if(n.type >= AST::EXPR_BEGIN)
-        for(auto& child : n.children)
-            transform_constexprs(child, frame);
     {
         bool child1_prim = n.children.size() >= 2 && (
             n.children[1].type == AST::INT_CONST ||
@@ -348,6 +345,10 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
 
     assert(!(n.comp_type.is_float&& n.comp_type.is_signed));
 
+    bool preserve_type = (
+        n.type == AST::OP_CAST ||
+        n.type == AST::IDENT);
+
     // if we got here, the node was simplified
     n.type = is_float ? AST::FLOAT_CONST : AST::INT_CONST;
 
@@ -378,6 +379,13 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
             n.value = int64_t(uint64_t(n.value) | mask);
         else
             n.value = int64_t(uint64_t(n.value) & ~mask);
+
+        if(!preserve_type)
+        {
+            n.comp_type.prim_size = (n.comp_type.is_signed && n.value < 0) ?
+                prim_type_for_dec((uint32_t)(-n.value), n.comp_type.is_signed).prim_size :
+                prim_type_for_dec((uint32_t)(+n.value), n.comp_type.is_signed).prim_size;
+        }
     }
 
     assert(!(n.comp_type.is_float && n.comp_type.is_signed));
