@@ -109,9 +109,7 @@ void SpritesU::drawBasic(
     if(y >= 64)  return;
     if(x + w <= 0) return;
     if(y + h <= 0) return;
-    
-    uint8_t oldh = h;    
-    
+        
 #ifdef ARDUINO_ARCH_AVR
 
     /*
@@ -133,12 +131,13 @@ void SpritesU::drawBasic(
             breq 1f
             
             ; add frame offset to image
-            lsr  %[h]
-            lsr  %[h]
-            lsr  %[h]
+            mov  %A[tmp], %[h]
+            lsr  %A[tmp]
+            lsr  %A[tmp]
+            lsr  %A[tmp]
             sbrc %[mode], 0
-            lsl  %A[h]
-            mul  %A[h], %[w]
+            lsl  %A[tmp]
+            mul  %A[tmp], %[w]
             movw %A[tmp], r0
             
             mul  %A[tmp], %B[frame]
@@ -157,14 +156,12 @@ void SpritesU::drawBasic(
             
         1:
         )ASM"
-        :
-        [h]     "+&r" (h),
-        [image] "+&r" (image),
-        [tmp]   "=&r" (tmp)
-        :
-        [frame] "r"   (frame),
-        [mode]  "r"   (mode),
-        [w]     "r"   (w)
+        : [image] "+&r" (image)
+        , [tmp]   "=&r" (tmp)
+        : [frame] "r"   (frame)
+        , [mode]  "r"   (mode)
+        , [w]     "r"   (w)
+        , [h]     "r"   (h)
         );
 #else
     if(frame != 0)
@@ -176,7 +173,7 @@ void SpritesU::drawBasic(
     }
 #endif
 
-    drawBasicNoChecks((uint16_t(oldh) << 8) | w, image, mode, x, y);
+    drawBasicNoChecks((uint16_t(h) << 8) | w, image, mode, x, y);
 }
 
 void SpritesU::drawBasicNoChecks(
