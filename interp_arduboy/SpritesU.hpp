@@ -790,7 +790,6 @@ void SpritesU::drawBasicNoChecks(
 #endif
 #ifdef SPRITESU_FX
     {
-        uint8_t sfc_read = SFC_READ;
         uint8_t* bufn;
         uint8_t reseek;
 #ifdef ARDUINO_ARCH_AVR
@@ -806,7 +805,8 @@ void SpritesU::drawBasicNoChecks(
 
                 ; seek subroutine
                 cbi %[fxport], %[fxbit]
-                out %[spdr], %[sfc_read]
+                ldi %A[bufn], 3
+                out %[spdr], %A[bufn]
                 clr __zero_reg__
                 add %A[image], %[w]
                 adc %B[image], __zero_reg__
@@ -848,7 +848,8 @@ L%=_seek_after_adv:
 
                 ; initial seek
                 cbi %[fxport], %[fxbit]
-                out %[spdr], %[sfc_read]
+                ldi %A[bufn], 3
+                out %[spdr], %A[bufn]
                 rcall L%=_delay_7
                 rcall L%=_seek_after_adv
                 cp %[page_start], __zero_reg__
@@ -1074,7 +1075,6 @@ L%=_seek_after_adv:
             [bottom]     "r"   (bottom),
             [page_start] "r"   (page_start),
             [mode]       "r"   (mode),
-            [sfc_read]   "r"   (sfc_read),
             [fxport]     "I"   (_SFR_IO_ADDR(FX_PORT)),
             [fxbit]      "I"   (FX_BIT),
             [spdr]       "I"   (_SFR_IO_ADDR(SPDR)),
