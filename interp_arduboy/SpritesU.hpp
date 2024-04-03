@@ -188,7 +188,9 @@ void SpritesU::drawBasicNoChecks(
     uint16_t image_data;
     uint8_t cols;
     uint8_t buf_adv;
+#if defined(SPRITESU_OVERWRITE) || defined(SPRITESU_PLUSMASK)
     uint16_t image_adv;
+#endif
     uint16_t shift_mask;
     uint8_t shift_coef;
     bool bottom;
@@ -294,20 +296,21 @@ void SpritesU::drawBasicNoChecks(
         6:
             ldi  %[buf_adv], 128
             sub  %[buf_adv], %[cols]
+    )ASM"
+#if defined(SPRITESU_OVERWRITE) || defined(SPRITESU_PLUSMASK)
+    R"ASM(
             mov  %A[image_adv], %[w]
             clr  %B[image_adv]
-            sbrc %[mode], 1
-            rjmp 7f
             sub  %A[image_adv], %[cols]
             sbc  %B[image_adv], %B[image_adv]
-        7:
             sbrs %[mode], 0
-            rjmp 8f
+            rjmp 7f
             lsl  %A[image_adv]
             rol  %B[image_adv]
-        8:
+        7:
             clr __zero_reg__
         )ASM"
+#endif
         :
         [pages]      "+&r" (pages),
         [shift_coef] "=&d" (shift_coef),
@@ -318,7 +321,9 @@ void SpritesU::drawBasicNoChecks(
         [bottom]     "=&r" (bottom),
         [buf]        "+&r" (buf),
         [buf_adv]    "=&a" (buf_adv),
+#if defined(SPRITESU_OVERWRITE) || defined(SPRITESU_PLUSMASK)
         [image_adv]  "=&r" (image_adv),
+#endif
         [x]          "+&r" (x),
         [y]          "+&r" (y),
         [image]      "+&r" (image)
@@ -384,8 +389,10 @@ void SpritesU::drawBasicNoChecks(
     buf_adv = 128;
     buf_adv -= cols;
     image_adv = w;
+#ifdef SPRITESU_FX
     if(!(mode & 2))
         image_adv -= cols;
+#endif
     if(mode & 1)
         image_adv <<= 1;
 
@@ -800,14 +807,22 @@ void SpritesU::drawBasicNoChecks(
                 ; seek subroutine
                 cbi %[fxport], %[fxbit]
                 out %[spdr], %[sfc_read]
-                add %A[image], %A[image_adv] ;  1
-                adc %B[image], %B[image_adv] ;  1
-                adc %C[image], __zero_reg__  ;  1
-                clr %[reseek]                ;  1
-                cp  %[w], %[cols]            ;  1
-                breq .+2                     ;  1
-                inc %[reseek]                ;  1
-                rcall L%=_delay_10           ; 10
+                clr __zero_reg__
+                add %A[image], %[w]
+                adc %B[image], __zero_reg__
+                adc %C[image], __zero_reg__
+                sbrc %[mode], 0
+                add %A[image], %[w]
+                sbrc %[mode], 0
+                adc %B[image], __zero_reg__
+                sbrc %[mode], 0
+                adc %C[image], __zero_reg__
+L%=_seek_after_adv:
+                clr %[reseek]
+                cp  %[w], %[cols]
+                breq .+2
+                inc %[reseek]
+                lpm
                 out %[spdr], %C[image]
                 rcall L%=_delay_17
                 out %[spdr], %B[image]
@@ -832,10 +847,10 @@ void SpritesU::drawBasicNoChecks(
             L%=_begin:
 
                 ; initial seek
-                sub %A[image], %A[image_adv]
-                sbc %B[image], %B[image_adv]
-                sbc %C[image], __zero_reg__
-                rcall L%=_seek
+                cbi %[fxport], %[fxbit]
+                out %[spdr], %[sfc_read]
+                rcall L%=_delay_7
+                rcall L%=_seek_after_adv
                 cp %[page_start], __zero_reg__
                 brlt L%=_top
                 tst %[pages]
@@ -1051,7 +1066,9 @@ void SpritesU::drawBasicNoChecks(
             :
             [w]          "r"   (w),
             [buf_adv]    "r"   (buf_adv),
+#if defined(SPRITESU_OVERWRITE) || defined(SPRITESU_PLUSMASK)
             [image_adv]  "r"   (image_adv),
+#endif
             [shift_coef] "r"   (shift_coef),
             [shift_mask] "r"   (shift_mask),
             [bottom]     "r"   (bottom),
