@@ -34,7 +34,9 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_bzp(f))
         ;
-    while(peephole_compress_push_pop(f))
+    while(peephole_compress_pop(f))
+        ;
+    while(peephole_compress_push(f))
         ;
     while(peephole_compress_pushes_pushn(f))
         ;
@@ -1029,7 +1031,57 @@ bool compiler_t::peephole_bzp(compiler_func_t& f)
     return t;
 }
 
-bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
+bool compiler_t::peephole_compress_pop(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        if(i + 1 >= f.instrs.size()) continue;
+        auto& i1 = f.instrs[i + 1];
+
+        // replace POP; POP with POP2
+        if(i0.instr == I_POP && i1.instr == I_POP)
+        {
+            size_t j;
+            for(j = i + 2; j < f.instrs.size(); ++j)
+            {
+                if(f.instrs[j].instr != I_POP)
+                    break;
+            }
+            j -= i;
+            if(j > 4)
+            {
+                if(j > 255) j = 255;
+                i0.instr = I_POPN;
+                i0.imm = (uint8_t)j;
+                for(size_t k = i + 1; k < i + j; ++k)
+                    f.instrs[k].instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            i0.instr = I_POP2;
+            i1.instr = I_REMOVE;
+            if(i + 2 < f.instrs.size() && f.instrs[i + 2].instr == I_POP)
+            {
+                f.instrs[i + 2].instr = I_REMOVE;
+                i0.instr = I_POP3;
+                if(i + 3 < f.instrs.size() && f.instrs[i + 3].instr == I_POP)
+                {
+                    f.instrs[i + 3].instr = I_REMOVE;
+                    i0.instr = I_POP4;
+                }
+            }
+            t = true;
+            continue;
+        }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_compress_push(compiler_func_t& f)
 {
     bool t = false;
     clear_removed_instrs(f.instrs);
@@ -1119,42 +1171,6 @@ bool compiler_t::peephole_compress_push_pop(compiler_func_t & f)
                     continue;
                 }
             }
-        }
-
-        // replace POP; POP with POP2
-        if(i0.instr == I_POP && i1.instr == I_POP)
-        {
-            size_t j;
-            for(j = i + 2; j < f.instrs.size(); ++j)
-            {
-                if(f.instrs[j].instr != I_POP)
-                    break;
-            }
-            j -= i;
-            if(j > 4)
-            {
-                if(j > 255) j = 255;
-                i0.instr = I_POPN;
-                i0.imm = (uint8_t)j;
-                for(size_t k = i + 1; k < i + j; ++k)
-                    f.instrs[k].instr = I_REMOVE;
-                t = true;
-                continue;
-            }
-            i0.instr = I_POP2;
-            i1.instr = I_REMOVE;
-            if(i + 2 < f.instrs.size() && f.instrs[i + 2].instr == I_POP)
-            {
-                f.instrs[i + 2].instr = I_REMOVE;
-                i0.instr = I_POP3;
-                if(i + 3 < f.instrs.size() && f.instrs[i + 3].instr == I_POP)
-                {
-                    f.instrs[i + 3].instr = I_REMOVE;
-                    i0.instr = I_POP4;
-                }
-            }
-            t = true;
-            continue;
         }
     }
     return t;
