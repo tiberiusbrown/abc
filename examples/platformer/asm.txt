@@ -9975,13 +9975,13 @@ $L_render_level_14:
   pushg objects 0
   dup3
   aidxb 15 20
-  getrn 15
   .line 432
-  getl  15
+  dupw
+  getr
   .line 433
   bnzp  $L_render_level_17
   .line 434
-  popn  15
+  pop2
   jmp   $L_render_level_16
 $L_render_level_17:
   .line 436
@@ -9992,17 +9992,23 @@ $L_render_level_17:
   cult
   not
   bzp   $L_render_level_18
-  dup7
+  dupw3
+  push  10
+  add2b
+  getr
   bool
 $L_render_level_18:
   bz    $L_render_level_21
   .line 439
-  dup7
+  dupw3
+  push  10
+  add2b
+  getr
   p4
   and
   bz    $L_render_level_19
   .line 440
-  popn  17
+  pop4
   jmp   $L_render_level_16
   .line 439
   jmp   $L_render_level_20
@@ -10025,7 +10031,7 @@ $L_render_level_21:
   .line 448
   dup
   getg  frame_count 0
-  getl  20
+  dup7
   push  173
   mul
   add
@@ -10039,15 +10045,21 @@ $L_render_level_23:
   p0
   .line 452
   pushl $PD_18 0
-  getl2 19
-  getl2 27
+  dupw8
+  p3
+  add2b
+  getr2
+  getl2 14
   sub2
-  getl2 23
-  getl2 31
+  getl2 11
+  p1
+  add2b
+  getr2
+  getl2 18
   sub2
   .line 451
   sys   draw_sprite
-  popn  17
+  pop4
 $L_render_level_16:
   .line 429
   inc

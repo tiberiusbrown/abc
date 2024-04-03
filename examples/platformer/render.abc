@@ -415,11 +415,12 @@ void render_level()
             for(u8 j = 0; j < 9; ++j)
             {
                 u8 t = m[index + j] - 1;
-                if(t >= 240)
-                    continue;
-                if(t >= 176)
-                    t += ((frame_count << 2) & 0x30);
-                $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
+                if(t < 240)
+                {
+                    if(t >= 176)
+                        t += ((frame_count << 2) & 0x30);
+                    $draw_sprite(j * 16 + xoff, i * 16 + yoff, TILES, t);
+                }
             }
         }
     }
@@ -428,7 +429,7 @@ void render_level()
     {
         for(u8 i = 0; i < MAX_OBJECTS; ++i)
         {
-            map_object_t obj = objects[i];
+            map_object_t& obj = objects[i];
             u8 t = obj.type;
             if(t == OBJ_NONE)
                 continue;
