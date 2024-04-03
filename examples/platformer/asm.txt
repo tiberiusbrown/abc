@@ -4398,7 +4398,8 @@ $L_process_map_tile_5:
   p3
   p3
   push2 2570
-  pzn   6
+  p00
+  p0000
   call  add_object
   .line 123
   jmp   $L_process_map_tile_30
@@ -4421,7 +4422,8 @@ $L_process_map_tile_6:
   p3
   p3
   push2 2570
-  pzn   6
+  p00
+  p0000
   call  add_object
   .line 127
   jmp   $L_process_map_tile_30
@@ -4445,7 +4447,8 @@ $L_process_map_tile_7:
   p4
   push  12
   p8
-  pzn   6
+  p00
+  p0000
   call  add_object
   .line 131
   jmp   $L_process_map_tile_30
@@ -4468,7 +4471,8 @@ $L_process_map_tile_8:
   p2
   p3
   push2 2572
-  pzn   6
+  p00
+  p0000
   call  add_object
   .line 135
   jmp   $L_process_map_tile_30
@@ -4842,7 +4846,9 @@ $L_load_map_0:
   cult
   bz    $L_load_map_1
   .line 60
-  pzn   15
+  p000
+  p0000
+  pz8
   pushg objects 0
   getl  18
   aidxb 15 20
@@ -6249,7 +6255,8 @@ $L_render_level_select_10:
   aidxb 2 12
   getr2
   .line 205
-  pzn   10
+  p00
+  pz8
   .line 206
   getl2 12
   p00
@@ -6381,7 +6388,9 @@ $L_render_level_select_1:
   .line 227
   p1
   .line 228
-  pzn   7
+  p000
+  .line 229
+  p0000
 $L_render_level_select_13:
   .line 230
   dup
@@ -6511,7 +6520,8 @@ $L_render_level_select_23:
   bool3
   bz    $L_render_level_select_24
   .line 254
-  pzn   10
+  p00
+  pz8
   .line 255
   p3
   getgn best_time 0
@@ -6573,7 +6583,8 @@ $L_render_level_select_25:
   dup7
   bz    $L_render_level_select_26
   .line 264
-  pzn   10
+  p00
+  pz8
   .line 265
   p3
   getln 13
@@ -6772,7 +6783,7 @@ $L_level_complete_3:
 update_level:
   .file update.abc
   .line 339
-  pzn   8
+  pz8
   .line 342
   getg4 vx 0
   push4 3197737370
@@ -6916,8 +6927,7 @@ $L_update_level_15:
   getg4 px 0
   sys   floor
   f2u
-  pop3
-  p0
+  pop2
   p4
   lsr2
   pop
@@ -6925,8 +6935,7 @@ $L_update_level_15:
   getg4 py 0
   sys   floor
   f2u
-  pop3
-  p0
+  pop2
   p4
   lsr2
   pop
@@ -8691,7 +8700,8 @@ $L_render_victory_1:
   sys   draw_text_P
 $L_render_victory_7:
   .line 150
-  pzn   10
+  p00
+  pz8
   .line 151
   p3
   getgn total_time 0
@@ -9307,7 +9317,8 @@ render_intro:
   p0
   sys   draw_textf
   .line 304
-  pzn   10
+  p00
+  pz8
   .line 307
   getg2 level_frames_remaining 0
   p00
@@ -9403,7 +9414,8 @@ $L_render_intro_2:
   p0
   sys   draw_filled_rect
   .line 323
-  pzn   10
+  p00
+  pz8
   .line 326
   p3
   getgn total_time 0
@@ -9497,7 +9509,8 @@ $L_render_intro_5:
   p0
   sys   draw_filled_rect
   .line 339
-  pzn   10
+  p00
+  pz8
   .line 340
   push2 9000
   getg2 level_frames_remaining 0
@@ -9581,7 +9594,8 @@ $L_render_intro_6:
   p000
   sys   draw_filled_rect
   .line 352
-  pzn   10
+  p00
+  pz8
   .line 353
   getg2 score 0
   getg2 level_frames_remaining 0
