@@ -84,11 +84,6 @@ void SpritesABC::drawBasic(
             rjmp L%=_end
         1:
     
-            ; begin initial seek
-            cbi  %[fxport], %[fxbit]
-            ldi  %[count], 3
-            out  %[spdr], %[count]
-    
             cp   %A[frame], __zero_reg__
             cpc  %B[frame], __zero_reg__
             breq 1f
@@ -126,6 +121,11 @@ void SpritesABC::drawBasic(
             lsr  %[pages]
             lsr  %[pages]
             lsr  %[pages]
+    
+            ; begin initial seek
+            cbi  %[fxport], %[fxbit]
+            ldi  %[count], 3
+            out  %[spdr], %[count]
             
             movw %A[bufn], %A[y]
             asr  %B[bufn]
@@ -290,13 +290,6 @@ void SpritesABC::drawBasic(
 
         L%=_begin:
 
-            ; initial seek
-            ; clr  __zero_reg__
-            ; cbi  %[fxport], %[fxbit]
-            ; ldi  %A[bufn], 3
-            ; out  %[spdr], %A[bufn]
-            ; rcall L%=_delay_7
-            ; rcall L%=_seek_after_adv
             cp   %[page_start], __zero_reg__
             brlt L%=_top
             tst  %[pages]
