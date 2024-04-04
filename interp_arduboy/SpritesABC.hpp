@@ -184,9 +184,8 @@ void SpritesABC::drawBasic(
             clr  %[col_start]
         4:
             ; compute buffer start address
-            ldi  %A[bufn], 128
-            mul  %[page_start], %A[bufn]
-            sub  r0, %A[bufn]
+            ldi  %[count], 128
+            mulsu %[page_start], %[count]
             add  r0, %[col_start]
             add  %A[buf], r0
             adc  %B[buf], r1
@@ -480,7 +479,7 @@ void SpritesABC::drawBasic(
         : [pages]      "=&r" (pages)
         , [shift_coef] "=&r" (shift_coef)
         , [shift_mask] "=&r" (shift_mask)
-        , [page_start] "=&d" (page_start)
+        , [page_start] "=&a" (page_start)
         , [cols]       "=&r" (cols)
         , [col_start]  "=&r" (col_start)
         , [bottom]     "=&r" (bottom)
@@ -492,7 +491,7 @@ void SpritesABC::drawBasic(
         , [image]      "+&r" (a_image)
         , [reseek]     "=&r" (reseek)
         , [buf_data]   "=&r" (buf_data)
-        , [count]      "=&r" (count)
+        , [count]      "=&a" (count)
         
         : [frame]      "r"   (a_frame)
         , [mode]       "r"   (a_mode)

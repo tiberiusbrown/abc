@@ -305,12 +305,12 @@
 157   call
 134   call1
 122   ret
-698   $draw_sprite (1x8 unmasked)
-831   $draw_sprite (8x8 unmasked)
-966   $draw_sprite (8x8 masked)
-1303   $draw_sprite (16x16 unmasked)
-1845   $draw_sprite (16x16 masked)
-3159   $draw_sprite (32x32 unmasked)
-5331   $draw_sprite (32x32 masked)
-20109   $draw_sprite (128x64 unmasked)
-37640   $draw_sprite (128x64 masked)
+697   $draw_sprite (1x8 unmasked)
+830   $draw_sprite (8x8 unmasked)
+965   $draw_sprite (8x8 masked)
+1302   $draw_sprite (16x16 unmasked)
+1844   $draw_sprite (16x16 masked)
+3158   $draw_sprite (32x32 unmasked)
+5330   $draw_sprite (32x32 masked)
+20108   $draw_sprite (128x64 unmasked)
+37639   $draw_sprite (128x64 masked)
