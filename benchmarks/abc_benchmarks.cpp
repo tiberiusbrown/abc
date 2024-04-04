@@ -372,6 +372,10 @@ int abc_benchmarks()
         "$draw_filled_rect (0, 0, 64, 64)",
         "$draw_filled_rect (0, 4, 64, 64)",
         "$draw_filled_rect (0, 0, 128, 64)",
+        "$draw_filled_circle (64, 32, 8)",
+        "$draw_filled_circle (64, 32, 16)",
+        "$draw_filled_circle (64, 32, 32)",
+        "$draw_filled_circle (64, 32, 64)",
     };
     (void)measure();
     uint64_t bn = measure();

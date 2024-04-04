@@ -2582,6 +2582,46 @@ $L_main_13:
     sys debug_break
     sys draw_filled_rect
     sys debug_break
+    
+    p1
+    push 8
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_filled_circle
+    sys debug_break
+    
+    p1
+    push 16
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_filled_circle
+    sys debug_break
+    
+    p1
+    push 32
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_filled_circle
+    sys debug_break
+    
+    p1
+    push 64
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_filled_circle
+    sys debug_break
 
 $globinit:
     ret
