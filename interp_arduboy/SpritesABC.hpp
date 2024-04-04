@@ -191,10 +191,10 @@ void SpritesABC::drawBasic(
             adc  %B[buf], r1
             
             ; clip against right edge
-            sub  %A[bufn], %[col_start]
-            cp   %[cols], %A[bufn]
+            sub  %[count], %[col_start]
+            cp   %[cols], %A[count]
             brlo 5f
-            mov  %[cols], %A[bufn]
+            mov  %[cols], %A[count]
         5:
             ; clip against bottom edge
             ldi  %A[bufn], 7
@@ -266,14 +266,15 @@ void SpritesABC::drawBasic(
         L%=_begin:
 
             ; initial seek
-            cbi %[fxport], %[fxbit]
-            ldi %A[bufn], 3
-            out %[spdr], %A[bufn]
+            clr  __zero_reg__
+            cbi  %[fxport], %[fxbit]
+            ldi  %A[bufn], 3
+            out  %[spdr], %A[bufn]
             rcall L%=_delay_7
             rcall L%=_seek_after_adv
-            cp %[page_start], __zero_reg__
+            cp   %[page_start], __zero_reg__
             brlt L%=_top
-            tst %[pages]
+            tst  %[pages]
             brne L%=_middle_skip_reseek
             rjmp L%=_bottom_dispatch
 
@@ -282,7 +283,7 @@ void SpritesABC::drawBasic(
             ; init buf
             subi %A[buf], lo8(-128)
             sbci %B[buf], hi8(-128)
-            mov %[count], %[cols]
+            mov  %[count], %[cols]
 
             ; loop dispatch
             sbrc %[mode], 0
@@ -290,56 +291,56 @@ void SpritesABC::drawBasic(
 
         L%=_top_loop:
 
-            in %A[x], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[x], %[shift_coef]
-            ld %[buf_data], %a[buf]
-            and %[buf_data], %B[shift_mask]
-            or %[buf_data], r1
-            st %a[buf]+, %[buf_data]
+            in   %A[x], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[x], %[shift_coef]
+            ld   %[buf_data], %a[buf]
+            and  %[buf_data], %B[shift_mask]
+            or   %[buf_data], r1
+            st   %a[buf]+, %[buf_data]
             lpm
             rjmp .+0
-            dec %[count]
+            dec  %[count]
             brne L%=_top_loop
             rjmp L%=_top_loop_done
 
         L%=_top_loop_masked:
 
-            in %A[x], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[x], %[shift_coef]
+            in   %A[x], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[x], %[shift_coef]
             movw %A[x], r0
             rcall L%=_delay_13
-            in %A[shift_mask], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[shift_mask], %[shift_coef]
+            in   %A[shift_mask], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[shift_mask], %[shift_coef]
             movw %A[shift_mask], r0
-            ld %[buf_data], %a[buf]
-            com %B[shift_mask]
-            and %[buf_data], %B[shift_mask]
-            or %[buf_data], %B[x]
-            st %a[buf]+, %[buf_data]
+            ld   %[buf_data], %a[buf]
+            com  %B[shift_mask]
+            and  %[buf_data], %B[shift_mask]
+            or   %[buf_data], %B[x]
+            st   %a[buf]+, %[buf_data]
             lpm
-            dec %[count]
+            dec  %[count]
             brne L%=_top_loop_masked
 
         L%=_top_loop_done:
 
             ; decrement pages, reset buf back
             clr __zero_reg__
-            sub %A[buf], %[cols]
-            sbc %B[buf], __zero_reg__
-            dec %[pages]
+            sub  %A[buf], %[cols]
+            sbc  %B[buf], __zero_reg__
+            dec  %[pages]
             brne L%=_middle
             rjmp L%=_finish
 
         L%=_middle:
 
             ; only seek again if necessary
-            tst %[reseek]
+            tst  %[reseek]
             breq L%=_middle_skip_reseek
-            in r0, %[spsr]
-            sbi %[fxport], %[fxbit]
+            in   r0, %[spsr]
+            sbi  %[fxport], %[fxbit]
             rcall L%=_seek
 
         L%=_middle_skip_reseek:
@@ -350,7 +351,7 @@ void SpritesABC::drawBasic(
 
         L%=_middle_loop_outer:
 
-            mov %[count], %[cols]
+            mov  %[count], %[cols]
 
             ; loop dispatch
             sbrc %[mode], 0
@@ -359,66 +360,66 @@ void SpritesABC::drawBasic(
         L%=_middle_loop_inner:
 
             ; write one page from image to buf/buf+128
-            in %A[x], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[x], %[shift_coef]
-            ld %[buf_data], %a[buf]
-            and %[buf_data], %A[shift_mask]
-            or %[buf_data], r0
-            st %a[buf]+, %[buf_data]
-            ld %[buf_data], %a[bufn]
-            and %[buf_data], %B[shift_mask]
-            or %[buf_data], r1
-            st %a[bufn]+, %[buf_data]
-            dec %[count]
+            in   %A[x], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[x], %[shift_coef]
+            ld   %[buf_data], %a[buf]
+            and  %[buf_data], %A[shift_mask]
+            or   %[buf_data], r0
+            st   %a[buf]+, %[buf_data]
+            ld   %[buf_data], %a[bufn]
+            and  %[buf_data], %B[shift_mask]
+            or   %[buf_data], r1
+            st   %a[bufn]+, %[buf_data]
+            dec  %[count]
             brne L%=_middle_loop_inner
             rjmp L%=_middle_loop_outer_next
 
         L%=_middle_loop_inner_masked:
 
             ; write one page from image to buf/buf+128
-            in %A[x], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[x], %[shift_coef]
+            in   %A[x], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[x], %[shift_coef]
             movw %A[x], r0
-            ld %[buf_data], %a[buf]
-            ld %B[shift_mask], %a[bufn]
+            ld   %[buf_data], %a[buf]
+            ld   %B[shift_mask], %a[bufn]
             rcall L%=_delay_7
             rjmp .+0
-            in %A[shift_mask], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[shift_mask], %[shift_coef]
-            com r0
-            and %[buf_data], r0
-            or %[buf_data], %A[x]
-            st %a[buf]+, %[buf_data]
-            com r1
-            and %B[shift_mask], r1
-            or %B[shift_mask], %B[x]
-            st %a[bufn]+, %B[shift_mask]
+            in   %A[shift_mask], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[shift_mask], %[shift_coef]
+            com  r0
+            and  %[buf_data], r0
+            or   %[buf_data], %A[x]
+            st   %a[buf]+, %[buf_data]
+            com  r1
+            and  %B[shift_mask], r1
+            or   %B[shift_mask], %B[x]
+            st   %a[bufn]+, %B[shift_mask]
             nop
-            dec %[count]
+            dec  %[count]
             brne L%=_middle_loop_inner_masked
 
         L%=_middle_loop_outer_next:
 
             ; advance buf to the next page
-            clr __zero_reg__
-            add %A[buf], %[buf_adv]
-            adc %B[buf], __zero_reg__
-            dec %[pages]
+            clr  __zero_reg__
+            add  %A[buf], %[buf_adv]
+            adc  %B[buf], __zero_reg__
+            dec  %[pages]
             brne L%=_middle
 
         L%=_bottom:
 
-            tst %[bottom]
+            tst  %[bottom]
             breq L%=_finish
 
             ; seek if needed
-            tst %[reseek]
+            tst  %[reseek]
             breq L%=_bottom_dispatch
-            in r0, %[spsr]
-            sbi %[fxport], %[fxbit]
+            in   r0, %[spsr]
+            sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             lpm
 
@@ -431,46 +432,46 @@ void SpritesABC::drawBasic(
         L%=_bottom_loop:
 
             ; write one page from image to buf
-            in %A[x], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[x], %[shift_coef]
-            ld %[buf_data], %a[buf]
-            and %[buf_data], %A[shift_mask]
-            or %[buf_data], r0
-            st %a[buf]+, %[buf_data]
+            in   %A[x], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[x], %[shift_coef]
+            ld   %[buf_data], %a[buf]
+            and  %[buf_data], %A[shift_mask]
+            or   %[buf_data], r0
+            st   %a[buf]+, %[buf_data]
             lpm
             rjmp .+0
-            dec %[cols]
+            dec  %[cols]
             brne L%=_bottom_loop
             rjmp L%=_finish
 
         L%=_bottom_loop_masked:
 
             ; write one page from image to buf
-            in %A[x], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %A[x], %[shift_coef]
+            in   %A[x], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %A[x], %[shift_coef]
             movw %A[x], r0
             rcall L%=_delay_13
-            in %[pages], %[spdr]
-            out %[spdr], __zero_reg__
-            mul %[pages], %[shift_coef]
-            mov %[pages], r0
-            ld %[buf_data], %a[buf]
-            com %[pages]
-            and %[buf_data], %[pages]
-            or %[buf_data], %A[x]
-            st %a[buf]+, %[buf_data]
+            in   %[pages], %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  %[pages], %[shift_coef]
+            mov  %[pages], r0
+            ld   %[buf_data], %a[buf]
+            com  %[pages]
+            and  %[buf_data], %[pages]
+            or   %[buf_data], %A[x]
+            st   %a[buf]+, %[buf_data]
             lpm
-            dec %[cols]
+            dec  %[cols]
             brne L%=_bottom_loop_masked
             lpm
 
         L%=_finish:
 
-            clr __zero_reg__
-            sbi %[fxport], %[fxbit]
-            in r0, %[spsr]
+            clr  __zero_reg__
+            sbi  %[fxport], %[fxbit]
+            in   r0, %[spsr]
             
         L%=_end:
 

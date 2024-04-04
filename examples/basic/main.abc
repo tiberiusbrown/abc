@@ -12,7 +12,7 @@ constexpr sprites BALL = sprites{
     --XXXX--
 };
 
-int x = 0;
+int x = 31;
 int y = -1;
 
 int coins = 0;
