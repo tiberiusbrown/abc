@@ -30,10 +30,12 @@ struct SpritesABC
 
 #ifdef SPRITESABC_IMPLEMENTATION
 
+__attribute__((naked, noinline))
 void SpritesABC::drawBasic(
     int16_t x, int16_t y, uint8_t w, uint8_t h,
     uint24_t image, uint16_t frame, uint8_t mode)
 {
+    /*
     register bool     bottom     asm("r2");
     register uint8_t  col_start  asm("r3");
     register uint8_t  buf_adv    asm("r4");
@@ -54,183 +56,201 @@ void SpritesABC::drawBasic(
     register int16_t  a_x        asm("r24") = x;
     register uint8_t* buf        asm("r26");
     register uint8_t* bufn       asm("r30");
+    */
 
     asm volatile(R"ASM(
     
-            cpi  %A[x], 128
-            cpc  %B[x], __zero_reg__
+            cpi  r24, 128
+            cpc  r25, __zero_reg__
             brlt 1f
-            rjmp L%=_end
+            rjmp L%=_end_postpop
         1:
-            cpi  %A[y], 64
-            cpc  %B[y], __zero_reg__
+            cpi  r22, 64
+            cpc  r23, __zero_reg__
             brlt 1f
-            rjmp L%=_end
+            rjmp L%=_end_postpop
         1:
-            movw %A[buf], %A[x]
-            add  %A[buf], %[w]
-            adc  %B[buf], __zero_reg__
-            cp   __zero_reg__, %A[buf]
-            cpc  __zero_reg__, %B[buf]
+            movw r26, r24
+            add  r26, r20
+            adc  r27, __zero_reg__
+            cp   __zero_reg__, r26
+            cpc  __zero_reg__, r27
             brlt 1f
-            rjmp L%=_end
+            rjmp L%=_end_postpop
         1:
-            movw %A[buf], %A[y]
-            add  %A[buf], %[h]
-            adc  %B[buf], __zero_reg__
-            cp   __zero_reg__, %A[buf]
-            cpc  __zero_reg__, %B[buf]
+            movw r26, r22
+            add  r26, r18
+            adc  r27, __zero_reg__
+            cp   __zero_reg__, r26
+            cpc  __zero_reg__, r27
             brlt 1f
-            rjmp L%=_end
+            rjmp L%=_end_postpop
         1:
     
-            cp   %A[frame], __zero_reg__
-            cpc  %B[frame], __zero_reg__
+            push r2
+            push r3
+            push r4
+            push r5
+            push r6
+            push r7
+            push r8
+            push r9
+            ; push r10
+            push r11
+            ; push r12
+            ; push r13
+            push r14
+            push r15
+            push r16
+            push r17
+    
+            cp   r12, __zero_reg__
+            cpc  r13, __zero_reg__
             breq 1f
             
             ; add frame offset to image
-            mov  %A[shift_mask], %[h]
-            lsr  %A[shift_mask]
-            lsr  %A[shift_mask]
-            lsr  %A[shift_mask]
-            sbrc %[mode], 0
-            lsl  %A[shift_mask]
-            mul  %A[shift_mask], %[w]
-            movw %A[shift_mask], r0
+            mov  r6, r18
+            lsr  r6
+            lsr  r6
+            lsr  r6
+            sbrc r10, 0
+            lsl  r6
+            mul  r6, r20
+            movw r6, r0
             
-            mul  %A[shift_mask], %B[frame]
-            add  %B[image], r0
-            adc  %C[image], r1
-            mul  %B[shift_mask], %A[frame]
-            add  %B[image], r0
-            adc  %C[image], r1
-            mul  %B[shift_mask], %B[frame]
-            add  %C[image], r0
-            mul  %A[shift_mask], %A[frame]
-            add  %A[image], r0
-            adc  %B[image], r1
+            mul  r6, r13
+            add  r15, r0
+            adc  r16, r1
+            mul  r7, r12
+            add  r15, r0
+            adc  r16, r1
+            mul  r7, r13
+            add  r16, r0
+            mul  r6, r12
+            add  r14, r0
+            adc  r15, r1
             clr  __zero_reg__
-            adc  %C[image], __zero_reg__
+            adc  r16, __zero_reg__
         1:
     
-            mov  %[col_start], %A[x]
-            clr  %[bottom]
-            mov  %[cols], %[w]
+            mov  r3, r24
+            clr  r2
+            mov  r8, r20
     
-            mov  %[pages], %[h]
-            lsr  %[pages]
-            lsr  %[pages]
-            lsr  %[pages]
+            mov  r19, r18
+            lsr  r19
+            lsr  r19
+            lsr  r19
     
             ; begin initial seek
             cbi  %[fxport], %[fxbit]
-            ldi  %[count], 3
-            out  %[spdr], %[count]
+            ldi  r21, 3
+            out  %[spdr], r21
             
-            movw %A[bufn], %A[y]
-            asr  %B[bufn]
-            ror  %A[bufn]
-            asr  %B[bufn]
-            ror  %A[bufn]
-            asr  %B[bufn]
-            ror  %A[bufn]
+            movw r30, r22
+            asr  r31
+            ror  r30
+            asr  r31
+            ror  r30
+            asr  r31
+            ror  r30
             
             ; clip against top edge
-            mov  %[page_start], %A[bufn]
-            cpi  %[page_start], 0xff
+            mov  r17, r30
+            cpi  r17, 0xff
             brge 1f
-            com  %[page_start]
-            sub  %[pages], %[page_start]
-            sbrc %[mode], 0
-            lsl  %[page_start]
-            mul  %[page_start], %[w]
-            add  %A[image], r0
-            adc  %B[image], r1
-            adc  %C[image], %[bottom]
-            ldi  %[page_start], 0xff
+            com  r17
+            sub  r19, r17
+            sbrc r10, 0
+            lsl  r17
+            mul  r17, r20
+            add  r14, r0
+            adc  r15, r1
+            adc  r16, r2
+            ldi  r17, 0xff
         1:
         
             lds r0, %[page]+0
-            add %B[image], r0
+            add r15, r0
             lds r0, %[page]+1
-            adc %C[image], r0
+            adc r16, r0
         
             ; clip against left edge
-            sbrs %B[x], 7
+            sbrs r25, 7
             rjmp 2f
-            add %[cols], %A[x]
-            sbrs %[mode], 0
+            add  r8, r24
+            sbrs r10, 0
             rjmp 1f
-            lsl  %A[x]
-            rol  %B[x]
-        1:  sub  %A[image], %A[x]
-            sbc  %B[image], %B[x]
-            sbc  %C[image], %[bottom]
-            sbrc %B[x], 7
-            inc  %C[image]
-            clr  %[col_start]
+            lsl  r24
+            rol  r25
+        1:  sub  r14, r24
+            sbc  r15, r25
+            sbc  r16, r2
+            sbrc r25, 7
+            inc  r16
+            clr  r3
         2:
         
             ; continue initial seek
-            out  %[spdr], %C[image]
+            out  %[spdr], r16
         
             ; compute buffer start address
-            ldi  %A[buf], lo8(%[sBuffer])
-            ldi  %B[buf], hi8(%[sBuffer])
-            ldi  %[count], 128
-            mulsu %[page_start], %[count]
-            add  r0, %[col_start]
-            add  %A[buf], r0
-            adc  %B[buf], r1
+            ldi  r26, lo8(%[sBuffer])
+            ldi  r27, hi8(%[sBuffer])
+            ldi  r21, 128
+            mulsu r17, r21
+            add  r0, r3
+            add  r26, r0
+            adc  r27, r1
             
             ; clip against right edge
-            sub  %[count], %[col_start]
-            cp   %[cols], %A[count]
+            sub  r21, r3
+            cp   r8, r21
             brlo 1f
-            mov  %[cols], %A[count]
+            mov  r8, r21
         1:
         
             ; clip against bottom edge
-            ldi  %A[bufn], 7
-            sub  %A[bufn], %[page_start]
+            ldi  r30, 7
+            sub  r30, r17
             
-            cp   %A[bufn], %[pages]
+            cp   r30, r19
             brge 1f
-            mov  %[pages], %A[bufn]
-            inc  %[bottom]
+            mov  r19, r30
+            inc  r2
         1:
             
             ; continue initial seek
-            out  %[spdr], %B[image]
+            out  %[spdr], r15
         
-            ldi  %A[bufn], 128
-            sub  %A[bufn], %[cols]
-            mov  %[buf_adv], %A[bufn]
+            ldi  r30, 128
+            sub  r30, r8
+            mov  r4, r30
             
             ; precompute vertical shift coef and mask
-            ldi  %[count], 1
-            sbrc %A[y], 1
-            ldi  %[count], 4
-            sbrc %A[y], 0
-            lsl  %[count]
-            sbrc %A[y], 2
-            swap %[count]
-            mov  %[shift_coef], %[count]
-            clr  %A[shift_mask]
-            com  %A[shift_mask]
-            mov  %B[shift_mask], %A[shift_mask]
+            ldi  r21, 1
+            sbrc r22, 1
+            ldi  r21, 4
+            sbrc r22, 0
+            lsl  r21
+            sbrc r22, 2
+            swap r21
+            mov  r5, r21
+            clr  r6
+            com  r6
+            mov  r7, r6
             
-            sbrc %[mode], 2
+            sbrc r10, 2
             rjmp 1f
-            ldi  %A[bufn], 0xff
-            mul  %A[bufn], %[shift_coef]
-            movw %A[shift_mask], r0
-            com  %A[shift_mask]
-            com  %B[shift_mask]
+            ldi  r30, 0xff
+            mul  r30, r5
+            movw r6, r0
+            com  r6
+            com  r7
         1:
             
             ; continue initial seek
-            out  %[spdr], %A[image]
+            out  %[spdr], r14
         
             ; continue initial seek
             clr  __zero_reg__
@@ -247,29 +267,29 @@ void SpritesABC::drawBasic(
 
             ; seek subroutine
             cbi %[fxport], %[fxbit]
-            ldi %A[bufn], 3
-            out %[spdr], %A[bufn]
+            ldi r30, 3
+            out %[spdr], r30
             clr __zero_reg__
-            add %A[image], %[w]
-            adc %B[image], __zero_reg__
-            adc %C[image], __zero_reg__
-            sbrc %[mode], 0
-            add %A[image], %[w]
-            sbrc %[mode], 0
-            adc %B[image], __zero_reg__
-            sbrc %[mode], 0
-            adc %C[image], __zero_reg__
+            add r14, r20
+            adc r15, __zero_reg__
+            adc r16, __zero_reg__
+            sbrc r10, 0
+            add r14, r20
+            sbrc r10, 0
+            adc r15, __zero_reg__
+            sbrc r10, 0
+            adc r16, __zero_reg__
         L%=_seek_after_adv:
-            clr %[reseek]
-            cp  %[w], %[cols]
+            clr r11
+            cp  r20, r8
             breq .+2
-            inc %[reseek]
+            inc r11
             lpm
-            out %[spdr], %C[image]
+            out %[spdr], r16
             rcall L%=_delay_17
-            out %[spdr], %B[image]
+            out %[spdr], r15
             rcall L%=_delay_17
-            out %[spdr], %A[image]
+            out %[spdr], r14
             rcall L%=_delay_17
             out %[spdr], __zero_reg__
             rcall L%=_delay_10
@@ -290,72 +310,72 @@ void SpritesABC::drawBasic(
 
         L%=_begin:
 
-            cp   %[page_start], __zero_reg__
+            cp   r17, __zero_reg__
             brlt L%=_top
-            tst  %[pages]
+            tst  r19
             brne L%=_middle_skip_reseek
             rjmp L%=_bottom_dispatch
 
         L%=_top:
 
             ; init buf
-            subi %A[buf], lo8(-128)
-            sbci %B[buf], hi8(-128)
-            mov  %[count], %[cols]
+            subi r26, lo8(-128)
+            sbci r27, hi8(-128)
+            mov  r21, r8
 
             ; loop dispatch
-            sbrc %[mode], 0
+            sbrc r10, 0
             rjmp L%=_top_loop_masked
 
         L%=_top_loop:
 
-            in   %A[x], %[spdr]
+            in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[x], %[shift_coef]
-            ld   %[buf_data], %a[buf]
-            and  %[buf_data], %B[shift_mask]
-            or   %[buf_data], r1
-            st   %a[buf]+, %[buf_data]
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r7
+            or   r9, r1
+            st   X+, r9
             lpm
             rjmp .+0
-            dec  %[count]
+            dec  r21
             brne L%=_top_loop
             rjmp L%=_top_loop_done
 
         L%=_top_loop_masked:
 
-            in   %A[x], %[spdr]
+            in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[x], %[shift_coef]
-            movw %A[x], r0
+            mul  r24, r5
+            movw r24, r0
             rcall L%=_delay_13
-            in   %A[shift_mask], %[spdr]
+            in   r6, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[shift_mask], %[shift_coef]
-            movw %A[shift_mask], r0
-            ld   %[buf_data], %a[buf]
-            com  %B[shift_mask]
-            and  %[buf_data], %B[shift_mask]
-            or   %[buf_data], %B[x]
-            st   %a[buf]+, %[buf_data]
+            mul  r6, r5
+            movw r6, r0
+            ld   r9, X
+            com  r7
+            and  r9, r7
+            or   r9, r25
+            st   X+, r9
             lpm
-            dec  %[count]
+            dec  r21
             brne L%=_top_loop_masked
 
         L%=_top_loop_done:
 
             ; decrement pages, reset buf back
             clr __zero_reg__
-            sub  %A[buf], %[cols]
-            sbc  %B[buf], __zero_reg__
-            dec  %[pages]
+            sub  r26, r8
+            sbc  r27, __zero_reg__
+            dec  r19
             brne L%=_middle
             rjmp L%=_finish
 
         L%=_middle:
 
             ; only seek again if necessary
-            tst  %[reseek]
+            tst  r11
             breq L%=_middle_skip_reseek
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
@@ -363,125 +383,126 @@ void SpritesABC::drawBasic(
 
         L%=_middle_skip_reseek:
 
-            movw %[bufn], %[buf]
-            subi %A[bufn], lo8(-128)
-            sbci %B[bufn], hi8(-128)
+            movw r30, r26
+            subi r30, lo8(-128)
+            sbci r31, hi8(-128)
 
         L%=_middle_loop_outer:
 
-            mov  %[count], %[cols]
+            mov  r21, r8
 
             ; loop dispatch
-            sbrc %[mode], 0
+            sbrc r10, 0
             rjmp L%=_middle_loop_inner_masked
 
         L%=_middle_loop_inner:
 
             ; write one page from image to buf/buf+128
-            in   %A[x], %[spdr]
+            in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[x], %[shift_coef]
-            ld   %[buf_data], %a[buf]
-            and  %[buf_data], %A[shift_mask]
-            or   %[buf_data], r0
-            st   %a[buf]+, %[buf_data]
-            ld   %[buf_data], %a[bufn]
-            and  %[buf_data], %B[shift_mask]
-            or   %[buf_data], r1
-            st   %a[bufn]+, %[buf_data]
-            dec  %[count]
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r6
+            or   r9, r0
+            st   X+, r9
+            ld   r9, Z
+            and  r9, r7
+            or   r9, r1
+            st   Z+, r9
+            dec  r21
             brne L%=_middle_loop_inner
             rjmp L%=_middle_loop_outer_next
 
         L%=_middle_loop_inner_masked:
 
             ; write one page from image to buf/buf+128
-            in   %A[x], %[spdr]
+            in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[x], %[shift_coef]
-            movw %A[x], r0
-            ld   %[buf_data], %a[buf]
-            ld   %B[shift_mask], %a[bufn]
+            mul  r24, r5
+            movw r24, r0
+            ld   r9, X
+            ld   r7, Z
             rcall L%=_delay_7
             rjmp .+0
-            in   %A[shift_mask], %[spdr]
+            in   r6, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[shift_mask], %[shift_coef]
+            mul  r6, r5
             com  r0
-            and  %[buf_data], r0
-            or   %[buf_data], %A[x]
-            st   %a[buf]+, %[buf_data]
+            and  r9, r0
+            or   r9, r24
+            st   X+, r9
             com  r1
-            and  %B[shift_mask], r1
-            or   %B[shift_mask], %B[x]
-            st   %a[bufn]+, %B[shift_mask]
+            and  r7, r1
+            or   r7, r25
+            st   Z+, r7
             nop
-            dec  %[count]
+            dec  r21
             brne L%=_middle_loop_inner_masked
 
         L%=_middle_loop_outer_next:
 
             ; advance buf to the next page
             clr  __zero_reg__
-            add  %A[buf], %[buf_adv]
-            adc  %B[buf], __zero_reg__
-            dec  %[pages]
+            add  r26, r4
+            adc  r27, __zero_reg__
+            dec  r19
             brne L%=_middle
 
         L%=_bottom:
 
-            tst  %[bottom]
+            tst  r2
             breq L%=_finish
 
             ; seek if needed
-            tst  %[reseek]
+            tst  r11
             breq L%=_bottom_dispatch
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
-            lpm
-
+            rjmp .+0
+            rjmp .+0
+            
         L%=_bottom_dispatch:
 
             ; loop dispatch
-            sbrc %[mode], 0
+            sbrc r10, 0
             rjmp L%=_bottom_loop_masked
 
         L%=_bottom_loop:
 
             ; write one page from image to buf
-            in   %A[x], %[spdr]
+            in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[x], %[shift_coef]
-            ld   %[buf_data], %a[buf]
-            and  %[buf_data], %A[shift_mask]
-            or   %[buf_data], r0
-            st   %a[buf]+, %[buf_data]
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r6
+            or   r9, r0
+            st   X+, r9
             lpm
             rjmp .+0
-            dec  %[cols]
+            dec  r8
             brne L%=_bottom_loop
             rjmp L%=_finish
 
         L%=_bottom_loop_masked:
 
             ; write one page from image to buf
-            in   %A[x], %[spdr]
+            in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %A[x], %[shift_coef]
-            movw %A[x], r0
+            mul  r24, r5
+            movw r24, r0
             rcall L%=_delay_13
-            in   %[pages], %[spdr]
+            in   r19, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  %[pages], %[shift_coef]
-            mov  %[pages], r0
-            ld   %[buf_data], %a[buf]
-            com  %[pages]
-            and  %[buf_data], %[pages]
-            or   %[buf_data], %A[x]
-            st   %a[buf]+, %[buf_data]
+            mul  r19, r5
+            mov  r19, r0
+            ld   r9, X
+            com  r19
+            and  r9, r19
+            or   r9, r24
+            st   X+, r9
             lpm
-            dec  %[cols]
+            dec  r8
             brne L%=_bottom_loop_masked
             lpm
 
@@ -493,38 +514,37 @@ void SpritesABC::drawBasic(
             
         L%=_end:
 
+            pop  r17
+            pop  r16
+            pop  r15
+            pop  r14
+            ; pop  r13
+            ; pop  r12
+            pop  r11
+            ; pop  r10
+            pop  r9
+            pop  r8
+            pop  r7
+            pop  r6
+            pop  r5
+            pop  r4
+            pop  r3
+            pop  r2
+            
+        L%=_end_postpop:
+            
+            ret
+
         )ASM"
         
-        : [pages]      "=&r" (pages)
-        , [shift_coef] "=&r" (shift_coef)
-        , [shift_mask] "=&r" (shift_mask)
-        , [page_start] "=&a" (page_start)
-        , [cols]       "=&r" (cols)
-        , [col_start]  "=&r" (col_start)
-        , [bottom]     "=&r" (bottom)
-        , [buf]        "=&x" (buf)
-        , [bufn]       "=&z" (bufn)
-        , [buf_adv]    "=&r" (buf_adv)
-        , [x]          "+&r" (a_x)
-        , [y]          "+&r" (a_y)
-        , [image]      "+&r" (a_image)
-        , [reseek]     "=&r" (reseek)
-        , [buf_data]   "=&r" (buf_data)
-        , [count]      "=&a" (count)
-        
-        : [frame]      "r"   (a_frame)
-        , [mode]       "r"   (a_mode)
-        , [w]          "r"   (a_w)
-        , [h]          "r"   (a_h)
-        , [sBuffer]    "i"   (Arduboy2Base::sBuffer)
+        :
+        : [sBuffer]    "i"   (Arduboy2Base::sBuffer)
         , [fxport]     "I"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]      "I"   (FX_BIT)
         , [spdr]       "I"   (_SFR_IO_ADDR(SPDR))
         , [spsr]       "I"   (_SFR_IO_ADDR(SPSR))
         , [page]       "i"   (&FX::programDataPage)
-        
-        : "memory"
-                   
+                           
         );
 }
 
