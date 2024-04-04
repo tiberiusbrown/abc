@@ -542,14 +542,32 @@ static void sys_draw_sprite_selfmask()
 }
 
 static void draw_char(
-    uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h, char c)
+    int16_t& x, int16_t y, uint8_t w, uint8_t h, uint24_t font, char c)
 {
 #if 1
+    /*
+        BEFORE
+        =================
+        font  r22 r23 r24
+        &x    r20 r21
+        y     r18 r19
+        w     r16
+        h     r14
+        c     r12
+
+        AFTER
+        =================
+        x     r24 r25
+        y     r22 r23
+
+
+    */
+
     int8_t lsb;
     uint8_t adv;
     uint16_t t;
-    int16_t xv;
-    register uint24_t addr asm("r14");
+    register int16_t  xv   asm("r24");
+    uint24_t addr;
     asm volatile(R"(
             ldi  %A[t], 3
             cbi  %[fxport], %[fxbit]
@@ -559,6 +577,7 @@ static void draw_char(
             nop
         L%=_delay_16:
             rjmp .+0
+        L%=_delay_14:
             rjmp .+0
         L%=_delay_12:
             rjmp .+0
@@ -585,12 +604,14 @@ static void draw_char(
             rcall L%=_delay_17
 
             out  %[spdr], %A[addr]
-            movw %A[addr], %A[font]
-            mov  %C[addr], %C[font]
-            subi %A[addr], lo8(-518)
-            sbci %B[addr], hi8(-518)
-            sbci %C[addr], 0xff
-            rcall L%=_delay_12
+            ldi  %A[t], lo8(-518)
+            sub  %A[font], %A[t]
+            ldi  %A[t], hi8(-518)
+            sbc  %B[font], %A[t]
+            ldi  %A[t], 0xff
+            sbc  %C[font], %A[t]
+            nop
+            rcall L%=_delay_10
 
             out  %[spdr], __zero_reg__
             rcall L%=_delay_16
@@ -614,8 +635,8 @@ static void draw_char(
             st   -%a[xp], %A[t]
 
         )"
-        : [font]   "+&d" (font)
-        , [addr]   "=&d" (addr)
+        : [font]   "+&r" (font)
+        , [addr]   "=&r" (addr)
         , [t]      "=&d" (t)
         , [lsb]    "=&r" (lsb)
         , [adv]    "=&r" (adv)
@@ -633,7 +654,7 @@ static void draw_char(
         //, [DRAW]   "i"   (&SpritesABC::drawBasic)
         );
         SpritesABC::drawBasic(
-            xv, y, w, h, addr, uint8_t(c),
+            xv, y, w, h, font, uint8_t(c),
             SpritesABC::MODE_SELFMASKFX);
 #else
     FX::seekData(font + uint8_t(c) * 2);
@@ -676,7 +697,7 @@ static void sys_draw_text()
             continue;
         }
         
-        draw_char(font, x, y, w, h, c);
+        draw_char(x, y, w, h, font, c);
     }
     
     FX::seekData(ards::vm.pc);
@@ -715,7 +736,7 @@ static void sys_draw_text_P()
             continue;
         }
         
-        draw_char(font, x, y, w, h, c);
+        draw_char(x, y, w, h, font, c);
     }
     
     FX::seekData(ards::vm.pc);
@@ -1293,7 +1314,7 @@ static void format_exec_draw(char c)
     }
     else
     {
-        draw_char(u->font, u->x, u->y, u->w, u->h, c);
+        draw_char(u->x, u->y, u->w, u->h, u->font, c);
     }
 }
 
