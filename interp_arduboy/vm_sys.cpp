@@ -6,10 +6,8 @@
 #include <Arduboy2Audio.h>
 #include <ArduboyFX.h>
 
-#define SPRITESU_IMPLEMENTATION
-#define SPRITESU_FX
-#define SPRITESU_RECT
-#include "SpritesU.hpp"
+#define SPRITESABC_IMPLEMENTATION
+#include "SpritesABC.hpp"
 
 #include "ards_tone.hpp"
 
@@ -163,7 +161,7 @@ static void sys_draw_hline()
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesU::fillRect(x, y, w, 1, color);
+    SpritesABC::fillRect(x, y, w, 1, color);
 }
 
 static void sys_draw_vline()
@@ -174,7 +172,7 @@ static void sys_draw_vline()
     uint8_t h = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesU::fillRect(x, y, 1, h, color);
+    SpritesABC::fillRect(x, y, 1, h, color);
 }
 
 static void sys_draw_line()
@@ -198,10 +196,10 @@ static void sys_draw_rect()
     uint8_t h = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesU::fillRect(x, y, w, 1, color);
-    SpritesU::fillRect(x, y, 1, h, color);
-    SpritesU::fillRect(x, y + h - 1, w, 1, color);
-    SpritesU::fillRect(x + w - 1, y, 1, h, color);
+    SpritesABC::fillRect(x, y, w, 1, color);
+    SpritesABC::fillRect(x, y, 1, h, color);
+    SpritesABC::fillRect(x, y + h - 1, w, 1, color);
+    SpritesABC::fillRect(x + w - 1, y, 1, h, color);
 }
 
 static void sys_draw_filled_rect()
@@ -213,7 +211,7 @@ static void sys_draw_filled_rect()
     uint8_t h = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesU::fillRect(x, y, w, h, color);
+    SpritesABC::fillRect(x, y, w, h, color);
 }
 
 static void sys_draw_circle()
@@ -230,7 +228,7 @@ static void sys_draw_circle()
 __attribute__((always_inline))
 static void draw_fast_vline(int16_t x, int16_t y, uint16_t h, uint8_t color)
 {
-    SpritesU::fillRect(x, y, 1, h, color);
+    SpritesABC::fillRect(x, y, 1, h, color);
 }
 
 // adapted from Arduboy2 library (BSD 3-clause)
@@ -508,7 +506,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     );
     if(frame >= num)
         vm_error(ards::ERR_FRM);
-    SpritesU::drawBasic(x, y, w, h, image, frame, mode);
+    SpritesABC::drawBasic(x, y, w, h, image, frame, mode);
 #endif
 
 #if !DRAW_SPRITE_HELPER_OPT
@@ -527,7 +525,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
 
     if(frame >= sd.num)
         vm_error(ards::ERR_FRM);
-    SpritesU::drawBasic(x, y, sd.w, sd.h, image + 5, frame, sd.mode);
+    SpritesABC::drawBasic(x, y, sd.w, sd.h, image + 5, frame, sd.mode);
 #endif
 
     FX::seekData(ards::vm.pc);
@@ -548,9 +546,9 @@ static void draw_char(uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h
     FX::seekData(font + uint8_t(c) * 2);
     int8_t lsb = (int8_t)FX::readPendingUInt8();
     uint8_t adv = FX::readPendingLastUInt8();
-    SpritesU::drawBasic(
+    SpritesABC::drawBasic(
         x + lsb, y, w, h, font + 513 + 5, uint8_t(c),
-        SpritesU::MODE_SELFMASKFX);
+        SpritesABC::MODE_SELFMASKFX);
     x += adv;
 }
 
