@@ -548,24 +548,24 @@ static void draw_char(
     /*
         BEFORE
         =================
-        font  r22 r23 r24
-        &x    r20 r21
-        y     r18 r19
-        w     r16
-        h     r14
+        &x    r24 r25
+        y     r22 r23
+        w     r20
+        h     r18
+        font  r14 r15 r16
         c     r12
 
         AFTER
         =================
         x     r24 r25
-        y     r22 r23
-
-
+        y     r22 r21
+        w     r20
+        h     r18
+        font  r14 r15 r16
     */
 
-    int8_t lsb;
-    uint8_t adv;
-    uint16_t t;
+    register uint8_t adv   asm("r19");
+    register uint16_t t    asm("r30");
     register int16_t  xv   asm("r24");
     uint24_t addr;
     asm volatile(R"(
@@ -616,14 +616,14 @@ static void draw_char(
             out  %[spdr], __zero_reg__
             rcall L%=_delay_16
 
-            in   %[lsb], %[spdr]
+            in   %[adv], %[spdr]
             out  %[spdr], __zero_reg__
             ld   %A[xv], %a[xp]+
             ld   %B[xv], %a[xp]
             movw %A[t], %A[xv]
-            add  %A[xv], %[lsb]
+            add  %A[xv], %[adv]
             adc  %B[xv], __zero_reg__
-            sbrc %[lsb], 7
+            sbrc %[adv], 7
             dec  %B[xv]
             rcall L%=_delay_7
 
@@ -638,7 +638,6 @@ static void draw_char(
         : [font]   "+&r" (font)
         , [addr]   "=&r" (addr)
         , [t]      "=&d" (t)
-        , [lsb]    "=&r" (lsb)
         , [adv]    "=&r" (adv)
         , [xv]     "=&r" (xv)
         : [xp]     "e"   (&x)
