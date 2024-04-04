@@ -129,18 +129,61 @@ void vm_push(T x)
     vm_push_n<sizeof(T)>(ptr, u.b);
 }
 
+__attribute__((naked, noinline))
+static void seek_to_pc()
+{
+    asm volatile(R"(
+            ldi  r24, 3
+            cbi  %[fxport], %[fxbit]
+            out  %[spdr], r24
+            lds  r20, %[pc]+0
+            lds  r21, %[pc]+1
+            lds  r22, %[pc]+2
+            lds  r24, %[datapage]+0
+            lds  r25, %[datapage]+1
+            add  r21, r24
+            adc  r22, r25
+            rjmp 1f
+        L%=_delay_17:
+            rjmp .+0
+            lpm
+        L%=_delay_12:
+            rjmp .+0
+            lpm
+        L%=_delay_7:
+            ret
+        1:  lpm
+            out  %[spdr], r22
+            rcall L%=_delay_17
+            out  %[spdr], r21
+            rcall L%=_delay_17
+            out  %[spdr], r20
+            rcall L%=_delay_17
+            out  %[spdr], __zero_reg__
+            rcall L%=_delay_12
+            ret
+        )"
+        :
+        : [pc]       "i" (&ards::vm.pc)
+        , [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i"   (FX_BIT)
+        , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
+        , [datapage] ""    (&FX::programDataPage)
+        );
+}
+
 static void sys_display()
 {
     (void)FX::readEnd();
     FX::display(true);
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_display_noclear()
 {
     (void)FX::readEnd();
     FX::display(false);
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_draw_pixel()
@@ -528,7 +571,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     SpritesABC::drawBasic(x, y, sd.w, sd.h, image + 5, frame, sd.mode);
 #endif
 
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_draw_sprite()
@@ -699,7 +742,7 @@ static void sys_draw_text()
         draw_char(x, y, w, h, font, c);
     }
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_draw_text_P()
@@ -738,7 +781,7 @@ static void sys_draw_text_P()
         draw_char(x, y, w, h, font, c);
     }
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_text_width()
@@ -772,7 +815,7 @@ static void sys_text_width()
     
     vm_push<uint16_t>(wmax);
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_text_width_P()
@@ -810,7 +853,7 @@ static void sys_text_width_P()
     
     vm_push<uint16_t>(wmax);
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_strlen()
@@ -845,7 +888,7 @@ static void sys_strlen_P()
     }
     vm_push(t);
     (void)FX::readEnd();
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_strcmp()
@@ -894,7 +937,7 @@ static void sys_strcmp_P()
     }
     vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
     (void)FX::readEnd();
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_strcmp_PP()
@@ -919,7 +962,7 @@ static void sys_strcmp_PP()
         if(c0 != c1) break;
     }
     vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_strcpy()
@@ -970,7 +1013,7 @@ static void sys_strcpy_P()
     FX::disable();
     vm_push<uint16_t>(br);
     vm_push<uint16_t>(nr);
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 using format_char_func = void(*)(char c);
@@ -1339,7 +1382,7 @@ static void sys_format()
     if(user.n != 0)
         *user.p = '\0';
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_debug_printf()
@@ -1348,7 +1391,7 @@ static void sys_debug_printf()
     
     format_exec(format_exec_debug_printf);
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_draw_textf()
@@ -1372,7 +1415,7 @@ static void sys_draw_textf()
     
     format_exec(format_exec_draw);
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_tones_play()
@@ -1388,7 +1431,7 @@ static void sys_tones_play()
     
     ards::Tones::play(song);
     
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_tones_playing()
@@ -1432,7 +1475,7 @@ static void sys_save_exists()
         r = (FX::readPendingLastUInt16() == u.save_size);
     }
     vm_push<bool>(r);
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_save()
@@ -1449,7 +1492,8 @@ static void sys_save()
     u.b[1] = FX::readPendingLastUInt8();
     if(u.save_size > 0 && u.save_size <= 1024)
         FX::saveGameState(&ards::vm.globals[0], u.save_size);
-    FX::seekData(ards::vm.pc);
+    FX::waitWhileBusy();
+    seek_to_pc();
 }
 
 static void sys_load()
@@ -1467,7 +1511,7 @@ static void sys_load()
     if(u.save_size > 0 && u.save_size <= 1024)
         r = (bool)FX::loadGameState(&ards::vm.globals[0], u.save_size);
     vm_push<bool>(r);
-    FX::seekData(ards::vm.pc);
+    seek_to_pc();
 }
 
 static void sys_sin()

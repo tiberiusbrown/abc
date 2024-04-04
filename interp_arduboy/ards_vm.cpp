@@ -3478,13 +3478,7 @@ store_vm_state:
     ; and 4 cycles of above delay, we might need these
     ; extra 8 cycles delay before dispatch
 
-    in   r0, %[spsr]
-    sbrc r0, 7
-    rjmp seek_dispatch
-    in   r0, %[spsr]
-    sbrc r0, 7
-    rjmp seek_dispatch
-    rjmp seek_dispatch
+    dispatch_noalign
 
 pidx_part2:
     
