@@ -1,316 +1,316 @@
- 18   p0
- 18   p1
- 18   p2
- 18   p3
- 18   p4
- 18   p5
- 18   p6
- 18   p7
- 18   p8
- 18   p16
- 18   p32
- 18   p64
- 18   p128
- 18   p00
- 20   p000
- 22   p0000
- 30   pz8
- 46   pz16
- 36   push N
- 54   push2 N
- 72   push3 N
- 90   push4 N
- 18   sext
- 18   sext (neg)
- 19   sext2
- 19   sext2 (neg)
- 21   sext3
- 21   sext3 (neg)
- 18   dup
- 19   dup2
- 19   dup3
- 19   dup4
- 19   dup5
- 19   dup6
- 19   dup7
- 19   dup8
- 23   dupw
- 23   dupw2
- 23   dupw3
- 23   dupw4
- 23   dupw5
- 23   dupw6
- 23   dupw7
- 23   dupw8
- 36   getl N
- 36   getl2 N
- 38   getl4 N
- 38   getln N (3)
- 49   getln N (5)
- 68   getln N (8)
-112   getln N (16)
-200   getln N (32)
- 36   setl N
- 36   setl2 N
- 36   setl4 N
- 36   setln N (3)
- 49   setln N (5)
- 67   setln N (8)
-111   setln N (16)
-199   setln N (32)
- 54   getg VAR
- 54   getg2 VAR
- 54   getg4 VAR
- 58   getgn VAR (3)
- 69   getgn VAR (5)
- 88   getgn VAR (8)
-132   getgn VAR (16)
-220   getgn VAR (32)
- 54   setg VAR
- 54   setg2 VAR
- 54   setg4 VAR
- 60   setgn VAR (3)
- 71   setgn VAR (5)
- 90   setgn VAR (8)
-134   setgn VAR (16)
-222   setgn VAR (32)
-212   getp
-235   getpn 2
-253   getpn 3
-271   getpn 4
-343   getpn 8
-487   getpn 16
-775   getpn 32
- 18   pop
- 18   pop2
- 18   pop3
- 18   pop4
- 36   popn N
- 36   refl
- 36   refgb
- 18   getr
- 20   getr2
- 42   getrn 3
- 50   getrn 4
- 72   getrn 8
-116   getrn 16
-204   getrn 32
- 20   setr
- 24   setr2
- 43   setrn 3
- 51   setrn 4
- 73   setrn 8
-117   setrn 16
-205   setrn 32
- 36   aixb1
- 54   aidxb
- 97   aidx
- 54   pidxb
-123   pidx
- 54   uaidx
- 84   upidx
- 62   aslc
- 86   pslc
- 18   inc
- 18   dec
- 36   linc N
- 20   pinc
- 27   pinc2
- 37   pinc3
- 44   pinc4
- 20   pdec
- 27   pdec2
- 37   pdec3
- 44   pdec4
-138   pincf (0)
-129   pincf (1)
-179   pincf (1000000)
-139   pdecf (0)
-117   pdecf (1)
-180   pdecf (1000000)
- 18   add
- 21   add2
- 28   add3
- 35   add4
- 18   sub
- 22   sub2
- 29   sub3
- 36   sub4
- 20   add2b
- 20   sub2b
- 24   mul2b
- 25   add3b
- 18   mul
- 29   mul2
- 45   mul3
- 71   mul4
-229   udiv2 (30000 / 7)
-223   udiv2 (30000 / 7000)
-661   udiv4 (300000000 / 7)
-619   udiv4 (300000000 / 70000000)
-246   div2 (30000 / 7)
-240   div2 (30000 / 7000)
-678   div4 (300000000 / 7)
-636   div4 (300000000 / 70000000)
-229   umod2 (30000 / 7)
-223   umod2 (30000 / 7000)
-661   umod4 (300000000 / 7)
-619   umod4 (300000000 / 70000000)
-246   mod2 (30000 / 7)
-240   mod2 (30000 / 7000)
-678   mod4 (300000000 / 7)
-636   mod4 (300000000 / 70000000)
- 27   lsl (0)
- 27   lsl (1)
- 27   lsl (4)
- 27   lsl (7)
- 20   lsl (8)
- 20   lsl (64)
- 26   lsl2 (0)
- 31   lsl2 (1)
- 46   lsl2 (4)
- 24   lsl2 (8)
-101   lsl2 (15)
- 25   lsl2 (16)
- 25   lsl2 (64)
- 32   lsl4 (0)
- 39   lsl4 (1)
- 60   lsl4 (4)
- 88   lsl4 (8)
-144   lsl4 (16)
-200   lsl4 (24)
-249   lsl4 (31)
- 31   lsl4 (32)
- 31   lsl4 (64)
- 27   lsr (0)
- 27   lsr (1)
- 27   lsr (4)
- 27   lsr (7)
- 20   lsr (8)
- 20   lsr (64)
- 24   lsr2 (0)
- 29   lsr2 (1)
- 44   lsr2 (4)
- 64   lsr2 (8)
- 99   lsr2 (15)
- 23   lsr2 (16)
- 23   lsr2 (64)
- 32   lsr4 (0)
- 39   lsr4 (1)
- 60   lsr4 (4)
- 88   lsr4 (8)
-144   lsr4 (16)
-200   lsr4 (24)
-249   lsr4 (31)
- 31   lsr4 (32)
- 31   lsr4 (64)
- 20   asr (0)
- 24   asr (1)
- 36   asr (4)
- 22   asr (7)
- 22   asr (8)
- 22   asr (64)
- 24   asr2 (0)
- 29   asr2 (1)
- 44   asr2 (4)
- 64   asr2 (8)
- 99   asr2 (15)
- 26   asr2 (16)
- 26   asr2 (64)
- 34   asr4 (0)
- 41   asr4 (1)
- 62   asr4 (4)
- 90   asr4 (8)
-146   asr4 (16)
-202   asr4 (24)
-251   asr4 (31)
- 34   asr4 (32)
- 34   asr4 (64)
- 18   and
- 21   and2
- 35   and4
- 18   or
- 21   or2
- 35   or4
- 18   xor
- 21   xor2
- 35   xor4
- 18   comp
- 18   comp2
- 27   comp4
- 18   bool (0)
- 18   bool (1)
- 18   bool2 (0)
- 18   bool2 (1)
- 20   bool3 (0)
- 20   bool3 (1)
- 23   bool4 (0)
- 23   bool4 (1)
- 18   cult (pass)
- 18   cult (fail)
- 22   cult2 (pass)
- 21   cult2 (fail)
- 27   cult3 (pass)
- 26   cult3 (fail)
- 32   cult4 (pass)
- 31   cult4 (fail)
- 18   cslt (pass)
- 18   cslt (fail)
- 22   cslt2 (pass)
- 21   cslt2 (fail)
- 27   cslt3 (pass)
- 26   cslt3 (fail)
- 32   cslt4 (pass)
- 31   cslt4 (fail)
- 76   cfeq (3.5, 3.4)
- 76   cfeq (3.5, 3.4e8)
- 77   cflt (3.5, 3.4)
- 77   cflt (3.5, 3.4e8)
- 18   not (0)
- 18   not (1)
-119   fadd (3.5, 3.4)
-189   fadd (3.5, 3.4e8)
-120   fsub (3.5, -3.4)
-190   fsub (3.5, -3.4e8)
-161   fmul (3.5, 3.4)
-155   fmul (3.5, 3.4e8)
-506   fdiv (3.5, 3.4)
-494   fdiv (3.5, 3.4e8)
-121   f2i (3.4)
-109   f2i (3.4e8)
-111   f2u (3.4)
- 99   f2u (3.4e8)
- 92   i2f (3)
- 92   i2f (340000000)
- 92   u2f (3)
- 92   u2f (340000000)
- 72   bz (not taken)
-157   bz (taken)
- 36   bz1 (not taken)
-126   bz1 (taken)
- 72   bnz (not taken)
-157   bnz (taken)
- 36   bnz1 (not taken)
-126   bnz1 (taken)
- 72   bzp (not taken)
-157   bzp (taken)
- 36   bzp1 (not taken)
-127   bzp1 (taken)
- 72   bnzp (not taken)
-157   bnzp (taken)
- 36   bnzp1 (not taken)
-127   bnzp1 (taken)
-157   jmp
-126   jmp1
-157   call
-134   call1
-122   ret
-630   $draw_sprite (1x8 unmasked)
-763   $draw_sprite (8x8 unmasked)
-898   $draw_sprite (8x8 masked)
-1235   $draw_sprite (16x16 unmasked)
-1777   $draw_sprite (16x16 masked)
-3091   $draw_sprite (32x32 unmasked)
-5263   $draw_sprite (32x32 masked)
+   18   p0
+   18   p1
+   18   p2
+   18   p3
+   18   p4
+   18   p5
+   18   p6
+   18   p7
+   18   p8
+   18   p16
+   18   p32
+   18   p64
+   18   p128
+   18   p00
+   20   p000
+   22   p0000
+   30   pz8
+   46   pz16
+   36   push N
+   54   push2 N
+   72   push3 N
+   90   push4 N
+   18   sext
+   18   sext (neg)
+   19   sext2
+   19   sext2 (neg)
+   21   sext3
+   21   sext3 (neg)
+   18   dup
+   19   dup2
+   19   dup3
+   19   dup4
+   19   dup5
+   19   dup6
+   19   dup7
+   19   dup8
+   23   dupw
+   23   dupw2
+   23   dupw3
+   23   dupw4
+   23   dupw5
+   23   dupw6
+   23   dupw7
+   23   dupw8
+   36   getl N
+   36   getl2 N
+   38   getl4 N
+   38   getln N (3)
+   49   getln N (5)
+   68   getln N (8)
+  112   getln N (16)
+  200   getln N (32)
+   36   setl N
+   36   setl2 N
+   36   setl4 N
+   36   setln N (3)
+   49   setln N (5)
+   67   setln N (8)
+  111   setln N (16)
+  199   setln N (32)
+   54   getg VAR
+   54   getg2 VAR
+   54   getg4 VAR
+   58   getgn VAR (3)
+   69   getgn VAR (5)
+   88   getgn VAR (8)
+  132   getgn VAR (16)
+  220   getgn VAR (32)
+   54   setg VAR
+   54   setg2 VAR
+   54   setg4 VAR
+   60   setgn VAR (3)
+   71   setgn VAR (5)
+   90   setgn VAR (8)
+  134   setgn VAR (16)
+  222   setgn VAR (32)
+  212   getp
+  235   getpn 2
+  253   getpn 3
+  271   getpn 4
+  343   getpn 8
+  487   getpn 16
+  775   getpn 32
+   18   pop
+   18   pop2
+   18   pop3
+   18   pop4
+   36   popn N
+   36   refl
+   36   refgb
+   18   getr
+   20   getr2
+   42   getrn 3
+   50   getrn 4
+   72   getrn 8
+  116   getrn 16
+  204   getrn 32
+   20   setr
+   24   setr2
+   43   setrn 3
+   51   setrn 4
+   73   setrn 8
+  117   setrn 16
+  205   setrn 32
+   36   aixb1
+   54   aidxb
+   97   aidx
+   54   pidxb
+  123   pidx
+   54   uaidx
+   84   upidx
+   62   aslc
+   86   pslc
+   18   inc
+   18   dec
+   36   linc N
+   20   pinc
+   27   pinc2
+   37   pinc3
+   44   pinc4
+   20   pdec
+   27   pdec2
+   37   pdec3
+   44   pdec4
+  138   pincf (0)
+  129   pincf (1)
+  179   pincf (1000000)
+  139   pdecf (0)
+  117   pdecf (1)
+  180   pdecf (1000000)
+   18   add
+   21   add2
+   28   add3
+   35   add4
+   18   sub
+   22   sub2
+   29   sub3
+   36   sub4
+   20   add2b
+   20   sub2b
+   24   mul2b
+   25   add3b
+   18   mul
+   29   mul2
+   45   mul3
+   71   mul4
+  229   udiv2 (30000 / 7)
+  223   udiv2 (30000 / 7000)
+  661   udiv4 (300000000 / 7)
+  619   udiv4 (300000000 / 70000000)
+  246   div2 (30000 / 7)
+  240   div2 (30000 / 7000)
+  678   div4 (300000000 / 7)
+  636   div4 (300000000 / 70000000)
+  229   umod2 (30000 / 7)
+  223   umod2 (30000 / 7000)
+  661   umod4 (300000000 / 7)
+  619   umod4 (300000000 / 70000000)
+  246   mod2 (30000 / 7)
+  240   mod2 (30000 / 7000)
+  678   mod4 (300000000 / 7)
+  636   mod4 (300000000 / 70000000)
+   27   lsl (0)
+   27   lsl (1)
+   27   lsl (4)
+   27   lsl (7)
+   20   lsl (8)
+   20   lsl (64)
+   26   lsl2 (0)
+   31   lsl2 (1)
+   46   lsl2 (4)
+   24   lsl2 (8)
+  101   lsl2 (15)
+   25   lsl2 (16)
+   25   lsl2 (64)
+   32   lsl4 (0)
+   39   lsl4 (1)
+   60   lsl4 (4)
+   88   lsl4 (8)
+  144   lsl4 (16)
+  200   lsl4 (24)
+  249   lsl4 (31)
+   31   lsl4 (32)
+   31   lsl4 (64)
+   27   lsr (0)
+   27   lsr (1)
+   27   lsr (4)
+   27   lsr (7)
+   20   lsr (8)
+   20   lsr (64)
+   24   lsr2 (0)
+   29   lsr2 (1)
+   44   lsr2 (4)
+   64   lsr2 (8)
+   99   lsr2 (15)
+   23   lsr2 (16)
+   23   lsr2 (64)
+   32   lsr4 (0)
+   39   lsr4 (1)
+   60   lsr4 (4)
+   88   lsr4 (8)
+  144   lsr4 (16)
+  200   lsr4 (24)
+  249   lsr4 (31)
+   31   lsr4 (32)
+   31   lsr4 (64)
+   20   asr (0)
+   24   asr (1)
+   36   asr (4)
+   22   asr (7)
+   22   asr (8)
+   22   asr (64)
+   24   asr2 (0)
+   29   asr2 (1)
+   44   asr2 (4)
+   64   asr2 (8)
+   99   asr2 (15)
+   26   asr2 (16)
+   26   asr2 (64)
+   34   asr4 (0)
+   41   asr4 (1)
+   62   asr4 (4)
+   90   asr4 (8)
+  146   asr4 (16)
+  202   asr4 (24)
+  251   asr4 (31)
+   34   asr4 (32)
+   34   asr4 (64)
+   18   and
+   21   and2
+   35   and4
+   18   or
+   21   or2
+   35   or4
+   18   xor
+   21   xor2
+   35   xor4
+   18   comp
+   18   comp2
+   27   comp4
+   18   bool (0)
+   18   bool (1)
+   18   bool2 (0)
+   18   bool2 (1)
+   20   bool3 (0)
+   20   bool3 (1)
+   23   bool4 (0)
+   23   bool4 (1)
+   18   cult (pass)
+   18   cult (fail)
+   22   cult2 (pass)
+   21   cult2 (fail)
+   27   cult3 (pass)
+   26   cult3 (fail)
+   32   cult4 (pass)
+   31   cult4 (fail)
+   18   cslt (pass)
+   18   cslt (fail)
+   22   cslt2 (pass)
+   21   cslt2 (fail)
+   27   cslt3 (pass)
+   26   cslt3 (fail)
+   32   cslt4 (pass)
+   31   cslt4 (fail)
+   76   cfeq (3.5, 3.4)
+   76   cfeq (3.5, 3.4e8)
+   77   cflt (3.5, 3.4)
+   77   cflt (3.5, 3.4e8)
+   18   not (0)
+   18   not (1)
+  119   fadd (3.5, 3.4)
+  189   fadd (3.5, 3.4e8)
+  120   fsub (3.5, -3.4)
+  190   fsub (3.5, -3.4e8)
+  161   fmul (3.5, 3.4)
+  155   fmul (3.5, 3.4e8)
+  506   fdiv (3.5, 3.4)
+  494   fdiv (3.5, 3.4e8)
+  121   f2i (3.4)
+  109   f2i (3.4e8)
+  111   f2u (3.4)
+   99   f2u (3.4e8)
+   92   i2f (3)
+   92   i2f (340000000)
+   92   u2f (3)
+   92   u2f (340000000)
+   72   bz (not taken)
+  157   bz (taken)
+   36   bz1 (not taken)
+  126   bz1 (taken)
+   72   bnz (not taken)
+  157   bnz (taken)
+   36   bnz1 (not taken)
+  126   bnz1 (taken)
+   72   bzp (not taken)
+  157   bzp (taken)
+   36   bzp1 (not taken)
+  127   bzp1 (taken)
+   72   bnzp (not taken)
+  157   bnzp (taken)
+   36   bnzp1 (not taken)
+  127   bnzp1 (taken)
+  157   jmp
+  126   jmp1
+  157   call
+  134   call1
+  122   ret
+  630   $draw_sprite (1x8 unmasked)
+  763   $draw_sprite (8x8 unmasked)
+  898   $draw_sprite (8x8 masked)
+ 1235   $draw_sprite (16x16 unmasked)
+ 1777   $draw_sprite (16x16 masked)
+ 3091   $draw_sprite (32x32 unmasked)
+ 5263   $draw_sprite (32x32 masked)
 20041   $draw_sprite (128x64 unmasked)
 37572   $draw_sprite (128x64 masked)

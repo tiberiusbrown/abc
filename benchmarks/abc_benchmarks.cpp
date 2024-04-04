@@ -367,7 +367,7 @@ int abc_benchmarks()
     for(auto const* i : INSTRS)
     {
         uint64_t c = measure() - bn;
-        fprintf(fout, "%3" PRIu64 "   %s\n", c, i);
+        fprintf(fout, "%5" PRIu64 "   %s\n", c, i);
     }
 
     fclose(fout);
