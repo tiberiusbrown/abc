@@ -84,6 +84,11 @@ void SpritesABC::drawBasic(
             rjmp L%=_end
         1:
     
+            ; begin initial seek
+            cbi  %[fxport], %[fxbit]
+            ldi  %[count], 3
+            out  %[spdr], %[count]
+    
             cp   %A[frame], __zero_reg__
             cpc  %B[frame], __zero_reg__
             breq 1f
@@ -145,6 +150,11 @@ void SpritesABC::drawBasic(
             ldi  %[page_start], 0xff
         1:
         
+            lds r0, %[page]+0
+            add %B[image], r0
+            lds r0, %[page]+1
+            adc %C[image], r0
+        
             ; clip against left edge
             sbrs %B[x], 7
             rjmp 2f
@@ -160,6 +170,9 @@ void SpritesABC::drawBasic(
             inc  %C[image]
             clr  %[col_start]
         2:
+        
+            ; continue initial seek
+            out  %[spdr], %C[image]
         
             ; compute buffer start address
             ldi  %A[buf], lo8(%[sBuffer])
@@ -180,11 +193,15 @@ void SpritesABC::drawBasic(
             ; clip against bottom edge
             ldi  %A[bufn], 7
             sub  %A[bufn], %[page_start]
+            
             cp   %A[bufn], %[pages]
             brge 1f
             mov  %[pages], %A[bufn]
             inc  %[bottom]
         1:
+            
+            ; continue initial seek
+            out  %[spdr], %B[image]
         
             ldi  %A[bufn], 128
             sub  %A[bufn], %[cols]
@@ -202,6 +219,7 @@ void SpritesABC::drawBasic(
             clr  %A[shift_mask]
             com  %A[shift_mask]
             mov  %B[shift_mask], %A[shift_mask]
+            
             sbrc %[mode], 2
             rjmp 1f
             ldi  %A[bufn], 0xff
@@ -210,18 +228,20 @@ void SpritesABC::drawBasic(
             com  %A[shift_mask]
             com  %B[shift_mask]
         1:
-
+            
+            ; continue initial seek
+            out  %[spdr], %A[image]
+        
+            ; continue initial seek
+            clr  __zero_reg__
+            rcall L%=_delay_16
+            out  %[spdr], __zero_reg__
+            rcall L%=_delay_7
+            rjmp L%=_begin
 
         ;
         ;   RENDERING
         ;
-
-
-            lds r0, %[page]+0
-            add %B[image], r0
-            lds r0, %[page]+1
-            adc %C[image], r0
-            rjmp L%=_begin
 
         L%=_seek:
 
@@ -252,11 +272,13 @@ void SpritesABC::drawBasic(
             out %[spdr], %A[image]
             rcall L%=_delay_17
             out %[spdr], __zero_reg__
-            rcall L%=_delay_13
+            rcall L%=_delay_10
             ret
             
         L%=_delay_17:
-            lpm
+            nop
+        L%=_delay_16:
+            rjmp .+0
         L%=_delay_14:
             nop
         L%=_delay_13:
@@ -269,12 +291,12 @@ void SpritesABC::drawBasic(
         L%=_begin:
 
             ; initial seek
-            clr  __zero_reg__
-            cbi  %[fxport], %[fxbit]
-            ldi  %A[bufn], 3
-            out  %[spdr], %A[bufn]
-            rcall L%=_delay_7
-            rcall L%=_seek_after_adv
+            ; clr  __zero_reg__
+            ; cbi  %[fxport], %[fxbit]
+            ; ldi  %A[bufn], 3
+            ; out  %[spdr], %A[bufn]
+            ; rcall L%=_delay_7
+            ; rcall L%=_seek_after_adv
             cp   %[page_start], __zero_reg__
             brlt L%=_top
             tst  %[pages]
