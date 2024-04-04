@@ -546,14 +546,6 @@ void SpritesABC::drawBasic(
         );
 }
 
-void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t color)
-{
-    if(x >= 128) return;
-    if(x + w <= 0) return;
-    if(y + h <= 0) return;
-    fillRect_i8((int8_t)x, (int8_t)y, w, h, color);
-}
-
 // from Mr. Blinky's ArduboyFX library
 static __attribute__((always_inline)) uint8_t SpritesABC_bitShiftLeftMaskUInt8(uint8_t bit)
 {
@@ -574,26 +566,25 @@ static __attribute__((always_inline)) uint8_t SpritesABC_bitShiftLeftMaskUInt8(u
     return result;
 }
 
-void SpritesABC::fillRect_i8(int8_t x, int8_t y, uint8_t w, uint8_t h, uint8_t color)
+void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t color)
 {
-    if(w == 0 || h == 0) return;
+    if(x >= 128) return;
     if(y >= 64)  return;
     if(x + w <= 0) return;
     if(y + h <= 0) return;
-
+    if(w == 0 || h == 0) return;
+    
     if(color & 1) color = 0xff;
 
     // clip coords
     uint8_t xc = x;
     uint8_t yc = y;
 
-    // TODO: extreme clipping behavior
-
     // clip
     if(y < 0)
-        h += y, yc = 0;
+        h += (int8_t)y, yc = 0;
     if(x < 0)
-        w += x, xc = 0;
+        w += (int8_t)x, xc = 0;
     if(h >= uint8_t(64 - yc))
         h = 64 - yc;
     if(w >= uint8_t(128 - xc))
@@ -671,23 +662,54 @@ void SpritesABC::fillRect_i8(int8_t x, int8_t y, uint8_t w, uint8_t h, uint8_t c
             dec  %[rows]
             breq L%=_bottom
 
-        L%=_middle_outer_loop:
+        L%=_middle_loop:
             mov  %[col], %[w]
-            sbrs %[col], 0
-            rjmp L%=_middle_inner_loop
-            inc  %[col]
-            rjmp L%=_middle_inner_loop_odd
+            andi %[col], 7
+            brne 3f
+            mov  %[col], %[w]
             
-        L%=_middle_inner_loop:
+        1:  st   %a[buf]+, %[color]
             st   %a[buf]+, %[color]
-        L%=_middle_inner_loop_odd:
             st   %a[buf]+, %[color]
-            subi %[col], 2
-            brne L%=_middle_inner_loop
-            add  %A[buf], %[buf_adv]
+            st   %a[buf]+, %[color]
+            st   %a[buf]+, %[color]
+            st   %a[buf]+, %[color]
+            st   %a[buf]+, %[color]
+            st   %a[buf]+, %[color]
+            subi %[col], 8
+            brne 1b
+            
+        2:  add  %A[buf], %[buf_adv]
             adc  %B[buf], __zero_reg__
             dec  %[rows]
-            brne L%=_middle_outer_loop
+            brne L%=_middle_loop
+            rjmp L%=_bottom
+
+        3:  st   %a[buf]+, %[color]
+            dec  %[col]
+            brne 3b
+            mov  %[col], %[w]
+            andi %[col], 0xf8
+            brne 1b
+            rjmp 2b
+            
+
+        ; L%=_middle_outer_loop:
+        ;     mov  %[col], %[w]
+        ;     sbrs %[col], 0
+        ;     rjmp L%=_middle_inner_loop
+        ;     inc  %[col]
+        ;     rjmp L%=_middle_inner_loop_odd
+        ; L%=_middle_inner_loop:
+        ;     st   %a[buf]+, %[color]
+        ; L%=_middle_inner_loop_odd:
+        ;     st   %a[buf]+, %[color]
+        ;     subi %[col], 2
+        ;     brne L%=_middle_inner_loop
+        ;     add  %A[buf], %[buf_adv]
+        ;     adc  %B[buf], __zero_reg__
+        ;     dec  %[rows]
+        ;     brne L%=_middle_outer_loop
 
         L%=_bottom:
             tst  %[bot]
@@ -705,9 +727,9 @@ void SpritesABC::fillRect_i8(int8_t x, int8_t y, uint8_t w, uint8_t h, uint8_t c
         )ASM"
         :
         [buf]     "+&e" (buf),
-        [w]       "+&r" (w),
+        [w]       "+&d" (w),
         [rows]    "+&r" (rows),
-        [col]     "=&r" (col)
+        [col]     "=&d" (col)
         :
         [buf_adv] "r"   (buf_adv),
         [color]   "r"   (color),
