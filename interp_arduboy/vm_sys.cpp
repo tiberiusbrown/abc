@@ -172,6 +172,60 @@ static void seek_to_pc()
         );
 }
 
+__attribute__((noinline, naked))
+static uint8_t fx_read_byte_inc(uint24_t& fb)
+{
+    asm volatile(R"(
+        cbi  %[fxport], %[fxbit]
+        movw r30, r24
+        ldi  r24, 3
+        out  %[spdr], r24
+        ld   r24, Z+
+        ld   r25, Z+
+        ld   r26, Z+
+        lds  r20, %[datapage]+0
+        lds  r21, %[datapage]+1
+        add  r20, r25
+        adc  r21, r26
+        lpm
+        rjmp .+0
+        out  %[spdr], r21
+        rcall format_read_inc_delay_17
+        out  %[spdr], r20
+        rcall format_read_inc_delay_17
+        out  %[spdr], r24
+        adiw r24, 1
+        adc  r26, __zero_reg__
+        st   -Z, r26
+        st   -Z, r25
+        st   -Z, r24
+        rcall format_read_inc_delay_8
+        out  %[spdr], __zero_reg__
+        rcall format_read_inc_delay_16
+        in   r24, %[spdr]
+        in   r0, %[spsr]
+        sbi  %[fxport], %[fxbit]
+        ret
+
+    format_read_inc_delay_17:
+        nop
+    format_read_inc_delay_16:
+        lpm
+        lpm
+        rjmp .+0
+    format_read_inc_delay_8:
+        nop
+        ret
+        )"
+        :
+        : [fxport]   "i" (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i" (FX_BIT)
+        , [spdr]     "i" (_SFR_IO_ADDR(SPDR))
+        , [spsr]     "i" (_SFR_IO_ADDR(SPSR))
+        , [datapage] ""  (&FX::programDataPage)
+    );
+}
+
 static void sys_display()
 {
     (void)FX::readEnd();
@@ -276,7 +330,7 @@ static void draw_fast_vline(int16_t x, int16_t y, uint16_t h, uint8_t color)
 
 // adapted from Arduboy2 library (BSD 3-clause)
 static void fill_circle_helper(
-    int16_t x0, int16_t y0, uint16_t r,
+    int16_t x0, int16_t y0, uint8_t r,
     uint8_t sides, int16_t delta, uint8_t color)
 {
     int16_t f = 1 - r;
@@ -285,7 +339,7 @@ static void fill_circle_helper(
     int16_t x = 0;
     int16_t y = r;
 
-    while (x < y)
+    while(x < y)
     {
         if (f >= 0)
         {
@@ -298,13 +352,13 @@ static void fill_circle_helper(
         ddF_x += 2;
         f += ddF_x;
 
-        if (sides & 0x1) // right side
+        if(sides & 0x1) // right side
         {
             draw_fast_vline(x0+x, y0-y, 2*y+1+delta, color);
             draw_fast_vline(x0+y, y0-x, 2*x+1+delta, color);
         }
 
-        if (sides & 0x2) // left side
+        if(sides & 0x2) // left side
         {
             draw_fast_vline(x0-x, y0-y, 2*y+1+delta, color);
             draw_fast_vline(x0-y, y0-x, 2*x+1+delta, color);
@@ -766,8 +820,9 @@ static void sys_draw_text_P()
     char c;
     while(tn != 0)
     {
-        FX::seekData(tb++);
-        c = FX::readPendingLastUInt8();
+        c = fx_read_byte_inc(tb);
+        //FX::seekData(tb++);
+        //c = FX::readPendingLastUInt8();
         if(c == '\0') break;
         --tn;
         
@@ -833,8 +888,9 @@ static void sys_text_width_P()
     uint16_t w = 0;
     while(tn != 0)
     {
-        FX::seekData(tb++);
-        c = FX::readPendingLastUInt8();
+        c = fx_read_byte_inc(tb);
+        //FX::seekData(tb++);
+        //c = FX::readPendingLastUInt8();
         if(c == '\0') break;
         --tn;
         
@@ -952,10 +1008,12 @@ static void sys_strcmp_PP()
     char c0, c1;
     for(;;)
     {
-        FX::seekData(b0++);
-        c0 = (char)FX::readPendingLastUInt8();
-        FX::seekData(b1++);
-        c1 = (char)FX::readPendingLastUInt8();
+        c0 = fx_read_byte_inc(b0);
+        c1 = fx_read_byte_inc(b1);
+        //FX::seekData(b0++);
+        //c0 = (char)FX::readPendingLastUInt8();
+        //FX::seekData(b1++);
+        //c1 = (char)FX::readPendingLastUInt8();
         if(n0 == 0) c0 = '\0'; else --n0;
         if(n1 == 0) c1 = '\0'; else --n1;
         if(c1 == '\0') break;
@@ -1033,6 +1091,7 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
 {
     while(tn != 0)
     {
+        fx_read_byte_inc(tb);
         FX::seekData(tb);
         uint8_t c = FX::readPendingLastUInt8();
         if(c == '\0') return;
@@ -1133,60 +1192,6 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     }
 }
 
-__attribute__((noinline, naked))
-static uint8_t format_exec_read_inc(uint24_t& fb)
-{
-    asm volatile(R"(
-        cbi  %[fxport], %[fxbit]
-        movw r30, r24
-        ldi  r24, 3
-        out  %[spdr], r24
-        ld   r24, Z+
-        ld   r25, Z+
-        ld   r26, Z+
-        lds  r20, %[datapage]+0
-        lds  r21, %[datapage]+1
-        add  r20, r25
-        adc  r21, r26
-        lpm
-        rjmp .+0
-        out  %[spdr], r21
-        rcall format_read_inc_delay_17
-        out  %[spdr], r20
-        rcall format_read_inc_delay_17
-        out  %[spdr], r24
-        adiw r24, 1
-        adc  r26, __zero_reg__
-        st   -Z, r26
-        st   -Z, r25
-        st   -Z, r24
-        rcall format_read_inc_delay_8
-        out  %[spdr], __zero_reg__
-        rcall format_read_inc_delay_16
-        in   r24, %[spdr]
-        in   r0, %[spsr]
-        sbi  %[fxport], %[fxbit]
-        ret
-
-    format_read_inc_delay_17:
-        nop
-    format_read_inc_delay_16:
-        lpm
-        lpm
-        rjmp .+0
-    format_read_inc_delay_8:
-        nop
-        ret
-        )"
-        :
-        : [fxport]   "i" (_SFR_IO_ADDR(FX_PORT))
-        , [fxbit]    "i" (FX_BIT)
-        , [spdr]     "i" (_SFR_IO_ADDR(SPDR))
-        , [spsr]     "i" (_SFR_IO_ADDR(SPSR))
-        , [datapage] ""  (&FX::programDataPage)
-    );
-}
-
 __attribute__((flatten))
 static void format_exec(format_char_func f)
 {
@@ -1201,7 +1206,7 @@ static void format_exec(format_char_func f)
         
     while(fn != 0)
     {
-        char c = (char)format_exec_read_inc(fb);
+        char c = (char)fx_read_byte_inc(fb);
         //FX::seekData(fb++);
         //char c = (char)FX::readPendingLastUInt8();
         --fn;
@@ -1212,7 +1217,7 @@ static void format_exec(format_char_func f)
         }
         //FX::seekData(fb++);
         //c = (char)FX::readPendingLastUInt8();
-        c = (char)format_exec_read_inc(fb);
+        c = (char)fx_read_byte_inc(fb);
         --fn;
         switch(c)
         {
@@ -1264,7 +1269,7 @@ static void format_exec(format_char_func f)
             }
             //FX::seekData(fb++);
             //int8_t w = (int8_t)(FX::readPendingLastUInt8() - '0');
-            int8_t w = (int8_t)(format_exec_read_inc(fb) - '0');
+            int8_t w = (int8_t)(fx_read_byte_inc(fb) - '0');
             --fn;
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
             break;
@@ -1279,7 +1284,7 @@ static void format_exec(format_char_func f)
             }
             //FX::seekData(fb++);
             //uint8_t prec = FX::readPendingLastUInt8() - '0';
-            uint8_t prec = format_exec_read_inc(fb) - '0';
+            uint8_t prec = fx_read_byte_inc(fb) - '0';
             --fn;
             format_add_float(f, x, prec);
             break;
