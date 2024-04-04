@@ -625,10 +625,9 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
         );
 
     uint8_t rows = r1 - r0; // middle rows + 1
-    uint8_t f = 0;
     uint8_t bot = c1;
-    if(m0  == 0) ++rows; // no top fragment
-    if(bot == 0) ++rows; // no bottom fragment
+    if(c0 & 1) ++rows; // no top fragment
+    if(m1 & 1) ++rows; // no bottom fragment
     c0 &= color;
     c1 &= color;
 
@@ -692,24 +691,6 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
             andi %[col], 0xf8
             brne 1b
             rjmp 2b
-            
-
-        ; L%=_middle_outer_loop:
-        ;     mov  %[col], %[w]
-        ;     sbrs %[col], 0
-        ;     rjmp L%=_middle_inner_loop
-        ;     inc  %[col]
-        ;     rjmp L%=_middle_inner_loop_odd
-        ; L%=_middle_inner_loop:
-        ;     st   %a[buf]+, %[color]
-        ; L%=_middle_inner_loop_odd:
-        ;     st   %a[buf]+, %[color]
-        ;     subi %[col], 2
-        ;     brne L%=_middle_inner_loop
-        ;     add  %A[buf], %[buf_adv]
-        ;     adc  %B[buf], __zero_reg__
-        ;     dec  %[rows]
-        ;     brne L%=_middle_outer_loop
 
         L%=_bottom:
             tst  %[bot]
