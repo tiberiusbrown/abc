@@ -361,6 +361,17 @@ int abc_benchmarks()
         "$draw_sprite (32x32 masked)",
         "$draw_sprite (128x64 unmasked)",
         "$draw_sprite (128x64 masked)",
+        "$draw_filled_rect (0, 0, 4, 4)",
+        "$draw_filled_rect (0, 6, 4, 4)",
+        "$draw_filled_rect (0, 0, 8, 8)",
+        "$draw_filled_rect (0, 4, 8, 8)",
+        "$draw_filled_rect (0, 0, 16, 16)",
+        "$draw_filled_rect (0, 4, 16, 16)",
+        "$draw_filled_rect (0, 0, 32, 32)",
+        "$draw_filled_rect (0, 4, 32, 32)",
+        "$draw_filled_rect (0, 0, 64, 64)",
+        "$draw_filled_rect (0, 4, 64, 64)",
+        "$draw_filled_rect (0, 0, 128, 64)",
     };
     (void)measure();
     uint64_t bn = measure();

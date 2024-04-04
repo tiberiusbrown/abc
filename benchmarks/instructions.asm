@@ -2478,8 +2478,110 @@ $L_main_13:
     sys debug_break
     sys draw_sprite
     sys debug_break
-
-    ret
+    
+    p1
+    push 4
+    push 4
+    p00
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 4
+    push 4
+    p6
+    p0
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 8
+    push 8
+    p00
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 8
+    push 8
+    p4
+    p0
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 16
+    push 16
+    p00
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 16
+    push 16
+    p4
+    p0
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 32
+    push 32
+    p00
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 32
+    push 32
+    p4
+    p0
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 64
+    push 64
+    p00
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 64
+    push 64
+    p4
+    p0
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
+    
+    p1
+    push 64
+    push 128
+    p00
+    p00
+    sys debug_break
+    sys draw_filled_rect
+    sys debug_break
 
 $globinit:
     ret
