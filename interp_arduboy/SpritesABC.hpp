@@ -112,9 +112,6 @@ void SpritesABC::drawBasic(
             clr  __zero_reg__
             adc  %C[image], __zero_reg__
         1:
-
-            ldi  %A[buf], lo8(%[sBuffer])
-            ldi  %B[buf], hi8(%[sBuffer])
     
             mov  %[col_start], %A[x]
             clr  %[bottom]
@@ -125,15 +122,83 @@ void SpritesABC::drawBasic(
             lsr  %[pages]
             lsr  %[pages]
             
-            ; precompute vertical shift coef and mask
-            ldi  %[page_start], 1
-            sbrc %A[y], 1
-            ldi  %[page_start], 4
-            sbrc %A[y], 0
+            movw %A[bufn], %A[y]
+            asr  %B[bufn]
+            ror  %A[bufn]
+            asr  %B[bufn]
+            ror  %A[bufn]
+            asr  %B[bufn]
+            ror  %A[bufn]
+            
+            ; clip against top edge
+            mov  %[page_start], %A[bufn]
+            cpi  %[page_start], 0xff
+            brge 1f
+            com  %[page_start]
+            sub  %[pages], %[page_start]
+            sbrc %[mode], 0
             lsl  %[page_start]
+            mul  %[page_start], %[w]
+            add  %A[image], r0
+            adc  %B[image], r1
+            adc  %C[image], %[bottom]
+            ldi  %[page_start], 0xff
+        1:
+        
+            ; clip against left edge
+            sbrs %B[x], 7
+            rjmp 2f
+            add %[cols], %A[x]
+            sbrs %[mode], 0
+            rjmp 1f
+            lsl  %A[x]
+            rol  %B[x]
+        1:  sub  %A[image], %A[x]
+            sbc  %B[image], %B[x]
+            sbc  %C[image], %[bottom]
+            sbrc %B[x], 7
+            inc  %C[image]
+            clr  %[col_start]
+        2:
+        
+            ; compute buffer start address
+            ldi  %A[buf], lo8(%[sBuffer])
+            ldi  %B[buf], hi8(%[sBuffer])
+            ldi  %[count], 128
+            mulsu %[page_start], %[count]
+            add  r0, %[col_start]
+            add  %A[buf], r0
+            adc  %B[buf], r1
+            
+            ; clip against right edge
+            sub  %[count], %[col_start]
+            cp   %[cols], %A[count]
+            brlo 1f
+            mov  %[cols], %A[count]
+        1:
+        
+            ; clip against bottom edge
+            ldi  %A[bufn], 7
+            sub  %A[bufn], %[page_start]
+            cp   %A[bufn], %[pages]
+            brge 1f
+            mov  %[pages], %A[bufn]
+            inc  %[bottom]
+        1:
+        
+            ldi  %A[bufn], 128
+            sub  %A[bufn], %[cols]
+            mov  %[buf_adv], %A[bufn]
+            
+            ; precompute vertical shift coef and mask
+            ldi  %[count], 1
+            sbrc %A[y], 1
+            ldi  %[count], 4
+            sbrc %A[y], 0
+            lsl  %[count]
             sbrc %A[y], 2
-            swap %[page_start]
-            mov  %[shift_coef], %[page_start]
+            swap %[count]
+            mov  %[shift_coef], %[count]
             clr  %A[shift_mask]
             com  %A[shift_mask]
             mov  %B[shift_mask], %A[shift_mask]
@@ -145,68 +210,6 @@ void SpritesABC::drawBasic(
             com  %A[shift_mask]
             com  %B[shift_mask]
         1:
-            
-            asr  %B[y]
-            ror  %A[y]
-            asr  %B[y]
-            ror  %A[y]
-            asr  %B[y]
-            ror  %A[y]
-            
-            ; clip against top edge
-            mov  %[page_start], %A[y]
-            cpi  %[page_start], 0xff
-            brge 2f
-            com  %[page_start]
-            sub  %[pages], %[page_start]
-            sbrc %[mode], 0
-            lsl  %[page_start]
-            mul  %[page_start], %[w]
-            add  %A[image], r0
-            adc  %B[image], r1
-            adc  %C[image], %[bottom]
-            ldi  %[page_start], 0xff
-        2:
-            ; clip against left edge
-            sbrs %B[x], 7
-            rjmp 4f
-            add %[cols], %A[x]
-            sbrs %[mode], 0
-            rjmp 3f
-            lsl  %A[x]
-            rol  %B[x]
-        3:
-            sub  %A[image], %A[x]
-            sbc  %B[image], %B[x]
-            sbc  %C[image], %[bottom]
-            sbrc %B[x], 7
-            inc  %C[image]
-            clr  %[col_start]
-        4:
-            ; compute buffer start address
-            ldi  %[count], 128
-            mulsu %[page_start], %[count]
-            add  r0, %[col_start]
-            add  %A[buf], r0
-            adc  %B[buf], r1
-            
-            ; clip against right edge
-            sub  %[count], %[col_start]
-            cp   %[cols], %A[count]
-            brlo 5f
-            mov  %[cols], %A[count]
-        5:
-            ; clip against bottom edge
-            ldi  %A[bufn], 7
-            sub  %A[bufn], %[page_start]
-            cp   %A[bufn], %[pages]
-            brge 6f
-            mov  %[pages], %A[bufn]
-            inc  %[bottom]
-        6:
-            ldi  %A[bufn], 128
-            sub  %A[bufn], %[cols]
-            mov  %[buf_adv], %A[bufn]
 
 
         ;
