@@ -62,21 +62,18 @@ void SpritesABC::drawBasic(
     
             cpi  r24, 128
             cpc  r25, __zero_reg__
-            brlt 1f
-            rjmp L%=_end_postpop
+            brge L%=_early_exit
         1:
             cpi  r22, 64
             cpc  r23, __zero_reg__
-            brlt 1f
-            rjmp L%=_end_postpop
+            brge L%=_early_exit
         1:
             movw r26, r24
             add  r26, r20
             adc  r27, __zero_reg__
             cp   __zero_reg__, r26
             cpc  __zero_reg__, r27
-            brlt 1f
-            rjmp L%=_end_postpop
+            brge L%=_early_exit
         1:
             movw r26, r22
             add  r26, r18
@@ -84,7 +81,9 @@ void SpritesABC::drawBasic(
             cp   __zero_reg__, r26
             cpc  __zero_reg__, r27
             brlt 1f
-            rjmp L%=_end_postpop
+        
+        L%=_early_exit:
+            ret
         1:
     
             push r2
@@ -279,7 +278,6 @@ void SpritesABC::drawBasic(
             adc r15, __zero_reg__
             sbrc r10, 0
             adc r16, __zero_reg__
-        L%=_seek_after_adv:
             clr r11
             cp  r20, r8
             breq .+2
