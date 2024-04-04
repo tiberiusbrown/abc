@@ -541,8 +541,101 @@ static void sys_draw_sprite_selfmask()
     draw_sprite_helper(4);
 }
 
-static void draw_char(uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h, char c)
+static void draw_char(
+    uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h, char c)
 {
+#if 1
+    int8_t lsb;
+    uint8_t adv;
+    uint16_t t;
+    int16_t xv;
+    register uint24_t addr asm("r14");
+    asm volatile(R"(
+            ldi  %A[t], 3
+            cbi  %[fxport], %[fxbit]
+            out  %[spdr], %A[t]
+            rjmp 1f
+        L%=_delay_17:
+            nop
+        L%=_delay_16:
+            rjmp .+0
+            rjmp .+0
+        L%=_delay_12:
+            rjmp .+0
+        L%=_delay_10:
+            lpm
+        L%=_delay_7:
+            ret
+        1:  movw %A[addr], %A[font]
+            mov  %C[addr], %C[font]
+            lds  %A[t], %[page]+0
+            lds  %B[t], %[page]+1
+            add  %A[addr], %[c]
+            adc  %B[addr], %A[t]
+            adc  %C[addr], %B[t]
+            add  %A[addr], %[c]
+            adc  %B[addr], __zero_reg__
+            adc  %C[addr], __zero_reg__
+            lpm
+
+            out  %[spdr], %C[addr]
+            rcall L%=_delay_17
+
+            out  %[spdr], %B[addr]
+            rcall L%=_delay_17
+
+            out  %[spdr], %A[addr]
+            movw %A[addr], %A[font]
+            mov  %C[addr], %C[font]
+            subi %A[addr], lo8(-518)
+            sbci %B[addr], hi8(-518)
+            sbci %C[addr], 0xff
+            rcall L%=_delay_12
+
+            out  %[spdr], __zero_reg__
+            rcall L%=_delay_16
+
+            in   %[lsb], %[spdr]
+            out  %[spdr], __zero_reg__
+            ld   %A[xv], %a[xp]+
+            ld   %B[xv], %a[xp]
+            movw %A[t], %A[xv]
+            add  %A[xv], %[lsb]
+            adc  %B[xv], __zero_reg__
+            sbrc %[lsb], 7
+            dec  %B[xv]
+            rcall L%=_delay_7
+
+            in   %[adv], %[spdr]
+            sbi  %[fxport], %[fxbit]
+            add  %A[t], %[adv]
+            adc  %B[t], __zero_reg__
+            st   %a[xp], %B[t]
+            st   -%a[xp], %A[t]
+
+        )"
+        : [font]   "+&d" (font)
+        , [addr]   "=&d" (addr)
+        , [t]      "=&d" (t)
+        , [lsb]    "=&r" (lsb)
+        , [adv]    "=&r" (adv)
+        , [xv]     "=&r" (xv)
+        : [xp]     "e"   (&x)
+        , [y]      "r"   (y)
+        , [w]      "r"   (w)
+        , [h]      "r"   (h)
+        , [c]      "r"   (c)
+        //, [MODE]   "i"   (SpritesABC::MODE_SELFMASKFX)
+        , [fxport] "I"   (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]  "I"   (FX_BIT)
+        , [spdr]   "I"   (_SFR_IO_ADDR(SPDR))
+        , [page]   "i"   (&FX::programDataPage)
+        //, [DRAW]   "i"   (&SpritesABC::drawBasic)
+        );
+        SpritesABC::drawBasic(
+            xv, y, w, h, addr, uint8_t(c),
+            SpritesABC::MODE_SELFMASKFX);
+#else
     FX::seekData(font + uint8_t(c) * 2);
     int8_t lsb = (int8_t)FX::readPendingUInt8();
     uint8_t adv = FX::readPendingLastUInt8();
@@ -550,6 +643,7 @@ static void draw_char(uint24_t font, int16_t& x, int16_t y, uint8_t w, uint8_t h
         x + lsb, y, w, h, font + 513 + 5, uint8_t(c),
         SpritesABC::MODE_SELFMASKFX);
     x += adv;
+#endif
 }
 
 static void sys_draw_text()
