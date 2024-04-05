@@ -739,6 +739,7 @@ void compiler_t::codegen_expr(
     }
 
     case AST::ARRAY_SLICE:
+    case AST::ARRAY_SLICE_LEN:
     {
         auto const& t = a.children[0].comp_type.without_ref();
     
@@ -768,9 +769,23 @@ void compiler_t::codegen_expr(
             prog ? TYPE_U24 : TYPE_U16, a.children[1].comp_type);
 
         // generate stop
-        codegen_expr(f, frame, a.children[2], false);
-        codegen_convert(f, frame, a.children[2],
-            prog ? TYPE_U24 : TYPE_U16, a.children[2].comp_type);
+        if(a.type == AST::ARRAY_SLICE_LEN)
+        {
+            f.instrs.push_back({ I_PUSH, a.children[2].line(), prog ? 3u : 2u });
+            f.instrs.push_back({ I_GETLN, a.children[2].line(), prog ? 3u : 2u });
+            frame.size += (prog ? 3 : 2);
+            codegen_expr(f, frame, a.children[2], false);
+            codegen_convert(f, frame, a.children[2],
+                prog ? TYPE_U24 : TYPE_U16, a.children[2].comp_type);
+            f.instrs.push_back({ prog ? I_ADD3 : I_ADD2, a.children[2].line() });
+            frame.size -= (prog ? 3 : 2);
+        }
+        else
+        {
+            codegen_expr(f, frame, a.children[2], false);
+            codegen_convert(f, frame, a.children[2],
+                prog ? TYPE_U24 : TYPE_U16, a.children[2].comp_type);
+        }
 
         // construct slice ref
         f.instrs.push_back({ prog ? I_PSLC : I_ASLC, a.line(), elem_size });

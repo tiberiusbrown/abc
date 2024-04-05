@@ -521,6 +521,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         break;
     }
     case AST::ARRAY_SLICE:
+    case AST::ARRAY_SLICE_LEN:
     {
         assert(a.children.size() == 3);
         type_annotate_recurse(a.children[0], frame);
@@ -541,9 +542,14 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 "\" is not an array", a.line_info });
             break;
         }
-        if(a.children[1].type == AST::INT_CONST && a.children[2].type == AST::INT_CONST)
+        if(
+            (a.children[1].type == AST::INT_CONST || a.type == AST::ARRAY_SLICE_LEN) &&
+            a.children[2].type == AST::INT_CONST)
         {
-            int64_t n = a.children[2].value - a.children[1].value;
+            int64_t n = (
+                a.type == AST::ARRAY_SLICE_LEN ?
+                a.children[2].value :
+                a.children[2].value - a.children[1].value);
             if(n < 0)
             {
                 errs.push_back({"Array slice has negative length", a.line_info});

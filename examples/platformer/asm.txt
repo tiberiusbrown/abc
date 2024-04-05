@@ -9889,41 +9889,45 @@ $L_render_level_6:
   sext
   add2
   .line 415
+  p6
+  getln 10
+  dupw7
+  p0
+  p3
+  getln 3
+  push  9
+  add3b
+  pslc  1
+  pop3
+  getpn 9
+  .line 416
   p0
 $L_render_level_9:
   dup
   push  9
   cult
   bz    $L_render_level_10
-  .line 417
-  p6
-  getln 11
-  dupw8
-  p0
-  getl  10
-  add3b
-  upidx 1
-  getp
-  dec
   .line 418
+  refl  10
+  dup3
+  aixb1 9
+  getr
+  dec
+  .line 420
   dup
   p0
   push  240
   p0
   cslt2
-  bnz   $L_render_level_12
-  .line 419
-  pop
-  jmp   $L_render_level_11
-$L_render_level_12:
-  .line 420
+  bz    $L_render_level_13
+  .line 422
   dup
   p0
   push  176
   p0
   cslt2
-  bnz   $L_render_level_13
-  .line 421
+  bnz   $L_render_level_12
+  .line 423
   dup
   getg  frame_count 0
   p2
@@ -9932,61 +9936,61 @@ $L_render_level_12:
   and
   add
   setl  1
-$L_render_level_13:
-  .line 422
+$L_render_level_12:
+  .line 424
   dup
   p0
   pushl $PD_17 0
-  getl  10
+  getl  19
   p0
   p16
   mul2b
-  getl  20
+  getl  29
   sext
   add2
   getl  9
   p0
   p16
   mul2b
-  getl  23
+  getl  32
   sext
   add2
   sys   draw_sprite
+$L_render_level_13:
   pop
-$L_render_level_11:
-  .line 415
+  .line 416
   inc
   jmp   $L_render_level_9
 $L_render_level_10:
-  pop3
+  popn  12
   .line 412
   inc
   jmp   $L_render_level_6
 $L_render_level_7:
   popn  12
-  .line 429
+  .line 432
   p0
 $L_render_level_14:
   dup
   push  20
   cult
   bz    $L_render_level_15
-  .line 431
+  .line 434
   pushg objects 0
   dup3
   aidxb 15 20
-  .line 432
+  .line 435
   dupw
   getr
-  .line 433
+  .line 436
   bnzp  $L_render_level_17
-  .line 434
+  .line 437
   pop2
   jmp   $L_render_level_16
 $L_render_level_17:
-  .line 436
+  .line 439
   p0
-  .line 437
+  .line 440
   dup2
   p8
   cult
@@ -9999,7 +10003,7 @@ $L_render_level_17:
   bool
 $L_render_level_18:
   bz    $L_render_level_21
-  .line 439
+  .line 442
   dupw3
   push  10
   add2b
@@ -10007,28 +10011,28 @@ $L_render_level_18:
   p4
   and
   bz    $L_render_level_19
-  .line 440
+  .line 443
   pop4
   jmp   $L_render_level_16
-  .line 439
+  .line 442
   jmp   $L_render_level_20
 $L_render_level_19:
-  .line 442
+  .line 445
   dup2
   p64
   add
   setl  1
 $L_render_level_20:
-  .line 437
+  .line 440
   jmp   $L_render_level_23
 $L_render_level_21:
-  .line 446
+  .line 449
   dup2
   setl  1
-  .line 447
+  .line 450
   getg  death_frames 0
   bnz   $L_render_level_23
-  .line 448
+  .line 451
   dup
   getg  frame_count 0
   dup7
@@ -10040,10 +10044,10 @@ $L_render_level_21:
   add
   setl  1
 $L_render_level_23:
-  .line 453
+  .line 456
   dup
   p0
-  .line 452
+  .line 455
   pushl $PD_18 0
   dupw8
   p3
@@ -10057,16 +10061,16 @@ $L_render_level_23:
   getr2
   getl2 18
   sub2
-  .line 451
+  .line 454
   sys   draw_sprite
   pop4
 $L_render_level_16:
-  .line 429
+  .line 432
   inc
   jmp   $L_render_level_14
 $L_render_level_15:
   pop
-  .line 458
+  .line 461
   getg  invincibility_frames 0
   not
   bnzp  $L_render_level_24
@@ -10076,24 +10080,24 @@ $L_render_level_15:
   not
 $L_render_level_24:
   bz    $L_render_level_30
-  .line 460
+  .line 463
   p0
-  .line 461
+  .line 464
   getg  player_facing_right 0
   bz    $L_render_level_25
-  .line 462
+  .line 465
   dup
   p7
   add
   setl  1
 $L_render_level_25:
-  .line 463
+  .line 466
   getg  player_on_ground 0
   bz    $L_render_level_27
-  .line 465
+  .line 468
   getg  player_moving 0
   bz    $L_render_level_26
-  .line 466
+  .line 469
   dup
   getg  frame_count 0
   p3
@@ -10103,30 +10107,30 @@ $L_render_level_25:
   add
   setl  1
 $L_render_level_26:
-  .line 463
+  .line 466
   jmp   $L_render_level_28
 $L_render_level_27:
-  .line 470
+  .line 473
   dup
   p4
   add
   setl  1
 $L_render_level_28:
-  .line 472
+  .line 475
   getg  death_frames 0
   bz    $L_render_level_29
-  .line 473
+  .line 476
   p5
   setl  1
 $L_render_level_29:
-  .line 475
+  .line 478
   getg4 px 0
   getg4 camx 0
   fsub
   p000
   push  65
   fsub
-  .line 476
+  .line 479
   getg4 py 0
   sys   round
   getl2 11
@@ -10139,7 +10143,7 @@ $L_render_level_29:
   fsub
   f2i
   pop2
-  .line 477
+  .line 480
   dup7
   p0
   pushl $PD_19 0
@@ -10151,14 +10155,14 @@ $L_render_level_29:
   sys   draw_sprite
   popn  7
 $L_render_level_30:
-  .line 481
+  .line 484
   p0
 $L_render_level_31:
   dup
   p3
   cult
   bz    $L_render_level_32
-  .line 482
+  .line 485
   dup
   getg  hearts 0
   cult
@@ -10173,19 +10177,19 @@ $L_render_level_31:
   mul2b
   sub2
   sys   draw_sprite
-  .line 481
+  .line 484
   inc
   jmp   $L_render_level_31
 $L_render_level_32:
   pop
-  .line 483
+  .line 486
   p0
 $L_render_level_34:
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_35
-  .line 484
+  .line 487
   dup
   getg  keys 0
   cult
@@ -10202,18 +10206,18 @@ $L_render_level_34:
   mul2b
   sub2
   sys   draw_sprite
-  .line 483
+  .line 486
   inc
   jmp   $L_render_level_34
 $L_render_level_35:
   pop
-  .line 485
+  .line 488
   p0
   p6
   push  20
   p0000
   sys   draw_filled_rect
-  .line 486
+  .line 489
   getg2 score 0
   p00
   pushl $PD_107 0
@@ -10222,7 +10226,7 @@ $L_render_level_35:
   pushl $PD_38 0
   p0000
   sys   draw_textf
-  .line 487
+  .line 490
   p0
   p6
   push  13
@@ -10230,7 +10234,7 @@ $L_render_level_35:
   push  57
   p0
   sys   draw_filled_rect
-  .line 488
+  .line 491
   getg2 level_frames_remaining 0
   p0
   push  49
@@ -10248,21 +10252,21 @@ $L_render_level_35:
   push  58
   p0
   sys   draw_textf
-  .line 491
+  .line 494
   getg  level_start_frames 0
   bz    $L_render_level_39
-  .line 496
+  .line 499
   pushl maps 0
   getg  current_map 0
   pidxb 17 12
   getpn 6
-  .line 497
+  .line 500
   p6
   getln 6
   pushl $PD_23 0
   sys   text_width_P
   pop
-  .line 500
+  .line 503
   p64
   p0
   dup3
@@ -10272,14 +10276,14 @@ $L_render_level_35:
   udiv4
   pop2
   sub2
-  .line 501
-  p00
   .line 504
+  p00
+  .line 507
   getg  level_start_frames 0
   push  78
   cult
   bnz   $L_render_level_37
-  .line 505
+  .line 508
   dupw
   getg  level_start_frames 0
   p0
@@ -10290,12 +10294,12 @@ $L_render_level_35:
   add2
   setl2 2
 $L_render_level_37:
-  .line 506
+  .line 509
   push  12
   getg  level_start_frames 0
   cult
   bnz   $L_render_level_38
-  .line 507
+  .line 510
   dupw
   push  12
   p0
@@ -10306,7 +10310,7 @@ $L_render_level_37:
   sub2
   setl2 2
 $L_render_level_38:
-  .line 508
+  .line 511
   p0
   push  13
   p128
@@ -10314,7 +10318,7 @@ $L_render_level_38:
   p0
   dupw6
   sys   draw_filled_rect
-  .line 510
+  .line 513
   p6
   getln 11
   pushl $PD_23 0

@@ -412,9 +412,10 @@ void render_level()
         for(u8 i = 0; i < 5; ++i)
         {
             u16 index = (i + cy) * w + cx;
+            u8[9] row = m[index +: 9];
             for(u8 j = 0; j < 9; ++j)
             {
-                u8 t = m[index + j] - 1;
+                u8 t = row[j] - 1;
                 if(t < 240)
                 {
                     if(t >= 176)

@@ -183,10 +183,11 @@ unary_expr          <- '++' unary_expr /
                        postfix_expr
 postfix_expr        <- primary_expr postfix*
 postfix             <- '(' arg_expr_list? ')' /
-                       '[' expr (':' expr)? ']' /
+                       '[' expr (slice_op expr)? ']' /
                        '.' ident /
                        '++' /
                        '--'
+slice_op            <- < '+:' / ':' >
 
 primary_expr        <- hex_literal /
                        float_literal /
@@ -451,7 +452,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
                 pair.children.emplace_back(std::move(a));
                 pair.children.emplace_back(std::move(b.children[0]));
             }
-            else if(b.type == AST::ARRAY_SLICE)
+            else if(b.type == AST::ARRAY_SLICE || b.type == AST::ARRAY_SLICE_LEN)
             {
                 pair.type = type;
                 pair.children.emplace_back(std::move(a));
@@ -487,12 +488,14 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             a.children.push_back(std::any_cast<ast_node_t>(v[0]));
             return a;
         }
-        else if(v.choice() == 1 && v.size() == 2)
+        else if(v.choice() == 1 && v.size() == 3)
         {
             // array slice
-            ast_node_t a = { v.line_info(), AST::ARRAY_SLICE, v.token() };
+            auto type = std::any_cast<ast_node_t>(v[1]).type;
+            assert(type == AST::ARRAY_SLICE || type == AST::ARRAY_SLICE_LEN);
+            ast_node_t a = { v.line_info(), type, v.token() };
             a.children.push_back(std::any_cast<ast_node_t>(v[0]));
-            a.children.push_back(std::any_cast<ast_node_t>(v[1]));
+            a.children.push_back(std::any_cast<ast_node_t>(v[2]));
             return a;
         }
         else if(v.choice() == 2)
@@ -517,7 +520,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         return {};
     };
 
-    p["arg_decl_list"] = [](peg::SemanticValues const& v) {
+    p["slice_op"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{};
+        a.type = (v.choice() == 0 ? AST::ARRAY_SLICE_LEN : AST::ARRAY_SLICE);
+        return a;
+        };
+
+    p["arg_decl_list"] = [](peg::SemanticValues const& v) -> ast_node_t {
         assert(v.size() % 2 == 0);
         ast_node_t a = { v.line_info(), AST::LIST, v.token() };
         for(auto& child : v)

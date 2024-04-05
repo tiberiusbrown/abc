@@ -125,9 +125,34 @@ $assert(x[2] == 7);
 
 ### Array Slices
 
-Given some array, array [reference](#references), or [UAR](#unsized-array-references) `a`, the syntax `a[start:stop]` is a slice into `a` including indices in the range `[start, stop)`. If the array elements are type `T`, the type of the array slice is
-- `T[stop-start]&` if both `start` and `stop` are compile-time integral constants, or
+Given some array, array [reference](#references), or [UAR](#unsized-array-references) `a`, the syntax `a[start+:length]` or `a[start:stop]` is a slice into `a` including indices in the range `[start, start+length)` or `[start, stop)`. If the array elements are type `T`, the type of the array slice is
+- `T[length]&` or `T[stop-start]&` if `length` or both `start` and `stop` are compile-time integral constants, or
 - `T[]&` otherwise (see the section on [unsized array references](#unsized-array-references)).
+
+Array slices are useful when accessing `prog` data, which incurs overhead per access. Consider the following approach to rendering a 8x8 section of a 32x32 tilemap:
+
+```c
+void draw_tilemap(u8[32][32] prog& m, u8 r, u8 c)
+{
+    for(u8 row = 0; row < 8; ++row)
+        for(u8 col = 0; col < 8; ++col)
+            $draw_sprite(col * 8, row * 8, TILE_IMG, m[r + row][c + col]);
+}
+```
+
+The above will perform 64 individual `prog` accesses, one for each tile. Performance can be improved by batching the accesses in each row, reducing the number of `prog` accesses from 64 to 8:
+
+```c
+void draw_tilemap(u8[32][32] prog& m, u8 r, u8 c)
+{
+    for(u8 row = 0; row < 8; ++row)
+    {
+        u8[16] rowdata = m[row][c +: 8];
+        for(u8 col = 0; col < 8; ++col)
+            $draw_sprite(col * 8, row * 8, TILE_IMG, rowdata[col]);
+    }
+}
+```
 
 ## Strings
 
