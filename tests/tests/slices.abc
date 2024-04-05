@@ -7,9 +7,35 @@ void main()
         for(u8 i = 0; i < len(a); ++i)
             a[i] = i;
         
-        u8[]& slice = a[1:4];
-        $assert(a[2] == 2);
-        $assert(slice[1] == 2);
+        {
+            u8[]& slice = a[1:4];
+            $assert(a[2] == 2);
+            $assert(slice[1] == 2);
+            $assert(len(slice) == 3);
+        }
+        
+        {
+            u8 i = 1;
+            u8 j = 4;
+            u8[]& slice = a[i:j];
+            $assert(a[2] == 2);
+            $assert(slice[1] == 2);
+            $assert(len(slice) == 3);
+        }
+        
+        {
+            u8[3]& slice = a[1:4];
+            $assert(a[2] == 2);
+            $assert(slice[1] == 2);
+            $assert(len(slice) == 3);
+        }
+        
+        {
+            u8[3] slice = a[1:4];
+            $assert(a[2] == 2);
+            $assert(slice[1] == 2);
+            $assert(len(slice) == 3);
+        }
     }
     
     {

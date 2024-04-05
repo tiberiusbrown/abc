@@ -956,9 +956,8 @@ void compiler_t::codegen_expr_ident(
         uint8_t frame_offset = (uint8_t)(frame.size - local->frame_offset - offset);
         f.instrs.push_back({ I_REFL, a.line(), frame_offset });
         frame.size += 2;
-        return;
     }
-    if(auto* global = resolve_global(a))
+    else if(auto* global = resolve_global(a))
     {
         assert(!global->var.is_constexpr);
         bool prog = global->var.type.is_prog;
@@ -969,9 +968,8 @@ void compiler_t::codegen_expr_ident(
             else
                 f.instrs.push_back({ I_PUSHG, a.line(), (uint32_t)offset, 0, global->constexpr_ref });
             frame.size += (prog ? 3 : 2);
-            return;
         }
-        if(prog)
+        else if(prog)
         {
             f.instrs.push_back({ I_PUSHL, a.line(), (uint32_t)offset, 0, global->name });
             frame.size += 3;
@@ -981,9 +979,11 @@ void compiler_t::codegen_expr_ident(
             f.instrs.push_back({ I_PUSHG, a.line(), (uint32_t)offset, 0, global->name });
             frame.size += 2;
         }
-        return;
     }
-    errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
+    else
+    {
+        errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
+    }
 }
 
 void compiler_t::codegen_expr_array_index(
@@ -1005,6 +1005,8 @@ void compiler_t::codegen_expr_array_index(
     if(a.children[0].type == AST::IDENT)
     {
         codegen_expr_ident(f, frame, a.children[0], offset);
+        if(!t.is_array_ref() &&a.children[0].comp_type.children[0].is_ref())
+            codegen_dereference(f, frame, a.children[0], a.children[0].comp_type.children[0]);
         offset = 0;
     }
     else
