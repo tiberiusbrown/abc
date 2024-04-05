@@ -2407,6 +2407,13 @@ $L_main_13:
     call $L_main_12
     sys debug_break
     
+    p1
+    p00
+    p00
+    sys debug_break
+    sys draw_pixel
+    sys debug_break
+    
     p00
     pushl unmasked_sprite_small 0
     p00

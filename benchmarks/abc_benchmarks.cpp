@@ -352,6 +352,7 @@ int abc_benchmarks()
         "bnzp1 (not taken)", "bnzp1 (taken)",
         "jmp", "jmp1",
         "call", "call1", "ret",
+        "$draw_pixel",
         "$draw_sprite (1x8 unmasked)",
         "$draw_sprite (8x8 unmasked)",
         "$draw_sprite (8x8 masked)",

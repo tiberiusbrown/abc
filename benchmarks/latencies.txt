@@ -305,6 +305,7 @@
   157   call
   134   call1
   122   ret
+   99   $draw_pixel
   573   $draw_sprite (1x8 unmasked)
   706   $draw_sprite (8x8 unmasked)
   841   $draw_sprite (8x8 masked)
