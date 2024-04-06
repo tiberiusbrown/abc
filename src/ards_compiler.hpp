@@ -203,6 +203,9 @@ struct compiler_type_t
     {
         compiler_type_t t = *this;
         t.is_prog = false;
+        if(is_array())
+            for(auto& child : t.children)
+                child = child.without_prog();
         return t;
     }
 
