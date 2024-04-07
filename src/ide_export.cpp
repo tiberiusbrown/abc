@@ -110,7 +110,7 @@ static void export_arduboy_file_menu_clicked(bool mini)
 #endif
     export_arduboy(
         filename, project.binary,
-        project.has_save, mini,
+        project.has_save(), mini,
         project.arduboy_directives);
 }
 

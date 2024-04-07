@@ -201,7 +201,7 @@ int main(int argc, char** argv)
     printf("Time: %f\n", double(tb - ta) / CLOCKS_PER_SEC);
 #endif
 
-    printf("Compilation succeeded!\n");
+    printf("Compilation Succeeded!\n");
     printf("======================\n");
     printf("Dev Bin: %7d bytes  %6.1f KB\n", (int)a.data().size(), (double)a.data().size() / 1024);
     printf("======================\n");

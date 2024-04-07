@@ -62,7 +62,14 @@ struct project_t
     std::map<std::string, std::vector<ards::error_t>> errors;
     std::vector<uint8_t> binary;
     std::unordered_map<std::string, std::string> arduboy_directives;
-    bool has_save;
+
+    size_t data_size;
+    size_t code_size;
+    size_t debug_size;
+    size_t globals_size;
+    size_t save_size;
+    bool has_save() const { return save_size != 0; };
+
     void update_cached_files();
     bool active() { return !root.path.empty(); }
 };

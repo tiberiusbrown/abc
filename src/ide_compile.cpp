@@ -72,7 +72,13 @@ bool compile_all()
     }
 
     project.binary = a.data();
-    project.has_save = a.has_save();
+
+    project.data_size = a.data_size();
+    project.code_size = a.code_size();
+    project.debug_size = a.debug_size();
+    project.globals_size = a.globals_size();
+    project.save_size = a.save_size();
+
     project.arduboy_directives = c.arduboy_directives();
     return true;
 }

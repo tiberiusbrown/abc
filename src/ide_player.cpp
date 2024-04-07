@@ -170,6 +170,25 @@ void player_window_contents(uint64_t dt)
             player_run();
     }
 
+    if(project.errors.empty() && !project.binary.empty())
+    {
+        Separator();
+        TextUnformatted("Compilation Succeeded!");
+        TextUnformatted("======================");
+        Text("Dev Bin: %7d bytes  %6.1f KB",
+            (int)project.binary.size(), (double)project.binary.size() / 1024);
+        Text("Data:    %7d bytes  %6.1f KB",
+            (int)project.data_size, (double)project.data_size / 1024);
+        Text("Code:    %7d bytes  %6.1f KB",
+            (int)project.code_size, (double)project.code_size / 1024);
+        Text("Debug:   %7d bytes  %6.1f KB",
+            (int)project.debug_size, (double)project.debug_size / 1024);
+        TextUnformatted("======================");
+        Text("Globals: %7d bytes", (int)project.globals_size);
+        Text("Save:    %7d bytes", (int)project.save_size);
+        TextUnformatted("======================");
+    }
+
     if(!project.errors.empty())
     {
         constexpr auto flags =
