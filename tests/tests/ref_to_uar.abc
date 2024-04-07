@@ -14,5 +14,9 @@ void main()
     int t = sum(x);
     $assert(t == 6);
     
+    int single_val = 42;
+    t = sum(single_val);
+    $assert(t == 42);
+    
     $debug_break();
 }

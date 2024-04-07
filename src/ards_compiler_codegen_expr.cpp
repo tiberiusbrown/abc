@@ -939,12 +939,14 @@ void compiler_t::codegen_expr(
     case AST::OP_AREF:
     {
         codegen_expr(f, frame, a.children[0], true);
+        assert(a.children[0].comp_type.is_ref());
         auto const& t = a.children[0].comp_type.without_ref();
         if(t.is_array_ref())
             return;
-        assert(t.is_array());
-        auto n = t.array_size();
+        size_t n = 1;
         auto line = a.children[0].line();
+        if(t.is_array())
+            n = t.array_size();
         f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 0) });
         f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 8) });
         if(t.is_prog)

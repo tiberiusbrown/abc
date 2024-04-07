@@ -25,7 +25,7 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/basic_main.hpp"
     VARIABLE_NAME BASIC_MAIN
     )
-
+    
 file(GLOB ABC_FONTS "fonts/*.ttf")
 set(ABC_FONT_HEADERS)
 set(ABC_FONT_MASTER "${GENHEADER_DIR}/all_fonts.hpp")
@@ -81,6 +81,7 @@ if(MSVC)
     )
     add_compile_options(
         /W4
+        /D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
         /Zc:__cplusplus
         /utf-8
         /D_CRT_SECURE_NO_DEPRECATE
