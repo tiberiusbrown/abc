@@ -106,10 +106,10 @@ int main(int argc, char** argv)
 #endif
 
 #ifndef NDEBUG
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/bubble3/bubble3.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/structs2.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/memcpy.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
 #endif
 

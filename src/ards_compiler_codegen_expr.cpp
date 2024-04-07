@@ -943,10 +943,22 @@ void compiler_t::codegen_expr(
         auto const& t = a.children[0].comp_type.without_ref();
         if(t.is_array_ref())
             return;
-        size_t n = 1;
+        if(a.comp_type.children[0].is_byte && !t.is_copyable())
+        {
+            errs.push_back({
+                "Cannot create byte UAR from non-copyable type",
+                a.line_info });
+            return;
+        }
+        if(!t.is_array() && !a.comp_type.children[0].is_byte)
+        {
+            errs.push_back({
+                "Only byte UARs may be created from non-array types",
+                a.line_info });
+            return;
+        }
+        size_t n = a.comp_type.children[0].is_byte ? t.prim_size : t.array_size();
         auto line = a.children[0].line();
-        if(t.is_array())
-            n = t.array_size();
         f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 0) });
         f.instrs.push_back({ I_PUSH, line, uint8_t(n >> 8) });
         if(t.is_prog)

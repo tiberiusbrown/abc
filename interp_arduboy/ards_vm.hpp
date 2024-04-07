@@ -18,6 +18,7 @@ enum error_t : uint8_t
     ERR_DST, // data stack overflow
     ERR_CST, // call stack overflow
     ERR_FRM, // sprite frame outside of set
+    ERR_CPY, // sizes of memcpy dst/src differ
     NUM_ERR,
 };
 

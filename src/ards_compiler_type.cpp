@@ -340,13 +340,15 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         {
             t0.prim_size = t1.prim_size = std::min<size_t>(4,
                 std::max(t0.prim_size, t1.prim_size) + 1);
-            t0.is_signed = t1.is_signed = (t0.is_signed || t1.is_signed);
+            bool t = (t0.is_signed || t1.is_signed);
+            t0.is_signed = t1.is_signed = t;
         }
         else if(a.type == AST::OP_MULTIPLICATIVE && a.data == "*")
         {
             t0.prim_size = t1.prim_size = std::min<size_t>(4,
                 t0.prim_size + t1.prim_size);
-            t0.is_signed = t1.is_signed = (t0.is_signed || t1.is_signed);
+            bool t = (t0.is_signed || t1.is_signed);
+            t0.is_signed = t1.is_signed = t;
         }
         else if(is_divmod && t0.is_signed != t1.is_signed)
         {

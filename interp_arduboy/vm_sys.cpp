@@ -1074,6 +1074,38 @@ static void sys_strcpy_P()
     seek_to_pc();
 }
 
+static void sys_memcpy()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
+    uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint16_t n1 = vm_pop<uint16_t>(ptr);
+    uint16_t b1 = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    if(n0 != n1)
+        vm_error(ards::ERR_CPY);
+    memcpy(
+        reinterpret_cast<void*>(b0),
+        reinterpret_cast<void const*>(b1),
+        n0);
+}
+
+static void sys_memcpy_P()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
+    uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint24_t n1 = vm_pop<uint24_t>(ptr);
+    uint24_t b1 = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+    FX::disable();
+    if(n0 != n1)
+        vm_error(ards::ERR_CPY);
+    ards::detail::fx_read_data_bytes(
+        b1, reinterpret_cast<void*>(b0), n0);
+    seek_to_pc();
+}
+
 using format_char_func = void(*)(char c);
 
 static void format_add_string(format_char_func f, char* tb, uint16_t tn)
@@ -1656,6 +1688,8 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_any_pressed,
     sys_not_pressed,
     sys_millis,
+    sys_memcpy,
+    sys_memcpy_P,
     sys_strlen,
     sys_strlen_P,
     sys_strcmp,

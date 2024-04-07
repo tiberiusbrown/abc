@@ -47,6 +47,7 @@ The following keyword types are exposed in ABC.
 | Keyword | Type      | Bit Width |
 |:-------:|-----------|:---------:|
 | `bool`  | boolean   | 8         |
+| `byte`  | byte      | 8         |
 | `char`  | character | 8         |
 | `i8`    | signed    | 8         |
 | `i16`   | signed    | 16        |
@@ -63,6 +64,30 @@ The following keyword types are exposed in ABC.
 | `uint`  | unsigned  | 16        |
 | `ulong` | unsigned  | 32        |
 | `float` | float     | 32        |
+
+### The `bool` type
+
+The `bool` type is the type of relational and boolean operations (such as `a == b` or `a && b`). It can only contain the values `true` or `false`, which convert to `1` and `0`, respectively, when cast to another numeric type. When converted to `bool`, values of a non-`bool` type convert to `false` when zero, and `true` otherwise.
+
+### The `byte` type
+
+Any reference to a copyable type may be converted to an [unsized array reference](#unsized-array-references) of `byte` type.
+
+### The `char` type
+
+Arrays of type `char` are allowed to resize when assigned to each other. This reflects the intended usage of `char` values as characters in strings.
+
+```c
+int[4] a_int;
+int[6] b_int;
+
+a_int = b_int; // ERROR! array sizes differ
+
+char[4] a_char;
+char[6] b_char;
+
+a_char = b_char; // OK
+```
 
 ## Arrays
 
@@ -204,15 +229,6 @@ int[4] a = { 1, 2, 3, 4 };
 // All accesses to 'a' through 'r' are bounds-checked.
 // However, the storage for 'r' is double that of a sized array reference.
 int[]& r = a;
-```
-
-A UAR may also be created from a reference to a non-array type. In this case, the size will be 1.
-
-```c
-int x = 42;
-
-// 'x' is a UAR with size 1
-int[]& r = x;
 ```
 
 UARs can be useful for defining an array of strings. The below example declares a `prog` array of 3 elements, each of which is a reference to a `prog` unsized array of `char`:

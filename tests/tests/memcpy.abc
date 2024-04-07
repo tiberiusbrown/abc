@@ -1,0 +1,40 @@
+u8[512] prog data = { 1, 2, 3, };
+
+u8[512] copy;
+
+struct blah { int a, b; };
+
+void main()
+{
+    $debug_break();
+        
+    $assert(copy[0] == 0);
+    $assert(copy[1] == 0);
+    $assert(copy[2] == 0);
+    $assert(copy[3] == 0);
+    
+    $memcpy_P(copy, data);
+    
+    $assert(copy[0] == 1);
+    $assert(copy[1] == 2);
+    $assert(copy[2] == 3);
+    $assert(copy[3] == 0);
+    
+    int x = 42;
+    int y = 500;
+    
+    $assert(y == 500);
+    $memcpy(y, x);
+    $assert(y == 42);
+    
+    blah a = { 600, 700 };
+    blah b = { 800, 900 };
+    
+    $assert(a.a == 600);
+    $assert(a.b == 700);
+    $memcpy(a, b);
+    $assert(a.a == 800);
+    $assert(a.b == 900);
+    
+    $debug_break();
+}

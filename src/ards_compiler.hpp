@@ -121,10 +121,6 @@ struct compiler_type_t
     // size of type in bytes (0 means void)
     size_t prim_size;
 
-    bool is_signed;
-    bool is_bool;
-    bool is_char;
-
     enum type_t : uint8_t
     {
         PRIM,
@@ -137,12 +133,18 @@ struct compiler_type_t
         TONES,
     } type;
 
+    bool is_signed;
+
+    bool is_bool;
+    bool is_char;
     bool is_float;
+    bool is_byte;
 
     bool is_constexpr;
     bool is_saved;
     bool is_prog;
 
+    bool is_void() const { return prim_size == 0 && !is_signed; }
     bool is_ref() const { return type == REF; }
     bool is_array_ref() const { return type == ARRAY_REF; }
     bool is_any_ref() const { return is_ref() || is_array_ref(); }
@@ -179,10 +181,10 @@ struct compiler_type_t
     {
         return is_ref() ? children[0] : *this;
     }
-	const compiler_type_t& without_ref() const
-	{
-		return is_ref() ? children[0].without_ref() : *this;
-	}
+    const compiler_type_t& without_ref() const
+    {
+        return is_ref() ? children[0].without_ref() : *this;
+    }
     bool is_prog_array() const
     {
         if(is_ref())
@@ -192,7 +194,7 @@ struct compiler_type_t
         assert(false);
         return false;
     }
-	compiler_type_t sized_to(size_t size) const
+    compiler_type_t sized_to(size_t size) const
     {
         assert(type == PRIM);
         compiler_type_t t = *this;
@@ -215,6 +217,18 @@ struct compiler_type_t
         if(!wr.is_array()) return 0;
         assert(wr.children.size() == 1);
         return wr.prim_size / wr.children[0].prim_size;
+    }
+
+    bool contains_void() const
+    {
+        if(is_void()) return true;
+        if(is_array() || is_any_ref())
+            return children[0].contains_void();
+        if(is_struct())
+            for(auto const& child : children)
+                if(child.contains_void())
+                    return true;
+        return false;
     }
 
     bool has_child_ref() const
@@ -252,7 +266,7 @@ struct compiler_type_t
     {
         return std::tie(
             prim_size, type,
-            is_signed, is_bool, is_prog, is_char, is_float,
+            is_signed, is_bool, is_prog, is_char, is_float, is_byte,
             children);
     }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
@@ -322,36 +336,42 @@ struct compiler_type_t
     }
 };
 
-const compiler_type_t TYPE_NONE = { 0, true };
+const compiler_type_t TYPE_NONE = { 0, compiler_type_t::PRIM, true };
 
-const compiler_type_t TYPE_VOID = { 0, false };
-const compiler_type_t TYPE_BOOL = { 1, false, true };
-const compiler_type_t TYPE_U8 = { 1, false };
-const compiler_type_t TYPE_U16 = { 2, false };
-const compiler_type_t TYPE_U24 = { 3, false };
-const compiler_type_t TYPE_U32 = { 4, false };
-const compiler_type_t TYPE_I8 = { 1, true };
-const compiler_type_t TYPE_I16 = { 2, true };
-const compiler_type_t TYPE_I24 = { 3, true };
-const compiler_type_t TYPE_I32 = { 4, true };
+const compiler_type_t TYPE_VOID = { 0, compiler_type_t::PRIM, false };
+const compiler_type_t TYPE_BOOL = { 1, compiler_type_t::PRIM, false, true };
+const compiler_type_t TYPE_U8 = { 1, compiler_type_t::PRIM, false };
+const compiler_type_t TYPE_U16 = { 2, compiler_type_t::PRIM, false };
+const compiler_type_t TYPE_U24 = { 3, compiler_type_t::PRIM, false };
+const compiler_type_t TYPE_U32 = { 4, compiler_type_t::PRIM, false };
+const compiler_type_t TYPE_I8 = { 1, compiler_type_t::PRIM, true };
+const compiler_type_t TYPE_I16 = { 2, compiler_type_t::PRIM, true };
+const compiler_type_t TYPE_I24 = { 3, compiler_type_t::PRIM, true };
+const compiler_type_t TYPE_I32 = { 4, compiler_type_t::PRIM, true };
 
 const compiler_type_t TYPE_SPRITES = {
-    3, false, false, false, compiler_type_t::SPRITES };
+    3, compiler_type_t::SPRITES };
 
 const compiler_type_t TYPE_FONT = {
-    3, false, false, false, compiler_type_t::FONT };
+    3, compiler_type_t::FONT };
 
 const compiler_type_t TYPE_TONES = {
-    3, false, false, false, compiler_type_t::TONES };
+    3, compiler_type_t::TONES };
 
 const compiler_type_t TYPE_CHAR = {
-    1, false, false, true };
+    1, compiler_type_t::PRIM, false, false, true };
 
 const compiler_type_t TYPE_FLOAT = {
-    4, false, false, false, compiler_type_t::PRIM, true };
+    4, compiler_type_t::PRIM, false, false, false, true };
+
+const compiler_type_t TYPE_BYTE = {
+    1, compiler_type_t::PRIM, false, false, false, false, true };
 
 const compiler_type_t TYPE_STR = TYPE_CHAR.with_array_ref();
 const compiler_type_t TYPE_STR_PROG = TYPE_CHAR.with_prog().with_array_ref();
+
+const compiler_type_t TYPE_BYTE_AREF = TYPE_BYTE.with_array_ref();
+const compiler_type_t TYPE_BYTE_PROG_AREF = TYPE_BYTE.with_prog().with_array_ref();
 
 compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed);
 compiler_type_t prim_type_for_hex(uint32_t x, bool is_signed);

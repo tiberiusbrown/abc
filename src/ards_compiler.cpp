@@ -33,7 +33,7 @@ std::unordered_set<std::string> const keywords =
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
     "if", "else", "while", "for", "return", "break", "continue",
     "constexpr", "saved", "prog", "sprites", "font", "tones",
-    "struct", "import", "len", "float",
+    "struct", "import", "len", "float", "byte",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types
@@ -55,6 +55,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "short",   TYPE_I8      },
     { "int",     TYPE_I16     },
     { "float",   TYPE_FLOAT   },
+    { "byte",    TYPE_BYTE    },
     { "long",    TYPE_I32     },
     { "sprites", TYPE_SPRITES },
     { "font",    TYPE_FONT    },
@@ -1010,6 +1011,8 @@ std::string type_name(ards::compiler_type_t const& t, bool noprog)
         ss << "tones";
     else if(tt.is_float)
         ss << "float";
+    else if(tt.is_byte)
+        ss << "byte";
     else if(t.is_array())
     {
         ss << type_name(t.children[0], t.children[0].is_prog) << "[" << t.array_size() << "]";

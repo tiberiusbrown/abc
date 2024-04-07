@@ -37,6 +37,8 @@ enum sysfunc_t : uint8_t
     SYS_ANY_PRESSED,
     SYS_NOT_PRESSED,
     SYS_MILLIS,
+    SYS_MEMCPY,
+    SYS_MEMCPY_P,
     SYS_STRLEN,
     SYS_STRLEN_P,
     SYS_STRCMP,

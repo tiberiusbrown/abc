@@ -47,6 +47,8 @@ void  $init_random_seed();
 bool  $just_pressed(u8 button);
 bool  $just_released(u8 button);
 bool  $load();
+void  $memcpy(byte[]& dst, byte[]& src);
+void  $memcpy_P(byte[]& dst, byte[] prog& src);
 u32   $millis();
 float $mod(float x, float y);
 bool  $next_frame();
