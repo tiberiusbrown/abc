@@ -206,6 +206,15 @@ int[4] a = { 1, 2, 3, 4 };
 int[]& r = a;
 ```
 
+A UAR may also be created from a reference to a non-array type. In this case, the size will be 1.
+
+```c
+int x = 42;
+
+// 'x' is a UAR with size 1
+int[]& r = x;
+```
+
 UARs can be useful for defining an array of strings. The below example declares a `prog` array of 3 elements, each of which is a reference to a `prog` unsized array of `char`:
 
 ```c
