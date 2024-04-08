@@ -542,18 +542,7 @@ void compiler_t::codegen_convert(
                 n.line_info });
             return;
         }
-        if(rfrom.is_array())
-        {
-            //codegen_expr(f, frame, n, true);
-            auto size = rfrom.array_size();
-            bool prog = rto.children[0].is_prog;
-            frame.size += (prog ? 3 : 2);
-            f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 0) });
-            f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 8) });
-            if(prog)
-                f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 16) });
-        }
-        else if(rfrom.is_array_ref())
+        if(rfrom.is_array_ref())
         {
             while(pfrom->is_ref())
             {
@@ -561,11 +550,27 @@ void compiler_t::codegen_convert(
                 codegen_dereference(f, frame, n, *pfrom);
             }
             assert(rto.children[0] == rfrom.children[0]);
+            return;
         }
-        else
+        if(rto.children[0].is_byte && !rfrom.is_copyable())
         {
-            errs.push_back({ "Cannot create unsized array reference from non-array", n.line_info });
+            errs.push_back({
+                "Cannot create byte UAR from non-copyable type",
+                n.line_info });
+            return;
         }
+        if(rfrom.is_array() || rto.children[0].is_byte)
+        {
+            auto size = rto.children[0].is_byte ? rfrom.prim_size : rfrom.array_size();
+            bool prog = rto.children[0].is_prog;
+            frame.size += (prog ? 3 : 2);
+            f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 0) });
+            f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 8) });
+            if(prog)
+                f.instrs.push_back({ I_PUSH, n.line(), (uint8_t)(size >> 16) });
+            return;
+        }
+        errs.push_back({ "Cannot create unsized array reference from non-array", n.line_info });
         return;
     }
     if(rfrom.is_array())

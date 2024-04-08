@@ -2,39 +2,43 @@ void main()
 {
     $debug_break();
     
-    //$assert(1);
-    //$assert(-1);
+    bool t = true;
+    bool f = false;
+    $assert(t + f == 1);
+    
+    $assert(1);
+    $assert(-1);
     $assert(2);
-    //$assert(2u);
-    //$assert(0x10000000);
-    //$assert(!0);
-    //$assert(!false);
-    //$assert(!!true);
-    //$assert(!!!false);
-    //
-    //$assert(0 == 0);
-    //$assert(1 == 1);
-    //$assert(1 != 0);
-    //$assert(1u == 1);
-    //$assert(0xff == -1);
-    //$assert(1 + 2 == 3);
-    //$assert(1 + 2 == 2 + 1);
-    //
-    //$assert(1 < 2);
-    //$assert(2 > 1);
-    //$assert(1 <= 2);
-    //$assert(2 >= 1);
-    //$assert(1 >= 1);
-    //$assert(1 <= 1);
-    //$assert(-1 <= -1);
-    //$assert(-1 < 0);
-    //
-    //$assert((1 == 1) == true);
-    //$assert((1 == 0) == false);
-    //
-    //// integer promotion / implicit conversion
-    //$assert(100 + 28 == 128);
-    //$assert(100u + 28u == 128);
+    $assert(2u);
+    $assert(0x10000000);
+    $assert(!0);
+    $assert(!false);
+    $assert(!!true);
+    $assert(!!!false);
+    
+    $assert(0 == 0);
+    $assert(1 == 1);
+    $assert(1 != 0);
+    $assert(1u == 1);
+    $assert(0xff == -1);
+    $assert(1 + 2 == 3);
+    $assert(1 + 2 == 2 + 1);
+    
+    $assert(1 < 2);
+    $assert(2 > 1);
+    $assert(1 <= 2);
+    $assert(2 >= 1);
+    $assert(1 >= 1);
+    $assert(1 <= 1);
+    $assert(-1 <= -1);
+    $assert(-1 < 0);
+    
+    $assert((1 == 1) == true);
+    $assert((1 == 0) == false);
+    
+    // integer promotion / implicit conversion
+    $assert(100 + 28 == 128);
+    $assert(100u + 28u == 128);
     
     $debug_break();
 }

@@ -36,5 +36,12 @@ void main()
     $assert(a.a == 800);
     $assert(a.b == 900);
     
+    u32 z = 0x87654321;
+    byte[]& zb = z;
+    $assert(zb[3] == 0x87);
+    $assert(zb[2] == 0x65);
+    $assert(zb[1] == 0x43);
+    $assert(zb[0] == 0x21);
+    
     $debug_break();
 }

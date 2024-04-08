@@ -331,6 +331,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
 
         t0.is_bool = false;
         t1.is_bool = false;
+        t0.is_byte = false;
+        t1.is_byte = false;
 
         if(is_float)
         {
