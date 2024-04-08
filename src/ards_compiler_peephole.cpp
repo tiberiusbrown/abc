@@ -111,6 +111,18 @@ bool compiler_t::peephole_remove_pop(compiler_func_t& f)
             t = true;
             continue;
         }
+
+        if(i + 2 >= f.instrs.size()) continue;
+        auto& i2 = f.instrs[i + 2];
+
+        // replace PUSH <M>; GETLN <N>; POP with PUSH <M-1>; GETLN <N>
+        if(i0.instr == I_PUSH && i1.instr == I_GETLN && i1.imm > 1 && i2.instr == I_POP)
+        {
+            i0.imm -= 1;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
     }
 
     return t;

@@ -3999,75 +3999,75 @@ $globinit:
 
 solid:
   .file update.abc
-  .line 743
+  .line 742
   getl4 10
   sys   floor
   f2i
   pop2
-  .line 744
+  .line 743
   getl4 16
   sys   floor
   f2i
   pop2
-  .line 747
+  .line 746
   dupw3
   p00
   cslt2
   bz    $L_solid_0
-  .line 748
+  .line 747
   p1
   setl  20
   popn  19
   ret
 $L_solid_0:
-  .line 751
+  .line 750
   dupw
   p00
   cslt2
   bz    $L_solid_1
-  .line 752
+  .line 751
   p0
   setl  20
   popn  19
   ret
 $L_solid_1:
-  .line 754
+  .line 753
   dupw3
   p4
   asr2
   setl2 4
-  .line 755
+  .line 754
   dupw
   p4
   asr2
   setl2 2
-  .line 756
+  .line 755
   getg  map_width 0
-  .line 759
+  .line 758
   dupw4
   dup3
   p0
   cslt2
   bnz   $L_solid_2
-  .line 760
+  .line 759
   p1
   setl  21
   popn  20
   ret
 $L_solid_2:
-  .line 763
+  .line 762
   dupw2
   getg  map_height 0
   p0
   cslt2
   bnz   $L_solid_3
-  .line 764
+  .line 763
   p0
   setl  21
   popn  20
   ret
 $L_solid_3:
-  .line 765
+  .line 764
   p6
   getln 11
   dupw8
@@ -4079,7 +4079,7 @@ $L_solid_3:
   upidx 1
   getp
   dec
-  .line 766
+  .line 765
   dup
   p0
   push  240
@@ -4091,15 +4091,15 @@ $L_solid_3:
   popn  21
   ret
 $L_solid_4:
-  .line 767
+  .line 766
   dup
   push  15
   sub
   bnz   $L_solid_5
-  .line 768
+  .line 767
   call  player_take_damage
 $L_solid_5:
-  .line 769
+  .line 768
   dup
   p64
   cult
@@ -4109,7 +4109,7 @@ $L_solid_5:
   popn  21
   ret
 $L_solid_6:
-  .line 770
+  .line 769
   getl  21
   bzp   $L_solid_7
   dup
@@ -4122,7 +4122,7 @@ $L_solid_7:
   popn  21
   ret
 $L_solid_8:
-  .line 771
+  .line 770
   dup
   p0
   push  176
@@ -4143,7 +4143,7 @@ $L_solid_9:
   popn  21
   ret
 $L_solid_10:
-  .line 772
+  .line 771
   p0
   setl  22
   popn  21
@@ -7380,51 +7380,51 @@ $L_update_level_59:
 
 player_take_damage:
   .file update.abc
-  .line 725
+  .line 724
   getg  invincibility_frames 0
   bz    $L_player_take_damage_0
-  .line 726
+  .line 725
   ret
 $L_player_take_damage_0:
-  .line 727
+  .line 726
   getg  death_frames 0
   bz    $L_player_take_damage_1
-  .line 728
+  .line 727
   ret
 $L_player_take_damage_1:
-  .line 729
+  .line 728
   getg  hearts 0
   dec
   dup
   setg  hearts 0
   bz    $L_player_take_damage_3
-  .line 731
+  .line 730
   push  75
   setg  invincibility_frames 0
-  .line 732
+  .line 731
   pushl $PD_32 0
   sys   tones_play
-  .line 733
+  .line 732
   p00
   push2 49088
   setg4 vy 0
-  .line 734
+  .line 733
   p00
   push2 16320
   setg4 vx 0
-  .line 735
+  .line 734
   getg  player_facing_right 0
   bz    $L_player_take_damage_2
   p00
   push2 49088
   setg4 vx 0
 $L_player_take_damage_2:
-  .line 736
+  .line 735
   ret
 $L_player_take_damage_3:
-  .line 738
+  .line 737
   call  player_death
-  .line 723
+  .line 722
   ret
 
 resolve_player_collision:
@@ -7717,56 +7717,51 @@ $L_resolve_player_collision_17:
 update_map_objects:
   .file update.abc
   .line 573
-  pushl maps 6
-  getg  current_map 0
-  pidxb 17 12
-  getpn 6
-  .line 574
   getg4 px 0
   sys   round
   f2i
   pop2
   p7
   sub2b
-  .line 575
+  .line 574
   getg4 py 0
   sys   round
   f2i
   pop2
   push  9
   sub2b
-  .line 576
+  .line 575
   dupw3
   push  13
   add2b
-  .line 577
+  .line 576
   dupw3
   push  11
   add2b
-  .line 578
+  .line 577
   p0
   setg  mob_jumped 0
-  .line 579
+  .line 578
   p0
 $L_update_map_objects_0:
   dup
   push  20
   cult
   bz    $L_update_map_objects_1
-  .line 581
+  .line 580
   pushg objects 0
   dup3
   aidxb 15 20
-  .line 582
+  .line 581
   dupw
   getr
-  .line 583
+  .line 582
   bnzp  $L_update_map_objects_3
-  .line 584
+  .line 583
   pop2
   jmp   $L_update_map_objects_2
 $L_update_map_objects_3:
-  .line 586
+  .line 585
   dup
   p8
   cult
@@ -7777,13 +7772,13 @@ $L_update_map_objects_3:
   and
 $L_update_map_objects_4:
   bz    $L_update_map_objects_18
-  .line 588
+  .line 587
   dupw2
   push  10
   add2b
   getr
   bz    $L_update_map_objects_6
-  .line 590
+  .line 589
   dupw2
   push  10
   add2b
@@ -7794,50 +7789,50 @@ $L_update_map_objects_4:
   setr
   getr
   bnz   $L_update_map_objects_5
-  .line 591
+  .line 590
   p0
   dupw3
   setr
 $L_update_map_objects_5:
-  .line 592
+  .line 591
   pop3
   jmp   $L_update_map_objects_2
 $L_update_map_objects_6:
-  .line 594
+  .line 593
   push  11
   dup2
   cult
   bnz   $L_update_map_objects_11
-  .line 596
+  .line 595
   dupw2
   p1
   add2b
   getr2
-  .line 597
+  .line 596
   dupw4
   push  9
   add2b
   getr
   bz    $L_update_map_objects_8
-  .line 599
+  .line 598
   dupw4
   push  13
   add2b
   getr2
-  .line 600
+  .line 599
   dupw3
   p1
   add2b
   setl2 4
-  .line 601
+  .line 600
   dupw
   dupw5
   cslt2
   bz    $L_update_map_objects_7
-  .line 603
+  .line 602
   dupw
   setl2 4
-  .line 604
+  .line 603
   p0
   dupw7
   push  9
@@ -7845,27 +7840,27 @@ $L_update_map_objects_6:
   setr
 $L_update_map_objects_7:
   pop2
-  .line 597
+  .line 596
   jmp   $L_update_map_objects_10
 $L_update_map_objects_8:
-  .line 609
+  .line 608
   dupw4
   push  11
   add2b
   getr2
-  .line 610
+  .line 609
   dupw3
   p1
   sub2b
   setl2 4
-  .line 611
+  .line 610
   getl4 4
   cslt2
   bz    $L_update_map_objects_9
-  .line 613
+  .line 612
   dupw
   setl2 4
-  .line 614
+  .line 613
   p1
   dupw7
   push  9
@@ -7874,51 +7869,51 @@ $L_update_map_objects_8:
 $L_update_map_objects_9:
   pop2
 $L_update_map_objects_10:
-  .line 617
+  .line 616
   dupw
   dupw6
   p1
   add2b
   setr2
   pop2
-  .line 594
+  .line 593
   jmp   $L_update_map_objects_18
 $L_update_map_objects_11:
-  .line 619
+  .line 618
   dup
   push  12
   sub
   bnz   $L_update_map_objects_18
-  .line 621
+  .line 620
   dupw2
   p3
   add2b
   getr2
-  .line 622
+  .line 621
   dupw4
   push  9
   add2b
   getr
   bz    $L_update_map_objects_13
-  .line 624
+  .line 623
   dupw4
   push  13
   add2b
   getr2
-  .line 625
+  .line 624
   dupw3
   p1
   add2b
   setl2 4
-  .line 626
+  .line 625
   dupw
   dupw5
   cslt2
   bz    $L_update_map_objects_12
-  .line 628
+  .line 627
   dupw
   setl2 4
-  .line 629
+  .line 628
   p0
   dupw7
   push  9
@@ -7926,27 +7921,27 @@ $L_update_map_objects_11:
   setr
 $L_update_map_objects_12:
   pop2
-  .line 622
+  .line 621
   jmp   $L_update_map_objects_15
 $L_update_map_objects_13:
-  .line 634
+  .line 633
   dupw4
   push  11
   add2b
   getr2
-  .line 635
+  .line 634
   dupw3
   p1
   sub2b
   setl2 4
-  .line 636
+  .line 635
   getl4 4
   cslt2
   bz    $L_update_map_objects_14
-  .line 638
+  .line 637
   dupw
   setl2 4
-  .line 639
+  .line 638
   p1
   dupw7
   push  9
@@ -7955,7 +7950,7 @@ $L_update_map_objects_13:
 $L_update_map_objects_14:
   pop2
 $L_update_map_objects_15:
-  .line 642
+  .line 641
   dupw
   dupw6
   p3
@@ -7963,7 +7958,7 @@ $L_update_map_objects_15:
   setr2
   pop2
 $L_update_map_objects_18:
-  .line 647
+  .line 646
   dupw2
   p1
   add2b
@@ -7973,7 +7968,7 @@ $L_update_map_objects_18:
   add2b
   getr
   add2b
-  .line 648
+  .line 647
   dupw4
   p3
   add2b
@@ -7983,20 +7978,20 @@ $L_update_map_objects_18:
   add2b
   getr
   add2b
-  .line 649
+  .line 648
   getl2 12
   dupw5
   cslt2
   not
   bzp   $L_update_map_objects_19
-  .line 650
+  .line 649
   getl2 10
   dupw3
   cslt2
   not
-  .line 649
+  .line 648
   bzp   $L_update_map_objects_19
-  .line 651
+  .line 650
   getl2 16
   dupw5
   getl2 11
@@ -8005,9 +8000,9 @@ $L_update_map_objects_18:
   getr
   add2b
   cslt2
-  .line 649
+  .line 648
   bzp   $L_update_map_objects_19
-  .line 652
+  .line 651
   getl2 14
   dupw3
   getl2 11
@@ -8017,51 +8012,51 @@ $L_update_map_objects_18:
   add2b
   cslt2
 $L_update_map_objects_19:
-  .line 649
+  .line 648
   bz    $L_update_map_objects_20
-  .line 654
+  .line 653
   dupw6
   call  touch_object
 $L_update_map_objects_20:
   popn  7
 $L_update_map_objects_2:
-  .line 579
+  .line 578
   inc
   jmp   $L_update_map_objects_0
 $L_update_map_objects_1:
   pop
-  .line 657
+  .line 656
   getg  mob_jumped 0
   bz    $L_update_map_objects_21
-  .line 659
+  .line 658
   p000
   push  192
   setg4 vy 0
-  .line 660
+  .line 659
   push  15
   setg  jump_frames_remaining 0
-  .line 661
+  .line 660
   pushl $PD_26 0
   sys   tones_play
 $L_update_map_objects_21:
   .line 571
-  popn  14
+  popn  8
   ret
 
 update_camera_position:
   .file update.abc
-  .line 667
+  .line 666
   getg4 py 0
   p00
   push2 16864
   fsub
-  .line 668
+  .line 667
   getg4 px 0
   p00
   p128
   push  66
   fsub
-  .line 669
+  .line 668
   getg  map_width 0
   p0
   p16
@@ -8072,7 +8067,7 @@ update_camera_position:
   sub3
   sext
   i2f
-  .line 670
+  .line 669
   getg  map_height 0
   p0
   p16
@@ -8083,7 +8078,7 @@ update_camera_position:
   sub3
   sext
   i2f
-  .line 672
+  .line 671
   getl4 12
   getg4 vx 0
   p00
@@ -8091,90 +8086,90 @@ update_camera_position:
   fmul
   fadd
   setl4 12
-  .line 674
+  .line 673
   getg  player_facing_right 0
   bz    $L_update_camera_position_0
-  .line 675
+  .line 674
   getl4 12
   p000
   push  65
   fadd
   setl4 12
-  .line 674
+  .line 673
   jmp   $L_update_camera_position_1
 $L_update_camera_position_0:
-  .line 677
+  .line 676
   getl4 12
   p000
   push  65
   fsub
   setl4 12
 $L_update_camera_position_1:
-  .line 680
+  .line 679
   getl4 16
   getg4 camy 0
   fsub
-  .line 681
+  .line 680
   p00
   push  224
   p64
   getl4 8
   cflt
   bz    $L_update_camera_position_2
-  .line 682
+  .line 681
   getl4 20
   p00
   push  224
   p64
   fsub
   setl4 20
-  .line 681
+  .line 680
   jmp   $L_update_camera_position_5
 $L_update_camera_position_2:
-  .line 683
+  .line 682
   getl4 4
   p00
   push2 49376
   cflt
   bz    $L_update_camera_position_3
-  .line 684
+  .line 683
   getl4 20
   p00
   push  224
   p64
   fadd
   setl4 20
-  .line 683
+  .line 682
   jmp   $L_update_camera_position_5
 $L_update_camera_position_3:
-  .line 686
+  .line 685
   getg4 camy 0
   setl4 20
 $L_update_camera_position_5:
   pop4
-  .line 689
+  .line 688
   p128
   sys   pressed
   bz    $L_update_camera_position_6
-  .line 690
+  .line 689
   getl4 16
   p00
   push2 16816
   fsub
   setl4 16
 $L_update_camera_position_6:
-  .line 691
+  .line 690
   p16
   sys   pressed
   bz    $L_update_camera_position_7
-  .line 692
+  .line 691
   getl4 16
   p00
   push2 16832
   fadd
   setl4 16
 $L_update_camera_position_7:
-  .line 693
+  .line 692
   getl4 12
   p0000
   cflt
@@ -8182,7 +8177,7 @@ $L_update_camera_position_7:
   p0000
   setl4 12
 $L_update_camera_position_8:
-  .line 694
+  .line 693
   getl4 16
   p0000
   cflt
@@ -8190,7 +8185,7 @@ $L_update_camera_position_8:
   p0000
   setl4 16
 $L_update_camera_position_9:
-  .line 695
+  .line 694
   getl4 8
   getl4 16
   cflt
@@ -8198,7 +8193,7 @@ $L_update_camera_position_9:
   getl4 8
   setl4 12
 $L_update_camera_position_10:
-  .line 696
+  .line 695
   getl4 4
   getl4 20
   cflt
@@ -8206,7 +8201,7 @@ $L_update_camera_position_10:
   getl4 4
   setl4 16
 $L_update_camera_position_11:
-  .line 697
+  .line 696
   getg4 camy 0
   getl4 20
   getg4 camy 0
@@ -8215,7 +8210,7 @@ $L_update_camera_position_11:
   fmul
   fadd
   setg4 camy 0
-  .line 700
+  .line 699
   getl4 12
   getg4 camx 0
   fsub
@@ -8223,166 +8218,166 @@ $L_update_camera_position_11:
   p64
   push2 17436
   fmul
-  .line 701
+  .line 700
   getg4 dcamx 0
   p00
   push2 16968
   fmul
-  .line 700
+  .line 699
   fsub
-  .line 702
+  .line 701
   getg4 camx 0
   getg4 dcamx 0
   push4 998445679
   fmul
   fadd
   setg4 camx 0
-  .line 703
+  .line 702
   getg4 dcamx 0
   getl4 8
   push4 998445679
   fmul
   fadd
   setg4 dcamx 0
-  .line 665
+  .line 664
   popn  20
   ret
 
 player_death:
   .file update.abc
-  .line 708
+  .line 707
   getg  death_frames 0
   bz    $L_player_death_0
-  .line 709
+  .line 708
   ret
 $L_player_death_0:
-  .line 710
+  .line 709
   push  100
   setg  death_frames 0
-  .line 711
+  .line 710
   getg  single_level 0
   bnz   $L_player_death_1
-  .line 713
+  .line 712
   getg  current_map 0
   setg  saved_current_map 0
-  .line 714
+  .line 713
   p3
   getgn total_score 0
   p3
   setgn saved_total_score 0
-  .line 715
+  .line 714
   p3
   getgn total_time 0
   p3
   setgn saved_total_time 0
-  .line 716
+  .line 715
   getg  lives 0
   dec
   setg  saved_lives 0
-  .line 717
+  .line 716
   p0
   getg  saved_lives 0
   cult
   setg  save_exists 0
-  .line 718
+  .line 717
   sys   save
 $L_player_death_1:
-  .line 720
+  .line 719
   pushl $PD_34 0
   sys   tones_play
-  .line 706
+  .line 705
   ret
 
 touch_object:
   .file update.abc
-  .line 777
+  .line 776
   dupw
   getr
-  .line 778
+  .line 777
   dup
   dec
   bnz   $L_touch_object_0
-  .line 780
+  .line 779
   getg2 score 0
   push  244
   p1
   add2
   setg2 score 0
-  .line 781
+  .line 780
   p0
   dupw3
   setr
-  .line 782
+  .line 781
   pushl $PD_28 0
   sys   tones_play
-  .line 778
+  .line 777
   jmp   $L_touch_object_18
 $L_touch_object_0:
-  .line 784
+  .line 783
   dup
   p2
   sub
   bnz   $L_touch_object_1
-  .line 786
+  .line 785
   getg  keys 0
   inc
   setg  keys 0
-  .line 787
+  .line 786
   p0
   dupw3
   setr
-  .line 788
+  .line 787
   pushl $PD_30 0
   sys   tones_play
-  .line 784
+  .line 783
   jmp   $L_touch_object_18
 $L_touch_object_1:
-  .line 790
+  .line 789
   dup
   p3
   sub
   bnz   $L_touch_object_2
-  .line 792
+  .line 791
   getg2 score 0
   push2 5000
   add2
   setg2 score 0
-  .line 793
+  .line 792
   p0
   dupw3
   setr
-  .line 794
+  .line 793
   pushl $PD_29 0
   sys   tones_play
-  .line 790
+  .line 789
   jmp   $L_touch_object_18
 $L_touch_object_2:
-  .line 796
+  .line 795
   dup
   p6
   sub
   bnz   $L_touch_object_4
-  .line 798
+  .line 797
   getg  lives 0
   push  99
   cult
   bz    $L_touch_object_3
-  .line 799
+  .line 798
   getg  lives 0
   inc
   setg  lives 0
 $L_touch_object_3:
-  .line 800
+  .line 799
   p0
   dupw3
   setr
-  .line 801
+  .line 800
   pushl $PD_33 0
   sys   tones_play
-  .line 796
+  .line 795
   jmp   $L_touch_object_18
 $L_touch_object_4:
-  .line 803
+  .line 802
   dup
   p8
   cult
@@ -8394,17 +8389,17 @@ $L_touch_object_4:
   not
 $L_touch_object_5:
   bz    $L_touch_object_18
-  .line 805
+  .line 804
   dupw2
   push  10
   add2b
   getr
   bz    $L_touch_object_6
-  .line 806
+  .line 805
   pop3
   ret
 $L_touch_object_6:
-  .line 807
+  .line 806
   dup
   push  9
   sub
@@ -8432,55 +8427,55 @@ $L_touch_object_6:
   not
 $L_touch_object_7:
   bz    $L_touch_object_9
-  .line 809
+  .line 808
   dupw2
   push  10
   add2b
   getr
   bnz   $L_touch_object_8
-  .line 810
+  .line 809
   call  player_take_damage
 $L_touch_object_8:
-  .line 807
+  .line 806
   jmp   $L_touch_object_18
 $L_touch_object_9:
-  .line 812
+  .line 811
   getg  mob_jumped 0
   bnz   $L_touch_object_18
-  .line 814
+  .line 813
   p1
   setg  mob_jumped 0
-  .line 815
+  .line 814
   getg4 py 0
   getg4 vy 0
   fsub
   setg4 py 0
-  .line 816
+  .line 815
   dup
   push  10
   sub
   bnz   $L_touch_object_10
-  .line 817
+  .line 816
   p8
   dupw3
   setr
-  .line 816
+  .line 815
   jmp   $L_touch_object_18
 $L_touch_object_10:
-  .line 820
+  .line 819
   push  20
   dupw3
   push  10
   add2b
   setr
-  .line 821
+  .line 820
   getg2 score 0
   push  232
   p3
   add2
   setg2 score 0
 $L_touch_object_18:
-  .line 775
+  .line 774
   pop3
   ret
 
@@ -9913,21 +9908,21 @@ $L_render_level_9:
   aixb1 9
   getr
   dec
-  .line 420
+  .line 419
   dup
   p0
   push  240
   p0
   cslt2
   bz    $L_render_level_13
-  .line 422
+  .line 421
   dup
   p0
   push  176
   p0
   cslt2
   bnz   $L_render_level_12
-  .line 423
+  .line 422
   dup
   getg  frame_count 0
   p2
@@ -9937,7 +9932,7 @@ $L_render_level_9:
   add
   setl  1
 $L_render_level_12:
-  .line 424
+  .line 423
   dup
   p0
   pushl $PD_17 0
@@ -9968,29 +9963,29 @@ $L_render_level_10:
   jmp   $L_render_level_6
 $L_render_level_7:
   popn  12
-  .line 432
+  .line 431
   p0
 $L_render_level_14:
   dup
   push  20
   cult
   bz    $L_render_level_15
-  .line 434
+  .line 433
   pushg objects 0
   dup3
   aidxb 15 20
-  .line 435
+  .line 434
   dupw
   getr
-  .line 436
+  .line 435
   bnzp  $L_render_level_17
-  .line 437
+  .line 436
   pop2
   jmp   $L_render_level_16
 $L_render_level_17:
-  .line 439
+  .line 438
   p0
-  .line 440
+  .line 439
   dup2
   p8
   cult
@@ -10003,7 +9998,7 @@ $L_render_level_17:
   bool
 $L_render_level_18:
   bz    $L_render_level_21
-  .line 442
+  .line 441
   dupw3
   push  10
   add2b
@@ -10011,28 +10006,28 @@ $L_render_level_18:
   p4
   and
   bz    $L_render_level_19
-  .line 443
+  .line 442
   pop4
   jmp   $L_render_level_16
-  .line 442
+  .line 441
   jmp   $L_render_level_20
 $L_render_level_19:
-  .line 445
+  .line 444
   dup2
   p64
   add
   setl  1
 $L_render_level_20:
-  .line 440
+  .line 439
   jmp   $L_render_level_23
 $L_render_level_21:
-  .line 449
+  .line 448
   dup2
   setl  1
-  .line 450
+  .line 449
   getg  death_frames 0
   bnz   $L_render_level_23
-  .line 451
+  .line 450
   dup
   getg  frame_count 0
   dup7
@@ -10044,10 +10039,10 @@ $L_render_level_21:
   add
   setl  1
 $L_render_level_23:
-  .line 456
+  .line 455
   dup
   p0
-  .line 455
+  .line 454
   pushl $PD_18 0
   dupw8
   p3
@@ -10061,16 +10056,16 @@ $L_render_level_23:
   getr2
   getl2 18
   sub2
-  .line 454
+  .line 453
   sys   draw_sprite
   pop4
 $L_render_level_16:
-  .line 432
+  .line 431
   inc
   jmp   $L_render_level_14
 $L_render_level_15:
   pop
-  .line 461
+  .line 460
   getg  invincibility_frames 0
   not
   bnzp  $L_render_level_24
@@ -10080,24 +10075,24 @@ $L_render_level_15:
   not
 $L_render_level_24:
   bz    $L_render_level_30
-  .line 463
+  .line 462
   p0
-  .line 464
+  .line 463
   getg  player_facing_right 0
   bz    $L_render_level_25
-  .line 465
+  .line 464
   dup
   p7
   add
   setl  1
 $L_render_level_25:
-  .line 466
+  .line 465
   getg  player_on_ground 0
   bz    $L_render_level_27
-  .line 468
+  .line 467
   getg  player_moving 0
   bz    $L_render_level_26
-  .line 469
+  .line 468
   dup
   getg  frame_count 0
   p3
@@ -10107,30 +10102,30 @@ $L_render_level_25:
   add
   setl  1
 $L_render_level_26:
-  .line 466
+  .line 465
   jmp   $L_render_level_28
 $L_render_level_27:
-  .line 473
+  .line 472
   dup
   p4
   add
   setl  1
 $L_render_level_28:
-  .line 475
+  .line 474
   getg  death_frames 0
   bz    $L_render_level_29
-  .line 476
+  .line 475
   p5
   setl  1
 $L_render_level_29:
-  .line 478
+  .line 477
   getg4 px 0
   getg4 camx 0
   fsub
   p000
   push  65
   fsub
-  .line 479
+  .line 478
   getg4 py 0
   sys   round
   getl2 11
@@ -10143,7 +10138,7 @@ $L_render_level_29:
   fsub
   f2i
   pop2
-  .line 480
+  .line 479
   dup7
   p0
   pushl $PD_19 0
@@ -10155,14 +10150,14 @@ $L_render_level_29:
   sys   draw_sprite
   popn  7
 $L_render_level_30:
-  .line 484
+  .line 483
   p0
 $L_render_level_31:
   dup
   p3
   cult
   bz    $L_render_level_32
-  .line 485
+  .line 484
   dup
   getg  hearts 0
   cult
@@ -10177,19 +10172,19 @@ $L_render_level_31:
   mul2b
   sub2
   sys   draw_sprite
-  .line 484
+  .line 483
   inc
   jmp   $L_render_level_31
 $L_render_level_32:
   pop
-  .line 486
+  .line 485
   p0
 $L_render_level_34:
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_35
-  .line 487
+  .line 486
   dup
   getg  keys 0
   cult
@@ -10206,18 +10201,18 @@ $L_render_level_34:
   mul2b
   sub2
   sys   draw_sprite
-  .line 486
+  .line 485
   inc
   jmp   $L_render_level_34
 $L_render_level_35:
   pop
-  .line 488
+  .line 487
   p0
   p6
   push  20
   p0000
   sys   draw_filled_rect
-  .line 489
+  .line 488
   getg2 score 0
   p00
   pushl $PD_107 0
@@ -10226,7 +10221,7 @@ $L_render_level_35:
   pushl $PD_38 0
   p0000
   sys   draw_textf
-  .line 490
+  .line 489
   p0
   p6
   push  13
@@ -10234,7 +10229,7 @@ $L_render_level_35:
   push  57
   p0
   sys   draw_filled_rect
-  .line 491
+  .line 490
   getg2 level_frames_remaining 0
   p0
   push  49
@@ -10252,21 +10247,21 @@ $L_render_level_35:
   push  58
   p0
   sys   draw_textf
-  .line 494
+  .line 493
   getg  level_start_frames 0
   bz    $L_render_level_39
-  .line 499
+  .line 498
   pushl maps 0
   getg  current_map 0
   pidxb 17 12
   getpn 6
-  .line 500
+  .line 499
   p6
   getln 6
   pushl $PD_23 0
   sys   text_width_P
   pop
-  .line 503
+  .line 502
   p64
   p0
   dup3
@@ -10276,14 +10271,14 @@ $L_render_level_35:
   udiv4
   pop2
   sub2
-  .line 504
+  .line 503
   p00
-  .line 507
+  .line 506
   getg  level_start_frames 0
   push  78
   cult
   bnz   $L_render_level_37
-  .line 508
+  .line 507
   dupw
   getg  level_start_frames 0
   p0
@@ -10294,12 +10289,12 @@ $L_render_level_35:
   add2
   setl2 2
 $L_render_level_37:
-  .line 509
+  .line 508
   push  12
   getg  level_start_frames 0
   cult
   bnz   $L_render_level_38
-  .line 510
+  .line 509
   dupw
   push  12
   p0
@@ -10310,7 +10305,7 @@ $L_render_level_37:
   sub2
   setl2 2
 $L_render_level_38:
-  .line 511
+  .line 510
   p0
   push  13
   p128
@@ -10318,7 +10313,7 @@ $L_render_level_38:
   p0
   dupw6
   sys   draw_filled_rect
-  .line 513
+  .line 512
   p6
   getln 11
   pushl $PD_23 0
