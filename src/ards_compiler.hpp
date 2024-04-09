@@ -16,6 +16,10 @@
 namespace ards
 {
 
+// minimum number of bytes before a copy operation is transformed
+// into a call to $memcpy or $memcpy_P
+constexpr size_t MIN_MEMCPY_SIZE = 16;
+
 enum class AST
 {
     NONE,

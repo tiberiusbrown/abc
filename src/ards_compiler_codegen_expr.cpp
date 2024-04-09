@@ -452,11 +452,64 @@ void compiler_t::codegen_expr(
                 "and thus cannot be assigned to", a.children[0].line_info });
             return;
         }
+        bool non_root =
+            a.parent &&
+            a.parent->type != AST::EXPR_STMT &&
+            a.parent->type != AST::LIST;
         auto const& type_noref = a.children[0].comp_type.without_ref();
-        if(type_noref.is_prim() || type_noref.is_label_ref())
+        auto const& src_node =
+            a.children[1].type == AST::OP_CAST ?
+            a.children[1].children[1] :
+            a.children[1];
+        auto const& src_type = src_node.comp_type;
+        if(type_noref.is_copyable() &&
+            src_type.is_any_ref() &&
+            src_type.children[0].is_copyable() &&
+            type_noref.prim_size >= MIN_MEMCPY_SIZE)
+        {
+            bool prog = src_type.children[0].is_prog;
+            
+            if(non_root)
+                codegen_expr(f, frame, a.children[0], true);
+
+            codegen_expr(f, frame, src_node, false);
+            codegen_convert(
+                f, frame, src_node,
+                prog ? TYPE_BYTE_PROG_AREF : TYPE_BYTE_AREF,
+                src_type);
+
+            if(non_root)
+            {
+                assert(
+                    a.children[0].comp_type.prim_size == 4 ||
+                    a.children[0].comp_type.prim_size == 6);
+                auto line = a.children[0].line();
+                auto size = a.children[0].comp_type.prim_size;
+                f.instrs.push_back({ I_PUSH, line, (uint8_t)size });
+                f.instrs.push_back({ I_GETLN, line, (uint8_t)size });
+                frame.size += size;
+            }
+            else
+            {
+                codegen_expr(f, frame, a.children[0], true);
+                codegen_convert(
+                    f, frame, a.children[0],
+                    TYPE_BYTE_AREF,
+                    a.children[0].comp_type);
+            }
+
+            f.instrs.push_back({ I_SYS, a.line(), prog ? SYS_MEMCPY_P : SYS_MEMCPY });
+            frame.size -= 4;
+            frame.size -= (prog ? 6 : 4);
+            return;
+        }
+        else if(type_noref.is_prim() || type_noref.is_label_ref())
         {
             codegen_expr(f, frame, a.children[1], false);
-            codegen_convert(f, frame, a, a.children[0].comp_type.without_ref(), a.children[1].comp_type);
+            codegen_convert(
+                f, frame, a.children[1],
+                a.children[0].comp_type.without_ref(),
+                a.children[1].comp_type);
         }
         else if(type_noref.is_array())
         {
@@ -510,7 +563,7 @@ void compiler_t::codegen_expr(
         }
 
         // dup value if not the root op
-        if(a.parent && a.parent->type != AST::EXPR_STMT && a.parent->type != AST::LIST)
+        if(non_root)
         {
             auto size = (uint8_t)a.children[0].comp_type.without_ref().prim_size;
             frame.size += size;
