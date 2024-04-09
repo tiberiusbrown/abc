@@ -16,12 +16,9 @@ struct SpritesABC
     static void fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t color);
     static void fillRect_i8(int8_t x, int8_t y, uint8_t w, uint8_t h, uint8_t color);
 
-    static constexpr uint8_t MODE_OVERWRITE   = 0;
     static constexpr uint8_t MODE_PLUSMASK    = 1;
+    static constexpr uint8_t MODE_INVERT      = 2;
     static constexpr uint8_t MODE_SELFMASK    = 4;
-    static constexpr uint8_t MODE_OVERWRITEFX = 2;
-    static constexpr uint8_t MODE_PLUSMASKFX  = 3;
-    static constexpr uint8_t MODE_SELFMASKFX  = 6;
 
     static void drawBasic(
         int16_t x, int16_t y, uint8_t w, uint8_t h,
@@ -255,7 +252,8 @@ void SpritesABC::drawBasic(
             clr  __zero_reg__
             rcall L%=_delay_16
             out  %[spdr], __zero_reg__
-            rcall L%=_delay_7
+            lpm
+            rjmp .+0
             rjmp L%=_begin
 
         ;
@@ -308,6 +306,8 @@ void SpritesABC::drawBasic(
 
         L%=_begin:
 
+            sbrc r10, 1
+            rjmp L%=_begin_invert
             cp   r17, __zero_reg__
             brlt L%=_top
             tst  r19
@@ -449,7 +449,9 @@ void SpritesABC::drawBasic(
         L%=_bottom:
 
             tst  r2
-            breq L%=_finish
+            brne 1f
+            rjmp L%=_finish
+        1:
 
             ; seek if needed
             tst  r11
@@ -502,7 +504,122 @@ void SpritesABC::drawBasic(
             lpm
             dec  r8
             brne L%=_bottom_loop_masked
+            nop
+            rjmp L%=_finish
+
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ; INVERT MODE
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        L%=_begin_invert:
+
+            cp   r17, __zero_reg__
+            brlt L%=_top_invert
+            tst  r19
+            brne L%=_middle_skip_reseek_invert
+            rjmp L%=_bottom_loop_invert
+
+        L%=_top_invert:
+
+            ; init buf
+            subi r26, lo8(-128)
+            sbci r27, hi8(-128)
+            mov  r21, r8
+
+        L%=_top_loop_invert:
+
+            in   r24, %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r7
+            eor  r9, r1
+            st   X+, r9
             lpm
+            rjmp .+0
+            dec  r21
+            brne L%=_top_loop_invert
+
+        L%=_top_loop_done_invert:
+
+            ; decrement pages, reset buf back
+            clr __zero_reg__
+            sub  r26, r8
+            sbc  r27, __zero_reg__
+            dec  r19
+            brne L%=_middle_invert
+            rjmp L%=_finish
+
+        L%=_middle_invert:
+
+            ; only seek again if necessary
+            tst  r11
+            breq L%=_middle_skip_reseek_invert
+            in   r0, %[spsr]
+            sbi  %[fxport], %[fxbit]
+            rcall L%=_seek
+
+        L%=_middle_skip_reseek_invert:
+
+            movw r30, r26
+            subi r30, lo8(-128)
+            sbci r31, hi8(-128)
+            mov  r21, r8
+
+        L%=_middle_loop_inner_invert:
+
+            ; write one page from image to buf/buf+128
+            in   r24, %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r6
+            eor  r9, r0
+            st   X+, r9
+            ld   r9, Z
+            and  r9, r7
+            eor  r9, r1
+            st   Z+, r9
+            dec  r21
+            brne L%=_middle_loop_inner_invert
+
+            ; advance buf to the next page
+            clr  __zero_reg__
+            add  r26, r4
+            adc  r27, __zero_reg__
+            dec  r19
+            brne L%=_middle_invert
+
+        L%=_bottom_invert:
+
+            tst  r2
+            brne 1f
+            rjmp L%=_finish
+        1:
+
+            ; seek if needed
+            tst  r11
+            breq L%=_bottom_loop_invert
+            in   r0, %[spsr]
+            sbi  %[fxport], %[fxbit]
+            rcall L%=_seek
+            rjmp .+0
+            rjmp .+0
+
+        L%=_bottom_loop_invert:
+
+            ; write one page from image to buf
+            in   r24, %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r6
+            eor  r9, r0
+            st   X+, r9
+            lpm
+            rjmp .+0
+            dec  r8
+            brne L%=_bottom_loop_invert
 
         L%=_finish:
 

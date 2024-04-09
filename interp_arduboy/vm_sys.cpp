@@ -742,7 +742,6 @@ static void draw_char(
         , [w]      "r"   (w)
         , [h]      "r"   (h)
         , [c]      "r"   (c)
-        //, [MODE]   "i"   (SpritesABC::MODE_SELFMASKFX)
         , [fxport] "I"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]  "I"   (FX_BIT)
         , [spdr]   "I"   (_SFR_IO_ADDR(SPDR))
@@ -751,14 +750,14 @@ static void draw_char(
         );
         SpritesABC::drawBasic(
             xv, y, w, h, font, uint8_t(c),
-            SpritesABC::MODE_SELFMASKFX);
+            SpritesABC::MODE_INVERT | SpritesABC::MODE_SELFMASK);
 #else
     FX::seekData(font + uint8_t(c) * 2);
     int8_t lsb = (int8_t)FX::readPendingUInt8();
     uint8_t adv = FX::readPendingLastUInt8();
     SpritesABC::drawBasic(
         x + lsb, y, w, h, font + 513 + 5, uint8_t(c),
-        SpritesABC::MODE_SELFMASKFX);
+        SpritesABC::MODE_SELFMASK);
     x += adv;
 #endif
 }
