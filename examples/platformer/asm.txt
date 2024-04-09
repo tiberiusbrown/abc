@@ -5037,10 +5037,12 @@ $L_update_credits_0:
   and
   not
   bzp   $L_update_credits_1
+  pushg creditsy 0
   getg  creditsy 0
   inc
-  dup
-  setg  creditsy 0
+  dupw2
+  setr
+  getr
   p0
   push  140
   sub2b
@@ -5666,10 +5668,12 @@ $L_update_menu_0:
   bz    $L_update_menu_2
   .line 181
   push  11
+  pushg menu_sprite 0
   getg  menu_sprite 0
   inc
-  dup
-  setg  menu_sprite 0
+  dupw2
+  setr
+  getr
   cult
   bz    $L_update_menu_1
   .line 182
@@ -7157,10 +7161,12 @@ $L_update_level_36:
   p0000
   setg4 vx 0
   .line 449
+  pushg death_frames 0
   getg  death_frames 0
   dec
-  dup
-  setg  death_frames 0
+  dupw2
+  setr
+  getr
   bnz   $L_update_level_39
   .line 451
   p00
@@ -7324,11 +7330,13 @@ $L_update_level_53:
   .line 491
   call  update_camera_position
   .line 493
+  pushg level_frames_remaining 0
   getg2 level_frames_remaining 0
   p1
   sub2b
-  dupw
-  setg2 level_frames_remaining 0
+  dupw3
+  setr2
+  getr2
   bool2
   bnz   $L_update_level_55
   .line 495
@@ -7393,10 +7401,12 @@ $L_player_take_damage_0:
   ret
 $L_player_take_damage_1:
   .line 728
+  pushg hearts 0
   getg  hearts 0
   dec
-  dup
-  setg  hearts 0
+  dupw2
+  setr
+  getr
   bz    $L_player_take_damage_3
   .line 730
   push  75

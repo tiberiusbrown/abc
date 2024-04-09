@@ -687,6 +687,7 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             n.line_info });
         return;
     }
+
     if(v->type.is_prog)
         add_progdata(name, v->type, n.children[2]);
 
@@ -728,9 +729,22 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
         g->constexpr_ref = std::string(n.children[2].data);
     }
 
-    // codegen
+    // main codegen
     else if(n.children.size() == 3)
     {
+        auto const& src_node =
+            n.children[2].type == AST::OP_CAST ?
+            n.children[2].children[1] :
+            n.children[2];
+        auto const& src_type = src_node.comp_type;
+        if(v->type.without_ref().is_copyable() &&
+            src_type.is_any_ref() &&
+            src_type.children[0].is_copyable() &&
+            v->type.without_ref().prim_size >= MIN_MEMCPY_SIZE)
+        {
+            // TODO: optimize as memcpy
+        }
+
         if(is_global)
             frame.push();
 
@@ -781,6 +795,7 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
         if(is_global)
         {
             type_annotate(n.children[1], frame);
+            codegen_expr(f, frame, n.children[1], true);
             codegen_store(f, frame, n.children[1]);
             for(size_t i = 0; i < frame.size; ++i)
                 f.instrs.push_back({ I_POP, n.line() });

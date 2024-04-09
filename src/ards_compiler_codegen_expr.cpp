@@ -217,14 +217,7 @@ void compiler_t::codegen_expr(
         frame.size -= size;
 
         // if the root op, pop the ref
-        // if not the root op, deref
-        if(non_root)
-        {
-            f.instrs.push_back({ I_GETRN, a.line(), (uint8_t)size });
-            frame.size -= 2;
-            frame.size += size;
-        }
-        else
+        if(!non_root)
         {
             f.instrs.push_back({ I_POP, a.line() });
             f.instrs.push_back({ I_POP, a.line() });
@@ -462,6 +455,8 @@ void compiler_t::codegen_expr(
             a.children[1].children[1] :
             a.children[1];
         auto const& src_type = src_node.comp_type;
+
+        // optimize assignment as call to memcpy
         if(type_noref.is_copyable() &&
             src_type.is_any_ref() &&
             src_type.children[0].is_copyable() &&
@@ -480,14 +475,15 @@ void compiler_t::codegen_expr(
 
             if(non_root)
             {
-                assert(
-                    a.children[0].comp_type.prim_size == 4 ||
-                    a.children[0].comp_type.prim_size == 6);
                 auto line = a.children[0].line();
                 auto size = a.children[0].comp_type.prim_size;
                 f.instrs.push_back({ I_PUSH, line, (uint8_t)size });
-                f.instrs.push_back({ I_GETLN, line, (uint8_t)size });
+                f.instrs.push_back({ I_GETLN, line, (uint8_t)(size + (prog ? 6 : 4)) });
                 frame.size += size;
+                codegen_convert(
+                    f, frame, a.children[0],
+                    TYPE_BYTE_AREF,
+                    a.children[0].comp_type);
             }
             else
             {
@@ -503,7 +499,15 @@ void compiler_t::codegen_expr(
             frame.size -= (prog ? 6 : 4);
             return;
         }
-        else if(type_noref.is_prim() || type_noref.is_label_ref())
+
+        size_t ref_offset = frame.size;
+        if(non_root)
+        {
+            // codegen reference now
+            codegen_expr(f, frame, a.children[0], true);
+        }
+
+        if(type_noref.is_prim() || type_noref.is_label_ref())
         {
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(
@@ -562,13 +566,20 @@ void compiler_t::codegen_expr(
             assert(false);
         }
 
-        // dup value if not the root op
+        // get reference for storing
         if(non_root)
         {
-            auto size = (uint8_t)a.children[0].comp_type.without_ref().prim_size;
+            ref_offset = frame.size - ref_offset;
+            auto line = a.children[0].line();
+            auto size = a.children[0].comp_type.prim_size;
+            assert(ref_offset == a.children[1].comp_type.prim_size + size);
+            f.instrs.push_back({ I_PUSH, line, (uint8_t)size });
+            f.instrs.push_back({ I_GETLN, line, (uint8_t)ref_offset });
             frame.size += size;
-            f.instrs.push_back({ I_PUSH, a.line(), size });
-            f.instrs.push_back({ I_GETLN, a.line(), size });
+        }
+        else
+        {
+            codegen_expr(f, frame, a.children[0], true);
         }
 
         codegen_store(f, frame, a.children[0]);

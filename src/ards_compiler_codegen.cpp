@@ -350,7 +350,6 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
 void compiler_t::codegen_store(
     compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a)
 {
-    codegen_expr(f, frame, a, true);
     if(!errs.empty()) return;
     assert(a.comp_type.without_ref().prim_size < 256);
     auto size = a.comp_type.without_ref().prim_size;
