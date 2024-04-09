@@ -394,7 +394,9 @@ void compiler_t::codegen_convert(
     }
     if(rto.is_array_ref())
     {
-        if((rfrom.is_array() || rfrom.is_array_ref()) && rfrom.children[0] != rto.children[0])
+        if((rfrom.is_array() || rfrom.is_array_ref()) &&
+            rfrom.children[0] != rto.children[0] &&
+            !rto.children[0].is_byte)
         {
             errs.push_back({
                 "Cannot create unsized array reference: mismatched element types",
