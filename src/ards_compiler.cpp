@@ -638,7 +638,26 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             n.line_info });
         return;
     }
-    if(v->type.is_ref() &&
+    if(v->type.is_ref() && v->type.children[0].is_array() &&
+        v->type.children[0].children[0].is_byte)
+    {
+        auto const& t = n.children[2].comp_type.without_ref();
+        if(!t.is_copyable())
+        {
+            errs.push_back({
+                "Cannot create byte array reference from non-copyable type",
+                n.line_info });
+            return;
+        }
+        if(v->type.children[0].prim_size > t.prim_size)
+        {
+            errs.push_back({
+                "Cannot create byte array reference: array size too large",
+                n.line_info });
+            return;
+        }
+    }
+    else if(v->type.is_ref() &&
         v->type.without_ref() != n.children[2].comp_type.without_ref())
     {
         errs.push_back({
@@ -733,7 +752,7 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
         auto const& t1 = n.children[2].comp_type.without_ref();
         if(v->type.is_ref())
         {
-            if(t0 != t1)
+            if(t0 != t1 && !(t0.is_array() && t0.children[0].is_byte))
             {
                 errs.push_back({
                     "Incorrect type for reference \"" +
