@@ -190,30 +190,30 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
         lpm
         rjmp .+0
         out  %[spdr], r21
-        rcall format_read_inc_delay_17
+        rcall L%=_delay_17
         out  %[spdr], r20
-        rcall format_read_inc_delay_17
+        rcall L%=_delay_17
         out  %[spdr], r24
         adiw r24, 1
         adc  r26, __zero_reg__
         st   -Z, r26
         st   -Z, r25
         st   -Z, r24
-        rcall format_read_inc_delay_8
+        rcall L%=_delay_8
         out  %[spdr], __zero_reg__
-        rcall format_read_inc_delay_16
+        rcall L%=_delay_16
         in   r24, %[spdr]
         in   r0, %[spsr]
         sbi  %[fxport], %[fxbit]
         ret
 
-    format_read_inc_delay_17:
+    L%=_delay_17:
         nop
-    format_read_inc_delay_16:
+    L%=_delay_16:
         lpm
         lpm
         rjmp .+0
-    format_read_inc_delay_8:
+    L%=_delay_8:
         nop
         ret
         )"
