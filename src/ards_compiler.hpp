@@ -611,6 +611,8 @@ private:
         ast_node_t const& n, compiler_func_decl_t const& decl,
         std::vector<compiler_type_t>& arg_types, std::string& fmt);
 
+    void decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n);
+
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);

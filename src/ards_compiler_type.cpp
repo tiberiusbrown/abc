@@ -608,7 +608,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
             a.children[1], a.children[0].comp_type.is_prog_array() ? 3 : 2);
         break;
     case AST::OP_CAST:
-        if(a.children[0].comp_type.is_bool)
+        if(a.children[0].comp_type.is_bool || !a.children[0].comp_type.is_prim())
             break;
         min_size = std::min(min_size, a.children[0].comp_type.prim_size);
         a.comp_type.prim_size = min_size;
