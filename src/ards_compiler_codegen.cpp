@@ -96,8 +96,18 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
     // store return value
     if(!n.children.empty())
     {
-        codegen_expr(f, frame, n.children[0], false);
-        codegen_convert(f, frame, n, f.decl.return_type, n.children[0].comp_type);
+        if(n.children[0].type == AST::COMPOUND_LITERAL)
+        {
+            codegen_expr_compound(f, frame, n.children[0], f.decl.return_type);
+        }
+        else
+        {
+            codegen_expr(f, frame, n.children[0], false);
+            codegen_convert(
+                f, frame, n,
+                f.decl.return_type,
+                n.children[0].comp_type);
+        }
         codegen_store_return(f, frame, n);
     }
     else if(f.decl.return_type.prim_size != 0)
