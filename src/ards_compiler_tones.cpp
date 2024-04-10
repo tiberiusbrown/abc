@@ -18,7 +18,7 @@ namespace ards
 Tones Encoding
 ================================
 period   (2 bytes)
-duration (2 bytes)  each duration tick is 4 ms
+duration (1 byte)  each duration tick is 4 ms
 */
 
 // midi note periods (0 is silence)
@@ -98,35 +98,38 @@ std::string compiler_t::encode_tones_midi(
         while(tone.start_tick > tick)
         {
             // insert silence
-            uint16_t per = periods[0];
-            uint16_t dur = uint16_t(std::min<int>(tone.start_tick - tick, UINT16_MAX));
+            //uint16_t per = periods[0];
+            uint8_t per = 0;
+            //uint16_t dur = uint16_t(std::min<int>(tone.start_tick - tick, UINT16_MAX));
+            uint8_t dur = uint8_t(std::min<int>(tone.start_tick - tick, 255));
             data.push_back(uint8_t(per >> 0));
-            data.push_back(uint8_t(per >> 8));
+            //data.push_back(uint8_t(per >> 8));
             data.push_back(uint8_t(dur >> 0));
-            data.push_back(uint8_t(dur >> 8));
+            //data.push_back(uint8_t(dur >> 8));
             tick += dur;
         }
 
         while(tick < tone.start_tick + tone.dur_ticks)
         {
             // insert note
-            uint16_t per = periods[std::clamp(tone.note, 1, 127)];
-            uint16_t dur = uint16_t(std::min<int>(tone.dur_ticks, UINT16_MAX));
+            //uint16_t per = periods[std::clamp(tone.note, 1, 127)];
+            uint8_t per = (uint8_t)std::clamp(tone.note, 1, 127);
+            //uint16_t dur = uint16_t(std::min<int>(tone.dur_ticks, UINT16_MAX));
+            uint8_t dur = uint8_t(std::min<int>(tone.dur_ticks, 255));
             data.push_back(uint8_t(per >> 0));
-            data.push_back(uint8_t(per >> 8));
+            //data.push_back(uint8_t(per >> 8));
             data.push_back(uint8_t(dur >> 0));
-            data.push_back(uint8_t(dur >> 8));
+            //data.push_back(uint8_t(dur >> 8));
             tick += dur;
         }
     }
 
+    data.push_back(255);
     data.push_back(0);
-    data.push_back(0);
-    data.push_back(0);
-    data.push_back(0);
+    //data.push_back(0);
+    //data.push_back(0);
 
     return "";
-    //return "MIDI import not supported yet";
 }
 
 void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
@@ -212,26 +215,27 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
         }
         int note = it->second;
         assert(note >= 0 && note <= 128);
-        uint16_t per = periods[note];
+        //uint16_t per = periods[note];
+        uint8_t per = note;
         int64_t ms = n.children[i + 1].value + ms_rem;
         ms_rem = ms % 4;
         int64_t ticks = ms / 4;
 
         while(ticks > 0)
         {
-            uint16_t dur = (uint16_t)std::min<int64_t>(ticks, 65535);
+            uint8_t dur = (uint8_t)std::min<int64_t>(ticks, 255);
             ticks -= dur;
             data.push_back((uint8_t)(per >> 0));
-            data.push_back((uint8_t)(per >> 8));
+            //data.push_back((uint8_t)(per >> 8));
             data.push_back((uint8_t)(dur >> 0));
-            data.push_back((uint8_t)(dur >> 8));
+            //data.push_back((uint8_t)(dur >> 8));
         }
     }
 
+    data.push_back(255);
     data.push_back(0);
-    data.push_back(0);
-    data.push_back(0);
-    data.push_back(0);
+    //data.push_back(0);
+    //data.push_back(0);
 }
 
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef ARDS_TONES_BUFFER_SIZE
-#define ARDS_TONES_BUFFER_SIZE 4
+#define ARDS_TONES_BUFFER_SIZE 2
 #endif
 
 #ifndef EEPROM_h
@@ -43,10 +43,31 @@ namespace ards
 namespace detail
 {
 
+static uint16_t const PERIODS[129] PROGMEM =
+{
+    0x0000, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
+    0xffff, 0xffff, 0xffff, 0xfd19, 0xeee4, 0xe17c, 0xd4d4, 0xc8e2,
+    0xbd9c, 0xb2f7, 0xa8ec, 0x9f71, 0x967e, 0x8e0c, 0x8613, 0x7e8c,
+    0x7772, 0x70be, 0x6a6a, 0x6471, 0x5ece, 0x597c, 0x5476, 0x4fb8,
+    0x4b3f, 0x4706, 0x4309, 0x3f46, 0x3bb9, 0x385f, 0x3535, 0x3238,
+    0x2f67, 0x2cbe, 0x2a3b, 0x27dc, 0x259f, 0x2383, 0x2185, 0x1fa3,
+    0x1ddd, 0x1c2f, 0x1a9a, 0x191c, 0x17b3, 0x165f, 0x151d, 0x13ee,
+    0x12d0, 0x11c1, 0x10c2, 0x0fd2, 0x0eee, 0x0e18, 0x0d4d, 0x0c8e,
+    0x0bda, 0x0b2f, 0x0a8f, 0x09f7, 0x0968, 0x08e1, 0x0861, 0x07e9,
+    0x0777, 0x070c, 0x06a7, 0x0647, 0x05ed, 0x0598, 0x0547, 0x04fc,
+    0x04b4, 0x0470, 0x0431, 0x03f4, 0x03bc, 0x0386, 0x0353, 0x0324,
+    0x02f6, 0x02cc, 0x02a4, 0x027e, 0x025a, 0x0238, 0x0218, 0x01fa,
+    0x01de, 0x01c3, 0x01aa, 0x0192, 0x017b, 0x0166, 0x0152, 0x013f,
+    0x012d, 0x011c, 0x010c, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100,
+    0x0100, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100,
+    0x0100, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100, 0x0100,
+    0x0100,
+};
+
 struct note_t
 {
-    uint16_t period;
-    uint16_t ticks;
+    uint8_t period;
+    uint8_t ticks;
 };
 
 static volatile note_t buffer[ARDS_TONES_BUFFER_SIZE];
@@ -177,13 +198,13 @@ void Tones::play(uint24_t song)
         sizeof(detail::buffer));
     song += sizeof(detail::buffer);
     detail::addr = song;
-    uint16_t period = ards::detail::buffer[0].period;
-    OCR3A = period;
+    uint8_t index = ards::detail::buffer[0].period;
+    OCR3A = pgm_read_word(&ards::detail::PERIODS[index]);;
     PORTC = 0x80;
-    if(period >= 256)
-        TIMSK3 = 0x02;
-    else if((uint8_t)period == 0)
+    if(index == 255)
         goto end;
+    else if(index != 0)
+        TIMSK3 = 0x02;
     TIMSK4 = 0x40;
 end:
     SREG = sreg;
@@ -228,7 +249,7 @@ ISR(TIMER3_COMPA_vect, __attribute((naked)))
 
 ISR(TIMER4_COMPA_vect, __attribute((flatten)))
 {
-    uint16_t ticks = ards::detail::buffer[0].ticks;
+    uint8_t ticks = ards::detail::buffer[0].ticks;
     if(--ticks == 0)
     {
         // should be memmove, but works for backward moves on avr
@@ -236,25 +257,23 @@ ISR(TIMER4_COMPA_vect, __attribute((flatten)))
             &ards::detail::buffer[0],
             &ards::detail::buffer[1],
             sizeof(ards::detail::note_t) * (ARDS_TONES_BUFFER_SIZE - 1));
-        uint8_t size = ards::detail::buffer_size - sizeof(ards::detail::note_t);
+        uint8_t size = ards::detail::buffer_size;
+        size -= sizeof(ards::detail::note_t);
         if(size == 0)
         {
             // leave ticks unmodified
             return;
         }
         ards::detail::buffer_size = size;
-        uint16_t period = ards::detail::buffer[0].period;
-        if(period < 256)
-        {
-            if((uint8_t)period == 0)
-                ards::Tones::stop();
-            else
-                TIMSK3 = 0x00; // silence
-        }
+        uint8_t index = ards::detail::buffer[0].period;
+        if(index == 255)
+            ards::Tones::stop();
+        else if(index == 0)
+            TIMSK3 = 0x00; // silence
         else
         {
-            OCR3A = period;
             TCNT3 = 0;
+            OCR3A = pgm_read_word(&ards::detail::PERIODS[index]);
             TIMSK3 = 0x02;
         }
     }
