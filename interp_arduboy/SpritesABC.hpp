@@ -565,6 +565,7 @@ void SpritesABC::drawBasic(
             subi r30, lo8(-128)
             sbci r31, hi8(-128)
             mov  r21, r8
+            rjmp .+0
 
         L%=_middle_loop_inner_invert:
 
@@ -599,13 +600,16 @@ void SpritesABC::drawBasic(
 
             ; seek if needed
             tst  r11
-            breq L%=_bottom_loop_invert
+            breq L%=_bottom_loop_pre_invert
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
-            rjmp .+0
 
+        L%=_bottom_loop_pre_invert:
+        
+            rjmp .+0
+        
         L%=_bottom_loop_invert:
 
             ; write one page from image to buf
