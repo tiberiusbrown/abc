@@ -216,7 +216,7 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
         int note = it->second;
         assert(note >= 0 && note <= 128);
         //uint16_t per = periods[note];
-        uint8_t per = note;
+        uint8_t per = (uint8_t)note;
         int64_t ms = n.children[i + 1].value + ms_rem;
         ms_rem = ms % 4;
         int64_t ticks = ms / 4;

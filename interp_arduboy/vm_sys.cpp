@@ -250,6 +250,16 @@ static void sys_draw_pixel()
     Arduboy2Base::drawPixel(x, y, color);
 }
 
+static void sys_get_pixel()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t c = Arduboy2Base::getPixel(x, y);
+    vm_push_unsafe<uint8_t>(ptr, c);
+    vm_pop_end(ptr);
+}
+
 static void sys_draw_hline()
 {
     auto ptr = vm_pop_begin();
@@ -1659,6 +1669,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
 {
     sys_display,
     sys_display_noclear,
+    sys_get_pixel,
     sys_draw_pixel,
     sys_draw_hline,
     sys_draw_vline,

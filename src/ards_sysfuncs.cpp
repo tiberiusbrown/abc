@@ -13,6 +13,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
 {
     { "display",              SYS_DISPLAY              },
     { "display_noclear",      SYS_DISPLAY_NOCLEAR      },
+    { "get_pixel",            SYS_GET_PIXEL            },
     { "draw_pixel",           SYS_DRAW_PIXEL           },
     { "draw_hline",           SYS_DRAW_HLINE           },
     { "draw_vline",           SYS_DRAW_VLINE           },
@@ -78,6 +79,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
     { SYS_DISPLAY,              { TYPE_VOID,  { }, { } } },
     { SYS_DISPLAY_NOCLEAR,      { TYPE_VOID,  { }, { } } },
+    { SYS_GET_PIXEL,            { TYPE_U8,    { TYPE_I16, TYPE_I16 }, { "x", "y" } } },
     { SYS_DRAW_PIXEL,           { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8 }, { "x", "y", "color" } } },
     { SYS_DRAW_HLINE,           { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "color" } } },
     { SYS_DRAW_VLINE,           { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "h", "color" } } },
