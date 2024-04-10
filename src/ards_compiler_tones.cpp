@@ -215,12 +215,17 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
         uint16_t per = periods[note];
         int64_t ms = n.children[i + 1].value + ms_rem;
         ms_rem = ms % 4;
-        uint16_t dur = (uint16_t)std::clamp<int64_t>(ms / 4, 1, 65535);
+        int64_t ticks = ms / 4;
 
-        data.push_back((uint8_t)(per >> 0));
-        data.push_back((uint8_t)(per >> 8));
-        data.push_back((uint8_t)(dur >> 0));
-        data.push_back((uint8_t)(dur >> 8));
+        while(ticks > 0)
+        {
+            uint16_t dur = (uint16_t)std::min<int64_t>(ticks, 65535);
+            ticks -= dur;
+            data.push_back((uint8_t)(per >> 0));
+            data.push_back((uint8_t)(per >> 8));
+            data.push_back((uint8_t)(dur >> 0));
+            data.push_back((uint8_t)(dur >> 8));
+        }
     }
 
     data.push_back(0);
