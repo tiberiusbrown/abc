@@ -268,9 +268,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         else
         {
             f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
-            if(!nocond)
-                codegen_label(f, end);
         }
+        codegen_label(f, end);
         break;
     }
     case AST::BREAK_STMT:
