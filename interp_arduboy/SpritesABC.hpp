@@ -252,8 +252,11 @@ void SpritesABC::drawBasic(
             clr  __zero_reg__
             rcall L%=_delay_16
             out  %[spdr], __zero_reg__
-            lpm
-            rjmp .+0
+            clr r11
+            cp  r20, r8
+            breq .+2
+            inc r11
+            nop
             rjmp L%=_begin
 
         ;
