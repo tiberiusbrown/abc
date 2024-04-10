@@ -42,6 +42,7 @@ void  $draw_vline(i16 x, i16 y, u8 h, u8 color);
 float $floor(float x);
 void  $format(char[]& dst, char[] prog& fmt, ...);
 u32   $generate_random_seed();
+u8    $get_pixel(i16 x, i16 y);
 void  $idle();
 void  $init_random_seed();
 bool  $just_pressed(u8 button);
