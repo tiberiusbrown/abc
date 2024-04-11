@@ -1,0 +1,27 @@
+void main()
+{
+    $debug_break();
+    
+    u8 i = 0;
+    do {
+        i += 3;
+    } while(i < 10);
+    
+    $assert(i == 12);
+    
+    do {
+        i += 7;
+    } while(i < 10);
+    
+    $assert(i == 19);
+    
+    do {
+        i += 7;
+        break;
+        i += 7;
+    } while(i < 100);
+    
+    $assert(i == 26);
+    
+    $debug_break();
+}

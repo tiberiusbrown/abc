@@ -1,0 +1,79 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file do_while.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  p0
+$L_main_0:
+  .line 7
+  dup
+  p3
+  add
+  setl  1
+  .line 8
+  dup
+  push  10
+  cult
+  bnz   $L_main_0
+  .line 10
+  dup
+  push  12
+  sub
+  not
+  sys   assert
+$L_main_2:
+  .line 13
+  dup
+  p7
+  add
+  setl  1
+  .line 14
+  dup
+  push  10
+  cult
+  bnz   $L_main_2
+  .line 16
+  dup
+  push  19
+  sub
+  not
+  sys   assert
+$L_main_4:
+  .line 19
+  dup
+  p7
+  add
+  setl  1
+  .line 20
+  jmp   $L_main_5
+  .line 21
+  dup
+  p7
+  add
+  setl  1
+  .line 22
+  dup
+  push  100
+  cult
+  bnz   $L_main_4
+$L_main_5:
+  .line 24
+  dup
+  push  26
+  sub
+  not
+  sys   assert
+  .line 26
+  sys   debug_break
+  .line 1
+  pop
+  ret
+

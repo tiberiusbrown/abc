@@ -50,6 +50,7 @@ enum class AST
     FUNC_STMT,    // children are type, ident, block, args
     IF_STMT,      // children are expr, stmt, stmt (for else)
     WHILE_STMT,   // children are expr and stmt [and stmt if for loop]
+    DO_WHILE_STMT,// children are expr and stmt
     RETURN_STMT,  // child is expr if it exists
     BREAK_STMT,   // no children
     CONTINUE_STMT,// no children

@@ -145,6 +145,7 @@ stmt                <- compound_stmt /
                        return_stmt   /
                        if_stmt       /
                        while_stmt    /
+                       do_while_stmt /
                        for_stmt      /
                        break_stmt    /
                        continue_stmt /
@@ -152,6 +153,7 @@ stmt                <- compound_stmt /
                        expr_stmt
 if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
 while_stmt          <- 'while' '(' expr ')' stmt
+do_while_stmt       <- 'do' stmt 'while' '(' expr ')'
 for_stmt            <- 'for' '(' for_init_stmt expr ';' expr ')' stmt
 for_init_stmt       <- decl_stmt / expr_stmt
 expr_stmt           <- ';' / expr ';'
@@ -779,6 +781,15 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         ast_node_t a{ v.line_info(), AST::WHILE_STMT, v.token() };
         a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
         auto B = std::any_cast<ast_node_t>(v[1]);
+        ast_node_t block{ B.line_info, AST::BLOCK, B.data };
+        block.children.emplace_back(std::move(B));
+        a.children.emplace_back(std::move(block));
+        return a;
+        };
+    p["do_while_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::DO_WHILE_STMT, v.token() };
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[1])));
+        auto B = std::any_cast<ast_node_t>(v[0]);
         ast_node_t block{ B.line_info, AST::BLOCK, B.data };
         block.children.emplace_back(std::move(B));
         a.children.emplace_back(std::move(block));

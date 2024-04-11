@@ -238,6 +238,32 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         break;
     }
+    case AST::DO_WHILE_STMT:
+    {
+        assert(a.children.size() == 2);
+        type_annotate(a.children[0], frame);
+        bool always_true = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
+        bool always_false = (a.children[0].type == AST::INT_CONST && a.children[0].value == 0);
+        std::string start = codegen_label(f);
+        std::string end = new_label(f);
+        break_stack.push_back({ end, frame.size });
+        continue_stack.push_back({ start, frame.size });
+        codegen(f, frame, a.children[1]);
+        if(always_true)
+        {
+            f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
+        }
+        else if(!always_false)
+        {
+            codegen_expr(f, frame, a.children[0], false);
+            // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
+            codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
+            f.instrs.push_back({ I_BNZ, a.children[0].line(), 0, 0, start });
+            frame.size -= 1;
+        }
+        codegen_label(f, end);
+        break;
+    }
     case AST::WHILE_STMT:
     {
         assert(a.children.size() == 2 || a.children.size() == 3);
