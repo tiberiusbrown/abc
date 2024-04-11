@@ -1,7 +1,7 @@
 .saved 0
-.global c 8
 .global a 2
 .global b 2
+.global c 8
 .global d 8
 
 

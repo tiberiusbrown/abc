@@ -1,10 +1,10 @@
 .saved 0
-.global ra3 6
 .global uc 2
-.global ra1 6
 .global ua 2
 .global ub 2
 .global ud 2
+.global ra3 6
+.global ra1 6
 .global ra2 6
 .global ra4 6
 

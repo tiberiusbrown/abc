@@ -1,7 +1,8 @@
 #include "ards_compiler.hpp"
 
-#include <assert.h>
+#include <algorithm>
 
+#include <assert.h>
 #include <stdlib.h>
 
 namespace ards
@@ -235,27 +236,41 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
 
 void compiler_t::write(std::ostream& f)
 {
+    // sort globals by ascending size for optimizing access
+
+    std::vector<compiler_global_t const*> sorted_globals;
+
+    for(auto const& [name, global] : globals)
+        sorted_globals.push_back(&global);
+
+    std::sort(sorted_globals.begin(), sorted_globals.end(),
+        [](compiler_global_t const* a, compiler_global_t const* b) {
+            return a->var.type.prim_size < b->var.type.prim_size;
+    });
+
     // saved globals first
     size_t saved_size = 0;
-    for(auto const& [name, global] : globals)
+    for(auto const* gp : sorted_globals)
     {
+        auto const& global = *gp;
         if(global.is_constexpr_ref() ||
             global.var.is_constexpr ||
             global.var.type.is_prog) continue;
         if(!global.saved) continue;
-        f << ".global " << name << " " << global.var.type.prim_size << "\n";
+        f << ".global " << global.name << " " << global.var.type.prim_size << "\n";
         saved_size += global.var.type.prim_size;
     }
 
     f << ".saved " << saved_size << "\n";
 
-    for(auto const& [name, global] : globals)
+    for(auto const* gp : sorted_globals)
     {
+        auto const& global = *gp;
         if(global.is_constexpr_ref() ||
             global.var.is_constexpr ||
             global.var.type.is_prog) continue;
         if(global.saved) continue;
-        f << ".global " << name << " " << global.var.type.prim_size << "\n";
+        f << ".global " << global.name << " " << global.var.type.prim_size << "\n";
     }
 
     f << "\n";
