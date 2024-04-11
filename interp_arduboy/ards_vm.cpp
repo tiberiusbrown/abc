@@ -3619,8 +3619,8 @@ upidx_impl:
     ld   r17, -Y
     ld   r16, -Y
     
-    ; load progref into r13:r15
-    ld   r15, -Y
+    ; load progref into r13:r14:r9
+    ld   r9, -Y
     ld   r14, -Y
     ld   r13, -Y
     
@@ -3634,7 +3634,7 @@ upidx_impl:
     ;
     ; A2 A1 A0 : r12 r11 r10  index
     ;    B1 B0 :     r21 r20  elem size
-    ; C2 C1 C0 : r15 r14 r13  progref
+    ; C2 C1 C0 : r9  r14 r13  progref
     ;
     ;    A2 A1 A0
     ;       B1 B0
@@ -3650,22 +3650,21 @@ upidx_impl:
     mul  r10, r20 ; A0*B0
     add  r13, r0
     adc  r14, r1
-    adc  r15, r2
+    adc  r9, r2
     mul  r10, r21 ; A0*B1
     add  r14, r0
-    adc  r15, r1
+    adc  r9, r1
     mul  r11, r20 ; A1*B0
     add  r14, r0
-    adc  r15, r1
+    adc  r9, r1
     mul  r11, r21 ; A1*B1
-    add  r15, r0
+    add  r9, r0
     mul  r12, r20 ; A2*B0
-    add  r15, r0
+    add  r9, r0
     
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    mov  r9, r15
     dispatch_noalign
 
 upidx_error:
