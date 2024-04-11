@@ -249,6 +249,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         break_stack.push_back({ end, frame.size });
         continue_stack.push_back({ start, frame.size });
         codegen(f, frame, a.children[1]);
+        break_stack.pop_back();
+        continue_stack.pop_back();
         if(always_true)
         {
             f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
