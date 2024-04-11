@@ -24,6 +24,8 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_simplify_derefs(f))
         ;
+    while(peephole_dup_setln(f))
+        ;
     while(peephole_pre_push_compress(f))
         ;
     while(peephole_ref(f))
@@ -1011,6 +1013,64 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             i2.instr = I_REMOVE;
             i3.instr = I_REMOVE;
             i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+    }
+    return t;
+}
+
+
+
+bool compiler_t::peephole_dup_setln(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 4 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+        auto& i2 = f.instrs[i + 2];
+        auto& i3 = f.instrs[i + 3];
+
+        // replace:
+        //    PUSH <N>
+        //    GETLN <N>
+        //    PUSH <N>
+        //    SETLN <M>
+        //    POP (N times)
+        // with:
+        //    PUSH <N>
+        //    SETLN <M-N>
+
+        if( i0.instr == I_PUSH && i1.instr == I_GETLN &&
+            i2.instr == I_PUSH && i3.instr == I_SETLN &&
+            i0.imm == i1.imm && i0.imm == i2.imm && i3.imm > i0.imm)
+        {
+            auto n = i0.imm;
+
+            if(i + 4 + n >= f.instrs.size()) continue;
+
+            bool valid = true;
+            for(size_t j = i + 4; j < i + 4 + n; ++j)
+            {
+                if(f.instrs[j].instr != I_POP)
+                {
+                    valid = false;
+                    break;
+                }
+            }
+            if(!valid)
+                continue;
+
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i3.imm -= n;
+
+            for(size_t j = i + 4; j < i + 4 + n; ++j)
+                f.instrs[j].instr = I_REMOVE;
+            
             t = true;
             continue;
         }
