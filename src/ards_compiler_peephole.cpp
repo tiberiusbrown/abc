@@ -990,6 +990,18 @@ bool compiler_t::peephole_arithmetic(compiler_func_t& f)
             continue;
         }
 
+        // remove PUSH 1; PUSH 0; MUL2
+        if(i0.instr == I_PUSH && i0.imm == 1 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_MUL2)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
 
@@ -1016,6 +1028,22 @@ bool compiler_t::peephole_arithmetic(compiler_func_t& f)
             i2.instr == I_PUSH && i2.imm == 0 &&
             i3.instr == I_PUSH && i3.imm == 0 &&
             (i4.instr == I_ADD4 || i4.instr == I_SUB4))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // remove PUSH 1; PUSH 0; PUSH 0; PUSH 0; MUL4
+        if(i0.instr == I_PUSH && i0.imm == 1 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_PUSH && i2.imm == 0 &&
+            i3.instr == I_PUSH && i3.imm == 0 &&
+            i4.instr == I_MUL2)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
