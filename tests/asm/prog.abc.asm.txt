@@ -1,0 +1,245 @@
+.saved 0
+.global ra3 6
+.global uc 2
+.global ra1 6
+.global ua 2
+.global ub 2
+.global ud 2
+.global ra2 6
+.global ra4 6
+
+a2:
+  .b 7 00 10 00 20 00 30 00 40
+x1:
+  .b 0 12
+a1:
+  .b 3 10 20 30 40
+x2:
+  .b 1 34 12
+prs:
+  .rp pua
+  .rp pub
+  .rp puc
+  .rp pud
+x3:
+  .b 2 56 34 12
+x4:
+  .b 3 78 56 34 12
+a3:
+  .b b 00 00 10 00 00 20 00 00 30 00 00 40
+a4:
+  .b f 00 00 00 10 00 00 00 20 00 00 00 30 00 00 00 40
+grs:
+  .rg ua
+  .rg ub
+  .rg uc
+  .rg ud
+pua:
+  .b 1 01 00
+pub:
+  .b 1 02 00
+puc:
+  .b 1 03 00
+pud:
+  .b 1 04 00
+pra1:
+  .rp a1
+  .b 2 04 00 00
+pra2:
+  .rp a2
+  .b 2 04 00 00
+pra3:
+  .rp a3
+  .b 2 04 00 00
+pra4:
+  .rp a4
+  .b 2 04 00 00
+
+$globinit:
+  .file <internal>.abc
+  .line 24
+  pushl a1 0
+  p4
+  p00
+  p6
+  setgn ra1 0
+  .line 25
+  pushl a2 0
+  p4
+  p00
+  p6
+  setgn ra2 0
+  .line 26
+  pushl a3 0
+  p4
+  p00
+  p6
+  setgn ra3 0
+  .line 27
+  pushl a4 0
+  p4
+  p00
+  p6
+  setgn ra4 0
+  ret
+
+main:
+  .file prog.abc
+  .line 36
+  sys   debug_break
+  .line 38
+  push2 4626
+  sub
+  not
+  sys   assert
+  .line 39
+  push4 305402420
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 40
+  push4 1444033622
+  push2 4660
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 41
+  push4 305419896
+  push4 305419896
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 43
+  p0
+$L_main_0:
+  dup
+  p4
+  cult
+  bz    $L_main_1
+  .line 45
+  dup
+  inc
+  .line 46
+  pushl a1 0
+  dup5
+  pidxb 1 4
+  getp
+  p0
+  dup3
+  p0
+  p16
+  mul2b
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 47
+  pushl a2 0
+  dup5
+  pidxb 2 4
+  getpn 2
+  p0
+  dup4
+  p000
+  p16
+  p0
+  mul3
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 48
+  pushl a3 0
+  dup5
+  pidxb 3 4
+  getpn 3
+  p0
+  dup5
+  p0
+  p0000
+  p16
+  p0
+  mul4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 49
+  pushl a4 0
+  dup5
+  pidxb 4 4
+  getpn 4
+  dup5
+  p00
+  p0000
+  p16
+  mul4
+  sub4
+  bool4
+  not
+  sys   assert
+  pop
+  .line 43
+  inc
+  jmp   $L_main_0
+$L_main_1:
+  pop
+  .line 52
+  getg2 ua 0
+  bool2
+  not
+  sys   assert
+  .line 53
+  getg2 ub 0
+  bool2
+  not
+  sys   assert
+  .line 54
+  getg2 uc 0
+  bool2
+  not
+  sys   assert
+  .line 55
+  getg2 ud 0
+  bool2
+  not
+  sys   assert
+  .line 57
+  p1
+  p0
+  pushl grs 0
+  getpn 2
+  setr2
+  .line 58
+  p2
+  p0
+  pushl grs 2
+  getpn 2
+  setr2
+  .line 59
+  p3
+  p0
+  pushl grs 4
+  getpn 2
+  setr2
+  .line 60
+  p4
+  p0
+  pushl grs 6
+  getpn 2
+  setr2
+  .line 62
+  getg2 ua 0
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 82
+  sys   debug_break
+  .line 34
+  ret
+

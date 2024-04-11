@@ -24,6 +24,8 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_simplify_derefs(f))
         ;
+    while(peephole_arithmetic(f))
+        ;
     while(peephole_dup_setln(f))
         ;
     while(peephole_pre_push_compress(f))
@@ -110,6 +112,41 @@ bool compiler_t::peephole_remove_pop(compiler_func_t& f)
         {
             i0.imm -= 1;
             i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH N; BOOL with PUSH N (N == 0 or 1)
+        if(i0.instr == I_PUSH && i0.imm <= 1 && i1.instr == I_BOOL)
+        {
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH N; NOT with PUSH !N
+        if(i0.instr == I_PUSH && i1.instr == I_NOT)
+        {
+            i1.instr = I_REMOVE;
+            i0.imm = (i0.imm == 0 ? 1 : 0);
+            t = true;
+            continue;
+        }
+
+        // remove PUSH N; POP
+        if(i0.instr == I_PUSH && i1.instr == I_POP)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH N; SEXT with PUSH N; PUSH <0 or 255>
+        if(i0.instr == I_PUSH && i1.instr == I_SEXT)
+        {
+            i1.instr = I_PUSH;
+            i1.imm = (i0.imm < 128 ? 0 : 255);
             t = true;
             continue;
         }
@@ -667,41 +704,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
-        // replace PUSH N; BOOL with PUSH N (N == 0 or 1)
-        if(i0.instr == I_PUSH && i0.imm <= 1 && i1.instr == I_BOOL)
-        {
-            i1.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
-        // replace PUSH N; NOT with PUSH !N
-        if(i0.instr == I_PUSH && i1.instr == I_NOT)
-        {
-            i1.instr = I_REMOVE;
-            i0.imm = (i0.imm == 0 ? 1 : 0);
-            t = true;
-            continue;
-        }
-
-        // remove PUSH N; POP
-        if(i0.instr == I_PUSH && i1.instr == I_POP)
-        {
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
-        // replace PUSH N; SEXT with PUSH N; PUSH <0 or 255>
-        if(i0.instr == I_PUSH && i1.instr == I_SEXT)
-        {
-            i1.instr = I_PUSH;
-            i1.imm = (i0.imm < 128 ? 0 : 255);
-            t = true;
-            continue;
-        }
-
         // replace PUSH 1; ADD with INC
         if(i0.instr == I_PUSH && i0.imm == 1 && i1.instr == I_ADD)
         {
@@ -716,25 +718,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_DEC;
-            t = true;
-            continue;
-        }
-
-        // remove PUSH 0; ADD/SUB
-        if(i0.instr == I_PUSH && i0.imm == 0 &&
-            (i1.instr == I_ADD || i1.instr == I_SUB))
-        {
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
-        // remove PUSH 1; MUL
-        if(i0.instr == I_PUSH && i0.imm == 1 && i1.instr == I_MUL)
-        {
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -883,15 +866,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
-        // remove PUSH 0; SUB
-        if(i0.instr == I_PUSH && i0.imm == 0 && i1.instr == I_SUB)
-        {
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
         // remove JMP <LABEL>; LABEL:
         if(i0.instr == I_JMP && i1.is_label && i0.label == i1.label)
         {
@@ -937,18 +911,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             continue;
         }
 
-        // remove PUSH 0; PUSH 0; SUB2
-        if( i0.instr == I_PUSH && i0.imm == 0 &&
-            i1.instr == I_PUSH && i1.imm == 0 &&
-            i2.instr == I_SUB2)
-        {
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-            i2.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
         // replace PUSH 0; PUSH 0; PIDX M N (M,N < 256) with PIDXB M N
         if( i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_PUSH && i1.imm == 0 &&
@@ -980,15 +942,62 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 continue;
             }
         }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_arithmetic(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+
+        // remove PUSH 0; ADD/SUB
+        if(i0.instr == I_PUSH && i0.imm == 0 &&
+            (i1.instr == I_ADD || i1.instr == I_SUB))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // remove PUSH 1; MUL
+        if(i0.instr == I_PUSH && i0.imm == 1 && i1.instr == I_MUL)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        if(i + 2 >= f.instrs.size()) continue;
+        auto& i2 = f.instrs[i + 2];
+
+        // remove PUSH 0; PUSH 0; ADD2/SUB2
+        if(i0.instr == I_PUSH && i0.imm == 0 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            (i2.instr == I_ADD2 || i2.instr == I_SUB2))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
 
-        // remove PUSH 0; PUSH 0; PUSH 0; SUB3
-        if( i0.instr == I_PUSH && i0.imm == 0 &&
+        // remove PUSH 0; PUSH 0; PUSH 0; ADD3/SUB3
+        if(i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_PUSH && i1.imm == 0 &&
             i2.instr == I_PUSH && i2.imm == 0 &&
-            i3.instr == I_SUB3)
+            (i3.instr == I_ADD3 || i3.instr == I_SUB3))
         {
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
@@ -1001,12 +1010,12 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 4 >= f.instrs.size()) continue;
         auto& i4 = f.instrs[i + 4];
 
-        // remove PUSH 0; PUSH 0; PUSH 0; PUSH 0; SUB4
-        if( i0.instr == I_PUSH && i0.imm == 0 &&
+        // remove PUSH 0; PUSH 0; PUSH 0; PUSH 0; ADD4/SUB4
+        if(i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_PUSH && i1.imm == 0 &&
             i2.instr == I_PUSH && i2.imm == 0 &&
             i3.instr == I_PUSH && i3.imm == 0 &&
-            i4.instr == I_SUB4)
+            (i4.instr == I_ADD4 || i4.instr == I_SUB4))
         {
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
@@ -1016,11 +1025,10 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             t = true;
             continue;
         }
+
     }
     return t;
 }
-
-
 
 bool compiler_t::peephole_dup_setln(compiler_func_t& f)
 {

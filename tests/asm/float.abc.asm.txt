@@ -1,0 +1,397 @@
+.saved 0
+.global x 4
+.global y 4
+.global A 14
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file float.abc
+  .line 9
+  sys   debug_break
+  .line 11
+  p1
+  sys   assert
+  .line 13
+  p00
+  push2 16320
+  setg4 x 0
+  .line 14
+  p00
+  push2 16320
+  setg4 y 0
+  .line 15
+  getg4 x 0
+  getg4 y 0
+  cfeq
+  sys   assert
+  .line 16
+  getg4 x 0
+  f2i
+  pop2
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 17
+  getg4 y 0
+  f2i
+  pop2
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 18
+  p000
+  p64
+  setg4 y 0
+  .line 20
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 21
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 22
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 23
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 24
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 25
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 26
+  getg4 y 0
+  p000
+  p64
+  cfeq
+  sys   assert
+  .line 27
+  getg4 x 0
+  getg4 y 0
+  cfeq
+  not
+  sys   assert
+  .line 28
+  getg4 x 0
+  getg4 y 0
+  cfeq
+  not
+  sys   assert
+  .line 29
+  getg4 x 0
+  getg4 y 0
+  cflt
+  sys   assert
+  .line 30
+  getg4 y 0
+  getg4 x 0
+  cflt
+  not
+  sys   assert
+  .line 31
+  getg4 x 0
+  getg4 y 0
+  cflt
+  sys   assert
+  .line 32
+  getg4 y 0
+  getg4 x 0
+  cflt
+  not
+  sys   assert
+  .line 33
+  getg4 y 0
+  f2i
+  pop2
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 34
+  getg4 y 0
+  p000
+  p128
+  xor4
+  setg4 y 0
+  .line 35
+  getg4 y 0
+  p000
+  push  192
+  cfeq
+  sys   assert
+  .line 36
+  getg4 y 0
+  p000
+  push  192
+  cfeq
+  sys   assert
+  .line 37
+  getg4 y 0
+  p000
+  push  192
+  cfeq
+  sys   assert
+  .line 38
+  getg4 y 0
+  p000
+  push  192
+  cfeq
+  sys   assert
+  .line 39
+  getg4 y 0
+  p0000
+  cflt
+  sys   assert
+  .line 40
+  getg4 x 0
+  getg4 y 0
+  cfeq
+  not
+  sys   assert
+  .line 41
+  getg4 y 0
+  getg4 x 0
+  cflt
+  sys   assert
+  .line 42
+  getg4 x 0
+  getg4 y 0
+  cflt
+  not
+  sys   assert
+  .line 43
+  getg4 y 0
+  getg4 x 0
+  cflt
+  sys   assert
+  .line 44
+  getg4 x 0
+  getg4 y 0
+  cflt
+  not
+  sys   assert
+  .line 45
+  getg4 y 0
+  f2i
+  pop2
+  p2
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 47
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p0000
+  cflt
+  sys   assert
+  .line 48
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p000
+  push  191
+  cfeq
+  sys   assert
+  .line 49
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p000
+  push  191
+  cfeq
+  sys   assert
+  .line 50
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p000
+  push  191
+  cfeq
+  sys   assert
+  .line 51
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p000
+  push  191
+  cfeq
+  sys   assert
+  .line 52
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p000
+  push  191
+  cfeq
+  sys   assert
+  .line 53
+  getg4 x 0
+  getg4 y 0
+  fadd
+  p0000
+  cfeq
+  not
+  sys   assert
+  .line 55
+  getg4 x 0
+  getg4 y 0
+  fsub
+  p00
+  push  96
+  p64
+  cfeq
+  sys   assert
+  .line 56
+  getg4 x 0
+  getg4 y 0
+  fmul
+  p00
+  p64
+  push  192
+  cfeq
+  sys   assert
+  .line 57
+  getg4 x 0
+  getg4 y 0
+  fdiv
+  p00
+  p64
+  push  191
+  cfeq
+  sys   assert
+  .line 59
+  getg4 x 0
+  p00
+  push2 16320
+  cfeq
+  sys   assert
+  .line 60
+  pushg x 0
+  getg4 x 0
+  p00
+  p128
+  push  63
+  fadd
+  dupw5
+  setrn 4
+  getrn 4
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 61
+  getg4 x 0
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 63
+  getg4 x 0
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 64
+  pushg x 0
+  pincf
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 65
+  getg4 x 0
+  p00
+  push  96
+  p64
+  cfeq
+  sys   assert
+  .line 67
+  getg4 x 0
+  p00
+  push  96
+  p64
+  cfeq
+  sys   assert
+  .line 68
+  pushg x 0
+  getg4 x 0
+  p00
+  p128
+  push  63
+  fsub
+  dupw5
+  setrn 4
+  getrn 4
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 69
+  getg4 x 0
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 71
+  getg4 x 0
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 72
+  pushg x 0
+  pdecf
+  p00
+  p32
+  p64
+  cfeq
+  sys   assert
+  .line 73
+  getg4 x 0
+  p00
+  push2 16320
+  cfeq
+  sys   assert
+  .line 75
+  sys   debug_break
+  .line 7
+  ret
+

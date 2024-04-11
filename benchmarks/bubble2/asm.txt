@@ -1,0 +1,101 @@
+.saved 0
+.global A 128
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file bubble2.abc
+  .line 5
+  p0
+$L_main_0:
+  dup
+  p64
+  cult
+  bz    $L_main_1
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  jmp   $L_main_0
+$L_main_1:
+  pop
+  .line 8
+  sys   debug_break
+  .line 10
+  p64
+$L_main_3:
+  .line 11
+  p1
+  dup2
+  cult
+  bz    $L_main_4
+  .line 13
+  p0
+  .line 14
+  p1
+$L_main_5:
+  dup
+  dup4
+  cult
+  bz    $L_main_6
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aidxb 2 64
+  .line 17
+  pushg A 0
+  dup5
+  aidxb 2 64
+  .line 18
+  dupw
+  getr2
+  dupw5
+  getr2
+  cslt2
+  bz    $L_main_8
+  .line 20
+  dupw3
+  getr2
+  .line 21
+  dupw3
+  getr2
+  dupw7
+  setr2
+  .line 22
+  dupw
+  dupw5
+  setr2
+  .line 23
+  dup7
+  setl  8
+  pop2
+$L_main_8:
+  pop4
+  .line 14
+  inc
+  jmp   $L_main_5
+$L_main_6:
+  pop
+  .line 26
+  setl  1
+  .line 11
+  jmp   $L_main_3
+$L_main_4:
+  .line 29
+  sys   debug_break
+  .line 3
+  pop
+  ret
+

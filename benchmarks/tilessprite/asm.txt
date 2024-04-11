@@ -1,0 +1,56 @@
+.saved 0
+
+$PD_0:
+  .b c 08 08 01 00 00 3c 7e db bf bf db 7e 3c
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file tilessprite.abc
+  .line 16
+  sys   debug_break
+  .line 18
+  p0
+$L_main_0:
+  dup
+  p8
+  cult
+  bz    $L_main_1
+  .line 20
+  p0
+$L_main_3:
+  dup
+  p16
+  cult
+  bz    $L_main_4
+  .line 23
+  p00
+  pushl $PD_0 0
+  dup7
+  p8
+  mul
+  p0
+  dup8
+  p8
+  mul
+  p0
+  .line 22
+  sys   draw_sprite
+  .line 20
+  inc
+  jmp   $L_main_3
+$L_main_4:
+  pop
+  .line 18
+  inc
+  jmp   $L_main_0
+$L_main_1:
+  pop
+  .line 27
+  sys   debug_break
+  .line 13
+  ret
+

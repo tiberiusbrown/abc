@@ -1,0 +1,122 @@
+.saved 0
+.global c 8
+.global a 2
+.global b 2
+.global d 8
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  p2
+  p0
+  setg2 a 0
+  .line 3
+  getg2 a 0
+  p5
+  add2b
+  setg2 b 0
+  .line 5
+  p1
+  p0
+  p2
+  p0
+  p3
+  p0
+  p4
+  p0
+  p8
+  setgn c 0
+  .line 7
+  getg2 c 6
+  getg2 c 4
+  getg2 c 2
+  getg2 c 0
+  sext
+  p2
+  p00
+  sub3
+  pop
+  p8
+  setgn d 0
+  ret
+
+main:
+  .file globinit.abc
+  .line 12
+  sys   debug_break
+  .line 14
+  getg2 a 0
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 16
+  getg2 b 0
+  p7
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 18
+  getg2 c 0
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 19
+  getg2 c 2
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 20
+  getg2 c 4
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 21
+  getg2 c 6
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 23
+  getg2 d 0
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 24
+  getg2 d 2
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 25
+  getg2 d 4
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 26
+  getg2 d 6
+  p1
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 28
+  sys   debug_break
+  .line 10
+  ret
+

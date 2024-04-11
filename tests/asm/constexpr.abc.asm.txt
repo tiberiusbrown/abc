@@ -1,0 +1,85 @@
+.saved 0
+.global a 60
+
+b:
+  .b b 01 00 02 00 03 00 04 00 05 00 06 00
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file constexpr.abc
+  .line 12
+  sys   debug_break
+  .line 14
+  p1
+  sys   assert
+  .line 15
+  p1
+  sys   assert
+  .line 19
+  push  11
+  p0
+  .line 20
+  dupw
+  push  11
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 22
+  p0
+  p0000
+  pz16
+$L_main_0:
+  .line 23
+  dup
+  p0
+  push  10
+  p0
+  cslt2
+  bz    $L_main_1
+  .line 24
+  dup
+  p0
+  push  65
+  add2b
+  refl  23
+  dup5
+  aidxb 2 10
+  setr2
+  .line 23
+  inc
+  jmp   $L_main_0
+$L_main_1:
+  popn  23
+  .line 27
+  p0
+$L_main_3:
+  dup
+  p0
+  push  30
+  p0
+  cslt2
+  bz    $L_main_4
+  .line 28
+  dup
+  p0
+  push  42
+  add2b
+  pushg a 0
+  dup5
+  aidxb 2 30
+  setr2
+  .line 27
+  inc
+  jmp   $L_main_3
+$L_main_4:
+  pop
+  .line 30
+  sys   debug_break
+  .line 10
+  ret
+

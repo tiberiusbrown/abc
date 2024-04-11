@@ -1,0 +1,113 @@
+.global y 2
+.saved 2
+.global x 2
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file save_load.abc
+  .line 6
+  sys   debug_break
+  .line 8
+  sys   save_exists
+  not
+  sys   assert
+  .line 10
+  p1
+  p0
+  setg2 x 0
+  .line 11
+  p2
+  p0
+  setg2 y 0
+  .line 13
+  sys   load
+  not
+  sys   assert
+  .line 15
+  getg2 x 0
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 16
+  getg2 y 0
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 18
+  sys   save
+  .line 20
+  sys   save_exists
+  sys   assert
+  .line 22
+  p3
+  p0
+  setg2 x 0
+  .line 23
+  p4
+  p0
+  setg2 y 0
+  .line 25
+  sys   load
+  sys   assert
+  .line 27
+  getg2 x 0
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 28
+  getg2 y 0
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 30
+  p4
+  p0
+  setg2 y 0
+  .line 31
+  sys   save
+  .line 33
+  sys   save_exists
+  sys   assert
+  .line 35
+  p5
+  p0
+  setg2 x 0
+  .line 36
+  p6
+  p0
+  setg2 y 0
+  .line 38
+  sys   load
+  sys   assert
+  .line 40
+  getg2 x 0
+  p5
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 41
+  getg2 y 0
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 43
+  sys   debug_break
+  .line 4
+  ret
+

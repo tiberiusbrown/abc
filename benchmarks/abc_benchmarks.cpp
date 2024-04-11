@@ -79,6 +79,10 @@ static std::vector<uint8_t> compile(std::string const& fname)
     if(!c.errors().empty())
         return {};
     abc_asm = fo.str();
+    {
+        std::ofstream fasm(path + "/asm.txt");
+        fasm << abc_asm;
+    }
 
     ards::assembler_t a{};
     std::istrstream ss(abc_asm.data(), (int)abc_asm.size());

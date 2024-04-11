@@ -1,0 +1,633 @@
+.saved 0
+.global a3 12
+.global a1 4
+.global a2 8
+.global a4 16
+.global m 16
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file bitwise.abc
+  .line 10
+  sys   debug_break
+  .line 12
+  getg  a1 2
+  not
+  sys   assert
+  .line 13
+  getg2 a2 4
+  bool2
+  not
+  sys   assert
+  .line 14
+  p3
+  getgn a3 6
+  bool3
+  not
+  sys   assert
+  .line 15
+  getg4 a4 8
+  bool4
+  not
+  sys   assert
+  .line 17
+  p0000
+  setg4 m 0
+  .line 18
+  push4 4294967295
+  setg4 m 4
+  .line 19
+  push4 3405691582
+  setg4 m 8
+  .line 20
+  push4 305419896
+  setg4 m 12
+  .line 22
+  p0
+$L_main_0:
+  dup
+  p4
+  cult
+  bz    $L_main_1
+  .line 24
+  pushg m 0
+  dup3
+  aidxb 4 4
+  getrn 4
+  pop3
+  pushg a1 0
+  dup4
+  aixb1 4
+  setr
+  .line 25
+  pushg m 0
+  dup3
+  aidxb 4 4
+  getrn 4
+  pop2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  setr2
+  .line 26
+  pushg m 0
+  dup3
+  aidxb 4 4
+  getrn 4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  setrn 3
+  .line 27
+  pushg m 0
+  dup3
+  aidxb 4 4
+  getrn 4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  setrn 4
+  .line 22
+  inc
+  jmp   $L_main_0
+$L_main_1:
+  pop
+  .line 30
+  p1
+$L_main_3:
+  dup
+  p4
+  cult
+  bz    $L_main_4
+  .line 32
+  getg  a1 0
+  pushg a1 0
+  dup4
+  aixb1 4
+  getr
+  and
+  not
+  sys   assert
+  .line 33
+  getg  a1 0
+  p0
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  and2
+  bool2
+  not
+  sys   assert
+  .line 34
+  getg  a1 0
+  p000
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  and4
+  pop
+  bool3
+  not
+  sys   assert
+  .line 35
+  getg  a1 0
+  p000
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  bool4
+  not
+  sys   assert
+  .line 36
+  getg2 a2 0
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  and2
+  bool2
+  not
+  sys   assert
+  .line 37
+  getg2 a2 0
+  p00
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  and4
+  pop
+  bool3
+  not
+  sys   assert
+  .line 38
+  getg2 a2 0
+  p00
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  bool4
+  not
+  sys   assert
+  .line 39
+  p3
+  getgn a3 0
+  p0
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  and4
+  pop
+  bool3
+  not
+  sys   assert
+  .line 40
+  p3
+  getgn a3 0
+  p0
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  bool4
+  not
+  sys   assert
+  .line 41
+  getg4 a4 0
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  bool4
+  not
+  sys   assert
+  .line 43
+  getg  a1 0
+  pushg a1 0
+  dup4
+  aixb1 4
+  getr
+  or
+  pushg a1 0
+  dup4
+  aixb1 4
+  getr
+  sub
+  not
+  sys   assert
+  .line 44
+  getg  a1 0
+  p0
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  or2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 45
+  getg  a1 0
+  p000
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  or4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  getrn 3
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 46
+  getg  a1 0
+  p000
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  or4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 47
+  getg2 a2 0
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  or2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 48
+  getg2 a2 0
+  p00
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  or4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  getrn 3
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 49
+  getg2 a2 0
+  p00
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  or4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 50
+  p3
+  getgn a3 0
+  p0
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  or4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  getrn 3
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 51
+  p3
+  getgn a3 0
+  p0
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  or4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 52
+  getg4 a4 0
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  or4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 30
+  inc
+  jmp   $L_main_3
+$L_main_4:
+  pop
+  .line 55
+  p2
+$L_main_6:
+  dup
+  p4
+  cult
+  bz    $L_main_7
+  .line 57
+  getg  a1 1
+  pushg a1 0
+  dup4
+  aixb1 4
+  getr
+  and
+  pushg a1 0
+  dup4
+  aixb1 4
+  getr
+  sub
+  not
+  sys   assert
+  .line 58
+  getg2 a2 2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  and2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 59
+  p3
+  getgn a3 3
+  p0
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  and4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  getrn 3
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 60
+  getg4 a4 4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 62
+  getg  a1 1
+  p0
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  and2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  pop
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 63
+  getg  a1 1
+  p000
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  and4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  getrn 3
+  pop2
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 64
+  getg  a1 1
+  p000
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  pop3
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 65
+  getg2 a2 2
+  p00
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  and4
+  pop
+  pushg a3 0
+  dup6
+  aidxb 3 4
+  getrn 3
+  pop
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 66
+  getg2 a2 2
+  p00
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  pop2
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 67
+  p3
+  getgn a3 3
+  p0
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  and4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  pop
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 69
+  getg  a1 1
+  pushg a1 0
+  dup4
+  aixb1 4
+  getr
+  or
+  push  255
+  sub
+  not
+  sys   assert
+  .line 70
+  getg2 a2 2
+  pushg a2 0
+  dup5
+  aidxb 2 4
+  getr2
+  or2
+  p1
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 71
+  p3
+  getgn a3 3
+  p0
+  pushg a3 0
+  dup7
+  aidxb 3 4
+  getrn 3
+  p0
+  or4
+  pop
+  push3 16777215
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 72
+  getg4 a4 4
+  pushg a4 0
+  dup7
+  aidxb 4 4
+  getrn 4
+  or4
+  push4 4294967295
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 55
+  inc
+  jmp   $L_main_6
+$L_main_7:
+  pop
+  .line 75
+  sys   debug_break
+  .line 8
+  ret
+

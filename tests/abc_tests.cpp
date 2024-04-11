@@ -31,6 +31,8 @@ static bool test(std::string const& fpath, std::string const& fname)
             printf("Line %d: %s\n", (int)e.line_info.first, e.msg.c_str());
         assert(c.errors().empty());
         abc_asm = fo.str();
+        std::ofstream fasm((fpath + "/../asm/" + fname + ".asm.txt").c_str());
+        fasm << abc_asm;
     }
 
     {

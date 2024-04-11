@@ -1,0 +1,116 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file basic.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  p1
+  .line 6
+  p0
+  .line 7
+  dup2
+  p0
+  dup3
+  add2b
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 9
+  p1
+  sys   assert
+  .line 10
+  p1
+  sys   assert
+  .line 11
+  p1
+  sys   assert
+  .line 12
+  p1
+  sys   assert
+  .line 13
+  p1
+  sys   assert
+  .line 14
+  p1
+  sys   assert
+  .line 15
+  p1
+  sys   assert
+  .line 16
+  p1
+  sys   assert
+  .line 17
+  p1
+  sys   assert
+  .line 19
+  p1
+  sys   assert
+  .line 20
+  p1
+  sys   assert
+  .line 21
+  p1
+  sys   assert
+  .line 22
+  p1
+  sys   assert
+  .line 23
+  p1
+  sys   assert
+  .line 24
+  p1
+  sys   assert
+  .line 25
+  p1
+  sys   assert
+  .line 27
+  p1
+  sys   assert
+  .line 28
+  p1
+  sys   assert
+  .line 29
+  p1
+  sys   assert
+  .line 30
+  p1
+  sys   assert
+  .line 31
+  p1
+  sys   assert
+  .line 32
+  p1
+  sys   assert
+  .line 33
+  p1
+  sys   assert
+  .line 34
+  p1
+  sys   assert
+  .line 36
+  p1
+  sys   assert
+  .line 37
+  p1
+  sys   assert
+  .line 40
+  p1
+  sys   assert
+  .line 41
+  p1
+  sys   assert
+  .line 43
+  sys   debug_break
+  .line 1
+  pop2
+  ret
+

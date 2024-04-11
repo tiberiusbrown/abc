@@ -1,0 +1,40 @@
+.saved 0
+.global foo 2
+
+
+$globinit:
+  .file <internal>.abc
+  .line 7
+  p0
+  p1
+  setg2 foo 0
+  ret
+
+main:
+  .file struct_ref_bug.abc
+  .line 11
+  sys   debug_break
+  .line 13
+  pushg foo 1
+  dupw
+  getr
+  dec
+  dupw2
+  setr
+  getr
+  bnz   $L_main_0
+  .line 14
+  push  42
+  setg  foo 1
+$L_main_0:
+  .line 16
+  getg  foo 1
+  push  42
+  sub
+  not
+  sys   assert
+  .line 18
+  sys   debug_break
+  .line 9
+  ret
+

@@ -1,0 +1,115 @@
+.saved 0
+.global a 4
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  p1
+  p2
+  p3
+  p4
+  setg4 a 0
+  ret
+
+f:
+  .file array_ref_bug.abc
+  .line 7
+  getg4 a 0
+  setl4 4
+  ret
+
+main:
+  .file array_ref_bug.abc
+  .line 12
+  sys   debug_break
+  .line 14
+  p0000
+  call  f
+  .line 15
+  refl  4
+  .line 17
+  dup6
+  dec
+  not
+  sys   assert
+  .line 18
+  dup5
+  p2
+  sub
+  not
+  sys   assert
+  .line 19
+  dup4
+  p3
+  sub
+  not
+  sys   assert
+  .line 20
+  dup3
+  p4
+  sub
+  not
+  sys   assert
+  .line 22
+  dupw
+  getr
+  dec
+  not
+  sys   assert
+  .line 23
+  dupw
+  p1
+  add2b
+  getr
+  p2
+  sub
+  not
+  sys   assert
+  .line 24
+  dupw
+  p2
+  add2b
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 25
+  dupw
+  p3
+  add2b
+  getr
+  p4
+  sub
+  not
+  sys   assert
+  .line 27
+  getg  a 0
+  dec
+  not
+  sys   assert
+  .line 28
+  getg  a 1
+  p2
+  sub
+  not
+  sys   assert
+  .line 29
+  getg  a 2
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  getg  a 3
+  p4
+  sub
+  not
+  sys   assert
+  .line 32
+  sys   debug_break
+  .line 10
+  popn  6
+  ret
+

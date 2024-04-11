@@ -1,0 +1,239 @@
+.saved 0
+.global a 300
+.global b 300
+
+c:
+  .b f 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b b 00 00 00 00 00 00 00 00 00 00 00 65
+
+$globinit:
+  .file <internal>.abc
+  .line 20
+  pushl c 0
+  push  44
+  p1
+  p0
+  pushg a 0
+  push  44
+  p1
+  sys   memcpy_P
+  .line 21
+  pushg a 0
+  push  44
+  p1
+  pushg b 0
+  push  44
+  p1
+  sys   memcpy
+  ret
+
+main:
+  .file large_copy.abc
+  .line 25
+  sys   debug_break
+  .line 27
+  getg  a 0
+  p7
+  sub
+  not
+  sys   assert
+  .line 28
+  getg  a 299
+  push  101
+  sub
+  not
+  sys   assert
+  .line 29
+  getg  b 0
+  p7
+  sub
+  not
+  sys   assert
+  .line 30
+  getg  b 299
+  push  101
+  sub
+  not
+  sys   assert
+  .line 32
+  push  42
+  setg  a 0
+  .line 33
+  push  200
+  setg  a 299
+  .line 34
+  pushg a 0
+  push  44
+  p1
+  pushg b 0
+  push  44
+  p1
+  sys   memcpy
+  .line 36
+  getg  b 0
+  push  42
+  sub
+  not
+  sys   assert
+  .line 37
+  getg  b 299
+  p0
+  push  200
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 39
+  pushl c 0
+  push  44
+  p1
+  p0
+  pushg b 0
+  push  44
+  p1
+  sys   memcpy_P
+  .line 41
+  getg  b 0
+  p7
+  sub
+  not
+  sys   assert
+  .line 42
+  getg  b 299
+  push  101
+  sub
+  not
+  sys   assert
+  .line 44
+  p0
+  setg  a 0
+  .line 45
+  p0
+  setg  a 299
+  .line 46
+  p0
+  setg  b 0
+  .line 47
+  p0
+  setg  b 299
+  .line 49
+  pushg b 0
+  pushl c 0
+  push  44
+  p1
+  p0
+  dupw7
+  push  44
+  p1
+  sys   memcpy_P
+  push  44
+  p1
+  pushg a 0
+  push  44
+  p1
+  sys   memcpy
+  .line 51
+  getg  a 0
+  p7
+  sub
+  not
+  sys   assert
+  .line 52
+  getg  a 299
+  push  101
+  sub
+  not
+  sys   assert
+  .line 53
+  getg  b 0
+  p7
+  sub
+  not
+  sys   assert
+  .line 54
+  getg  b 299
+  push  101
+  sub
+  not
+  sys   assert
+  .line 57
+  p0000
+  pz16
+  pz16
+  pz16
+  pz16
+  pz16
+  pz16
+  .line 58
+  getl  100
+  not
+  sys   assert
+  .line 59
+  pushl c 0
+  push  100
+  p00
+  refl  106
+  push  100
+  p0
+  sys   memcpy_P
+  .line 60
+  getl  100
+  p7
+  sub
+  not
+  sys   assert
+  .line 61
+  pushl c 0
+  push  200
+  add3b
+  push  100
+  p00
+  refl  106
+  push  100
+  p0
+  sys   memcpy_P
+  .line 62
+  dup
+  push  101
+  sub
+  not
+  sys   assert
+  popn  255
+  .line 66
+  pop
+  pushl c 0
+  push  100
+  p00
+  refl  106
+  push  100
+  p0
+  sys   memcpy_P
+  .line 67
+  getl  100
+  p7
+  sub
+  not
+  sys   assert
+  popn  100
+  .line 70
+  sys   debug_break
+  .line 23
+  ret
+

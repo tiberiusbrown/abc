@@ -1,0 +1,114 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file loops.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  p0000
+$L_main_0:
+  .line 6
+  dupw
+  push  10
+  p0
+  cslt2
+  bz    $L_main_1
+  .line 8
+  dupw
+  .line 9
+  dupw3
+  p3
+  sub2b
+  bool2
+  bnz   $L_main_3
+  pop2
+  jmp   $L_main_2
+$L_main_3:
+  .line 10
+  dupw5
+  dupw3
+  add2
+  setl2 6
+  pop2
+$L_main_2:
+  .line 6
+  dupw
+  p1
+  add2b
+  setl2 2
+  jmp   $L_main_0
+$L_main_1:
+  pop2
+  .line 13
+  dupw
+  push  42
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 17
+  p00
+$L_main_4:
+  dupw
+  push  200
+  p0
+  cslt2
+  bz    $L_main_5
+  .line 19
+  p00
+  setl2 4
+  .line 20
+  p00
+$L_main_7:
+  dupw
+  push  10
+  p0
+  cslt2
+  bz    $L_main_8
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_10
+  pop2
+  jmp   $L_main_8
+$L_main_10:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  dupw
+  p1
+  add2b
+  setl2 2
+  jmp   $L_main_7
+$L_main_8:
+  pop2
+  .line 17
+  dupw
+  p1
+  add2b
+  setl2 2
+  jmp   $L_main_4
+$L_main_5:
+  pop2
+  .line 28
+  sys   debug_break
+  .line 1
+  pop2
+  ret
+

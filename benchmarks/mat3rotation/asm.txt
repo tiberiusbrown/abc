@@ -1,0 +1,131 @@
+.saved 0
+.global r 36
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+rot:
+  .file mat3rotation.abc
+  .line 8
+  p0000
+  pz16
+  pz16
+  .line 10
+  getl4 40
+  sys   sin
+  .line 11
+  getl4 44
+  sys   cos
+  .line 12
+  getl4 52
+  sys   sin
+  .line 13
+  getl4 56
+  sys   cos
+  .line 14
+  getl4 64
+  sys   sin
+  .line 15
+  getl4 68
+  sys   cos
+  .line 16
+  getl4 24
+  getl4 20
+  fmul
+  .line 17
+  p8
+  getln 24
+  fmul
+  .line 19
+  getl4 20
+  getl4 16
+  fmul
+  setl4 68
+  .line 20
+  p8
+  getln 20
+  fmul
+  setl4 64
+  .line 21
+  getl4 24
+  p000
+  p128
+  xor4
+  setl4 60
+  .line 23
+  getl4 8
+  getl4 16
+  fmul
+  getl4 32
+  getl4 24
+  fmul
+  fsub
+  setl4 56
+  .line 24
+  getl4 8
+  getl4 20
+  fmul
+  getl4 32
+  getl4 20
+  fmul
+  fadd
+  setl4 52
+  .line 25
+  getl4 32
+  getl4 24
+  fmul
+  setl4 48
+  .line 27
+  getl4 4
+  getl4 16
+  fmul
+  getl4 36
+  getl4 24
+  fmul
+  fadd
+  setl4 44
+  .line 28
+  getl4 4
+  getl4 20
+  fmul
+  getl4 36
+  getl4 20
+  fmul
+  fsub
+  setl4 40
+  .line 29
+  getl4 28
+  getl4 24
+  fmul
+  setl4 36
+  .line 31
+  push  36
+  getln 68
+  push  36
+  setln 116
+  popn  80
+  ret
+
+main:
+  .file mat3rotation.abc
+  .line 38
+  sys   debug_break
+  .line 40
+  p0000
+  pz16
+  pz16
+  push4 1061813223
+  push3 9563013
+  p64
+  push4 1067282596
+  call  rot
+  push  36
+  setgn r 0
+  .line 42
+  sys   debug_break
+  .line 36
+  ret
+

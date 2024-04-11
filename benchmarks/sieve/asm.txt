@@ -1,0 +1,85 @@
+.saved 0
+.global A 900
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file sieve.abc
+  .line 7
+  sys   debug_break
+  .line 9
+  p00
+$L_main_0:
+  dupw
+  push  132
+  p3
+  cult2
+  bz    $L_main_1
+  .line 10
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 9
+  dupw
+  p1
+  add2b
+  setl2 2
+  jmp   $L_main_0
+$L_main_1:
+  pop2
+  .line 11
+  p2
+$L_main_3:
+  dup
+  push  30
+  cult
+  bz    $L_main_4
+  .line 13
+  pushg A 0
+  dup3
+  p0
+  aidx  1 900
+  getr
+  bz    $L_main_5
+  .line 14
+  dup
+  p0
+  dup3
+  mul2b
+$L_main_6:
+  dupw
+  push  132
+  p3
+  cult2
+  bz    $L_main_7
+  .line 15
+  p0
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 14
+  dupw
+  dup5
+  add2b
+  setl2 2
+  jmp   $L_main_6
+$L_main_7:
+  pop2
+$L_main_5:
+  .line 11
+  inc
+  jmp   $L_main_3
+$L_main_4:
+  pop
+  .line 18
+  sys   debug_break
+  .line 5
+  ret
+

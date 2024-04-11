@@ -1,0 +1,65 @@
+.saved 0
+
+d:
+  .b b 00 00 01 01 02 02 03 03 04 04 05 05
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file copy2d.abc
+  .line 14
+  sys   debug_break
+  .line 16
+  p00
+  p1
+  p1
+  p2
+  p2
+  p3
+  p3
+  p4
+  p4
+  p5
+  p5
+  .line 18
+  getl  12
+  not
+  sys   assert
+  .line 19
+  getl  10
+  dec
+  not
+  sys   assert
+  .line 20
+  dup8
+  p2
+  sub
+  not
+  sys   assert
+  .line 21
+  dup6
+  p3
+  sub
+  not
+  sys   assert
+  .line 22
+  dup4
+  p4
+  sub
+  not
+  sys   assert
+  .line 23
+  dup2
+  p5
+  sub
+  not
+  sys   assert
+  .line 25
+  sys   debug_break
+  .line 12
+  popn  12
+  ret
+

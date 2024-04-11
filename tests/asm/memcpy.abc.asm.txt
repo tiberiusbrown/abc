@@ -1,0 +1,222 @@
+.saved 0
+.global copy 512
+
+data:
+  .b f 01 02 03 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file memcpy.abc
+  .line 9
+  sys   debug_break
+  .line 11
+  getg  copy 0
+  not
+  sys   assert
+  .line 12
+  getg  copy 1
+  not
+  sys   assert
+  .line 13
+  getg  copy 2
+  not
+  sys   assert
+  .line 14
+  getg  copy 3
+  not
+  sys   assert
+  .line 16
+  pushl data 0
+  p0
+  p2
+  p0
+  pushg copy 0
+  p0
+  p2
+  sys   memcpy_P
+  .line 18
+  getg  copy 0
+  dec
+  not
+  sys   assert
+  .line 19
+  getg  copy 1
+  p2
+  sub
+  not
+  sys   assert
+  .line 20
+  getg  copy 2
+  p3
+  sub
+  not
+  sys   assert
+  .line 21
+  getg  copy 3
+  not
+  sys   assert
+  .line 23
+  push  42
+  p0
+  .line 24
+  push  244
+  p1
+  .line 26
+  dupw
+  push  244
+  p1
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 27
+  refl  4
+  p2
+  p0
+  refl  6
+  p2
+  p0
+  sys   memcpy
+  .line 28
+  dupw
+  push  42
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 30
+  push  88
+  p2
+  push  188
+  p2
+  .line 31
+  p32
+  p3
+  push  132
+  p3
+  .line 33
+  dupw7
+  push  88
+  p2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 34
+  dupw5
+  push  188
+  p2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 35
+  refl  4
+  p4
+  p0
+  refl  12
+  p4
+  p0
+  sys   memcpy
+  .line 36
+  dupw7
+  p32
+  p3
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 37
+  dupw5
+  push  132
+  p3
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 39
+  push4 2271560481
+  .line 40
+  refl  4
+  p4
+  p0
+  .line 41
+  getl4 4
+  p3
+  p0
+  uaidx 1
+  getr
+  push  135
+  sub
+  not
+  sys   assert
+  .line 42
+  getl4 4
+  p2
+  p0
+  uaidx 1
+  getr
+  push  101
+  sub
+  not
+  sys   assert
+  .line 43
+  getl4 4
+  p1
+  p0
+  uaidx 1
+  getr
+  push  67
+  sub
+  not
+  sys   assert
+  .line 44
+  getl4 4
+  p00
+  uaidx 1
+  getr
+  push  33
+  sub
+  not
+  sys   assert
+  .line 46
+  sys   debug_break
+  .line 7
+  popn  20
+  ret
+

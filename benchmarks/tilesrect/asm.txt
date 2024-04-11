@@ -1,0 +1,65 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file tilesrect.abc
+  .line 4
+  sys   debug_break
+  .line 6
+  p00
+$L_main_0:
+  .line 7
+  dup
+  p8
+  cult
+  bz    $L_main_1
+  .line 9
+  p0
+$L_main_3:
+  dup
+  p16
+  cult
+  bz    $L_main_4
+  .line 12
+  dup3
+  p8
+  p8
+  dup5
+  p8
+  mul
+  p0
+  dup6
+  p8
+  mul
+  p0
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup3
+  not
+  setl  3
+  .line 9
+  inc
+  jmp   $L_main_3
+$L_main_4:
+  pop
+  .line 15
+  dup2
+  not
+  setl  2
+  .line 7
+  inc
+  jmp   $L_main_0
+$L_main_1:
+  pop
+  .line 18
+  sys   debug_break
+  .line 1
+  pop
+  ret
+

@@ -1,0 +1,36 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file slice_bug.abc
+  .line 3
+  sys   debug_break
+  .line 4
+  p0
+  p1
+  p2
+  p3
+  .line 5
+  refl  4
+  p1
+  add2b
+  .line 6
+  dupw
+  p1
+  add2b
+  getr
+  p2
+  sub
+  not
+  sys   assert
+  .line 7
+  sys   debug_break
+  .line 1
+  popn  6
+  ret
+

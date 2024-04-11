@@ -1,0 +1,133 @@
+.saved 0
+.global data1 8
+
+foo:
+  .b 0 01
+  .rg data1
+  .b 1 04 00
+data0:
+  .b 7 64 00 c8 00 2c 01 90 01
+foop:
+  .b 0 01
+  .rp data0
+  .b 2 04 00 00
+
+$globinit:
+  .file <internal>.abc
+  .line 13
+  push  232
+  p3
+  push  208
+  p7
+  push4 262147000
+  p8
+  setgn data1 0
+  ret
+
+main:
+  .file prog_array_indirect.abc
+  .line 25
+  sys   debug_break
+  .line 27
+  pushl foop 1
+  getpn 6
+  p000
+  upidx 2
+  getpn 2
+  push  100
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 28
+  pushl foop 1
+  getpn 6
+  p1
+  p00
+  upidx 2
+  getpn 2
+  push  200
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 29
+  pushl foop 1
+  getpn 6
+  p2
+  p00
+  upidx 2
+  getpn 2
+  push  44
+  p1
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 30
+  pushl foop 1
+  getpn 6
+  p3
+  p00
+  upidx 2
+  getpn 2
+  push  144
+  p1
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 32
+  pushl foo 1
+  getpn 4
+  p00
+  uaidx 2
+  getr2
+  push  232
+  p3
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 33
+  pushl foo 1
+  getpn 4
+  p1
+  p0
+  uaidx 2
+  getr2
+  push  208
+  p7
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 34
+  pushl foo 1
+  getpn 4
+  p2
+  p0
+  uaidx 2
+  getr2
+  push2 3000
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 35
+  pushl foo 1
+  getpn 4
+  p3
+  p0
+  uaidx 2
+  getr2
+  push2 4000
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 37
+  sys   debug_break
+  .line 23
+  ret
+

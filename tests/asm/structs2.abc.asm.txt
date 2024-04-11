@@ -1,0 +1,39 @@
+.saved 0
+.global t 2
+.global p 8
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file structs2.abc
+  .line 8
+  sys   debug_break
+  .line 10
+  p4
+  p0
+  setg2 t 0
+  .line 11
+  getg  t 0
+  p2
+  setg2 p 0
+  .line 13
+  getg  p 0
+  p4
+  sub
+  not
+  sys   assert
+  .line 14
+  getg  p 1
+  p2
+  sub
+  not
+  sys   assert
+  .line 16
+  sys   debug_break
+  .line 6
+  ret
+

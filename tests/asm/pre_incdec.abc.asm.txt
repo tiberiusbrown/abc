@@ -1,0 +1,292 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file pre_incdec.abc
+  .line 3
+  sys   debug_break
+  .line 6
+  p1
+  p0
+  p2
+  p0
+  p3
+  p0
+  p4
+  p0
+  .line 7
+  refl  6
+  pinc2
+  pop2
+  .line 8
+  dupw7
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 9
+  dupw5
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 10
+  dupw3
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 11
+  dupw
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 12
+  refl  4
+  pinc2
+  p1
+  add2b
+  .line 13
+  getl2 10
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 14
+  dupw7
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 15
+  dupw5
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 16
+  dupw3
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 17
+  dupw
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  popn  10
+  .line 21
+  p2
+  .line 22
+  refl  1
+  pinc
+  p3
+  mul
+  .line 23
+  dup2
+  p3
+  sub
+  not
+  sys   assert
+  .line 24
+  dup
+  p6
+  sub
+  not
+  sys   assert
+  pop2
+  .line 28
+  p2
+  p0
+  .line 29
+  refl  2
+  pinc2
+  p3
+  mul2b
+  .line 30
+  dupw3
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 31
+  dupw
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  pop4
+  .line 35
+  p2
+  p00
+  .line 36
+  refl  3
+  pinc3
+  p3
+  p00
+  mul3
+  .line 37
+  p3
+  getln 6
+  p3
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 38
+  p3
+  getln 3
+  p6
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  popn  6
+  .line 42
+  p2
+  p000
+  .line 43
+  refl  4
+  pinc4
+  p3
+  p000
+  mul4
+  .line 44
+  getl4 8
+  p3
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 45
+  getl4 4
+  p6
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  popn  8
+  .line 49
+  p2
+  .line 50
+  refl  1
+  pdec
+  p3
+  mul
+  .line 51
+  dup2
+  dec
+  not
+  sys   assert
+  .line 52
+  dup
+  p6
+  sub
+  not
+  sys   assert
+  pop2
+  .line 56
+  p2
+  p0
+  .line 57
+  refl  2
+  pdec2
+  p3
+  mul2b
+  .line 58
+  dupw3
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 59
+  dupw
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  pop4
+  .line 63
+  p2
+  p00
+  .line 64
+  refl  3
+  pdec3
+  p3
+  p00
+  mul3
+  .line 65
+  p3
+  getln 6
+  p1
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 66
+  p3
+  getln 3
+  p6
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  popn  6
+  .line 70
+  p2
+  p000
+  .line 71
+  refl  4
+  pdec4
+  p3
+  p000
+  mul4
+  .line 72
+  getl4 8
+  p1
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 73
+  getl4 4
+  p6
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  popn  8
+  .line 76
+  sys   debug_break
+  .line 1
+  ret
+
