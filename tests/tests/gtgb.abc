@@ -1,0 +1,12 @@
+u8 a;
+
+void main()
+{
+    $debug_break();
+    
+    $assert(a == 0);
+    a = 42;
+    $assert(a == 42);
+    
+    $debug_break();
+}

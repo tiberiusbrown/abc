@@ -1,0 +1,31 @@
+.saved 0
+.global a 1
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file gtgb.abc
+  .line 5
+  sys   debug_break
+  .line 7
+  getg  a 0
+  not
+  sys   assert
+  .line 8
+  push  42
+  setg  a 0
+  .line 9
+  getg  a 0
+  push  42
+  sub
+  not
+  sys   assert
+  .line 11
+  sys   debug_break
+  .line 3
+  ret
+

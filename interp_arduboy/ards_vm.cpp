@@ -1043,6 +1043,28 @@ I_GETGN:
     rjmp getg4_dispatch
     .align 6
 
+I_GTGB:
+    st   Y+, r9
+    cpi  r28, 255
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  ldi  r27, 2
+    nop
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ld   r9, X
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    rcall gtgb_delay_11
+    dispatch_noalign
+gtgb_delay_11:
+    rjmp .+0
+    rjmp .+0
+    ret
+    .align 6
+
 I_SETG:
     dispatch_delay
     in   r26, %[spdr]

@@ -629,9 +629,26 @@ error_t assembler_t::assemble(std::istream& f)
 
 void assembler_t::relax_jumps()
 {
-    for(size_t i = 0; i < nodes.size(); ++i)
+    for(size_t i = 0; i + 1 < nodes.size(); ++i)
     {
         auto& n = nodes[i];
+
+        if(n.instr == I_GETG)
+        {
+            auto it = globals.find(nodes[i+1].label);
+            if(it == globals.end())
+                continue;
+            auto offset = it->second;
+            offset += nodes[i+1].imm;
+            if(offset >= 256)
+                continue;
+            n.instr = I_GTGB;
+            nodes[i + 1].size = 1;
+            for(size_t j = i + 2; j < nodes.size(); ++j)
+                nodes[j].offset -= 1;
+            continue;
+        }
+
         if(n.instr != I_JMP &&
             n.instr != I_CALL &&
             n.instr != I_BZ &&
@@ -639,7 +656,6 @@ void assembler_t::relax_jumps()
             n.instr != I_BZP &&
             n.instr != I_BNZP &&
             true) continue;
-        assert(i + 1 < nodes.size());
         auto& label = nodes[i + 1];
         assert(label.type == LABEL);
 
@@ -663,9 +679,7 @@ void assembler_t::relax_jumps()
         if(bytes_shortened)
         {
             for(size_t j = i + 1; j < nodes.size(); ++j)
-            {
                 nodes[j].offset -= bytes_shortened;
-            }
         }
     }
 }

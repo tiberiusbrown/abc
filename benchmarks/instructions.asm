@@ -1,5 +1,7 @@
 .global g 512
 
+.global gf 32
+
 p:
     .b f 00 01 02 03 04 05 06 07 08 09 0a 0b 0c 0d 0e 0f
     .b f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
@@ -641,89 +643,94 @@ $L_main_start:
     popn 32
     
     sys debug_break
-    getg g 0
+    getg gf 0
     sys debug_break
     pop
     
     sys debug_break
-    getg2 g 0
+    getg2 gf 0
     sys debug_break
     pop2
     
     sys debug_break
-    getg4 g 0
+    getg4 gf 0
     sys debug_break
     pop4
     
     push 3
     sys debug_break
-    getgn g 0
+    getgn gf 0
     sys debug_break
     popn 5
     
     push 5
     sys debug_break
-    getgn g 0
+    getgn gf 0
     sys debug_break
     popn 5
     
     push 8
     sys debug_break
-    getgn g 0
+    getgn gf 0
     sys debug_break
     popn 8
     
     push 16
     sys debug_break
-    getgn g 0
+    getgn gf 0
     sys debug_break
     popn 16
     
     push 32
     sys debug_break
-    getgn g 0
+    getgn gf 0
     sys debug_break
     popn 32
     
+    sys debug_break
+    getg g 0
+    sys debug_break
+    pop
+    
     p0
     sys debug_break
-    setg g 0
+    setg gf 0
     sys debug_break
     
     p00
     sys debug_break
-    setg2 g 0
+    setg2 gf 0
     sys debug_break
     
     p0000
     sys debug_break
-    setg4 g 0
+    setg4 gf 0
     sys debug_break
     
     p000
     push 3
     sys debug_break
-    setgn g 0
+    setgn gf 0
     sys debug_break
     
     p0000
     p0
     push 5
     sys debug_break
-    setgn g 0
+    setgn gf 0
     sys debug_break
     
     pz8
     push 8
     sys debug_break
-    setgn g 0
+    setgn gf 0
     sys debug_break
     
     pz8
     pz8
     push 16
     sys debug_break
-    setgn g 0
+    setgn gf 0
     sys debug_break
     
     pz8
@@ -732,7 +739,7 @@ $L_main_start:
     pz8
     push 32
     sys debug_break
-    setgn g 0
+    setgn gf 0
     sys debug_break
     
     pushl p 0
