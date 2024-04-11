@@ -308,7 +308,12 @@
   157   call
   134   call1
   122   ret
+  100   $get_pixel
    99   $draw_pixel
+  203   $draw_hline (0, 0, 1)
+ 1346   $draw_hline (0, 0, 128)
+  203   $draw_vline (0, 0, 1)
+  340   $draw_vline (0, 0, 64)
   574   $draw_sprite (1x8 unmasked)
   707   $draw_sprite (8x8 unmasked)
   842   $draw_sprite (8x8 masked)
@@ -333,3 +338,9 @@
  2052   $draw_filled_circle (64, 32, 16)
  3741   $draw_filled_circle (64, 32, 32)
  7258   $draw_filled_circle (64, 32, 64)
+ 1388   $draw_circle (64, 32, 8)
+ 2490   $draw_circle (64, 32, 16)
+ 4533   $draw_circle (64, 32, 32)
+ 8780   $draw_circle (64, 32, 64)
+18599   $display
+18599   $display_noclear

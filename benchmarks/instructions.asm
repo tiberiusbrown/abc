@@ -2424,11 +2424,50 @@ $L_main_13:
     call $L_main_12
     sys debug_break
     
+    p00
+    p00
+    sys debug_break
+    sys get_pixel
+    sys debug_break
+    pop
+    
     p1
     p00
     p00
     sys debug_break
     sys draw_pixel
+    sys debug_break
+    
+    p1
+    p1
+    p00
+    p00
+    sys debug_break
+    sys draw_hline
+    sys debug_break
+    
+    p1
+    p128
+    p00
+    p00
+    sys debug_break
+    sys draw_hline
+    sys debug_break
+    
+    p1
+    p1
+    p00
+    p00
+    sys debug_break
+    sys draw_vline
+    sys debug_break
+    
+    p1
+    p64
+    p00
+    p00
+    sys debug_break
+    sys draw_vline
     sys debug_break
     
     p00
@@ -2645,6 +2684,54 @@ $L_main_13:
     push 64
     sys debug_break
     sys draw_filled_circle
+    sys debug_break
+    
+    p1
+    push 8
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_circle
+    sys debug_break
+    
+    p1
+    push 16
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_circle
+    sys debug_break
+    
+    p1
+    push 32
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_circle
+    sys debug_break
+    
+    p1
+    push 64
+    p0
+    push 32
+    p0
+    push 64
+    sys debug_break
+    sys draw_circle
+    sys debug_break
+    
+    sys debug_break
+    sys display
+    sys debug_break
+    
+    sys debug_break
+    sys display_noclear
     sys debug_break
 
 $globinit:

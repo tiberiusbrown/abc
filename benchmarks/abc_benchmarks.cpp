@@ -357,7 +357,12 @@ int abc_benchmarks()
         "bnzp1 (not taken)", "bnzp1 (taken)",
         "jmp", "jmp1",
         "call", "call1", "ret",
+        "$get_pixel",
         "$draw_pixel",
+        "$draw_hline (0, 0, 1)",
+        "$draw_hline (0, 0, 128)",
+        "$draw_vline (0, 0, 1)",
+        "$draw_vline (0, 0, 64)",
         "$draw_sprite (1x8 unmasked)",
         "$draw_sprite (8x8 unmasked)",
         "$draw_sprite (8x8 masked)",
@@ -382,6 +387,12 @@ int abc_benchmarks()
         "$draw_filled_circle (64, 32, 16)",
         "$draw_filled_circle (64, 32, 32)",
         "$draw_filled_circle (64, 32, 64)",
+        "$draw_circle (64, 32, 8)",
+        "$draw_circle (64, 32, 16)",
+        "$draw_circle (64, 32, 32)",
+        "$draw_circle (64, 32, 64)",
+        "$display",
+        "$display_noclear",
     };
     (void)measure();
     uint64_t bn = measure();
