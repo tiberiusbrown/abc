@@ -12,19 +12,13 @@ main:
   sys   debug_break
   .line 6
   p00
-$L_main_0:
   .line 7
-  dup
-  p8
-  cult
-  bz    $L_main_1
+  jmp   $L_main_1
+$L_main_2:
   .line 9
   p0
-$L_main_3:
-  dup
-  p16
-  cult
-  bz    $L_main_4
+  jmp   $L_main_5
+$L_main_6:
   .line 12
   dup3
   p8
@@ -45,8 +39,11 @@ $L_main_3:
   setl  3
   .line 9
   inc
-  jmp   $L_main_3
-$L_main_4:
+$L_main_5:
+  dup
+  p16
+  cult
+  bnz   $L_main_6
   pop
   .line 15
   dup2
@@ -54,8 +51,11 @@ $L_main_4:
   setl  2
   .line 7
   inc
-  jmp   $L_main_0
 $L_main_1:
+  dup
+  p8
+  cult
+  bnz   $L_main_2
   pop
   .line 18
   sys   debug_break

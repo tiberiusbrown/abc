@@ -60,11 +60,8 @@ main:
   sys   assert
   .line 22
   p0
-$L_main_0:
-  dup
-  p4
-  cult
-  bz    $L_main_1
+  jmp   $L_main_1
+$L_main_2:
   .line 24
   push  66
   pushg a1 0
@@ -94,8 +91,11 @@ $L_main_0:
   setrn 4
   .line 22
   inc
-  jmp   $L_main_0
 $L_main_1:
+  dup
+  p4
+  cult
+  bnz   $L_main_2
   pop
   .line 30
   getg  a1 2

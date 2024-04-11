@@ -4369,7 +4369,7 @@ $L_process_map_tile_4:
   setg4 dcamx 0
   popn  8
   .line 108
-  jmp   $L_process_map_tile_30
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_5:
   .line 123
   dup3
@@ -4393,7 +4393,7 @@ $L_process_map_tile_5:
   p0000
   call  add_object
   .line 123
-  jmp   $L_process_map_tile_30
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_6:
   .line 127
   dup3
@@ -4417,7 +4417,7 @@ $L_process_map_tile_6:
   p0000
   call  add_object
   .line 127
-  jmp   $L_process_map_tile_30
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_7:
   .line 131
   dup3
@@ -4442,7 +4442,7 @@ $L_process_map_tile_7:
   p0000
   call  add_object
   .line 131
-  jmp   $L_process_map_tile_30
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_8:
   .line 135
   dup3
@@ -4466,7 +4466,7 @@ $L_process_map_tile_8:
   p0000
   call  add_object
   .line 135
-  jmp   $L_process_map_tile_30
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_9:
   .line 139
   dup3
@@ -4479,7 +4479,7 @@ $L_process_map_tile_9:
   cult
   not
 $L_process_map_tile_10:
-  bz    $L_process_map_tile_18
+  bz    $L_process_map_tile_20
   .line 141
   p3
   .line 142
@@ -4536,29 +4536,29 @@ $L_process_map_tile_11:
   mul2b
   p16
   add2b
-$L_process_map_tile_12:
+  .line 153
+  jmp   $L_process_map_tile_13
+$L_process_map_tile_14:
+  .line 154
+  dupw7
+  p16
+  sub2b
+  setl2 8
+$L_process_map_tile_13:
   .line 153
   p00
   dupw5
   getl2 12
   call  mob_solid
   not
-  bzp   $L_process_map_tile_14
+  bzp   $L_process_map_tile_15
   p0
   p1
   dupw3
   getl2 12
   call  mob_solid
-$L_process_map_tile_14:
-  bz    $L_process_map_tile_13
-  .line 154
-  dupw7
-  p16
-  sub2b
-  setl2 8
-  .line 153
-  jmp   $L_process_map_tile_12
-$L_process_map_tile_13:
+$L_process_map_tile_15:
+  bnz   $L_process_map_tile_14
   .line 155
   dupw7
   push  18
@@ -4570,29 +4570,29 @@ $L_process_map_tile_13:
   sub2
   add2
   setl2 8
-$L_process_map_tile_15:
+  .line 156
+  jmp   $L_process_map_tile_17
+$L_process_map_tile_18:
+  .line 157
+  dupw5
+  p16
+  add2b
+  setl2 6
+$L_process_map_tile_17:
   .line 156
   p00
   dupw5
   getl2 10
   call  mob_solid
   not
-  bzp   $L_process_map_tile_17
+  bzp   $L_process_map_tile_19
   p0
   p1
   dupw3
   getl2 10
   call  mob_solid
-$L_process_map_tile_17:
-  bz    $L_process_map_tile_16
-  .line 157
-  dupw5
-  p16
-  add2b
-  setl2 6
-  .line 156
-  jmp   $L_process_map_tile_15
-$L_process_map_tile_16:
+$L_process_map_tile_19:
+  bnz   $L_process_map_tile_18
   .line 158
   dupw5
   push  34
@@ -4632,13 +4632,13 @@ $L_process_map_tile_16:
   call  add_object
   popn  11
   .line 139
-  jmp   $L_process_map_tile_30
-$L_process_map_tile_18:
+  jmp   $L_process_map_tile_32
+$L_process_map_tile_20:
   .line 161
   dup3
   push  251
   sub
-  bnz   $L_process_map_tile_19
+  bnz   $L_process_map_tile_21
   .line 163
   dup
   push  37
@@ -4686,13 +4686,13 @@ $L_process_map_tile_18:
   call  add_object
   pop
   .line 161
-  jmp   $L_process_map_tile_30
-$L_process_map_tile_19:
+  jmp   $L_process_map_tile_32
+$L_process_map_tile_21:
   .line 166
   dup3
   push  252
   sub
-  bnz   $L_process_map_tile_20
+  bnz   $L_process_map_tile_22
   .line 168
   dup
   push  37
@@ -4740,26 +4740,26 @@ $L_process_map_tile_19:
   call  add_object
   pop
   .line 166
-  jmp   $L_process_map_tile_30
-$L_process_map_tile_20:
+  jmp   $L_process_map_tile_32
+$L_process_map_tile_22:
   .line 171
   dup3
   push  156
   cult
   not
-  bzp   $L_process_map_tile_21
+  bzp   $L_process_map_tile_23
   push  159
   dup4
   cult
   not
-$L_process_map_tile_21:
-  bz    $L_process_map_tile_30
+$L_process_map_tile_23:
+  bz    $L_process_map_tile_32
   .line 173
   dup3
   push  156
   sub
   setg  keys_required 0
-$L_process_map_tile_30:
+$L_process_map_tile_32:
   .line 104
   pop3
   ret
@@ -4831,11 +4831,8 @@ load_map:
   setg  map_height 0
   .line 59
   p0
-$L_load_map_0:
-  dup
-  push  20
-  cult
-  bz    $L_load_map_1
+  jmp   $L_load_map_1
+$L_load_map_2:
   .line 60
   p000
   p0000
@@ -4846,26 +4843,23 @@ $L_load_map_0:
   setrn 15
   .line 59
   inc
-  jmp   $L_load_map_0
 $L_load_map_1:
+  dup
+  push  20
+  cult
+  bnz   $L_load_map_2
   pop
   .line 62
   p00
   setg2 total_objects 0
   .line 65
   p0
-$L_load_map_3:
-  dup
-  dup3
-  cult
-  bz    $L_load_map_4
+  jmp   $L_load_map_5
+$L_load_map_6:
   .line 67
   p0
-$L_load_map_6:
-  dup
-  dup5
-  cult
-  bz    $L_load_map_7
+  jmp   $L_load_map_9
+$L_load_map_10:
   .line 69
   p6
   getln 10
@@ -4886,26 +4880,32 @@ $L_load_map_6:
   pop
   .line 67
   inc
-  jmp   $L_load_map_6
-$L_load_map_7:
+$L_load_map_9:
+  dup
+  dup5
+  cult
+  bnz   $L_load_map_10
   pop
   .line 65
   inc
-  jmp   $L_load_map_3
-$L_load_map_4:
+$L_load_map_5:
+  dup
+  dup3
+  cult
+  bnz   $L_load_map_6
   pop
   .line 74
   dup2
   p64
   sub
   not
-  bzp   $L_load_map_9
+  bzp   $L_load_map_12
   dup
   p8
   sub
   not
-$L_load_map_9:
-  bz    $L_load_map_10
+$L_load_map_12:
+  bz    $L_load_map_13
   .line 76
   push  248
   p5
@@ -4981,13 +4981,13 @@ $L_load_map_9:
   p2
   push  60
   call  process_map_tile
-$L_load_map_10:
+$L_load_map_13:
   .line 93
   push  20
   p0
   getg2 total_objects 0
   cult2
-  bz    $L_load_map_11
+  bz    $L_load_map_14
   .line 95
   getg2 total_objects 0
   p00
@@ -4998,7 +4998,7 @@ $L_load_map_10:
   .line 96
   p0
   sys   assert
-$L_load_map_11:
+$L_load_map_14:
   .line 99
   pushl $PD_31 0
   sys   tones_play
@@ -5198,17 +5198,14 @@ add_object:
   setg2 total_objects 0
   .line 210
   p0
-$L_add_object_0:
-  dup
-  push  20
-  cult
-  bz    $L_add_object_1
+  jmp   $L_add_object_1
+$L_add_object_2:
   .line 212
   pushg objects 0
   dup3
   aidxb 15 20
   getr
-  bnz   $L_add_object_2
+  bnz   $L_add_object_3
   .line 214
   push  15
   getln 16
@@ -5219,11 +5216,14 @@ $L_add_object_0:
   .line 215
   popn  16
   ret
-$L_add_object_2:
+$L_add_object_3:
   .line 210
   inc
-  jmp   $L_add_object_0
 $L_add_object_1:
+  dup
+  push  20
+  cult
+  bnz   $L_add_object_2
   popn  16
   .line 207
   ret
@@ -6036,11 +6036,8 @@ render_level_select:
   sys   draw_text_P
   .line 170
   p0
-$L_render_level_select_0:
-  dup
-  p5
-  cult
-  bz    $L_render_level_select_1
+  jmp   $L_render_level_select_1
+$L_render_level_select_2:
   .line 172
   dup
   getg  levelseloff 0
@@ -6049,10 +6046,10 @@ $L_render_level_select_0:
   dup
   push  12
   cult
-  bnz   $L_render_level_select_3
+  bnz   $L_render_level_select_4
   pop
-  jmp   $L_render_level_select_1
-$L_render_level_select_3:
+  jmp   $L_render_level_select_0
+$L_render_level_select_4:
   .line 174
   dup2
   p7
@@ -6063,7 +6060,7 @@ $L_render_level_select_3:
   dup3
   getg  levelseli 0
   sub
-  bnz   $L_render_level_select_7
+  bnz   $L_render_level_select_8
   .line 178
   p00
   .line 179
@@ -6078,13 +6075,13 @@ $L_render_level_select_3:
   push  48
   dup2
   cult
-  bzp   $L_render_level_select_4
+  bzp   $L_render_level_select_5
   getg  frame_count 0
   push  50
   cult
   not
-$L_render_level_select_4:
-  bz    $L_render_level_select_6
+$L_render_level_select_5:
+  bz    $L_render_level_select_7
   .line 182
   getg  frame_count 0
   p0
@@ -6100,14 +6097,14 @@ $L_render_level_select_4:
   sub2b
   dupw4
   cslt2
-  bz    $L_render_level_select_6
+  bz    $L_render_level_select_7
   .line 184
   dup
   p0
   push  48
   sub2b
   setl2 3
-$L_render_level_select_6:
+$L_render_level_select_7:
   .line 186
   pushl maps 0
   dup8
@@ -6138,8 +6135,8 @@ $L_render_level_select_6:
   sys   draw_text_P
   pop3
   .line 176
-  jmp   $L_render_level_select_8
-$L_render_level_select_7:
+  jmp   $L_render_level_select_9
+$L_render_level_select_8:
   .line 192
   pushl maps 0
   dup5
@@ -6164,7 +6161,7 @@ $L_render_level_select_7:
   getl  14
   p000
   sys   draw_textf
-$L_render_level_select_8:
+$L_render_level_select_9:
   .line 195
   p0
   p6
@@ -6180,7 +6177,7 @@ $L_render_level_select_8:
   aidxb 2 12
   getr2
   bool2
-  bz    $L_render_level_select_9
+  bz    $L_render_level_select_10
   .line 198
   pushg map_high_scores 0
   dup4
@@ -6197,8 +6194,8 @@ $L_render_level_select_8:
   p0
   sys   draw_textf
   .line 197
-  jmp   $L_render_level_select_10
-$L_render_level_select_9:
+  jmp   $L_render_level_select_11
+$L_render_level_select_10:
   .line 200
   pushl $PD_54 0
   p1
@@ -6209,14 +6206,14 @@ $L_render_level_select_9:
   push  75
   p0
   sys   draw_text_P
-$L_render_level_select_10:
+$L_render_level_select_11:
   .line 202
   pushg map_best_times 0
   dup4
   aidxb 2 12
   getr2
   bool2
-  bz    $L_render_level_select_11
+  bz    $L_render_level_select_12
   .line 204
   pushg map_best_times 0
   dup4
@@ -6267,8 +6264,8 @@ $L_render_level_select_10:
   sys   draw_text
   popn  13
   .line 202
-  jmp   $L_render_level_select_12
-$L_render_level_select_11:
+  jmp   $L_render_level_select_13
+$L_render_level_select_12:
   .line 211
   pushl $PD_56 0
   p1
@@ -6279,12 +6276,16 @@ $L_render_level_select_11:
   push  110
   p0
   sys   draw_text_P
-$L_render_level_select_12:
+$L_render_level_select_13:
   pop2
   .line 170
   inc
-  jmp   $L_render_level_select_0
 $L_render_level_select_1:
+  dup
+  p5
+  cult
+  bnz   $L_render_level_select_2
+$L_render_level_select_0:
   pop
   .line 217
   p1
@@ -6359,19 +6360,16 @@ $L_render_level_select_1:
   p000
   .line 229
   p0000
-$L_render_level_select_13:
   .line 230
-  dup
-  push  12
-  cult
-  bz    $L_render_level_select_14
+  jmp   $L_render_level_select_15
+$L_render_level_select_16:
   .line 232
   pushg map_high_scores 0
   dup3
   aidxb 2 12
   getr2
   bool2
-  bz    $L_render_level_select_16
+  bz    $L_render_level_select_18
   .line 233
   p3
   getln 7
@@ -6384,19 +6382,19 @@ $L_render_level_select_13:
   p3
   setln 7
   .line 232
-  jmp   $L_render_level_select_17
-$L_render_level_select_16:
+  jmp   $L_render_level_select_19
+$L_render_level_select_18:
   .line 235
   p0
   setl  9
-$L_render_level_select_17:
+$L_render_level_select_19:
   .line 236
   pushg map_best_times 0
   dup3
   aidxb 2 12
   getr2
   bool2
-  bz    $L_render_level_select_18
+  bz    $L_render_level_select_20
   .line 237
   p3
   getln 4
@@ -6409,22 +6407,25 @@ $L_render_level_select_17:
   p3
   setln 4
   .line 236
-  jmp   $L_render_level_select_15
-$L_render_level_select_18:
+  jmp   $L_render_level_select_17
+$L_render_level_select_20:
   .line 239
   p0
   setl  8
-$L_render_level_select_15:
+$L_render_level_select_17:
   .line 230
   inc
-  jmp   $L_render_level_select_13
-$L_render_level_select_14:
+$L_render_level_select_15:
+  dup
+  push  12
+  cult
+  bnz   $L_render_level_select_16
   pop
   .line 242
   p3
   getgn high_score 0
   bool3
-  bz    $L_render_level_select_20
+  bz    $L_render_level_select_22
   .line 243
   p3
   getgn high_score 0
@@ -6439,8 +6440,8 @@ $L_render_level_select_14:
   p0
   sys   draw_textf
   .line 242
-  jmp   $L_render_level_select_21
-$L_render_level_select_20:
+  jmp   $L_render_level_select_23
+$L_render_level_select_22:
   .line 245
   pushl $PD_60 0
   p1
@@ -6451,10 +6452,10 @@ $L_render_level_select_20:
   push  75
   p0
   sys   draw_text_P
-$L_render_level_select_21:
+$L_render_level_select_23:
   .line 247
   dup8
-  bz    $L_render_level_select_22
+  bz    $L_render_level_select_24
   .line 248
   p3
   getln 6
@@ -6469,8 +6470,8 @@ $L_render_level_select_21:
   p0
   sys   draw_textf
   .line 247
-  jmp   $L_render_level_select_23
-$L_render_level_select_22:
+  jmp   $L_render_level_select_25
+$L_render_level_select_24:
   .line 250
   pushl $PD_62 0
   p1
@@ -6481,12 +6482,12 @@ $L_render_level_select_22:
   push  75
   p0
   sys   draw_text_P
-$L_render_level_select_23:
+$L_render_level_select_25:
   .line 252
   p3
   getgn best_time 0
   bool3
-  bz    $L_render_level_select_24
+  bz    $L_render_level_select_26
   .line 254
   p00
   pz8
@@ -6534,8 +6535,8 @@ $L_render_level_select_23:
   sys   draw_text
   popn  11
   .line 252
-  jmp   $L_render_level_select_25
-$L_render_level_select_24:
+  jmp   $L_render_level_select_27
+$L_render_level_select_26:
   .line 260
   pushl $PD_64 0
   p1
@@ -6546,10 +6547,10 @@ $L_render_level_select_24:
   push  110
   p0
   sys   draw_text_P
-$L_render_level_select_25:
+$L_render_level_select_27:
   .line 262
   dup7
-  bz    $L_render_level_select_26
+  bz    $L_render_level_select_28
   .line 264
   p00
   pz8
@@ -6597,8 +6598,8 @@ $L_render_level_select_25:
   sys   draw_text
   popn  11
   .line 262
-  jmp   $L_render_level_select_27
-$L_render_level_select_26:
+  jmp   $L_render_level_select_29
+$L_render_level_select_28:
   .line 270
   pushl $PD_66 0
   p1
@@ -6609,7 +6610,7 @@ $L_render_level_select_26:
   push  110
   p0
   sys   draw_text_P
-$L_render_level_select_27:
+$L_render_level_select_29:
   popn  8
   .line 164
   ret
@@ -7721,11 +7722,8 @@ update_map_objects:
   setg  mob_jumped 0
   .line 578
   p0
-$L_update_map_objects_0:
-  dup
-  push  20
-  cult
-  bz    $L_update_map_objects_1
+  jmp   $L_update_map_objects_1
+$L_update_map_objects_2:
   .line 580
   pushg objects 0
   dup3
@@ -7734,28 +7732,28 @@ $L_update_map_objects_0:
   dupw
   getr
   .line 582
-  bnzp  $L_update_map_objects_3
+  bnzp  $L_update_map_objects_4
   .line 583
   pop2
-  jmp   $L_update_map_objects_2
-$L_update_map_objects_3:
+  jmp   $L_update_map_objects_3
+$L_update_map_objects_4:
   .line 585
   dup
   p8
   cult
   not
-  bzp   $L_update_map_objects_4
+  bzp   $L_update_map_objects_5
   getg  frame_count 0
   p1
   and
-$L_update_map_objects_4:
-  bz    $L_update_map_objects_18
+$L_update_map_objects_5:
+  bz    $L_update_map_objects_19
   .line 587
   dupw2
   push  10
   add2b
   getr
-  bz    $L_update_map_objects_6
+  bz    $L_update_map_objects_7
   .line 589
   dupw2
   push  10
@@ -7766,21 +7764,21 @@ $L_update_map_objects_4:
   dupw2
   setr
   getr
-  bnz   $L_update_map_objects_5
+  bnz   $L_update_map_objects_6
   .line 590
   p0
   dupw3
   setr
-$L_update_map_objects_5:
+$L_update_map_objects_6:
   .line 591
   pop3
-  jmp   $L_update_map_objects_2
-$L_update_map_objects_6:
+  jmp   $L_update_map_objects_3
+$L_update_map_objects_7:
   .line 593
   push  11
   dup2
   cult
-  bnz   $L_update_map_objects_11
+  bnz   $L_update_map_objects_12
   .line 595
   dupw2
   p1
@@ -7791,7 +7789,7 @@ $L_update_map_objects_6:
   push  9
   add2b
   getr
-  bz    $L_update_map_objects_8
+  bz    $L_update_map_objects_9
   .line 598
   dupw4
   push  13
@@ -7806,7 +7804,7 @@ $L_update_map_objects_6:
   dupw
   dupw5
   cslt2
-  bz    $L_update_map_objects_7
+  bz    $L_update_map_objects_8
   .line 602
   dupw
   setl2 4
@@ -7816,11 +7814,11 @@ $L_update_map_objects_6:
   push  9
   add2b
   setr
-$L_update_map_objects_7:
+$L_update_map_objects_8:
   pop2
   .line 596
-  jmp   $L_update_map_objects_10
-$L_update_map_objects_8:
+  jmp   $L_update_map_objects_11
+$L_update_map_objects_9:
   .line 608
   dupw4
   push  11
@@ -7834,7 +7832,7 @@ $L_update_map_objects_8:
   .line 610
   getl4 4
   cslt2
-  bz    $L_update_map_objects_9
+  bz    $L_update_map_objects_10
   .line 612
   dupw
   setl2 4
@@ -7844,9 +7842,9 @@ $L_update_map_objects_8:
   push  9
   add2b
   setr
-$L_update_map_objects_9:
-  pop2
 $L_update_map_objects_10:
+  pop2
+$L_update_map_objects_11:
   .line 616
   dupw
   dupw6
@@ -7855,13 +7853,13 @@ $L_update_map_objects_10:
   setr2
   pop2
   .line 593
-  jmp   $L_update_map_objects_18
-$L_update_map_objects_11:
+  jmp   $L_update_map_objects_19
+$L_update_map_objects_12:
   .line 618
   dup
   push  12
   sub
-  bnz   $L_update_map_objects_18
+  bnz   $L_update_map_objects_19
   .line 620
   dupw2
   p3
@@ -7872,7 +7870,7 @@ $L_update_map_objects_11:
   push  9
   add2b
   getr
-  bz    $L_update_map_objects_13
+  bz    $L_update_map_objects_14
   .line 623
   dupw4
   push  13
@@ -7887,7 +7885,7 @@ $L_update_map_objects_11:
   dupw
   dupw5
   cslt2
-  bz    $L_update_map_objects_12
+  bz    $L_update_map_objects_13
   .line 627
   dupw
   setl2 4
@@ -7897,11 +7895,11 @@ $L_update_map_objects_11:
   push  9
   add2b
   setr
-$L_update_map_objects_12:
+$L_update_map_objects_13:
   pop2
   .line 621
-  jmp   $L_update_map_objects_15
-$L_update_map_objects_13:
+  jmp   $L_update_map_objects_16
+$L_update_map_objects_14:
   .line 633
   dupw4
   push  11
@@ -7915,7 +7913,7 @@ $L_update_map_objects_13:
   .line 635
   getl4 4
   cslt2
-  bz    $L_update_map_objects_14
+  bz    $L_update_map_objects_15
   .line 637
   dupw
   setl2 4
@@ -7925,9 +7923,9 @@ $L_update_map_objects_13:
   push  9
   add2b
   setr
-$L_update_map_objects_14:
-  pop2
 $L_update_map_objects_15:
+  pop2
+$L_update_map_objects_16:
   .line 641
   dupw
   dupw6
@@ -7935,7 +7933,7 @@ $L_update_map_objects_15:
   add2b
   setr2
   pop2
-$L_update_map_objects_18:
+$L_update_map_objects_19:
   .line 646
   dupw2
   p1
@@ -7961,14 +7959,14 @@ $L_update_map_objects_18:
   dupw5
   cslt2
   not
-  bzp   $L_update_map_objects_19
+  bzp   $L_update_map_objects_20
   .line 649
   getl2 10
   dupw3
   cslt2
   not
   .line 648
-  bzp   $L_update_map_objects_19
+  bzp   $L_update_map_objects_20
   .line 650
   getl2 16
   dupw5
@@ -7979,7 +7977,7 @@ $L_update_map_objects_18:
   add2b
   cslt2
   .line 648
-  bzp   $L_update_map_objects_19
+  bzp   $L_update_map_objects_20
   .line 651
   getl2 14
   dupw3
@@ -7989,23 +7987,26 @@ $L_update_map_objects_18:
   getr
   add2b
   cslt2
-$L_update_map_objects_19:
+$L_update_map_objects_20:
   .line 648
-  bz    $L_update_map_objects_20
+  bz    $L_update_map_objects_21
   .line 653
   dupw6
   call  touch_object
-$L_update_map_objects_20:
+$L_update_map_objects_21:
   popn  7
-$L_update_map_objects_2:
+$L_update_map_objects_3:
   .line 578
   inc
-  jmp   $L_update_map_objects_0
 $L_update_map_objects_1:
+  dup
+  push  20
+  cult
+  bnz   $L_update_map_objects_2
   pop
   .line 656
   getg  mob_jumped 0
-  bz    $L_update_map_objects_21
+  bz    $L_update_map_objects_22
   .line 658
   p000
   push  192
@@ -8016,7 +8017,7 @@ $L_update_map_objects_1:
   .line 660
   pushl $PD_26 0
   sys   tones_play
-$L_update_map_objects_21:
+$L_update_map_objects_22:
   .line 571
   popn  8
   ret
@@ -8570,18 +8571,12 @@ render_victory:
   .file render.abc
   .line 134
   p0
-$L_render_victory_0:
-  dup
-  p5
-  cult
-  bz    $L_render_victory_1
+  jmp   $L_render_victory_1
+$L_render_victory_2:
   .line 135
   p0
-$L_render_victory_3:
-  dup
-  p8
-  cult
-  bz    $L_render_victory_4
+  jmp   $L_render_victory_5
+$L_render_victory_6:
   .line 137
   pushl VICTORY_TILES 0
   dup5
@@ -8600,7 +8595,7 @@ $L_render_victory_3:
   push  240
   p0
   cslt2
-  bz    $L_render_victory_6
+  bz    $L_render_victory_8
   .line 139
   dup
   p0
@@ -8616,17 +8611,23 @@ $L_render_victory_3:
   p16
   mul2b
   sys   draw_sprite
-$L_render_victory_6:
+$L_render_victory_8:
   pop
   .line 135
   inc
-  jmp   $L_render_victory_3
-$L_render_victory_4:
+$L_render_victory_5:
+  dup
+  p8
+  cult
+  bnz   $L_render_victory_6
   pop
   .line 134
   inc
-  jmp   $L_render_victory_0
 $L_render_victory_1:
+  dup
+  p5
+  cult
+  bnz   $L_render_victory_2
   pop
   .line 142
   pushl $PD_67 0
@@ -8652,7 +8653,7 @@ $L_render_victory_1:
   sys   draw_textf
   .line 147
   getg  was_high_score 0
-  bz    $L_render_victory_7
+  bz    $L_render_victory_9
   .line 148
   pushl $PD_69 0
   push  15
@@ -8663,7 +8664,7 @@ $L_render_victory_1:
   push  13
   p0
   sys   draw_text_P
-$L_render_victory_7:
+$L_render_victory_9:
   .line 150
   p00
   pz8
@@ -8717,7 +8718,7 @@ $L_render_victory_7:
   popn  11
   .line 155
   getg  was_best_time 0
-  bz    $L_render_victory_8
+  bz    $L_render_victory_10
   .line 156
   pushl $PD_71 0
   push  14
@@ -8728,7 +8729,7 @@ $L_render_victory_7:
   push  14
   p0
   sys   draw_text_P
-$L_render_victory_8:
+$L_render_victory_10:
   .line 159
   getg  frame_count 0
   p3
@@ -8927,18 +8928,12 @@ render_game_over:
   .file render.abc
   .line 92
   p0
-$L_render_game_over_0:
-  dup
-  p5
-  cult
-  bz    $L_render_game_over_1
+  jmp   $L_render_game_over_1
+$L_render_game_over_2:
   .line 93
   p0
-$L_render_game_over_3:
-  dup
-  p8
-  cult
-  bz    $L_render_game_over_4
+  jmp   $L_render_game_over_5
+$L_render_game_over_6:
   .line 95
   pushl VICTORY_TILES 0
   dup5
@@ -8957,7 +8952,7 @@ $L_render_game_over_3:
   push  240
   p0
   cslt2
-  bz    $L_render_game_over_6
+  bz    $L_render_game_over_8
   .line 97
   dup
   p0
@@ -8973,17 +8968,23 @@ $L_render_game_over_3:
   p16
   mul2b
   sys   draw_sprite
-$L_render_game_over_6:
+$L_render_game_over_8:
   pop
   .line 93
   inc
-  jmp   $L_render_game_over_3
-$L_render_game_over_4:
+$L_render_game_over_5:
+  dup
+  p8
+  cult
+  bnz   $L_render_game_over_6
   pop
   .line 92
   inc
-  jmp   $L_render_game_over_0
 $L_render_game_over_1:
+  dup
+  p5
+  cult
+  bnz   $L_render_game_over_2
   pop
   .line 100
   pushl $PD_84 0
@@ -9845,11 +9846,8 @@ $L_render_level_5:
   popn  9
   .line 412
   p0
-$L_render_level_6:
-  dup
-  p5
-  cult
-  bz    $L_render_level_7
+  jmp   $L_render_level_7
+$L_render_level_8:
   .line 414
   dup
   p0
@@ -9875,11 +9873,8 @@ $L_render_level_6:
   getpn 9
   .line 416
   p0
-$L_render_level_9:
-  dup
-  push  9
-  cult
-  bz    $L_render_level_10
+  jmp   $L_render_level_11
+$L_render_level_12:
   .line 418
   refl  10
   dup3
@@ -9892,14 +9887,14 @@ $L_render_level_9:
   push  240
   p0
   cslt2
-  bz    $L_render_level_13
+  bz    $L_render_level_15
   .line 421
   dup
   p0
   push  176
   p0
   cslt2
-  bnz   $L_render_level_12
+  bnz   $L_render_level_14
   .line 422
   dup
   getg  frame_count 0
@@ -9909,7 +9904,7 @@ $L_render_level_9:
   and
   add
   setl  1
-$L_render_level_12:
+$L_render_level_14:
   .line 423
   dup
   p0
@@ -9929,25 +9924,28 @@ $L_render_level_12:
   sext
   add2
   sys   draw_sprite
-$L_render_level_13:
+$L_render_level_15:
   pop
   .line 416
   inc
-  jmp   $L_render_level_9
-$L_render_level_10:
+$L_render_level_11:
+  dup
+  push  9
+  cult
+  bnz   $L_render_level_12
   popn  12
   .line 412
   inc
-  jmp   $L_render_level_6
 $L_render_level_7:
+  dup
+  p5
+  cult
+  bnz   $L_render_level_8
   popn  12
   .line 431
   p0
-$L_render_level_14:
-  dup
-  push  20
-  cult
-  bz    $L_render_level_15
+  jmp   $L_render_level_17
+$L_render_level_18:
   .line 433
   pushg objects 0
   dup3
@@ -9956,11 +9954,11 @@ $L_render_level_14:
   dupw
   getr
   .line 435
-  bnzp  $L_render_level_17
+  bnzp  $L_render_level_20
   .line 436
   pop2
-  jmp   $L_render_level_16
-$L_render_level_17:
+  jmp   $L_render_level_19
+$L_render_level_20:
   .line 438
   p0
   .line 439
@@ -9968,14 +9966,14 @@ $L_render_level_17:
   p8
   cult
   not
-  bzp   $L_render_level_18
+  bzp   $L_render_level_21
   dupw3
   push  10
   add2b
   getr
   bool
-$L_render_level_18:
-  bz    $L_render_level_21
+$L_render_level_21:
+  bz    $L_render_level_24
   .line 441
   dupw3
   push  10
@@ -9983,28 +9981,28 @@ $L_render_level_18:
   getr
   p4
   and
-  bz    $L_render_level_19
+  bz    $L_render_level_22
   .line 442
   pop4
-  jmp   $L_render_level_16
+  jmp   $L_render_level_19
   .line 441
-  jmp   $L_render_level_20
-$L_render_level_19:
+  jmp   $L_render_level_23
+$L_render_level_22:
   .line 444
   dup2
   p64
   add
   setl  1
-$L_render_level_20:
+$L_render_level_23:
   .line 439
-  jmp   $L_render_level_23
-$L_render_level_21:
+  jmp   $L_render_level_26
+$L_render_level_24:
   .line 448
   dup2
   setl  1
   .line 449
   getg  death_frames 0
-  bnz   $L_render_level_23
+  bnz   $L_render_level_26
   .line 450
   dup
   getg  frame_count 0
@@ -10016,7 +10014,7 @@ $L_render_level_21:
   and
   add
   setl  1
-$L_render_level_23:
+$L_render_level_26:
   .line 455
   dup
   p0
@@ -10037,39 +10035,42 @@ $L_render_level_23:
   .line 453
   sys   draw_sprite
   pop4
-$L_render_level_16:
+$L_render_level_19:
   .line 431
   inc
-  jmp   $L_render_level_14
-$L_render_level_15:
+$L_render_level_17:
+  dup
+  push  20
+  cult
+  bnz   $L_render_level_18
   pop
   .line 460
   getg  invincibility_frames 0
   not
-  bnzp  $L_render_level_24
+  bnzp  $L_render_level_27
   getg  frame_count 0
   p4
   and
   not
-$L_render_level_24:
-  bz    $L_render_level_30
+$L_render_level_27:
+  bz    $L_render_level_33
   .line 462
   p0
   .line 463
   getg  player_facing_right 0
-  bz    $L_render_level_25
+  bz    $L_render_level_28
   .line 464
   dup
   p7
   add
   setl  1
-$L_render_level_25:
+$L_render_level_28:
   .line 465
   getg  player_on_ground 0
-  bz    $L_render_level_27
+  bz    $L_render_level_30
   .line 467
   getg  player_moving 0
-  bz    $L_render_level_26
+  bz    $L_render_level_29
   .line 468
   dup
   getg  frame_count 0
@@ -10079,23 +10080,23 @@ $L_render_level_25:
   and
   add
   setl  1
-$L_render_level_26:
+$L_render_level_29:
   .line 465
-  jmp   $L_render_level_28
-$L_render_level_27:
+  jmp   $L_render_level_31
+$L_render_level_30:
   .line 472
   dup
   p4
   add
   setl  1
-$L_render_level_28:
+$L_render_level_31:
   .line 474
   getg  death_frames 0
-  bz    $L_render_level_29
+  bz    $L_render_level_32
   .line 475
   p5
   setl  1
-$L_render_level_29:
+$L_render_level_32:
   .line 477
   getg4 px 0
   getg4 camx 0
@@ -10127,14 +10128,11 @@ $L_render_level_29:
   pop2
   sys   draw_sprite
   popn  7
-$L_render_level_30:
+$L_render_level_33:
   .line 483
   p0
-$L_render_level_31:
-  dup
-  p3
-  cult
-  bz    $L_render_level_32
+  jmp   $L_render_level_35
+$L_render_level_36:
   .line 484
   dup
   getg  hearts 0
@@ -10152,16 +10150,16 @@ $L_render_level_31:
   sys   draw_sprite
   .line 483
   inc
-  jmp   $L_render_level_31
-$L_render_level_32:
+$L_render_level_35:
+  dup
+  p3
+  cult
+  bnz   $L_render_level_36
   pop
   .line 485
   p0
-$L_render_level_34:
-  dup
-  getg  keys_required 0
-  cult
-  bz    $L_render_level_35
+  jmp   $L_render_level_39
+$L_render_level_40:
   .line 486
   dup
   getg  keys 0
@@ -10181,8 +10179,11 @@ $L_render_level_34:
   sys   draw_sprite
   .line 485
   inc
-  jmp   $L_render_level_34
-$L_render_level_35:
+$L_render_level_39:
+  dup
+  getg  keys_required 0
+  cult
+  bnz   $L_render_level_40
   pop
   .line 487
   p0
@@ -10227,7 +10228,7 @@ $L_render_level_35:
   sys   draw_textf
   .line 493
   getg  level_start_frames 0
-  bz    $L_render_level_39
+  bz    $L_render_level_44
   .line 498
   pushl maps 0
   getg  current_map 0
@@ -10255,7 +10256,7 @@ $L_render_level_35:
   getg  level_start_frames 0
   push  78
   cult
-  bnz   $L_render_level_37
+  bnz   $L_render_level_42
   .line 507
   dupw
   getg  level_start_frames 0
@@ -10266,12 +10267,12 @@ $L_render_level_35:
   mul2b
   add2
   setl2 2
-$L_render_level_37:
+$L_render_level_42:
   .line 508
   push  12
   getg  level_start_frames 0
   cult
-  bnz   $L_render_level_38
+  bnz   $L_render_level_43
   .line 509
   dupw
   push  12
@@ -10282,7 +10283,7 @@ $L_render_level_37:
   mul2b
   sub2
   setl2 2
-$L_render_level_38:
+$L_render_level_43:
   .line 510
   p0
   push  13
@@ -10301,7 +10302,7 @@ $L_render_level_38:
   add2
   sys   draw_text_P
   popn  11
-$L_render_level_39:
+$L_render_level_44:
   .line 370
   pop4
   ret
@@ -10328,11 +10329,11 @@ main:
   .file benchmark.abc
   .line 34
   call  setup
-$L_main_0:
+$L_main_2:
   .line 36
   call  loop
   .line 35
-  jmp   $L_main_0
+  jmp   $L_main_2
   .line 32
   ret
 

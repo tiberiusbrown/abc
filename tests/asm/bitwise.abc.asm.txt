@@ -49,11 +49,8 @@ main:
   setg4 m 12
   .line 22
   p0
-$L_main_0:
-  dup
-  p4
-  cult
-  bz    $L_main_1
+  jmp   $L_main_1
+$L_main_2:
   .line 24
   pushg m 0
   dup3
@@ -95,16 +92,16 @@ $L_main_0:
   setrn 4
   .line 22
   inc
-  jmp   $L_main_0
 $L_main_1:
-  pop
-  .line 30
-  p1
-$L_main_3:
   dup
   p4
   cult
-  bz    $L_main_4
+  bnz   $L_main_2
+  pop
+  .line 30
+  p1
+  jmp   $L_main_5
+$L_main_6:
   .line 32
   getg  a1 0
   pushg a1 0
@@ -385,16 +382,16 @@ $L_main_3:
   sys   assert
   .line 30
   inc
-  jmp   $L_main_3
-$L_main_4:
-  pop
-  .line 55
-  p2
-$L_main_6:
+$L_main_5:
   dup
   p4
   cult
-  bz    $L_main_7
+  bnz   $L_main_6
+  pop
+  .line 55
+  p2
+  jmp   $L_main_9
+$L_main_10:
   .line 57
   getg  a1 1
   pushg a1 0
@@ -623,8 +620,11 @@ $L_main_6:
   sys   assert
   .line 55
   inc
-  jmp   $L_main_6
-$L_main_7:
+$L_main_9:
+  dup
+  p4
+  cult
+  bnz   $L_main_10
   pop
   .line 75
   sys   debug_break

@@ -114,11 +114,8 @@ main:
   sys   assert
   .line 43
   p0
-$L_main_0:
-  dup
-  p4
-  cult
-  bz    $L_main_1
+  jmp   $L_main_1
+$L_main_2:
   .line 45
   dup
   inc
@@ -184,8 +181,11 @@ $L_main_0:
   pop
   .line 43
   inc
-  jmp   $L_main_0
 $L_main_1:
+  dup
+  p4
+  cult
+  bnz   $L_main_2
   pop
   .line 52
   getg2 ua 0

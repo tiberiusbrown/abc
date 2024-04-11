@@ -28,12 +28,9 @@ main:
   .line 6
   p000
   pz8
-$L_main_0:
   .line 7
-  dup
-  push  10
-  cult
-  bz    $L_main_1
+  jmp   $L_main_1
+$L_main_2:
   .line 8
   dup
   refl  12
@@ -42,8 +39,11 @@ $L_main_0:
   setr
   .line 7
   inc
-  jmp   $L_main_0
 $L_main_1:
+  dup
+  push  10
+  cult
+  bnz   $L_main_2
   pop
   .line 11
   refl  10
