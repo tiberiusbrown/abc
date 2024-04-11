@@ -692,6 +692,16 @@ $L_main_start:
     sys debug_break
     pop
     
+    sys debug_break
+    getg2 g 0
+    sys debug_break
+    pop2
+    
+    sys debug_break
+    getg4 g 0
+    sys debug_break
+    pop4
+    
     p0
     sys debug_break
     setg gf 0

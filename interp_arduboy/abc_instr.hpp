@@ -140,6 +140,8 @@ enum instr_t : uint8_t
 
     // like GETG* but with imm8 (only first 256 bytes addressable)
     I_GTGB,
+    I_GTGB2,
+    I_GTGB4,
 
     I_SETG,  // pop, then store to globals[imm]
     I_SETG2, // pop, then store to globals[imm] (2 bytes)

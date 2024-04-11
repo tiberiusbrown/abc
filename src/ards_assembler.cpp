@@ -633,7 +633,7 @@ void assembler_t::relax_jumps()
     {
         auto& n = nodes[i];
 
-        if(n.instr == I_GETG)
+        if(n.instr == I_GETG || n.instr == I_GETG2 || n.instr == I_GETG4)
         {
             auto it = globals.find(nodes[i+1].label);
             if(it == globals.end())
@@ -642,7 +642,9 @@ void assembler_t::relax_jumps()
             offset += nodes[i+1].imm;
             if(offset >= 256)
                 continue;
-            n.instr = I_GTGB;
+            if(n.instr == I_GETG) n.instr = I_GTGB;
+            if(n.instr == I_GETG2) n.instr = I_GTGB2;
+            if(n.instr == I_GETG4) n.instr = I_GTGB4;
             nodes[i + 1].size = 1;
             for(size_t j = i + 2; j < nodes.size(); ++j)
                 nodes[j].offset -= 1;

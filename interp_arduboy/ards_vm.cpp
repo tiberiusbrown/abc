@@ -1044,12 +1044,12 @@ I_GETGN:
     .align 6
 
 I_GTGB:
-    st   Y+, r9
     cpi  r28, 255
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  ldi  r27, 2
+1:  st   Y+, r9
+    ldi  r27, 2
     nop
     in   r26, %[spdr]
     out  %[spdr], r2
@@ -1064,6 +1064,49 @@ gtgb_delay_11:
     rjmp .+0
     ret
     .align 6
+
+I_GTGB2:
+    cpi  r28, 254
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  st   Y+, r9
+    ldi  r27, 2
+    nop
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    ld   r9, X+
+    st   Y+, r9
+    ld   r9, X
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    rcall gtgb2_delay_7
+    dispatch_noalign
+gtgb2_delay_7:
+    ret
+    .align 6
+
+I_GTGB4:
+    cpi  r28, 252
+    brlo 1f
+    ldi  r24, 5
+    jmp  call_vm_error
+1:  st   Y+, r9
+    ldi  r27, 2
+    add  r6, r4
+    in   r26, %[spdr]
+    out  %[spdr], r2
+    adc  r7, r2
+    adc  r8, r2
+    ld   r9, X+
+    st   Y+, r9
+    ld   r9, X+
+    st   Y+, r9
+    ld   r9, X+
+    st   Y+, r9
+    ld   r9, X
+    dispatch
 
 I_SETG:
     dispatch_delay
