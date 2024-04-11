@@ -5489,8 +5489,31 @@ $L_update_level_select_13:
   ret
 
 new_game:
-  .file benchmark.abc
-  .line 8
+  .file main.abc
+  .line 28
+  p0
+  setg  current_map 0
+  .line 29
+  p5
+  setg  lives 0
+  .line 30
+  p000
+  p3
+  setgn total_score 0
+  .line 31
+  p000
+  p3
+  setgn total_time 0
+  .line 32
+  p00
+  setg2 score 0
+  .line 33
+  p00
+  setg2 level_frames_remaining 0
+  .line 34
+  p0
+  setg  single_level 0
+  .line 26
   ret
 
 render_credits:
@@ -8910,18 +8933,18 @@ $L_render_pause_5:
   ret
 
 loop:
-  .file benchmark.abc
-  .line 22
-  sys   debug_break
-  .line 24
+  .file main.abc
+$L_loop_1:
+  .line 47
+  sys   next_frame
+  bz    $L_loop_1
+  .line 50
   call  update
-  .line 25
+  .line 51
   call  render
-  .line 27
+  .line 53
   sys   display
-  .line 29
-  sys   debug_break
-  .line 17
+  .line 45
   ret
 
 render_game_over:
@@ -10308,32 +10331,58 @@ $L_render_level_44:
   ret
 
 main_menu:
-  .file benchmark.abc
-  .line 7
+  .file main.abc
+  .line 15
+  sys   load
+  bnz   $L_main_menu_0
+  .line 17
+  p000
+  p3
+  setgn total_score 0
+  .line 18
+  p000
+  p3
+  setgn total_time 0
+  .line 19
+  p0
+  setg  current_map 0
+  .line 20
+  p1
+  setg  sound_on 0
+$L_main_menu_0:
+  .line 22
+  call  update_sound
+  .line 23
+  p0
+  setg  state 0
+  .line 13
   ret
 
 setup:
-  .file benchmark.abc
-  .line 12
+  .file main.abc
+  .line 39
   push  50
   sys   set_frame_rate
-  .line 13
-  p0
-  setg  current_map 0
-  .line 14
-  call  load_map
-  .line 10
+  .line 40
+  p00
+  setg2 menu_spritex 0
+  .line 41
+  p8
+  setg  menu_sprite 0
+  .line 42
+  call  main_menu
+  .line 37
   ret
 
 main:
-  .file benchmark.abc
-  .line 34
+  .file main.abc
+  .line 58
   call  setup
 $L_main_2:
-  .line 36
+  .line 60
   call  loop
-  .line 35
+  .line 59
   jmp   $L_main_2
-  .line 32
+  .line 56
   ret
 
