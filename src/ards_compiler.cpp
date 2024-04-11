@@ -649,6 +649,12 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
         a.type = AST::OP_CAST;
     });
 
+    // set parents
+    ast.recurse([](ast_node_t& a) {
+        for(auto& child : a.children)
+            child.parent = &a;
+    });
+
     // gather all functions and globals and check for duplicates
     assert(ast.type == AST::PROGRAM);
     for(auto& n : ast.children)
