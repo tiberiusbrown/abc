@@ -1364,45 +1364,71 @@ I_SETRN:
 I_POP:
     dec  r28
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
+    ; see if we need to call ards::Tones::update()
+    lds  r16, %[tones_size]
+    cpi  r16, %[tones_maxsize]
+    brlo 1f
+    dispatch_noalign
+1:  clr  r1
+    call %x[tones_update]
     dispatch
-    ; TODO: SPACE HERE
 
 I_POP2:
     subi r28, 2
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
+    ; see if we need to call ards::Tones::update()
+    lds  r16, %[tones_size]
+    cpi  r16, %[tones_maxsize]
+    brlo 1f
+    dispatch_noalign
+1:  clr  r1
+    call %x[tones_update]
     dispatch
-    ; TODO: SPACE HERE
 
 I_POP3:
     subi r28, 3
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
+    ; see if we need to call ards::Tones::update()
+    lds  r16, %[tones_size]
+    cpi  r16, %[tones_maxsize]
+    brlo 1f
+    dispatch_noalign
+1:  clr  r1
+    call %x[tones_update]
     dispatch
-    ; TODO: SPACE HERE
 
 I_POP4:
     subi r28, 4
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
+    ; see if we need to call ards::Tones::update()
+    lds  r16, %[tones_size]
+    cpi  r16, %[tones_maxsize]
+    brlo 1f
     dispatch_noalign
+1:  clr  r1
+    call %x[tones_update]
+    rjmp 2f
 aidx_part2:
     st   Y+, r22
     mov  r9, r23
-    dispatch
+2:  dispatch
 
 I_POPN:
-    dispatch_delay
+    rcall popn_delay_7
     read_byte
     sub  r28, r0
     ld   r9, Y
-    rcall popn_delay_10
-    dispatch_noalign
+
+    ; see if we need to call ards::Tones::update()
+    lds  r16, %[tones_size]
+    cpi  r16, %[tones_maxsize]
+    brsh 2f
+    clr  r1
+    call %x[tones_update]
+
+1:  dispatch_noalign
+2:  lpm
+    rjmp 1b
 popn_delay_16:
     rjmp .+0
     rjmp .+0
