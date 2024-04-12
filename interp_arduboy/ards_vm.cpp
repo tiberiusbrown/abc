@@ -3159,7 +3159,8 @@ I_BZ:
     movw r6, r16
     in   r8, %[spdr]
     rjmp jump_to_pc
-1:  out  %[spdr], r2
+1:  nop
+    out  %[spdr], r2
     rcall branch_delay_16
 bz1_dispatch:
 bnz1_dispatch:
@@ -3205,7 +3206,8 @@ I_BNZ:
     movw r6, r16
     in   r8, %[spdr]
     rjmp jump_to_pc
-1:  out  %[spdr], r2
+1:  nop
+    out  %[spdr], r2
     rcall branch_delay_16
     dispatch
 
@@ -3248,7 +3250,8 @@ I_BZP:
     movw r6, r16
     in   r8, %[spdr]
     rjmp jump_to_pc
-1:  out  %[spdr], r2
+1:  nop
+    out  %[spdr], r2
     ld   r9, -Y
     rcall branch_delay_14
 bzp1_dispatch:
@@ -3294,7 +3297,8 @@ I_BNZP:
     movw r6, r16
     in   r8, %[spdr]
     rjmp jump_to_pc
-1:  out  %[spdr], r2
+1:  nop
+    out  %[spdr], r2
     ld   r9, -Y
     rcall branch_delay_14
     dispatch
