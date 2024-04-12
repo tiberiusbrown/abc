@@ -287,25 +287,25 @@
    92   i2f (340000000)
    92   u2f (3)
    92   u2f (340000000)
-   72   bz (not taken)
-  153   bz (taken)
+   71   bz (not taken)
+  151   bz (taken)
    36   bz1 (not taken)
   122   bz1 (taken)
-   72   bnz (not taken)
-  153   bnz (taken)
+   71   bnz (not taken)
+  151   bnz (taken)
    36   bnz1 (not taken)
   122   bnz1 (taken)
-   72   bzp (not taken)
-  153   bzp (taken)
+   71   bzp (not taken)
+  151   bzp (taken)
    36   bzp1 (not taken)
   123   bzp1 (taken)
-   72   bnzp (not taken)
-  153   bnzp (taken)
+   71   bnzp (not taken)
+  151   bnzp (taken)
    36   bnzp1 (not taken)
   123   bnzp1 (taken)
-  153   jmp
+  151   jmp
   122   jmp1
-  153   call
+  151   call
   130   call1
   118   ret
   100   $get_pixel
