@@ -31,6 +31,15 @@ struct Tones
 namespace detail
 {
 void fx_read_data_bytes(uint24_t addr, void* dst, size_t num);
+
+struct note_t
+{
+    uint8_t period;
+    uint8_t ticks;
+};
+
+extern volatile note_t buffer[ARDS_TONES_BUFFER_SIZE];
+extern volatile uint8_t buffer_size;
 }
 
 }
@@ -64,14 +73,8 @@ static uint16_t const PERIODS[129] PROGMEM =
     0x0100,
 };
 
-struct note_t
-{
-    uint8_t period;
-    uint8_t ticks;
-};
-
-static volatile note_t buffer[ARDS_TONES_BUFFER_SIZE];
-static volatile uint8_t buffer_size;
+volatile note_t buffer[ARDS_TONES_BUFFER_SIZE];
+volatile uint8_t buffer_size;
 
 // current song address
 static volatile uint24_t addr;

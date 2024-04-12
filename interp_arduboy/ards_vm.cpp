@@ -3673,20 +3673,20 @@ upidx_error:
     
 jump_to_pc:
     fx_disable
-    
+1:  ldi  r18, 3
+    fx_enable
+    out  %[spdr], r18
+
     ; see if we need to call ards::Tones::update()
     lds  r16, %[tones_size]
     cpi  r16, %[tones_maxsize]
     brlo 2f
-    
-1:  ldi  r18, 3
-    fx_enable
-    out  %[spdr], r18
+
     lds  r16, %[data_page]+0
     lds  r17, %[data_page]+1
     add  r16, r7
     adc  r17, r8
-    rcall seek_delay_11
+    rcall seek_delay_7
     out  %[spdr], r17
     rcall seek_delay_17
     out  %[spdr], r16
@@ -3697,34 +3697,10 @@ jump_to_pc:
     rcall seek_delay_16
     dispatch_noalign
     
-    ; store vm state
-    ; all regs are call saved except the zero reg
-2:  ;sts  %[vm_pc]+0, r6
-    ;sts  %[vm_pc]+1, r7
-    ;sts  %[vm_pc]+2, r8
-    ;st   Y+, r9
-    ;sts  %[vm_sp], r28
-    clr  r1
-    
-    ; call ards::Tones::update()
+2:  clr  r1
+    rcall seek_delay_11
+    fx_disable
     call %x[tones_update]
-    
-    ; restore vm state
-    ; all regs are call-saved!
-    ;clr  r2
-    ;ldi  r16, 32
-    ;mov  r3, r16
-    ;ldi  r16, 1
-    ;mov  r4, r16
-    ;ldi  r16, pm_hi8(vm_execute)
-    ;mov  r5, r16
-    ;lds  r6, %[vm_pc]+0
-    ;lds  r7, %[vm_pc]+1
-    ;lds  r8, %[vm_pc]+2
-    ;lds  r28, %[vm_sp]
-    ;ldi  r29, 0x01
-    ;ld   r9, -Y
-    
     rjmp 1b
 
 seek_delay_17:

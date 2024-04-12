@@ -133,28 +133,39 @@ __attribute__((naked, noinline))
 static void seek_to_pc()
 {
     asm volatile(R"(
-            ldi  r24, 3
+        
+        1:  ldi  r24, 3
             cbi  %[fxport], %[fxbit]
             out  %[spdr], r24
-            lds  r20, %[pc]+0
+
+            ; see if we need to call ards::Tones::update()
+            lds  r16, %[tones_size]
+            cpi  r16, %[tones_maxsize]
+            brsh 2f
+            clr  r1
+            sbi  %[fxport], %[fxbit]
+            call %x[tones_update]
+            rjmp 1b
+
+        2:  lds  r20, %[pc]+0
             lds  r21, %[pc]+1
             lds  r22, %[pc]+2
             lds  r24, %[datapage]+0
             lds  r25, %[datapage]+1
             add  r21, r24
             adc  r22, r25
-            rjmp 1f
+            out  %[spdr], r22
+            rjmp 3f
         L%=_delay_17:
             rjmp .+0
+        L%=_delay_15:
             lpm
         L%=_delay_12:
             rjmp .+0
             lpm
         L%=_delay_7:
             ret
-        1:  lpm
-            out  %[spdr], r22
-            rcall L%=_delay_17
+        3:  rcall L%=_delay_15
             out  %[spdr], r21
             rcall L%=_delay_17
             out  %[spdr], r20
@@ -164,11 +175,14 @@ static void seek_to_pc()
             ret
         )"
         :
-        : [pc]       "i" (&ards::vm.pc)
-        , [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
-        , [fxbit]    "i"   (FX_BIT)
-        , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
-        , [datapage] ""    (&FX::programDataPage)
+        : [pc]            "i" (&ards::vm.pc)
+        , [fxport]        "i" (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]         "i" (FX_BIT)
+        , [spdr]          "i" (_SFR_IO_ADDR(SPDR))
+        , [datapage]      ""  (&FX::programDataPage)
+        , [tones_update]  ""  (ards::Tones::update)
+        , [tones_size]    ""  (&ards::detail::buffer_size)
+        , [tones_maxsize] ""  (sizeof(ards::detail::buffer))
         );
 }
 
