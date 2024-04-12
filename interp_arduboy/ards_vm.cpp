@@ -1601,7 +1601,6 @@ I_PIDX:
     brsh pidx_error
 
     jmp pidx_part2
-    ; TODO: SPACE HERE
     .align 6
 
 I_UAIDX:
