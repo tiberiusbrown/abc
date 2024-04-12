@@ -275,8 +275,8 @@ ISR(TIMER4_COMPA_vect, __attribute((flatten)))
             TIMSK3 = 0x00; // silence
         else
         {
-            TCNT3 = 0;
-            OCR3A = pgm_read_word(&ards::detail::PERIODS[index]);
+            uint16_t ocr = pgm_read_word(&ards::detail::PERIODS[index]);
+            OCR3A = ocr;
             TIMSK3 = 0x02;
         }
     }
