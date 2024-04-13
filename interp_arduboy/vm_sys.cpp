@@ -157,7 +157,9 @@ static void seek_to_pc()
             out  %[spdr], r22
             rjmp 3f
         L%=_delay_17:
-            rjmp .+0
+            nop
+        L%=_delay_16:
+            nop
         L%=_delay_15:
             lpm
         L%=_delay_12:

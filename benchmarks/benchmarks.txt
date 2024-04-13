@@ -5,7 +5,7 @@ bubble4                    89146     2270301       25.47x
 mat3rotation               13138       16932        1.29x
 fibonacci                 128131     2460050       19.20x
 sieve                      20499     1122513       54.76x
-text                      207402       68996        0.33x
+text                      207402       68992        0.33x
 tilessprite                44482      149070        3.35x
 tilessprite16              26978       53350        1.98x
 tilesrect                 257725       92998        0.36x
