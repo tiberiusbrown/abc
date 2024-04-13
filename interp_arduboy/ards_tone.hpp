@@ -99,7 +99,7 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
             out   %[spdr], r23
             rcall L%=_delay_17          ; 17
             out   %[spdr], r22
-            rcall L%=_delay_17          ; 17
+            rcall L%=_delay_16          ; 16
             out   %[spdr], r1
 
             ; skip straight to final read if num == 1
@@ -107,12 +107,12 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
             subi  r18, 1                ;  1
             sbci  r19, 0                ;  1
             breq  2f                    ;  1 (2)
-            adiw  r30, 0                ;  2
+            lpm                         ;  3
 
             ; intermediate reads
-        1:  rcall L%=_delay_10          ; 10
+        1:  rcall L%=_delay_9           ;  9
+            out   %[spdr], r1           ;  1
             in    r0, %[spdr]           ;  1
-            out   %[spdr], r1
             st    X+, r0                ;  2
             subi  r18, 1                ;  1
             sbci  r19, 0                ;  1
@@ -127,13 +127,15 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
             ret
 
         L%=_delay_17:
-            lpm
+            nop
+        L%=_delay_16:
+            rjmp .+0
         L%=_delay_14:
             lpm
         L%=_delay_11:
-            nop
-        L%=_delay_10:
-            lpm
+            rjmp .+0
+        L%=_delay_9:
+            rjmp .+0
         L%=_delay_7:
             ret       ; rcall is 3, ret is 4 cycles
         )ASM"

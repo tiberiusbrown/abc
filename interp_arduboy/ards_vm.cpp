@@ -3689,7 +3689,7 @@ jump_to_pc:
     out  %[spdr], r16
     rcall seek_delay_17
     out  %[spdr], r6
-    rcall seek_delay_17
+    rcall seek_delay_16
     out  %[spdr], r2
     rcall seek_delay_16
     dispatch_noalign
