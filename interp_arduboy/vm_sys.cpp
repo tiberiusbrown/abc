@@ -171,7 +171,7 @@ static void seek_to_pc()
             out  %[spdr], r21
             rcall L%=_delay_17
             out  %[spdr], r20
-            rcall L%=_delay_17
+            rcall L%=_delay_16
             out  %[spdr], __zero_reg__
             rcall L%=_delay_12
             ret
