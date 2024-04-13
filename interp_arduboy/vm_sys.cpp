@@ -573,9 +573,13 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         draw_sprite_helper_delay_17:
             nop
         draw_sprite_helper_delay_16:
-            rjmp .+0
+            nop
+        draw_sprite_helper_delay_15:
+            nop
         draw_sprite_helper_delay_14:
-            lpm
+            nop
+        draw_sprite_helper_delay_13:
+            rjmp .+0
         draw_sprite_helper_delay_11:
             rjmp .+0
             rjmp .+0
@@ -583,27 +587,40 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         1:  ldi  %[w], 5
 
             out  %[spdr], %A[num]
-            rcall draw_sprite_helper_delay_17
+            rcall draw_sprite_helper_delay_16
+            in   r0, %[sreg]
             out  %[spdr], %A[image]
             add  %A[image], %[w]
             adc  %B[image], __zero_reg__
             adc  %C[image], __zero_reg__
-            rcall draw_sprite_helper_delay_14
+            rcall draw_sprite_helper_delay_13
             out  %[spdr], __zero_reg__
-            rcall draw_sprite_helper_delay_16
+            rcall draw_sprite_helper_delay_15
 
+            cli
+            out  %[spdr], __zero_reg__
             in   %[w], %[spdr]
+            out  %[sreg], r0
+            rcall draw_sprite_helper_delay_13
+
+            cli
             out  %[spdr], __zero_reg__
-            rcall draw_sprite_helper_delay_16
             in   %[h], %[spdr]
+            out  %[sreg], r0
+            rcall draw_sprite_helper_delay_13
+
+            cli
             out  %[spdr], __zero_reg__
-            rcall draw_sprite_helper_delay_16
             in   %A[num], %[spdr]
+            out  %[sreg], r0
+            rcall draw_sprite_helper_delay_13
+
+            cli
             out  %[spdr], __zero_reg__
-            rcall draw_sprite_helper_delay_16
             in   %B[num], %[spdr]
-            out  %[spdr], __zero_reg__
-            rcall draw_sprite_helper_delay_16
+            out  %[sreg], r0
+            rcall draw_sprite_helper_delay_14
+
             in   %[mode], %[spdr]
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
@@ -625,6 +642,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [fxbit]    "i"   (FX_BIT)
         , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
         , [spsr]     "i"   (_SFR_IO_ADDR(SPSR))
+        , [sreg]     "i"   (_SFR_IO_ADDR(SREG))
         , [datapage] ""    (&FX::programDataPage)
     );
     if(frame >= num)
