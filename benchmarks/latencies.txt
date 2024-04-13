@@ -77,13 +77,13 @@
    90   setgn VAR (8)
   134   setgn VAR (16)
   222   setgn VAR (32)
-  207   getp
-  230   getpn 2
-  248   getpn 3
-  266   getpn 4
-  338   getpn 8
-  482   getpn 16
-  770   getpn 32
+  208   getp
+  231   getpn 2
+  249   getpn 3
+  267   getpn 4
+  339   getpn 8
+  483   getpn 16
+  771   getpn 32
    18   pop
    18   pop2
    18   pop3
@@ -288,26 +288,26 @@
    92   u2f (3)
    92   u2f (340000000)
    72   bz (not taken)
-  150   bz (taken)
+  151   bz (taken)
    36   bz1 (not taken)
-  121   bz1 (taken)
+  122   bz1 (taken)
    72   bnz (not taken)
-  150   bnz (taken)
+  151   bnz (taken)
    36   bnz1 (not taken)
-  121   bnz1 (taken)
+  122   bnz1 (taken)
    72   bzp (not taken)
-  150   bzp (taken)
+  151   bzp (taken)
    36   bzp1 (not taken)
-  122   bzp1 (taken)
+  123   bzp1 (taken)
    72   bnzp (not taken)
-  150   bnzp (taken)
+  151   bnzp (taken)
    36   bnzp1 (not taken)
-  122   bnzp1 (taken)
-  150   jmp
-  121   jmp1
-  150   call
-  129   call1
-  117   ret
+  123   bnzp1 (taken)
+  151   jmp
+  122   jmp1
+  151   call
+  130   call1
+  118   ret
   100   $get_pixel
    99   $draw_pixel
   203   $draw_hline (0, 0, 1)
@@ -321,6 +321,14 @@
  1721   $draw_sprite (16x16 masked)
  3035   $draw_sprite (32x32 unmasked)
  5207   $draw_sprite (32x32 masked)
+ 3035   $draw_sprite (x=0, y=+1, 32x32 unmasked)
+ 5207   $draw_sprite (x=0, y=+1, 32x32 masked)
+ 3000   $draw_sprite (x=0, y=-1, 32x32 unmasked)
+ 5204   $draw_sprite (x=0, y=-1, 32x32 masked)
+ 2993   $draw_sprite (x=0, y=33, 32x32 unmasked)
+ 5200   $draw_sprite (x=0, y=33, 32x32 masked)
+ 3235   $draw_sprite (x=-1, y=0, 32x32 unmasked)
+ 5340   $draw_sprite (x=-1, y=0, 32x32 masked)
 19985   $draw_sprite (128x64 unmasked)
 37516   $draw_sprite (128x64 masked)
   231   $draw_filled_rect (0, 0, 4, 4)

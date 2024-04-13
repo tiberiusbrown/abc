@@ -2527,6 +2527,78 @@ $L_main_13:
     sys debug_break
     
     p00
+    pushl unmasked_sprite32 0
+    p1
+    p0
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite32 0
+    p1
+    p0
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite32 0
+    push 255
+    push 255
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite32 0
+    push 255
+    push 255
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite32 0
+    push 33
+    p0
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite32 0
+    push 33
+    p0
+    p00
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl unmasked_sprite32 0
+    p00
+    push 255
+    push 255
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
+    pushl masked_sprite32 0
+    p00
+    push 255
+    push 255
+    sys debug_break
+    sys draw_sprite
+    sys debug_break
+    
+    p00
     pushl unmasked_sprite128x64 0
     p00
     p00
