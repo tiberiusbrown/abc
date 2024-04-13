@@ -751,14 +751,16 @@ static void draw_char(
             sbc  %B[font], %A[t]
             ldi  %A[t], 0xff
             sbc  %C[font], %A[t]
-            nop
             rcall L%=_delay_10
 
             out  %[spdr], __zero_reg__
-            rcall L%=_delay_16
+            rcall L%=_delay_14
+            in   r0, %[sreg]
+            cli
 
-            in   %[adv], %[spdr]
             out  %[spdr], __zero_reg__
+            in   %[adv], %[spdr]
+            out  %[sreg], r0
             ld   %A[xv], %a[xp]+
             ld   %B[xv], %a[xp]
             movw %A[t], %A[xv]
@@ -766,7 +768,8 @@ static void draw_char(
             adc  %B[xv], __zero_reg__
             sbrc %[adv], 7
             dec  %B[xv]
-            rcall L%=_delay_7
+            lpm
+            rjmp .+0
 
             in   %[adv], %[spdr]
             sbi  %[fxport], %[fxbit]
@@ -789,6 +792,7 @@ static void draw_char(
         , [fxport] "I"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]  "I"   (FX_BIT)
         , [spdr]   "I"   (_SFR_IO_ADDR(SPDR))
+        , [sreg]   "I"   (_SFR_IO_ADDR(SREG))
         , [page]   "i"   (&FX::programDataPage)
         //, [DRAW]   "i"   (&SpritesABC::drawBasic)
         );
