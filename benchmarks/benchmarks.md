@@ -363,7 +363,7 @@ void main()
 <details><summary>mat3rotation: 1.28x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 13138</td><td>Cycles: 16878</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 16871</td></tr>
 <tr>
 <td>
 
@@ -476,10 +476,10 @@ void main()
 </table>
 </details>
 
-<details><summary>fibonacci: 19.07x slowdown</summary>
+<details><summary>fibonacci: 18.82x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 128131</td><td>Cycles: 2443728</td></tr>
+<tr><td>Cycles: 128131</td><td>Cycles: 2411178</td></tr>
 <tr>
 <td>
 

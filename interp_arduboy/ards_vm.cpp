@@ -3560,10 +3560,14 @@ I_RET:
     lds  r26, %[vm_csp]
     ldi  r27, 0x06
     ld   r8, -X
+    ldi  r18, 3
+    fx_disable
+    fx_enable
+    out %[spdr], r18
     ld   r7, -X
     ld   r6, -X
     sts  %[vm_csp], r26
-    rjmp jump_to_pc
+    rjmp jump_to_pc_delayed2
     .align 6
 
 I_SYS:
@@ -3833,6 +3837,12 @@ jump_to_pc:
 
 jump_to_pc_delayed:
 
+    rjmp .+0
+    rjmp .+0
+    nop
+
+jump_to_pc_delayed2:
+
     ; see if we need to call ards::Tones::update()
     lds  r16, %[tones_size]
     cpi  r16, %[tones_maxsize]
@@ -3842,9 +3852,6 @@ jump_to_pc_delayed:
     lds  r17, %[data_page]+1
     add  r16, r7
     adc  r17, r8
-
-    lpm
-    rjmp .+0
     
     out  %[spdr], r17
     rcall seek_delay_17

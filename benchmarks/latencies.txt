@@ -307,7 +307,7 @@
   121   jmp1
   145   call
   129   call1
-  117   ret
+  110   ret
   100   $get_pixel
    99   $draw_pixel
   203   $draw_hline (0, 0, 1)
