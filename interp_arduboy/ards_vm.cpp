@@ -2853,9 +2853,8 @@ I_ASR4:
 I_AND:
     ld   r14, -Y
     and  r9, r14
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    nop
+    dispatch_reverse
 
 I_AND2:
     ld   r10, -Y
@@ -2886,9 +2885,8 @@ I_AND4:
 I_OR:
     ld   r14, -Y
     or   r9, r14
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    nop
+    dispatch_reverse
 
 I_OR2:
     ld   r10, -Y
@@ -2919,9 +2917,8 @@ I_OR4:
 I_XOR:
     ld   r14, -Y
     eor  r9, r14
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    nop
+    dispatch_reverse
 
 I_XOR2:
     ld   r10, -Y
@@ -2952,8 +2949,7 @@ I_XOR4:
 I_COMP:
     com  r9
     lpm
-    lpm
-    dispatch
+    dispatch_reverse
 
 I_COMP2:
     ld   r10, -Y

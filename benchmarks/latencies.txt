@@ -230,16 +230,16 @@
   251   asr4 (31)
    34   asr4 (32)
    34   asr4 (64)
-   18   and
+   17   and
    21   and2
    35   and4
-   18   or
+   17   or
    21   or2
    35   or4
-   18   xor
+   17   xor
    21   xor2
    35   xor4
-   18   comp
+   17   comp
    18   comp2
    27   comp4
    18   bool (0)
