@@ -16,7 +16,7 @@
    22   p0000
    30   pz8
    46   pz16
-   36   push N
+   34   push N
    52   push2 N
    69   push3 N
    90   push4 N

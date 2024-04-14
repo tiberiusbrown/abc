@@ -255,13 +255,18 @@ I_PUSH:
     st   Y+, r9
     cpi  r28, 255
     breq 1f
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r9, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     lpm
-    read_byte
-    mov  r9, r0
     lpm
     lpm
-    lpm
-    lpm
+    rjmp .+0
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
