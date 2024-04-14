@@ -845,14 +845,19 @@ I_GETL2:
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  nop
+1:  in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     movw r26, r28
-    read_byte
     sub  r26, r0
     ld   r0, X+
     ld   r9, X
     st   Y+, r0
-    lpm
     lpm
     dispatch
     
