@@ -50,7 +50,7 @@
    68   getln N (8)
   112   getln N (16)
   200   getln N (32)
-   36   setl N
+   35   setl N
    36   setl2 N
    36   setl4 N
    36   setln N (3)
