@@ -511,7 +511,7 @@ pushg_delay_10:
 
 I_PUSH3:
     st   Y+, r9
-    lpm
+    rjmp .+0
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
