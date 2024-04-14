@@ -1515,7 +1515,9 @@ I_POP3:
 pop3_delay_16:
     nop
 pop3_delay_15:
-    lpm
+    rjmp .+0
+pop3_delay_13:
+    nop
 pop3_delay_12:
     nop
 pop3_delay_11:
@@ -1589,17 +1591,18 @@ aidx_error:
 
 I_AIDXB:
     mov  r20, r9
-    lpm
-    lpm
-    in   r16, %[spdr]
-    out  %[spdr], r2
     ldi  r17, 2
     add  r6, r17
+    lpm
+    cli
+    out  %[spdr], r2
+    in   r16, %[spdr]
     adc  r7, r2
     adc  r8, r2
-    rcall pop3_delay_12
-    in   r17, %[spdr]
+    rcall pop3_delay_13
     out  %[spdr], r2
+    in   r17, %[spdr]
+    sei
 
     ; r16: elem size
     ; r17: num elems
@@ -1614,8 +1617,7 @@ I_AIDXB:
     st   Y+, r0
     mov  r9, r1
     nop
-    rjmp aidxb_dispatch
-    .align 6
+    dispatch
 
 I_AIDX:
     mov  r21, r9
