@@ -2285,8 +2285,7 @@ I_SUB:
     ld   r14, -Y
     sub  r14, r9
     mov  r9, r14
-    lpm
-    dispatch
+    dispatch_reverse
     ; TODO: SPACE HERE
 
 I_SUB2:

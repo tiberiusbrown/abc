@@ -136,7 +136,7 @@
    21   add2
    28   add3
    35   add4
-   18   sub
+   17   sub
    22   sub2
    29   sub3
    36   sub4
