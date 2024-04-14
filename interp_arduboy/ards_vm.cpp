@@ -1173,8 +1173,9 @@ I_GTGB:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rcall gtgb_delay_8
-    dispatch_noalign
+    lpm
+    rjmp .+0
+    dispatch_noalign_reverse
 gtgb_delay_11:
     lpm
 gtgb_delay_8:
