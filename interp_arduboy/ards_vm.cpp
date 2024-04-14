@@ -1347,7 +1347,10 @@ I_GETP:
     out  %[spdr], r2
     rcall getg_delay_16
     in   r9, %[spdr]
-    jmp  jump_to_pc
+    fx_disable
+    fx_enable
+    out  %[spdr], r19
+    jmp  jump_to_pc_delayed
 getpn_delay_10:
     nop
 getpn_delay_9:
