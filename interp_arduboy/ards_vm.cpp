@@ -1380,8 +1380,11 @@ I_GETRN:
     mov  r27, r9
     ld   r26, -Y
     mov  r18, r28
-    lpm
-    read_byte
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    in   r0, %[spdr]
+    out  %[spdr], r2
     add  r18, r0
     brcs getrn_error
     lsr  r0

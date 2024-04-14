@@ -93,11 +93,11 @@
    36   refgb
    18   getr
    20   getr2
-   42   getrn 3
-   50   getrn 4
-   72   getrn 8
-  116   getrn 16
-  204   getrn 32
+   39   getrn 3
+   47   getrn 4
+   69   getrn 8
+  113   getrn 16
+  201   getrn 32
    20   setr
    24   setr2
    43   setrn 3
