@@ -1983,16 +1983,21 @@ I_DEC:
 
 I_LINC:
     rjmp .+0
-    rjmp .+0
     movw r26, r28
     adiw r26, 1
-    read_byte
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     sub  r26, r0
     ld   r0, X
     inc  r0
     st   X, r0
     lpm
-    rjmp .+0
     rjmp .+0
     dispatch
 
