@@ -475,33 +475,36 @@ I_PZ16:
     jmp  call_vm_error
     .align 6
 
-I_PUSHG:
+I_PUSH2:
     st   Y+, r9
     lpm
-    rjmp .+0
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
     in   r0, %[spdr]
-    out  %[spdr], r2
     st   Y+, r0
-    rcall pushg_delay_14
-    in   r9, %[spdr]
+    rcall pushg_delay_13
     out  %[spdr], r2
+    in   r9, %[spdr]
+    out  %[sreg], r10
     ldi  r16, 2
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_12
+    rcall pushg_delay_10
     dispatch_noalign
 pushg_delay_14:
     nop
 pushg_delay_13:
     nop
 pushg_delay_12:
-    lpm
     rjmp .+0
+pushg_delay_10:
+    lpm
     ret
     .align 6
 
-I_PUSHL:
+I_PUSH3:
     st   Y+, r9
     lpm
     rjmp .+0
@@ -3736,6 +3739,7 @@ call_vm_error:
     :
     : [spdr]          "i" (_SFR_IO_ADDR(SPDR))
     , [spsr]          "i" (_SFR_IO_ADDR(SPSR))
+    , [sreg]          "i" (_SFR_IO_ADDR(SREG))
     , [fxport]        "i" (_SFR_IO_ADDR(FX_PORT))
     , [fxbit]         "i" (FX_BIT)
     , [data_page]     ""  (&FX::programDataPage)
