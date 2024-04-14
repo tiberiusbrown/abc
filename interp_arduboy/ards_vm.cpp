@@ -3351,16 +3351,15 @@ I_BNZ:
     ldi  r16, 3
     add  r6, r16
     adc  r7, r2
-    adc  r8, r2
-    in   r10, %[sreg]
+    ld   r9, -Y
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
-    ld   r9, -Y
-    rcall branch_delay_13
+    adc  r8, r2
+    rcall branch_delay_14
     out  %[spdr], r2
     in   r17, %[spdr]
-    out  %[sreg], r10
+    sei
     rcall branch_delay_11
     cp   r1, r2
     breq 1f
@@ -3368,8 +3367,8 @@ I_BNZ:
     in   r8, %[spdr]
     rjmp jump_to_pc
 1:  out  %[spdr], r2
-    rcall branch_delay_16
-    dispatch
+    rcall branch_delay_13
+    dispatch_reverse
 
 I_BNZ1:
     add  r6, r4
