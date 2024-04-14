@@ -916,21 +916,29 @@ I_SETL:
     out  %[spdr], r2
     in   r0, %[spdr]
     out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     mov  r16, r9
     movw r26, r28
     sub  r26, r0
     st   X, r16
     ld   r9, -Y
-    add  r6, r4
-    adc  r7, r2
-    adc  r8, r2
     rjmp .+0
     rjmp .+0
     dispatch
 
 I_SETL2:
-    dispatch_delay
-    read_byte
+    lpm
+    rjmp .+0
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     mov  r17, r9
     ld   r16, -Y
     movw r26, r28
@@ -938,7 +946,6 @@ I_SETL2:
     st   X+, r16
     st   X+, r17
     ld   r9, -Y
-    rjmp .+0
     dispatch
 
 I_SETL4:
