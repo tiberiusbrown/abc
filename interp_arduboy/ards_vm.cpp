@@ -482,7 +482,7 @@ I_PZ16:
 
 I_PUSH2:
     st   Y+, r9
-    lpm
+    rjmp .+0
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
