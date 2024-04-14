@@ -1946,12 +1946,19 @@ I_REFGB:
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  rjmp .+0
-    read_byte
+1:  in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     ldi  r17, 2
     st   Y+, r0
     mov  r9, r17
-    rcall refl_delay_8
+    lpm
+    lpm
 inc_dispatch:
     nop
 uaidx_dispatch:
