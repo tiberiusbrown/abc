@@ -1012,6 +1012,14 @@ I_GETG:
     ld   r9, X
     rcall getg_delay_10
     rjmp getg_dispatch
+getg_delay_17:
+    nop
+getg_delay_16:
+    nop
+getg_delay_15:
+    nop
+getg_delay_14:
+    nop
 getg_delay_13:
     nop
 getg_delay_12:
@@ -1022,6 +1030,7 @@ getg_delay_10:
     rjmp .+0
 getg_delay_8:
     nop
+getg_delay_7:
     ret
     .align 6
 
@@ -1198,38 +1207,28 @@ I_SETG:
     dispatch
 
 I_SETG2:
-    rcall setg4_delay_7
-    in   r26, %[spdr]
+    lpm
+    rjmp .+0
+    in   r10, %[sreg]
+    cli
     out  %[spdr], r2
+    in   r26, %[spdr]
     ldi  r17, 2
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall getg_delay_12
-    in   r27, %[spdr]
+    rcall getg_delay_11
     out  %[spdr], r2
+    in   r27, %[spdr]
+    out  %[sreg], r10
     ld   r17, -Y
     st   X+, r17
     st   X+, r9
-    rcall setg4_delay_8
+    lpm
+    lpm
 setgn_dispatch:
     ld   r9, -Y
-    dispatch_noalign
-setg4_delay_17:
-    nop
-setg4_delay_16:
-    rjmp .+0
-    rjmp .+0
-setg4_delay_12:
-    nop
-setg4_delay_11:
-    nop
-    rjmp .+0
-setg4_delay_8:
-    nop
-setg4_delay_7:
-    ret
-    .align 6
+    dispatch
 
 I_SETG4:
     mov  r19, r9
@@ -1242,7 +1241,7 @@ I_SETG4:
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    rcall setg4_delay_12
+    rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
     st   X+, r16
@@ -1255,14 +1254,14 @@ I_SETG4:
     dispatch
 
 I_SETGN:
-    rcall setg4_delay_7
+    rcall getg_delay_7
     in   r26, %[spdr]
     out  %[spdr], r2
     ldi  r17, 2
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall setg4_delay_12
+    rcall getg_delay_12
     in   r27, %[spdr]
     out  %[spdr], r2
     add  r26, r9
@@ -1292,15 +1291,15 @@ I_GETP:
     lds  r11, %[data_page]+1
     add  r10, r17
     adc  r11, r18
-    rcall setg4_delay_11
+    rcall getg_delay_11
     out  %[spdr], r11
-    rcall setg4_delay_17
+    rcall getg_delay_17
     out  %[spdr], r10
-    rcall setg4_delay_17
+    rcall getg_delay_17
     out  %[spdr], r16
-    rcall setg4_delay_17
+    rcall getg_delay_17
     out  %[spdr], r2
-    rcall setg4_delay_16
+    rcall getg_delay_16
     in   r9, %[spdr]
     jmp  jump_to_pc
 getpn_delay_10:
@@ -1350,13 +1349,13 @@ getpn_seek_to_addr:
     lds  r11, %[data_page]+1
     add  r10, r17
     adc  r11, r18
-    rcall setg4_delay_11
+    rcall getg_delay_11
     out  %[spdr], r11
-    rcall setg4_delay_17
+    rcall getg_delay_17
     out  %[spdr], r10
-    rcall setg4_delay_17
+    rcall getg_delay_17
     out  %[spdr], r16
-    rcall setg4_delay_17
+    rcall getg_delay_17
     out  %[spdr], r2
     rjmp getpn_resume
     .align 6
