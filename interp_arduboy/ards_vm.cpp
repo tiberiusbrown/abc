@@ -1755,12 +1755,14 @@ I_PIDX:
     .align 6
 
 I_UAIDX:
-    mov  r21, r9
     ld   r20, -Y
     ld   r19, -Y
     ld   r18, -Y
-    in   r16, %[spdr]
+    cli
     out  %[spdr], r2
+    in   r16, %[spdr]
+    sei
+    mov  r21, r9
     ldi  r17, 2
     add  r6, r17
     adc  r7, r2
@@ -1782,21 +1784,20 @@ I_UAIDX:
     ;    C1 C0
     ;
 1:  mul  r16, r20
-    movw r22, r0
     ld   r25, -Y
     ld   r24, -Y
+    out  %[spdr], r2
+    in   r17, %[spdr]
+    movw r22, r0
     add  r22, r24
     adc  r23, r25
-    in   r17, %[spdr]
-    out  %[spdr], r2
     mul  r16, r21
     add  r23, r0
     mul  r17, r20
     add  r23, r0
     st   Y+, r22
     mov  r9, r23
-    rjmp .+0
-    lpm
+    nop
     rjmp uaidx_dispatch
     .align 6
 
@@ -2044,10 +2045,10 @@ I_PINC:
     mov  r9, r16
     inc  r16
     st   -X, r16
-uaidx_dispatch:
 slc_dispatch:
 pidxb_dispatch:
 refl_dispatch:
+uaidx_dispatch:
     dispatch
     ; TODO: SPACE HERE
 
