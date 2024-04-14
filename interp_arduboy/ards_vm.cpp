@@ -900,8 +900,7 @@ I_GETL2:
     ld   r0, X+
     ld   r9, X
     st   Y+, r0
-    lpm
-    dispatch
+    dispatch_reverse
     
 I_GETL4:
     st   Y+, r9
