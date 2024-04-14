@@ -91,7 +91,7 @@
    17   pop4
    34   popn N
    35   refl
-   35   refgb
+   34   refgb
    18   getr
    20   getr2
    39   getrn 3

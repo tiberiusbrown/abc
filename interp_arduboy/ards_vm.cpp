@@ -1999,15 +1999,15 @@ I_REFGB:
     ldi  r17, 2
     st   Y+, r0
     mov  r9, r17
-    lpm
-    lpm
-    nop
-    dispatch
+    rjmp .+0
+    rjmp refgb_dispatch
+    .align 6
 
 I_INC:
     inc  r9
     lpm
 dec_dispatch:
+refgb_dispatch:
     dispatch_reverse
 
 I_DEC:
