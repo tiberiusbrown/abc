@@ -67,7 +67,7 @@
   132   getgn VAR (16)
   220   getgn VAR (32)
    35   gtgb VAR
-   36   gtgb2 VAR
+   35   gtgb2 VAR
    36   gtgb4 VAR
    54   setg VAR
    54   setg2 VAR
