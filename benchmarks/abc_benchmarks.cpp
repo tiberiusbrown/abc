@@ -44,12 +44,22 @@ static uint64_t measure()
 
     // HACK: disable all interrupts
     arduboy->cpu.sreg() &= ~absim::SREG_I;
+    arduboy->cpu.data[0x6e] = 0;
+    arduboy->cpu.data[0x6f] = 0;
+    arduboy->cpu.data[0x71] = 0;
+    arduboy->cpu.data[0x72] = 0;
 
     arduboy->allow_nonstep_breakpoints = true;
     arduboy->paused = false;
     arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
+
     arduboy->cpu.sreg() &= ~absim::SREG_I;
+    arduboy->cpu.data[0x6e] = 0;
+    arduboy->cpu.data[0x6f] = 0;
+    arduboy->cpu.data[0x71] = 0;
+    arduboy->cpu.data[0x72] = 0;
+
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;

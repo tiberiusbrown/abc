@@ -245,15 +245,14 @@ vm_execute:
     .endm
 
     ; this macro can speed up dispatch by one cycle
-    ; needs 12 cycles since the last write to SPDR (4 fewer)
+    ; needs 13 cycles since the last write to SPDR (3 fewer)
     .macro dispatch_noalign_reverse
     add  r6, r4
     adc  r7, r2
-    in   r10, %[sreg]
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
-    out  %[sreg], r10
+    sei
     adc  r8, r2
     mul  r0, r3
     movw r30, r0
@@ -267,11 +266,10 @@ vm_execute:
     .endm
 
     .macro dispatch_noalign_reverse_noinc
-    in   r10, %[sreg]
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
-    out  %[sreg], r10
+    sei
     nop
     mul  r0, r3
     movw r30, r0
@@ -289,7 +287,8 @@ vm_execute:
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 I_NOP:
-    lpm
+    rjmp .+0
+    rjmp .+0
     dispatch_reverse
     ; TODO: SPACE HERE
 
@@ -307,7 +306,7 @@ I_PUSH:
     adc  r8, r2
     lpm
     lpm
-    rjmp .+0
+    lpm
     dispatch_noalign_reverse
 1:  ldi  r24, 5
     jmp  call_vm_error
@@ -875,7 +874,8 @@ I_GETL:
     movw r26, r28
     sub  r26, r0
     ld   r9, X
-    lpm
+    rjmp .+0
+    rjmp .+0
     dispatch_reverse
     
 I_GETL2:
@@ -963,6 +963,7 @@ I_SETL:
     sub  r26, r0
     st   X, r16
     ld   r9, -Y
+    nop
     dispatch_reverse
 
 I_SETL2:
@@ -1487,18 +1488,21 @@ I_SETRN:
 I_POP:
     dec  r28
     ld   r9, Y
+    nop
     dispatch_reverse
     ; TODO: SPACE HERE
 
 I_POP2:
     subi r28, 2
     ld   r9, Y
+    nop
     dispatch_reverse
     ; TODO: SPACE HERE
 
 I_POP3:
     subi r28, 3
     ld   r9, Y
+    nop
     dispatch_noalign_reverse
 pop3_delay_16:
     nop
@@ -1521,6 +1525,7 @@ pop3_delay_7:
 I_POP4:
     subi r28, 4
     ld   r9, Y
+    nop
     dispatch_noalign_reverse
 aidx_part2:
     ld   r20, -Y
@@ -1543,7 +1548,7 @@ I_POPN:
     adc  r8, r2
     sub  r28, r0
     ld   r9, Y
-    rjmp .+0
+    lpm
     rjmp .+0
     dispatch_reverse
 
@@ -2233,6 +2238,7 @@ I_PDECF:
 I_ADD:
     ld   r14, -Y
     add  r9, r14
+    nop
     dispatch_reverse
     ; TODO: SPACE HERE
 
