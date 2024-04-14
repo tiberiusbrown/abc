@@ -476,13 +476,15 @@ I_PZ16:
     st   Y+, r2
     clr  r9
     dispatch_noalign
+push2_error:
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
 
 I_PUSH2:
     st   Y+, r9
-    rjmp .+0
+    cpi  r28, 254
+    brsh push2_error
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -497,6 +499,8 @@ I_PUSH2:
     adc  r7, r2
     adc  r8, r2
     rcall pushg_delay_10
+push3_dispatch:
+push4_dispatch:
     dispatch_noalign
 pushg_delay_14:
     nop
@@ -514,7 +518,8 @@ pushg_delay_7:
 
 I_PUSH3:
     st   Y+, r9
-    rjmp .+0
+    cpi  r28, 253
+    brsh push3_error
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -532,13 +537,19 @@ I_PUSH3:
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_10
-push4_dispatch:
-    dispatch
+    rcall pushg_delay_7
+    nop
+    rjmp push3_dispatch
+push3_error:
+push4_error:
+    ldi  r24, 5
+    jmp  call_vm_error
+    .align 6
 
 I_PUSH4:
     st   Y+, r9
-    rjmp .+0
+    cpi  r28, 252
+    brsh push4_error
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
