@@ -1245,8 +1245,8 @@ I_SETG:
     out  %[sreg], r10
     st   X, r9
     ld   r9, -Y
-    rcall getg_delay_10
-    dispatch
+    rcall getg_delay_7
+    dispatch_reverse
 
 I_SETG2:
     lpm
