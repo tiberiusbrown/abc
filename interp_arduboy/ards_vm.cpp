@@ -2001,25 +2001,19 @@ I_REFGB:
     mov  r9, r17
     lpm
     lpm
-inc_dispatch:
     nop
-uaidx_dispatch:
-slc_dispatch:
-pidxb_dispatch:
-refl_dispatch:
     dispatch
 
 I_INC:
     inc  r9
     lpm
-    rjmp inc_dispatch
-    ; TODO: SPACE HERE
-    .align 6
+dec_dispatch:
+    dispatch_reverse
 
 I_DEC:
     dec r9
-    lpm
-    rjmp inc_dispatch
+    nop
+    rjmp dec_dispatch
     ; TODO: SPACE HERE
     .align 6
 
@@ -2050,6 +2044,10 @@ I_PINC:
     mov  r9, r16
     inc  r16
     st   -X, r16
+uaidx_dispatch:
+slc_dispatch:
+pidxb_dispatch:
+refl_dispatch:
     dispatch
     ; TODO: SPACE HERE
 

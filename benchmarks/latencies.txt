@@ -115,8 +115,8 @@
    83   upidx
    62   aslc
    86   pslc
-   18   inc
-   18   dec
+   17   inc
+   17   dec
    35   linc N
    20   pinc
    27   pinc2
