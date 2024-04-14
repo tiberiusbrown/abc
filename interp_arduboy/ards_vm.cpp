@@ -3399,7 +3399,7 @@ I_BZP1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
+    nop
     cp   r9, r2
     brne 1f
     rjmp .+0
@@ -3446,7 +3446,7 @@ I_BNZP1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
+    nop
     cp   r9, r2
     breq 1f
     rjmp .+0

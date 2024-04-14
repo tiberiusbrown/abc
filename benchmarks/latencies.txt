@@ -297,12 +297,12 @@
   121   bnz1 (taken)
    69   bzp (not taken)
   148   bzp (taken)
-   36   bzp1 (not taken)
-  122   bzp1 (taken)
+   35   bzp1 (not taken)
+  121   bzp1 (taken)
    69   bnzp (not taken)
   148   bnzp (taken)
-   36   bnzp1 (not taken)
-  122   bnzp1 (taken)
+   35   bnzp1 (not taken)
+  121   bnzp1 (taken)
   150   jmp
   121   jmp1
   150   call
