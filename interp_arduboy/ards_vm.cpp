@@ -3465,13 +3465,17 @@ I_BNZP1:
     .align 6
 
 I_JMP:
-    dispatch_delay
+    lpm
+    rjmp .+0
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
     in   r6, %[spdr]
+    rcall branch_delay_15
     out  %[spdr], r2
-    rcall branch_delay_16
     in   r7, %[spdr]
-    out  %[spdr], r2
-    rcall branch_delay_16
+    out  %[sreg], r10
+    rcall branch_delay_14
     in   r8, %[spdr]
     rjmp  jump_to_pc
     .align 6
