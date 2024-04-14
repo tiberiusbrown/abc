@@ -1483,11 +1483,19 @@ aidx_part2:
     dispatch
 
 I_POPN:
-    dispatch_delay
-    read_byte
+    lpm
+    rjmp .+0
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     sub  r28, r0
     ld   r9, Y
-    rcall popn_delay_10
+    rcall popn_delay_8
     dispatch_noalign
 popn_delay_16:
     rjmp .+0
@@ -1495,7 +1503,9 @@ popn_delay_16:
 popn_delay_12:
     rjmp .+0
 popn_delay_10:
-    lpm
+    rjmp .+0
+popn_delay_8:
+    nop
 popn_delay_7:
     ret
     .align 6

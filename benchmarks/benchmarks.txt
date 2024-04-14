@@ -2,7 +2,7 @@ bubble1                    34714     1655231       47.68x
 bubble2                    52858     1778207       33.64x
 bubble3                    71002     2096735       29.53x
 bubble4                    89146     2221727       24.92x
-mat3rotation               13138       16884        1.29x
+mat3rotation               13138       16883        1.29x
 fibonacci                 128131     2443728       19.07x
 sieve                      20499     1115950       54.44x
 text                      207402       68765        0.33x
