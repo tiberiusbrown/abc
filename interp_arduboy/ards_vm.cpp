@@ -1426,9 +1426,12 @@ I_SETR2:
 I_SETRN:
     mov  r27, r9
     ld   r26, -Y
-    rjmp .+0
-    rjmp .+0
-    read_byte
+    nop
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    in   r0, %[spdr]
+    out  %[spdr], r2
     add  r26, r0
     adc  r27, r2
     lsr  r0
