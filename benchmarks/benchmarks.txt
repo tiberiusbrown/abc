@@ -8,4 +8,4 @@ sieve                      20499     1107194       54.01x
 text                      207402       68759        0.33x
 tilessprite                44482      147764        3.32x
 tilessprite16              26978       53016        1.97x
-tilesrect                 257725       92572        0.36x
+tilesrect                 257725       92436        0.36x

@@ -3156,8 +3156,7 @@ I_NOT:
     cpse r9, r2
     ldi  r16, 0
     mov  r9, r16
-    lpm
-    dispatch
+    dispatch_reverse
 
 I_FADD:
     mov  r21, r9
