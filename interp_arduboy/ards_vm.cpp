@@ -876,9 +876,7 @@ I_GETL:
     sub  r26, r0
     ld   r9, X
     lpm
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    dispatch_reverse
     
 I_GETL2:
     st   Y+, r9
