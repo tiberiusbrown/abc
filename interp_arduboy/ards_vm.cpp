@@ -289,9 +289,8 @@ I_PUSH:
     adc  r8, r2
     lpm
     lpm
-    lpm
-    lpm
-    dispatch_noalign
+    rjmp .+0
+    dispatch_noalign_reverse
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6
@@ -1474,33 +1473,41 @@ I_SETRN:
 I_POP:
     dec  r28
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    dispatch_reverse
     ; TODO: SPACE HERE
 
 I_POP2:
     subi r28, 2
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    dispatch_reverse
     ; TODO: SPACE HERE
 
 I_POP3:
     subi r28, 3
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
-    dispatch
-    ; TODO: SPACE HERE
+    dispatch_noalign_reverse
+pop3_delay_16:
+    nop
+pop3_delay_15:
+    lpm
+pop3_delay_12:
+    nop
+pop3_delay_11:
+    nop
+pop3_delay_10:
+    nop
+pop3_delay_9:
+    nop
+pop3_delay_8:
+    nop
+pop3_delay_7:
+    ret
+    .align 6
 
 I_POP4:
     subi r28, 4
     ld   r9, Y
-    rjmp .+0
-    rjmp .+0
-    dispatch_noalign
+    dispatch_noalign_reverse
 aidx_part2:
     ld   r20, -Y
     add  r22, r20
@@ -1522,25 +1529,9 @@ I_POPN:
     adc  r8, r2
     sub  r28, r0
     ld   r9, Y
-    rcall popn_delay_8
-    dispatch_noalign
-popn_delay_16:
-    nop
-popn_delay_15:
-    lpm
-popn_delay_12:
-    nop
-popn_delay_11:
-    nop
-popn_delay_10:
-    nop
-popn_delay_9:
-    nop
-popn_delay_8:
-    nop
-popn_delay_7:
-    ret
-    .align 6
+    rjmp .+0
+    rjmp .+0
+    dispatch_reverse
 
 I_AIXB1:
     mov  r20, r9
@@ -1581,7 +1572,7 @@ I_AIDXB:
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall popn_delay_12
+    rcall pop3_delay_12
     in   r17, %[spdr]
     out  %[spdr], r2
 
@@ -1613,13 +1604,13 @@ I_AIDX:
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall popn_delay_11
+    rcall pop3_delay_11
     out  %[spdr], r2
     in   r17, %[spdr]
-    rcall popn_delay_15
+    rcall pop3_delay_15
     out  %[spdr], r2
     in   r18, %[spdr]
-    rcall popn_delay_15
+    rcall pop3_delay_15
     out  %[spdr], r2
     in   r19, %[spdr]
     out  %[sreg], r10
@@ -1667,7 +1658,7 @@ I_PIDXB:
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall popn_delay_9
+    rcall pop3_delay_9
     out  %[spdr], r2
     in   r17, %[spdr]
     out  %[sreg], r0
@@ -1692,7 +1683,7 @@ pidx_error:
 
 I_PIDX:
 
-    rcall popn_delay_7
+    rcall pop3_delay_7
 
     ; load elem size into r20:r21
     in   r20, %[spdr]
@@ -1706,7 +1697,7 @@ I_PIDX:
     mov  r12, r9
     ld   r11, -Y
     ld   r10, -Y
-    rcall popn_delay_7
+    rcall pop3_delay_7
 
     in   r21, %[spdr]
     out  %[spdr], r2
@@ -1715,15 +1706,15 @@ I_PIDX:
     ld   r15, -Y
     ld   r14, -Y
     ld   r13, -Y
-    rcall popn_delay_10
+    rcall pop3_delay_10
 
     ; load elem count into r16:r18
     in   r16, %[spdr]
     out  %[spdr], r2
-    rcall popn_delay_16
+    rcall pop3_delay_16
     in   r17, %[spdr]
     out  %[spdr], r2
-    rcall popn_delay_16
+    rcall pop3_delay_16
     in   r18, %[spdr]
     out  %[spdr], r2
 

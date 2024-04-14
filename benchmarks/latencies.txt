@@ -17,7 +17,7 @@
    22   p0000
    30   pz8
    46   pz16
-   35   push N
+   34   push N
    52   push2 N
    69   push3 N
    86   push4 N
@@ -85,11 +85,11 @@
   330   getpn 8
   466   getpn 16
   738   getpn 32
-   18   pop
-   18   pop2
-   18   pop3
-   18   pop4
-   35   popn N
+   17   pop
+   17   pop2
+   17   pop3
+   17   pop4
+   34   popn N
    35   refl
    35   refgb
    18   getr
