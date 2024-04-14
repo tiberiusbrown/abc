@@ -659,8 +659,7 @@ I_DUP:
     st   Y+, r9
     cpi  r28, 255
     breq 1f
-    lpm
-    dispatch_noalign
+    dispatch_noalign_reverse
 1:  ldi  r24, 5
     jmp  call_vm_error
     .align 6

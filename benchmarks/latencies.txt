@@ -27,7 +27,7 @@
    19   sext2 (neg)
    21   sext3
    21   sext3 (neg)
-   18   dup
+   17   dup
    19   dup2
    19   dup3
    19   dup4
