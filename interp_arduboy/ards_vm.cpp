@@ -1254,14 +1254,18 @@ I_SETG4:
     dispatch
 
 I_SETGN:
-    rcall getg_delay_7
-    in   r26, %[spdr]
+    lpm
+    rjmp .+0
+    in   r10, %[sreg]
+    cli
     out  %[spdr], r2
+    in   r26, %[spdr]
+    out  %[sreg], r10
     ldi  r17, 2
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall getg_delay_12
+    rcall getg_delay_10
     in   r27, %[spdr]
     out  %[spdr], r2
     add  r26, r9
