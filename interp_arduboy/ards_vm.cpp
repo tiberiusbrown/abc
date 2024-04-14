@@ -1310,6 +1310,7 @@ getpn_delay_10:
     nop
 getpn_delay_9:
     rjmp .+0
+getpn_delay_7:
     ret
     .align 6
 
@@ -1324,16 +1325,19 @@ getpn_resume:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
-1:  rcall getpn_delay_9
-    in   r0, %[spdr]
+    lpm
+1:  lpm
+    lpm
+    in   r10, %[sreg]
+    cli
     out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
     st   Y+, r0
-    nop
     dec  r1
     cp   r1, r4
     brne 1b
-    rcall getpn_delay_10
+    rcall getpn_delay_9
     in   r9, %[spdr]
     jmp  jump_to_pc
     .align 6
@@ -1359,7 +1363,7 @@ getpn_seek_to_addr:
     out  %[spdr], r10
     rcall getg_delay_17
     out  %[spdr], r16
-    rcall getg_delay_17
+    rcall getg_delay_16
     out  %[spdr], r2
     rjmp getpn_resume
     .align 6

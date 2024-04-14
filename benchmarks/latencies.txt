@@ -78,12 +78,12 @@
   133   setgn VAR (16)
   221   setgn VAR (32)
   206   getp
-  230   getpn 2
-  248   getpn 3
-  266   getpn 4
-  338   getpn 8
-  482   getpn 16
-  770   getpn 32
+  228   getpn 2
+  245   getpn 3
+  262   getpn 4
+  330   getpn 8
+  466   getpn 16
+  738   getpn 32
    18   pop
    18   pop2
    18   pop3
