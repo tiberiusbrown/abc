@@ -3495,32 +3495,41 @@ I_JMP1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc
+call_error:
+    ldi  r24, 6
+    jmp  call_vm_error
     .align 6
 
 I_CALL:
     lds  r26, %[vm_csp]
     cpi  r26, %[MAX_CALLS] * 3 - 3
-    brsh 1f
+    brsh call_error
     ldi  r27, 0x06
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
     ldi  r16, 3
     add  r16, r6
-    in   r6, %[spdr]
-    out  %[spdr], r2
+    mov  r6, r0
     adc  r7, r2
     adc  r8, r2
     st   X+, r16
     st   X+, r7
     st   X+, r8
-    nop
-    rcall branch_delay_7
-    in   r7, %[spdr]
+    rjmp .+0
+    rjmp .+0
     out  %[spdr], r2
-    rcall branch_delay_14
+    in   r7, %[spdr]
+    out  %[sreg], r10
     sts  %[vm_csp], r26
+    rcall branch_delay_11
+    ldi  r18, 3
     in   r8, %[spdr]
-    rjmp jump_to_pc
-1:  ldi  r24, 6
-    jmp  call_vm_error
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    rjmp jump_to_pc_delayed
     .align 6
 
 I_CALL1:

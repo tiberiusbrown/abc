@@ -305,7 +305,7 @@
   121   bnzp1 (taken)
   145   jmp
   121   jmp1
-  150   call
+  145   call
   129   call1
   117   ret
   100   $get_pixel
