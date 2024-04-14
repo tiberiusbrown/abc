@@ -3904,9 +3904,6 @@ seek_delay_8:
     nop
 seek_delay_7:
     ret
-    
-dispatch_func:
-    dispatch_noalign
 
 call_vm_error:
 
