@@ -266,6 +266,24 @@ vm_execute:
     .align 6
     .endm
 
+    .macro dispatch_noalign_reverse_noinc
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    nop
+    mul  r0, r3
+    movw r30, r0
+    add  r31, r5
+    ijmp
+    .endm
+
+    .macro dispatch_reverse_noinc
+    dispatch_noalign_reverse_noinc
+    .align 6
+    .endm
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; instructions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -947,9 +965,7 @@ I_SETL:
     sub  r26, r0
     st   X, r16
     ld   r9, -Y
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    dispatch_reverse
 
 I_SETL2:
     lpm
