@@ -44,7 +44,7 @@
    23   dupw8
    35   getl N
    35   getl2 N
-   38   getl4 N
+   37   getl4 N
    38   getln N (3)
    49   getln N (5)
    68   getln N (8)

@@ -868,9 +868,12 @@ I_GETL4:
 getln_error:
     ldi  r24, 5
     jmp  call_vm_error
-1:  nop
+1:  add  r6, r4
     movw r26, r28
-    read_byte
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    adc  r7, r2
+    adc  r8, r2
     sub  r26, r0
     ld   r16, X+
     ld   r17, X+
