@@ -1201,9 +1201,8 @@ I_GTGB2:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
-    rjmp .+0
-    dispatch_noalign
+    nop
+    dispatch_noalign_reverse
 gtgb2_delay_7:
     ret
     .align 6
