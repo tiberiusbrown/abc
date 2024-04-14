@@ -1112,19 +1112,22 @@ I_GTGB:
     ldi  r24, 5
     jmp  call_vm_error
 1:  st   Y+, r9
-    ldi  r27, 2
-    nop
-    in   r26, %[spdr]
+    in   r10, %[sreg]
+    cli
     out  %[spdr], r2
+    in   r26, %[spdr]
+    out  %[sreg], r10
+    ldi  r27, 2
     ld   r9, X
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rcall gtgb_delay_11
+    rcall gtgb_delay_8
     dispatch_noalign
 gtgb_delay_11:
-    rjmp .+0
-    rjmp .+0
+    lpm
+gtgb_delay_8:
+    nop
     ret
     .align 6
 
