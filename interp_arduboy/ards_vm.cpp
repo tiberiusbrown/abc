@@ -255,18 +255,18 @@ I_PUSH:
     st   Y+, r9
     cpi  r28, 255
     breq 1f
+    add  r6, r4
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
     in   r9, %[spdr]
     out  %[sreg], r10
-    add  r6, r4
     adc  r7, r2
     adc  r8, r2
     lpm
     lpm
     lpm
-    rjmp .+0
+    lpm
     dispatch_noalign
 1:  ldi  r24, 5
     jmp  call_vm_error
@@ -485,6 +485,7 @@ I_PUSH2:
     st   Y+, r9
     cpi  r28, 254
     brsh push2_error
+    ldi  r16, 2
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -494,20 +495,19 @@ I_PUSH2:
     out  %[spdr], r2
     in   r9, %[spdr]
     out  %[sreg], r10
-    ldi  r16, 2
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_10
+    rcall pushg_delay_11
 push3_dispatch:
 push4_dispatch:
     dispatch_noalign
-pushg_delay_14:
-    nop
 pushg_delay_13:
     nop
 pushg_delay_12:
-    rjmp .+0
+    nop
+pushg_delay_11:
+    nop
 pushg_delay_10:
     nop
 pushg_delay_9:
@@ -520,6 +520,7 @@ I_PUSH3:
     st   Y+, r9
     cpi  r28, 253
     brsh push3_error
+    ldi  r16, 3
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -533,12 +534,10 @@ I_PUSH3:
     out  %[spdr], r2
     in   r9, %[spdr]
     out  %[sreg], r10
-    ldi  r16, 3
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_7
-    nop
+    rcall pushg_delay_9
     rjmp push3_dispatch
 push3_error:
 push4_error:
@@ -550,16 +549,16 @@ I_PUSH4:
     st   Y+, r9
     cpi  r28, 252
     brsh push4_error
+    ldi  r16, 4
     in   r10, %[sreg]
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
     st   Y+, r0
-    ldi  r16, 4
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_9
+    rcall pushg_delay_10
     out  %[spdr], r2
     in   r0, %[spdr]
     st   Y+, r0
