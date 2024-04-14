@@ -3471,13 +3471,17 @@ I_JMP:
     cli
     out  %[spdr], r2
     in   r6, %[spdr]
-    rcall branch_delay_15
+    ldi  r18, 3
+    rcall branch_delay_14
     out  %[spdr], r2
     in   r7, %[spdr]
     out  %[sreg], r10
     rcall branch_delay_14
     in   r8, %[spdr]
-    rjmp  jump_to_pc
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    rjmp  jump_to_pc_delayed
     .align 6
 
 I_JMP1:
@@ -3816,6 +3820,9 @@ jump_to_pc:
 1:  ldi  r18, 3
     fx_enable
     out  %[spdr], r18
+    rjmp .+0
+
+jump_to_pc_delayed:
 
     ; see if we need to call ards::Tones::update()
     lds  r16, %[tones_size]
@@ -3826,7 +3833,10 @@ jump_to_pc:
     lds  r17, %[data_page]+1
     add  r16, r7
     adc  r17, r8
-    rcall seek_delay_7
+
+    lpm
+    rjmp .+0
+    
     out  %[spdr], r17
     rcall seek_delay_17
     out  %[spdr], r16
