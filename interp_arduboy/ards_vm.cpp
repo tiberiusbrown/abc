@@ -1273,27 +1273,28 @@ setgn_dispatch:
     dispatch
 
 I_SETG4:
-    mov  r19, r9
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
-    in   r26, %[spdr]
+    cli
     out  %[spdr], r2
+    in   r26, %[spdr]
+    mov  r19, r9
     ldi  r20, 2
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    rcall getg_delay_12
-    in   r27, %[spdr]
+    rcall getg_delay_10
     out  %[spdr], r2
+    in   r27, %[spdr]
+    sei
     st   X+, r16
     st   X+, r17
     st   X+, r18
     st   X+, r19
     ld   r9, -Y
-    lpm
-    lpm
-    dispatch
+    nop
+    dispatch_reverse
 
 I_SETGN:
     lpm
