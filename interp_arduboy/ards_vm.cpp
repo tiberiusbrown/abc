@@ -507,22 +507,24 @@ pushg_delay_10:
 I_PUSH3:
     st   Y+, r9
     lpm
-    rjmp .+0
-    in   r0, %[spdr]
+    in   r10, %[sreg]
+    cli
     out  %[spdr], r2
-    st   Y+, r0
-    rcall pushg_delay_14
     in   r0, %[spdr]
-    out  %[spdr], r2
     st   Y+, r0
-    rcall pushg_delay_14
+    rcall pushg_delay_13
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    st   Y+, r0
+    rcall pushg_delay_13
+    out  %[spdr], r2
     in   r9, %[spdr]
-    out  %[spdr], r2
+    out  %[sreg], r10
     ldi  r16, 3
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_12
+    rcall pushg_delay_10
 push4_dispatch:
     dispatch
 
