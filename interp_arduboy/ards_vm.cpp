@@ -1509,7 +1509,9 @@ popn_delay_12:
 popn_delay_11:
     nop
 popn_delay_10:
-    rjmp .+0
+    nop
+popn_delay_9:
+    nop
 popn_delay_8:
     nop
 popn_delay_7:
@@ -1630,18 +1632,21 @@ I_PIDXB:
     ; load progref into r13:r14:r9
     ld   r9, -Y
     ld   r14, -Y
-    ld   r13, -Y
+    in   r0, %[sreg]
+    cli
     ; load elem size into r16
     ; load elem count into r17
-    in   r16, %[spdr]
     out  %[spdr], r2
+    in   r16, %[spdr]
+    ld   r13, -Y
     ldi  r17, 2
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall popn_delay_12
-    in   r17, %[spdr]
+    rcall popn_delay_9
     out  %[spdr], r2
+    in   r17, %[spdr]
+    out  %[sreg], r0
     ; bounds check index against elem count
     cp   r10, r17
     brsh pidxb_error
@@ -1653,7 +1658,7 @@ I_PIDXB:
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    lpm
+    nop
     rjmp pidxb_dispatch
 pidxb_error:
 pidx_error:
