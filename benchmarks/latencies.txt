@@ -71,7 +71,7 @@
    34   gtgb2 VAR
    36   gtgb4 VAR
    51   setg VAR
-   52   setg2 VAR
+   51   setg2 VAR
    51   setg4 VAR
    59   setgn VAR (3)
    70   setgn VAR (5)

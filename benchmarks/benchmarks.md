@@ -479,7 +479,7 @@ void main()
 <details><summary>fibonacci: 18.64x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 128131</td><td>Cycles: 2387883</td></tr>
+<tr><td>Cycles: 128131</td><td>Cycles: 2387873</td></tr>
 <tr>
 <td>
 

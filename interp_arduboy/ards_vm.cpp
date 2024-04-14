@@ -1266,11 +1266,9 @@ I_SETG2:
     ld   r17, -Y
     st   X+, r17
     st   X+, r9
-    lpm
-    lpm
-setgn_dispatch:
     ld   r9, -Y
-    dispatch
+    lpm
+    dispatch_reverse
 
 I_SETG4:
     ld   r18, -Y
@@ -1323,6 +1321,7 @@ I_SETGN:
     st   -X, r0
     dec  r9
     brne 1b
+    ld   r9, -Y
     rjmp setgn_dispatch
     .align 6
 
@@ -1390,6 +1389,7 @@ I_GETR:
     ld   r26, -Y
     ld   r9, X+
     rjmp .+0
+setgn_dispatch:
     dispatch_noalign
 getpn_seek_to_addr:
     fx_disable
