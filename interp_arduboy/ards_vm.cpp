@@ -3293,6 +3293,7 @@ branch_delay_12:
     nop
 branch_delay_11:
     rjmp .+0
+branch_delay_9:
     rjmp .+0
 branch_delay_7:
     ret
@@ -3397,15 +3398,14 @@ I_BZP:
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    nop
-    in   r10, %[sreg]
+    rjmp .+0
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
     rcall branch_delay_15
     out  %[spdr], r2
     in   r17, %[spdr]
-    out  %[sreg], r10
+    sei
     rcall branch_delay_11
     cp   r9, r2
     brne 1f
@@ -3414,10 +3414,10 @@ I_BZP:
     rjmp jump_to_pc
 1:  out  %[spdr], r2
     ld   r9, -Y
-    rcall branch_delay_14
+    rcall branch_delay_11
 bzp1_dispatch:
 bnzp1_dispatch:
-    dispatch
+    dispatch_reverse
 
 I_BZP1:
     add  r6, r4
@@ -3437,7 +3437,7 @@ I_BZP1:
     rjmp jump_to_pc
 1:  out  %[spdr], r2
     ld   r9, -Y
-    rcall branch_delay_12
+    rcall branch_delay_9
     rjmp  bzp1_dispatch
     .align 6
 
@@ -3446,15 +3446,14 @@ I_BNZP:
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    nop
-    in   r10, %[sreg]
+    rjmp .+0
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
     rcall branch_delay_15
     out  %[spdr], r2
     in   r17, %[spdr]
-    out  %[sreg], r10
+    sei
     rcall branch_delay_11
     cp   r9, r2
     breq 1f
@@ -3463,8 +3462,8 @@ I_BNZP:
     rjmp jump_to_pc
 1:  out  %[spdr], r2
     ld   r9, -Y
-    rcall branch_delay_14
-    dispatch
+    rcall branch_delay_11
+    dispatch_reverse
 
 I_BNZP1:
     add  r6, r4
@@ -3484,7 +3483,7 @@ I_BNZP1:
     rjmp jump_to_pc
 1:  out  %[spdr], r2
     ld   r9, -Y
-    rcall branch_delay_12
+    rcall branch_delay_9
     rjmp  bnzp1_dispatch
     .align 6
 
