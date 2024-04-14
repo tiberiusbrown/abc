@@ -1478,6 +1478,9 @@ I_POP4:
     rjmp .+0
     dispatch_noalign
 aidx_part2:
+    ld   r20, -Y
+    add  r22, r20
+    adc  r23, r21
     st   Y+, r22
     mov  r9, r23
     dispatch
@@ -1498,10 +1501,13 @@ I_POPN:
     rcall popn_delay_8
     dispatch_noalign
 popn_delay_16:
-    rjmp .+0
-    rjmp .+0
+    nop
+popn_delay_15:
+    lpm
 popn_delay_12:
-    rjmp .+0
+    nop
+popn_delay_11:
+    nop
 popn_delay_10:
     rjmp .+0
 popn_delay_8:
@@ -1567,30 +1573,30 @@ I_AIDXB:
     mov  r9, r1
     nop
     rjmp aidxb_dispatch
-aidx_delay_4:
-    rjmp aidx_delay_4_return
     .align 6
 
 I_AIDX:
     mov  r21, r9
     ld   r20, -Y
-    rjmp aidx_delay_4
-aidx_delay_4_return:
-    in   r16, %[spdr]
+    rjmp .+0
+    in   r10, %[sreg]
+    cli
     out  %[spdr], r2
+    in   r16, %[spdr]
     ldi  r17, 4
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall popn_delay_12
+    rcall popn_delay_11
+    out  %[spdr], r2
     in   r17, %[spdr]
+    rcall popn_delay_15
     out  %[spdr], r2
-    rcall popn_delay_16
     in   r18, %[spdr]
+    rcall popn_delay_15
     out  %[spdr], r2
-    rcall popn_delay_16
     in   r19, %[spdr]
-    out  %[spdr], r2
+    out  %[sreg], r10
 
     cp   r20, r18
     cpc  r21, r19
@@ -1615,9 +1621,6 @@ aidx_delay_4_return:
     mul  r17, r20
     add  r23, r0
     ld   r21, -Y
-    ld   r20, -Y
-    add  r22, r20
-    adc  r23, r21
     rjmp aidx_part2
     .align 6
 
