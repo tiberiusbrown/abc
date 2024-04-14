@@ -18,9 +18,9 @@
    30   pz8
    46   pz16
    34   push N
-   52   push2 N
-   69   push3 N
-   86   push4 N
+   51   push2 N
+   68   push3 N
+   85   push4 N
    18   sext
    18   sext (neg)
    19   sext2

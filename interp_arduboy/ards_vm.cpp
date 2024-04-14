@@ -440,7 +440,11 @@ I_P128:
     jmp  call_vm_error
 1:  ldi  r16, 128
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+push2_dispatch:
+push3_dispatch:
+push4_dispatch:
+    dispatch_reverse
 
 I_P00:
     cpi  r28, 254
@@ -538,10 +542,9 @@ I_PUSH2:
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_11
-push3_dispatch:
-push4_dispatch:
-    dispatch_noalign
+    lpm
+    lpm
+    rjmp push2_dispatch
 pushg_delay_13:
     nop
 pushg_delay_12:
@@ -577,7 +580,8 @@ I_PUSH3:
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
-    rcall pushg_delay_9
+    lpm
+    lpm
     rjmp push3_dispatch
 push3_error:
 push4_error:
@@ -610,7 +614,7 @@ I_PUSH4:
     out  %[spdr], r2
     in   r9, %[spdr]
     out  %[sreg], r10
-    rcall pushg_delay_12
+    rcall pushg_delay_9
     rjmp push4_dispatch
     .align 6
 

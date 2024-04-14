@@ -2,10 +2,10 @@ bubble1                    34714     1636770       47.15x
 bubble2                    52858     1763778       33.37x
 bubble3                    71002     2082306       29.33x
 bubble4                    89146     2205282       24.74x
-mat3rotation               13138       16865        1.28x
+mat3rotation               13138       16862        1.28x
 fibonacci                 128131     2390224       18.65x
 sieve                      20499     1104959       53.90x
-text                      207402       68759        0.33x
-tilessprite                44482      147610        3.32x
-tilessprite16              26978       52970        1.96x
+text                      207402       68753        0.33x
+tilessprite                44482      147482        3.32x
+tilessprite16              26978       52938        1.96x
 tilesrect                 257725       92282        0.36x
