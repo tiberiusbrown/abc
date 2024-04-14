@@ -242,8 +242,8 @@
    17   comp
    18   comp2
    27   comp4
-   18   bool (0)
-   18   bool (1)
+   17   bool (0)
+   17   bool (1)
    18   bool2 (0)
    18   bool2 (1)
    20   bool3 (0)

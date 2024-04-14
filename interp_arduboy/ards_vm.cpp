@@ -2977,8 +2977,7 @@ I_BOOL:
     cpse r9, r2
     ldi  r16, 1
     mov  r9, r16
-    lpm
-    dispatch
+    dispatch_reverse
 
 I_BOOL2:
     ld   r1, -Y
