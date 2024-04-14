@@ -966,6 +966,8 @@ I_SETL:
     st   X, r16
     ld   r9, -Y
     nop
+getg_dispatch:
+getg2_dispatch:
     dispatch_reverse
 
 I_SETL2:
@@ -986,6 +988,7 @@ I_SETL2:
     st   X+, r16
     st   X+, r17
     ld   r9, -Y
+getg4_dispatch:
     dispatch
 
 I_SETL4:
@@ -1003,7 +1006,6 @@ I_SETL4:
     ld   r9, -Y
     nop
 setln_dispatch:
-getg_dispatch:
     dispatch
  
 I_SETLN:
@@ -1050,7 +1052,7 @@ I_GETG:
     in   r27, %[spdr]
     out  %[sreg], r10
     ld   r9, X
-    rcall getg_delay_10
+    rcall getg_delay_7
     rjmp getg_dispatch
 getg_delay_17:
     nop
@@ -1080,7 +1082,7 @@ I_GETG2:
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  in   r10, %[sreg]
+1:  nop
     cli
     out  %[spdr], r2
     in   r26, %[spdr]
@@ -1091,13 +1093,13 @@ I_GETG2:
     rcall getg_delay_11
     out  %[spdr], r2 
     in   r27, %[spdr]
-    out  %[sreg], r10
+    sei
     ld   r16, X+
     ld   r9, X+
     st   Y+, r16
-    rcall getg_delay_8
-getg4_dispatch:
-    dispatch
+    lpm
+    rjmp getg2_dispatch
+    .align 6
 
 I_GETG4:
     st   Y+, r9
