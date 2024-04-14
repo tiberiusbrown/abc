@@ -1915,14 +1915,21 @@ I_REFL:
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  rjmp .+0
-    read_byte
+1:  in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     movw r16, r28
     sub  r16, r0
     st   Y+, r16
     mov  r9, r17
-    rcall refl_delay_8
-    dispatch_noalign
+    rjmp .+0
+    rjmp .+0
+    rjmp refl_dispatch
 pslc_error:
     ldi  r24, 2
     jmp call_vm_error
@@ -1950,6 +1957,7 @@ inc_dispatch:
 uaidx_dispatch:
 slc_dispatch:
 pidxb_dispatch:
+refl_dispatch:
     dispatch
 
 I_INC:

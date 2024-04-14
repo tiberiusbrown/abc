@@ -89,7 +89,7 @@
    18   pop3
    18   pop4
    35   popn N
-   36   refl
+   35   refl
    36   refgb
    18   getr
    20   getr2
