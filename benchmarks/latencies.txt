@@ -77,7 +77,7 @@
    89   setgn VAR (8)
   133   setgn VAR (16)
   221   setgn VAR (32)
-  207   getp
+  206   getp
   230   getpn 2
   248   getpn 3
   266   getpn 4

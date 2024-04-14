@@ -1301,7 +1301,7 @@ I_GETP:
     out  %[spdr], r10
     rcall getg_delay_17
     out  %[spdr], r16
-    rcall getg_delay_17
+    rcall getg_delay_16
     out  %[spdr], r2
     rcall getg_delay_16
     in   r9, %[spdr]
