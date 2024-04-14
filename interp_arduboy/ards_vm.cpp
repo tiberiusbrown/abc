@@ -3883,8 +3883,8 @@ jump_to_pc_delayed2:
     out  %[spdr], r6
     rcall seek_delay_16
     out  %[spdr], r2
-    rcall seek_delay_16
-    dispatch_noalign
+    rcall seek_delay_13
+    dispatch_noalign_reverse
     
 2:  clr  r1
     rcall seek_delay_11
@@ -3895,8 +3895,9 @@ jump_to_pc_delayed2:
 seek_delay_17:
     nop
 seek_delay_16:
-    rjmp .+0
     lpm
+seek_delay_13:
+    rjmp .+0
 seek_delay_11:
     lpm
 seek_delay_8:

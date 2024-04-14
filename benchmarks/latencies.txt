@@ -78,13 +78,13 @@
    89   setgn VAR (8)
   133   setgn VAR (16)
   221   setgn VAR (32)
-  206   getp
-  228   getpn 2
-  245   getpn 3
-  262   getpn 4
-  330   getpn 8
-  466   getpn 16
-  738   getpn 32
+  205   getp
+  227   getpn 2
+  244   getpn 3
+  261   getpn 4
+  329   getpn 8
+  465   getpn 16
+  737   getpn 32
    17   pop
    17   pop2
    17   pop3
@@ -289,26 +289,26 @@
    92   u2f (3)
    92   u2f (340000000)
    68   bz (not taken)
-  148   bz (taken)
+  147   bz (taken)
    35   bz1 (not taken)
-  121   bz1 (taken)
+  120   bz1 (taken)
    68   bnz (not taken)
-  148   bnz (taken)
+  147   bnz (taken)
    35   bnz1 (not taken)
-  121   bnz1 (taken)
+  120   bnz1 (taken)
    68   bzp (not taken)
-  148   bzp (taken)
+  147   bzp (taken)
    34   bzp1 (not taken)
-  121   bzp1 (taken)
+  120   bzp1 (taken)
    68   bnzp (not taken)
-  148   bnzp (taken)
+  147   bnzp (taken)
    34   bnzp1 (not taken)
-  121   bnzp1 (taken)
-  145   jmp
-  121   jmp1
-  145   call
-  129   call1
-  110   ret
+  120   bnzp1 (taken)
+  144   jmp
+  120   jmp1
+  144   call
+  128   call1
+  109   ret
   100   $get_pixel
    99   $draw_pixel
   203   $draw_hline (0, 0, 1)
