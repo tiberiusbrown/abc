@@ -1,9 +1,9 @@
 ## Benchmarks
 
-<details><summary>bubble1: 47.68x slowdown</summary>
+<details><summary>bubble1: 47.57x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 34714</td><td>Cycles: 1655231</td></tr>
+<tr><td>Cycles: 34714</td><td>Cycles: 1651199</td></tr>
 <tr>
 <td>
 

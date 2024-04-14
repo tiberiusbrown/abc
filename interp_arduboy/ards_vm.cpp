@@ -1512,20 +1512,25 @@ popn_delay_7:
 
 I_AIXB1:
     mov  r20, r9
-    lpm
-    lpm
-    read_byte
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    nop
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
     ; r0:  num elems
     ; r20: index
     cp   r20, r0
-    brlo 1f
-    ldi  r24, 2
-    jmp  call_vm_error
-1:  ld   r9, -Y
+    brsh aidx_error
+    ld   r9, -Y
     ld   r22, -Y
     add  r22, r20
     adc  r9, r2
     st   Y+, r22
+    rjmp .+0
     rjmp .+0
 aidxb_dispatch:
     dispatch_noalign
