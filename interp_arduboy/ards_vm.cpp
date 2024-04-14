@@ -1541,6 +1541,7 @@ aidx_part2:
     adc  r23, r21
     st   Y+, r22
     mov  r9, r23
+aidxb_dispatch:
     dispatch
 
 I_POPN:
@@ -1565,8 +1566,7 @@ I_AIXB1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    nop
-    in   r10, %[sreg]
+    rjmp .+0
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
@@ -1580,10 +1580,8 @@ I_AIXB1:
     add  r22, r20
     adc  r9, r2
     st   Y+, r22
-    rjmp .+0
-    rjmp .+0
-aidxb_dispatch:
-    dispatch_noalign
+    nop
+    dispatch_noalign_reverse
 aidx_error:
     ldi  r24, 2
     jmp  call_vm_error
