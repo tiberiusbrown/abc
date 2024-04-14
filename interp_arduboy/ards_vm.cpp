@@ -2233,9 +2233,7 @@ I_PDECF:
 I_ADD:
     ld   r14, -Y
     add  r9, r14
-    rjmp .+0
-    rjmp .+0
-    dispatch
+    dispatch_reverse
     ; TODO: SPACE HERE
 
 I_ADD2:

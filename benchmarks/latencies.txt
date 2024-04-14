@@ -132,7 +132,7 @@
   139   pdecf (0)
   117   pdecf (1)
   180   pdecf (1000000)
-   18   add
+   17   add
    21   add2
    28   add3
    35   add4
