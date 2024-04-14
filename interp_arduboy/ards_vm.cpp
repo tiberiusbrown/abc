@@ -1019,7 +1019,9 @@ getg_delay_12:
 getg_delay_11:
     nop
 getg_delay_10:
-    lpm
+    rjmp .+0
+getg_delay_8:
+    nop
     ret
     .align 6
 
@@ -1029,20 +1031,22 @@ I_GETG2:
     brlo 1f
     ldi  r24, 5
     jmp  call_vm_error
-1:  rjmp .+0
-    in   r26, %[spdr]
+1:  in   r10, %[sreg]
+    cli
     out  %[spdr], r2
+    in   r26, %[spdr]
     ldi  r20, 2
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    rcall getg_delay_12
-    in   r27, %[spdr]
+    rcall getg_delay_11
     out  %[spdr], r2 
+    in   r27, %[spdr]
+    out  %[sreg], r10
     ld   r16, X+
     ld   r9, X+
     st   Y+, r16
-    rcall getg_delay_10
+    rcall getg_delay_8
 getg4_dispatch:
     dispatch
 
