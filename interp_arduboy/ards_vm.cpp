@@ -3323,24 +3323,26 @@ I_BZ1:
 
 I_BNZ:
     mov  r1, r9
-    ld   r9, -Y
     ldi  r16, 3
     add  r6, r16
     adc  r7, r2
     adc  r8, r2
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
     in   r16, %[spdr]
-    out  %[spdr], r2
-    rcall branch_delay_16
-    in   r17, %[spdr]
-    out  %[spdr], r2
+    ld   r9, -Y
     rcall branch_delay_13
+    out  %[spdr], r2
+    in   r17, %[spdr]
+    out  %[sreg], r10
+    rcall branch_delay_11
     cp   r1, r2
     breq 1f
     movw r6, r16
     in   r8, %[spdr]
     rjmp jump_to_pc
-1:  nop
-    out  %[spdr], r2
+1:  out  %[spdr], r2
     rcall branch_delay_16
     dispatch
 
