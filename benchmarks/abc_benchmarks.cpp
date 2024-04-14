@@ -267,6 +267,7 @@ int abc_benchmarks()
     }
     static char const* const INSTRS[] =
     {
+        "nop",
         "p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7",
         "p8", "p16", "p32", "p64", "p128",
         "p00", "p000", "p0000",

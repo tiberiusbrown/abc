@@ -298,6 +298,10 @@ $L_main_start:
     sys debug_break
     
     sys debug_break
+    nop
+    sys debug_break
+    
+    sys debug_break
     p0
     sys debug_break
     pop

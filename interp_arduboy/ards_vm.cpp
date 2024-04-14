@@ -224,6 +224,7 @@ vm_execute:
     adc  r8, r2
     .endm
     
+    ; needs 16 cycles since the last write to SPDR
     .macro dispatch_noalign
     read_byte
     mul  r0, r3
@@ -233,6 +234,7 @@ vm_execute:
     .endm
     
     ; need to copy macro here because max nesting is 2 apparently
+    ; needs 16 cycles since the last write to SPDR
     .macro dispatch
     read_byte
     mul  r0, r3
@@ -242,13 +244,35 @@ vm_execute:
     .align 6
     .endm
 
+    ; this macro can speed up dispatch by one cycle
+    ; needs 12 cycles since the last write to SPDR (4 fewer)
+    .macro dispatch_noalign_reverse
+    add  r6, r4
+    adc  r7, r2
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    adc  r8, r2
+    mul  r0, r3
+    movw r30, r0
+    add  r31, r5
+    ijmp
+    .endm
+
+    .macro dispatch_reverse
+    dispatch_noalign_reverse
+    .align 6
+    .endm
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; instructions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 I_NOP:
-    dispatch_delay
-    dispatch
+    lpm
+    dispatch_reverse
     ; TODO: SPACE HERE
 
 I_PUSH:
