@@ -42,7 +42,7 @@
    23   dupw6
    23   dupw7
    23   dupw8
-   36   getl N
+   35   getl N
    36   getl2 N
    38   getl4 N
    38   getln N (3)
