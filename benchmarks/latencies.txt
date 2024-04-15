@@ -297,11 +297,11 @@
    35   bnz1 (not taken)
   113   bnz1 (taken)
    68   bzp (not taken)
-  147   bzp (taken)
+  144   bzp (taken)
    34   bzp1 (not taken)
   120   bzp1 (taken)
    68   bnzp (not taken)
-  147   bnzp (taken)
+  144   bnzp (taken)
    34   bnzp1 (not taken)
   120   bnzp1 (taken)
   144   jmp

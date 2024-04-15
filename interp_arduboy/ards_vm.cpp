@@ -3170,6 +3170,10 @@ bz_dispatch:
 bnz_dispatch:
 bz1_dispatch:
 bnz1_dispatch:
+bzp1_dispatch:
+bnzp1_dispatch:
+bzp_dispatch:
+bnzp_dispatch:
     dispatch_reverse
 
 I_FADD:
@@ -3422,8 +3426,8 @@ I_BNZ1:
     .align 6
 
 I_BZP:
-    ldi  r16, 3
-    add  r6, r16
+    ldi  r18, 3
+    add  r6, r18
     adc  r7, r2
     adc  r8, r2
     rjmp .+0
@@ -3439,13 +3443,15 @@ I_BZP:
     brne 1f
     movw r6, r16
     in   r8, %[spdr]
-    rjmp jump_to_pc
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    rjmp jump_to_pc_delayed
 1:  out  %[spdr], r2
     ld   r9, -Y
-    rcall branch_delay_11
-bzp1_dispatch:
-bnzp1_dispatch:
-    dispatch_reverse
+    rcall branch_delay_9
+    rjmp bzp_dispatch
+    .align 6
 
 I_BZP1:
     add  r6, r4
@@ -3487,11 +3493,15 @@ I_BNZP:
     breq 1f
     movw r6, r16
     in   r8, %[spdr]
-    rjmp jump_to_pc
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    rjmp jump_to_pc_delayed
 1:  out  %[spdr], r2
     ld   r9, -Y
-    rcall branch_delay_11
-    dispatch_reverse
+    rcall branch_delay_9
+    rjmp bnzp_dispatch
+    .align 6
 
 I_BNZP1:
     add  r6, r4
