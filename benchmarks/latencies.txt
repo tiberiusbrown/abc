@@ -314,7 +314,7 @@
   203   $draw_hline (0, 0, 1)
  1346   $draw_hline (0, 0, 128)
   203   $draw_vline (0, 0, 1)
-  340   $draw_vline (0, 0, 64)
+  322   $draw_vline (0, 0, 64)
   572   $draw_sprite (1x8 unmasked)
   696   $draw_sprite (8x8 unmasked)
   828   $draw_sprite (8x8 masked)

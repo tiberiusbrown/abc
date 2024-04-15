@@ -843,7 +843,10 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
             mov  %[col], %[w]
             andi %[col], 0xf8
             brne 1b
-            rjmp 2b
+            add  %A[buf], %[buf_adv]
+            adc  %B[buf], __zero_reg__
+            dec  %[rows]
+            brne L%=_middle_loop
 
         L%=_bottom:
             tst  %[bot]
