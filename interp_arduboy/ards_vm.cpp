@@ -3579,13 +3579,17 @@ I_CALL1:
     st   X+, r8
     sts  %[vm_csp], r26
     in   r0, %[spdr]
+    ldi  r18, 3
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
     mov  r1, r0
     lsl  r1
     sbc  r1, r1
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    rjmp jump_to_pc
+    rjmp jump_to_pc_delayed2
 1:  ldi  r24, 6
     jmp  call_vm_error
     .align 6

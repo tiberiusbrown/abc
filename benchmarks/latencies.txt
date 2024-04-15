@@ -307,7 +307,7 @@
   144   jmp
   112   jmp1
   144   call
-  128   call1
+  121   call1
   109   ret
   100   $get_pixel
    99   $draw_pixel
