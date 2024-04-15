@@ -1,8 +1,8 @@
-/*
-Options
+// SpritesABC by Peter Brown
+// performance-optimized FX sprites rendering
 
-    SPRITESABC_IMPLEMENTATION
-*/
+// need this is exactly one compilation unit:
+//    #define SPRITESABC_IMPLEMENTATION
 
 #pragma once
 
@@ -12,13 +12,14 @@ Options
 struct SpritesABC
 {
 
-    // color: zero for BLACK, 1 for WHITE
+    // color: 0 for BLACK, 1 for WHITE
     static void fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t color);
     static void fillRect_i8(int8_t x, int8_t y, uint8_t w, uint8_t h, uint8_t color);
 
+    static constexpr uint8_t MODE_OVERWRITE   = 0;
     static constexpr uint8_t MODE_PLUSMASK    = 1;
-    static constexpr uint8_t MODE_INVERT      = 2;
     static constexpr uint8_t MODE_SELFMASK    = 4;
+    static constexpr uint8_t MODE_INVERT      = 2; // like selfmask but inverts pixels
 
     static void drawBasic(
         int16_t x, int16_t y, uint8_t w, uint8_t h,
@@ -91,10 +92,10 @@ void SpritesABC::drawBasic(
             push r7
             push r8
             push r9
-            ; push r10
+            ; push r10 ; unmodified
             push r11
-            ; push r12
-            ; push r13
+            ; push r12 ; unmodified
+            ; push r13 ; unmodified
             push r14
             push r15
             push r16
@@ -667,10 +668,10 @@ void SpritesABC::drawBasic(
             pop  r16
             pop  r15
             pop  r14
-            ; pop  r13
-            ; pop  r12
+            ; pop  r13 ; unmodified
+            ; pop  r12 ; unmodified
             pop  r11
-            ; pop  r10
+            ; pop  r10 ; unmodified
             pop  r9
             pop  r8
             pop  r7
