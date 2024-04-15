@@ -479,14 +479,15 @@ void SpritesABC::drawBasic(
         L%=_bottom_loop:
 
             ; write one page from image to buf
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             ld   r9, X
             and  r9, r6
             or   r9, r0
             st   X+, r9
-            lpm
             rjmp .+0
             dec  r8
             brne L%=_bottom_loop
@@ -536,15 +537,15 @@ void SpritesABC::drawBasic(
 
         L%=_top_loop_invert:
 
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             ld   r9, X
-            and  r9, r7
             eor  r9, r1
             st   X+, r9
             lpm
-            rjmp .+0
             dec  r21
             brne L%=_top_loop_invert
 
@@ -582,13 +583,12 @@ void SpritesABC::drawBasic(
             out  %[spdr], __zero_reg__
             mul  r24, r5
             ld   r9, X
-            and  r9, r6
             eor  r9, r0
             st   X+, r9
             ld   r9, Z
-            and  r9, r7
             eor  r9, r1
             st   Z+, r9
+            nop
             dec  r21
             brne L%=_middle_loop_inner_invert
 
@@ -621,15 +621,15 @@ void SpritesABC::drawBasic(
         L%=_bottom_loop_invert:
 
             ; write one page from image to buf
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             ld   r9, X
-            and  r9, r6
             eor  r9, r0
             st   X+, r9
             lpm
-            rjmp .+0
             dec  r8
             brne L%=_bottom_loop_invert
 
