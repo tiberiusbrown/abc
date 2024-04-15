@@ -496,13 +496,17 @@ void SpritesABC::drawBasic(
         L%=_bottom_loop_masked:
 
             ; write one page from image to buf
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             movw r24, r0
-            rcall L%=_delay_13
-            in   r19, %[spdr]
+            rcall L%=_delay_10
+            cli
             out  %[spdr], __zero_reg__
+            in   r19, %[spdr]
+            sei
             mul  r19, r5
             mov  r19, r0
             ld   r9, X
@@ -510,7 +514,6 @@ void SpritesABC::drawBasic(
             and  r9, r19
             or   r9, r24
             st   X+, r9
-            lpm
             dec  r8
             brne L%=_bottom_loop_masked
             nop
