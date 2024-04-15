@@ -250,7 +250,7 @@ void SpritesABC::drawBasic(
         
             ; continue initial seek
             clr  __zero_reg__
-            rcall L%=_delay_16
+            rcall L%=_delay_15
             out  %[spdr], __zero_reg__
             clr r11
             cp  r20, r8
@@ -297,7 +297,9 @@ void SpritesABC::drawBasic(
         L%=_delay_17:
             nop
         L%=_delay_16:
-            rjmp .+0
+            nop
+        L%=_delay_15:
+            nop
         L%=_delay_14:
             nop
         L%=_delay_13:
@@ -330,14 +332,15 @@ void SpritesABC::drawBasic(
 
         L%=_top_loop:
 
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             ld   r9, X
             and  r9, r7
             or   r9, r1
             st   X+, r9
-            lpm
             rjmp .+0
             dec  r21
             brne L%=_top_loop
@@ -417,14 +420,17 @@ void SpritesABC::drawBasic(
         L%=_middle_loop_inner_masked:
 
             ; write one page from image to buf/buf+128
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             movw r24, r0
             ld   r9, X
             ld   r7, Z
-            rcall L%=_delay_7
-            rjmp .+0
+            lpm
+            lpm
+            nop
             in   r6, %[spdr]
             out  %[spdr], __zero_reg__
             mul  r6, r5
@@ -436,7 +442,6 @@ void SpritesABC::drawBasic(
             and  r7, r1
             or   r7, r25
             st   Z+, r7
-            nop
             dec  r21
             brne L%=_middle_loop_inner_masked
 
