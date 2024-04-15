@@ -117,7 +117,7 @@
    86   pslc
    17   inc
    17   dec
-   35   linc N
+   34   linc N
    20   pinc
    27   pinc2
    37   pinc3

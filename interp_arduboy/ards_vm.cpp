@@ -2034,9 +2034,8 @@ I_LINC:
     ld   r0, X
     inc  r0
     st   X, r0
-    lpm
     rjmp .+0
-    dispatch
+    dispatch_reverse
 
 I_PINC:
     mov  r27, r9
