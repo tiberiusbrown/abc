@@ -402,6 +402,11 @@ void SpritesABC::drawBasic(
             sbrc r10, 0
             rjmp L%=_middle_loop_inner_masked
 
+            lsr  r21
+        1:  brcc L%=_middle_loop_inner
+            inc  r21
+            rjmp 2f
+
         L%=_middle_loop_inner:
 
             ; write one page from image to buf/buf+128
@@ -416,6 +421,18 @@ void SpritesABC::drawBasic(
             and  r9, r7
             or   r9, r1
             st   Z+, r9
+            ld   r9, X
+        2:  in   r24, %[spdr]
+            out  %[spdr], __zero_reg__
+            mul  r24, r5
+            and  r9, r6
+            or   r9, r0
+            st   X+, r9
+            ld   r9, Z
+            and  r9, r7
+            or   r9, r1
+            st   Z+, r9
+            nop
             dec  r21
             brne L%=_middle_loop_inner
             rjmp L%=_middle_loop_outer_next
@@ -431,9 +448,7 @@ void SpritesABC::drawBasic(
             movw r24, r0
             ld   r9, X
             ld   r7, Z
-            lpm
-            lpm
-            nop
+            rcall L%=_delay_7
             in   r6, %[spdr]
             out  %[spdr], __zero_reg__
             mul  r6, r5
@@ -455,7 +470,9 @@ void SpritesABC::drawBasic(
             add  r26, r4
             adc  r27, __zero_reg__
             dec  r19
-            brne L%=_middle
+            breq 1f
+            rjmp L%=_middle
+        1:
 
         L%=_bottom:
 

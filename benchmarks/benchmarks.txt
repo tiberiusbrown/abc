@@ -6,6 +6,6 @@ mat3rotation               13138       16862        1.28x
 fibonacci                 128131     2336675       18.24x
 sieve                      20499     1087206       53.04x
 text                      207402       68053        0.33x
-tilessprite                44482      145921        3.28x
-tilessprite16              26978       52409        1.94x
+tilessprite                44482      145473        3.27x
+tilessprite16              26978       51737        1.92x
 tilesrect                 257725       90977        0.35x
