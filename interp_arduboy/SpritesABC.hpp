@@ -250,7 +250,8 @@ void SpritesABC::drawBasic(
         
             ; continue initial seek
             clr  __zero_reg__
-            rcall L%=_delay_15
+            in   r24, %[sreg]
+            rcall L%=_delay_14
             out  %[spdr], __zero_reg__
             clr r11
             cp  r20, r8
@@ -297,9 +298,7 @@ void SpritesABC::drawBasic(
         L%=_delay_17:
             nop
         L%=_delay_16:
-            nop
-        L%=_delay_15:
-            nop
+            rjmp .+0
         L%=_delay_14:
             nop
         L%=_delay_13:
@@ -335,7 +334,7 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             ld   r9, X
             and  r9, r7
@@ -351,14 +350,14 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             movw r24, r0
             rcall L%=_delay_10
             cli
             out  %[spdr], __zero_reg__
             in   r6, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r6, r5
             movw r6, r0
             ld   r9, X
@@ -443,7 +442,7 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             movw r24, r0
             ld   r9, X
@@ -502,7 +501,7 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             ld   r9, X
             and  r9, r6
@@ -519,14 +518,14 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             movw r24, r0
             rcall L%=_delay_10
             cli
             out  %[spdr], __zero_reg__
             in   r19, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r19, r5
             mov  r19, r0
             ld   r9, X
@@ -563,7 +562,7 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             ld   r9, X
             eor  r9, r1
@@ -647,7 +646,7 @@ void SpritesABC::drawBasic(
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
-            sei
+            out  %[sreg], r24
             mul  r24, r5
             ld   r9, X
             eor  r9, r0
@@ -693,6 +692,7 @@ void SpritesABC::drawBasic(
         , [fxbit]      "I"   (FX_BIT)
         , [spdr]       "I"   (_SFR_IO_ADDR(SPDR))
         , [spsr]       "I"   (_SFR_IO_ADDR(SPSR))
+        , [sreg]       "I"   (_SFR_IO_ADDR(SREG))
         , [page]       "i"   (&FX::programDataPage)
                            
         );
