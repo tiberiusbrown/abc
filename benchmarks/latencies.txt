@@ -305,7 +305,7 @@
    34   bnzp1 (not taken)
   120   bnzp1 (taken)
   144   jmp
-  120   jmp1
+  112   jmp1
   144   call
   128   call1
   109   ret
