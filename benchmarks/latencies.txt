@@ -293,7 +293,7 @@
    35   bz1 (not taken)
   120   bz1 (taken)
    68   bnz (not taken)
-  147   bnz (taken)
+  144   bnz (taken)
    35   bnz1 (not taken)
   120   bnz1 (taken)
    68   bzp (not taken)
