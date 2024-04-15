@@ -1363,7 +1363,8 @@ I_GETPN:
     mov  r18, r9
     ld   r17, -Y
     ld   r16, -Y
-    rjmp .+0
+    ldi  r19, 3
+    nop
     in   r1, %[spdr]
     rjmp getpn_seek_to_addr
 getpn_resume:
@@ -1384,7 +1385,10 @@ getpn_resume:
     brne 1b
     rcall getpn_delay_9
     in   r9, %[spdr]
-    jmp  jump_to_pc
+    fx_disable
+    fx_enable
+    out  %[spdr], r19
+    jmp  jump_to_pc_delayed
     .align 6
 
 I_GETR:
