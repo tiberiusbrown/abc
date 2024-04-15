@@ -405,6 +405,7 @@ void SpritesABC::drawBasic(
             lsr  r21
         1:  brcc L%=_middle_loop_inner
             inc  r21
+            ld   r9, X
             rjmp 2f
 
         L%=_middle_loop_inner:

@@ -683,6 +683,7 @@ private:
     bool peephole_ref(compiler_func_t& f);
     bool peephole_dup_sext(compiler_func_t& f);
     bool peephole_bzp(compiler_func_t& f);
+    bool peephole_redundant_bzp(compiler_func_t& f);
     bool peephole_compress_pop(compiler_func_t& f);
     bool peephole_compress_push(compiler_func_t& f);
     bool peephole_compress_pushes_pushn(compiler_func_t& f);

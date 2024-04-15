@@ -8,7 +8,7 @@ test_logical_and:
   p0
   .line 4
   dup2
-  bzp   $L_test_logical_and_0
+  bz    $L_test_logical_and_1
   dup3
 $L_test_logical_and_0:
   bz    $L_test_logical_and_1
@@ -36,10 +36,11 @@ test_logical_or:
   p0
   .line 11
   dup2
-  bnzp  $L_test_logical_or_0
+  bnz   $L_test_logical_or_2
   dup3
 $L_test_logical_or_0:
   bz    $L_test_logical_or_1
+$L_test_logical_or_2:
   p1
   setl  1
 $L_test_logical_or_1:

@@ -38,6 +38,8 @@ void compiler_t::peephole(compiler_func_t& f)
         ;
     while(peephole_bzp(f))
         ;
+    while(peephole_redundant_bzp(f))
+        ;
     while(peephole_compress_pop(f))
         ;
     while(peephole_compress_push(f))
@@ -1134,6 +1136,57 @@ bool compiler_t::peephole_bzp(compiler_func_t& f)
             i2.instr = I_REMOVE;
             t = true;
             continue;
+        }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_redundant_bzp(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i];
+
+        // replace BZP/BNZP to a BZ/BNZ
+        if(i0.instr == I_BZP || i0.instr == I_BNZP)
+        {
+            size_t j;
+            for(j = 0; j < f.instrs.size(); ++j)
+                if(f.instrs[j].is_label && f.instrs[j].label == i0.label)
+                    break;
+            if(j >= f.instrs.size())
+                continue;
+            for(; j < f.instrs.size(); ++j)
+                if(!f.instrs[j].is_label)
+                    break;
+            if(j >= f.instrs.size())
+                continue;
+            if(i0.instr == I_BZP && f.instrs[j].instr == I_BZ)
+            {
+                i0.instr = I_BZ;
+                i0.label = f.instrs[j].label;
+                t = true;
+            }
+            else if(i0.instr == I_BNZP && f.instrs[j].instr == I_BNZ)
+            {
+                i0.instr = I_BNZ;
+                i0.label = f.instrs[j].label;
+                t = true;
+            }
+            else if(
+                i0.instr == I_BZP && f.instrs[j].instr == I_BNZ ||
+                i0.instr == I_BNZP && f.instrs[j].instr == I_BZ)
+            {
+                auto label = new_label(f);
+                f.instrs.insert(f.instrs.begin() + j + 1, compiler_instr_t{
+                    I_NOP, f.instrs[j].line, 0, 0, label, true });
+                i0.instr = (i0.instr == I_BZP ? I_BZ : I_BNZ);
+                i0.label = label;
+                t = true;
+            }
         }
     }
     return t;

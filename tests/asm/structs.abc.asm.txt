@@ -155,7 +155,7 @@ $L_main_20:
   p2
   sub
   not
-  bzp   $L_main_22
+  bz    $L_main_23
   dup
   p3
   sub
