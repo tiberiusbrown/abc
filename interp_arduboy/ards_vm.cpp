@@ -3166,6 +3166,9 @@ I_NOT:
     cpse r9, r2
     ldi  r16, 0
     mov  r9, r16
+bz_dispatch:
+bz1_dispatch:
+bnz1_dispatch:
     dispatch_reverse
 
 I_FADD:
@@ -3311,8 +3314,8 @@ branch_delay_7:
 
 I_BZ:
     mov  r1, r9
-    ldi  r16, 3
-    add  r6, r16
+    ldi  r18, 3
+    add  r6, r18
     adc  r7, r2
     ld   r9, -Y
     cli
@@ -3328,12 +3331,14 @@ I_BZ:
     brne 1f
     movw r6, r16
     in   r8, %[spdr]
-    rjmp jump_to_pc
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    rjmp jump_to_pc_delayed
 1:  out  %[spdr], r2
-    rcall branch_delay_13
-bz1_dispatch:
-bnz1_dispatch:
-    dispatch_reverse
+    rcall branch_delay_11
+    rjmp  bz_dispatch
+    .align 6
 
 I_BZ1:
     add  r6, r4

@@ -289,7 +289,7 @@
    92   u2f (3)
    92   u2f (340000000)
    68   bz (not taken)
-  147   bz (taken)
+  144   bz (taken)
    35   bz1 (not taken)
   120   bz1 (taken)
    68   bnz (not taken)
