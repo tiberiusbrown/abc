@@ -348,13 +348,17 @@ void SpritesABC::drawBasic(
 
         L%=_top_loop_masked:
 
-            in   r24, %[spdr]
+            cli
             out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            sei
             mul  r24, r5
             movw r24, r0
-            rcall L%=_delay_13
-            in   r6, %[spdr]
+            rcall L%=_delay_10
+            cli
             out  %[spdr], __zero_reg__
+            in   r6, %[spdr]
+            sei
             mul  r6, r5
             movw r6, r0
             ld   r9, X
@@ -362,7 +366,6 @@ void SpritesABC::drawBasic(
             and  r9, r7
             or   r9, r25
             st   X+, r9
-            lpm
             dec  r21
             brne L%=_top_loop_masked
 

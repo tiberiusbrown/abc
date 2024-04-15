@@ -325,7 +325,7 @@
  3028   $draw_sprite (x=0, y=+1, 32x32 unmasked)
  5072   $draw_sprite (x=0, y=+1, 32x32 masked)
  2961   $draw_sprite (x=0, y=-1, 32x32 unmasked)
- 5101   $draw_sprite (x=0, y=-1, 32x32 masked)
+ 5037   $draw_sprite (x=0, y=-1, 32x32 masked)
  2954   $draw_sprite (x=0, y=33, 32x32 unmasked)
  5033   $draw_sprite (x=0, y=33, 32x32 masked)
  3228   $draw_sprite (x=-1, y=0, 32x32 unmasked)
