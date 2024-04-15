@@ -3457,18 +3457,21 @@ I_BZP1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    nop
+    ldi  r18, 3
     cp   r9, r2
     brne 1f
-    rjmp .+0
+    nop
     in   r0, %[spdr]
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
     mov  r1, r0
     lsl  r1
     sbc  r1, r1
     add  r6, r0
     adc  r7, r1
     adc  r8, r1
-    rjmp jump_to_pc
+    rjmp jump_to_pc_delayed2
 1:  out  %[spdr], r2
     ld   r9, -Y
     rcall branch_delay_9
