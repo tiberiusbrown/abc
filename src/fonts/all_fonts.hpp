@@ -26,6 +26,7 @@ struct font_info_t {
 #include "font_pixelgeorgiabold.hpp"
 #include "font_pixeltimes.hpp"
 #include "font_pixeltimesbold.hpp"
+#include "font_pixolletta.hpp"
 #include "font_rainyhearts.hpp"
 #include "font_retron2000.hpp"
 #include "font_simplipixa.hpp"
@@ -52,6 +53,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_PIXELGEORGIABOLD", 13, FONT_PIXELGEORGIABOLD, sizeof(FONT_PIXELGEORGIABOLD) },
     { "FONT_PIXELTIMES", 13, FONT_PIXELTIMES, sizeof(FONT_PIXELTIMES) },
     { "FONT_PIXELTIMESBOLD", 13, FONT_PIXELTIMESBOLD, sizeof(FONT_PIXELTIMESBOLD) },
+    { "FONT_PIXOLLETTA", 15, FONT_PIXOLLETTA, sizeof(FONT_PIXOLLETTA) },
     { "FONT_RAINYHEARTS", 15, FONT_RAINYHEARTS, sizeof(FONT_RAINYHEARTS) },
     { "FONT_RETRON2000", 36, FONT_RETRON2000, sizeof(FONT_RETRON2000) },
     { "FONT_SIMPLIPIXA", 6, FONT_SIMPLIPIXA, sizeof(FONT_SIMPLIPIXA) },

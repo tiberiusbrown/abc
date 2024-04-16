@@ -4,6 +4,10 @@ adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
 
+pixolletta
+100% Free
+https://www.dafont.com/pixolletta8px.font
+
 pixdor
 100% Free
 https://www.dafont.com/pixdor.font
