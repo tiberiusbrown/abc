@@ -20,6 +20,7 @@ struct font_info_t {
 #include "font_gothicpixels.hpp"
 #include "font_lexis.hpp"
 #include "font_mitochondria.hpp"
+#include "font_monkey.hpp"
 #include "font_nokiafc.hpp"
 #include "font_pixcon.hpp"
 #include "font_pixdor.hpp"
@@ -50,6 +51,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_GOTHICPIXELS", 16, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
     { "FONT_LEXIS", 8, FONT_LEXIS, sizeof(FONT_LEXIS) },
     { "FONT_MITOCHONDRIA", 12, FONT_MITOCHONDRIA, sizeof(FONT_MITOCHONDRIA) },
+    { "FONT_MONKEY", 16, FONT_MONKEY, sizeof(FONT_MONKEY) },
     { "FONT_NOKIAFC", 10, FONT_NOKIAFC, sizeof(FONT_NOKIAFC) },
     { "FONT_PIXCON", 18, FONT_PIXCON, sizeof(FONT_PIXCON) },
     { "FONT_PIXDOR", 16, FONT_PIXDOR, sizeof(FONT_PIXDOR) },
