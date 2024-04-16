@@ -21,6 +21,7 @@ struct font_info_t {
 #include "font_lexis.hpp"
 #include "font_nokiafc.hpp"
 #include "font_pixcon.hpp"
+#include "font_pixdor.hpp"
 #include "font_pixelgeorgia.hpp"
 #include "font_pixelgeorgiabold.hpp"
 #include "font_pixeltimes.hpp"
@@ -46,6 +47,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_LEXIS", 8, FONT_LEXIS, sizeof(FONT_LEXIS) },
     { "FONT_NOKIAFC", 10, FONT_NOKIAFC, sizeof(FONT_NOKIAFC) },
     { "FONT_PIXCON", 18, FONT_PIXCON, sizeof(FONT_PIXCON) },
+    { "FONT_PIXDOR", 16, FONT_PIXDOR, sizeof(FONT_PIXDOR) },
     { "FONT_PIXELGEORGIA", 13, FONT_PIXELGEORGIA, sizeof(FONT_PIXELGEORGIA) },
     { "FONT_PIXELGEORGIABOLD", 13, FONT_PIXELGEORGIABOLD, sizeof(FONT_PIXELGEORGIABOLD) },
     { "FONT_PIXELTIMES", 13, FONT_PIXELTIMES, sizeof(FONT_PIXELTIMES) },

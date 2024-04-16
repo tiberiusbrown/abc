@@ -4,6 +4,10 @@ adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
 
+pixdor
+100% Free
+https://www.dafont.com/pixdor.font
+
 simplipixa
 100% Free
 https://www.dafont.com/simplipixa.font
