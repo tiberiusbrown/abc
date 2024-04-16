@@ -6,6 +6,7 @@
 | `FONT_BR5` | 6 | 2054 | ![FONT_BR5](font_images/FONT_BR5.png) |
 | `FONT_BR5N` | 6 | 2054 | ![FONT_BR5N](font_images/FONT_BR5N.png) |
 | `FONT_BR6` | 7 | 2054 | ![FONT_BR6](font_images/FONT_BR6.png) |
+| `FONT_ADAFRUIT` | 8 | 2310 | ![FONT_ADAFRUIT](font_images/FONT_ADAFRUIT.png) |
 | `FONT_LEXIS` | 8 | 2310 | ![FONT_LEXIS](font_images/FONT_LEXIS.png) |
 | `FONT_BANGALOR` | 10 | 3078 | ![FONT_BANGALOR](font_images/FONT_BANGALOR.png) |
 | `FONT_VOLTER` | 10 | 4870 | ![FONT_VOLTER](font_images/FONT_VOLTER.png) |

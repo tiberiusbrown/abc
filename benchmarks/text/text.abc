@@ -1,4 +1,4 @@
-constexpr font f = font{ 8 "font6x8.ttf" };
+constexpr font f = FONT_ADAFRUIT;
 
 void main()
 {

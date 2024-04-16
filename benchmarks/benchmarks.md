@@ -601,7 +601,7 @@ void main()
 <details><summary>text: 0.31x slowdown (3.23x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 64211</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 64175</td></tr>
 <tr>
 <td>
 
@@ -637,7 +637,7 @@ void loop()
 <td>
 
 ```c
-constexpr font f = font{ 8 "font6x8.ttf" };
+constexpr font f = FONT_ADAFRUIT;
 
 void main()
 {

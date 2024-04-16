@@ -1,6 +1,6 @@
 .saved 0
-.global uc 2
 .global ua 2
+.global uc 2
 .global ub 2
 .global ud 2
 .global ra3 6
