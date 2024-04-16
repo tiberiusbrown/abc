@@ -739,7 +739,19 @@ static void draw_char(
             lpm
 
             out  %[spdr], %C[addr]
-            rcall L%=_delay_17
+
+            mul  %[w], %[h]
+            movw %[t], r0
+            mul  %B[t], %[c]
+            add  %B[font], r0
+            adc  %C[font], r1
+            mul  %A[t], %[c]
+            add  %A[font], r0
+            adc  %B[font], r1
+            clr  __zero_reg__
+            adc  %C[font], __zero_reg__
+            rjmp .+0
+            rjmp .+0
 
             out  %[spdr], %B[addr]
             rcall L%=_delay_17
@@ -797,7 +809,7 @@ static void draw_char(
         //, [DRAW]   "i"   (&SpritesABC::drawBasic)
         );
         SpritesABC::drawBasic(
-            xv, y, w, h, font, uint8_t(c),
+            xv, y, w, h, font, 0,
             SpritesABC::MODE_INVERT | SpritesABC::MODE_SELFMASK);
 #else
     FX::seekData(font + uint8_t(c) * 2);
