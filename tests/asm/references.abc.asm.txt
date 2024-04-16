@@ -1,10 +1,10 @@
 .saved 0
-.global ra4 4
-.global g 4
-.global ra3 4
-.global ra1 4
 .global a1 4
+.global g 4
+.global ra1 4
 .global ra2 4
+.global ra3 4
+.global ra4 4
 .global a2 8
 .global a3 12
 .global a4 16

@@ -4,6 +4,10 @@ adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
 
+pixcon
+100% Free
+https://www.dafont.com/pixcon.font
+
 lexis
 CC0 1.0 Universal
 https://github.com/damianvila/font-lexis

@@ -234,6 +234,11 @@ static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t
     f << "\n";
 }
 
+static auto tie_var(compiler_global_t const* v)
+{
+    return std::tie(v->var.type.prim_size, v->name);
+}
+
 void compiler_t::write(std::ostream& f)
 {
     // sort globals by ascending size for optimizing access
@@ -245,7 +250,7 @@ void compiler_t::write(std::ostream& f)
 
     std::sort(sorted_globals.begin(), sorted_globals.end(),
         [](compiler_global_t const* a, compiler_global_t const* b) {
-            return a->var.type.prim_size < b->var.type.prim_size;
+            return tie_var(a) < tie_var(b);
     });
 
     // saved globals first
