@@ -79,3 +79,7 @@ https://www.dafont.com/pixel-georgia.font
 retron2000
 100% Free
 https://www.dafont.com/retron2000.font
+
+pixeloidsans*
+SIL OPEN FONT LICENSE
+https://www.dafont.com/pixeloid-sans.font

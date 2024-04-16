@@ -19,11 +19,14 @@ struct font_info_t {
 #include "font_calamity.hpp"
 #include "font_gothicpixels.hpp"
 #include "font_lexis.hpp"
+#include "font_mitochondria.hpp"
 #include "font_nokiafc.hpp"
 #include "font_pixcon.hpp"
 #include "font_pixdor.hpp"
 #include "font_pixelgeorgia.hpp"
 #include "font_pixelgeorgiabold.hpp"
+#include "font_pixeloidsans.hpp"
+#include "font_pixeloidsansbold.hpp"
 #include "font_pixeltimes.hpp"
 #include "font_pixeltimesbold.hpp"
 #include "font_pixolletta.hpp"
@@ -46,11 +49,14 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_CALAMITY", 16, FONT_CALAMITY, sizeof(FONT_CALAMITY) },
     { "FONT_GOTHICPIXELS", 16, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
     { "FONT_LEXIS", 8, FONT_LEXIS, sizeof(FONT_LEXIS) },
+    { "FONT_MITOCHONDRIA", 12, FONT_MITOCHONDRIA, sizeof(FONT_MITOCHONDRIA) },
     { "FONT_NOKIAFC", 10, FONT_NOKIAFC, sizeof(FONT_NOKIAFC) },
     { "FONT_PIXCON", 18, FONT_PIXCON, sizeof(FONT_PIXCON) },
     { "FONT_PIXDOR", 16, FONT_PIXDOR, sizeof(FONT_PIXDOR) },
     { "FONT_PIXELGEORGIA", 13, FONT_PIXELGEORGIA, sizeof(FONT_PIXELGEORGIA) },
     { "FONT_PIXELGEORGIABOLD", 13, FONT_PIXELGEORGIABOLD, sizeof(FONT_PIXELGEORGIABOLD) },
+    { "FONT_PIXELOIDSANS", 11, FONT_PIXELOIDSANS, sizeof(FONT_PIXELOIDSANS) },
+    { "FONT_PIXELOIDSANSBOLD", 11, FONT_PIXELOIDSANSBOLD, sizeof(FONT_PIXELOIDSANSBOLD) },
     { "FONT_PIXELTIMES", 13, FONT_PIXELTIMES, sizeof(FONT_PIXELTIMES) },
     { "FONT_PIXELTIMESBOLD", 13, FONT_PIXELTIMESBOLD, sizeof(FONT_PIXELTIMESBOLD) },
     { "FONT_PIXOLLETTA", 10, FONT_PIXOLLETTA, sizeof(FONT_PIXOLLETTA) },
