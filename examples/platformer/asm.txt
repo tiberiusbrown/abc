@@ -5567,7 +5567,7 @@ render_credits:
   p00
   pushl $PD_23 0
   getl2 11
-  push  27
+  push  28
   add2b
   p32
   p0
@@ -5589,7 +5589,7 @@ render_credits:
   p00
   pushl $PD_23 0
   getl2 11
-  push  54
+  push  55
   add2b
   push  41
   p0
@@ -5611,7 +5611,7 @@ render_credits:
   p00
   pushl $PD_23 0
   getl2 11
-  push  81
+  push  82
   add2b
   push  34
   p0
@@ -5622,7 +5622,7 @@ render_credits:
   p00
   pushl $PD_23 0
   getl2 11
-  push  92
+  push  93
   add2b
   p32
   p0
@@ -8693,7 +8693,8 @@ $L_render_victory_1:
   push  14
   p00
   pushl $PD_23 0
-  p00
+  p1
+  p0
   p1
   p0
   sys   draw_text_P
@@ -8831,7 +8832,8 @@ render_pause:
   push  11
   p00
   pushl $PD_23 0
-  p00
+  p1
+  p0
   push  68
   p0
   sys   draw_text_P
@@ -8840,7 +8842,7 @@ render_pause:
   p2
   p00
   pushl $PD_23 0
-  p16
+  push  17
   p0
   push  75
   p0
@@ -8850,7 +8852,7 @@ render_pause:
   p3
   p00
   pushl $PD_23 0
-  push  28
+  push  29
   p0
   push  75
   p0
@@ -8863,7 +8865,8 @@ $L_render_pause_0:
   p6
   p00
   pushl $PD_23 0
-  p00
+  p1
+  p0
   push  80
   p0
   sys   draw_text_P
@@ -8872,7 +8875,7 @@ $L_render_pause_0:
   p6
   p00
   pushl $PD_23 0
-  p16
+  push  17
   p0
   push  75
   p0
@@ -8885,7 +8888,7 @@ $L_render_pause_0:
   push  9
   p00
   pushl $PD_23 0
-  push  28
+  push  29
   p0
   push  75
   p0
@@ -8898,7 +8901,7 @@ $L_render_pause_1:
   push  10
   p00
   pushl $PD_23 0
-  push  28
+  push  29
   p0
   push  75
   p0
@@ -8909,7 +8912,7 @@ $L_render_pause_2:
   push  9
   p00
   pushl $PD_23 0
-  push  40
+  push  41
   p0
   push  75
   p0
@@ -8922,7 +8925,7 @@ $L_render_pause_2:
   p7
   p00
   pushl $PD_23 0
-  push  52
+  push  53
   p0
   push  75
   p0
@@ -8935,7 +8938,7 @@ $L_render_pause_3:
   p8
   p00
   pushl $PD_23 0
-  push  52
+  push  53
   p0
   push  75
   p0
@@ -8946,7 +8949,7 @@ $L_render_pause_5:
   p1
   p00
   pushl $PD_23 0
-  p16
+  push  17
   p0
   push  12
   p0
@@ -9050,7 +9053,8 @@ $L_render_game_over_1:
   push  12
   p00
   pushl $PD_23 0
-  p00
+  p1
+  p0
   p1
   p0
   sys   draw_text_P
@@ -9213,7 +9217,7 @@ render_menu:
   push  11
   p00
   pushl $PD_23 0
-  push  21
+  push  22
   p0
   push  33
   p0
@@ -9226,7 +9230,7 @@ $L_render_menu_0:
   p8
   p00
   pushl $PD_23 0
-  push  21
+  push  22
   p0
   push  33
   p0
@@ -9237,7 +9241,7 @@ $L_render_menu_1:
   push  12
   p00
   pushl $PD_23 0
-  p32
+  push  33
   p0
   push  33
   p0
@@ -9250,7 +9254,7 @@ $L_render_menu_1:
   push  9
   p00
   pushl $PD_23 0
-  push  43
+  push  44
   p0
   push  33
   p0
@@ -9263,7 +9267,7 @@ $L_render_menu_2:
   push  10
   p00
   pushl $PD_23 0
-  push  43
+  push  44
   p0
   push  33
   p0
@@ -9274,7 +9278,7 @@ $L_render_menu_3:
   p7
   p00
   pushl $PD_23 0
-  push  54
+  push  55
   p0
   push  33
   p0
@@ -9326,7 +9330,8 @@ render_intro:
   push  15
   p00
   pushl $PD_23 0
-  push3 1703935
+  p00
+  push  25
   p0
   sys   draw_text_P
   .line 303
@@ -9400,7 +9405,8 @@ $L_render_intro_0:
   p16
   p00
   pushl $PD_23 0
-  push3 1638399
+  p00
+  push  24
   p0
   sys   draw_text_P
   .line 313
@@ -9411,7 +9417,8 @@ $L_render_intro_1:
   push  10
   p00
   pushl $PD_23 0
-  push3 2490367
+  p00
+  push  37
   p0
   sys   draw_text_P
 $L_render_intro_2:
@@ -9700,7 +9707,7 @@ $L_render_intro_8:
   p7
   p00
   pushl $PD_23 0
-  push  56
+  push  57
   p0
   push  44
   p0
@@ -10289,18 +10296,18 @@ $L_render_level_39:
   .line 493
   getg  level_start_frames 0
   bz    $L_render_level_44
-  .line 498
+  .line 495
   pushl maps 0
   getg  current_map 0
   pidxb 17 12
   getpn 6
-  .line 499
+  .line 496
   p6
   getln 6
   pushl $PD_23 0
   sys   text_width_P
   pop
-  .line 502
+  .line 499
   p64
   p0
   dup3
@@ -10310,14 +10317,14 @@ $L_render_level_39:
   udiv4
   pop2
   sub2
-  .line 503
+  .line 500
   p00
-  .line 506
+  .line 503
   getg  level_start_frames 0
   push  78
   cult
   bnz   $L_render_level_42
-  .line 507
+  .line 504
   dupw
   getg  level_start_frames 0
   p0
@@ -10328,12 +10335,12 @@ $L_render_level_39:
   add2
   setl2 2
 $L_render_level_42:
-  .line 508
+  .line 505
   push  12
   getg  level_start_frames 0
   cult
   bnz   $L_render_level_43
-  .line 509
+  .line 506
   dupw
   push  12
   p0
@@ -10344,7 +10351,7 @@ $L_render_level_42:
   sub2
   setl2 2
 $L_render_level_43:
-  .line 510
+  .line 507
   p0
   push  13
   p128
@@ -10352,11 +10359,11 @@ $L_render_level_43:
   p0
   dupw6
   sys   draw_filled_rect
-  .line 512
+  .line 508
   p6
   getln 11
   pushl $PD_23 0
-  push  24
+  push  25
   p0
   getl4 15
   add2
