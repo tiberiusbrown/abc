@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 
+extern "C" void postsyncfs() {}
+
 int main(int argc, char** argv)
 {
     if(argc < 5)

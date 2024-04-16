@@ -152,56 +152,54 @@ file(GLOB IMGUI_SOURCES deps/imgui/*.h deps/imgui/*.cpp)
 file(GLOB SOKOL_SOURCES deps/sokol/*.h)
 file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
 
-add_executable(convert_font
-    src/convert_font.cpp
-    src/ards_compiler.hpp
-    src/ards_compiler_font.cpp
-    src/ards_compiler_sprites.cpp
-    )
-target_include_directories(convert_font PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy"
-    "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
-    )
-    
-file(GLOB ABC_FONTS "fonts/*.ttf")
-set(ABC_FONT_HEADERS)
-set(ABC_FONT_MASTER "${GENHEADER_DIR}/all_fonts.hpp")
-list(APPEND ABC_FONT_HEADERS "${ABC_FONT_MASTER}")
-file(WRITE "${ABC_FONT_MASTER}" "#pragma once\n")
-file(APPEND "${ABC_FONT_MASTER}" "#include <stdint.h>\n")
-file(APPEND "${ABC_FONT_MASTER}" "struct font_info_t {\n")
-file(APPEND "${ABC_FONT_MASTER}" "    char const* name;\n")
-file(APPEND "${ABC_FONT_MASTER}" "    size_t pixels;\n")
-file(APPEND "${ABC_FONT_MASTER}" "    unsigned char const* data;\n")
-file(APPEND "${ABC_FONT_MASTER}" "    size_t size;\n};\n")
-foreach(F ${ABC_FONTS})
-    get_filename_component(FB "${F}" NAME_WE)
-    string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
-    file(APPEND "${ABC_FONT_MASTER}" "#include \"${FB}.hpp\"\n")
-endforeach()
-file(APPEND "${ABC_FONT_MASTER}" "static font_info_t const ALL_FONTS[] = {\n")
-foreach(F ${ABC_FONTS})
-    get_filename_component(FB "${F}" NAME_WE)
-    string(REGEX MATCH "[0-9]+$" FN "${FB}")
-    string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
-    string(TOUPPER "${FB}" FBU)
-    add_custom_command(
-        OUTPUT "${GENHEADER_DIR}/${FB}.hpp"
-        COMMAND convert_font
-        ARGS "${FBU}" "${FN}" "${F}" "${GENHEADER_DIR}/${FB}.hpp"
-        DEPENDS convert_font "${F}"
-        COMMENT "Generating font data for ${FBU}"
+set(GENFONTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/fonts")
+if(NOT EMSCRIPTEN)
+    add_executable(convert_font
+        src/convert_font.cpp
+        src/ards_compiler.hpp
+        src/ards_compiler_font.cpp
+        src/ards_compiler_sprites.cpp
         )
-    target_sources(ards_compiler PRIVATE "${GENHEADER_DIR}/${FB}.hpp")
-    #bin2h(
-    #    SOURCE_FILE   "${F}"
-    #    HEADER_FILE   "${GENHEADER_DIR}/${FB}.hpp"
-    #    VARIABLE_NAME "${FBU}"
-    #    )
-    file(APPEND "${ABC_FONT_MASTER}" "    { \"${FBU}\", ${FN}, ${FBU}, sizeof(${FBU}) },\n")
-endforeach()
-file(APPEND "${ABC_FONT_MASTER}" "};\n")
+    target_include_directories(convert_font PRIVATE
+        "${CMAKE_CURRENT_SOURCE_DIR}/src"
+        "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy"
+        "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
+        )
+    
+    file(GLOB ABC_FONTS "fonts/*.ttf")
+    set(ABC_FONT_HEADERS)
+    set(ABC_FONT_MASTER "${GENFONTS_DIR}/all_fonts.hpp")
+    list(APPEND ABC_FONT_HEADERS "${ABC_FONT_MASTER}")
+    file(WRITE "${ABC_FONT_MASTER}" "#pragma once\n")
+    file(APPEND "${ABC_FONT_MASTER}" "#include <stdint.h>\n")
+    file(APPEND "${ABC_FONT_MASTER}" "struct font_info_t {\n")
+    file(APPEND "${ABC_FONT_MASTER}" "    char const* name;\n")
+    file(APPEND "${ABC_FONT_MASTER}" "    size_t pixels;\n")
+    file(APPEND "${ABC_FONT_MASTER}" "    unsigned char const* data;\n")
+    file(APPEND "${ABC_FONT_MASTER}" "    size_t size;\n};\n")
+    foreach(F ${ABC_FONTS})
+        get_filename_component(FB "${F}" NAME_WE)
+        string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
+        file(APPEND "${ABC_FONT_MASTER}" "#include \"${FB}.hpp\"\n")
+    endforeach()
+    file(APPEND "${ABC_FONT_MASTER}" "static font_info_t const ALL_FONTS[] = {\n")
+    foreach(F ${ABC_FONTS})
+        get_filename_component(FB "${F}" NAME_WE)
+        string(REGEX MATCH "[0-9]+$" FN "${FB}")
+        string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
+        string(TOUPPER "${FB}" FBU)
+        add_custom_command(
+            OUTPUT "${GENFONTS_DIR}/${FB}.hpp"
+            COMMAND convert_font
+            ARGS "${FBU}" "${FN}" "${F}" "${GENFONTS_DIR}/${FB}.hpp"
+            DEPENDS convert_font "${F}"
+            COMMENT "Generating font data for ${FBU}"
+            )
+        target_sources(ards_compiler PRIVATE "${GENFONTS_DIR}/${FB}.hpp")
+        file(APPEND "${ABC_FONT_MASTER}" "    { \"${FBU}\", ${FN}, ${FBU}, sizeof(${FBU}) },\n")
+    endforeach()
+    file(APPEND "${ABC_FONT_MASTER}" "};\n")
+endif()
 
 add_executable(abc ${EXE_TYPE}
     src/ctrl2o.hpp
@@ -257,6 +255,7 @@ add_executable(abc_integration
     )
 target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler)
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
+target_include_directories(abc_integration PRIVATE "${GENFONTS_DIR}")
 target_compile_definitions(abc_integration PRIVATE
     -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build/interp_arduboy.ino.hex"
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"

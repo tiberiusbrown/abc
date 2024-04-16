@@ -8,7 +8,7 @@
 
 #include <fmt/chrono.h>
 
-#include <all_fonts.hpp>
+#include "fonts/all_fonts.hpp"
 
 namespace ards
 {
