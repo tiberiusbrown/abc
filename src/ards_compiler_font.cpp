@@ -104,7 +104,7 @@ void compiler_t::encode_font_ttf(
         data.push_back((uint8_t)std::clamp(adv, 0, 255));
 
         // xoff
-        data.push_back((uint8_t)std::clamp(lsb + x0, -128, 127));
+        data.push_back((uint8_t)std::clamp(lsb, -128, 127));
 
         // yoff
         data.push_back((uint8_t)std::clamp(y0, -128, 127));
