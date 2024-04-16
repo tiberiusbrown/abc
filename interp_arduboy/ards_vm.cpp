@@ -4,6 +4,8 @@
 #define ARDS_TONES_IMPLEMENTATION
 #include "ards_tone.hpp"
 
+#include "SpritesABC.hpp"
+
 #ifndef EEPROM_h
 #define EEPROM_h
 #endif
@@ -32,6 +34,7 @@ static char const ERRC_DST[] PROGMEM = "Data stack overflow";
 static char const ERRC_CST[] PROGMEM = "Call stack overflow";
 static char const ERRC_FRM[] PROGMEM = "Sprite frame outside of set";
 static char const ERRC_CPY[] PROGMEM = "Sizes of memcpy dst/src differ";
+static char const ERRC_FNT[] PROGMEM = "No font set for text operation";
 static char const* const ERRC[NUM_ERR] PROGMEM =
 {
     ERRC_SIG,
@@ -42,6 +45,7 @@ static char const* const ERRC[NUM_ERR] PROGMEM =
     ERRC_CST,
     ERRC_FRM,
     ERRC_CPY,
+    ERRC_FNT,
 };
 
 static void draw_pc_line(uint24_t pc, uint8_t y)
@@ -4000,10 +4004,10 @@ void vm_run()
 {
     ards::Tones::stop();
     Arduboy2Base::pollButtons();
+
     memset(&vm, 0, sizeof(vm));
-    //timer0_millis = 0;
-    //timer0_overflow_count = 0;
-    
+    vm.text_mode = SpritesABC::MODE_SELFMASK;
+    vm.text_font = 0xffffff;
     vm.frame_dur = 50;
     
     // read signature and refuse to run if it's not present

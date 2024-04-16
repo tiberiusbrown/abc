@@ -15,8 +15,8 @@
 
 #include <math.h>
 
-constexpr uint8_t FONT_HEADER_PER_CHAR = 3;
-constexpr uint8_t FONT_HEADER_OFFSET = 6;
+constexpr uint8_t FONT_HEADER_PER_CHAR = 7;
+constexpr uint8_t FONT_HEADER_OFFSET = 1;
 constexpr uint16_t FONT_HEADER_BYTES =
     FONT_HEADER_PER_CHAR * 256 + FONT_HEADER_OFFSET;
 
@@ -688,7 +688,7 @@ static void sys_draw_sprite_selfmask()
 }
 
 static void draw_char(
-    int16_t& x, int16_t y, uint8_t w, uint8_t h, uint24_t font, char c)
+    int16_t& x, int16_t y, uint24_t font, char c)
 {
 #if 1
     /*
@@ -696,9 +696,7 @@ static void draw_char(
         =================
         &x    r24 r25
         y     r22 r23
-        w     r20
-        h     r18
-        font  r14 r15 r16
+        font  r18 r19 r20
         c     r12
 
         AFTER
@@ -710,63 +708,65 @@ static void draw_char(
         font  r14 r15 r16
     */
 
-    register uint8_t adv   asm("r19");
+    register uint8_t  adv  asm("r19");
+    register uint8_t  xoff;
+    register uint8_t  yoff;
     register uint16_t t    asm("r30");
     register int16_t  xv   asm("r24");
+    register uint8_t  w    asm("r20");
+    register uint8_t  h    asm("r18");
     uint24_t addr;
     asm volatile(R"(
             ldi  %A[t], 3
             cbi  %[fxport], %[fxbit]
             out  %[spdr], %A[t]
+            
+            ; add datapage to addr
+            movw %A[addr], %A[font]
+            mov  %C[addr], %C[font]
+            lds  %A[t], %[page]+0
+            lds  %B[t], %[page]+1
+            add  %B[addr], %A[t]
+            adc  %C[addr], %B[t]
+
+            ; add c*7 to addr
+            ldi  %A[t], 7
+            mul  %A[t], %[c]
+            add  %A[addr], r0
+            adc  %B[addr], r1
+            clr  __zero_reg__
+            adc  %C[addr], __zero_reg__
+
+            rjmp .+0
+
+            out  %[spdr], %C[addr]
+
+            rcall L%=_delay_17
+
+            out  %[spdr], %B[addr]
+
             rjmp 1f
         L%=_delay_17:
             nop
         L%=_delay_16:
             rjmp .+0
         L%=_delay_14:
-            rjmp .+0
+            nop
+        L%=_delay_13:
+            nop
         L%=_delay_12:
-            rjmp .+0
+            nop
+        L%=_delay_11:
+            nop
         L%=_delay_10:
             nop
         L%=_delay_9:
             rjmp .+0
         L%=_delay_7:
             ret
-        1:  movw %A[addr], %A[font]
-            mov  %C[addr], %C[font]
-            lds  %A[t], %[page]+0
-            lds  %B[t], %[page]+1
-            add  %A[addr], %[c]
-            adc  %B[addr], %A[t]
-            adc  %C[addr], %B[t]
-            add  %A[addr], %[c]
-            adc  %B[addr], __zero_reg__
-            adc  %C[addr], __zero_reg__
-            add  %A[addr], %[c]
-            adc  %B[addr], __zero_reg__
-            adc  %C[addr], __zero_reg__
-
-            out  %[spdr], %C[addr]
-
-            mov  %A[t], %[h]
-            subi %A[t], -7
-            lsr %A[t]
-            lsr %A[t]
-            lsr %A[t]
-            mul  %[w], %A[t]
-            movw %[t], r0
-            mul  %B[t], %[c]
-            add  %B[font], r0
-            adc  %C[font], r1
-            mul  %A[t], %[c]
-            add  %A[font], r0
-            adc  %B[font], r1
-            clr  __zero_reg__
-
-            out  %[spdr], %B[addr]
-            adc  %C[font], __zero_reg__
-            rcall L%=_delay_16
+        1:
+            rcall L%=_delay_14
+            nop
 
             out  %[spdr], %A[addr]
             ldi  %A[t], lo8(-%[HEADER])
@@ -780,34 +780,67 @@ static void draw_char(
             out  %[spdr], __zero_reg__
             rcall L%=_delay_14
             in   r0, %[sreg]
+            
             cli
-
             out  %[spdr], __zero_reg__
             in   %[adv], %[spdr]
             out  %[sreg], r0
+
             ld   %A[xv], %a[xp]+
             ld   %B[xv], %a[xp]
             movw %A[t], %A[xv]
-            add  %A[xv], %[adv]
-            adc  %B[xv], __zero_reg__
-            sbrc %[adv], 7
-            dec  %B[xv]
-            lpm
-            in   r0, %[sreg]
-            cli
-
-            out  %[spdr], __zero_reg__
-            in   %[adv], %[spdr]
-            out  %[sreg], r0
             add  %A[t], %[adv]
             adc  %B[t], __zero_reg__
             st   %a[xp], %B[t]
             st   -%a[xp], %A[t]
+            rjmp .+0
+
+            cli
+            out  %[spdr], __zero_reg__
+            in   %[xoff], %[spdr]
+            out  %[sreg], r0
+
+            add  %A[xv], %[xoff]
+            adc  %B[xv], __zero_reg__
+            sbrc %[xoff], 7
+            dec  %B[xv]
             rcall L%=_delay_9
+            
+            cli
+            out  %[spdr], __zero_reg__
+            in   %[yoff], %[spdr]
+            out  %[sreg], r0
+
+            add  %A[y], %[yoff]
+            adc  %B[y], __zero_reg__
+            sbrc %[yoff], 7
+            dec  %B[y]
+            rcall L%=_delay_13
+            
             cli
             out  %[spdr], __zero_reg__
             in   %A[t], %[spdr]
             out  %[sreg], r0
+
+            rcall L%=_delay_13
+            
+            cli
+            out  %[spdr], __zero_reg__
+            in   %B[t], %[spdr]
+            out  %[sreg], r0
+
+            add  %A[font], %A[t]
+            adc  %B[font], %B[t]
+            rcall L%=_delay_11
+            
+            cli
+            out  %[spdr], __zero_reg__
+            in   %[w], %[spdr]
+            out  %[sreg], r0
+
+            rcall L%=_delay_14
+            
+            in   %[h], %[spdr]
             sbi  %[fxport], %[fxbit]
 
         )"
@@ -816,10 +849,12 @@ static void draw_char(
         , [t]      "=&d" (t)
         , [adv]    "=&r" (adv)
         , [xv]     "=&r" (xv)
+        , [w]      "=&r" (w)
+        , [h]      "=&r" (h)
+        , [xoff]   "=&r" (xoff)
+        , [yoff]   "=&r" (yoff)
+        , [y]      "+&r" (y)
         : [xp]     "e"   (&x) // it's modified but then restored
-        , [y]      "r"   (y)
-        , [w]      "r"   (w)
-        , [h]      "r"   (h)
         , [c]      "r"   (c)
         , [fxport] "I"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]  "I"   (FX_BIT)
@@ -830,8 +865,8 @@ static void draw_char(
         //, [DRAW]   "i"   (&SpritesABC::drawBasic)
         );
         SpritesABC::drawBasic(
-            xv, y, (uint8_t)t, h, font, 0,
-            SpritesABC::MODE_INVERT | SpritesABC::MODE_SELFMASK);
+            xv, y, w, h, font, 0,
+            ards::vm.text_mode);
 #else
     FX::seekData(font + uint8_t(c) * 2);
     int8_t lsb = (int8_t)FX::readPendingUInt8();
@@ -848,17 +883,17 @@ static void sys_draw_text()
     auto ptr = vm_pop_begin();
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
+    uint24_t font = ards::vm.text_font;
     uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
-    uint8_t w, h, line_height;
+    uint8_t line_height;
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
-    line_height = FX::readPendingUInt8();
-    w = FX::readPendingUInt8();
-    h = FX::readPendingLastUInt8();
+    line_height = FX::readPendingLastUInt8();
     int16_t bx = x;
     
     char const* p = reinterpret_cast<char const*>(tb);
@@ -873,7 +908,7 @@ static void sys_draw_text()
             continue;
         }
         
-        draw_char(x, y, w, h, font, c);
+        draw_char(x, y, font, c);
     }
     
     seek_to_pc();
@@ -884,17 +919,17 @@ static void sys_draw_text_P()
     auto ptr = vm_pop_begin();
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
+    uint24_t font = ards::vm.text_font;
     uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
-    uint8_t w, h, line_height;
+    uint8_t line_height;
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
-    line_height = FX::readPendingUInt8();
-    w = FX::readPendingUInt8();
-    h = FX::readPendingLastUInt8();
+    line_height = FX::readPendingLastUInt8();
     int16_t bx = x;
     
     char c;
@@ -913,7 +948,7 @@ static void sys_draw_text_P()
             continue;
         }
         
-        draw_char(x, y, w, h, font, c);
+        draw_char(x, y, font, c);
     }
     
     seek_to_pc();
@@ -922,10 +957,12 @@ static void sys_draw_text_P()
 static void sys_text_width()
 {
     auto ptr = vm_pop_begin();
-    uint24_t font = vm_pop<uint24_t>(ptr) + 1;
+    uint24_t font = ards::vm.text_font;
     uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     
     (void)FX::readEnd();
     char const* p = reinterpret_cast<char const*>(tb);
@@ -956,10 +993,12 @@ static void sys_text_width()
 static void sys_text_width_P()
 {
     auto ptr = vm_pop_begin();
-    uint24_t font = vm_pop<uint24_t>(ptr) + 1;
+    uint24_t font = ards::vm.text_font;
     uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     
     (void)FX::readEnd();
     char const* p = reinterpret_cast<char const*>(tb);
@@ -1453,12 +1492,9 @@ static void format_exec_to_buffer(char c)
 
 struct format_user_draw
 {
-    uint24_t font;
     int16_t bx;
     int16_t x;
     int16_t y;
-    uint8_t w;
-    uint8_t h;
     uint8_t line_height;
 };
 
@@ -1473,7 +1509,7 @@ static void format_exec_draw(char c)
     }
     else
     {
-        draw_char(u->x, u->y, u->w, u->h, u->font, c);
+        draw_char(u->x, u->y, ards::vm.text_font, c);
     }
 }
 
@@ -1520,15 +1556,17 @@ static void sys_draw_textf()
         auto ptr = vm_pop_begin();
         user.x = user.bx = vm_pop<int16_t> (ptr);
         user.y = vm_pop<int16_t> (ptr);
-        user.font = vm_pop<uint24_t>(ptr);
         vm_pop_end(ptr);
     }
     (void)FX::readEnd();
-    
-    FX::seekData(user.font + FONT_HEADER_PER_CHAR * 256);
-    user.line_height = FX::readPendingUInt8();
-    user.w = FX::readPendingUInt8();
-    user.h = FX::readPendingLastUInt8();
+
+    {
+        uint24_t font = ards::vm.text_font;
+        if(uint8_t(font >> 16) == 0xff)
+            vm_error(ards::ERR_FNT);
+        FX::seekData(ards::vm.text_font + FONT_HEADER_PER_CHAR * 256);
+    }
+    user.line_height = FX::readPendingLastUInt8();
     
     format_exec(format_exec_draw);
     
@@ -1736,6 +1774,21 @@ static void sys_random()
     vm_pop_end(ptr);
 }
 
+static void sys_set_text_font()
+{
+    auto ptr = vm_pop_begin();
+    ards::vm.text_font = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+}
+
+static void sys_set_text_color()
+{
+    auto ptr = vm_pop_begin();
+    uint8_t t = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    ards::vm.text_mode = t ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
+}
+
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
     sys_display,
@@ -1756,6 +1809,8 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_draw_textf,
     sys_text_width,
     sys_text_width_P,
+    sys_set_text_font,
+    sys_set_text_color,
     sys_set_frame_rate,
     sys_next_frame,
     sys_idle,

@@ -1,29 +1,39 @@
 # Built-in Font Assets
-| Predefined Variable | Line Height | Bytes | Preview |
-|---|---|---|---|
-| `FONT_BR4` | 5 | 1798 | ![FONT_BR4](font_images/FONT_BR4.png) |
-| `FONT_BERKELIUM1541` | 6 | 2310 | ![FONT_BERKELIUM1541](font_images/FONT_BERKELIUM1541.png) |
-| `FONT_BR5` | 6 | 2054 | ![FONT_BR5](font_images/FONT_BR5.png) |
-| `FONT_BR5N` | 6 | 2054 | ![FONT_BR5N](font_images/FONT_BR5N.png) |
-| `FONT_SIMPLIPIXA` | 6 | 1798 | ![FONT_SIMPLIPIXA](font_images/FONT_SIMPLIPIXA.png) |
-| `FONT_BR6` | 7 | 2054 | ![FONT_BR6](font_images/FONT_BR6.png) |
-| `FONT_ADAFRUIT` | 8 | 2054 | ![FONT_ADAFRUIT](font_images/FONT_ADAFRUIT.png) |
-| `FONT_LEXIS` | 8 | 2310 | ![FONT_LEXIS](font_images/FONT_LEXIS.png) |
-| `FONT_BANGALOR` | 10 | 3078 | ![FONT_BANGALOR](font_images/FONT_BANGALOR.png) |
-| `FONT_VOLTER` | 10 | 4870 | ![FONT_VOLTER](font_images/FONT_VOLTER.png) |
-| `FONT_NOKIAFC` | 11 | 2822 | ![FONT_NOKIAFC](font_images/FONT_NOKIAFC.png) |
-| `FONT_PIXOLLETTA` | 11 | 5382 | ![FONT_PIXOLLETTA](font_images/FONT_PIXOLLETTA.png) |
-| `FONT_BERKELIUM64` | 12 | 5894 | ![FONT_BERKELIUM64](font_images/FONT_BERKELIUM64.png) |
-| `FONT_PIXELGEORGIA` | 13 | 6406 | ![FONT_PIXELGEORGIA](font_images/FONT_PIXELGEORGIA.png) |
-| `FONT_PIXELGEORGIABOLD` | 13 | 7430 | ![FONT_PIXELGEORGIABOLD](font_images/FONT_PIXELGEORGIABOLD.png) |
-| `FONT_PIXELTIMES` | 13 | 6918 | ![FONT_PIXELTIMES](font_images/FONT_PIXELTIMES.png) |
-| `FONT_PIXELTIMESBOLD` | 13 | 6918 | ![FONT_PIXELTIMESBOLD](font_images/FONT_PIXELTIMESBOLD.png) |
-| `FONT_TUBEOFCORN` | 15 | 6918 | ![FONT_TUBEOFCORN](font_images/FONT_TUBEOFCORN.png) |
-| `FONT_CALAMITY` | 16 | 9990 | ![FONT_CALAMITY](font_images/FONT_CALAMITY.png) |
-| `FONT_RAINYHEARTS` | 16 | 6406 | ![FONT_RAINYHEARTS](font_images/FONT_RAINYHEARTS.png) |
-| `FONT_BIRCHLEAF` | 17 | 8454 | ![FONT_BIRCHLEAF](font_images/FONT_BIRCHLEAF.png) |
-| `FONT_GOTHICPIXELS` | 17 | 8454 | ![FONT_GOTHICPIXELS](font_images/FONT_GOTHICPIXELS.png) |
-| `FONT_PIXDOR` | 17 | 8454 | ![FONT_PIXDOR](font_images/FONT_PIXDOR.png) |
-| `FONT_PIXCON` | 18 | 7430 | ![FONT_PIXCON](font_images/FONT_PIXCON.png) |
-| `FONT_BLOCKKIE` | 26 | 14598 | ![FONT_BLOCKKIE](font_images/FONT_BLOCKKIE.png) |
-| `FONT_RETRON2000` | 36 | 29446 | ![FONT_RETRON2000](font_images/FONT_RETRON2000.png) |
+| Predefined Variable | Ascent | Line Height | Bytes | Preview |
+|---|---|---|---|---|
+| `FONT_BR4` | 4 | 5 | 2174 | ![FONT_BR4](font_images/FONT_BR4.png) |
+| `FONT_SIMPLIPIXA` | 4 | 5 | 2372 | ![FONT_SIMPLIPIXA](font_images/FONT_SIMPLIPIXA.png) |
+| `FONT_BERKELIUM1541` | 5 | 6 | 2434 | ![FONT_BERKELIUM1541](font_images/FONT_BERKELIUM1541.png) |
+| `FONT_BR5` | 5 | 6 | 2295 | ![FONT_BR5](font_images/FONT_BR5.png) |
+| `FONT_BR5N` | 5 | 6 | 2287 | ![FONT_BR5N](font_images/FONT_BR5N.png) |
+| `FONT_BR6` | 5 | 7 | 2315 | ![FONT_BR6](font_images/FONT_BR6.png) |
+| `FONT_BANGALOR` | 6 | 9 | 2263 | ![FONT_BANGALOR](font_images/FONT_BANGALOR.png) |
+| `FONT_ADAFRUIT` | 7 | 8 | 2818 | ![FONT_ADAFRUIT](font_images/FONT_ADAFRUIT.png) |
+| `FONT_LEXIS` | 7 | 8 | 2842 | ![FONT_LEXIS](font_images/FONT_LEXIS.png) |
+| `FONT_NOKIAFC` | 7 | 9 | 2581 | ![FONT_NOKIAFC](font_images/FONT_NOKIAFC.png) |
+| `FONT_PIACEVOLI` | 7 | 11 | 3628 | ![FONT_PIACEVOLI](font_images/FONT_PIACEVOLI.png) |
+| `FONT_BERKELIUM64` | 8 | 10 | 2727 | ![FONT_BERKELIUM64](font_images/FONT_BERKELIUM64.png) |
+| `FONT_VOLTER` | 8 | 10 | 2715 | ![FONT_VOLTER](font_images/FONT_VOLTER.png) |
+| `FONT_PIXELOIDSANS` | 8 | 11 | 3617 | ![FONT_PIXELOIDSANS](font_images/FONT_PIXELOIDSANS.png) |
+| `FONT_PIXELOIDSANSBOLD` | 8 | 11 | 3957 | ![FONT_PIXELOIDSANSBOLD](font_images/FONT_PIXELOIDSANSBOLD.png) |
+| `FONT_PIXOLLETTA` | 8 | 11 | 3599 | ![FONT_PIXOLLETTA](font_images/FONT_PIXOLLETTA.png) |
+| `FONT_PIXELGEORGIA` | 8 | 13 | 3522 | ![FONT_PIXELGEORGIA](font_images/FONT_PIXELGEORGIA.png) |
+| `FONT_PIXELGEORGIABOLD` | 8 | 13 | 3659 | ![FONT_PIXELGEORGIABOLD](font_images/FONT_PIXELGEORGIABOLD.png) |
+| `FONT_PIXELTIMES` | 8 | 13 | 3142 | ![FONT_PIXELTIMES](font_images/FONT_PIXELTIMES.png) |
+| `FONT_PIXELTIMESBOLD` | 8 | 13 | 3266 | ![FONT_PIXELTIMESBOLD](font_images/FONT_PIXELTIMESBOLD.png) |
+| `FONT_TUBEOFCORN` | 9 | 13 | 4288 | ![FONT_TUBEOFCORN](font_images/FONT_TUBEOFCORN.png) |
+| `FONT_RAINYHEARTS` | 9 | 14 | 4670 | ![FONT_RAINYHEARTS](font_images/FONT_RAINYHEARTS.png) |
+| `FONT_PIXCON` | 10 | 11 | 4957 | ![FONT_PIXCON](font_images/FONT_PIXCON.png) |
+| `FONT_MITOCHONDRIA` | 10 | 13 | 3148 | ![FONT_MITOCHONDRIA](font_images/FONT_MITOCHONDRIA.png) |
+| `FONT_MONKEY` | 10 | 13 | 5055 | ![FONT_MONKEY](font_images/FONT_MONKEY.png) |
+| `FONT_ALKHEMIKAL` | 10 | 14 | 4459 | ![FONT_ALKHEMIKAL](font_images/FONT_ALKHEMIKAL.png) |
+| `FONT_KIWISODA` | 10 | 15 | 4721 | ![FONT_KIWISODA](font_images/FONT_KIWISODA.png) |
+| `FONT_VENICE` | 10 | 15 | 5330 | ![FONT_VENICE](font_images/FONT_VENICE.png) |
+| `FONT_CALAMITY` | 11 | 15 | 5795 | ![FONT_CALAMITY](font_images/FONT_CALAMITY.png) |
+| `FONT_PIXELLARI` | 11 | 15 | 4643 | ![FONT_PIXELLARI](font_images/FONT_PIXELLARI.png) |
+| `FONT_BIRCHLEAF` | 12 | 17 | 4543 | ![FONT_BIRCHLEAF](font_images/FONT_BIRCHLEAF.png) |
+| `FONT_GOTHICPIXELS` | 12 | 17 | 4940 | ![FONT_GOTHICPIXELS](font_images/FONT_GOTHICPIXELS.png) |
+| `FONT_PIXDOR` | 12 | 17 | 4545 | ![FONT_PIXDOR](font_images/FONT_PIXDOR.png) |
+| `FONT_CURSIVE` | 12 | 18 | 12073 | ![FONT_CURSIVE](font_images/FONT_CURSIVE.png) |
+| `FONT_BLOCKKIE` | 16 | 24 | 7136 | ![FONT_BLOCKKIE](font_images/FONT_BLOCKKIE.png) |
+| `FONT_RETRON2000` | 21 | 27 | 13477 | ![FONT_RETRON2000](font_images/FONT_RETRON2000.png) |

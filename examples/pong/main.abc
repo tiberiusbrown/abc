@@ -5,6 +5,7 @@ import vars;
 void setup()
 {
     $set_frame_rate(40);
+    $set_text_font(f);
     new_game();
 }
 

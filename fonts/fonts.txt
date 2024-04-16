@@ -79,3 +79,31 @@ https://www.dafont.com/pixel-georgia.font
 retron2000
 100% Free
 https://www.dafont.com/retron2000.font
+
+pixeloidsans*
+SIL OPEN FONT LICENSE
+https://www.dafont.com/pixeloid-sans.font
+
+monkey (full: Talk-to-three-headed-monkey)
+100% Free
+https://www.dafont.com/talk-to-three-headed-monkey.font\
+
+venice
+100% Free
+https://www.dafont.com/venice-classic.font
+
+alkhemikal
+CC BY 4.0
+https://www.dafont.com/alkhemikal.font
+
+kiwisoda
+CC BY 4.0
+https://www.dafont.com/kiwisoda.font
+
+pixellari
+100% Free
+https://www.dafont.com/pixellari.font
+
+cursive
+CC BY 3.0
+https://www.dafont.com/cursive-3.font

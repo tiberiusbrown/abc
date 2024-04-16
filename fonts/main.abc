@@ -1,0 +1,9 @@
+constexpr font f = FONT_BIRCHLEAF;
+
+void main()
+{
+    $set_text_font(f);
+    $draw_text_P(0, 24, "The quick brown fox");
+    $draw_text_P(0, 60, "0123456789 2111 1");
+    $display();
+}

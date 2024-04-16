@@ -16,10 +16,10 @@ struct SpritesABC
     static void fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t color);
     static void fillRect_i8(int8_t x, int8_t y, uint8_t w, uint8_t h, uint8_t color);
 
-    static constexpr uint8_t MODE_OVERWRITE   = 0;
-    static constexpr uint8_t MODE_PLUSMASK    = 1;
-    static constexpr uint8_t MODE_SELFMASK    = 4;
-    static constexpr uint8_t MODE_INVERT      = 2; // like selfmask but inverts pixels
+    static constexpr uint8_t MODE_OVERWRITE      = 0;
+    static constexpr uint8_t MODE_PLUSMASK       = 1;
+    static constexpr uint8_t MODE_SELFMASK       = 4;
+    static constexpr uint8_t MODE_SELFMASK_ERASE = 6; // like selfmask but erases pixels
 
     static void drawBasic(
         int16_t x, int16_t y, uint8_t w, uint8_t h,
@@ -234,8 +234,7 @@ void SpritesABC::drawBasic(
             swap r21
             mov  r5, r21
             clr  r6
-            com  r6
-            mov  r7, r6
+            clr  r7
             
             sbrc r10, 2
             rjmp 1f
@@ -258,7 +257,6 @@ void SpritesABC::drawBasic(
             cp  r20, r8
             breq .+2
             inc r11
-            nop
             rjmp L%=_begin
 
         ;
@@ -311,8 +309,10 @@ void SpritesABC::drawBasic(
 
         L%=_begin:
 
+            sbrc r10, 2
+            rjmp L%=_begin_selfmask
             sbrc r10, 1
-            rjmp L%=_begin_invert
+            rjmp L%=_begin_erase
             cp   r17, __zero_reg__
             brlt L%=_top
             tst  r19
@@ -541,25 +541,25 @@ void SpritesABC::drawBasic(
             rjmp L%=_finish
 
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-        ; INVERT MODE
+        ; SELFMASK MODE
         ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-        L%=_begin_invert:
+        L%=_begin_selfmask:
 
             cp   r17, __zero_reg__
-            brlt L%=_top_invert
+            brlt L%=_top_selfmask
             tst  r19
-            brne L%=_middle_skip_reseek_invert
-            rjmp L%=_bottom_loop_invert
+            brne L%=_middle_skip_reseek_selfmask
+            rjmp L%=_bottom_loop_selfmask
 
-        L%=_top_invert:
+        L%=_top_selfmask:
 
             ; init buf
             subi r26, lo8(-128)
             sbci r27, hi8(-128)
             mov  r21, r8
 
-        L%=_top_loop_invert:
+        L%=_top_loop_selfmask:
 
             cli
             out  %[spdr], __zero_reg__
@@ -567,32 +567,32 @@ void SpritesABC::drawBasic(
             out  %[sreg], r24
             mul  r24, r5
             ld   r9, X
-            eor  r9, r1
+            or   r9, r1
             st   X+, r9
             lpm
             dec  r21
-            brne L%=_top_loop_invert
+            brne L%=_top_loop_selfmask
 
-        L%=_top_loop_done_invert:
+        L%=_top_loop_done_selfmask:
 
             ; decrement pages, reset buf back
             clr __zero_reg__
             sub  r26, r8
             sbc  r27, __zero_reg__
             dec  r19
-            brne L%=_middle_invert
+            brne L%=_middle_selfmask
             rjmp L%=_finish
 
-        L%=_middle_invert:
+        L%=_middle_selfmask:
 
             ; only seek again if necessary
             tst  r11
-            breq L%=_middle_skip_reseek_invert
+            breq L%=_middle_skip_reseek_selfmask
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
 
-        L%=_middle_skip_reseek_invert:
+        L%=_middle_skip_reseek_selfmask:
 
             movw r30, r26
             subi r30, lo8(-128)
@@ -600,30 +600,30 @@ void SpritesABC::drawBasic(
             mov  r21, r8
             rjmp .+0
 
-        L%=_middle_loop_inner_invert:
+        L%=_middle_loop_inner_selfmask:
 
             ; write one page from image to buf/buf+128
             in   r24, %[spdr]
             out  %[spdr], __zero_reg__
             mul  r24, r5
             ld   r9, X
-            eor  r9, r0
+            or   r9, r0
             st   X+, r9
             ld   r9, Z
-            eor  r9, r1
+            or   r9, r1
             st   Z+, r9
             nop
             dec  r21
-            brne L%=_middle_loop_inner_invert
+            brne L%=_middle_loop_inner_selfmask
 
             ; advance buf to the next page
             clr  __zero_reg__
             add  r26, r4
             adc  r27, __zero_reg__
             dec  r19
-            brne L%=_middle_invert
+            brne L%=_middle_selfmask
 
-        L%=_bottom_invert:
+        L%=_bottom_selfmask:
 
             tst  r2
             brne 1f
@@ -632,17 +632,17 @@ void SpritesABC::drawBasic(
 
             ; seek if needed
             tst  r11
-            breq L%=_bottom_loop_pre_invert
+            breq L%=_bottom_loop_pre_selfmask
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
 
-        L%=_bottom_loop_pre_invert:
+        L%=_bottom_loop_pre_selfmask:
         
             rjmp .+0
         
-        L%=_bottom_loop_invert:
+        L%=_bottom_loop_selfmask:
 
             ; write one page from image to buf
             cli
@@ -651,11 +651,131 @@ void SpritesABC::drawBasic(
             out  %[sreg], r24
             mul  r24, r5
             ld   r9, X
-            eor  r9, r0
+            or   r9, r0
             st   X+, r9
             lpm
             dec  r8
-            brne L%=_bottom_loop_invert
+            brne L%=_bottom_loop_selfmask
+            rjmp L%=_finish
+
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        ; SELFMASK_ERASE MODE
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+        L%=_begin_erase:
+
+            cp   r17, __zero_reg__
+            brlt L%=_top_erase
+            tst  r19
+            brne L%=_middle_skip_reseek_erase
+            rjmp L%=_bottom_loop_erase
+
+        L%=_top_erase:
+
+            ; init buf
+            subi r26, lo8(-128)
+            sbci r27, hi8(-128)
+            mov  r21, r8
+
+        L%=_top_loop_erase:
+
+            cli
+            out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            out  %[sreg], r24
+            com  r24
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r1
+            st   X+, r9
+            rjmp .+0
+            dec  r21
+            brne L%=_top_loop_erase
+
+        L%=_top_loop_done_erase:
+
+            ; decrement pages, reset buf back
+            clr __zero_reg__
+            sub  r26, r8
+            sbc  r27, __zero_reg__
+            dec  r19
+            brne L%=_middle_erase
+            rjmp L%=_finish
+
+        L%=_middle_erase:
+
+            ; only seek again if necessary
+            tst  r11
+            breq L%=_middle_skip_reseek_erase
+            in   r0, %[spsr]
+            sbi  %[fxport], %[fxbit]
+            rcall L%=_seek
+
+        L%=_middle_skip_reseek_erase:
+
+            movw r30, r26
+            subi r30, lo8(-128)
+            sbci r31, hi8(-128)
+            mov  r21, r8
+            rjmp .+0
+
+        L%=_middle_loop_inner_erase:
+
+            ; write one page from image to buf/buf+128
+            in   r24, %[spdr]
+            out  %[spdr], __zero_reg__
+            com  r24
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r0
+            st   X+, r9
+            ld   r9, Z
+            and  r9, r1
+            st   Z+, r9
+            dec  r21
+            brne L%=_middle_loop_inner_erase
+
+            ; advance buf to the next page
+            clr  __zero_reg__
+            add  r26, r4
+            adc  r27, __zero_reg__
+            dec  r19
+            brne L%=_middle_erase
+
+        L%=_bottom_erase:
+
+            tst  r2
+            brne 1f
+            rjmp L%=_finish
+        1:
+
+            ; seek if needed
+            tst  r11
+            breq L%=_bottom_loop_pre_erase
+            in   r0, %[spsr]
+            sbi  %[fxport], %[fxbit]
+            rcall L%=_seek
+            rjmp .+0
+
+        L%=_bottom_loop_pre_erase:
+        
+            rjmp .+0
+        
+        L%=_bottom_loop_erase:
+
+            ; write one page from image to buf
+            cli
+            out  %[spdr], __zero_reg__
+            in   r24, %[spdr]
+            out  %[sreg], r24
+            com  r24
+            mul  r24, r5
+            ld   r9, X
+            and  r9, r0
+            st   X+, r9
+            rjmp .+0
+            dec  r8
+            brne L%=_bottom_loop_erase
 
         L%=_finish:
 

@@ -4,9 +4,10 @@ void main()
 {
     $debug_break();
     
-    $draw_textf(0, 0, f, "Running: %u seconds", $millis() / 1000);
-    $draw_text_P(0, 9, f, "the quick brown fox\njumps over the lazy\ndog");
-    $draw_text_P(0, 36, f, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
+    $set_text_font(f);
+    $draw_textf(0, 0, "Running: %u seconds", $millis() / 1000);
+    $draw_text_P(0, 9, "the quick brown fox\njumps over the lazy\ndog");
+    $draw_text_P(0, 36, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
     
     $debug_break();
 }

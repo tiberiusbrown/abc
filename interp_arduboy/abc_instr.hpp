@@ -25,6 +25,8 @@ enum sysfunc_t : uint8_t
     SYS_DRAW_TEXTF,
     SYS_TEXT_WIDTH,
     SYS_TEXT_WIDTH_P,
+    SYS_SET_TEXT_FONT,
+    SYS_SET_TEXT_COLOR,
     SYS_SET_FRAME_RATE,
     SYS_NEXT_FRAME,
     SYS_IDLE,
