@@ -4,6 +4,10 @@ adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
 
+simplipixa
+100% Free
+https://www.dafont.com/simplipixa.font
+
 birchleaf
 Public Domain
 https://www.dafont.com/birch-leaf.font
