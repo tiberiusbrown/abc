@@ -85,19 +85,22 @@ void compiler_t::encode_font_ttf(
     int min_y = 1000;
     int max_y = -1000;
 
-    for(int i = 0; i < 256; ++i)
+    for(int i = 1; i < 256; ++i)
     {
         int adv = 0;
         int lsb = 0;
         stbtt_GetCodepointHMetrics(&info, i, &adv, &lsb);
         min_lsb = std::min(min_lsb, lsb);
 
+        bool alnum = isalnum(i);
+
         int x0 = 0;
         int y0 = 0;
         int x1 = 0;
         int y1 = 0;
         stbtt_GetCodepointBitmapBox(&info, i, scale, scale, &x0, &y0, &x1, &y1);
-        min_y = std::min(min_y, y0);
+        if(alnum)
+            min_y = std::min(min_y, y0);
         max_y = std::max(max_y, y1);
 
         int w = x1 - x0;
