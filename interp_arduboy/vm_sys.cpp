@@ -15,6 +15,11 @@
 
 #include <math.h>
 
+constexpr uint8_t FONT_HEADER_PER_CHAR = 3;
+constexpr uint8_t FONT_HEADER_OFFSET = 6;
+constexpr uint16_t FONT_HEADER_BYTES =
+    FONT_HEADER_PER_CHAR * 256 + FONT_HEADER_OFFSET;
+
 using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern "C" void vm_error(ards::error_t e);
@@ -723,7 +728,9 @@ static void draw_char(
         L%=_delay_12:
             rjmp .+0
         L%=_delay_10:
-            lpm
+            nop
+        L%=_delay_9:
+            rjmp .+0
         L%=_delay_7:
             ret
         1:  movw %A[addr], %A[font]
@@ -736,11 +743,18 @@ static void draw_char(
             add  %A[addr], %[c]
             adc  %B[addr], __zero_reg__
             adc  %C[addr], __zero_reg__
-            lpm
+            add  %A[addr], %[c]
+            adc  %B[addr], __zero_reg__
+            adc  %C[addr], __zero_reg__
 
             out  %[spdr], %C[addr]
 
-            mul  %[w], %[h]
+            mov  %A[t], %[h]
+            subi %A[t], -7
+            lsr %A[t]
+            lsr %A[t]
+            lsr %A[t]
+            mul  %[w], %A[t]
             movw %[t], r0
             mul  %B[t], %[c]
             add  %B[font], r0
@@ -749,17 +763,15 @@ static void draw_char(
             add  %A[font], r0
             adc  %B[font], r1
             clr  __zero_reg__
-            adc  %C[font], __zero_reg__
-            rjmp .+0
-            rjmp .+0
 
             out  %[spdr], %B[addr]
-            rcall L%=_delay_17
+            adc  %C[font], __zero_reg__
+            rcall L%=_delay_16
 
             out  %[spdr], %A[addr]
-            ldi  %A[t], lo8(-518)
+            ldi  %A[t], lo8(-%[HEADER])
             sub  %A[font], %A[t]
-            ldi  %A[t], hi8(-518)
+            ldi  %A[t], hi8(-%[HEADER])
             sbc  %B[font], %A[t]
             ldi  %A[t], 0xff
             sbc  %C[font], %A[t]
@@ -781,14 +793,22 @@ static void draw_char(
             sbrc %[adv], 7
             dec  %B[xv]
             lpm
-            rjmp .+0
+            in   r0, %[sreg]
+            cli
 
+            out  %[spdr], __zero_reg__
             in   %[adv], %[spdr]
-            sbi  %[fxport], %[fxbit]
+            out  %[sreg], r0
             add  %A[t], %[adv]
             adc  %B[t], __zero_reg__
             st   %a[xp], %B[t]
             st   -%a[xp], %A[t]
+            rcall L%=_delay_9
+            cli
+            out  %[spdr], __zero_reg__
+            in   %A[t], %[spdr]
+            out  %[sreg], r0
+            sbi  %[fxport], %[fxbit]
 
         )"
         : [font]   "+&r" (font)
@@ -796,7 +816,7 @@ static void draw_char(
         , [t]      "=&d" (t)
         , [adv]    "=&r" (adv)
         , [xv]     "=&r" (xv)
-        : [xp]     "e"   (&x)
+        : [xp]     "e"   (&x) // it's modified but then restored
         , [y]      "r"   (y)
         , [w]      "r"   (w)
         , [h]      "r"   (h)
@@ -806,10 +826,11 @@ static void draw_char(
         , [spdr]   "I"   (_SFR_IO_ADDR(SPDR))
         , [sreg]   "I"   (_SFR_IO_ADDR(SREG))
         , [page]   "i"   (&FX::programDataPage)
+        , [HEADER] "i"   (FONT_HEADER_BYTES)
         //, [DRAW]   "i"   (&SpritesABC::drawBasic)
         );
         SpritesABC::drawBasic(
-            xv, y, w, h, font, 0,
+            xv, y, (uint8_t)t, h, font, 0,
             SpritesABC::MODE_INVERT | SpritesABC::MODE_SELFMASK);
 #else
     FX::seekData(font + uint8_t(c) * 2);
@@ -834,7 +855,7 @@ static void sys_draw_text()
     
     (void)FX::readEnd();
     uint8_t w, h, line_height;
-    FX::seekData(font + 512);
+    FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
     line_height = FX::readPendingUInt8();
     w = FX::readPendingUInt8();
     h = FX::readPendingLastUInt8();
@@ -870,7 +891,7 @@ static void sys_draw_text_P()
     
     (void)FX::readEnd();
     uint8_t w, h, line_height;
-    FX::seekData(font + 512);
+    FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
     line_height = FX::readPendingUInt8();
     w = FX::readPendingUInt8();
     h = FX::readPendingLastUInt8();
@@ -921,7 +942,7 @@ static void sys_text_width()
             continue;
         }
         
-        FX::seekData(font + uint8_t(c) * 2);
+        FX::seekData(font + uint8_t(c) * FONT_HEADER_PER_CHAR);
         uint8_t adv = FX::readPendingLastUInt8();
         w += adv;
     }
@@ -960,7 +981,7 @@ static void sys_text_width_P()
             continue;
         }
         
-        FX::seekData(font + uint8_t(c) * 2);
+        FX::seekData(font + uint8_t(c) * FONT_HEADER_PER_CHAR);
         uint8_t adv = FX::readPendingLastUInt8();
         w += adv;
     }
@@ -1504,7 +1525,7 @@ static void sys_draw_textf()
     }
     (void)FX::readEnd();
     
-    FX::seekData(user.font + 512);
+    FX::seekData(user.font + FONT_HEADER_PER_CHAR * 256);
     user.line_height = FX::readPendingUInt8();
     user.w = FX::readPendingUInt8();
     user.h = FX::readPendingLastUInt8();

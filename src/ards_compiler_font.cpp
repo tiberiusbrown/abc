@@ -1,5 +1,7 @@
 #include "ards_compiler.hpp"
 
+#include <algorithm>
+
 #include <cctype>
 #include <cmath>
 
@@ -21,7 +23,7 @@ namespace ards
 /*
 Font Encoding
 ================================
-lsb/adv           (512 bytes)
+lsb/adv/width     (512 bytes)
 Line Height       (1 byte)
 ---------  image data  ---------
 Width             (1 byte)
@@ -117,7 +119,11 @@ void compiler_t::encode_font_ttf(
     std::vector<uint8_t> idata;
     size_t iw = size_t(fw * 256);
     size_t ih = size_t(fh);
-    idata.resize(iw * ih * 2);
+    idata.resize(iw * ih);
+
+    //std::vector<uint8_t> edata;
+    std::vector<uint8_t> bdata;
+    bdata.resize(fw * fh);
 
     for(int i = 0; i < 256; ++i)
     {
@@ -128,32 +134,68 @@ void compiler_t::encode_font_ttf(
         adv = (int)roundf(adv * scale);
         lsb = (int)roundf(lsb * scale);
 
-        data.push_back((uint8_t)std::min(lsb, 255));
-        data.push_back((uint8_t)std::min(adv, 255));
-
         int x0 = 0;
         int y0 = 0;
         int x1 = 0;
         int y1 = 0;
         stbtt_GetCodepointBitmapBox(&info, i, scale, scale, &x0, &y0, &x1, &y1);
 
+        int width = x1 - x0;
         int y = y0 - min_y;
         y = std::max(y, 0);
 
-        size_t byte_offset = size_t(fw * i + y * iw);
         stbtt_MakeCodepointBitmap(
             &info,
-            idata.data() + byte_offset,
-            fw, fh - y,
-            (int)iw,
+            bdata.data(),
+            width, fh,
+            fw,
             scale, scale,
             i);
+
+        //edata.clear();
+        //encode_sprites_image(edata, n, width, fh, width, fh, false, bdata);
+        //memcpy(
+        //    idata.data() + i * fw,
+        //    edata.data() + 5,
+        //    edata.size() - 5);
+
+        // blech i hate this code so much
+        int rdst = 0;
+        int cdst = 0;
+        int rsrc = 0;
+        for(int rb = 0; rb < (int)fh; rb += 8)
+        {
+            for(int ri = 0; ri < 8; ++ri)
+            {
+                if(rsrc + ri < y) continue;
+                int rtmp = rdst + ri;
+                int ctmp = cdst;
+                for(int ci = 0; ci < width; ++ci)
+                {
+                    int isrc = (rsrc + ri - y) * fw + ci;
+                    int idst = rtmp * (int)iw + i * fw + ctmp;
+                    if((size_t)idst >= idata.size()) break;
+                    if((size_t)isrc >= bdata.size()) break;
+                    idata[idst] = bdata[isrc];
+                    if(++ctmp >= fw)
+                        ctmp = 0, rtmp += 8;
+                }
+            }
+            rsrc += 8;
+            cdst += width;
+            while(cdst >= fw)
+                cdst -= fw, rdst += 8;
+        }
+
+        data.push_back((uint8_t)std::clamp(lsb, -128, 127));
+        data.push_back((uint8_t)std::clamp(adv, 0, 255));
+        data.push_back((uint8_t)std::clamp(width, 1, fw));
     }
     for(auto& b : idata)
         b = (b >= 128 ? 2 : 1);
 
     // line height
-    data.push_back(uint8_t(std::min(255, line_height)));
+    data.push_back(uint8_t(std::clamp(line_height, 1, 255)));
 
     encode_sprites_image(data, n, iw, ih, (size_t)fw, (size_t)fh, false, idata);
 }

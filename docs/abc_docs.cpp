@@ -15,6 +15,13 @@
 
 #include <stdio.h>
 
+constexpr uint8_t FONT_HEADER_PER_CHAR = 3;
+constexpr uint8_t FONT_HEADER_OFFSET = 6;
+constexpr uint16_t FONT_HEADER_CHAR_BYTES =
+    FONT_HEADER_PER_CHAR * 256;
+constexpr uint16_t FONT_HEADER_BYTES =
+    FONT_HEADER_CHAR_BYTES + FONT_HEADER_OFFSET;
+
 static void draw_str(
     std::vector<uint8_t> const& font,
     std::vector<uint8_t>& buf,
@@ -22,8 +29,8 @@ static void draw_str(
     int x, int y,
     char const* str)
 {
-    int sw = font[513];
-    int sh = font[514];
+    int sw = font[FONT_HEADER_CHAR_BYTES + 1];
+    int sh = font[FONT_HEADER_CHAR_BYTES + 2];
     int sb = (sh + 7) / 8 * sw;
     for(uint8_t cc; (cc = (uint8_t)*str) != '\0'; ++str)
     {
@@ -33,21 +40,22 @@ static void draw_str(
             int tp = r / 8;
             if(tr < 0) continue;
             if(tr >= h) break;
-            for(int c = 0; c < sw; ++c)
+            int gw = font[int(cc) * FONT_HEADER_PER_CHAR + 2];
+            for(int c = 0; c < gw; ++c)
             {
-                int tc = c + x + (int8_t)font[int(cc) * 2 + 0];
+                int tc = c + x + (int8_t)font[int(cc) * FONT_HEADER_PER_CHAR + 0];
                 if(tc < 0)
                     continue;
                 if(tc >= w)
                     break;
                 uint8_t& t = buf[tr * w + tc];
-                if((font[518 + sb * cc + sw * tp + c] >> (r & 7)) & 1)
+                if((font[FONT_HEADER_BYTES + sb * cc + gw * tp + c] >> (r & 7)) & 1)
                     t = 0xff;
                 else
                     t = 0x00;
             }
         }
-        x += font[int(cc) * 2 + 1];
+        x += font[int(cc) * FONT_HEADER_PER_CHAR + 1];
     }
 }
 
@@ -106,7 +114,7 @@ int abc_docs()
         pixels.value = font.pixels;
         dummy.children.push_back(pixels);
         ards::compiler_t{}.encode_font_ttf(data, dummy, font.data, font.size);
-        fonts.push_back({ data[512], font.name, data });
+        fonts.push_back({ data[FONT_HEADER_CHAR_BYTES + 0], font.name, data });
     }
 
     std::sort(fonts.begin(), fonts.end());
@@ -121,18 +129,20 @@ int abc_docs()
         static char const STR_LOWER[] = "the quick brown fox jumps over the lazy dog";
         static char const STR_UPPER[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
         static char const STR_SYM[] = "0123456789,.:?![/](\\){|}+-=<>@#$%^%&*';\"";
-        int h = data[514] + data[512] * 2 + 2;
+        int h =
+            data[FONT_HEADER_CHAR_BYTES + 2] +
+            data[FONT_HEADER_CHAR_BYTES + 0] * 2 + 2;
         int w = 2;
         for(char c : STR_UPPER)
-            w += data[int(uint8_t(c)) * 2 + 1];
+            w += data[int(uint8_t(c)) * FONT_HEADER_PER_CHAR + 1];
         if(w > 512)
             w = 512;
         std::vector<uint8_t> buf;
         buf.resize(w * h);
         draw_str(data, buf, w, h, 1, 1, STR_UPPER);
-        draw_str(data, buf, w, h, 1, data[512] + 1, STR_LOWER);
-        draw_str(data, buf, w, h, 1, data[512] + 1, STR_LOWER);
-        draw_str(data, buf, w, h, 1, data[512] * 2 + 1, STR_SYM);
+        draw_str(data, buf, w, h, 1, data[FONT_HEADER_CHAR_BYTES + 0] + 1, STR_LOWER);
+        draw_str(data, buf, w, h, 1, data[FONT_HEADER_CHAR_BYTES + 0] + 1, STR_LOWER);
+        draw_str(data, buf, w, h, 1, data[FONT_HEADER_CHAR_BYTES + 0] * 2 + 1, STR_SYM);
         stbi_write_png(
             (std::string(DOCS_DIR) + "/font_images/" + std::get<1>(font) + ".png").c_str(),
             w, h, 1, buf.data(), w);
