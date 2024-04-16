@@ -15,8 +15,8 @@
 
 #include <stdio.h>
 
-constexpr uint8_t FONT_HEADER_PER_CHAR = 3;
-constexpr uint8_t FONT_HEADER_OFFSET = 6;
+constexpr uint8_t FONT_HEADER_PER_CHAR = 7;
+constexpr uint8_t FONT_HEADER_OFFSET = 1;
 constexpr uint16_t FONT_HEADER_CHAR_BYTES =
     FONT_HEADER_PER_CHAR * 256;
 constexpr uint16_t FONT_HEADER_BYTES =
@@ -95,6 +95,8 @@ int abc_docs()
     fprintf(f, "```\n\n");
 
     fclose(f);
+
+    return 0;
 
     f = fopen(DOCS_DIR "/builtin_fonts.md", "w");
     if(!f) return 1;

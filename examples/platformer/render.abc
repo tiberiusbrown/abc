@@ -34,12 +34,12 @@ void render()
 
 void render_credits()
 {
-    i16 y = 54 - creditsy;
-    $draw_text_P(41, y + 20, FONT_BR6, "Programming");
+    i16 y = 61 - creditsy;
+    $draw_text_P(41, y + 18, FONT_BR6, "Programming");
     $draw_text_P(32, y + 28, MAIN_FONT, "Peter Brown");
-    $draw_text_P(37, y + 47, FONT_BR6, "Tiles and Sprites");
+    $draw_text_P(37, y + 45, FONT_BR6, "Tiles and Sprites");
     $draw_text_P(41, y + 55, MAIN_FONT, "Kenney.nl");
-    $draw_text_P(54, y + 74, FONT_BR6, "Levels");
+    $draw_text_P(54, y + 72, FONT_BR6, "Levels");
     $draw_text_P(34, y + 82, MAIN_FONT, "Luke Brown");
     $draw_text_P(32, y + 93, MAIN_FONT, "Peter Brown");
 
@@ -53,17 +53,17 @@ void render_pause(bool confirm)
     render_level();
     $draw_sprite(0, 0, sprites{ "assets/pause.png" }, 0);
     constexpr u8 x = 75;
-    constexpr u8 y = 17;
+    constexpr u8 y = 24;
     constexpr u8 h = 12;
     if(confirm)
     {
-        $draw_text_P(68, 1, MAIN_FONT, "Delete Save");
+        $draw_text_P(68, 8, MAIN_FONT, "Delete Save");
         $draw_text_P(x, y + h * 0, MAIN_FONT, "No");
         $draw_text_P(x, y + h * 1, MAIN_FONT, "Yes");
     }
     else
     {
-        $draw_text_P(80, 1, MAIN_FONT, "Paused");
+        $draw_text_P(80, 8, MAIN_FONT, "Paused");
         $draw_text_P(x, y + h * 0, MAIN_FONT, "Resume");
         if(sound_on)
             $draw_text_P(x, y + h * 1, MAIN_FONT, "Sound: On");
@@ -97,7 +97,7 @@ void render_game_over()
                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
         }
     
-    $draw_text_P(1, 1, MAIN_FONT, "Game Over...");
+    $draw_text_P(1, 8, MAIN_FONT, "Game Over...");
 
     {
         u8 i = (frame_count >> 4) & 3;
@@ -139,18 +139,18 @@ void render_victory()
                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
         }
     
-    $draw_text_P(1, 1, MAIN_FONT, "Game Complete!");
+    $draw_text_P(1, 8, MAIN_FONT, "Game Complete!");
 
     constexpr u8 x = 13;
     constexpr u8 y = 12;
-    $draw_textf(x + 6, y + 1, SCORE_FONT, "%06u", total_score);
+    $draw_textf(x + 6, y + 10, SCORE_FONT, "%06u", total_score);
     if(was_high_score)
         $draw_text_P(x, y + 12, FONT_BR6, "New High Score!");
     {
         char[10] buf;
         $format(buf, "%u.%02u", total_time / 50, (total_time % 50) * 2);
         u8 w = $text_width(SCORE_FONT, buf);
-        $draw_text(x + 27 - w / 2, y + 23, SCORE_FONT, buf);
+        $draw_text(x + 27 - w / 2, y + 32, SCORE_FONT, buf);
     }
     if(was_best_time)
         $draw_text_P(x + 1, y + 35, FONT_BR6, "New Best Time!");
@@ -163,15 +163,15 @@ void render_victory()
 
 void render_level_select()
 {
-    $draw_text_P(10, 0, FONT_BR6, "Name");
-    $draw_text_P(60, 0, FONT_BR6, "High Score");
-    $draw_text_P(97, 0, FONT_BR6, "Best Time");
+    $draw_text_P(10, 5, FONT_BR6, "Name");
+    $draw_text_P(60, 5, FONT_BR6, "High Score");
+    $draw_text_P(97, 5, FONT_BR6, "Best Time");
 
     for(u8 i = 0; i < LEVEL_SELECT_ROWS; ++i)
     {
         u8 j = i + levelseloff;
         if(j >= NUM_MAPS) break;
-        u8 y = i * 7 + 9;
+        u8 y = i * 7 + 14;
 
         if(i == levelseli)
         {
@@ -184,7 +184,7 @@ void render_level_select()
                     x = w - 48;
             }
             $draw_text_P(10 - x, y, FONT_BR6, maps[j].name);
-            $draw_filled_rect(0, y, 10, 6, BLACK);
+            $draw_filled_rect(0, y - 5, 10, 6, BLACK);
             $draw_text_P(0, y, FONT_BR6, "->");
         }
         else
@@ -192,7 +192,7 @@ void render_level_select()
             $draw_text_P(10, y, FONT_BR6, maps[j].name);
             $draw_textf(0, y, FONT_BR6, "%02u", j + 1);
         }
-        $draw_filled_rect(57, y, 71, 6, BLACK);
+        $draw_filled_rect(57, y - 5, 71, 6, BLACK);
 
         if(map_high_scores[j] != 0)
             $draw_textf(67, y, FONT_BR6, "%05u", map_high_scores[j]);
@@ -220,8 +220,8 @@ void render_level_select()
         $draw_filled_rect(8, 0, 1, y2, WHITE);
         $draw_filled_rect(58, 0, 1, y2, WHITE);
         $draw_filled_rect(95, 0, 1, y2, WHITE);
-        $draw_text_P(10, y + 2, FONT_BR6, "Entire Game");
-        $draw_text_P(10, y + 9, FONT_BR6, "Sum of Best");
+        $draw_text_P(10, y + 7, FONT_BR6, "Entire Game");
+        $draw_text_P(10, y + 14, FONT_BR6, "Sum of Best");
 
         bool has_sum_score = true;
         bool has_sum_time = true;
@@ -240,34 +240,34 @@ void render_level_select()
         }
 
         if(high_score != 0)
-            $draw_textf(65, y + 2, FONT_BR6, "%06u", high_score);
+            $draw_textf(65, y + 7, FONT_BR6, "%06u", high_score);
         else
-            $draw_text_P(75, y + 2, FONT_BR6, "-");
+            $draw_text_P(75, y + 7, FONT_BR6, "-");
         
         if(has_sum_score)
-            $draw_textf(65, y + 9, FONT_BR6, "%06u", sum_score);
+            $draw_textf(65, y + 14, FONT_BR6, "%06u", sum_score);
         else
-            $draw_text_P(75, y + 9, FONT_BR6, "-");
+            $draw_text_P(75, y + 14, FONT_BR6, "-");
         
         if(best_time != 0)
         {
             char[10] buf;
             $format(buf, "%u.%02u", best_time / 50, (best_time % 50) * 2);
             u8 w = $text_width(FONT_BR6, buf);
-            $draw_text(124 - w, y + 2, FONT_BR6, buf);
+            $draw_text(124 - w, y + 7, FONT_BR6, buf);
         }
         else
-            $draw_text_P(110, y + 2, FONT_BR6, "-");
+            $draw_text_P(110, y + 7, FONT_BR6, "-");
         
         if(has_sum_time)
         {
             char[10] buf;
             $format(buf, "%u.%02u", sum_time / 50, (sum_time % 50) * 2);
             u8 w = $text_width(FONT_BR6, buf);
-            $draw_text(124 - w, y + 9, FONT_BR6, buf);
+            $draw_text(124 - w, y + 14, FONT_BR6, buf);
         }
         else
-            $draw_text_P(110, y + 9, FONT_BR6, "-");
+            $draw_text_P(110, y + 14, FONT_BR6, "-");
     }
 }
 
@@ -277,7 +277,7 @@ void render_menu()
     $draw_sprite(menu_spritex - 16, -2, OBJECTS, menu_sprite + (frame_count & 0x30));
     $draw_filled_rect(0, 14, 128, 2, WHITE);
     constexpr u8 x = 33;
-    constexpr u8 y = 22;
+    constexpr u8 y = 29;
     constexpr u8 h = 11;
     if(save_exists)
         $draw_text_P(x, y, MAIN_FONT, "Resume Game");
@@ -289,43 +289,41 @@ void render_menu()
     else
         $draw_text_P(x, y + h * 2, MAIN_FONT, "Sound: Off");
     $draw_text_P(x, y + h * 3, MAIN_FONT, "Credits");
-    $draw_sprite(x - 19, y - 6 + menui * h, PLAYER, 7 + ((frame_count >> 3) & 3));
+    $draw_sprite(x - 19, y - 13 + menui * h, PLAYER, 7 + ((frame_count >> 3) & 3));
 }
 
 void render_intro()
 {
-    //$draw_text_P(55, 10, FONT_BR6, "Score");
-    $draw_textf(43, 18, SCORE_FONT, "%06u", total_score);
-    //$draw_rect(41, 16, 45, 13, WHITE);
+    $draw_textf(43, 27, SCORE_FONT, "%06u", total_score);
     if(level_frames_remaining != 0)
     {
-        $draw_text_P(25, 0, MAIN_FONT, "Level Complete!");
-        $draw_textf(41, 30, FONT_BR6, "%05u", score);
+        $draw_text_P(25, 7, MAIN_FONT, "Level Complete!");
+        $draw_textf(41, 35, FONT_BR6, "%05u", score);
         char[10] buf;
         $format(buf, "%u.%02u",
             level_frames_remaining / 50,
             (level_frames_remaining % 50) * 2);
         u8 w = $text_width(FONT_BR6, buf);
-        $draw_text(87 - w, 30, FONT_BR6, buf);
+        $draw_text(87 - w, 35, FONT_BR6, buf);
     }
     else
     {
         if(current_map >= NUM_MAPS)
-            $draw_text_P(24, 0, MAIN_FONT, "Congratulations!");
+            $draw_text_P(24, 7, MAIN_FONT, "Congratulations!");
         else
-            $draw_text_P(37, 0, MAIN_FONT, "Get Ready!");
+            $draw_text_P(37, 7, MAIN_FONT, "Get Ready!");
 
         if(total_score != 0)
         {
             constexpr u8 y = 16;
-            $draw_text_P(94, y + 0, FONT_BR6, "Total Time");
+            $draw_text_P(94, y + 5, FONT_BR6, "Total Time");
             $draw_filled_rect(94, y + 6, 34, 1, WHITE);
             char[10] buf;
             $format(buf, "%u.%02u",
                 total_time / 50,
                 (total_time % 50) * 2);
             u8 w = $text_width(FONT_BR6, buf);
-            $draw_text(111 - w / 2, y + 8, FONT_BR6, buf);
+            $draw_text(111 - w / 2, y + 13, FONT_BR6, buf);
         }
     }
     if(state == STATE_INTRO && level_frames_remaining != 0)
@@ -333,8 +331,8 @@ void render_intro()
         constexpr u8 y = 40;
         if(was_best_time)
         {
-            $draw_text_P(93, y - 8, FONT_BR6, "New Level");
-            $draw_text_P(93, y - 1, FONT_BR6, "Best Time!");
+            $draw_text_P(93, y - 3, FONT_BR6, "New Level");
+            $draw_text_P(93, y + 4, FONT_BR6, "Best Time!");
             $draw_filled_rect(91, y + 6, 37, 1, WHITE);
             char[10] buf;
             u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
@@ -342,24 +340,24 @@ void render_intro()
                 time_taken / 50,
                 (time_taken % 50) * 2);
             u8 w = $text_width(FONT_BR6, buf);
-            $draw_text(110 - w / 2, y + 8, FONT_BR6, buf);
+            $draw_text(110 - w / 2, y + 13, FONT_BR6, buf);
         }
         if(was_high_score)
         {
-            $draw_text_P(2, y - 8, FONT_BR6, "New Level");
-            $draw_text_P(1, y - 1, FONT_BR6, "High Score!");
+            $draw_text_P(2, y - 3, FONT_BR6, "New Level");
+            $draw_text_P(1, y + 4, FONT_BR6, "High Score!");
             $draw_filled_rect(0, y + 6, 37, 1, WHITE);
             char[10] buf;
             u16 map_score = score + level_frames_remaining;
             $format(buf, "%05u", map_score);
             u8 w = $text_width(FONT_BR6, buf);
-            $draw_text(17 - w / 2, y + 8, FONT_BR6, buf);
+            $draw_text(17 - w / 2, y + 13, FONT_BR6, buf);
         }
     }
     $draw_sprite(56, 37, PLAYER, 7 + ((frame_count >> 3) & 0x3));
-    $draw_textf(72, 44, FONT_BR6, "x%u", lives);
+    $draw_textf(72, 49, FONT_BR6, "x%u", lives);
     if((frame_count & 0x3f) < 0x30)
-        $draw_text_P(44, 57, MAIN_FONT, "Press A");
+        $draw_text_P(44, 64, MAIN_FONT, "Press A");
 }
 
 void render_level_complete()
@@ -485,9 +483,9 @@ void render_level()
     for(u8 i = 0; i < keys_required; ++i)
         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
     $draw_filled_rect(0, 0, 20, 6, BLACK);
-    $draw_textf(0, 0, FONT_BR6, "%05u", score);
+    $draw_textf(0, 5, FONT_BR6, "%05u", score);
     $draw_filled_rect(57, 0, 13, 6, BLACK);
-    $draw_textf(58, 0, FONT_BR6, "%03u", u16(level_frames_remaining + 49) / 50);
+    $draw_textf(58, 5, FONT_BR6, "%03u", u16(level_frames_remaining + 49) / 50);
 
     // render level start animation
     if(level_start_frames != 0)
@@ -505,6 +503,6 @@ void render_level()
         if(level_start_frames <= TRANSITION_FRAMES)
             xo -= (TRANSITION_FRAMES - level_start_frames) * 10;
         $draw_filled_rect(xo, y - 1, 128, h, BLACK);
-        $draw_text_P(x + xo, y + 1, MAIN_FONT, name);
+        $draw_text_P(x + xo, y + 8, MAIN_FONT, name);
     }
 }
