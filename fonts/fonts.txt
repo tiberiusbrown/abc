@@ -4,6 +4,10 @@ adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
 
+birchleaf
+Public Domain
+https://www.dafont.com/birch-leaf.font
+
 calamity
 CC BY 3.0
 https://fontstruct.com/fontstructions/show/2158964/calamity-4
