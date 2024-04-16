@@ -4,6 +4,10 @@ adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
 
+calamity
+CC BY 3.0
+https://fontstruct.com/fontstructions/show/2158964/calamity-4
+
 pixcon
 100% Free
 https://www.dafont.com/pixcon.font
