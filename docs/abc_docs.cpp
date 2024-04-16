@@ -108,12 +108,8 @@ int abc_docs()
     for(auto const& font : ALL_FONTS)
     {
         std::vector<uint8_t> data;
-        ards::ast_node_t dummy{};
-        ards::ast_node_t pixels{};
-        pixels.type = ards::AST::INT_CONST;
-        pixels.value = font.pixels;
-        dummy.children.push_back(pixels);
-        ards::compiler_t{}.encode_font_ttf(data, dummy, font.data, font.size);
+        data.resize(font.size);
+        memcpy(data.data(), font.data, data.size());
         fonts.push_back({ data[FONT_HEADER_CHAR_BYTES + 0], font.name, data });
     }
 

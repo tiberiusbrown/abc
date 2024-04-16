@@ -13,10 +13,6 @@
 namespace ards
 {
 
-compiler_t::compiler_t()
-    : progdata_label_index(0)
-{}
-
 static std::string const GLOBINIT_FUNC = "$globinit";
 static std::string const FILE_INTERNAL = "<internal>";
 
@@ -395,12 +391,8 @@ void compiler_t::create_builtin_font(compiler_global_t& g)
         g.constexpr_ref = progdata_label();
         g.var.label_ref = g.constexpr_ref;
         std::vector<uint8_t> data;
-        ast_node_t dummy{};
-        ast_node_t pixels{};
-        pixels.type = AST::INT_CONST;
-        pixels.value = f.pixels;
-        dummy.children.push_back(pixels);
-        encode_font_ttf(data, dummy, f.data, f.size);
+        data.resize(f.size);
+        memcpy(data.data(), f.data, data.size());
         add_custom_progdata(g.constexpr_ref, data);
         break;
     }

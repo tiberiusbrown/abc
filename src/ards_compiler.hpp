@@ -534,7 +534,9 @@ extern std::vector<builtin_constexpr_t> const builtin_constexprs;
 
 struct compiler_t
 {
-    compiler_t();
+    compiler_t()
+        : progdata_label_index(0)
+    {}
 
     void compile(
         std::string const& path,
