@@ -29,9 +29,9 @@ void loop()
         ++coins;
     }
     
-    $draw_text_P(0, 0, f, "Hello World!\nPress A to collect a coin.");
-    $draw_textf(0, 20, f, "Coins collected: %d", coins);
-    $draw_textf(0, 50, f, "Running for %.2f seconds", float($millis()) / 1000);
+    $draw_text_P(0, 5, f, "Hello World!\nPress A to collect a coin.");
+    $draw_textf(0, 25, f, "Coins collected: %d", coins);
+    $draw_textf(0, 55, f, "Running for %.2f seconds", float($millis()) / 1000);
         
     if($pressed(UP_BUTTON   )) --y;
     if($pressed(DOWN_BUTTON )) ++y;
