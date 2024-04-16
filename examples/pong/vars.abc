@@ -26,7 +26,7 @@ constexpr float PADDLE_HEIGHT = 20;
 constexpr float TOP_Y = 7;
 constexpr float BOT_Y = 63;
 
-constexpr font f = font{ 6 "font.ttf" };
+constexpr font f = FONT_BR5;
 
 constexpr tones SFX_BOUNCE_WALL = tones{ C4 50 };
 constexpr tones SFX_BOUNCE_PADDLE = tones{ C5 100 };

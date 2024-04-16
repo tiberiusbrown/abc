@@ -106,15 +106,15 @@ void render()
 {
     // scores
     $draw_filled_rect(0, TOP_Y - 1, 128, 1, WHITE);
-    $draw_textf(0, 0, f, "%d", s0);
+    $draw_textf(0, 5, f, "%d", s0);
     {
         // right-align the AI's score
         char[8] buf;
         $format(buf, "%d", s1);
-        $draw_text(129 - $text_width(f, buf), 0, f, buf);
+        $draw_text(129 - $text_width(f, buf), 5, f, buf);
     }
     
-    $draw_text_P(52, 0, f, "PONG!");
+    $draw_text_P(52, 5, f, "PONG!");
 
     // paddles
     $draw_filled_rect(0, $round(py0), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
