@@ -4,6 +4,7 @@
 
 #include <cctype>
 #include <cmath>
+#include <cstring>
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -127,7 +128,7 @@ void compiler_t::encode_font_ttf(
     data.push_back(uint8_t(std::clamp(line_height, 1, 255)));
 
     // image data
-    size_t offset = 0;
+    size_t image_start = data.size();
     std::vector<uint8_t> idata;
     std::vector<uint8_t> sdata;
     for(int i = 0; i < 256; ++i)
@@ -136,15 +137,6 @@ void compiler_t::encode_font_ttf(
         
         int w = data[j + 5];
         int h = data[j + 6];
-
-        if(offset >= 65536)
-        {
-            errs.push_back({ "Font glyph data too large", n.line_info });
-            return;
-        }
-        
-        data[j + 3] = uint8_t(offset >> 0);
-        data[j + 4] = uint8_t(offset >> 8);
 
         idata.resize(w * h);
         
@@ -166,8 +158,31 @@ void compiler_t::encode_font_ttf(
             (size_t)w, (size_t)h,
             false, idata);
 
-        data.insert(data.end(), sdata.begin() + 5, sdata.end());
-        offset += sdata.size() - 5;
+        // find an offset for image
+        size_t offset = 0;
+        while(image_start + offset < data.size())
+        {
+            size_t bytes = std::min<size_t>(
+                sdata.size(), data.size() - (image_start + offset));
+            if(!memcmp(&data[image_start + offset], &sdata[0], bytes))
+                break;
+            offset += 1;
+        }
+
+        if(offset >= 65536)
+        {
+            errs.push_back({ "Font glyph data too large", n.line_info });
+            return;
+        }
+
+        data[j + 3] = uint8_t(offset >> 0);
+        data[j + 4] = uint8_t(offset >> 8);
+
+        size_t sdata_offset = 5;
+        if(image_start + offset < data.size())
+            sdata_offset += (data.size() - (image_start + offset));
+
+        data.insert(data.end(), sdata.begin() + sdata_offset, sdata.end());
     }
 }
 
