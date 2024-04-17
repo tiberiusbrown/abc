@@ -19,6 +19,7 @@ struct font_info_t {
 #include "font_br6.hpp"
 #include "font_calamity.hpp"
 #include "font_gothicpixels.hpp"
+#include "font_kiwisoda.hpp"
 #include "font_lexis.hpp"
 #include "font_mitochondria.hpp"
 #include "font_monkey.hpp"
@@ -53,6 +54,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_BR6", 5, FONT_BR6, sizeof(FONT_BR6) },
     { "FONT_CALAMITY", 11, FONT_CALAMITY, sizeof(FONT_CALAMITY) },
     { "FONT_GOTHICPIXELS", 12, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
+    { "FONT_KIWISODA", 10, FONT_KIWISODA, sizeof(FONT_KIWISODA) },
     { "FONT_LEXIS", 7, FONT_LEXIS, sizeof(FONT_LEXIS) },
     { "FONT_MITOCHONDRIA", 10, FONT_MITOCHONDRIA, sizeof(FONT_MITOCHONDRIA) },
     { "FONT_MONKEY", 10, FONT_MONKEY, sizeof(FONT_MONKEY) },
