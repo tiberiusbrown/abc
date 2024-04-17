@@ -103,27 +103,28 @@ int abc_docs()
     if(!f) return 1;
 
     fprintf(f, "# Built-in Font Assets\n");
-    fprintf(f, "| Predefined Variable | Line Height | Bytes | Preview |\n");
-    fprintf(f, "|---|---|---|---|\n");
+    fprintf(f, "| Predefined Variable | Ascent | Line Height | Bytes | Preview |\n");
+    fprintf(f, "|---|---|---|---|---|\n");
 
-    std::vector<std::tuple<int, std::string, std::vector<uint8_t>>> fonts;
+    std::vector<std::tuple<int, int, std::string, std::vector<uint8_t>>> fonts;
 
     for(auto const& font : ALL_FONTS)
     {
         std::vector<uint8_t> data;
         data.resize(font.size);
         memcpy(data.data(), font.data, data.size());
-        fonts.push_back({ data[FONT_HEADER_CHAR_BYTES + 0], font.name, data });
+        fonts.push_back({ (int)font.pixels, data[FONT_HEADER_CHAR_BYTES + 0], font.name, data });
     }
 
     std::sort(fonts.begin(), fonts.end());
 
     for(auto const& font : fonts)
     {
-        auto const& data = std::get<2>(font);
-        fprintf(f, "| `%s` | %d | %d |",
-            std::get<1>(font).c_str(),
+        auto const& data = std::get<3>(font);
+        fprintf(f, "| `%s` | %d | %d | %d |",
+            std::get<2>(font).c_str(),
             std::get<0>(font),
+            std::get<1>(font),
             (int)data.size());
         static char const STR_LOWER[] = "the quick brown fox jumps over the lazy dog";
         static char const STR_UPPER[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
@@ -140,9 +141,9 @@ int abc_docs()
         draw_str(data, buf, w, h, 1, data[FONT_HEADER_CHAR_BYTES + 0] * 2, STR_LOWER);
         draw_str(data, buf, w, h, 1, data[FONT_HEADER_CHAR_BYTES + 0] * 3, STR_SYM);
         stbi_write_png(
-            (std::string(DOCS_DIR) + "/font_images/" + std::get<1>(font) + ".png").c_str(),
+            (std::string(DOCS_DIR) + "/font_images/" + std::get<2>(font) + ".png").c_str(),
             w, h, 1, buf.data(), w);
-        fprintf(f, " ![%s](font_images/%s.png) |\n", std::get<1>(font).c_str(), std::get<1>(font).c_str());
+        fprintf(f, " ![%s](font_images/%s.png) |\n", std::get<2>(font).c_str(), std::get<2>(font).c_str());
     }
 
     fclose(f);

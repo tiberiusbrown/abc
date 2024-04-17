@@ -81,7 +81,7 @@ void compiler_t::encode_font_ttf(
 
     float scale = (float)pixel_height / ascent;
 
-    int line_height = (int)ceilf(scale * (ascent - descent + line_gap));
+    int line_height = (int)roundf(scale * (ascent - descent + line_gap));
 
     size_t start = data.size();
 
