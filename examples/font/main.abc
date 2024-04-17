@@ -1,4 +1,4 @@
-constexpr font font_styled = FONT_ALKHEMIKAL;
+constexpr font font_styled = FONT_PIXELLARI;
 constexpr font font_small = FONT_BR5;
 
 void setup()
@@ -15,7 +15,7 @@ void loop()
     
     $set_text_font(font_styled);
     $draw_text(0, 60, str);
-    $draw_text_P(0, 10, "Hello World!");
+    $draw_text_P(0, 10, "LFHello World!");
     
     $set_text_font(font_small);
     $draw_text_P(0, 23, "the quick brown fox jumps\nover the lazy dog");
