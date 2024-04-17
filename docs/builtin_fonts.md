@@ -6,7 +6,7 @@
 | `FONT_BERKELIUM1541` | 5 | 6 | 2434 | ![FONT_BERKELIUM1541](font_images/FONT_BERKELIUM1541.png) |
 | `FONT_BR5` | 5 | 6 | 2295 | ![FONT_BR5](font_images/FONT_BR5.png) |
 | `FONT_BR5N` | 5 | 6 | 2287 | ![FONT_BR5N](font_images/FONT_BR5N.png) |
-| `FONT_BR6` | 5 | 7 | 2246 | ![FONT_BR6](font_images/FONT_BR6.png) |
+| `FONT_BR6` | 5 | 7 | 2315 | ![FONT_BR6](font_images/FONT_BR6.png) |
 | `FONT_BANGALOR` | 6 | 9 | 2263 | ![FONT_BANGALOR](font_images/FONT_BANGALOR.png) |
 | `FONT_ADAFRUIT` | 7 | 8 | 2818 | ![FONT_ADAFRUIT](font_images/FONT_ADAFRUIT.png) |
 | `FONT_LEXIS` | 7 | 8 | 2842 | ![FONT_LEXIS](font_images/FONT_LEXIS.png) |
