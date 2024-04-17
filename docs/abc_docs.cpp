@@ -29,6 +29,10 @@ static void draw_str(
     int x, int y,
     char const* str)
 {
+    // gray line
+    for(int c = 0; c < w; ++c)
+        buf[y * w + c] = 0x40;
+
     for(uint8_t cc; (cc = (uint8_t)*str) != '\0'; ++str)
     {
         int sw = font[int(cc) * FONT_HEADER_PER_CHAR + 5];
@@ -54,8 +58,6 @@ static void draw_str(
                 uint8_t& t = buf[tr * w + tc];
                 if((font[FONT_HEADER_BYTES + offset + sw * tp + c] >> (r & 7)) & 1)
                     t = 0xff;
-                else
-                    t = 0x00;
             }
         }
         x += font[int(cc) * FONT_HEADER_PER_CHAR + 0];
