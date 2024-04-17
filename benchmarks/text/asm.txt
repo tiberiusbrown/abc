@@ -200,6 +200,9 @@ main:
   .line 5
   sys   debug_break
   .line 7
+  pushl $PD_0 0
+  sys   set_text_font
+  .line 8
   sys   millis
   push  232
   p3
@@ -208,26 +211,23 @@ main:
   pushl $PD_1 0
   push  20
   p00
-  pushl $PD_0 0
   p0000
   sys   draw_textf
-  .line 8
+  .line 9
   pushl $PD_2 0
   push  43
   p00
-  pushl $PD_0 0
   push  9
   p000
   sys   draw_text_P
-  .line 9
+  .line 10
   pushl $PD_3 0
   push  43
   p00
-  pushl $PD_0 0
   push  36
   p000
   sys   draw_text_P
-  .line 11
+  .line 12
   sys   debug_break
   .line 3
   ret

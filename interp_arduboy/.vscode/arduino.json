@@ -14,7 +14,7 @@
         ],
         [
             "compiler.c.elf.extra_flags",
-            "-Wl,--relax -Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x800639"
+            "-Wl,--relax -Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x80063d"
         ],
         [
             "compiler.elf2hex.extra_flags",

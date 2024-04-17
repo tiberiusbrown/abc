@@ -887,125 +887,129 @@ $PD_38:
   .b f 00 00 19 00 01 08 01 00 00 1a 00 01 08 01 00 00
   .b f 1b 00 01 08 01 00 00 1c 00 01 08 01 00 00 1d 00
   .b f 01 08 01 00 00 1e 00 01 08 01 00 00 1f 00 01 08
-  .b f 02 00 00 20 00 01 08 02 00 fb 21 00 01 08 04 00
-  .b f fb 22 00 03 08 06 00 fb 25 00 05 08 06 00 fb 2a
-  .b f 00 05 08 04 00 fb 2f 00 03 08 05 00 fb 32 00 05
-  .b f 08 02 00 fb 37 00 01 08 03 00 fb 37 00 03 08 03
-  .b f 00 fb 3a 00 03 08 04 00 fb 3d 00 03 08 04 00 fb
-  .b f 40 00 03 08 03 00 fd 43 00 03 08 04 00 fd 46 00
-  .b f 03 08 02 00 ff 48 00 01 08 04 00 fb 49 00 03 08
-  .b f 04 00 fb 4b 00 03 08 04 00 fb 4e 00 03 08 04 00
-  .b f fb 51 00 03 08 04 00 fb 54 00 03 08 04 00 fb 57
-  .b f 00 03 08 04 00 fb 5a 00 03 08 04 00 fb 5d 00 03
-  .b f 08 04 00 fb 60 00 03 08 04 00 fb 63 00 03 08 04
-  .b f 00 fb 66 00 03 08 02 00 fb 69 00 01 08 03 00 fb
-  .b f 6a 00 03 08 04 00 fb 6d 00 03 08 04 00 fb 70 00
-  .b f 03 08 04 00 fb 73 00 03 08 04 00 fb 76 00 03 08
-  .b f 05 00 fb 79 00 05 08 04 00 fb 7e 00 03 08 04 00
-  .b f fb 81 00 03 08 04 00 fb 84 00 03 08 04 00 fb 87
-  .b f 00 03 08 04 00 fb 8a 00 03 08 04 00 fb 8d 00 03
-  .b f 08 04 00 fb 90 00 03 08 04 00 fb 93 00 03 08 04
-  .b f 00 fb 96 00 03 08 03 00 fb 99 00 03 08 04 00 fb
-  .b f 9c 00 03 08 04 00 fb 9f 00 03 08 06 00 fb a2 00
-  .b f 05 08 05 00 fb a7 00 05 08 05 00 fb ac 00 05 08
-  .b f 04 00 fb b1 00 03 08 05 00 fb b4 00 05 08 04 00
-  .b f fb b9 00 03 08 04 00 fb bc 00 03 08 04 00 fb bf
-  .b f 00 03 08 05 00 fb c2 00 05 08 04 00 fb c7 00 03
-  .b f 08 06 00 fb ca 00 05 08 04 00 fb cf 00 03 08 04
-  .b f 00 fb d2 00 03 08 04 00 fb d5 00 03 08 03 00 fb
-  .b f d8 00 03 08 04 00 fb db 00 03 08 03 00 fb de 00
-  .b f 03 08 04 00 fb e1 00 03 08 04 00 ff e4 00 03 08
-  .b f 03 00 fb e7 00 03 08 04 00 fb ea 00 03 08 04 00
-  .b f fb ed 00 03 08 03 00 fb f0 00 03 08 04 00 fb f3
-  .b f 00 03 08 04 00 fb f6 00 03 08 03 00 fb f9 00 03
-  .b f 08 04 00 fb fc 00 03 08 04 00 fb ff 00 03 08 02
-  .b f 00 fb 02 01 01 08 03 00 fb 03 01 03 08 04 00 fb
-  .b f 06 01 03 08 02 00 fb 09 01 01 08 06 00 fb 0a 01
-  .b f 05 08 04 00 fb 0f 01 03 08 04 00 fb 12 01 03 08
-  .b f 04 00 fb 15 01 03 08 04 00 fb 18 01 03 08 04 00
-  .b f fb 1b 01 03 08 03 00 fb 1e 01 03 08 03 00 fb 21
-  .b f 01 03 08 04 00 fb 24 01 03 08 04 00 fb 27 01 03
-  .b f 08 06 00 fb 2a 01 05 08 04 00 fb 2f 01 03 08 04
-  .b f 00 fb 32 01 03 08 03 00 fb 35 01 03 08 04 00 fb
-  .b f 38 01 03 08 02 00 fb 3b 01 01 08 04 00 fb 3c 01
-  .b f 03 08 05 00 fd 3f 01 05 08 01 00 00 44 01 01 08
-  .b f 01 00 00 45 01 01 08 01 00 00 46 01 01 08 01 00
-  .b f 00 47 01 01 08 01 00 00 48 01 01 08 01 00 00 49
-  .b f 01 01 08 01 00 00 4a 01 01 08 01 00 00 4b 01 01
-  .b f 08 01 00 00 4c 01 01 08 01 00 00 4d 01 01 08 01
-  .b f 00 00 4e 01 01 08 01 00 00 4f 01 01 08 01 00 00
-  .b f 50 01 01 08 01 00 00 51 01 01 08 01 00 00 52 01
-  .b f 01 08 01 00 00 53 01 01 08 01 00 00 54 01 01 08
-  .b f 01 00 00 55 01 01 08 01 00 00 56 01 01 08 01 00
-  .b f 00 57 01 01 08 01 00 00 58 01 01 08 01 00 00 59
-  .b f 01 01 08 01 00 00 5a 01 01 08 01 00 00 5b 01 01
-  .b f 08 01 00 00 5c 01 01 08 01 00 00 5d 01 01 08 01
-  .b f 00 00 5e 01 01 08 01 00 00 5f 01 01 08 01 00 00
-  .b f 60 01 01 08 01 00 00 61 01 01 08 01 00 00 62 01
-  .b f 01 08 01 00 00 63 01 01 08 01 00 00 64 01 01 08
-  .b f 02 00 00 65 01 01 08 01 00 00 66 01 01 08 01 00
-  .b f 00 67 01 01 08 01 00 00 68 01 01 08 01 00 00 69
-  .b f 01 01 08 01 00 00 6a 01 01 08 01 00 00 6b 01 01
-  .b f 08 01 00 00 6c 01 01 08 01 00 00 6d 01 01 08 01
-  .b f 00 00 6e 01 01 08 01 00 00 6f 01 01 08 01 00 00
-  .b f 70 01 01 08 01 00 00 71 01 01 08 01 00 00 72 01
-  .b f 01 08 01 00 00 73 01 01 08 01 00 00 74 01 01 08
-  .b f 01 00 00 75 01 01 08 01 00 00 76 01 01 08 01 00
-  .b f 00 77 01 01 08 01 00 00 78 01 01 08 01 00 00 79
-  .b f 01 01 08 01 00 00 7a 01 01 08 01 00 00 7b 01 01
-  .b f 08 01 00 00 7c 01 01 08 01 00 00 7d 01 01 08 01
-  .b f 00 00 7e 01 01 08 01 00 00 7f 01 01 08 01 00 00
-  .b f 80 01 01 08 01 00 00 81 01 01 08 01 00 00 82 01
-  .b f 01 08 01 00 00 83 01 01 08 01 00 00 84 01 01 08
-  .b f 01 00 00 85 01 01 08 01 00 00 86 01 01 08 01 00
-  .b f 00 87 01 01 08 01 00 00 88 01 01 08 01 00 00 89
-  .b f 01 01 08 01 00 00 8a 01 01 08 01 00 00 8b 01 01
-  .b f 08 01 00 00 8c 01 01 08 01 00 00 8d 01 01 08 01
-  .b f 00 00 8e 01 01 08 01 00 00 8f 01 01 08 01 00 00
-  .b f 90 01 01 08 01 00 00 91 01 01 08 01 00 00 92 01
-  .b f 01 08 01 00 00 93 01 01 08 01 00 00 94 01 01 08
-  .b f 01 00 00 95 01 01 08 01 00 00 96 01 01 08 01 00
-  .b f 00 97 01 01 08 01 00 00 98 01 01 08 01 00 00 99
-  .b f 01 01 08 01 00 00 9a 01 01 08 01 00 00 9b 01 01
-  .b f 08 01 00 00 9c 01 01 08 01 00 00 9d 01 01 08 01
-  .b f 00 00 9e 01 01 08 01 00 00 9f 01 01 08 01 00 00
-  .b f a0 01 01 08 01 00 00 a1 01 01 08 01 00 00 a2 01
-  .b f 01 08 01 00 00 a3 01 01 08 01 00 00 a4 01 01 08
-  .b f 01 00 00 a5 01 01 08 01 00 00 a6 01 01 08 01 00
-  .b f 00 a7 01 01 08 01 00 00 a8 01 01 08 01 00 00 a9
-  .b f 01 01 08 01 00 00 aa 01 01 08 01 00 00 ab 01 01
-  .b f 08 01 00 00 ac 01 01 08 01 00 00 ad 01 01 08 01
-  .b f 00 00 ae 01 01 08 01 00 00 af 01 01 08 01 00 00
-  .b f b0 01 01 08 01 00 00 b1 01 01 08 01 00 00 b2 01
-  .b f 01 08 01 00 00 b3 01 01 08 01 00 00 b4 01 01 08
-  .b f 01 00 00 b5 01 01 08 01 00 00 b6 01 01 08 01 00
-  .b f 00 b7 01 01 08 01 00 00 b8 01 01 08 01 00 00 b9
-  .b f 01 01 08 01 00 00 ba 01 01 08 01 00 00 bb 01 01
-  .b f 08 01 00 00 bc 01 01 08 01 00 00 bd 01 01 08 01
-  .b f 00 00 be 01 01 08 01 00 00 bf 01 01 08 01 00 00
-  .b f c0 01 01 08 01 00 00 c1 01 01 08 01 00 00 c2 01
-  .b f 01 08 01 00 00 c3 01 01 08 01 00 00 c4 01 01 08
+  .b f 02 00 00 20 00 01 08 02 00 fa 21 00 01 08 04 00
+  .b f fa 22 00 04 08 06 00 fa 26 00 06 08 06 00 fa 2c
+  .b f 00 06 08 04 00 fa 32 00 04 08 05 00 fa 36 00 05
+  .b f 08 02 00 fa 3b 00 01 08 03 00 fa 3c 00 03 08 03
+  .b f 00 fa 3f 00 03 08 04 00 fa 42 00 04 08 04 00 fb
+  .b f 46 00 04 08 03 00 fd 4a 00 03 08 04 00 fc 4d 00
+  .b f 04 08 02 00 ff 51 00 01 08 04 00 fa 52 00 04 08
+  .b f 04 00 fa 56 00 04 08 04 00 fa 5a 00 04 08 04 00
+  .b f fa 5e 00 04 08 04 00 fa 62 00 04 08 04 00 fa 66
+  .b f 00 04 08 04 00 fa 6a 00 04 08 04 00 fa 6e 00 04
+  .b f 08 04 00 fa 72 00 04 08 04 00 fa 76 00 04 08 04
+  .b f 00 fa 7a 00 04 08 02 00 fb 7e 00 01 08 03 00 fb
+  .b f 7f 00 03 08 04 00 fa 82 00 04 08 04 00 fb 86 00
+  .b f 04 08 04 00 fa 8a 00 04 08 04 00 fa 8e 00 04 08
+  .b f 05 00 fa 92 00 05 08 04 00 fa 97 00 04 08 04 00
+  .b f fa 9b 00 04 08 04 00 fa 9f 00 04 08 04 00 fa a3
+  .b f 00 04 08 04 00 fa a7 00 04 08 04 00 fa ab 00 04
+  .b f 08 04 00 fa af 00 04 08 04 00 fa b3 00 04 08 04
+  .b f 00 fa b7 00 04 08 03 00 fa bb 00 03 08 04 00 fa
+  .b f be 00 04 08 04 00 fa c2 00 04 08 06 00 fa c6 00
+  .b f 06 08 05 00 fa cc 00 05 08 05 00 fa d1 00 05 08
+  .b f 04 00 fa d6 00 04 08 05 00 fa da 00 05 08 04 00
+  .b f fa df 00 04 08 04 00 fa e3 00 04 08 04 00 fa e7
+  .b f 00 04 08 05 00 fa eb 00 05 08 04 00 fa f0 00 04
+  .b f 08 06 00 fa f4 00 06 08 04 00 fa fa 00 04 08 04
+  .b f 00 fa fe 00 04 08 04 00 fa 02 01 04 08 03 00 fa
+  .b f 06 01 03 08 04 00 fa 09 01 04 08 03 00 fa 0d 01
+  .b f 03 08 04 00 fa 10 01 04 08 04 00 ff 14 01 04 08
+  .b f 03 00 fa 18 01 03 08 04 00 fb 1b 01 04 08 04 00
+  .b f fa 1f 01 04 08 03 00 fb 23 01 03 08 04 00 fa 26
+  .b f 01 04 08 04 00 fb 2a 01 04 08 03 00 fa 2e 01 03
+  .b f 08 04 00 fb 31 01 04 08 04 00 fa 35 01 04 08 02
+  .b f 00 fa 39 01 01 08 03 00 fa 3a 01 03 08 04 00 fa
+  .b f 3d 01 04 08 02 00 fa 41 01 01 08 06 00 fb 42 01
+  .b f 06 08 04 00 fb 48 01 04 08 04 00 fb 4c 01 04 08
+  .b f 04 00 fb 50 01 04 08 04 00 fb 54 01 04 08 04 00
+  .b f fb 58 01 04 08 03 00 fb 5c 01 03 08 03 00 fa 5f
+  .b f 01 03 08 04 00 fb 62 01 04 08 04 00 fb 66 01 04
+  .b f 08 06 00 fb 6a 01 06 08 04 00 fb 70 01 04 08 04
+  .b f 00 fb 74 01 04 08 03 00 fb 78 01 03 08 04 00 fa
+  .b f 7b 01 04 08 02 00 fa 7f 01 01 08 04 00 fa 80 01
+  .b f 04 08 05 00 fc 84 01 05 08 01 00 00 89 01 01 08
+  .b f 01 00 00 8a 01 01 08 01 00 00 8b 01 01 08 01 00
+  .b f 00 8c 01 01 08 01 00 00 8d 01 01 08 01 00 00 8e
+  .b f 01 01 08 01 00 00 8f 01 01 08 01 00 00 90 01 01
+  .b f 08 01 00 00 91 01 01 08 01 00 00 92 01 01 08 01
+  .b f 00 00 93 01 01 08 01 00 00 94 01 01 08 01 00 00
+  .b f 95 01 01 08 01 00 00 96 01 01 08 01 00 00 97 01
+  .b f 01 08 01 00 00 98 01 01 08 01 00 00 99 01 01 08
+  .b f 01 00 00 9a 01 01 08 01 00 00 9b 01 01 08 01 00
+  .b f 00 9c 01 01 08 01 00 00 9d 01 01 08 01 00 00 9e
+  .b f 01 01 08 01 00 00 9f 01 01 08 01 00 00 a0 01 01
+  .b f 08 01 00 00 a1 01 01 08 01 00 00 a2 01 01 08 01
+  .b f 00 00 a3 01 01 08 01 00 00 a4 01 01 08 01 00 00
+  .b f a5 01 01 08 01 00 00 a6 01 01 08 01 00 00 a7 01
+  .b f 01 08 01 00 00 a8 01 01 08 01 00 00 a9 01 01 08
+  .b f 02 00 00 aa 01 01 08 01 00 00 ab 01 01 08 01 00
+  .b f 00 ac 01 01 08 01 00 00 ad 01 01 08 01 00 00 ae
+  .b f 01 01 08 01 00 00 af 01 01 08 01 00 00 b0 01 01
+  .b f 08 01 00 00 b1 01 01 08 01 00 00 b2 01 01 08 01
+  .b f 00 00 b3 01 01 08 01 00 00 b4 01 01 08 01 00 00
+  .b f b5 01 01 08 01 00 00 b6 01 01 08 01 00 00 b7 01
+  .b f 01 08 01 00 00 b8 01 01 08 01 00 00 b9 01 01 08
+  .b f 01 00 00 ba 01 01 08 01 00 00 bb 01 01 08 01 00
+  .b f 00 bc 01 01 08 01 00 00 bd 01 01 08 01 00 00 be
+  .b f 01 01 08 01 00 00 bf 01 01 08 01 00 00 c0 01 01
+  .b f 08 01 00 00 c1 01 01 08 01 00 00 c2 01 01 08 01
+  .b f 00 00 c3 01 01 08 01 00 00 c4 01 01 08 01 00 00
+  .b f c5 01 01 08 01 00 00 c6 01 01 08 01 00 00 c7 01
+  .b f 01 08 01 00 00 c8 01 01 08 01 00 00 c9 01 01 08
+  .b f 01 00 00 ca 01 01 08 01 00 00 cb 01 01 08 01 00
+  .b f 00 cc 01 01 08 01 00 00 cd 01 01 08 01 00 00 ce
+  .b f 01 01 08 01 00 00 cf 01 01 08 01 00 00 d0 01 01
+  .b f 08 01 00 00 d1 01 01 08 01 00 00 d2 01 01 08 01
+  .b f 00 00 d3 01 01 08 01 00 00 d4 01 01 08 01 00 00
+  .b f d5 01 01 08 01 00 00 d6 01 01 08 01 00 00 d7 01
+  .b f 01 08 01 00 00 d8 01 01 08 01 00 00 d9 01 01 08
+  .b f 01 00 00 da 01 01 08 01 00 00 db 01 01 08 01 00
+  .b f 00 dc 01 01 08 01 00 00 dd 01 01 08 01 00 00 de
+  .b f 01 01 08 01 00 00 df 01 01 08 01 00 00 e0 01 01
+  .b f 08 01 00 00 e1 01 01 08 01 00 00 e2 01 01 08 01
+  .b f 00 00 e3 01 01 08 01 00 00 e4 01 01 08 01 00 00
+  .b f e5 01 01 08 01 00 00 e6 01 01 08 01 00 00 e7 01
+  .b f 01 08 01 00 00 e8 01 01 08 01 00 00 e9 01 01 08
+  .b f 01 00 00 ea 01 01 08 01 00 00 eb 01 01 08 01 00
+  .b f 00 ec 01 01 08 01 00 00 ed 01 01 08 01 00 00 ee
+  .b f 01 01 08 01 00 00 ef 01 01 08 01 00 00 f0 01 01
+  .b f 08 01 00 00 f1 01 01 08 01 00 00 f2 01 01 08 01
+  .b f 00 00 f3 01 01 08 01 00 00 f4 01 01 08 01 00 00
+  .b f f5 01 01 08 01 00 00 f6 01 01 08 01 00 00 f7 01
+  .b f 01 08 01 00 00 f8 01 01 08 01 00 00 f9 01 01 08
+  .b f 01 00 00 fa 01 01 08 01 00 00 fb 01 01 08 01 00
+  .b f 00 fc 01 01 08 01 00 00 fd 01 01 08 01 00 00 fe
+  .b f 01 01 08 01 00 00 ff 01 01 08 01 00 00 00 02 01
+  .b f 08 01 00 00 01 02 01 08 01 00 00 02 02 01 08 01
+  .b f 00 00 03 02 01 08 01 00 00 04 02 01 08 01 00 00
+  .b f 05 02 01 08 01 00 00 06 02 01 08 01 00 00 07 02
+  .b f 01 08 01 00 00 08 02 01 08 01 00 00 09 02 01 08
   .b f 07 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  .b f 00 00 17 03 00 03 0a 1f 0a 1f 0a 02 15 1f 15 08
-  .b f 19 04 13 0a 15 09 14 00 03 11 00 11 0e 00 05 02
-  .b f 05 04 0e 04 04 02 00 01 01 01 18 04 03 11 0e 12
-  .b f 1f 10 19 15 12 11 15 0a 07 04 1f 17 15 09 0e 15
-  .b f 08 01 19 07 0a 15 0a 02 15 0e 0a 10 0a 00 04 0a
-  .b f 11 0a 0a 0a 11 0a 04 01 15 02 0e 11 15 06 00 1e
-  .b f 05 1e 1f 15 0a 0e 11 11 1f 11 0e 1f 15 11 1f 05
-  .b f 01 0e 11 19 1f 04 1f 11 1f 11 11 0f 00 1f 04 1b
-  .b f 1f 10 10 1f 02 04 02 1f 1f 02 04 1f 00 0e 11 11
-  .b f 0e 00 1f 05 02 0e 11 19 1e 00 1f 05 1a 12 15 09
-  .b f 01 1f 01 0f 10 10 0f 00 07 18 07 07 18 04 18 07
-  .b f 1b 04 1b 03 14 0f 19 15 13 1f 11 00 03 04 18 11
-  .b f 1f 00 02 01 02 01 01 01 01 02 00 0c 12 1e 1f 12
-  .b f 0c 0c 12 00 0c 12 1f 0c 1a 14 1e 05 00 04 2a 1e
-  .b f 1f 04 18 1d 20 1d 00 1f 04 1a 1f 1e 02 1c 02 1c
-  .b f 1e 02 1c 0c 12 0c 3e 12 0c 0c 12 3e 1e 04 02 16
-  .b f 1a 00 0f 12 00 0e 10 1e 0e 10 0e 0e 10 0c 10 0e
-  .b f 12 0c 12 06 28 1e 1a 16 00 04 1b 11 1f 11 1b 04
-  .b f 02 01 02 01 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 2e 06 00 06 00 14 3e 14 3e 14 00 04 2a 3e
+  .b f 2a 10 00 32 08 26 00 14 2a 12 28 00 06 1c 22 00
+  .b f 22 1c 00 0a 04 0a 00 04 0e 04 00 04 02 00 02 02
+  .b f 02 00 01 30 08 06 00 1c 22 1c 00 24 3e 20 00 32
+  .b f 2a 24 00 22 2a 14 00 0e 08 3e 00 2e 2a 12 00 1c
+  .b f 2a 10 00 02 32 0e 00 14 2a 14 00 04 2a 1c 00 0a
+  .b f 10 0a 00 08 14 22 00 0a 0a 0a 00 22 14 08 00 02
+  .b f 2a 04 00 1c 22 2a 0c 00 3c 0a 3c 00 3e 2a 14 00
+  .b f 1c 22 22 00 3e 22 1c 00 3e 2a 22 00 3e 0a 02 00
+  .b f 1c 22 32 00 3e 08 3e 00 22 3e 22 00 22 1e 00 3e
+  .b f 08 36 00 3e 20 20 00 3e 04 08 04 3e 00 3e 04 08
+  .b f 3e 00 1c 22 22 1c 00 3e 0a 04 00 1c 22 32 3c 00
+  .b f 3e 0a 34 00 24 2a 12 00 02 3e 02 00 1e 20 20 1e
+  .b f 00 0e 30 0e 00 0e 30 08 30 0e 00 36 08 36 00 06
+  .b f 28 1e 00 32 2a 26 00 3e 22 00 06 08 30 00 22 3e
+  .b f 00 04 02 04 00 01 01 01 00 02 04 00 0c 12 1e 00
+  .b f 3e 24 18 00 0c 12 00 18 24 3e 00 0c 1a 14 00 3c
+  .b f 0a 00 04 2a 1e 00 3e 08 30 00 3a 40 3a 00 3e 08
+  .b f 34 00 3e 1e 02 1c 02 1c 00 1e 02 1c 00 0c 12 0c
+  .b f 00 3e 12 0c 00 0c 12 3e 00 1e 04 02 00 16 1a 00
+  .b f 1e 24 00 0e 10 1e 00 0e 10 0e 00 0e 10 0c 10 0e
+  .b f 00 12 0c 12 00 06 28 1e 00 1a 16 00 08 36 22 00
+  .b f 3e 22 36 08 00 04 02 04 02 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -1013,7 +1017,7 @@ $PD_38:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  .b 5 00 00 00 00 00 00
+  .b a 00 00 00 00 00 00 00 00 00 00 00
 $PD_27:
   .b f 48 05 49 05 4a 05 4b 05 4c 05 4b 05 4a 05 49 05
   .b d 48 05 48 05 49 05 4a 05 4b 05 4c 05 ff 00
@@ -3490,15 +3494,15 @@ $PD_35:
   .b f 4f 2d 00 05 4f 14 00 05 4f 14 00 05 4f 32 4d 32
   .b 7 4a 32 4d 32 4f 64 ff 00
 $PD_40:
-$PD_45:
-  .b a 50 65 74 65 72 20 42 72 6f 77 6e
-$PD_41:
   .b f 54 69 6c 65 73 20 61 6e 64 20 53 70 72 69 74 65
   .b 0 73
-$PD_42:
-  .b 8 4b 65 6e 6e 65 79 2e 6e 6c
-$PD_43:
+$PD_41:
   .b 5 4c 65 76 65 6c 73
+$PD_42:
+$PD_45:
+  .b a 50 65 74 65 72 20 42 72 6f 77 6e
+$PD_43:
+  .b 8 4b 65 6e 6e 65 79 2e 6e 6c
 $PD_48:
   .b 3 4e 61 6d 65
 $PD_49:
@@ -3518,7 +3522,7 @@ $PD_55:
 $PD_101:
 $PD_63:
 $PD_65:
-$PD_70:
+$PD_69:
 $PD_94:
 $PD_98:
   .b 6 25 75 30 2e 25 75 32
@@ -3531,7 +3535,7 @@ $PD_91:
   .b 2 25 75 36
 $PD_67:
   .b d 47 61 6d 65 20 43 6f 6d 70 6c 65 74 65 21
-$PD_69:
+$PD_70:
   .b 3 4e 65 77 20
 $PD_103:
   .b a 48 69 67 68 20 53 63 6f 72 65 21
@@ -5322,90 +5326,89 @@ render_credits:
   p0
   getg  creditsy 0
   sub2b
-  .line 38
+  .line 39
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 40
   pushl $PD_39 0
   push  11
   p00
-  pushl $PD_38 0
-  getl2 11
+  dupw7
   push  18
   add2b
   push  41
   p0
   sys   draw_text_P
-  .line 39
+  .line 41
   pushl $PD_40 0
-  push  11
-  p00
-  pushl $PD_23 0
-  getl2 11
-  push  28
-  add2b
-  p32
-  p0
-  sys   draw_text_P
-  .line 40
-  pushl $PD_41 0
   push  17
   p00
-  pushl $PD_38 0
-  getl2 11
+  dupw7
   push  45
   add2b
   push  37
   p0
   sys   draw_text_P
-  .line 41
-  pushl $PD_42 0
-  push  9
-  p00
-  pushl $PD_23 0
-  getl2 11
-  push  55
-  add2b
-  push  41
-  p0
-  sys   draw_text_P
   .line 42
-  pushl $PD_43 0
+  pushl $PD_41 0
   p6
   p00
-  pushl $PD_38 0
-  getl2 11
+  dupw7
   push  72
   add2b
   push  54
   p0
   sys   draw_text_P
-  .line 43
-  pushl $PD_44 0
-  push  10
-  p00
-  pushl $PD_23 0
-  getl2 11
-  push  82
-  add2b
-  push  34
-  p0
-  sys   draw_text_P
   .line 44
-  pushl $PD_45 0
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 45
+  pushl $PD_42 0
   push  11
   p00
-  pushl $PD_23 0
-  getl2 11
-  push  93
+  dupw7
+  push  28
   add2b
   p32
   p0
   sys   draw_text_P
   .line 46
+  pushl $PD_43 0
+  push  9
+  p00
+  dupw7
+  push  55
+  add2b
+  push  41
+  p0
+  sys   draw_text_P
+  .line 47
+  pushl $PD_44 0
+  push  10
+  p00
+  dupw7
+  push  82
+  add2b
+  push  34
+  p0
+  sys   draw_text_P
+  .line 48
+  pushl $PD_45 0
+  push  11
+  p00
+  dupw7
+  push  93
+  add2b
+  p32
+  p0
+  sys   draw_text_P
+  .line 50
   p0
   push  17
   p128
   p0000
   sys   draw_filled_rect
-  .line 47
+  .line 51
   p00
   pushl $PD_22 0
   p2
@@ -5413,7 +5416,7 @@ render_credits:
   push  13
   p0
   sys   draw_sprite
-  .line 48
+  .line 52
   p1
   p2
   p128
@@ -5830,45 +5833,45 @@ $L_update_intro_5:
 
 render_level_select:
   .file render.abc
-  .line 166
+  .line 177
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 179
   pushl $PD_48 0
   p4
   p00
-  pushl $PD_38 0
   p5
   p0
   push  10
   p0
   sys   draw_text_P
-  .line 167
+  .line 180
   pushl $PD_49 0
   push  10
   p00
-  pushl $PD_38 0
   p5
   p0
   push  60
   p0
   sys   draw_text_P
-  .line 168
+  .line 181
   pushl $PD_50 0
   push  9
   p00
-  pushl $PD_38 0
   p5
   p0
   push  97
   p0
   sys   draw_text_P
-  .line 170
+  .line 183
   p0
   jmp   $L_render_level_select_1
 $L_render_level_select_2:
-  .line 172
+  .line 185
   dup
   getg  levelseloff 0
   add
-  .line 173
+  .line 186
   dup
   push  12
   cult
@@ -5876,28 +5879,27 @@ $L_render_level_select_2:
   pop
   jmp   $L_render_level_select_0
 $L_render_level_select_4:
-  .line 174
+  .line 187
   dup2
   p7
   mul
   push  14
   add
-  .line 176
+  .line 189
   dup3
   getg  levelseli 0
   sub
   bnz   $L_render_level_select_8
-  .line 178
+  .line 191
   p00
-  .line 179
+  .line 192
   pushl maps 0
   dup7
   pidxb 17 12
   getpn 6
-  pushl $PD_38 0
   sys   text_width_P
   pop
-  .line 180
+  .line 193
   push  48
   dup2
   cult
@@ -5908,7 +5910,7 @@ $L_render_level_select_4:
   not
 $L_render_level_select_5:
   bz    $L_render_level_select_7
-  .line 182
+  .line 195
   getg  frame_count 0
   p0
   push  50
@@ -5916,7 +5918,7 @@ $L_render_level_select_5:
   p2
   asr2
   setl2 3
-  .line 183
+  .line 196
   dup
   p0
   push  48
@@ -5924,27 +5926,26 @@ $L_render_level_select_5:
   dupw4
   cslt2
   bz    $L_render_level_select_7
-  .line 184
+  .line 197
   dup
   p0
   push  48
   sub2b
   setl2 3
 $L_render_level_select_7:
-  .line 186
+  .line 199
   pushl maps 0
   dup8
   pidxb 17 12
   getpn 6
-  pushl $PD_38 0
-  getl  13
+  getl  10
   p0
   push  10
   p0
-  getl2 16
+  getl2 13
   sub2
   sys   draw_text_P
-  .line 187
+  .line 200
   p0
   p6
   push  10
@@ -5954,30 +5955,28 @@ $L_render_level_select_7:
   sub2b
   p00
   sys   draw_filled_rect
-  .line 188
+  .line 201
   pushl $PD_51 0
   p2
   p00
-  pushl $PD_38 0
-  getl  13
+  getl  10
   p000
   sys   draw_text_P
   pop3
-  .line 176
+  .line 189
   jmp   $L_render_level_select_9
 $L_render_level_select_8:
-  .line 192
+  .line 205
   pushl maps 0
   dup5
   pidxb 17 12
   getpn 6
-  pushl $PD_38 0
-  getl  10
+  dup7
   p0
   push  10
   p0
   sys   draw_text_P
-  .line 193
+  .line 206
   dup2
   p0
   p1
@@ -5986,12 +5985,11 @@ $L_render_level_select_8:
   pushl $PD_52 0
   p3
   p00
-  pushl $PD_38 0
-  getl  14
+  getl  11
   p000
   sys   draw_textf
 $L_render_level_select_9:
-  .line 195
+  .line 208
   p0
   p6
   push  71
@@ -6002,14 +6000,14 @@ $L_render_level_select_9:
   push  57
   p0
   sys   draw_filled_rect
-  .line 197
+  .line 210
   pushg map_high_scores 0
   dup4
   aidxb 2 12
   getr2
   bool2
   bz    $L_render_level_select_10
-  .line 198
+  .line 211
   pushg map_high_scores 0
   dup4
   aidxb 2 12
@@ -6018,42 +6016,40 @@ $L_render_level_select_9:
   pushl $PD_53 0
   p3
   p00
-  pushl $PD_38 0
-  getl  14
+  getl  11
   p0
   push  67
   p0
   sys   draw_textf
-  .line 197
+  .line 210
   jmp   $L_render_level_select_11
 $L_render_level_select_10:
-  .line 200
+  .line 213
   pushl $PD_54 0
   p1
   p00
-  pushl $PD_38 0
-  getl  10
+  dup7
   p0
   push  75
   p0
   sys   draw_text_P
 $L_render_level_select_11:
-  .line 202
+  .line 215
   pushg map_best_times 0
   dup4
   aidxb 2 12
   getr2
   bool2
   bz    $L_render_level_select_12
-  .line 204
+  .line 217
   pushg map_best_times 0
   dup4
   aidxb 2 12
   getr2
-  .line 205
+  .line 218
   p00
   pz8
-  .line 206
+  .line 219
   getl2 12
   p00
   push  50
@@ -6074,42 +6070,39 @@ $L_render_level_select_11:
   push  10
   p0
   sys   format
-  .line 207
+  .line 220
   refl  10
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 208
+  .line 221
   refl  11
   push  10
   p0
-  pushl $PD_38 0
-  getl  21
+  getl  18
   p0
   push  124
   p0
-  getl  12
+  getl  9
   sub2b
   sys   draw_text
   popn  13
-  .line 202
+  .line 215
   jmp   $L_render_level_select_13
 $L_render_level_select_12:
-  .line 211
+  .line 224
   pushl $PD_56 0
   p1
   p00
-  pushl $PD_38 0
-  getl  10
+  dup7
   p0
   push  110
   p0
   sys   draw_text_P
 $L_render_level_select_13:
   pop2
-  .line 170
+  .line 183
   inc
 $L_render_level_select_1:
   dup
@@ -6118,28 +6111,28 @@ $L_render_level_select_1:
   bnz   $L_render_level_select_2
 $L_render_level_select_0:
   pop
-  .line 217
+  .line 230
   p1
   p1
   p128
   p7
   p000
   sys   draw_filled_rect
-  .line 218
+  .line 231
   p1
   p1
   p128
   push  44
   p000
   sys   draw_filled_rect
-  .line 219
+  .line 232
   p1
   p1
   p128
   push  60
   p000
   sys   draw_filled_rect
-  .line 220
+  .line 233
   p1
   push  60
   p1
@@ -6147,7 +6140,7 @@ $L_render_level_select_0:
   p8
   p0
   sys   draw_filled_rect
-  .line 221
+  .line 234
   p1
   push  60
   p1
@@ -6155,7 +6148,7 @@ $L_render_level_select_0:
   push  58
   p0
   sys   draw_filled_rect
-  .line 222
+  .line 235
   p1
   push  60
   p1
@@ -6163,45 +6156,43 @@ $L_render_level_select_0:
   push  95
   p0
   sys   draw_filled_rect
-  .line 223
+  .line 236
   pushl $PD_57 0
   push  11
   p00
-  pushl $PD_38 0
   push  51
   p0
   push  10
   p0
   sys   draw_text_P
-  .line 224
+  .line 237
   pushl $PD_58 0
   push  11
   p00
-  pushl $PD_38 0
   push  58
   p0
   push  10
   p0
   sys   draw_text_P
-  .line 226
+  .line 239
   p1
-  .line 227
+  .line 240
   p1
-  .line 228
+  .line 241
   p000
-  .line 229
+  .line 242
   p0000
-  .line 230
+  .line 243
   jmp   $L_render_level_select_15
 $L_render_level_select_16:
-  .line 232
+  .line 245
   pushg map_high_scores 0
   dup3
   aidxb 2 12
   getr2
   bool2
   bz    $L_render_level_select_18
-  .line 233
+  .line 246
   p3
   getln 7
   pushg map_high_scores 0
@@ -6212,21 +6203,21 @@ $L_render_level_select_16:
   add3
   p3
   setln 7
-  .line 232
+  .line 245
   jmp   $L_render_level_select_19
 $L_render_level_select_18:
-  .line 235
+  .line 248
   p0
   setl  9
 $L_render_level_select_19:
-  .line 236
+  .line 249
   pushg map_best_times 0
   dup3
   aidxb 2 12
   getr2
   bool2
   bz    $L_render_level_select_20
-  .line 237
+  .line 250
   p3
   getln 4
   pushg map_best_times 0
@@ -6237,14 +6228,14 @@ $L_render_level_select_19:
   add3
   p3
   setln 4
-  .line 236
+  .line 249
   jmp   $L_render_level_select_17
 $L_render_level_select_20:
-  .line 239
+  .line 252
   p0
   setl  8
 $L_render_level_select_17:
-  .line 230
+  .line 243
   inc
 $L_render_level_select_15:
   dup
@@ -6252,77 +6243,73 @@ $L_render_level_select_15:
   cult
   bnz   $L_render_level_select_16
   pop
-  .line 242
+  .line 255
   p3
   getgn high_score 0
   bool3
   bz    $L_render_level_select_22
-  .line 243
+  .line 256
   p3
   getgn high_score 0
   p0
   pushl $PD_59 0
   p3
   p00
-  pushl $PD_38 0
   push  51
   p0
   push  65
   p0
   sys   draw_textf
-  .line 242
+  .line 255
   jmp   $L_render_level_select_23
 $L_render_level_select_22:
-  .line 245
+  .line 258
   pushl $PD_60 0
   p1
   p00
-  pushl $PD_38 0
   push  51
   p0
   push  75
   p0
   sys   draw_text_P
 $L_render_level_select_23:
-  .line 247
+  .line 260
   dup8
   bz    $L_render_level_select_24
-  .line 248
+  .line 261
   p3
   getln 6
   p0
   pushl $PD_61 0
   p3
   p00
-  pushl $PD_38 0
   push  58
   p0
   push  65
   p0
   sys   draw_textf
-  .line 247
+  .line 260
   jmp   $L_render_level_select_25
 $L_render_level_select_24:
-  .line 250
+  .line 263
   pushl $PD_62 0
   p1
   p00
-  pushl $PD_38 0
   push  58
   p0
   push  75
   p0
   sys   draw_text_P
 $L_render_level_select_25:
-  .line 252
+  .line 265
   p3
   getgn best_time 0
   bool3
   bz    $L_render_level_select_26
-  .line 254
+  .line 267
   p00
   pz8
-  .line 255
+  .line 268
   p3
   getgn best_time 0
   p0
@@ -6345,47 +6332,44 @@ $L_render_level_select_25:
   push  10
   p0
   sys   format
-  .line 256
+  .line 269
   refl  10
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 257
+  .line 270
   refl  11
   push  10
   p0
-  pushl $PD_38 0
   push  51
   p0
   push  124
   p0
-  getl  12
+  getl  9
   sub2b
   sys   draw_text
   popn  11
-  .line 252
+  .line 265
   jmp   $L_render_level_select_27
 $L_render_level_select_26:
-  .line 260
+  .line 273
   pushl $PD_64 0
   p1
   p00
-  pushl $PD_38 0
   push  51
   p0
   push  110
   p0
   sys   draw_text_P
 $L_render_level_select_27:
-  .line 262
+  .line 275
   dup7
   bz    $L_render_level_select_28
-  .line 264
+  .line 277
   p00
   pz8
-  .line 265
+  .line 278
   p3
   getln 13
   p0
@@ -6408,34 +6392,31 @@ $L_render_level_select_27:
   push  10
   p0
   sys   format
-  .line 266
+  .line 279
   refl  10
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 267
+  .line 280
   refl  11
   push  10
   p0
-  pushl $PD_38 0
   push  58
   p0
   push  124
   p0
-  getl  12
+  getl  9
   sub2b
   sys   draw_text
   popn  11
-  .line 262
+  .line 275
   jmp   $L_render_level_select_29
 $L_render_level_select_28:
-  .line 270
+  .line 283
   pushl $PD_66 0
   p1
   p00
-  pushl $PD_38 0
   push  58
   p0
   push  110
@@ -6443,7 +6424,7 @@ $L_render_level_select_28:
   sys   draw_text_P
 $L_render_level_select_29:
   popn  8
-  .line 164
+  .line 175
   ret
 
 update_level_complete:
@@ -8408,15 +8389,15 @@ $L_render_19:
 
 render_victory:
   .file render.abc
-  .line 134
+  .line 140
   p0
   jmp   $L_render_victory_1
 $L_render_victory_2:
-  .line 135
+  .line 141
   p0
   jmp   $L_render_victory_5
 $L_render_victory_6:
-  .line 137
+  .line 143
   pushl VICTORY_TILES 0
   dup5
   p0
@@ -8428,14 +8409,14 @@ $L_render_victory_6:
   pidx  1 40
   getp
   dec
-  .line 138
+  .line 144
   dup
   p0
   push  240
   p0
   cslt2
   bz    $L_render_victory_8
-  .line 139
+  .line 145
   dup
   p0
   pushl $PD_17 0
@@ -8452,7 +8433,7 @@ $L_render_victory_6:
   sys   draw_sprite
 $L_render_victory_8:
   pop
-  .line 135
+  .line 141
   inc
 $L_render_victory_5:
   dup
@@ -8460,7 +8441,7 @@ $L_render_victory_5:
   cult
   bnz   $L_render_victory_6
   pop
-  .line 134
+  .line 140
   inc
 $L_render_victory_1:
   dup
@@ -8468,47 +8449,37 @@ $L_render_victory_1:
   cult
   bnz   $L_render_victory_2
   pop
-  .line 142
+  .line 148
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 149
   pushl $PD_67 0
   push  14
   p00
-  pushl $PD_23 0
   p8
   p0
   p1
   p0
   sys   draw_text_P
-  .line 146
+  .line 154
+  pushl $PD_24 0
+  sys   set_text_font
+  .line 155
   p3
   getgn total_score 0
   p0
   pushl $PD_68 0
   p3
   p00
-  pushl $PD_24 0
   push  22
   p0
   push  19
   p0
   sys   draw_textf
-  .line 147
-  getg  was_high_score 0
-  bz    $L_render_victory_9
-  .line 148
-  pushl $PD_69 0
-  push  15
-  p00
-  pushl $PD_38 0
-  push  24
-  p0
-  push  13
-  p0
-  sys   draw_text_P
-$L_render_victory_9:
-  .line 150
+  .line 157
   p00
   pz8
-  .line 151
+  .line 158
   p3
   getgn total_time 0
   p0
@@ -8524,30 +8495,28 @@ $L_render_victory_9:
   push  50
   p000
   udiv4
-  pushl $PD_70 0
+  pushl $PD_69 0
   p7
   p00
   refl  24
   push  10
   p0
   sys   format
-  .line 152
+  .line 159
   refl  10
   push  10
   p0
-  pushl $PD_24 0
   sys   text_width
   pop
-  .line 153
+  .line 160
   refl  11
   push  10
   p0
-  pushl $PD_24 0
   push  44
   p0
   push  40
   p0
-  getl  12
+  getl  9
   p000
   p2
   p000
@@ -8556,27 +8525,42 @@ $L_render_victory_9:
   sub2
   sys   draw_text
   popn  11
-  .line 155
+  .line 163
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 164
+  getg  was_high_score 0
+  bz    $L_render_victory_9
+  .line 165
+  pushl $PD_70 0
+  push  15
+  p00
+  push  24
+  p0
+  push  13
+  p0
+  sys   draw_text_P
+$L_render_victory_9:
+  .line 166
   getg  was_best_time 0
   bz    $L_render_victory_10
-  .line 156
+  .line 167
   pushl $PD_71 0
   push  14
   p00
-  pushl $PD_38 0
   push  47
   p0
   push  14
   p0
   sys   draw_text_P
 $L_render_victory_10:
-  .line 159
+  .line 170
   getg  frame_count 0
   p3
   lsr
   p7
   and
-  .line 160
+  .line 171
   pushl VICTORY_FRAMES 0
   dup4
   pidxb 1 8
@@ -8592,143 +8576,135 @@ $L_render_victory_10:
   p0
   sys   draw_sprite
   pop
-  .line 132
+  .line 138
   ret
 
 render_pause:
   .file render.abc
-  .line 53
+  .line 57
   call  render_level
-  .line 54
+  .line 58
   p00
   pushl $PD_72 0
   p0000
   sys   draw_sprite
-  .line 58
+  .line 62
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 63
   dup
   bz    $L_render_pause_0
-  .line 60
+  .line 65
   pushl $PD_73 0
   push  11
   p00
-  pushl $PD_23 0
   p8
   p0
   push  68
   p0
   sys   draw_text_P
-  .line 61
+  .line 66
   pushl $PD_74 0
   p2
   p00
-  pushl $PD_23 0
   push  24
   p0
   push  75
   p0
   sys   draw_text_P
-  .line 62
+  .line 67
   pushl $PD_75 0
   p3
   p00
-  pushl $PD_23 0
   push  36
   p0
   push  75
   p0
   sys   draw_text_P
-  .line 58
+  .line 63
   jmp   $L_render_pause_5
 $L_render_pause_0:
-  .line 66
+  .line 71
   pushl $PD_76 0
   p6
   p00
-  pushl $PD_23 0
   p8
   p0
   push  80
   p0
   sys   draw_text_P
-  .line 67
+  .line 72
   pushl $PD_77 0
   p6
   p00
-  pushl $PD_23 0
   push  24
   p0
   push  75
   p0
   sys   draw_text_P
-  .line 68
+  .line 73
   getg  sound_on 0
   bz    $L_render_pause_1
-  .line 69
+  .line 74
   pushl $PD_78 0
   push  9
   p00
-  pushl $PD_23 0
   push  36
   p0
   push  75
   p0
   sys   draw_text_P
-  .line 68
+  .line 73
   jmp   $L_render_pause_2
 $L_render_pause_1:
-  .line 71
+  .line 76
   pushl $PD_79 0
   push  10
   p00
-  pushl $PD_23 0
   push  36
   p0
   push  75
   p0
   sys   draw_text_P
 $L_render_pause_2:
-  .line 72
+  .line 77
   pushl $PD_80 0
   push  9
   p00
-  pushl $PD_23 0
   push  48
   p0
   push  75
   p0
   sys   draw_text_P
-  .line 73
+  .line 78
   getg  single_level 0
   bz    $L_render_pause_3
-  .line 74
+  .line 79
   pushl $PD_81 0
   p7
   p00
-  pushl $PD_23 0
   push  60
   p0
   push  75
   p0
   sys   draw_text_P
-  .line 73
+  .line 78
   jmp   $L_render_pause_5
 $L_render_pause_3:
-  .line 76
+  .line 81
   pushl $PD_82 0
   p8
   p00
-  pushl $PD_23 0
   push  60
   p0
   push  75
   p0
   sys   draw_text_P
 $L_render_pause_5:
-  .line 78
+  .line 83
   pushl $PD_83 0
   p1
   p00
-  pushl $PD_23 0
   push  24
   p0
   push  12
@@ -8739,7 +8715,7 @@ $L_render_pause_5:
   push  66
   p0
   sys   draw_text_P
-  .line 79
+  .line 84
   p1
   p2
   push2 2366
@@ -8747,7 +8723,7 @@ $L_render_pause_5:
   push  66
   p0
   sys   draw_filled_rect
-  .line 51
+  .line 55
   pop
   ret
 
@@ -8768,15 +8744,15 @@ loop:
 
 render_game_over:
   .file render.abc
-  .line 92
+  .line 97
   p0
   jmp   $L_render_game_over_1
 $L_render_game_over_2:
-  .line 93
+  .line 98
   p0
   jmp   $L_render_game_over_5
 $L_render_game_over_6:
-  .line 95
+  .line 100
   pushl VICTORY_TILES 0
   dup5
   p0
@@ -8788,14 +8764,14 @@ $L_render_game_over_6:
   pidx  1 40
   getp
   dec
-  .line 96
+  .line 101
   dup
   p0
   push  240
   p0
   cslt2
   bz    $L_render_game_over_8
-  .line 97
+  .line 102
   dup
   p0
   pushl $PD_17 0
@@ -8812,7 +8788,7 @@ $L_render_game_over_6:
   sys   draw_sprite
 $L_render_game_over_8:
   pop
-  .line 93
+  .line 98
   inc
 $L_render_game_over_5:
   dup
@@ -8820,7 +8796,7 @@ $L_render_game_over_5:
   cult
   bnz   $L_render_game_over_6
   pop
-  .line 92
+  .line 97
   inc
 $L_render_game_over_1:
   dup
@@ -8828,23 +8804,25 @@ $L_render_game_over_1:
   cult
   bnz   $L_render_game_over_2
   pop
-  .line 100
+  .line 105
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 106
   pushl $PD_84 0
   push  12
   p00
-  pushl $PD_23 0
   p8
   p0
   p1
   p0
   sys   draw_text_P
-  .line 103
+  .line 109
   getg  frame_count 0
   p4
   lsr
   p3
   and
-  .line 104
+  .line 110
   p8
   p0
   dup3
@@ -8858,7 +8836,7 @@ $L_render_game_over_1:
   push  76
   p0
   sys   draw_sprite
-  .line 105
+  .line 111
   push  12
   p0
   dup3
@@ -8872,13 +8850,13 @@ $L_render_game_over_1:
   push  27
   p0
   sys   draw_sprite
-  .line 106
+  .line 112
   dup
   inc
   p3
   and
   setl  1
-  .line 107
+  .line 113
   push  10
   p0
   dup3
@@ -8892,13 +8870,13 @@ $L_render_game_over_1:
   push  13
   p0
   sys   draw_sprite
-  .line 108
+  .line 114
   dup
   inc
   p3
   and
   setl  1
-  .line 109
+  .line 115
   push  9
   p0
   dup3
@@ -8912,13 +8890,13 @@ $L_render_game_over_1:
   push  38
   p0
   sys   draw_sprite
-  .line 110
+  .line 116
   dup
   inc
   p3
   and
   setl  1
-  .line 111
+  .line 117
   push  9
   p0
   dup3
@@ -8932,7 +8910,7 @@ $L_render_game_over_1:
   push  74
   p0
   sys   draw_sprite
-  .line 112
+  .line 118
   push  11
   p0
   dup3
@@ -8946,7 +8924,7 @@ $L_render_game_over_1:
   push  58
   p0
   sys   draw_sprite
-  .line 113
+  .line 119
   p64
   p0
   pushl $PD_18 0
@@ -8956,12 +8934,12 @@ $L_render_game_over_1:
   p0
   sys   draw_sprite
   pop
-  .line 90
+  .line 95
   ret
 
 render_menu:
   .file render.abc
-  .line 276
+  .line 289
   p00
   pushl $PD_22 0
   p2
@@ -8969,7 +8947,7 @@ render_menu:
   push  13
   p0
   sys   draw_sprite_selfmask
-  .line 277
+  .line 290
   getg  menu_sprite 0
   p0
   getg  frame_count 0
@@ -8982,88 +8960,85 @@ render_menu:
   p16
   sub2b
   sys   draw_sprite
-  .line 278
+  .line 291
   p1
   p2
   p128
   push  14
   p000
   sys   draw_filled_rect
-  .line 282
+  .line 295
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 296
   getg  save_exists 0
   bz    $L_render_menu_0
-  .line 283
+  .line 297
   pushl $PD_85 0
   push  11
   p00
-  pushl $PD_23 0
   push  29
   p0
   push  33
   p0
   sys   draw_text_P
-  .line 282
+  .line 296
   jmp   $L_render_menu_1
 $L_render_menu_0:
-  .line 285
+  .line 299
   pushl $PD_86 0
   p8
   p00
-  pushl $PD_23 0
   push  29
   p0
   push  33
   p0
   sys   draw_text_P
 $L_render_menu_1:
-  .line 286
+  .line 300
   pushl $PD_87 0
   push  12
   p00
-  pushl $PD_23 0
   push  40
   p0
   push  33
   p0
   sys   draw_text_P
-  .line 287
+  .line 301
   getg  sound_on 0
   bz    $L_render_menu_2
-  .line 288
+  .line 302
   pushl $PD_88 0
   push  9
   p00
-  pushl $PD_23 0
   push  51
   p0
   push  33
   p0
   sys   draw_text_P
-  .line 287
+  .line 301
   jmp   $L_render_menu_3
 $L_render_menu_2:
-  .line 290
+  .line 304
   pushl $PD_89 0
   push  10
   p00
-  pushl $PD_23 0
   push  51
   p0
   push  33
   p0
   sys   draw_text_P
 $L_render_menu_3:
-  .line 291
+  .line 305
   pushl $PD_90 0
   p7
   p00
-  pushl $PD_23 0
   push  62
   p0
   push  33
   p0
   sys   draw_text_P
-  .line 292
+  .line 306
   p7
   p0
   getg  frame_count 0
@@ -9083,54 +9058,60 @@ $L_render_menu_3:
   push  14
   p0
   sys   draw_sprite
-  .line 274
+  .line 287
   ret
 
 render_intro:
   .file render.abc
-  .line 297
+  .line 311
+  pushl $PD_24 0
+  sys   set_text_font
+  .line 312
   p3
   getgn total_score 0
   p0
   pushl $PD_91 0
   p3
   p00
-  pushl $PD_24 0
   push  27
   p0
   push  43
   p0
   sys   draw_textf
-  .line 298
+  .line 313
   getg2 level_frames_remaining 0
   bool2
   bz    $L_render_intro_0
-  .line 300
+  .line 315
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 316
   pushl $PD_92 0
   push  15
   p00
-  pushl $PD_23 0
   p7
   p0
   push  25
   p0
   sys   draw_text_P
-  .line 301
+  .line 317
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 318
   getg2 score 0
   p00
   pushl $PD_93 0
   p3
   p00
-  pushl $PD_38 0
   push  35
   p0
   push  41
   p0
   sys   draw_textf
-  .line 302
+  .line 319
   p00
   pz8
-  .line 305
+  .line 322
   getg2 level_frames_remaining 0
   p00
   push  50
@@ -9139,13 +9120,13 @@ render_intro:
   p2
   p000
   mul4
-  .line 304
+  .line 321
   getg2 level_frames_remaining 0
   p00
   push  50
   p000
   udiv4
-  .line 303
+  .line 320
   pushl $PD_94 0
   p7
   p00
@@ -9153,74 +9134,75 @@ render_intro:
   push  10
   p0
   sys   format
-  .line 306
+  .line 323
   refl  10
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 307
+  .line 324
   refl  11
   push  10
   p0
-  pushl $PD_38 0
   push  35
   p0
   push  87
   p0
-  getl  12
+  getl  9
   sub2b
   sys   draw_text
   popn  11
-  .line 298
+  .line 313
   jmp   $L_render_intro_4
 $L_render_intro_0:
-  .line 311
+  .line 328
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 329
   getg  current_map 0
   push  12
   cult
   bnz   $L_render_intro_1
-  .line 312
+  .line 330
   pushl $PD_95 0
   p16
   p00
-  pushl $PD_23 0
   p7
   p0
   push  24
   p0
   sys   draw_text_P
-  .line 311
+  .line 329
   jmp   $L_render_intro_2
 $L_render_intro_1:
-  .line 314
+  .line 332
   pushl $PD_96 0
   push  10
   p00
-  pushl $PD_23 0
   p7
   p0
   push  37
   p0
   sys   draw_text_P
 $L_render_intro_2:
-  .line 316
+  .line 334
   p3
   getgn total_score 0
   bool3
   bz    $L_render_intro_4
-  .line 319
+  .line 336
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 338
   pushl $PD_97 0
   push  10
   p00
-  pushl $PD_38 0
   push  21
   p0
   push  94
   p0
   sys   draw_text_P
-  .line 320
+  .line 339
   p1
   p1
   push2 5666
@@ -9228,10 +9210,10 @@ $L_render_intro_2:
   push  94
   p0
   sys   draw_filled_rect
-  .line 321
+  .line 340
   p00
   pz8
-  .line 324
+  .line 343
   p3
   getgn total_time 0
   p0
@@ -9241,14 +9223,14 @@ $L_render_intro_2:
   p2
   p000
   mul4
-  .line 323
+  .line 342
   p3
   getgn total_time 0
   p0
   push  50
   p000
   udiv4
-  .line 322
+  .line 341
   pushl $PD_98 0
   p7
   p00
@@ -9256,23 +9238,21 @@ $L_render_intro_2:
   push  10
   p0
   sys   format
-  .line 325
+  .line 344
   refl  10
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 326
+  .line 345
   refl  11
   push  10
   p0
-  pushl $PD_38 0
   push  29
   p0
   push  111
   p0
-  getl  12
+  getl  9
   p000
   p2
   p000
@@ -9282,7 +9262,7 @@ $L_render_intro_2:
   sys   draw_text
   popn  11
 $L_render_intro_4:
-  .line 329
+  .line 348
   getg  state 0
   dec
   not
@@ -9292,30 +9272,31 @@ $L_render_intro_4:
   bool
 $L_render_intro_5:
   bz    $L_render_intro_8
-  .line 332
+  .line 351
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 352
   getg  was_best_time 0
   bz    $L_render_intro_6
-  .line 334
+  .line 354
   pushl $PD_99 0
   push  9
   p00
-  pushl $PD_38 0
   push  37
   p0
   push  93
   p0
   sys   draw_text_P
-  .line 335
+  .line 355
   pushl $PD_100 0
   push  10
   p00
-  pushl $PD_38 0
   push  44
   p0
   push  93
   p0
   sys   draw_text_P
-  .line 336
+  .line 356
   p1
   p1
   push2 11813
@@ -9323,14 +9304,14 @@ $L_render_intro_5:
   push  91
   p0
   sys   draw_filled_rect
-  .line 337
+  .line 357
   p00
   pz8
-  .line 338
+  .line 358
   push2 9000
   getg2 level_frames_remaining 0
   sub2
-  .line 341
+  .line 361
   dupw
   p00
   push  50
@@ -9339,13 +9320,13 @@ $L_render_intro_5:
   p2
   p000
   mul4
-  .line 340
+  .line 360
   dupw5
   p00
   push  50
   p000
   udiv4
-  .line 339
+  .line 359
   pushl $PD_101 0
   p7
   p00
@@ -9353,23 +9334,21 @@ $L_render_intro_5:
   push  10
   p0
   sys   format
-  .line 342
+  .line 362
   refl  12
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 343
+  .line 363
   refl  13
   push  10
   p0
-  pushl $PD_38 0
   push  53
   p0
   push  110
   p0
-  getl  12
+  getl  9
   p000
   p2
   p000
@@ -9379,43 +9358,41 @@ $L_render_intro_5:
   sys   draw_text
   popn  13
 $L_render_intro_6:
-  .line 345
+  .line 365
   getg  was_high_score 0
   bz    $L_render_intro_8
-  .line 347
+  .line 367
   pushl $PD_102 0
   push  9
   p00
-  pushl $PD_38 0
   push  37
   p0
   p2
   p0
   sys   draw_text_P
-  .line 348
+  .line 368
   pushl $PD_103 0
   push  11
   p00
-  pushl $PD_38 0
   push  44
   p0
   p1
   p0
   sys   draw_text_P
-  .line 349
+  .line 369
   p1
   p1
   push2 11813
   p000
   sys   draw_filled_rect
-  .line 350
+  .line 370
   p00
   pz8
-  .line 351
+  .line 371
   getg2 score 0
   getg2 level_frames_remaining 0
   add2
-  .line 352
+  .line 372
   dupw
   p00
   pushl $PD_104 0
@@ -9425,23 +9402,21 @@ $L_render_intro_6:
   push  10
   p0
   sys   format
-  .line 353
+  .line 373
   refl  12
   push  10
   p0
-  pushl $PD_38 0
   sys   text_width
   pop
-  .line 354
+  .line 374
   refl  13
   push  10
   p0
-  pushl $PD_38 0
   push  53
   p0
   push  17
   p0
-  getl  12
+  getl  9
   p000
   p2
   p000
@@ -9451,7 +9426,7 @@ $L_render_intro_6:
   sys   draw_text
   popn  13
 $L_render_intro_8:
-  .line 357
+  .line 377
   p7
   p0
   getg  frame_count 0
@@ -9466,73 +9441,77 @@ $L_render_intro_8:
   push  56
   p0
   sys   draw_sprite
-  .line 358
+  .line 378
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 379
   getg  lives 0
   p000
   pushl $PD_105 0
   p4
   p00
-  pushl $PD_38 0
   push  49
   p0
   push  72
   p0
   sys   draw_textf
-  .line 359
+  .line 380
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 381
   getg  frame_count 0
   push  63
   and
   push  48
   cult
   bz    $L_render_intro_9
-  .line 360
+  .line 382
   pushl $PD_106 0
   p7
   p00
-  pushl $PD_23 0
   p64
   p0
   push  44
   p0
   sys   draw_text_P
 $L_render_intro_9:
-  .line 295
+  .line 309
   ret
 
 render_level_complete:
   .file render.abc
-  .line 365
+  .line 387
   call  render_level
-  .line 363
+  .line 385
   ret
 
 render_level:
   .file render.abc
-  .line 371
+  .line 393
   getg4 camx 0
   sys   round
   f2i
   pop2
-  .line 372
+  .line 394
   getg4 camy 0
   sys   round
   f2i
   pop2
-  .line 376
+  .line 398
   dupw3
   sext2
   p16
   p000
   div4
   pop3
-  .line 377
+  .line 399
   dupw2
   sext2
   p16
   p000
   div4
   pop3
-  .line 378
+  .line 400
   p00
   dupw7
   push  15
@@ -9540,7 +9519,7 @@ render_level:
   and2
   sub2
   pop
-  .line 379
+  .line 401
   p00
   dupw6
   push  15
@@ -9548,19 +9527,19 @@ render_level:
   and2
   sub2
   pop
-  .line 380
+  .line 402
   pushl maps 6
   getg  current_map 0
   pidxb 17 12
   getpn 6
-  .line 381
+  .line 403
   getg  map_width 0
-  .line 385
+  .line 407
   pushl maps 14
   getg  current_map 0
   pidxb 17 12
   getpn 3
-  .line 387
+  .line 409
   p00
   getl2 20
   p2
@@ -9569,7 +9548,7 @@ render_level:
   p0
   and2
   sub2
-  .line 388
+  .line 410
   getg  map_height 0
   p0
   p16
@@ -9578,14 +9557,14 @@ render_level:
   p64
   add2b
   sub2
-  .line 389
+  .line 411
   dupw
   p2
   lsr2
   push  63
   p0
   and2
-  .line 390
+  .line 412
   p00
   p3
   getln 11
@@ -9594,7 +9573,7 @@ render_level:
   sub2b
   getl2 13
   sys   draw_sprite
-  .line 391
+  .line 413
   p1
   p0
   p3
@@ -9606,29 +9585,29 @@ render_level:
   p128
   add2b
   sys   draw_sprite
-  .line 392
+  .line 414
   dupw3
   p0
   p1
   cult2
   bnz   $L_render_level_2
-  .line 394
+  .line 416
   dupw5
   p128
   push  255
   cslt2
   bnz   $L_render_level_0
-  .line 395
+  .line 417
   p00
   p3
   getln 11
   dupw6
   getl2 13
   sys   draw_sprite
-  .line 394
+  .line 416
   jmp   $L_render_level_1
 $L_render_level_0:
-  .line 397
+  .line 419
   p00
   p3
   getln 11
@@ -9639,7 +9618,7 @@ $L_render_level_0:
   add2
   sys   draw_sprite
 $L_render_level_1:
-  .line 398
+  .line 420
   p1
   p0
   p3
@@ -9649,16 +9628,16 @@ $L_render_level_1:
   p128
   add2b
   sys   draw_sprite
-  .line 392
+  .line 414
   jmp   $L_render_level_5
 $L_render_level_2:
-  .line 402
+  .line 424
   dupw5
   p128
   push  255
   cslt2
   bnz   $L_render_level_3
-  .line 403
+  .line 425
   p2
   p0
   p3
@@ -9666,10 +9645,10 @@ $L_render_level_2:
   dupw6
   getl2 13
   sys   draw_sprite
-  .line 402
+  .line 424
   jmp   $L_render_level_4
 $L_render_level_3:
-  .line 405
+  .line 427
   p2
   p0
   p3
@@ -9681,7 +9660,7 @@ $L_render_level_3:
   add2
   sys   draw_sprite
 $L_render_level_4:
-  .line 406
+  .line 428
   p3
   p0
   p3
@@ -9693,11 +9672,11 @@ $L_render_level_4:
   sys   draw_sprite
 $L_render_level_5:
   popn  9
-  .line 410
+  .line 432
   p0
   jmp   $L_render_level_7
 $L_render_level_8:
-  .line 412
+  .line 434
   dup
   p0
   getl  13
@@ -9708,7 +9687,7 @@ $L_render_level_8:
   getl  14
   sext
   add2
-  .line 413
+  .line 435
   p6
   getln 10
   dupw7
@@ -9720,31 +9699,31 @@ $L_render_level_8:
   pslc  1
   pop3
   getpn 9
-  .line 414
+  .line 436
   p0
   jmp   $L_render_level_11
 $L_render_level_12:
-  .line 416
+  .line 438
   refl  10
   dup3
   aixb1 9
   getr
   dec
-  .line 417
+  .line 439
   dup
   p0
   push  240
   p0
   cslt2
   bz    $L_render_level_15
-  .line 419
+  .line 441
   dup
   p0
   push  176
   p0
   cslt2
   bnz   $L_render_level_14
-  .line 420
+  .line 442
   dup
   getg  frame_count 0
   p2
@@ -9754,7 +9733,7 @@ $L_render_level_12:
   add
   setl  1
 $L_render_level_14:
-  .line 421
+  .line 443
   dup
   p0
   pushl $PD_17 0
@@ -9775,7 +9754,7 @@ $L_render_level_14:
   sys   draw_sprite
 $L_render_level_15:
   pop
-  .line 414
+  .line 436
   inc
 $L_render_level_11:
   dup
@@ -9783,7 +9762,7 @@ $L_render_level_11:
   cult
   bnz   $L_render_level_12
   popn  12
-  .line 410
+  .line 432
   inc
 $L_render_level_7:
   dup
@@ -9791,26 +9770,26 @@ $L_render_level_7:
   cult
   bnz   $L_render_level_8
   popn  12
-  .line 429
+  .line 451
   p0
   jmp   $L_render_level_17
 $L_render_level_18:
-  .line 431
+  .line 453
   pushg objects 0
   dup3
   aidxb 15 20
-  .line 432
+  .line 454
   dupw
   getr
-  .line 433
+  .line 455
   bnzp  $L_render_level_20
-  .line 434
+  .line 456
   pop2
   jmp   $L_render_level_19
 $L_render_level_20:
-  .line 436
+  .line 458
   p0
-  .line 437
+  .line 459
   dup2
   p8
   cult
@@ -9823,7 +9802,7 @@ $L_render_level_20:
   bool
 $L_render_level_21:
   bz    $L_render_level_24
-  .line 439
+  .line 461
   dupw3
   push  10
   add2b
@@ -9831,28 +9810,28 @@ $L_render_level_21:
   p4
   and
   bz    $L_render_level_22
-  .line 440
+  .line 462
   pop4
   jmp   $L_render_level_19
-  .line 439
+  .line 461
   jmp   $L_render_level_23
 $L_render_level_22:
-  .line 442
+  .line 464
   dup2
   p64
   add
   setl  1
 $L_render_level_23:
-  .line 437
+  .line 459
   jmp   $L_render_level_26
 $L_render_level_24:
-  .line 446
+  .line 468
   dup2
   setl  1
-  .line 447
+  .line 469
   getg  death_frames 0
   bnz   $L_render_level_26
-  .line 448
+  .line 470
   dup
   getg  frame_count 0
   dup7
@@ -9864,10 +9843,10 @@ $L_render_level_24:
   add
   setl  1
 $L_render_level_26:
-  .line 453
+  .line 475
   dup
   p0
-  .line 452
+  .line 474
   pushl $PD_18 0
   dupw8
   p3
@@ -9881,11 +9860,11 @@ $L_render_level_26:
   getr2
   getl2 18
   sub2
-  .line 451
+  .line 473
   sys   draw_sprite
   pop4
 $L_render_level_19:
-  .line 429
+  .line 451
   inc
 $L_render_level_17:
   dup
@@ -9893,7 +9872,7 @@ $L_render_level_17:
   cult
   bnz   $L_render_level_18
   pop
-  .line 458
+  .line 480
   getg  invincibility_frames 0
   not
   bnz   $L_render_level_45
@@ -9904,24 +9883,24 @@ $L_render_level_17:
 $L_render_level_27:
   bz    $L_render_level_33
 $L_render_level_45:
-  .line 460
+  .line 482
   p0
-  .line 461
+  .line 483
   getg  player_facing_right 0
   bz    $L_render_level_28
-  .line 462
+  .line 484
   dup
   p7
   add
   setl  1
 $L_render_level_28:
-  .line 463
+  .line 485
   getg  player_on_ground 0
   bz    $L_render_level_30
-  .line 465
+  .line 487
   getg  player_moving 0
   bz    $L_render_level_29
-  .line 466
+  .line 488
   dup
   getg  frame_count 0
   p3
@@ -9931,30 +9910,30 @@ $L_render_level_28:
   add
   setl  1
 $L_render_level_29:
-  .line 463
+  .line 485
   jmp   $L_render_level_31
 $L_render_level_30:
-  .line 470
+  .line 492
   dup
   p4
   add
   setl  1
 $L_render_level_31:
-  .line 472
+  .line 494
   getg  death_frames 0
   bz    $L_render_level_32
-  .line 473
+  .line 495
   p5
   setl  1
 $L_render_level_32:
-  .line 475
+  .line 497
   getg4 px 0
   getg4 camx 0
   fsub
   p000
   push  65
   fsub
-  .line 476
+  .line 498
   getg4 py 0
   sys   round
   getl2 11
@@ -9967,7 +9946,7 @@ $L_render_level_32:
   fsub
   f2i
   pop2
-  .line 477
+  .line 499
   dup7
   p0
   pushl $PD_19 0
@@ -9979,11 +9958,11 @@ $L_render_level_32:
   sys   draw_sprite
   popn  7
 $L_render_level_33:
-  .line 481
+  .line 503
   p0
   jmp   $L_render_level_35
 $L_render_level_36:
-  .line 482
+  .line 504
   dup
   getg  hearts 0
   cult
@@ -9998,7 +9977,7 @@ $L_render_level_36:
   mul2b
   sub2
   sys   draw_sprite
-  .line 481
+  .line 503
   inc
 $L_render_level_35:
   dup
@@ -10006,11 +9985,11 @@ $L_render_level_35:
   cult
   bnz   $L_render_level_36
   pop
-  .line 483
+  .line 505
   p0
   jmp   $L_render_level_39
 $L_render_level_40:
-  .line 484
+  .line 506
   dup
   getg  keys 0
   cult
@@ -10027,7 +10006,7 @@ $L_render_level_40:
   mul2b
   sub2
   sys   draw_sprite
-  .line 483
+  .line 505
   inc
 $L_render_level_39:
   dup
@@ -10035,23 +10014,13 @@ $L_render_level_39:
   cult
   bnz   $L_render_level_40
   pop
-  .line 485
+  .line 507
   p0
   p6
   push  20
   p0000
   sys   draw_filled_rect
-  .line 486
-  getg2 score 0
-  p00
-  pushl $PD_107 0
-  p3
-  p00
-  pushl $PD_38 0
-  p5
-  p000
-  sys   draw_textf
-  .line 487
+  .line 508
   p0
   p6
   push  13
@@ -10059,7 +10028,19 @@ $L_render_level_39:
   push  57
   p0
   sys   draw_filled_rect
-  .line 488
+  .line 509
+  pushl $PD_38 0
+  sys   set_text_font
+  .line 510
+  getg2 score 0
+  p00
+  pushl $PD_107 0
+  p3
+  p00
+  p5
+  p000
+  sys   draw_textf
+  .line 511
   getg2 level_frames_remaining 0
   p0
   push  49
@@ -10072,27 +10053,28 @@ $L_render_level_39:
   pushl $PD_108 0
   p3
   p00
-  pushl $PD_38 0
   p5
   p0
   push  58
   p0
   sys   draw_textf
-  .line 491
+  .line 514
   getg  level_start_frames 0
   bz    $L_render_level_44
-  .line 493
+  .line 516
+  pushl $PD_23 0
+  sys   set_text_font
+  .line 517
   pushl maps 0
   getg  current_map 0
   pidxb 17 12
   getpn 6
-  .line 494
+  .line 518
   p6
   getln 6
-  pushl $PD_23 0
   sys   text_width_P
   pop
-  .line 497
+  .line 521
   p64
   p0
   dup3
@@ -10102,14 +10084,14 @@ $L_render_level_39:
   udiv4
   pop2
   sub2
-  .line 498
+  .line 522
   p00
-  .line 501
+  .line 525
   getg  level_start_frames 0
   push  78
   cult
   bnz   $L_render_level_42
-  .line 502
+  .line 526
   dupw
   getg  level_start_frames 0
   p0
@@ -10120,12 +10102,12 @@ $L_render_level_39:
   add2
   setl2 2
 $L_render_level_42:
-  .line 503
+  .line 527
   push  12
   getg  level_start_frames 0
   cult
   bnz   $L_render_level_43
-  .line 504
+  .line 528
   dupw
   push  12
   p0
@@ -10136,7 +10118,7 @@ $L_render_level_42:
   sub2
   setl2 2
 $L_render_level_43:
-  .line 505
+  .line 529
   p0
   push  13
   p128
@@ -10144,18 +10126,17 @@ $L_render_level_43:
   p0
   dupw6
   sys   draw_filled_rect
-  .line 506
+  .line 530
   p6
   getln 11
-  pushl $PD_23 0
   p32
   p0
-  getl4 15
+  getl4 12
   add2
   sys   draw_text_P
   popn  11
 $L_render_level_44:
-  .line 368
+  .line 390
   pop4
   ret
 

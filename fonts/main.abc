@@ -1,8 +1,9 @@
-constexpr font f = font{ 12 "font_birchleaf_x16.ttf" };
+constexpr font f = FONT_BIRCHLEAF;
 
 void main()
 {
-    $draw_text_P(0, 24, f, "The quick brown fox");
-    $draw_text_P(0, 60, f, "0123456789 2111 1");
+    $set_text_font(f);
+    $draw_text_P(0, 24, "The quick brown fox");
+    $draw_text_P(0, 60, "0123456789 2111 1");
     $display();
 }

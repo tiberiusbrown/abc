@@ -883,13 +883,15 @@ static void sys_draw_text()
     auto ptr = vm_pop_begin();
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
+    uint24_t font = ards::vm.text_font;
     uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
     uint8_t line_height;
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
     line_height = FX::readPendingLastUInt8();
     int16_t bx = x;
@@ -917,13 +919,15 @@ static void sys_draw_text_P()
     auto ptr = vm_pop_begin();
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
-    uint24_t font = vm_pop<uint24_t>(ptr);
+    uint24_t font = ards::vm.text_font;
     uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
     uint8_t line_height;
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
     line_height = FX::readPendingLastUInt8();
     int16_t bx = x;
@@ -953,10 +957,12 @@ static void sys_draw_text_P()
 static void sys_text_width()
 {
     auto ptr = vm_pop_begin();
-    uint24_t font = vm_pop<uint24_t>(ptr);
+    uint24_t font = ards::vm.text_font;
     uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     
     (void)FX::readEnd();
     char const* p = reinterpret_cast<char const*>(tb);
@@ -987,10 +993,12 @@ static void sys_text_width()
 static void sys_text_width_P()
 {
     auto ptr = vm_pop_begin();
-    uint24_t font = vm_pop<uint24_t>(ptr);
+    uint24_t font = ards::vm.text_font;
     uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
     
     (void)FX::readEnd();
     char const* p = reinterpret_cast<char const*>(tb);
@@ -1484,7 +1492,6 @@ static void format_exec_to_buffer(char c)
 
 struct format_user_draw
 {
-    uint24_t font;
     int16_t bx;
     int16_t x;
     int16_t y;
@@ -1502,7 +1509,7 @@ static void format_exec_draw(char c)
     }
     else
     {
-        draw_char(u->x, u->y, u->font, c);
+        draw_char(u->x, u->y, ards::vm.text_font, c);
     }
 }
 
@@ -1549,12 +1556,16 @@ static void sys_draw_textf()
         auto ptr = vm_pop_begin();
         user.x = user.bx = vm_pop<int16_t> (ptr);
         user.y = vm_pop<int16_t> (ptr);
-        user.font = vm_pop<uint24_t>(ptr);
         vm_pop_end(ptr);
     }
     (void)FX::readEnd();
-    
-    FX::seekData(user.font + FONT_HEADER_PER_CHAR * 256);
+
+    {
+        uint24_t font = ards::vm.text_font;
+        if(uint8_t(font >> 16) == 0xff)
+            vm_error(ards::ERR_FNT);
+        FX::seekData(ards::vm.text_font + FONT_HEADER_PER_CHAR * 256);
+    }
     user.line_height = FX::readPendingLastUInt8();
     
     format_exec(format_exec_draw);
@@ -1763,6 +1774,20 @@ static void sys_random()
     vm_pop_end(ptr);
 }
 
+static void sys_set_text_font()
+{
+    auto ptr = vm_pop_begin();
+    ards::vm.text_font = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+}
+
+static void sys_set_text_color()
+{
+    auto ptr = vm_pop_begin();
+    ards::vm.text_color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+}
+
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
     sys_display,
@@ -1783,6 +1808,8 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_draw_textf,
     sys_text_width,
     sys_text_width_P,
+    sys_set_text_font,
+    sys_set_text_color,
     sys_set_frame_rate,
     sys_next_frame,
     sys_idle,
