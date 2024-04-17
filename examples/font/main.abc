@@ -3,6 +3,7 @@ constexpr font font_small = FONT_BR5;
 
 void setup()
 {
+    $set_text_color(BLACK);
 }
 
 void loop()
@@ -13,9 +14,11 @@ void loop()
     char[20] str;
     $format(str, "seconds: %u", $millis() / 1000);
     
+    $draw_filled_rect(0, 0, 128, 64, WHITE);
+    
     $set_text_font(font_styled);
     $draw_text(0, 60, str);
-    $draw_text_P(0, 10, "LFHello World!");
+    $draw_text_P(0, 10, "Hello World!");
     
     $set_text_font(font_small);
     $draw_text_P(0, 23, "the quick brown fox jumps\nover the lazy dog");

@@ -309,10 +309,10 @@ void SpritesABC::drawBasic(
 
         L%=_begin:
 
-            sbrc r10, 2
-            rjmp L%=_begin_selfmask
             sbrc r10, 1
             rjmp L%=_begin_erase
+            sbrc r10, 2
+            rjmp L%=_begin_selfmask
             cp   r17, __zero_reg__
             brlt L%=_top
             tst  r19
@@ -683,12 +683,13 @@ void SpritesABC::drawBasic(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r24
-            com  r24
             mul  r24, r5
+            com  r0
+            com  r1
             ld   r9, X
             and  r9, r1
             st   X+, r9
-            rjmp .+0
+            nop
             dec  r21
             brne L%=_top_loop_erase
 
@@ -724,8 +725,9 @@ void SpritesABC::drawBasic(
             ; write one page from image to buf/buf+128
             in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            com  r24
             mul  r24, r5
+            com  r0
+            com  r1
             ld   r9, X
             and  r9, r0
             st   X+, r9
@@ -768,12 +770,13 @@ void SpritesABC::drawBasic(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r24
-            com  r24
             mul  r24, r5
+            com  r0
+            com  r1
             ld   r9, X
             and  r9, r0
             st   X+, r9
-            rjmp .+0
+            nop
             dec  r8
             brne L%=_bottom_loop_erase
 
