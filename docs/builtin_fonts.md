@@ -26,6 +26,7 @@
 | `FONT_PIXCON` | 10 | 11 | 4961 | ![FONT_PIXCON](font_images/FONT_PIXCON.png) |
 | `FONT_MITOCHONDRIA` | 10 | 13 | 3151 | ![FONT_MITOCHONDRIA](font_images/FONT_MITOCHONDRIA.png) |
 | `FONT_MONKEY` | 10 | 13 | 5063 | ![FONT_MONKEY](font_images/FONT_MONKEY.png) |
+| `FONT_ALKHEMIKAL` | 10 | 14 | 4469 | ![FONT_ALKHEMIKAL](font_images/FONT_ALKHEMIKAL.png) |
 | `FONT_VENICE` | 10 | 15 | 5332 | ![FONT_VENICE](font_images/FONT_VENICE.png) |
 | `FONT_CALAMITY` | 11 | 15 | 5796 | ![FONT_CALAMITY](font_images/FONT_CALAMITY.png) |
 | `FONT_BIRCHLEAF` | 12 | 17 | 4549 | ![FONT_BIRCHLEAF](font_images/FONT_BIRCHLEAF.png) |

@@ -7,6 +7,7 @@ struct font_info_t {
     size_t size;
 };
 #include "font_adafruit.hpp"
+#include "font_alkhemikal.hpp"
 #include "font_bangalor.hpp"
 #include "font_berkelium1541.hpp"
 #include "font_berkelium64.hpp"
@@ -40,6 +41,7 @@ struct font_info_t {
 #include "font_volter.hpp"
 static font_info_t const ALL_FONTS[] = {
     { "FONT_ADAFRUIT", 7, FONT_ADAFRUIT, sizeof(FONT_ADAFRUIT) },
+    { "FONT_ALKHEMIKAL", 10, FONT_ALKHEMIKAL, sizeof(FONT_ALKHEMIKAL) },
     { "FONT_BANGALOR", 6, FONT_BANGALOR, sizeof(FONT_BANGALOR) },
     { "FONT_BERKELIUM1541", 5, FONT_BERKELIUM1541, sizeof(FONT_BERKELIUM1541) },
     { "FONT_BERKELIUM64", 8, FONT_BERKELIUM64, sizeof(FONT_BERKELIUM64) },
