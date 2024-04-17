@@ -866,7 +866,7 @@ static void draw_char(
         );
         SpritesABC::drawBasic(
             xv, y, w, h, font, 0,
-            SpritesABC::MODE_INVERT | SpritesABC::MODE_SELFMASK);
+            ards::vm.text_mode);
 #else
     FX::seekData(font + uint8_t(c) * 2);
     int8_t lsb = (int8_t)FX::readPendingUInt8();
@@ -1784,8 +1784,9 @@ static void sys_set_text_font()
 static void sys_set_text_color()
 {
     auto ptr = vm_pop_begin();
-    ards::vm.text_color = vm_pop<uint8_t>(ptr);
+    uint8_t t = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
+    ards::vm.text_mode = t ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
 }
 
 sys_func_t const SYS_FUNCS[] PROGMEM =

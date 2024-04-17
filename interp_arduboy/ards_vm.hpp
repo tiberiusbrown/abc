@@ -45,7 +45,7 @@ extern __attribute__((section(".beforedata"))) struct vm_t
     uint8_t  frame_dur;        // 0x636
     uint8_t  frame_start;      // 0x637
     bool     just_rendered;    // 0x638
-    uint8_t  text_color;       // 0x639
+    uint8_t  text_mode;        // 0x639
     uint24_t text_font;        // 0x63a
 } vm;
 

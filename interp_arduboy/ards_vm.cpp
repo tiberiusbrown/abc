@@ -4,6 +4,8 @@
 #define ARDS_TONES_IMPLEMENTATION
 #include "ards_tone.hpp"
 
+#include "SpritesABC.hpp"
+
 #ifndef EEPROM_h
 #define EEPROM_h
 #endif
@@ -4004,7 +4006,7 @@ void vm_run()
     Arduboy2Base::pollButtons();
 
     memset(&vm, 0, sizeof(vm));
-    vm.text_color = 1;
+    vm.text_mode = SpritesABC::MODE_SELFMASK;
     vm.text_font = 0xffffff;
     vm.frame_dur = 50;
     
