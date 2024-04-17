@@ -29,6 +29,7 @@ struct font_info_t {
 #include "font_pixdor.hpp"
 #include "font_pixelgeorgia.hpp"
 #include "font_pixelgeorgiabold.hpp"
+#include "font_pixellari.hpp"
 #include "font_pixeloidsans.hpp"
 #include "font_pixeloidsansbold.hpp"
 #include "font_pixeltimes.hpp"
@@ -64,6 +65,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_PIXDOR", 12, FONT_PIXDOR, sizeof(FONT_PIXDOR) },
     { "FONT_PIXELGEORGIA", 8, FONT_PIXELGEORGIA, sizeof(FONT_PIXELGEORGIA) },
     { "FONT_PIXELGEORGIABOLD", 8, FONT_PIXELGEORGIABOLD, sizeof(FONT_PIXELGEORGIABOLD) },
+    { "FONT_PIXELLARI", 11, FONT_PIXELLARI, sizeof(FONT_PIXELLARI) },
     { "FONT_PIXELOIDSANS", 8, FONT_PIXELOIDSANS, sizeof(FONT_PIXELOIDSANS) },
     { "FONT_PIXELOIDSANSBOLD", 8, FONT_PIXELOIDSANSBOLD, sizeof(FONT_PIXELOIDSANSBOLD) },
     { "FONT_PIXELTIMES", 8, FONT_PIXELTIMES, sizeof(FONT_PIXELTIMES) },

@@ -30,6 +30,7 @@
 | `FONT_KIWISODA` | 10 | 15 | 4724 | ![FONT_KIWISODA](font_images/FONT_KIWISODA.png) |
 | `FONT_VENICE` | 10 | 15 | 5332 | ![FONT_VENICE](font_images/FONT_VENICE.png) |
 | `FONT_CALAMITY` | 11 | 15 | 5796 | ![FONT_CALAMITY](font_images/FONT_CALAMITY.png) |
+| `FONT_PIXELLARI` | 11 | 15 | 4654 | ![FONT_PIXELLARI](font_images/FONT_PIXELLARI.png) |
 | `FONT_BIRCHLEAF` | 12 | 17 | 4549 | ![FONT_BIRCHLEAF](font_images/FONT_BIRCHLEAF.png) |
 | `FONT_GOTHICPIXELS` | 12 | 17 | 4941 | ![FONT_GOTHICPIXELS](font_images/FONT_GOTHICPIXELS.png) |
 | `FONT_PIXDOR` | 12 | 17 | 4553 | ![FONT_PIXDOR](font_images/FONT_PIXDOR.png) |
