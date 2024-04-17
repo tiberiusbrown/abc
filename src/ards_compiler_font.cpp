@@ -74,13 +74,14 @@ void compiler_t::encode_font_ttf(
         return;
     }
 
-    float scale = stbtt_ScaleForPixelHeight(&info, (float)pixel_height);
-
     int ascent = 0;
     int descent = 0;
     int line_gap = 0;
-    stbtt_GetFontVMetrics(&info, &ascent, &descent, &line_gap);
-    int line_height = (int)roundf(scale * (ascent - descent + line_gap));
+    stbtt_GetFontVMetricsOS2(&info, &ascent, &descent, &line_gap);
+
+    float scale = (float)pixel_height / ascent;
+
+    int line_height = (int)ceilf(scale * (ascent - descent + line_gap));
 
     size_t start = data.size();
 
