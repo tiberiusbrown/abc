@@ -163,12 +163,12 @@ void compiler_t::encode_font_ttf(
         while(image_start + offset < data.size())
         {
             size_t bytes = std::min<size_t>(
-                sdata.size(), data.size() - (image_start + offset));
-            if(!memcmp(&data[image_start + offset], &sdata[0], bytes))
+                sdata.size() - 5, data.size() - (image_start + offset));
+            if(!memcmp(&data[image_start + offset], &sdata[5], bytes))
                 break;
             offset += 1;
         }
-        offset = data.size() - image_start;
+        //offset = data.size() - image_start;
 
         if(offset >= 65536)
         {
@@ -179,11 +179,14 @@ void compiler_t::encode_font_ttf(
         data[j + 3] = uint8_t(offset >> 0);
         data[j + 4] = uint8_t(offset >> 8);
 
-        size_t sdata_offset = 5;
-        if(image_start + offset < data.size())
-            sdata_offset += (data.size() - (image_start + offset));
+        if(data.size() - image_start - offset < sdata.size() - 5)
+        {
+            size_t sdata_offset = 5;
+            if(image_start + offset < data.size())
+                sdata_offset += (data.size() - (image_start + offset));
 
-        data.insert(data.end(), sdata.begin() + sdata_offset, sdata.end());
+            data.insert(data.end(), sdata.begin() + sdata_offset, sdata.end());
+        }
     }
 }
 
