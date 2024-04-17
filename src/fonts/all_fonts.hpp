@@ -18,6 +18,7 @@ struct font_info_t {
 #include "font_br5n.hpp"
 #include "font_br6.hpp"
 #include "font_calamity.hpp"
+#include "font_cursive.hpp"
 #include "font_gothicpixels.hpp"
 #include "font_kiwisoda.hpp"
 #include "font_lexis.hpp"
@@ -54,6 +55,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_BR5N", 5, FONT_BR5N, sizeof(FONT_BR5N) },
     { "FONT_BR6", 5, FONT_BR6, sizeof(FONT_BR6) },
     { "FONT_CALAMITY", 11, FONT_CALAMITY, sizeof(FONT_CALAMITY) },
+    { "FONT_CURSIVE", 12, FONT_CURSIVE, sizeof(FONT_CURSIVE) },
     { "FONT_GOTHICPIXELS", 12, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
     { "FONT_KIWISODA", 10, FONT_KIWISODA, sizeof(FONT_KIWISODA) },
     { "FONT_LEXIS", 7, FONT_LEXIS, sizeof(FONT_LEXIS) },
