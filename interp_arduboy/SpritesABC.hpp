@@ -233,12 +233,7 @@ void SpritesABC::drawBasic(
             sbrc r22, 2
             swap r21
             mov  r5, r21
-            clr  r6
-            clr  r7
-            nop
-            
-            sbrc r10, 2
-            rjmp 1f
+
             ldi  r30, 0xff
             mul  r30, r5
             movw r6, r0
