@@ -1250,12 +1250,9 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
 {
     while(tn != 0)
     {
-        fx_read_byte_inc(tb);
-        FX::seekData(tb);
-        uint8_t c = FX::readPendingLastUInt8();
+        uint8_t c = fx_read_byte_inc(tb);
         if(c == '\0') return;
         f(c);
-        ++tb;
         --tn;
     }
 }
