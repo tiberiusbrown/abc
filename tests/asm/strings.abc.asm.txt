@@ -1,5 +1,10 @@
 .saved 0
 
+$PD_39:
+$PD_40:
+  .b f 74 68 65 20 71 75 69 63 6b 20 62 72 6f 77 6e 20
+  .b f 66 6f 78 20 6a 75 6d 70 73 20 6f 76 65 72 20 74
+  .b a 68 65 20 6c 61 7a 79 20 64 6f 67
 $PD_26:
   .b 3 33 2e 35 31
 $PD_0:
@@ -62,6 +67,11 @@ $PD_35:
 $PD_36:
 $PD_37:
   .b 3 57 68 61 74
+$PD_41:
+$PD_42:
+  .b f 54 48 45 20 51 55 49 43 4b 20 42 52 4f 57 4e 20
+  .b f 46 4f 58 20 4a 55 4d 50 53 20 4f 56 45 52 20 54
+  .b a 48 45 20 4c 41 5a 59 20 44 4f 47
 
 $globinit:
   .file <internal>.abc
@@ -505,7 +515,53 @@ main:
   bool
   sys   assert
   popn  30
-  .line 69
+  .line 70
+  pz16
+  pz16
+  pz16
+  pz16
+  .line 71
+  pushl $PD_39 0
+  push  43
+  p00
+  refl  70
+  p64
+  p0
+  sys   strcpy_P
+  pop4
+  .line 72
+  pushl $PD_40 0
+  push  43
+  p00
+  refl  70
+  p64
+  p0
+  sys   strcmp_P
+  not
+  sys   assert
+  popn  255
+  .line 76
+  pop
+  pushl $PD_41 0
+  push  43
+  p00
+  refl  70
+  p64
+  p0
+  sys   strcpy_P
+  pop4
+  .line 77
+  pushl $PD_42 0
+  push  43
+  p00
+  refl  70
+  p64
+  p0
+  sys   strcmp_P
+  not
+  sys   assert
+  popn  64
+  .line 80
   sys   debug_break
   .line 1
   popn  8

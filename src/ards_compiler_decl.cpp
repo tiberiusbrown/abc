@@ -196,12 +196,13 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             n.children[2].children[1] :
             n.children[2];
         auto const& src_type = src_node.comp_type;
+
+        // optimize as memcpy or strcpy
         if(v->type.without_ref().is_copyable() &&
             src_type.is_any_ref() &&
             src_type.children[0].is_copyable() &&
             v->type.without_ref().prim_size >= MIN_MEMCPY_SIZE)
         {
-            // optimize as memcpy
             bool prog = src_type.children[0].is_prog;
 
             if(!is_global)
@@ -228,9 +229,19 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
                 TYPE_BYTE_AREF,
                 n.children[1].comp_type);
 
-            f.instrs.push_back({ I_SYS, n.line(), prog ? SYS_MEMCPY_P : SYS_MEMCPY });
+            bool is_string = v->type.is_string() && src_type.is_string();
+            sysfunc_t sys = prog ? SYS_MEMCPY_P : SYS_MEMCPY;
+            if(is_string)
+                sys = prog ? SYS_STRCPY_P : SYS_STRCPY;
+            f.instrs.push_back({ I_SYS, n.line(), sys });
             frame.size -= 4;
             frame.size -= (prog ? 6 : 4);
+            if(is_string)
+            {
+                // pop return value of strcpy
+                for(int i = 0; i < 4; ++i)
+                    f.instrs.push_back({ I_POP, n.line() });
+            }
             return;
         }
 

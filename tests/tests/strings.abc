@@ -66,5 +66,16 @@ void main()
         $assert("What?" != str);
     }
     
+    {
+        char[64] t;
+        t = "the quick brown fox jumps over the lazy dog";
+        $assert(t == "the quick brown fox jumps over the lazy dog");
+    }
+    
+    {
+        char[64] t = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
+        $assert(t == "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG");
+    }
+    
     $debug_break();
 }
