@@ -292,7 +292,7 @@ void SpritesABC::drawBasic(
             rcall L%=_delay_16
             out %[spdr], __zero_reg__
             rcall L%=_delay_7
-            nop
+            lpm
             ret
             
         L%=_delay_17:
