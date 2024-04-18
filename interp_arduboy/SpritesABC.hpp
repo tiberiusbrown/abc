@@ -291,8 +291,8 @@ void SpritesABC::drawBasic(
             out %[spdr], r14
             rcall L%=_delay_16
             out %[spdr], __zero_reg__
-            rcall L%=_delay_7
-            lpm
+            rjmp .+0
+            rjmp .+0
             ret
             
         L%=_delay_17:
@@ -490,7 +490,7 @@ void SpritesABC::drawBasic(
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
-            rjmp .+0
+            lpm
             
         L%=_bottom_dispatch:
 
@@ -592,6 +592,8 @@ void SpritesABC::drawBasic(
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
+            rjmp .+0
+            rjmp .+0
 
         L%=_middle_skip_reseek_selfmask:
 
@@ -599,7 +601,6 @@ void SpritesABC::drawBasic(
             subi r30, lo8(-128)
             sbci r31, hi8(-128)
             mov  r21, r8
-            rjmp .+0
 
         L%=_middle_loop_inner_selfmask:
 
@@ -633,15 +634,13 @@ void SpritesABC::drawBasic(
 
             ; seek if needed
             tst  r11
-            breq L%=_bottom_loop_pre_selfmask
+            breq L%=_bottom_loop_selfmask
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
-
-        L%=_bottom_loop_pre_selfmask:
-        
             rjmp .+0
+            lpm        
         
         L%=_bottom_loop_selfmask:
 
@@ -712,6 +711,8 @@ void SpritesABC::drawBasic(
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
+            rjmp .+0
+            rjmp .+0
 
         L%=_middle_skip_reseek_erase:
 
@@ -719,7 +720,6 @@ void SpritesABC::drawBasic(
             subi r30, lo8(-128)
             sbci r31, hi8(-128)
             mov  r21, r8
-            rjmp .+0
 
         L%=_middle_loop_inner_erase:
 
