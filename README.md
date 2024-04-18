@@ -15,7 +15,7 @@ void loop()
         ;
         
     // draw some text with one of the built-in fonts
-    $draw_text_P(29, 28, FONT_LEXIS, "Hello World!");
+    $draw_text_P(29, 36, "Hello World!");
         
     x += dx;
     y += dy;
@@ -43,9 +43,9 @@ void loop()
 
 void main()
 {
+    $set_text_font(FONT_ADAFRUIT);
     while(true)
         loop();
-}
-```
+}```
 
 ![Hello World](docs/recording_helloworld.gif)
