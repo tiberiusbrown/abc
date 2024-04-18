@@ -235,6 +235,7 @@ void SpritesABC::drawBasic(
             mov  r5, r21
             clr  r6
             clr  r7
+            nop
             
             sbrc r10, 2
             rjmp 1f

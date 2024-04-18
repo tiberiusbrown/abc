@@ -168,7 +168,6 @@ void compiler_t::encode_font_ttf(
                 break;
             offset += 1;
         }
-        //offset = data.size() - image_start;
 
         if(offset >= 65536)
         {

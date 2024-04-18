@@ -690,7 +690,22 @@ static void sys_draw_sprite_selfmask()
 static void draw_char(
     int16_t& x, int16_t y, uint24_t font, char c)
 {
-#if 1
+#if 0
+    FX::seekData(font + (uint8_t)c * (uint8_t)FONT_HEADER_PER_CHAR);
+    uint8_t xadv = (uint8_t)FX::readPendingUInt8();
+    int8_t xoff = (int8_t)FX::readPendingUInt8();
+    int8_t yoff = (int8_t)FX::readPendingUInt8();
+    uint8_t offset_lo = FX::readPendingUInt8();
+    uint8_t offset_hi = FX::readPendingUInt8();
+    uint8_t w = FX::readPendingUInt8();
+    uint8_t h = FX::readPendingLastUInt8();
+    //SpritesABC::fillRect(x + xoff, y + yoff, w, h, WHITE);
+    SpritesABC::drawBasic(
+        x + xoff, y + yoff, w, h,
+        font + FONT_HEADER_BYTES + offset_lo + offset_hi * 256,
+        0, ards::vm.text_mode);
+    x += xadv;
+#else
     /*
         BEFORE
         =================
@@ -749,7 +764,9 @@ static void draw_char(
         L%=_delay_17:
             nop
         L%=_delay_16:
-            rjmp .+0
+            nop
+        L%=_delay_15:
+            nop
         L%=_delay_14:
             nop
         L%=_delay_13:
@@ -765,8 +782,7 @@ static void draw_char(
         L%=_delay_7:
             ret
         1:
-            rcall L%=_delay_14
-            nop
+            rcall L%=_delay_15
 
             out  %[spdr], %A[addr]
             ldi  %A[t], lo8(-%[HEADER])
@@ -779,12 +795,12 @@ static void draw_char(
 
             out  %[spdr], __zero_reg__
             rcall L%=_delay_14
-            in   r0, %[sreg]
+            in   %A[addr], %[sreg]
             
             cli
             out  %[spdr], __zero_reg__
             in   %[adv], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %A[addr]
 
             ld   %A[xv], %a[xp]+
             ld   %B[xv], %a[xp]
@@ -798,7 +814,7 @@ static void draw_char(
             cli
             out  %[spdr], __zero_reg__
             in   %[xoff], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %A[addr]
 
             add  %A[xv], %[xoff]
             adc  %B[xv], __zero_reg__
@@ -809,25 +825,25 @@ static void draw_char(
             cli
             out  %[spdr], __zero_reg__
             in   %[yoff], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %A[addr]
 
             add  %A[y], %[yoff]
             adc  %B[y], __zero_reg__
             sbrc %[yoff], 7
             dec  %B[y]
-            rcall L%=_delay_13
+            rcall L%=_delay_9
             
             cli
             out  %[spdr], __zero_reg__
             in   %A[t], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %A[addr]
 
             rcall L%=_delay_13
             
             cli
             out  %[spdr], __zero_reg__
             in   %B[t], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %A[addr]
 
             add  %A[font], %A[t]
             adc  %B[font], %B[t]
@@ -836,7 +852,7 @@ static void draw_char(
             cli
             out  %[spdr], __zero_reg__
             in   %[w], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %A[addr]
 
             rcall L%=_delay_14
             
@@ -867,14 +883,6 @@ static void draw_char(
         SpritesABC::drawBasic(
             xv, y, w, h, font, 0,
             ards::vm.text_mode);
-#else
-    FX::seekData(font + uint8_t(c) * 2);
-    int8_t lsb = (int8_t)FX::readPendingUInt8();
-    uint8_t adv = FX::readPendingLastUInt8();
-    SpritesABC::drawBasic(
-        x + lsb, y, w, h, font + 513 + 5, uint8_t(c),
-        SpritesABC::MODE_SELFMASK);
-    x += adv;
 #endif
 }
 
