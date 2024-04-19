@@ -1,0 +1,23 @@
+calamity
+CC BY 3.0
+https://fontstruct.com/fontstructions/show/2158964/calamity-4
+
+lexis
+CC0 1.0 Universal
+https://github.com/damianvila/font-lexis
+
+alkhemikal
+CC BY 4.0
+https://www.dafont.com/alkhemikal.font
+
+kiwisoda
+CC BY 4.0
+https://www.dafont.com/kiwisoda.font
+
+pixellari
+"Providing this for absolutely free, since I myself found it difficult to find a font I liked that was completely usable in commercial projects. All I ask is that I get credit for the making of the original font."
+https://www.dafont.com/pixellari.font
+
+cursive
+CC BY 3.0
+https://www.dafont.com/cursive-3.font

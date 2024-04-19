@@ -36,7 +36,7 @@ void render_credits()
 {
     i16 y = 61 - creditsy;
 
-    $set_text_font(FONT_BR6);
+    $set_text_font(FONT_BR5D);
     $draw_text_P(41, y + 18, "Programming");
     $draw_text_P(37, y + 45, "Tiles and Sprites");
     $draw_text_P(54, y + 72, "Levels");
@@ -160,7 +160,7 @@ void render_victory()
         $draw_text(x + 27 - w / 2, y + 32, buf);
     }
 
-    $set_text_font(FONT_BR6);
+    $set_text_font(FONT_BR5D);
     if(was_high_score)
         $draw_text_P(x, y + 12, "New High Score!");
     if(was_best_time)
@@ -174,7 +174,7 @@ void render_victory()
 
 void render_level_select()
 {
-    $set_text_font(FONT_BR6);
+    $set_text_font(FONT_BR5D);
 
     $draw_text_P(10, 5, "Name");
     $draw_text_P(60, 5, "High Score");
@@ -314,7 +314,7 @@ void render_intro()
     {
         $set_text_font(MAIN_FONT);
         $draw_text_P(25, 7, "Level Complete!");
-        $set_text_font(FONT_BR6);
+        $set_text_font(FONT_BR5D);
         $draw_textf(41, 35, "%05u", score);
         char[10] buf;
         $format(buf, "%u.%02u",
@@ -333,7 +333,7 @@ void render_intro()
 
         if(total_score != 0)
         {
-            $set_text_font(FONT_BR6);
+            $set_text_font(FONT_BR5D);
             constexpr u8 y = 16;
             $draw_text_P(94, y + 5, "Total Time");
             $draw_filled_rect(94, y + 6, 34, 1, WHITE);
@@ -348,7 +348,7 @@ void render_intro()
     if(state == STATE_INTRO && level_frames_remaining != 0)
     {
         constexpr u8 y = 40;
-        $set_text_font(FONT_BR6);
+        $set_text_font(FONT_BR5D);
         if(was_best_time)
         {
             $draw_text_P(93, y - 3, "New Level");
@@ -375,7 +375,7 @@ void render_intro()
         }
     }
     $draw_sprite(56, 37, PLAYER, 7 + ((frame_count >> 3) & 0x3));
-    $set_text_font(FONT_BR6);
+    $set_text_font(FONT_BR5D);
     $draw_textf(72, 49, "x%u", lives);
     $set_text_font(MAIN_FONT);
     if((frame_count & 0x3f) < 0x30)
@@ -506,7 +506,7 @@ void render_level()
         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
     $draw_filled_rect(0, 0, 20, 6, BLACK);
     $draw_filled_rect(57, 0, 13, 6, BLACK);
-    $set_text_font(FONT_BR6);
+    $set_text_font(FONT_BR5D);
     $draw_textf(0, 5, "%05u", score);
     $draw_textf(58, 5, "%03u", u16(level_frames_remaining + 49) / 50);
 
