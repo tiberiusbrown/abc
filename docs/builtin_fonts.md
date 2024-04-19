@@ -24,6 +24,7 @@
 | `FONT_TUBEOFCORN` | 9 | 13 | 2720 | ![FONT_TUBEOFCORN](font_images/FONT_TUBEOFCORN.png) |
 | `FONT_RAINYHEARTS` | 9 | 14 | 3282 | ![FONT_RAINYHEARTS](font_images/FONT_RAINYHEARTS.png) |
 | `FONT_PIXCON` | 10 | 11 | 3695 | ![FONT_PIXCON](font_images/FONT_PIXCON.png) |
+| `FONT_UPHEAVAL` | 10 | 13 | 4118 | ![FONT_UPHEAVAL](font_images/FONT_UPHEAVAL.png) |
 | `FONT_DUNGEON` | 10 | 15 | 3080 | ![FONT_DUNGEON](font_images/FONT_DUNGEON.png) |
 | `FONT_VENICE` | 10 | 15 | 3695 | ![FONT_VENICE](font_images/FONT_VENICE.png) |
 | `FONT_BIRCHLEAF` | 12 | 17 | 3261 | ![FONT_BIRCHLEAF](font_images/FONT_BIRCHLEAF.png) |

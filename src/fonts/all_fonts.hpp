@@ -34,6 +34,7 @@ struct font_info_t {
 #include "font_retron2000.hpp"
 #include "font_simplipixa.hpp"
 #include "font_tubeofcorn.hpp"
+#include "font_upheaval.hpp"
 #include "font_venice.hpp"
 #include "font_volter.hpp"
 static font_info_t const ALL_FONTS[] = {
@@ -65,6 +66,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_RETRON2000", 21, FONT_RETRON2000, sizeof(FONT_RETRON2000) },
     { "FONT_SIMPLIPIXA", 4, FONT_SIMPLIPIXA, sizeof(FONT_SIMPLIPIXA) },
     { "FONT_TUBEOFCORN", 9, FONT_TUBEOFCORN, sizeof(FONT_TUBEOFCORN) },
+    { "FONT_UPHEAVAL", 10, FONT_UPHEAVAL, sizeof(FONT_UPHEAVAL) },
     { "FONT_VENICE", 10, FONT_VENICE, sizeof(FONT_VENICE) },
     { "FONT_VOLTER", 8, FONT_VOLTER, sizeof(FONT_VOLTER) },
 };
