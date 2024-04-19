@@ -248,33 +248,25 @@ void Tones::update()
 
 } // namespace ards
 
-//ISR(TIMER3_COMPA_vect, __attribute((naked)))
-//{
-//    //PINC = 0xc0;
-//    asm volatile(R"(
-//        sbi 0x06, 6
-//        sbi 0x06, 7
-//        reti
-//        )");
-//}
-
 ISR(TIMER4_COMPA_vect, __attribute((flatten)))
 {
     uint8_t ticks = ards::detail::buffer[0].ticks;
     if(--ticks == 0)
     {
+        uint8_t size = ards::detail::buffer_size;
+        size -= sizeof(ards::detail::note_t);
+        if(size == 0)
+        {
+            // we have no more data available: leave ticks unmodified,
+            // and the current note will continue playing until more data
+            // is loaded into the buffer
+            return;
+        }
         // should be memmove, but works for backward moves on avr
         memcpy(
             &ards::detail::buffer[0],
             &ards::detail::buffer[1],
             sizeof(ards::detail::note_t) * (ARDS_TONES_BUFFER_SIZE - 1));
-        uint8_t size = ards::detail::buffer_size;
-        size -= sizeof(ards::detail::note_t);
-        if(size == 0)
-        {
-            // leave ticks unmodified
-            return;
-        }
         ards::detail::buffer_size = size;
         uint8_t index = ards::detail::buffer[0].period;
         if(index == 255)
