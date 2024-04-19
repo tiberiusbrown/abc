@@ -293,8 +293,17 @@ vm_execute:
 I_NOP:
     rjmp .+0
     rjmp .+0
-    dispatch_reverse
-    ; TODO: SPACE HERE
+    dispatch_noalign_reverse
+
+    .align 5
+    ; put in a tag here: 32 bytes after start of instructions
+    ; this helps tools find where the instructions are for
+    ; things like breakpoints/profiling
+
+    ;        0123456789abcdef0123456789abcdef
+    .ascii " ABC Interpreter by Peter Brown "
+
+    .align 6
 
 I_PUSH:
     st   Y+, r9
