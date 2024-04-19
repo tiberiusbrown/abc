@@ -2114,6 +2114,11 @@ static void sys_init_random_seed()
 
 static void sys_random()
 {
+    vm_push<uint32_t>((uint32_t)random());
+}
+
+static void sys_random_range()
+{
     auto ptr = vm_pop_begin();
     uint32_t a = vm_pop<uint32_t>(ptr);
     uint32_t b = vm_pop<uint32_t>(ptr);
@@ -2243,5 +2248,6 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_generate_random_seed,
     sys_init_random_seed,
     sys_random,
+    sys_random_range,
 
 };

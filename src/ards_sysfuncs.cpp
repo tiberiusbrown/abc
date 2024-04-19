@@ -76,6 +76,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "generate_random_seed", SYS_GENERATE_RANDOM_SEED },
     { "init_random_seed",     SYS_INIT_RANDOM_SEED     },
     { "random",               SYS_RANDOM               },
+    { "random_range",         SYS_RANDOM_RANGE         },
 };
 
 std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
@@ -144,7 +145,8 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_SQRT,                 { TYPE_FLOAT, { TYPE_FLOAT }, { "x" }}},
     { SYS_GENERATE_RANDOM_SEED, { TYPE_U32,   { }, { }}},
     { SYS_INIT_RANDOM_SEED,     { TYPE_VOID,  { }, { }}},
-    { SYS_RANDOM,               { TYPE_U32,   { TYPE_U32, TYPE_U32 }, { "lo", "hi" }}},
+    { SYS_RANDOM,               { TYPE_U32,   { }, { }}},
+    { SYS_RANDOM_RANGE,         { TYPE_U32,   { TYPE_U32, TYPE_U32 }, { "lo", "hi" }}},
 };
 
 }

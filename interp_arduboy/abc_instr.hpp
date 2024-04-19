@@ -72,6 +72,7 @@ enum sysfunc_t : uint8_t
     SYS_GENERATE_RANDOM_SEED,
     SYS_INIT_RANDOM_SEED,
     SYS_RANDOM,
+    SYS_RANDOM_RANGE,
 
     SYS_NUM
 };

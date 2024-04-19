@@ -601,7 +601,7 @@ void main()
 <details><summary>text: 0.34x slowdown (2.95x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 70374</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 70378</td></tr>
 <tr>
 <td>
 
