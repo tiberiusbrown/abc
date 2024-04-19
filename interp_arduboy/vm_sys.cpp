@@ -1844,28 +1844,85 @@ static void sys_atan2()
     vm_pop_end(ptr);
 }
 
+__attribute__((naked))
 static void sys_floor()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (floorf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, floorf(x));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_ceil()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (ceilf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, ceilf(x));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_round()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (roundf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, roundf(x));
     vm_pop_end(ptr);
+#endif
 }
 
 static void sys_mod()
