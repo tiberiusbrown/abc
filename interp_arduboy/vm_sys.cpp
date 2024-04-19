@@ -1811,37 +1811,119 @@ static void sys_load()
     seek_to_pc();
 }
 
+__attribute__((naked))
 static void sys_sin()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (sinf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, sinf(x));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_cos()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (cosf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, cosf(x));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_tan()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (tanf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, tanf(x));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_atan2()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            ld   r21, -Y
+            ld   r20, -Y
+            ld   r19, -Y
+            ld   r18, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            sts  %[vmsp], r28
+            ret
+        )"
+        :
+        : [vmsp] "i" (&ards::vm.sp)
+        , [f]    ""  (atan2)
+        );
+#else
     auto ptr = vm_pop_begin();
     float y = vm_pop<float>(ptr);
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, atan2(y, x));
     vm_pop_end(ptr);
+#endif
 }
 
 __attribute__((naked))
@@ -1925,30 +2007,99 @@ static void sys_round()
 #endif
 }
 
+__attribute__((naked))
 static void sys_mod()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            ld   r21, -Y
+            ld   r20, -Y
+            ld   r19, -Y
+            ld   r18, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            sts  %[vmsp], r28
+            ret
+        )"
+        :
+        : [vmsp] "i" (&ards::vm.sp)
+        , [f]    ""  (fmodf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     float y = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, fmodf(x, y));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_pow()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            ld   r21, -Y
+            ld   r20, -Y
+            ld   r19, -Y
+            ld   r18, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            sts  %[vmsp], r28
+            ret
+        )"
+        :
+        : [vmsp] "i" (&ards::vm.sp)
+        , [f]    ""  (powf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     float y = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, powf(x, y));
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_sqrt()
 {
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (sqrtf)
+        );
+#else
     auto ptr = vm_pop_begin();
     float x = vm_pop<float>(ptr);
     vm_push_unsafe<float>(ptr, sqrtf(x));
     vm_pop_end(ptr);
+#endif
 }
 
 static void sys_generate_random_seed()
