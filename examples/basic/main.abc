@@ -1,4 +1,4 @@
-constexpr font f = FONT_BR6;
+constexpr font f = FONT_BR5D;
 
 constexpr sprites BALL = sprites{
     8x8
