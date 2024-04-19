@@ -1,0 +1,214 @@
+#title "ABC Snake"
+#description "The classic snake game for Arduboy FX!"
+#author "Peter Brown"
+#version "1.0"
+
+constexpr font f = FONT_BR6;
+
+constexpr u8 SP = 4;
+constexpr u8 WP = 128;
+constexpr u8 HP = 56;
+constexpr u8 W = WP / SP;
+constexpr u8 H = HP / SP;
+constexpr int OX = WP - W * SP;
+constexpr int OY = 8 + HP - H * SP;
+constexpr u16 L = W * H;
+
+struct pos { i8 x, y; };
+
+pos[L] snake;
+u16 snake_head;
+u16 snake_tail;
+u8 dir;
+u8 ndir;
+u8 dead;
+u8 frame;
+u8 growth;
+u8 score;
+pos food;
+saved u8 high_score;
+
+void draw_food()
+{
+    $draw_sprite(
+        food.x * SP + OX, food.y * SP + OY,
+        sprites{
+            4x4
+            .XX.
+            XXXX
+            XXXX
+            .XX.
+        }, 0);
+}
+
+pos randomize_food()
+{
+    pos f;
+    for(u8 i = 0; i < 50; ++i)
+    {
+        f.x = $random_range(0, W - 1);
+        f.y = $random_range(0, H - 1);
+        if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
+            return f;
+    }
+    for(f.y = 0; f.y < H; ++f.y)
+        for(f.x = 0; f.x < W; ++f.x)
+            if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
+                return f;
+    return { 0, 0 };
+}
+
+void new_game()
+{
+    snake_head = 0;
+    snake_tail = 4;
+    snake[0] = { snake_tail, H / 2 };
+    for(u16 i = 1; i != snake_tail; ++i)
+    {
+        snake[i] = snake[i-1];
+        snake[i].x -= 1;
+    }
+    dir = 0;
+    ndir = 0;
+    dead = 0;
+    growth = 0;
+    score = 0;
+    food.x = $random_range(W / 2, W - 1);
+    food.y = $random_range(0, H - 1);
+    draw_food();
+}
+
+void advance_snake(bool grow)
+{
+    pos p = snake[snake_head];
+    if(snake_head-- == 0)
+        snake_head = len(snake) - 1;
+        
+    dir = ndir;
+    if(dir == 0) p.x += 1;
+    if(dir == 1) p.x -= 1;
+    if(dir == 2) p.y += 1;
+    if(dir == 3) p.y -= 1;
+    
+    if(p.x == food.x && p.y == food.y)
+    {
+        score += 1;
+        growth += 3;
+        food = randomize_food();
+        draw_food();
+    }
+    
+    if(p.x < 0 || p.x >= W || p.y < 0 || p.y >= H ||
+        $get_pixel(p.x * SP + OX, p.y * SP + OY))
+    {
+        dead = 1;
+        if(score > high_score)
+        {
+            high_score = score;
+            $save();
+        }
+    }
+    snake[snake_head] = p;
+    
+    $draw_filled_rect(p.x * SP + OX, p.y * SP + OY, SP, SP, WHITE);
+    
+    if(!grow)
+    {
+        if(snake_tail-- == 0)
+            snake_tail = len(snake) - 1;
+        p = snake[snake_tail];
+        $draw_filled_rect(p.x * SP + OX, p.y * SP + OY, SP, SP, BLACK);
+    }
+}
+
+void game_loop()
+{
+    while(!$next_frame())
+        ;
+        
+    $memcpy(dead, dead);
+        
+    if(dead != 0)
+    {
+        pos p = snake[snake_head];
+        $draw_filled_circle(p.x * SP + OX, p.y * SP + OY, dead + 3, WHITE);
+        $draw_filled_circle(p.x * SP + OX, p.y * SP + OY, dead, BLACK);
+        dead += 3;
+    }
+    else
+    {
+        $poll_buttons();
+        if(dir != 1 && $pressed(RIGHT_BUTTON)) ndir = 0;
+        if(dir != 0 && $pressed( LEFT_BUTTON)) ndir = 1;
+        if(dir != 3 && $pressed( DOWN_BUTTON)) ndir = 2;
+        if(dir != 2 && $pressed(   UP_BUTTON)) ndir = 3;
+    
+        if(((++frame) & 3) == 0)
+        {
+            advance_snake(growth > 0);
+            if(growth > 0)
+                --growth;
+        }
+    }
+        
+    $draw_filled_rect(0, 0, 128, 8, BLACK);
+    $draw_filled_rect(0, 6, 128, 2, WHITE);
+    $set_text_font(FONT_BR6);
+    $draw_textf(0, 0, "Score: %u", score);
+    
+    $display_noclear();
+}
+
+void main_menu()
+{
+    $poll_buttons();
+    u8 cx, cy, cr = 0;
+    while(true)
+    {
+        while(!$next_frame())
+            ;
+            
+        $poll_buttons();
+        if($just_pressed(A_BUTTON))
+        {
+            $init_random_seed();
+            break;
+        }
+        
+        if(cr == 0)
+        {
+            cr = 1;
+            cx = $random_range(10, 117);
+            cy = $random_range(10, 53);
+        }
+        $draw_filled_circle(cx, cy, cr + 3, WHITE);
+        $draw_filled_circle(cx, cy, cr, BLACK);
+        if((cr += 1) > 50)
+            cr = 0;
+        
+        $draw_filled_rect(37, 24, 53, 9, BLACK);
+        $set_text_font(FONT_NOKIAFC);
+        $draw_text_P(38, 32, "ABC SNAKE");
+        
+        $set_text_font(FONT_BR6);
+        char[20] buf;
+        $format(buf, "HIGH SCORE: %u", high_score);
+        u8 w = $text_width(buf);
+        u8 x = 64 - w / 2;
+        $draw_filled_rect(x - 1, 34, w + 1, 7, BLACK);
+        $draw_text(x, 40, buf);
+        
+        $display();
+    }
+}
+
+void main()
+{
+    $load();
+    $init_random_seed();
+    $set_frame_rate(40);
+    main_menu();
+    new_game();
+    while(dead < 160)
+        game_loop();
+}
