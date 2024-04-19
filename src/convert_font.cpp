@@ -62,9 +62,9 @@ int main(int argc, char** argv)
 
         for(size_t i = 0; i < 256 * 7; i += 7)
         {
-            fprintf(f, "    %3d, %3d, %3d, %3d, %3d, %3d, %3d,\n",
+            fprintf(f, "    %3d, %3d, %3d, %3d, %3d, %3d, %3d, /* %3d (0x%02x) */\n",
                 data[i], data[i + 1], data[i + 2], data[i + 3],
-                data[i + 4], data[i + 5], data[i + 6]);
+                data[i + 4], data[i + 5], data[i + 6], int(i / 7), int(i / 7));
         }
 
         for(size_t i = 256 * 7; i < data.size(); ++i)
