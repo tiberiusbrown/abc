@@ -26,9 +26,17 @@ Released by the author (JoohnFonts) as 100% free, no attribution required
 "My first Sans serif pixel font to appear. It comes with 10x16 squares matrix (pixels) letters with optimized lower-case, and a massive amount of special symbols. I hope you loved this very long work. Thanks for downloading it and tell me what you think of "BlockKie" after downloading! :)"
 https://www.dafont.com/blockkie.font
 
+dungeon
+CC0
+https://vrtxrry.itch.io/dungeonfont
+
 gothicpixels
 Released by the author (LingDong Huang) as 100% free, no attribution required
 https://www.dafont.com/gothicpixels.font
+
+m5x7
+"free to use but attribution appreciated"
+https://managore.itch.io/m5x7
 
 monkey (full: Talk-to-three-headed-monkey)
 Released by the author (Marco Milone) as 100% free, no attribution required

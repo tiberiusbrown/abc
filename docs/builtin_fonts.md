@@ -9,6 +9,7 @@
 | `FONT_BR5D` | 5 | 7 | 2140 | ![FONT_BR5D](font_images/FONT_BR5D.png) |
 | `FONT_BANGALOR` | 6 | 9 | 2200 | ![FONT_BANGALOR](font_images/FONT_BANGALOR.png) |
 | `FONT_ADAFRUIT` | 7 | 8 | 2535 | ![FONT_ADAFRUIT](font_images/FONT_ADAFRUIT.png) |
+| `FONT_M5X7` | 7 | 10 | 2734 | ![FONT_M5X7](font_images/FONT_M5X7.png) |
 | `FONT_BERKELIUM64` | 8 | 10 | 2638 | ![FONT_BERKELIUM64](font_images/FONT_BERKELIUM64.png) |
 | `FONT_VOLTER` | 8 | 10 | 2590 | ![FONT_VOLTER](font_images/FONT_VOLTER.png) |
 | `FONT_PIXELOIDSANS` | 8 | 11 | 3174 | ![FONT_PIXELOIDSANS](font_images/FONT_PIXELOIDSANS.png) |
