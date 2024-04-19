@@ -158,13 +158,14 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
 
 static void disable()
 {
-    TIMSK3 = 0x00;
+    TCCR3B = 0x18;
+    PORTC = 0;
     TIMSK4 = 0x00;
 }
 
 static void enable()
 {
-    TIMSK3 = 0x02;
+    TCCR3B = 0x1a; // Fast PWM 2 MHz
     TIMSK4 = 0x40;
 }
 
@@ -183,8 +184,8 @@ void Tones::setup()
     TC4H   = 0x00;
     OCR4A  = 125;    // 16 MHz / 256 / 125 / 2 = 250 Hz
     
-    TCCR3A = 0x03; // Fast PWM 2 MHz
-    TCCR3B = 0x1a; // Fast PWM 2 MHz
+    TCCR3A = 0x43; // Fast PWM 2 MHz, toggle OC3A on compare match
+    TCCR3B = 0x18; // Fast PWM 2 MHz
 
     stop();
 }
@@ -213,11 +214,9 @@ void Tones::play(uint24_t song)
     uint8_t index = ards::detail::buffer[0].period;
     OCR3A = pgm_read_word(&ards::detail::PERIODS[index]);;
     PORTC = 0x80;
+    detail::enable();
     if(index == 255)
-        goto end;
-    else if(index != 0)
-        TIMSK3 = 0x02;
-    TIMSK4 = 0x40;
+        stop();
 end:
     SREG = sreg;
 }
@@ -249,15 +248,15 @@ void Tones::update()
 
 } // namespace ards
 
-ISR(TIMER3_COMPA_vect, __attribute((naked)))
-{
-    //PINC = 0xc0;
-    asm volatile(R"(
-        sbi 0x06, 6
-        sbi 0x06, 7
-        reti
-        )");
-}
+//ISR(TIMER3_COMPA_vect, __attribute((naked)))
+//{
+//    //PINC = 0xc0;
+//    asm volatile(R"(
+//        sbi 0x06, 6
+//        sbi 0x06, 7
+//        reti
+//        )");
+//}
 
 ISR(TIMER4_COMPA_vect, __attribute((flatten)))
 {
@@ -281,12 +280,15 @@ ISR(TIMER4_COMPA_vect, __attribute((flatten)))
         if(index == 255)
             ards::Tones::stop();
         else if(index == 0)
-            TIMSK3 = 0x00; // silence
+        {
+            TCCR3B = 0x18; // silence
+            PORTC = 0;
+        }
         else
         {
             uint16_t ocr = pgm_read_word(&ards::detail::PERIODS[index]);
             OCR3A = ocr;
-            TIMSK3 = 0x02;
+            TCCR3B = 0x1a;
         }
     }
     else
