@@ -59,7 +59,15 @@ int main(int argc, char** argv)
         fprintf(f, "#pragma once\n\n");
         fprintf(f, "#include <stdint.h>\n\n");
         fprintf(f, "static uint8_t const %s[] =\n{\n", argv[1]);
-        for(size_t i = 0; i < data.size(); ++i)
+
+        for(size_t i = 0; i < 256 * 7; i += 7)
+        {
+            fprintf(f, "    %3d, %3d, %3d, %3d, %3d, %3d, %3d,\n",
+                data[i], data[i + 1], data[i + 2], data[i + 3],
+                data[i + 4], data[i + 5], data[i + 6]);
+        }
+
+        for(size_t i = 256 * 7; i < data.size(); ++i)
         {
             if(i % 16 == 0)
                 fprintf(f, "    ");
