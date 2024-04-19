@@ -227,12 +227,12 @@ void render_level_select()
     {
         constexpr u8 y = LEVEL_SELECT_ROWS * 7 + 9;
         constexpr u8 y2 = y + 16;
-        $draw_filled_rect(0, 7, 128, 1, WHITE);
-        $draw_filled_rect(0, y, 128, 1, WHITE);
-        $draw_filled_rect(0, y2, 128, 1, WHITE);
-        $draw_filled_rect(8, 0, 1, y2, WHITE);
-        $draw_filled_rect(58, 0, 1, y2, WHITE);
-        $draw_filled_rect(95, 0, 1, y2, WHITE);
+        $draw_hline(0, 7, 128, WHITE);
+        $draw_hline(0, y, 128, WHITE);
+        $draw_hline(0, y2, 128, WHITE);
+        $draw_vline(8, 0, y2, WHITE);
+        $draw_vline(58, 0, y2, WHITE);
+        $draw_vline(95, 0, y2, WHITE);
         $draw_text_P(10, y + 7, "Entire Game");
         $draw_text_P(10, y + 14, "Sum of Best");
 

@@ -339,8 +339,27 @@ static void sys_get_pixel()
     vm_pop_end(ptr);
 }
 
+__attribute__((naked))
 static void sys_draw_hline()
 {
+#if 1
+    // no need to push r16
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            ld   r20, -Y
+            ldi  r18, 1
+            ld   r16, -Y
+            sts  %[vmsp], r28
+            jmp  %x[fillrect]
+        )"
+        :
+        : [vmsp]     "i" (&ards::vm.sp)
+        , [fillrect] ""  (SpritesABC::fillRect)
+        );
+#else
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
@@ -348,10 +367,30 @@ static void sys_draw_hline()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, w, 1, color);
+#endif
 }
 
+__attribute__((naked))
 static void sys_draw_vline()
 {
+#if 1
+    // no need to push r16
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            ldi  r20, 1
+            ld   r18, -Y
+            ld   r16, -Y
+            sts  %[vmsp], r28
+            jmp  %x[fillrect]
+        )"
+        :
+        : [vmsp]     "i" (&ards::vm.sp)
+        , [fillrect] ""  (SpritesABC::fillRect)
+        );
+#else
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
@@ -359,6 +398,7 @@ static void sys_draw_vline()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, 1, h, color);
+#endif
 }
 
 static void sys_draw_line()
@@ -388,8 +428,27 @@ static void sys_draw_rect()
     SpritesABC::fillRect(x + w - 1, y, 1, h, color);
 }
 
+__attribute__((naked))
 static void sys_draw_filled_rect()
 {
+#if 1
+    // no need to push r16
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            ld   r20, -Y
+            ld   r18, -Y
+            ld   r16, -Y
+            sts  %[vmsp], r28
+            jmp  %x[fillrect]
+        )"
+        :
+        : [vmsp]     "i" (&ards::vm.sp)
+        , [fillrect] ""  (SpritesABC::fillRect)
+        );
+#else
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
@@ -398,6 +457,7 @@ static void sys_draw_filled_rect()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, w, h, color);
+#endif
 }
 
 static void sys_draw_circle()
@@ -1856,19 +1916,56 @@ static void sys_random()
     vm_pop_end(ptr);
 }
 
+__attribute__((naked))
 static void sys_set_text_font()
 {
+#if 1
+    asm volatile(R"(
+            ld   r24, -Y
+            sts  %[font]+2, r24
+            ld   r24, -Y
+            sts  %[font]+1, r24
+            ld   r24, -Y
+            sts  %[font]+0, r24
+            sts  %[vmsp], r28
+            ret
+        )"
+        :
+        : [font] "i" (&ards::vm.text_font)
+        , [vmsp] "i" (&ards::vm.sp)
+        );
+#else
     auto ptr = vm_pop_begin();
     ards::vm.text_font = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
+#endif
 }
 
+__attribute__((naked))
 static void sys_set_text_color()
 {
+#if 1
+    asm volatile(R"(
+            ld   r24, -Y
+            sts  %[vmsp], r28
+            ldi  r25, %[modb]
+            cpse r24, __zero_reg__
+            ldi  r25, %[modw]
+            sts  %[mode], r25
+            ret
+        )"
+        :
+        : [mode] "i" (&ards::vm.text_mode)
+        , [vmsp] "i" (&ards::vm.sp)
+        , [modw] "i" (SpritesABC::MODE_SELFMASK)
+        , [modb] "i" (SpritesABC::MODE_SELFMASK_ERASE)
+        );
+#else
     auto ptr = vm_pop_begin();
     uint8_t t = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     ards::vm.text_mode = t ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
+#endif
 }
 
 sys_func_t const SYS_FUNCS[] PROGMEM =
