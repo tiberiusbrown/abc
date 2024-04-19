@@ -130,7 +130,7 @@ int abc_docs()
             (int)data.size());
         static char const STR_LOWER[] = "the quick brown fox jumps over the lazy dog";
         static char const STR_UPPER[] = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
-        static char const STR_SYM[] = "0123456789,.:?![/](\\){|}+-=<>@#$%^%&*';\"";
+        static char const STR_SYM[] = "0123456789,.:?![/](\\){|}+-=<>@#$%^&*';\"";
         int h = data[FONT_HEADER_CHAR_BYTES + 0] * 14 / 4;
         int w = 2;
         for(char c : STR_UPPER)

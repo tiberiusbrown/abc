@@ -16,6 +16,7 @@ struct font_info_t {
 #include "font_br5.hpp"
 #include "font_br5d.hpp"
 #include "font_br5n.hpp"
+#include "font_dungeon.hpp"
 #include "font_gothicpixels.hpp"
 #include "font_pixcon.hpp"
 #include "font_pixdor.hpp"
@@ -43,6 +44,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_BR5", 5, FONT_BR5, sizeof(FONT_BR5) },
     { "FONT_BR5D", 5, FONT_BR5D, sizeof(FONT_BR5D) },
     { "FONT_BR5N", 5, FONT_BR5N, sizeof(FONT_BR5N) },
+    { "FONT_DUNGEON", 10, FONT_DUNGEON, sizeof(FONT_DUNGEON) },
     { "FONT_GOTHICPIXELS", 12, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
     { "FONT_PIXCON", 10, FONT_PIXCON, sizeof(FONT_PIXCON) },
     { "FONT_PIXDOR", 12, FONT_PIXDOR, sizeof(FONT_PIXDOR) },
