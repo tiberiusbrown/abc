@@ -19,6 +19,8 @@ struct font_info_t {
 #include "font_dungeon.hpp"
 #include "font_gothicpixels.hpp"
 #include "font_m5x7.hpp"
+#include "font_monogram.hpp"
+#include "font_monogramitalic.hpp"
 #include "font_pixcon.hpp"
 #include "font_pixdor.hpp"
 #include "font_pixelgeorgia.hpp"
@@ -48,6 +50,8 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_DUNGEON", 10, FONT_DUNGEON, sizeof(FONT_DUNGEON) },
     { "FONT_GOTHICPIXELS", 12, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
     { "FONT_M5X7", 7, FONT_M5X7, sizeof(FONT_M5X7) },
+    { "FONT_MONOGRAM", 7, FONT_MONOGRAM, sizeof(FONT_MONOGRAM) },
+    { "FONT_MONOGRAMITALIC", 7, FONT_MONOGRAMITALIC, sizeof(FONT_MONOGRAMITALIC) },
     { "FONT_PIXCON", 10, FONT_PIXCON, sizeof(FONT_PIXCON) },
     { "FONT_PIXDOR", 12, FONT_PIXDOR, sizeof(FONT_PIXDOR) },
     { "FONT_PIXELGEORGIA", 8, FONT_PIXELGEORGIA, sizeof(FONT_PIXELGEORGIA) },

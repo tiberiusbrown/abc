@@ -42,6 +42,10 @@ monkey (full: Talk-to-three-headed-monkey)
 Released by the author (Marco Milone) as 100% free, no attribution required
 https://gitlab.com/gromish/talk-to-three-headed-monkey-font
 
+monogram*
+CC0
+https://datagoblin.itch.io/monogram
+
 nokiafc
 Released by the author (Zeh Fernando) as 100% free, no attribution required
 https://www.dafont.com/nokia-cellphone.font
