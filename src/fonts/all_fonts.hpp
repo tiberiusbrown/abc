@@ -23,6 +23,7 @@ struct font_info_t {
 #include "font_dungeon.hpp"
 #include "font_faithless.hpp"
 #include "font_glasgow.hpp"
+#include "font_gothicpixels2.hpp"
 #include "font_gothicpixels.hpp"
 #include "font_laika.hpp"
 #include "font_m5x7.hpp"
@@ -71,6 +72,7 @@ static font_info_t const ALL_FONTS[] = {
     { "FONT_DUNGEON", 10, FONT_DUNGEON, sizeof(FONT_DUNGEON) },
     { "FONT_FAITHLESS", 7, FONT_FAITHLESS, sizeof(FONT_FAITHLESS) },
     { "FONT_GLASGOW", 10, FONT_GLASGOW, sizeof(FONT_GLASGOW) },
+    { "FONT_GOTHICPIXELS2", 15, FONT_GOTHICPIXELS2, sizeof(FONT_GOTHICPIXELS2) },
     { "FONT_GOTHICPIXELS", 12, FONT_GOTHICPIXELS, sizeof(FONT_GOTHICPIXELS) },
     { "FONT_LAIKA", 8, FONT_LAIKA, sizeof(FONT_LAIKA) },
     { "FONT_M5X7", 7, FONT_M5X7, sizeof(FONT_M5X7) },
