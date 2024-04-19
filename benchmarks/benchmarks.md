@@ -598,10 +598,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.34x slowdown (2.94x speedup)</summary>
+<details><summary>text: 0.34x slowdown (2.95x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 70483</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 70385</td></tr>
 <tr>
 <td>
 
@@ -637,13 +637,11 @@ void loop()
 <td>
 
 ```c
-constexpr font f = FONT_ADAFRUIT;
-
 void main()
 {
     $debug_break();
     
-    $set_text_font(f);
+    $set_text_font(FONT_ADAFRUIT);
     $draw_textf(0, 0, "Running: %u seconds", $millis() / 1000);
     $draw_text_P(0, 9, "the quick brown fox\njumps over the lazy\ndog");
     $draw_text_P(0, 36, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
@@ -661,7 +659,7 @@ void main()
 <details><summary>tilessprite: 3.26x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 44482</td><td>Cycles: 144961</td></tr>
+<tr><td>Cycles: 44482</td><td>Cycles: 145089</td></tr>
 <tr>
 <td>
 
@@ -743,7 +741,7 @@ void main()
 <details><summary>tilessprite16: 1.91x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 26978</td><td>Cycles: 51609</td></tr>
+<tr><td>Cycles: 26978</td><td>Cycles: 51641</td></tr>
 <tr>
 <td>
 

@@ -3750,37 +3750,8 @@ store_vm_state:
 
     icall
 
-    ; 0 constant
-    ;clr  r2
-    
-    ; 32 constant
-    ;ldi  r16, 32
-    ;mov  r3, r16
-    
-    ; 1 constant
-    ;ldi  r16, 1
-    ;mov  r4, r16
-    
-    ; pm_hi8(vm_execute) constant
-    ;ldi  r16, pm_hi8(vm_execute)
-    ;mov  r5, r16
-    
-    ; pc
-    ;lds  r6, %[vm_pc]+0
-    ;lds  r7, %[vm_pc]+1
-    ;lds  r8, %[vm_pc]+2
-    
-    ; stack pointer: stack always begins at 0x100
-    ; r29 was call-saved
     lds  r28, %[vm_sp]
-    ;ldi  r29, 0x01
-
-    ; top of stack reg
     ld   r9, -Y
-
-    ; assuming 4 cycles from the ret of FX::seekData()
-    ; and 4 cycles of above delay, we might need these
-    ; extra 8 cycles delay before dispatch
 
     dispatch_noalign
 

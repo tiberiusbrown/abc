@@ -134,6 +134,10 @@ void vm_push(T x)
     vm_push_n<sizeof(T)>(ptr, u.b);
 }
 
+extern "C" uint8_t font_get_x_advance(char c);
+extern "C" uint8_t font_get_line_height();
+extern "C" void fx_seek_data(uint24_t addr);
+
 __attribute__((naked, noinline))
 static void seek_to_pc()
 {
@@ -155,6 +159,7 @@ static void seek_to_pc()
         2:  lds  r20, %[pc]+0
             lds  r21, %[pc]+1
             lds  r22, %[pc]+2
+        L%=_seek:
             lds  r24, %[datapage]+0
             lds  r25, %[datapage]+1
             add  r21, r24
@@ -166,9 +171,12 @@ static void seek_to_pc()
         L%=_delay_16:
             nop
         L%=_delay_15:
-            lpm
+            rjmp .+0
+        L%=_delay_13:
+            nop
         L%=_delay_12:
             rjmp .+0
+        L%=_delay_10:
             lpm
         L%=_delay_7:
             ret
@@ -178,18 +186,68 @@ static void seek_to_pc()
             out  %[spdr], r20
             rcall L%=_delay_16
             out  %[spdr], __zero_reg__
-            rcall L%=_delay_12
+            rjmp  L%=_delay_13
+
+        font_get_x_advance:
+            ldi  r25, 3
+            cbi  %[fxport], %[fxbit]
+            out  %[spdr], r25
+            lds  r20, %[font]+0
+            lds  r21, %[font]+1
+            lds  r22, %[font]+2
+            ldi  r25, %[header_per_char]
+            mul  r24, r25
+            add  r20, r0
+            adc  r21, r1
+            clr  r1
+            adc  r22, r1
+            rcall L%=_seek
+            rjmp .+0
+            rjmp .+0
+            in   r24, %[spdr]
+            sbi  %[fxport], %[fxbit]
+            ret
+
+        font_get_line_height:
+            ldi  r25, 3
+            cbi  %[fxport], %[fxbit]
+            out  %[spdr], r25
+            lds  r20, %[font]+0
+            lds  r21, %[font]+1
+            lds  r22, %[font]+2
+            ldi  r25, %[header_per_char]
+            add  r21, r25
+            adc  r22, r1
+            rcall L%=_seek
+            rjmp .+0
+            rjmp .+0
+            in   r24, %[spdr]
+            sbi  %[fxport], %[fxbit]
+            ret
+        
+        fx_seek_data:
+            ldi  r25, 3
+            cbi  %[fxport], %[fxbit]
+            out  %[spdr], r25
+            movw  r20, r22
+            mov   r22, r24
+            lpm
+            rjmp .+0
+            rcall L%=_seek
+            nop
             ret
         )"
         :
-        : [pc]            "i" (&ards::vm.pc)
-        , [fxport]        "i" (_SFR_IO_ADDR(FX_PORT))
-        , [fxbit]         "i" (FX_BIT)
-        , [spdr]          "i" (_SFR_IO_ADDR(SPDR))
-        , [datapage]      ""  (&FX::programDataPage)
-        , [tones_update]  ""  (ards::Tones::update)
-        , [tones_size]    ""  (&ards::detail::buffer_size)
-        , [tones_maxsize] ""  (sizeof(ards::detail::buffer))
+        : [pc]              "i" (&ards::vm.pc)
+        , [font]            "i" (&ards::vm.text_font)
+        , [header_per_char] "i" (FONT_HEADER_PER_CHAR)
+        , [fxport]          "i" (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]           "i" (FX_BIT)
+        , [spdr]            "i" (_SFR_IO_ADDR(SPDR))
+        , [datapage]        ""  (&FX::programDataPage)
+        , [tones_update]    ""  (ards::Tones::update)
+        , [tones_size]      ""  (&ards::detail::buffer_size)
+        , [tones_maxsize]   ""  (sizeof(ards::detail::buffer))
         );
 }
 
@@ -886,6 +944,50 @@ static void draw_char(
 #endif
 }
 
+static void sys_wrap_text()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t tn = vm_pop<uint16_t>(ptr);
+    char* p     = reinterpret_cast<char*>(vm_pop<uint16_t>(ptr));
+    uint8_t  w  = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    uint24_t font = ards::vm.text_font;
+    (void)FX::readEnd();
+
+    char c;
+    uint8_t cw = 0; // current width
+    char* tp = p;   // pointer after last word break
+    uint8_t tw = 0; // width at last word break
+    uint16_t ttn;   // tn at last word break
+    while((c = ld_inc(p)) != '\0' && tn != 0)
+    {
+        --tn;
+        cw += font_get_x_advance(c);
+        if(c == '\n')
+        {
+            cw = 0;
+            tw = 0;
+            tp = p;
+            continue;
+        }
+        if(c == ' ')
+        {
+            tp = p;
+            tw = cw;
+            ttn = tn;
+        }
+        if(cw <= w) continue;
+        if(tw == 0) continue;
+        p = tp;
+        *(tp - 1) = '\n';
+        cw = 0;
+        tw = 0;
+        tn = ttn;
+    }
+
+    seek_to_pc();
+}
+
 static void sys_draw_text()
 {
     auto ptr = vm_pop_begin();
@@ -897,11 +999,9 @@ static void sys_draw_text()
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
-    uint8_t line_height;
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
-    FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
-    line_height = FX::readPendingLastUInt8();
+    uint8_t line_height = font_get_line_height();
     int16_t bx = x;
     
     char const* p = reinterpret_cast<char const*>(tb);
@@ -933,19 +1033,15 @@ static void sys_draw_text_P()
     vm_pop_end(ptr);
     
     (void)FX::readEnd();
-    uint8_t line_height;
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
-    FX::seekData(font + FONT_HEADER_PER_CHAR * 256);
-    line_height = FX::readPendingLastUInt8();
+    uint8_t line_height = font_get_line_height();
     int16_t bx = x;
     
     char c;
     while(tn != 0)
     {
         c = fx_read_byte_inc(tb);
-        //FX::seekData(tb++);
-        //c = FX::readPendingLastUInt8();
         if(c == '\0') break;
         --tn;
         
@@ -987,9 +1083,7 @@ static void sys_text_width()
             continue;
         }
         
-        FX::seekData(font + uint8_t(c) * FONT_HEADER_PER_CHAR);
-        uint8_t adv = FX::readPendingLastUInt8();
-        w += adv;
+        w += font_get_x_advance(c);;
     }
     if(w > wmax) wmax = w;
     
@@ -1016,8 +1110,6 @@ static void sys_text_width_P()
     while(tn != 0)
     {
         c = fx_read_byte_inc(tb);
-        //FX::seekData(tb++);
-        //c = FX::readPendingLastUInt8();
         if(c == '\0') break;
         --tn;
         
@@ -1028,9 +1120,7 @@ static void sys_text_width_P()
             continue;
         }
         
-        FX::seekData(font + uint8_t(c) * FONT_HEADER_PER_CHAR);
-        uint8_t adv = FX::readPendingLastUInt8();
-        w += adv;
+        w += font_get_x_advance(c);
     }
     if(w > wmax) wmax = w;
     
@@ -1062,7 +1152,7 @@ static void sys_strlen_P()
     uint24_t b = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    FX::seekData(b);
+    fx_seek_data(b);
     uint24_t t = 0;
     while(FX::readPendingUInt8() != '\0')
     {
@@ -1106,7 +1196,7 @@ static void sys_strcmp_P()
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    FX::seekData(b1);
+    fx_seek_data(b1);
     char const* p0 = reinterpret_cast<char const*>(b0);
     char c0, c1;
     for(;;)
@@ -1137,10 +1227,6 @@ static void sys_strcmp_PP()
     {
         c0 = fx_read_byte_inc(b0);
         c1 = fx_read_byte_inc(b1);
-        //FX::seekData(b0++);
-        //c0 = (char)FX::readPendingLastUInt8();
-        //FX::seekData(b1++);
-        //c1 = (char)FX::readPendingLastUInt8();
         if(n0 == 0) c0 = '\0'; else --n0;
         if(n1 == 0) c1 = '\0'; else --n1;
         if(c1 == '\0') break;
@@ -1182,8 +1268,8 @@ static void sys_strcpy_P()
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    FX::disable();
-    FX::seekData(b1);
+    (void)FX::readEnd();
+    fx_seek_data(b1);
     uint16_t nr = n0;
     uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
@@ -1195,7 +1281,7 @@ static void sys_strcpy_P()
         if(--n0 == 0) break;
         if(--n1 == 0) { st_inc(p0, 0); break; }
     }
-    FX::disable();
+    (void)FX::readEnd();
     vm_push<uint16_t>(br);
     vm_push<uint16_t>(nr);
     seek_to_pc();
@@ -1363,16 +1449,12 @@ static void format_exec(format_char_func f)
     while(fn != 0)
     {
         char c = (char)fx_read_byte_inc(fb);
-        //FX::seekData(fb++);
-        //char c = (char)FX::readPendingLastUInt8();
         --fn;
         if(c != '%')
         {
             f(c);
             continue;
         }
-        //FX::seekData(fb++);
-        //c = (char)FX::readPendingLastUInt8();
         c = (char)fx_read_byte_inc(fb);
         --fn;
         switch(c)
@@ -1423,8 +1505,6 @@ static void format_exec(format_char_func f)
                 x = vm_pop<uint32_t>(ptr);
                 vm_pop_end(ptr);
             }
-            //FX::seekData(fb++);
-            //int8_t w = (int8_t)(FX::readPendingLastUInt8() - '0');
             int8_t w = (int8_t)(fx_read_byte_inc(fb) - '0');
             --fn;
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
@@ -1438,8 +1518,6 @@ static void format_exec(format_char_func f)
                 x = vm_pop<float>(ptr);
                 vm_pop_end(ptr);
             }
-            //FX::seekData(fb++);
-            //uint8_t prec = FX::readPendingLastUInt8() - '0';
             uint8_t prec = fx_read_byte_inc(fb) - '0';
             --fn;
             format_add_float(f, x, prec);
@@ -1566,12 +1644,11 @@ static void sys_draw_textf()
     (void)FX::readEnd();
 
     {
-        uint24_t font = ards::vm.text_font;
-        if(uint8_t(font >> 16) == 0xff)
+        uint8_t t = uint8_t(ards::vm.text_font >> 16);
+        if(t == 0xff)
             vm_error(ards::ERR_FNT);
-        FX::seekData(ards::vm.text_font + FONT_HEADER_PER_CHAR * 256);
     }
-    user.line_height = FX::readPendingLastUInt8();
+    user.line_height = font_get_line_height();
     
     format_exec(format_exec_draw);
     
@@ -1619,7 +1696,7 @@ static void sys_save_exists()
 {
     uint16_t save_size;
     (void)FX::readEnd();
-    FX::seekData(10);
+    fx_seek_data(10);
     union
     {
         uint16_t save_size;
@@ -1642,7 +1719,7 @@ static void sys_save()
 {
     uint16_t save_size;
     (void)FX::readEnd();
-    FX::seekData(10);
+    fx_seek_data(10);
     union
     {
         uint16_t save_size;
@@ -1659,7 +1736,7 @@ static void sys_save()
 static void sys_load()
 {
     (void)FX::readEnd();
-    FX::seekData(10);
+    fx_seek_data(10);
     union
     {
         uint16_t save_size;
@@ -1814,6 +1891,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_draw_textf,
     sys_text_width,
     sys_text_width_P,
+    sys_wrap_text,
     sys_set_text_font,
     sys_set_text_color,
     sys_set_frame_rate,

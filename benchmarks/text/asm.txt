@@ -179,12 +179,12 @@ $globinit:
 
 main:
   .file text.abc
-  .line 5
+  .line 3
   sys   debug_break
-  .line 7
+  .line 5
   pushl $PD_0 0
   sys   set_text_font
-  .line 8
+  .line 6
   sys   millis
   push  232
   p3
@@ -195,22 +195,22 @@ main:
   p00
   p0000
   sys   draw_textf
-  .line 9
+  .line 7
   pushl $PD_2 0
   push  43
   p00
   push  9
   p000
   sys   draw_text_P
-  .line 10
+  .line 8
   pushl $PD_3 0
   push  43
   p00
   push  36
   p000
   sys   draw_text_P
-  .line 12
+  .line 10
   sys   debug_break
-  .line 3
+  .line 1
   ret
 

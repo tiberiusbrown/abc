@@ -79,5 +79,6 @@ u16   $text_width_P(char[] prog& str);
 void  $tones_play(tones song);
 bool  $tones_playing();
 void  $tones_stop();
+void  $wrap_text(char[]& str, u8 w);
 ```
 

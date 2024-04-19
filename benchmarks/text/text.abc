@@ -1,10 +1,8 @@
-constexpr font f = FONT_ADAFRUIT;
-
 void main()
 {
     $debug_break();
     
-    $set_text_font(f);
+    $set_text_font(FONT_ADAFRUIT);
     $draw_textf(0, 0, "Running: %u seconds", $millis() / 1000);
     $draw_text_P(0, 9, "the quick brown fox\njumps over the lazy\ndog");
     $draw_text_P(0, 36, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
