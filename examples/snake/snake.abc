@@ -3,7 +3,7 @@
 #author "Peter Brown"
 #version "1.0"
 
-constexpr font f = FONT_BR6;
+constexpr font f = FONT_BR5D;
 
 constexpr u8 SP = 4;
 constexpr u8 WP = 128;
