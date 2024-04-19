@@ -1,5 +1,25 @@
 All br* fonts are by Peter Brown, CC0.
 
+Not Jam Font Pack
+    blackletter
+    bserif
+    chunkysans6
+    chunkysans8
+    faithless
+    glasglow
+    laika
+    oldstyle
+    pixel5
+    scimono
+    scrawl
+    signature
+    slabserif
+    thirddimension
+    uibold
+    uicondensed
+CC0
+https://not-jam.itch.io/not-jam-font-pack
+
 adafruit
 BSD
 https://github.com/adafruit/Adafruit-GFX-Library
