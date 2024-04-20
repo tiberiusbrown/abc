@@ -1,25 +1,71 @@
+constexpr sprites s   = sprites{       "sprite.png" };
+constexpr sprites s64 = sprites{ 64x32 "sprite.png" };
+constexpr sprites s32 = sprites{ 32x16 "sprite.png" };
+constexpr sprites s16 = sprites{ 16x8  "sprite.png" };
+constexpr sprites s8  = sprites{ 8x4   "sprite.png" };
+constexpr sprites s4  = sprites{ 4x2   "sprite.png" };
+
+u8 get_w(sprites s)
+{
+    return $sprites_width(s);
+}
+
+u8 get_h(sprites s)
+{
+    return $sprites_height(s);
+}
+
 u16 get_len(sprites s)
 {
-    return len(s);
+    return $sprites_frames(s);
 }
 
 void main()
 {
     $debug_break();
     
-    $assert(len(sprites{ "sprite.png" }) == 1);
-    $assert(len(sprites{ 64x64 "sprite.png" }) == 2);
-    $assert(len(sprites{ 32x32 "sprite.png" }) == 8);
-    $assert(len(sprites{ 16x16 "sprite.png" }) == 32);
-    $assert(len(sprites{ 8x8 "sprite.png" }) == 128);
-    $assert(len(sprites{ 4x4 "sprite.png" }) == 512);
+    $assert($sprites_width(s  ) == 128);
+    $assert($sprites_width(s64) == 64);
+    $assert($sprites_width(s32) == 32);
+    $assert($sprites_width(s16) == 16);
+    $assert($sprites_width(s8 ) == 8);
+    $assert($sprites_width(s4 ) == 4);
     
-    $assert(get_len(sprites{ "sprite.png" }) == 1);
-    $assert(get_len(sprites{ 64x64 "sprite.png" }) == 2);
-    $assert(get_len(sprites{ 32x32 "sprite.png" }) == 8);
-    $assert(get_len(sprites{ 16x16 "sprite.png" }) == 32);
-    $assert(get_len(sprites{ 8x8 "sprite.png" }) == 128);
-    $assert(get_len(sprites{ 4x4 "sprite.png" }) == 512);
+    $assert($sprites_height(s  ) == 64);
+    $assert($sprites_height(s64) == 32);
+    $assert($sprites_height(s32) == 16);
+    $assert($sprites_height(s16) == 8);
+    $assert($sprites_height(s8 ) == 4);
+    $assert($sprites_height(s4 ) == 2);
+    
+    $assert($sprites_frames(s  ) == 1);
+    $assert($sprites_frames(s64) == 4);
+    $assert($sprites_frames(s32) == 16);
+    $assert($sprites_frames(s16) == 64);
+    $assert($sprites_frames(s8 ) == 256);
+    $assert($sprites_frames(s4 ) == 1024);
+    
+    $assert(get_w(s  ) == 128);
+    $assert(get_w(s64) == 64);
+    $assert(get_w(s32) == 32);
+    $assert(get_w(s16) == 16);
+    $assert(get_w(s8 ) == 8);
+    $assert(get_w(s4 ) == 4);
+    
+    $assert(get_h(s  ) == 64);
+    $assert(get_h(s64) == 32);
+    $assert(get_h(s32) == 16);
+    $assert(get_h(s16) == 8);
+    $assert(get_h(s8 ) == 4);
+    $assert(get_h(s4 ) == 2);
+    
+    $assert(get_len(s  ) == 1);
+    $assert(get_len(s64) == 4);
+    $assert(get_len(s32) == 16);
+    $assert(get_len(s16) == 64);
+    $assert(get_len(s8 ) == 256);
+    $assert(get_len(s4 ) == 1024);
+    
     
     $debug_break();
 }

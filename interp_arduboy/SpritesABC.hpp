@@ -106,6 +106,7 @@ void SpritesABC::drawBasic(
             breq 1f
             
             ; add frame offset to image
+            subi r18, -7
             mov  r6, r18
             lsr  r6
             lsr  r6

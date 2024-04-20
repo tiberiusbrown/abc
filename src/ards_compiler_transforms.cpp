@@ -39,16 +39,18 @@ void compiler_t::transform_array_len(ast_node_t& n)
         n.comp_type = rtype.children[0].is_prog ? TYPE_U24 : TYPE_U16;
         return;
     }
+    /*
     else if(rtype.is_sprites())
     {
         n.type = AST::SPRITES_LEN;
         n.comp_type = TYPE_U16;
         return;
     }
+    */
     else
     {
         errs.push_back({
-            "len() operates on arrays and sprites only",
+            "len() operates on arrays only",
             n.line_info });
         return;
     }

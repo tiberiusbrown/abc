@@ -349,7 +349,13 @@ void compiler_t::codegen_expr(
         assert(a.children[0].type == AST::IDENT);
 
         auto func = resolve_func(a.children[0]);
-        bool is_format = sysfunc_is_format(func.name);
+        auto sys = SYS_NONE;
+        {
+            auto it = sys_names.find(func.name.substr(1));
+            if(it != sys_names.end())
+                sys = it->second;
+        }
+        bool is_format = sysfunc_is_format(sys);
 
         // TODO: test for reference return type (not allowed)
 
@@ -380,8 +386,9 @@ void compiler_t::codegen_expr(
             arg_types = &format_types;
         }
 
-        // function args in reverse order
         size_t prev_size = frame.size;
+
+        // function args in reverse order
         for(size_t i = arg_types->size(); i != 0; --i)
         {
             if(!errs.empty())
@@ -419,6 +426,30 @@ void compiler_t::codegen_expr(
                     codegen_convert(f, frame, a, type, expr.comp_type);
             }
         }
+
+        if(sys == SYS_SPRITES_WIDTH || sys == SYS_SPRITES_HEIGHT || sys == SYS_SPRITES_FRAMES)
+        {
+            uint8_t offset, size;
+            switch(sys)
+            {
+            case SYS_SPRITES_WIDTH: offset = 0; size = 1; break;
+            case SYS_SPRITES_HEIGHT: offset = 1; size = 1; break;
+            case SYS_SPRITES_FRAMES: offset = 2; size = 2; break;
+            default: assert(false); return;
+            }
+            if(offset != 0)
+            {
+                f.instrs.push_back({ I_PUSH, a.line(), offset });
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
+                f.instrs.push_back({ I_ADD3, a.line() });
+            }
+            f.instrs.push_back({ I_GETPN, a.line(), size });
+            frame.size -= 3;
+            frame.size += size;
+            return;
+        }
+
         // called function should pop stack
         frame.size = prev_size;
 
@@ -1003,6 +1034,7 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    /*
     case AST::SPRITES_LEN:
     {
         codegen_expr(f, frame, a.children[1].children[0], false);
@@ -1016,6 +1048,7 @@ void compiler_t::codegen_expr(
         frame.size += 2;
         return;
     }
+    */
 
     case AST::OP_AREF:
     {

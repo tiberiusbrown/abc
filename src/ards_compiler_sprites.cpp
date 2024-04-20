@@ -154,9 +154,7 @@ void compiler_t::encode_sprites_image(
     }
 
     data.push_back(uint8_t(uint16_t(w) >> 0));
-    //data.push_back(uint8_t(uint16_t(w) >> 8));
-    data.push_back(uint8_t(uint16_t(actual_h) >> 0));
-    //data.push_back(uint8_t(uint16_t(actual_h) >> 8));
+    data.push_back(uint8_t(uint16_t(h) >> 0));
 
     data.push_back(uint8_t(num_sprites >> 0));
     data.push_back(uint8_t(num_sprites >> 8));

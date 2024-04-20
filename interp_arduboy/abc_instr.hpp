@@ -74,10 +74,21 @@ enum sysfunc_t : uint8_t
     SYS_RANDOM,
     SYS_RANDOM_RANGE,
 
-    SYS_NUM
+    SYS_NUM_REAL,
+
+    // virtual sysfuncs (dedicated codegen)
+
+    SYS_SPRITES_WIDTH = SYS_NUM_REAL,
+    SYS_SPRITES_HEIGHT,
+    SYS_SPRITES_FRAMES,
+
+    SYS_NUM,
+
+    SYS_NONE,
+
 };
 
-static_assert(SYS_NUM < 128);
+static_assert(SYS_NUM_REAL < 128);
 
 enum instr_t : uint8_t
 {
