@@ -46,6 +46,7 @@ void main()
     $set_text_font(FONT_ADAFRUIT);
     while(true)
         loop();
-}```
+}
+```
 
 ![Hello World](docs/recording_helloworld.gif)
