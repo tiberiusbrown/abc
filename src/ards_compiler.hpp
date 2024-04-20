@@ -95,6 +95,7 @@ enum class AST
     ARRAY_INDEX,   // children are array and index
     ARRAY_SLICE,   // children are array, start-index, and stop-index
     ARRAY_SLICE_LEN, // children are array, start-index, and length
+    SPRITES_LEN,   // same structure and FUNC_CALL
     STRUCT_MEMBER, // children are struct and member
 
     COMPOUND_LITERAL, // children are elements

@@ -118,23 +118,6 @@ bool compiler_t::peephole_remove_pop(compiler_func_t& f)
             continue;
         }
 
-        // replace PUSH N; BOOL with PUSH N (N == 0 or 1)
-        if(i0.instr == I_PUSH && i0.imm <= 1 && i1.instr == I_BOOL)
-        {
-            i1.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
-        // replace PUSH N; NOT with PUSH !N
-        if(i0.instr == I_PUSH && i1.instr == I_NOT)
-        {
-            i1.instr = I_REMOVE;
-            i0.imm = (i0.imm == 0 ? 1 : 0);
-            t = true;
-            continue;
-        }
-
         // remove PUSH N; POP
         if(i0.instr == I_PUSH && i1.instr == I_POP)
         {
@@ -958,6 +941,24 @@ bool compiler_t::peephole_arithmetic(compiler_func_t& f)
         auto& i0 = f.instrs[i + 0];
         auto& i1 = f.instrs[i + 1];
 
+        // replace PUSH N; BOOL with PUSH N (N == 0 or 1)
+        if(i0.instr == I_PUSH && i0.imm <= 1 && i1.instr == I_BOOL)
+        {
+            i0.imm = (i0.imm == 0 ? 0 : 1);
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH N; NOT with PUSH !N
+        if(i0.instr == I_PUSH && i1.instr == I_NOT)
+        {
+            i0.imm = (i0.imm == 0 ? 1 : 0);
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // remove PUSH 0; ADD/SUB
         if(i0.instr == I_PUSH && i0.imm == 0 &&
             (i1.instr == I_ADD || i1.instr == I_SUB))
@@ -1004,8 +1005,43 @@ bool compiler_t::peephole_arithmetic(compiler_func_t& f)
             continue;
         }
 
+        // bake PUSH A; PUSH B; ADD/SUB/MUL
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            (i2.instr == I_ADD || i2.instr == I_SUB || i2.instr == I_MUL))
+        {
+            if(i2.instr == I_ADD) i0.imm += i1.imm;
+            if(i2.instr == I_SUB) i0.imm -= i1.imm;
+            if(i2.instr == I_MUL) i0.imm *= i1.imm;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // bake PUSH A; PUSH B; BOOL2
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_BOOL2)
+        {
+            i0.imm = uint8_t(i0.imm || i1.imm);
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
+
+        // bake PUSH A; PUSH B; PUSH C; BOOL3
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_BOOL3)
+        {
+            i0.imm = uint8_t(i0.imm || i1.imm || i2.imm);
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // remove PUSH 0; PUSH 0; PUSH 0; ADD3/SUB3
         if(i0.instr == I_PUSH && i0.imm == 0 &&
@@ -1023,6 +1059,20 @@ bool compiler_t::peephole_arithmetic(compiler_func_t& f)
 
         if(i + 4 >= f.instrs.size()) continue;
         auto& i4 = f.instrs[i + 4];
+
+        // bake PUSH A; PUSH B; PUSH C; PUSH D; BOOL4
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_PUSH &&
+            i4.instr == I_BOOL4)
+        {
+            i0.imm = uint8_t(i0.imm || i1.imm || i2.imm || i3.imm);
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // remove PUSH 0; PUSH 0; PUSH 0; PUSH 0; ADD4/SUB4
         if(i0.instr == I_PUSH && i0.imm == 0 &&
@@ -1052,6 +1102,85 @@ bool compiler_t::peephole_arithmetic(compiler_func_t& f)
             i2.instr = I_REMOVE;
             i3.instr = I_REMOVE;
             i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        // bake PUSH A; PUSH B; PUSH C; PUSH D; ADD2/SUB2/MUL2
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_PUSH &&
+            (i4.instr == I_ADD2 || i4.instr == I_SUB2 || i4.instr == I_MUL2))
+        {
+            uint16_t dst = uint16_t(i0.imm + i1.imm * 256);
+            uint16_t src = uint16_t(i2.imm + i3.imm * 256);
+            if(i4.instr == I_ADD2) dst += src;
+            if(i4.instr == I_SUB2) dst -= src;
+            if(i4.instr == I_MUL2) dst *= src;
+            i0.imm = uint8_t(dst >> 0);
+            i1.imm = uint8_t(dst >> 8);
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        if(i + 5 >= f.instrs.size()) continue;
+        auto& i5 = f.instrs[i + 5];
+
+        if(i + 6 >= f.instrs.size()) continue;
+        auto& i6 = f.instrs[i + 6];
+
+        // bake PUSH A; ... PUSH F; ADD3/SUB3
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_PUSH &&
+            i4.instr == I_PUSH && i5.instr == I_PUSH &&
+            (i6.instr == I_ADD3 || i6.instr == I_SUB3))
+        {
+            uint32_t dst = uint32_t(i0.imm + (i1.imm << 8) + (i2.imm << 16));
+            uint32_t src = uint32_t(i3.imm + (i4.imm << 8) + (i5.imm << 16));
+            if(i6.instr == I_ADD3) dst += src;
+            if(i6.instr == I_SUB3) dst -= src;
+            i0.imm = uint8_t(dst >> 0);
+            i1.imm = uint8_t(dst >> 8);
+            i2.imm = uint8_t(dst >> 16);
+            i3.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            i5.instr = I_REMOVE;
+            i6.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
+        if(i + 7 >= f.instrs.size()) continue;
+        auto& i7 = f.instrs[i + 7];
+
+        if(i + 8 >= f.instrs.size()) continue;
+        auto& i8 = f.instrs[i + 8];
+
+        // bake PUSH A; ... PUSH H; ADD4/SUB4/MUL4
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_PUSH &&
+            i4.instr == I_PUSH && i5.instr == I_PUSH &&
+            i6.instr == I_PUSH && i7.instr == I_PUSH &&
+            (i8.instr == I_ADD3 || i8.instr == I_SUB3))
+        {
+            uint32_t dst = uint32_t(i0.imm + (i1.imm << 8) + (i2.imm << 16) + (i3.imm << 24));
+            uint32_t src = uint32_t(i4.imm + (i5.imm << 8) + (i6.imm << 16) + (i7.imm << 24));
+            if(i6.instr == I_ADD4) dst += src;
+            if(i6.instr == I_SUB4) dst -= src;
+            if(i6.instr == I_MUL4) dst *= src;
+            i0.imm = uint8_t(dst >> 0);
+            i1.imm = uint8_t(dst >> 8);
+            i2.imm = uint8_t(dst >> 16);
+            i3.imm = uint8_t(dst >> 24);
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            i5.instr = I_REMOVE;
+            i6.instr = I_REMOVE;
+            i7.instr = I_REMOVE;
+            i8.instr = I_REMOVE;
             t = true;
             continue;
         }

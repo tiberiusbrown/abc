@@ -997,6 +997,23 @@ void compiler_t::codegen_expr(
             frame.size += size;
             return;
         }
+        errs.push_back({
+            "Unable to resolve \"" + std::string(r.data) + "\"",
+            r.line_info });
+        return;
+    }
+
+    case AST::SPRITES_LEN:
+    {
+        codegen_expr(f, frame, a.children[1].children[0], false);
+        codegen_convert(f, frame, a, TYPE_SPRITES, a.children[1].children[0].comp_type);
+        f.instrs.push_back({ I_PUSH, a.line(), 2 });
+        f.instrs.push_back({ I_PUSH, a.line(), 0 });
+        f.instrs.push_back({ I_PUSH, a.line(), 0 });
+        f.instrs.push_back({ I_ADD3, a.line() });
+        f.instrs.push_back({ I_GETPN, a.line(), 2 });
+        frame.size -= 3;
+        frame.size += 2;
         return;
     }
 

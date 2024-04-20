@@ -86,9 +86,7 @@ main:
   p1
   sys   assert
   .line 6
-  push2 25957
-  sub
-  not
+  p1
   sys   assert
   .line 8
   pushl $PD_1 0

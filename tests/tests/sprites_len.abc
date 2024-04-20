@@ -1,0 +1,13 @@
+void main()
+{
+    $debug_break();
+    
+    $assert(len(sprites{ "sprite.png" }) == 1);
+    $assert(len(sprites{ 64x64 "sprite.png" }) == 2);
+    $assert(len(sprites{ 32x32 "sprite.png" }) == 8);
+    $assert(len(sprites{ 16x16 "sprite.png" }) == 32);
+    $assert(len(sprites{ 8x8 "sprite.png" }) == 128);
+    $assert(len(sprites{ 4x4 "sprite.png" }) == 512);
+    
+    $debug_break();
+}

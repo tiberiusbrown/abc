@@ -29,19 +29,9 @@ main:
   sys   debug_break
   .line 22
   p1
-  p0
-  p1
-  sub2b
-  bool2
-  not
   sys   assert
   .line 23
-  p2
-  p0
-  p2
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 24
   p0

@@ -88,22 +88,13 @@ main:
   .line 36
   sys   debug_break
   .line 38
-  push2 4626
-  sub
-  not
+  p1
   sys   assert
   .line 39
-  push4 305402420
-  sub2
-  bool2
-  not
+  p1
   sys   assert
   .line 40
-  push4 1444033622
-  push2 4660
-  sub3
-  bool3
-  not
+  p1
   sys   assert
   .line 41
   push4 305419896
