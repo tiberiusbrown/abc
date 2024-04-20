@@ -297,6 +297,13 @@ constexpr sprites TILES = sprites{ 16x16 "assets/tileset.png" };
 constexpr sprites TITLE_IMG = sprites{ "assets/title.png" };
 ```
 
+You can use the `len` operator to retrieve the number of frames in a sprite set.
+```c
+// draw each sprite frame in a line
+for(u16 i = 0; i < len(s); ++i)
+    $draw_sprite(i * 8, 0, s, i);
+```
+
 ### Fonts
 The `font` type identifies a font that can be used to draw text (e.g., with the `$draw_text` family of system functions).
 
