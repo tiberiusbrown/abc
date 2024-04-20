@@ -806,7 +806,7 @@ static void sys_draw_sprite_selfmask()
 }
 
 static void draw_char(
-    int16_t& x, int16_t y, uint24_t font, char c)
+    int16_t& x, int16_t y, char c)
 {
 #if 0
     FX::seekData(font + (uint8_t)c * (uint8_t)FONT_HEADER_PER_CHAR);
@@ -829,34 +829,31 @@ static void draw_char(
         =================
         &x    r24 r25
         y     r22 r23
-        font  r18 r19 r20
-        c     r12
+        c     r20
 
         AFTER
         =================
         x     r24 r25
         y     r22 r21
-        w     r20
+        w     r20     (same as c)
         h     r18
         font  r14 r15 r16
     */
 
-    register uint8_t  adv  asm("r19");
-    register uint8_t  xoff;
-    register uint8_t  yoff;
+    register uint8_t  m    asm("r19");
     register uint16_t t    asm("r30");
     register int16_t  xv   asm("r24");
-    register uint8_t  w    asm("r20");
     register uint8_t  h    asm("r18");
-    uint24_t addr;
+    register uint24_t addr asm("r14");
     asm volatile(R"(
             ldi  %A[t], 3
             cbi  %[fxport], %[fxbit]
             out  %[spdr], %A[t]
             
             ; add datapage to addr
-            movw %A[addr], %A[font]
-            mov  %C[addr], %C[font]
+            lds  %A[addr], %[font]+0
+            lds  %B[addr], %[font]+1
+            lds  %C[addr], %[font]+2
             lds  %A[t], %[page]+0
             lds  %B[t], %[page]+1
             add  %B[addr], %A[t]
@@ -869,8 +866,6 @@ static void draw_char(
             adc  %B[addr], r1
             clr  __zero_reg__
             adc  %C[addr], __zero_reg__
-
-            rjmp .+0
 
             out  %[spdr], %C[addr]
 
@@ -903,27 +898,31 @@ static void draw_char(
             rcall L%=_delay_15
 
             out  %[spdr], %A[addr]
+
+            lds  %A[addr], %[font]+0
+            lds  %B[addr], %[font]+1
+            lds  %C[addr], %[font]+2
             ldi  %A[t], lo8(-%[HEADER])
-            sub  %A[font], %A[t]
+            sub  %A[addr], %A[t]
             ldi  %A[t], hi8(-%[HEADER])
-            sbc  %B[font], %A[t]
+            sbc  %B[addr], %A[t]
             ldi  %A[t], 0xff
-            sbc  %C[font], %A[t]
-            rcall L%=_delay_10
+            sbc  %C[addr], %A[t]
+            rjmp .+0
+            rjmp .+0
 
             out  %[spdr], __zero_reg__
-            rcall L%=_delay_14
-            in   %A[addr], %[sreg]
+            rcall L%=_delay_15
             
             cli
             out  %[spdr], __zero_reg__
-            in   %[adv], %[spdr]
-            out  %[sreg], %A[addr]
+            in   %A[m], %[spdr]
+            sei
 
             ld   %A[xv], %a[xp]+
             ld   %B[xv], %a[xp]
             movw %A[t], %A[xv]
-            add  %A[t], %[adv]
+            add  %A[t], %[m]
             adc  %B[t], __zero_reg__
             st   %a[xp], %B[t]
             st   -%a[xp], %A[t]
@@ -931,46 +930,46 @@ static void draw_char(
 
             cli
             out  %[spdr], __zero_reg__
-            in   %[xoff], %[spdr]
-            out  %[sreg], %A[addr]
+            in   %[m], %[spdr]
+            sei
 
-            add  %A[xv], %[xoff]
+            add  %A[xv], %[m]
             adc  %B[xv], __zero_reg__
-            sbrc %[xoff], 7
+            sbrc %[m], 7
             dec  %B[xv]
             rcall L%=_delay_9
             
             cli
             out  %[spdr], __zero_reg__
-            in   %[yoff], %[spdr]
-            out  %[sreg], %A[addr]
+            in   %[m], %[spdr]
+            sei
 
-            add  %A[y], %[yoff]
+            add  %A[y], %[m]
             adc  %B[y], __zero_reg__
-            sbrc %[yoff], 7
+            sbrc %[m], 7
             dec  %B[y]
             rcall L%=_delay_9
             
             cli
             out  %[spdr], __zero_reg__
             in   %A[t], %[spdr]
-            out  %[sreg], %A[addr]
+            sei
 
             rcall L%=_delay_13
             
             cli
             out  %[spdr], __zero_reg__
             in   %B[t], %[spdr]
-            out  %[sreg], %A[addr]
+            sei
 
-            add  %A[font], %A[t]
-            adc  %B[font], %B[t]
+            add  %A[addr], %A[t]
+            adc  %B[addr], %B[t]
             rcall L%=_delay_11
             
             cli
             out  %[spdr], __zero_reg__
-            in   %[w], %[spdr]
-            out  %[sreg], %A[addr]
+            in   %[c], %[spdr]
+            sei
 
             rcall L%=_delay_14
             
@@ -978,28 +977,23 @@ static void draw_char(
             sbi  %[fxport], %[fxbit]
 
         )"
-        : [font]   "+&r" (font)
-        , [addr]   "=&r" (addr)
+        : [addr]   "=&r" (addr)
         , [t]      "=&d" (t)
-        , [adv]    "=&r" (adv)
+        , [m]      "=&r" (m)
         , [xv]     "=&r" (xv)
-        , [w]      "=&r" (w)
+        , [c]      "+&r" (c) // reused as w
         , [h]      "=&r" (h)
-        , [xoff]   "=&r" (xoff)
-        , [yoff]   "=&r" (yoff)
         , [y]      "+&r" (y)
         : [xp]     "e"   (&x) // it's modified but then restored
-        , [c]      "r"   (c)
         , [fxport] "I"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]  "I"   (FX_BIT)
         , [spdr]   "I"   (_SFR_IO_ADDR(SPDR))
-        , [sreg]   "I"   (_SFR_IO_ADDR(SREG))
         , [page]   "i"   (&FX::programDataPage)
+        , [font]   "i"   (&ards::vm.text_font)
         , [HEADER] "i"   (FONT_HEADER_BYTES)
-        //, [DRAW]   "i"   (&SpritesABC::drawBasic)
         );
         SpritesABC::drawBasic(
-            xv, y, w, h, font, 0,
+            xv, y, (uint8_t)c, h, addr, 0,
             ards::vm.text_mode);
 #endif
 }
@@ -1076,7 +1070,7 @@ static void sys_draw_text()
             continue;
         }
         
-        draw_char(x, y, font, c);
+        draw_char(x, y, c);
     }
     
     seek_to_pc();
@@ -1112,7 +1106,7 @@ static void sys_draw_text_P()
             continue;
         }
         
-        draw_char(x, y, font, c);
+        draw_char(x, y, c);
     }
     
     seek_to_pc();
@@ -1652,7 +1646,7 @@ static void format_exec_draw(char c)
     }
     else
     {
-        draw_char(u->x, u->y, ards::vm.text_font, c);
+        draw_char(u->x, u->y, c);
     }
 }
 
