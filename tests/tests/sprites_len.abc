@@ -1,3 +1,8 @@
+u16 get_len(sprites s)
+{
+    return len(s);
+}
+
 void main()
 {
     $debug_break();
@@ -8,6 +13,13 @@ void main()
     $assert(len(sprites{ 16x16 "sprite.png" }) == 32);
     $assert(len(sprites{ 8x8 "sprite.png" }) == 128);
     $assert(len(sprites{ 4x4 "sprite.png" }) == 512);
+    
+    $assert(get_len(sprites{ "sprite.png" }) == 1);
+    $assert(get_len(sprites{ 64x64 "sprite.png" }) == 2);
+    $assert(get_len(sprites{ 32x32 "sprite.png" }) == 8);
+    $assert(get_len(sprites{ 16x16 "sprite.png" }) == 32);
+    $assert(get_len(sprites{ 8x8 "sprite.png" }) == 128);
+    $assert(get_len(sprites{ 4x4 "sprite.png" }) == 512);
     
     $debug_break();
 }
