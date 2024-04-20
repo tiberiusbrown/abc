@@ -256,9 +256,9 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
 {
     asm volatile(R"(
         cbi  %[fxport], %[fxbit]
+        ldi  r26, 3
+        out  %[spdr], r26
         movw r30, r24
-        ldi  r24, 3
-        out  %[spdr], r24
         ld   r24, Z+
         ld   r25, Z+
         ld   r26, Z+
@@ -266,7 +266,7 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
         lds  r21, %[datapage]+1
         add  r20, r25
         adc  r21, r26
-        lpm
+        rjmp .+0
         rjmp .+0
         out  %[spdr], r21
         rcall L%=_delay_17
@@ -278,11 +278,10 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
         st   -Z, r26
         st   -Z, r25
         st   -Z, r24
-        rcall L%=_delay_8
+        rcall L%=_delay_7
         out  %[spdr], __zero_reg__
         rcall L%=_delay_16
         in   r24, %[spdr]
-        in   r0, %[spsr]
         sbi  %[fxport], %[fxbit]
         ret
 
@@ -291,9 +290,8 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
     L%=_delay_16:
         lpm
         lpm
-        rjmp .+0
-    L%=_delay_8:
-        nop
+        lpm
+    L%=_delay_7:
         ret
         )"
         :
