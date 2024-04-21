@@ -8,10 +8,17 @@
 namespace ards
 {
 
-static void write_instr(std::ostream& f, compiler_instr_t const& instr, uint16_t& line)
+static void write_instr(
+    std::ostream& f, compiler_instr_t const& instr, uint16_t& line,
+    uint16_t& file, std::vector<std::string> const& filenames)
 {
     if(instr.instr == I_REMOVE)
         return;
+    if(file != instr.file && instr.file != 0)
+    {
+        file = instr.file;
+        f << "  .file " << filenames[instr.file - 1] << ".abc\n";
+    }
     if(instr.is_label)
     {
         f << instr.label << ":\n";
@@ -347,10 +354,11 @@ void compiler_t::write(std::ostream& f)
     for(auto const& [name, func] : funcs)
     {
         uint16_t line = 0;
+        uint16_t file = 0;
         f << name << ":\n";
-        f << "  .file " << func.filename << ".abc\n";
+        //f << "  .file " << func.filename << ".abc\n";
         for(auto const& instr : func.instrs)
-            write_instr(f, instr, line);
+            write_instr(f, instr, line, file, debug_filenames);
         f << "\n";
     }
 }

@@ -30,6 +30,126 @@ void compiler_t::remove_unreferenced_labels()
     }
 }
 
+bool compiler_t::is_inlinable(
+    std::string const& func, std::unordered_set<std::string>& refs)
+{
+    if(refs.count(func)) return false;
+    auto it = funcs.find(func);
+    if(it == funcs.end()) return true;
+    auto const& f = it->second;
+    refs.insert(func);
+    for(auto const& i : f.instrs)
+    {
+        if(!i.is_label && !i.label.empty() && !is_inlinable(i.label, refs))
+            return false;
+    }
+    return true;
+}
+
+bool compiler_t::is_inlinable(std::string const& func)
+{
+    std::unordered_set<std::string> refs;
+    return is_inlinable(func, refs);
+}
+
+bool compiler_t::should_inline(std::string const& func, int ref_count)
+{
+    if(!is_inlinable(func)) return false;
+    if(!funcs.count(func)) return false;
+    if(ref_count == 1) return true;
+    auto const& instrs = funcs[func].instrs;
+    if(instrs.size() <= 8) return true;
+    if((size_t)ref_count * instrs.size() < 128)
+        return true;
+    return false;
+}
+
+void compiler_t::inline_function(std::string const& func)
+{
+    auto it = funcs.find(func);
+    assert(it != funcs.end());
+    if(it == funcs.end()) return;
+    auto const& f = it->second;
+    for(auto& [tn, tf] : funcs)
+    {
+        if(tn == func) continue;
+        for(size_t i = 0; i < tf.instrs.size(); ++i)
+        {
+            auto& ti = tf.instrs[i];
+            if(ti.is_label) continue;
+            if(ti.label != func) continue;
+            switch(ti.instr)
+            {
+            case I_JMP:
+            case I_JMP1:
+            case I_CALL:
+            case I_CALL1:
+                break;
+            default:continue;
+            }
+
+            auto func_instrs = f.instrs;
+            auto ret_label = new_label(tf);
+            func_instrs.push_back({ I_NOP, 0, 0, 0, ret_label, true });
+            for(auto& fi : func_instrs)
+            {
+                if(fi.is_label)
+                {
+                    // need to rename label in case of multiple inlining
+                    auto replacement_label = new_label(tf);
+                    for(auto& tfi : func_instrs)
+                    {
+                        if(!tfi.is_label && tfi.label == fi.label)
+                            tfi.label = replacement_label;
+                    }
+                    fi.label = replacement_label;
+                    continue;
+                }
+                if(fi.instr != I_RET) continue;
+                fi.instr = I_JMP;
+                fi.label = ret_label;
+            }
+
+            tf.instrs.erase(tf.instrs.begin() + i);
+            tf.instrs.insert(tf.instrs.begin() + i, func_instrs.begin(), func_instrs.end());
+        }
+    }
+    funcs.erase(func);
+}
+
+bool compiler_t::inline_or_remove_functions()
+{
+    std::unordered_map<std::string, int> func_refs;
+    for(auto const& [n, f] : funcs)
+    {
+        func_refs[n] = 0;
+        for(auto const& [tn, tf] : funcs)
+        {
+            for(auto const& i : tf.instrs)
+                if(!i.is_label && i.label == n)
+                    func_refs[n] += 1;
+        }
+    }
+    
+    bool t = false;
+    for(auto const& [n, c] : func_refs)
+    {
+        if(n == "main") continue;
+        if(n == "$globinit") continue;
+        if(c == 0)
+        {
+            funcs.erase(n);
+            t = true;
+        }
+        else if(should_inline(n, c))
+        {
+            inline_function(n);
+            t = true;
+        }
+    }
+    return t;
+}
+
 bool compiler_t::peephole(compiler_func_t& f)
 {
     bool t = false;

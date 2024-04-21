@@ -392,6 +392,7 @@ struct compiler_instr_t
     uint32_t imm2;
     std::string label; // can also be label arg of instr
     bool is_label;
+    uint16_t file;
 };
 
 struct compiler_func_decl_t
@@ -675,6 +676,12 @@ private:
 
     void remove_unreferenced_labels();
 
+    bool is_inlinable(std::string const& func, std::unordered_set<std::string>& refs);
+    bool is_inlinable(std::string const& func);
+    bool should_inline(std::string const& func, int ref_count);
+    void inline_function(std::string const& func);
+    bool inline_or_remove_functions();
+
     // perform a series of peephole optimizations on a function
     bool peephole(compiler_func_t& f);
     bool peephole_bake_getpn(compiler_func_t& f);
@@ -734,6 +741,7 @@ private:
 
     // track files already parsed
     std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;
+    std::vector<std::string> debug_filenames;
     std::unordered_set<std::string> import_set;
 
     std::unordered_map<std::string, std::string> arduboy_file_directives;

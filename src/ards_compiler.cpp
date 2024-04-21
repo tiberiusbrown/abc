@@ -526,13 +526,36 @@ void compiler_t::compile(
         }
     }
 
-    // peephole optimizations
-    for(auto& [n, f] : funcs)
+    // annotate instructions with file info to preserve over inlining
     {
-        if(!errs.empty()) return;
-        while(peephole(f))
-            ;
+        std::unordered_map<std::string, uint16_t> filename_map;
+        debug_filenames.clear();
+        for(auto& [n, f] : funcs)
+        {
+            uint16_t file = 0;
+            if(!filename_map.count(f.filename))
+            {
+                debug_filenames.push_back(f.filename);
+                file = (uint16_t)debug_filenames.size();
+                filename_map[f.filename] = file;
+            }
+            else
+                file = filename_map[f.filename];
+            for(auto& i : f.instrs)
+                i.file = file;
+        }
     }
+
+    // peephole optimizations
+    do
+    {
+        for(auto& [n, f] : funcs)
+        {
+            if(!errs.empty()) return;
+            while(peephole(f))
+                ;
+        }
+    } while(inline_or_remove_functions());
 
     write(fo);
 }

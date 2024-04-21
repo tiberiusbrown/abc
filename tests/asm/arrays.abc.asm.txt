@@ -6,98 +6,6 @@ $globinit:
   .line 1
   ret
 
-f:
-  .file arrays.abc
-  .line 3
-  dupw7
-  push  42
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 4
-  dupw5
-  push2 65036
-  sub2
-  bool2
-  not
-  sys   assert
-  .line 5
-  dupw3
-  push2 30000
-  sub2
-  bool2
-  not
-  sys   assert
-  .line 6
-  dupw
-  bool2
-  not
-  sys   assert
-  .line 7
-  p1
-  sys   assert
-  .line 1
-  popn  8
-  ret
-
-g:
-  .file arrays.abc
-  .line 12
-  getl2 12
-  p1
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 13
-  getl2 10
-  p2
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 14
-  dupw7
-  p3
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 15
-  dupw5
-  p4
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 16
-  dupw3
-  p5
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 17
-  dupw
-  p6
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 18
-  p1
-  sys   assert
-  .line 19
-  p1
-  sys   assert
-  .line 20
-  p1
-  sys   assert
-  .line 10
-  popn  12
-  ret
-
 main:
   .file arrays.abc
   .line 25
@@ -225,7 +133,37 @@ main:
   p0
   push4 1966145036
   p00
-  call  f
+  .line 3
+  dupw7
+  push  42
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 4
+  dupw5
+  push2 65036
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 5
+  dupw3
+  push2 30000
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 6
+  dupw
+  bool2
+  not
+  sys   assert
+  .line 7
+  p1
+  sys   assert
+  .line 1
+  popn  8
   .line 46
   p1
   p0
@@ -239,7 +177,59 @@ main:
   p0
   p6
   p0
-  call  g
+  .line 12
+  getl2 12
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 13
+  getl2 10
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 14
+  dupw7
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 15
+  dupw5
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 16
+  dupw3
+  p5
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 17
+  dupw
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 18
+  p1
+  sys   assert
+  .line 19
+  p1
+  sys   assert
+  .line 20
+  p1
+  sys   assert
+  .line 10
+  popn  12
   .line 48
   sys   debug_break
   .line 23
