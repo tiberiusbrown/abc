@@ -7,8 +7,18 @@ $globinit:
   .line 1
   ret
 
-rot:
+main:
   .file mat3rotation.abc
+  .line 38
+  sys   debug_break
+  .line 40
+  p0000
+  pz16
+  pz16
+  push4 1061813223
+  push3 9563013
+  p64
+  push4 1067282596
   .line 8
   p0000
   pz16
@@ -107,21 +117,7 @@ rot:
   push  36
   setln 116
   popn  80
-  ret
-
-main:
-  .file mat3rotation.abc
-  .line 38
-  sys   debug_break
   .line 40
-  p0000
-  pz16
-  pz16
-  push4 1061813223
-  push3 9563013
-  p64
-  push4 1067282596
-  call  rot
   push  36
   setgn r 0
   .line 42

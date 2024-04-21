@@ -14,6 +14,24 @@ void compiler_t::clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
     instrs.erase(end, instrs.end());
 }
 
+void compiler_t::tail_call_optimization()
+{
+    for(auto& [n, f] : funcs)
+    {
+        for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+        {
+            auto& i0 = f.instrs[i + 0];
+            auto& i1 = f.instrs[i + 1];
+            if(i0.instr == I_CALL && i1.instr == I_RET)
+            {
+                i0.instr = I_JMP;
+                i1.instr = I_REMOVE;
+                clear_removed_instrs(f.instrs);
+            }
+        }
+    }
+}
+
 void compiler_t::remove_unreferenced_labels()
 {
     std::unordered_map<std::string, int> label_counts;
@@ -64,12 +82,13 @@ bool compiler_t::should_inline(std::string const& func, int ref_count)
     return false;
 }
 
-void compiler_t::inline_function(std::string const& func)
+bool compiler_t::inline_function(std::string const& func)
 {
     auto it = funcs.find(func);
     assert(it != funcs.end());
-    if(it == funcs.end()) return;
+    if(it == funcs.end()) return false;
     auto const& f = it->second;
+    bool t = false;
     for(auto& [tn, tf] : funcs)
     {
         if(tn == func) continue;
@@ -80,12 +99,11 @@ void compiler_t::inline_function(std::string const& func)
             if(ti.label != func) continue;
             switch(ti.instr)
             {
-            case I_JMP:
-            case I_JMP1:
             case I_CALL:
             case I_CALL1:
                 break;
-            default:continue;
+            default:
+                continue;
             }
 
             auto func_instrs = f.instrs;
@@ -112,9 +130,12 @@ void compiler_t::inline_function(std::string const& func)
 
             tf.instrs.erase(tf.instrs.begin() + i);
             tf.instrs.insert(tf.instrs.begin() + i, func_instrs.begin(), func_instrs.end());
+            t = true;
         }
     }
-    funcs.erase(func);
+    if(t)
+        funcs.erase(func);
+    return t;
 }
 
 bool compiler_t::inline_or_remove_functions()
@@ -143,8 +164,8 @@ bool compiler_t::inline_or_remove_functions()
         }
         else if(should_inline(n, c))
         {
-            //inline_function(n);
-            //t = true;
+            inline_function(n);
+            t = true;
         }
     }
     return t;
@@ -669,15 +690,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
 
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
-
-        // tail call optimization
-        if(i0.instr == I_CALL && i1.instr == I_RET)
-        {
-            i0.instr = I_JMP;
-            i1.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
 
         if(i0.instr == I_REFL)
         {

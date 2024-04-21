@@ -547,15 +547,18 @@ void compiler_t::compile(
     }
 
     // peephole optimizations
-    do
+    for(bool repeat = true; repeat;)
     {
+        repeat = inline_or_remove_functions();
         for(auto& [n, f] : funcs)
         {
             if(!errs.empty()) return;
             while(peephole(f))
                 ;
         }
-    } while(inline_or_remove_functions());
+    }
+    
+    tail_call_optimization();
 
     write(fo);
 }

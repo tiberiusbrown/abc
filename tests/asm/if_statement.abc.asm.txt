@@ -2,64 +2,9 @@
 .global gf 1
 
 
-test_logical_and:
-  .file if_statement.abc
-  .line 3
-  p0
-  .line 4
-  dup2
-  bz    $L_test_logical_and_1
-  dup3
-  bz    $L_test_logical_and_1
-  p1
-  setl  1
-$L_test_logical_and_1:
-  .line 5
-  dup
-  dup5
-  sub
-  not
-  sys   assert
-  .line 1
-  pop4
-  ret
-
 $globinit:
   .file <internal>.abc
   .line 1
-  ret
-
-test_logical_or:
-  .file if_statement.abc
-  .line 10
-  p0
-  .line 11
-  dup2
-  bnz   $L_test_logical_or_2
-  dup3
-  bz    $L_test_logical_or_1
-$L_test_logical_or_2:
-  p1
-  setl  1
-$L_test_logical_or_1:
-  .line 12
-  dup
-  dup5
-  sub
-  not
-  sys   assert
-  .line 8
-  pop4
-  ret
-
-dont_call_me:
-  .file if_statement.abc
-  .line 17
-  p0
-  sys   assert
-  .line 18
-  p1
-  setl  1
   ret
 
 main:
@@ -113,54 +58,196 @@ $L_main_8:
   p1
   p1
   p1
-  call  test_logical_and
+  .line 3
+  p0
+  .line 4
+  dup2
+  bz    $L_main_15
+  dup3
+  bz    $L_main_15
+  p1
+  setl  1
+$L_main_15:
+  .line 5
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 1
+  pop4
   .line 52
   p00
   p1
-  call  test_logical_and
+  .line 3
+  p0
+  .line 4
+  dup2
+  bz    $L_main_19
+  dup3
+  bz    $L_main_19
+  p1
+  setl  1
+$L_main_19:
+  .line 5
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 1
+  pop4
   .line 53
   p0
   p1
-  p0
-  call  test_logical_and
+  p00
+  .line 4
+  dup2
+  bz    $L_main_23
+  dup3
+  bz    $L_main_23
+  p1
+  setl  1
+$L_main_23:
+  .line 5
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 1
+  pop4
   .line 54
-  p000
-  call  test_logical_and
+  p0000
+  .line 4
+  dup2
+  bz    $L_main_27
+  dup3
+  bz    $L_main_27
+  p1
+  setl  1
+$L_main_27:
+  .line 5
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 1
+  pop4
   .line 56
   p1
   p1
   p1
-  call  test_logical_or
+  .line 10
+  p0
+  .line 11
+  dup2
+  bnz   $L_main_53
+  dup3
+  bz    $L_main_31
+$L_main_53:
+  p1
+  setl  1
+$L_main_31:
+  .line 12
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 8
+  pop4
   .line 57
   p1
   p0
   p1
-  call  test_logical_or
+  .line 10
+  p0
+  .line 11
+  dup2
+  bnz   $L_main_54
+  dup3
+  bz    $L_main_35
+$L_main_54:
+  p1
+  setl  1
+$L_main_35:
+  .line 12
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 8
+  pop4
   .line 58
   p1
   p1
-  p0
-  call  test_logical_or
+  p00
+  .line 11
+  dup2
+  bnz   $L_main_55
+  dup3
+  bz    $L_main_39
+$L_main_55:
+  p1
+  setl  1
+$L_main_39:
+  .line 12
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 8
+  pop4
   .line 59
-  p000
-  call  test_logical_or
+  p0000
+  .line 11
+  dup2
+  bnz   $L_main_56
+  dup3
+  bz    $L_main_43
+$L_main_56:
+  p1
+  setl  1
+$L_main_43:
+  .line 12
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 8
+  pop4
   .line 66
   p1
   .line 67
   dup
   bnzp  $L_main_9
-  p0
-  call  dont_call_me
+  p00
+  .line 17
+  sys   assert
+  .line 18
+  p1
+  setl  1
 $L_main_9:
+  .line 67
   pop2
   .line 71
   p0
   .line 72
   dup
   bzp   $L_main_10
-  p0
-  call  dont_call_me
+  p00
+  .line 17
+  sys   assert
+  .line 18
+  p1
+  setl  1
 $L_main_10:
+  .line 72
   pop2
   .line 76
   p1
@@ -171,8 +258,14 @@ $L_main_10:
   dup
   bzp   $L_main_11
   p0
-  call  call_me
+  .line 24
+  p1
+  setg  gf 0
+  .line 25
+  p1
+  setl  1
 $L_main_11:
+  .line 78
   pop
   .line 79
   getg  gf 0
@@ -186,8 +279,14 @@ $L_main_11:
   dup
   bnzp  $L_main_12
   p0
-  call  call_me
+  .line 24
+  p1
+  setg  gf 0
+  .line 25
+  p1
+  setl  1
 $L_main_12:
+  .line 85
   pop
   .line 86
   getg  gf 0
@@ -197,15 +296,5 @@ $L_main_12:
   sys   debug_break
   .line 28
   pop2
-  ret
-
-call_me:
-  .file if_statement.abc
-  .line 24
-  p1
-  setg  gf 0
-  .line 25
-  p1
-  setl  1
   ret
 

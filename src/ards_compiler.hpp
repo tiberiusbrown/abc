@@ -679,7 +679,7 @@ private:
     bool is_inlinable(std::string const& func, std::unordered_set<std::string>& refs);
     bool is_inlinable(std::string const& func);
     bool should_inline(std::string const& func, int ref_count);
-    void inline_function(std::string const& func);
+    bool inline_function(std::string const& func);
     bool inline_or_remove_functions();
 
     // perform a series of peephole optimizations on a function
@@ -700,6 +700,8 @@ private:
     bool peephole_compress_push(compiler_func_t& f);
     bool peephole_compress_pushes_pushn(compiler_func_t& f);
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
+
+    void tail_call_optimization();
 
     static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs);
 
