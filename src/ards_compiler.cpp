@@ -530,7 +530,8 @@ void compiler_t::compile(
     for(auto& [n, f] : funcs)
     {
         if(!errs.empty()) return;
-        peephole(f);
+        while(peephole(f))
+            ;
     }
 
     write(fo);

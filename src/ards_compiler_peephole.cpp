@@ -14,40 +14,62 @@ void compiler_t::clear_removed_instrs(std::vector<compiler_instr_t>& instrs)
     instrs.erase(end, instrs.end());
 }
 
-void compiler_t::peephole(compiler_func_t& f)
+void compiler_t::remove_unreferenced_labels()
 {
+    std::unordered_map<std::string, int> label_counts;
+    for(auto const& [n, f] : funcs)
+        for(auto const& i : f.instrs)
+            if(!i.is_label && !i.label.empty())
+                label_counts[i.label] += 1;
+    for(auto& [n, f] : funcs)
+    {
+        for(auto& i : f.instrs)
+            if(i.is_label && label_counts[i.label] == 0)
+                i.instr = I_REMOVE;
+        clear_removed_instrs(f.instrs);
+    }
+}
+
+bool compiler_t::peephole(compiler_func_t& f)
+{
+    bool t = false;
+
     while(peephole_bake_offsets(f))
-        ;
+        t = true;
     while(peephole_bake_getpn(f))
-        ;
+        t = true;
     while(peephole_remove_pop(f))
-        ;
+        t = true;
     while(peephole_simplify_derefs(f))
-        ;
+        t = true;
     while(peephole_arithmetic(f))
-        ;
+        t = true;
     while(peephole_dup_setln(f))
-        ;
+        t = true;
     while(peephole_pre_push_compress(f))
-        ;
+        t = true;
     while(peephole_ref(f))
-        ;
+        t = true;
     while(peephole_linc(f))
-        ;
+        t = true;
     while(peephole_dup_sext(f))
-        ;
+        t = true;
     while(peephole_bzp(f))
-        ;
+        t = true;
     while(peephole_redundant_bzp(f))
-        ;
+        t = true;
     while(peephole_compress_pop(f))
-        ;
+        t = true;
     while(peephole_compress_push(f))
-        ;
+        t = true;
     while(peephole_compress_pushes_pushn(f))
-        ;
+        t = true;
     while(peephole_compress_duplicate_pushes(f))
-        ;
+        t = true;
+
+    remove_unreferenced_labels();
+
+    return t;
 }
 
 bool compiler_t::peephole_bake_getpn(compiler_func_t& f)

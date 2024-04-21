@@ -10,7 +10,6 @@ test_logical_and:
   dup2
   bz    $L_test_logical_and_1
   dup3
-$L_test_logical_and_0:
   bz    $L_test_logical_and_1
   p1
   setl  1
@@ -38,7 +37,6 @@ test_logical_or:
   dup2
   bnz   $L_test_logical_or_2
   dup3
-$L_test_logical_or_0:
   bz    $L_test_logical_or_1
 $L_test_logical_or_2:
   p1
@@ -75,7 +73,6 @@ main:
   .line 40
   dup
   bnz   $L_main_1
-$L_main_0:
   .line 41
   p0
   sys   assert
@@ -89,7 +86,6 @@ $L_main_2:
   .line 43
   dup
   bnz   $L_main_4
-$L_main_3:
   .line 44
   p0
   sys   assert
@@ -103,7 +99,6 @@ $L_main_5:
   .line 47
   dup2
   bz    $L_main_7
-$L_main_6:
   .line 48
   p0
   sys   assert

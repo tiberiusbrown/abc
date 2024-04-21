@@ -673,8 +673,10 @@ private:
         size_t iw, size_t ih, size_t w, size_t h, bool masked,
         std::vector<uint8_t> const& idata);
 
+    void remove_unreferenced_labels();
+
     // perform a series of peephole optimizations on a function
-    void peephole(compiler_func_t& f);
+    bool peephole(compiler_func_t& f);
     bool peephole_bake_getpn(compiler_func_t& f);
     bool peephole_remove_pop(compiler_func_t& f);
     bool peephole_simplify_derefs(compiler_func_t& f);

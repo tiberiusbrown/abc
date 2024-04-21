@@ -3896,7 +3896,6 @@ $L_solid_6:
   dup
   push  96
   cult
-$L_solid_7:
   bz    $L_solid_8
   p1
   setl  22
@@ -3909,16 +3908,13 @@ $L_solid_8:
   push  176
   p0
   cslt2
-  not
-  bz    $L_solid_10
+  bnz   $L_solid_10
   dup
   push  15
   and
   p8
   cult
-  not
-$L_solid_9:
-  bz    $L_solid_10
+  bnz   $L_solid_10
   p1
   setl  22
   popn  21
@@ -4262,14 +4258,11 @@ $L_process_map_tile_9:
   dup3
   push  248
   cult
-  not
-  bz    $L_process_map_tile_20
+  bnz   $L_process_map_tile_20
   push  250
   dup4
   cult
-  not
-$L_process_map_tile_10:
-  bz    $L_process_map_tile_20
+  bnz   $L_process_map_tile_20
   .line 141
   p3
   .line 142
@@ -4340,14 +4333,12 @@ $L_process_map_tile_13:
   dupw5
   getl2 12
   call  mob_solid
-  not
-  bz    $L_process_map_tile_33
+  bnz   $L_process_map_tile_33
   p0
   p1
   dupw3
   getl2 12
   call  mob_solid
-$L_process_map_tile_15:
   bnz   $L_process_map_tile_14
 $L_process_map_tile_33:
   .line 155
@@ -4375,14 +4366,12 @@ $L_process_map_tile_17:
   dupw5
   getl2 10
   call  mob_solid
-  not
-  bz    $L_process_map_tile_34
+  bnz   $L_process_map_tile_34
   p0
   p1
   dupw3
   getl2 10
   call  mob_solid
-$L_process_map_tile_19:
   bnz   $L_process_map_tile_18
 $L_process_map_tile_34:
   .line 158
@@ -4538,14 +4527,11 @@ $L_process_map_tile_22:
   dup3
   push  156
   cult
-  not
-  bz    $L_process_map_tile_32
+  bnz   $L_process_map_tile_32
   push  159
   dup4
   cult
-  not
-$L_process_map_tile_23:
-  bz    $L_process_map_tile_32
+  bnz   $L_process_map_tile_32
   .line 173
   dup3
   push  156
@@ -4690,14 +4676,11 @@ $L_load_map_5:
   dup2
   p64
   sub
-  not
-  bz    $L_load_map_13
+  bnz   $L_load_map_13
   dup
   p8
   sub
-  not
-$L_load_map_12:
-  bz    $L_load_map_13
+  bnz   $L_load_map_13
   .line 76
   push  248
   p5
@@ -4818,8 +4801,7 @@ $L_update_credits_0:
   getg  frame_count 0
   p3
   and
-  not
-  bz    $L_update_credits_2
+  bnz   $L_update_credits_2
   pushg creditsy 0
   getg  creditsy 0
   inc
@@ -4830,9 +4812,7 @@ $L_update_credits_0:
   push  140
   sub2b
   bool2
-  not
-$L_update_credits_1:
-  bz    $L_update_credits_2
+  bnz   $L_update_credits_2
   .line 36
   p0
   setg  creditsy 0
@@ -4947,7 +4927,6 @@ $L_mob_solid_5:
   dup
   push  96
   cult
-$L_mob_solid_6:
   bz    $L_mob_solid_7
   p1
   setl  8
@@ -4960,16 +4939,13 @@ $L_mob_solid_7:
   push  176
   p0
   cslt2
-  not
-  bz    $L_mob_solid_9
+  bnz   $L_mob_solid_9
   dup
   push  15
   and
   p8
   cult
-  not
-$L_mob_solid_8:
-  bz    $L_mob_solid_9
+  bnz   $L_mob_solid_9
   p1
   setl  8
   popn  7
@@ -5545,7 +5521,6 @@ $L_update_menu_12:
   p0
   getg  menui 0
   cult
-$L_update_menu_13:
   bz    $L_update_menu_14
   .line 223
   getg  menui 0
@@ -5559,7 +5534,6 @@ $L_update_menu_14:
   getg  menui 0
   p3
   cult
-$L_update_menu_15:
   bz    $L_update_menu_16
   .line 225
   getg  menui 0
@@ -5767,13 +5741,10 @@ update_intro:
   .line 285
   getg2 score 0
   bool2
-  not
-  bnz   $L_update_intro_6
+  bz    $L_update_intro_6
   getg2 level_frames_remaining 0
   bool2
-  not
-$L_update_intro_0:
-  bz    $L_update_intro_1
+  bnz   $L_update_intro_1
 $L_update_intro_6:
   .line 286
   call  load_map
@@ -5873,9 +5844,7 @@ $L_render_level_select_4:
   getg  frame_count 0
   push  50
   cult
-  not
-$L_render_level_select_5:
-  bz    $L_render_level_select_7
+  bnz   $L_render_level_select_7
   .line 195
   getg  frame_count 0
   p0
@@ -6566,7 +6535,6 @@ $L_update_level_1:
   getl4 12
   p0000
   cflt
-$L_update_level_2:
   bz    $L_update_level_3
   .line 354
   p0000
@@ -6598,7 +6566,6 @@ $L_update_level_4:
   p0000
   getl4 16
   cflt
-$L_update_level_5:
   bz    $L_update_level_6
   .line 362
   p0000
@@ -6614,11 +6581,9 @@ $L_update_level_7:
   pop4
   .line 369
   getg  player_on_ground 0
-  bool
   bz    $L_update_level_9
   p8
   sys   just_pressed
-$L_update_level_8:
   bz    $L_update_level_9
   .line 371
   push  15
@@ -6652,7 +6617,6 @@ $L_update_level_10:
   push4 1071225242
   getg4 vx 0
   cflt
-$L_update_level_11:
   bz    $L_update_level_12
 $L_update_level_60:
   .line 381
@@ -6693,7 +6657,6 @@ $L_update_level_15:
   dup3
   dup2
   cult
-$L_update_level_16:
   bz    $L_update_level_34
   .line 394
   pushl maps 6
@@ -6823,17 +6786,13 @@ $L_update_level_22:
   dup
   push  156
   cult
-  not
-  bz    $L_update_level_33
+  bnz   $L_update_level_33
   push  159
   dup2
   cult
-  not
-$L_update_level_23:
-  bz    $L_update_level_33
+  bnz   $L_update_level_33
   .line 421
   getg  player_on_ground 0
-  bool
   bz    $L_update_level_33
   getg  keys 0
   p0
@@ -6842,9 +6801,7 @@ $L_update_level_23:
   push  156
   sub2b
   cult2
-  not
-$L_update_level_24:
-  bz    $L_update_level_33
+  bnz   $L_update_level_33
   .line 423
   call  level_complete
   .line 424
@@ -7222,7 +7179,6 @@ resolve_player_collision:
   p6
   getln 16
   call  solid
-$L_resolve_player_collision_0:
   .line 521
   bz    $L_resolve_player_collision_3
 $L_resolve_player_collision_18:
@@ -7291,7 +7247,6 @@ $L_resolve_player_collision_3:
   p6
   getln 16
   call  solid
-$L_resolve_player_collision_4:
   .line 531
   bz    $L_resolve_player_collision_8
 $L_resolve_player_collision_19:
@@ -7355,7 +7310,6 @@ $L_resolve_player_collision_8:
   p6
   getln 16
   call  solid
-$L_resolve_player_collision_9:
   .line 541
   bz    $L_resolve_player_collision_12
 $L_resolve_player_collision_20:
@@ -7432,7 +7386,6 @@ $L_resolve_player_collision_12:
   p6
   getln 16
   call  solid
-$L_resolve_player_collision_13:
   .line 555
   bz    $L_resolve_player_collision_17
 $L_resolve_player_collision_21:
@@ -7518,12 +7471,10 @@ $L_update_map_objects_4:
   dup
   p8
   cult
-  not
-  bz    $L_update_map_objects_19
+  bnz   $L_update_map_objects_19
   getg  frame_count 0
   p1
   and
-$L_update_map_objects_5:
   bz    $L_update_map_objects_19
   .line 587
   dupw2
@@ -7735,15 +7686,13 @@ $L_update_map_objects_19:
   getl2 12
   dupw5
   cslt2
-  not
-  bz    $L_update_map_objects_21
+  bnz   $L_update_map_objects_21
   .line 649
   getl2 10
   dupw3
   cslt2
-  not
   .line 648
-  bz    $L_update_map_objects_21
+  bnz   $L_update_map_objects_21
   .line 650
   getl2 16
   dupw5
@@ -7764,7 +7713,6 @@ $L_update_map_objects_19:
   getr
   add2b
   cslt2
-$L_update_map_objects_20:
   .line 648
   bz    $L_update_map_objects_21
   .line 653
@@ -8137,14 +8085,11 @@ $L_touch_object_4:
   dup
   p8
   cult
-  not
-  bz    $L_touch_object_18
+  bnz   $L_touch_object_18
   push  12
   dup2
   cult
-  not
-$L_touch_object_5:
-  bz    $L_touch_object_18
+  bnz   $L_touch_object_18
   .line 804
   dupw2
   push  10
@@ -8159,8 +8104,7 @@ $L_touch_object_6:
   dup
   push  9
   sub
-  not
-  bnz   $L_touch_object_19
+  bz    $L_touch_object_19
   dupw2
   p3
   add2b
@@ -8180,9 +8124,7 @@ $L_touch_object_6:
   p0000
   getg4 vy 0
   cflt
-  not
-$L_touch_object_7:
-  bz    $L_touch_object_9
+  bnz   $L_touch_object_9
 $L_touch_object_20:
 $L_touch_object_19:
   .line 808
@@ -8284,14 +8226,11 @@ $L_render_3:
   .line 21
   getg  state 0
   dec
-  not
-  bnz   $L_render_20
+  bz    $L_render_20
   getg  state 0
   p6
   sub
-  not
-$L_render_4:
-  bz    $L_render_5
+  bnz   $L_render_5
 $L_render_20:
   .line 22
   call  render_intro
@@ -9225,12 +9164,9 @@ $L_render_intro_4:
   .line 348
   getg  state 0
   dec
-  not
-  bz    $L_render_intro_8
+  bnz   $L_render_intro_8
   getg2 level_frames_remaining 0
   bool2
-  bool
-$L_render_intro_5:
   bz    $L_render_intro_8
   .line 351
   pushl $PD_38 0
@@ -9753,14 +9689,11 @@ $L_render_level_20:
   dup2
   p8
   cult
-  not
-  bz    $L_render_level_24
+  bnz   $L_render_level_24
   dupw3
   push  10
   add2b
   getr
-  bool
-$L_render_level_21:
   bz    $L_render_level_24
   .line 461
   dupw3
@@ -9834,14 +9767,11 @@ $L_render_level_17:
   pop
   .line 480
   getg  invincibility_frames 0
-  not
-  bnz   $L_render_level_45
+  bz    $L_render_level_45
   getg  frame_count 0
   p4
   and
-  not
-$L_render_level_27:
-  bz    $L_render_level_33
+  bnz   $L_render_level_33
 $L_render_level_45:
   .line 482
   p0

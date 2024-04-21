@@ -144,14 +144,11 @@ $L_main_20:
   dup2
   p2
   sub
-  not
-  bz    $L_main_23
+  bnz   $L_main_23
   dup
   p3
   sub
-  not
-$L_main_22:
-  bz    $L_main_23
+  bnz   $L_main_23
   .line 49
   pushg enemies 4
   dup4
