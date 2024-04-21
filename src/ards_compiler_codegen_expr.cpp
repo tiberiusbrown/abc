@@ -5,11 +5,14 @@
 namespace ards
 {
 
-static bool is_zero_constant(ast_node_t const& n)
+template<int32_t C>
+static bool is_constant(ast_node_t const& n)
 {
+    if(n.type == AST::OP_CAST)
+        return is_constant<C>(n.children[1]);
     return
-        n.type == AST::INT_CONST && n.value == 0 ||
-        n.type == AST::FLOAT_CONST && n.fvalue == 0.f;
+        n.type == AST::INT_CONST && n.value == C ||
+        n.type == AST::FLOAT_CONST && n.fvalue == double(C);
 }
 
 void compiler_t::resolve_format_call(
@@ -662,7 +665,7 @@ void compiler_t::codegen_expr(
             instr_t instr = equality ? I_CFEQ : I_CFLT;
 
             // optimize to an integer comparison if inequality comparison against zero
-            if(!equality && (is_zero_constant(a.children[0]) || is_zero_constant(a.children[1])))
+            if(!equality && (is_constant<0>(a.children[0]) || is_constant<0>(a.children[1])))
                 instr = I_CSLT4;
 
             f.instrs.push_back({ instr, a.line() });
@@ -690,10 +693,22 @@ void compiler_t::codegen_expr(
     {
         assert(a.data == "+" || a.data == "-");
         assert(a.children.size() == 2);
-        codegen_expr(f, frame, a.children[0], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
-        codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+
+        bool z0 = a.data == "+" && is_constant<0>(a.children[0]);
+        bool z1 = is_constant<0>(a.children[1]);
+
+        if(!z0 || (z0 && z1))
+        {
+            codegen_expr(f, frame, a.children[0], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
+        }
+        if(!z1)
+        {
+            codegen_expr(f, frame, a.children[1], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+        }
+        if(z0 || z1)
+            return;
         if(a.comp_type.is_float)
         {
             frame.size -= 4;
@@ -718,10 +733,22 @@ void compiler_t::codegen_expr(
     case AST::OP_MULTIPLICATIVE:
     {
         assert(a.children.size() == 2);
-        codegen_expr(f, frame, a.children[0], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
-        codegen_expr(f, frame, a.children[1], false);
-        codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+
+        bool c0 = a.data == "*" && is_constant<1>(a.children[0]);
+        bool c1 = is_constant<1>(a.children[1]);
+
+        if(!c0 || (c0 && c1))
+        {
+            codegen_expr(f, frame, a.children[0], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
+        }
+        if(!c1)
+        {
+            codegen_expr(f, frame, a.children[1], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+        }
+        if(c0 || c1)
+            return;
         static_assert(I_MUL2 == I_MUL + 1);
         static_assert(I_MUL3 == I_MUL + 2);
         static_assert(I_MUL4 == I_MUL + 3);
