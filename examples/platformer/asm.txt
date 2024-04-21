@@ -4121,7 +4121,7 @@ $L_process_map_tile_0:
   .line 117
   getg4 camx 0
   p0000
-  cflt
+  cslt4
   bz    $L_process_map_tile_1
   p0000
   setg4 camx 0
@@ -4129,7 +4129,7 @@ $L_process_map_tile_1:
   .line 118
   getg4 camy 0
   p0000
-  cflt
+  cslt4
   bz    $L_process_map_tile_2
   p0000
   setg4 camy 0
@@ -6534,7 +6534,7 @@ $L_update_level_1:
   bz    $L_update_level_3
   getl4 12
   p0000
-  cflt
+  cslt4
   bz    $L_update_level_3
   .line 354
   p0000
@@ -6565,7 +6565,7 @@ $L_update_level_4:
   bz    $L_update_level_6
   p0000
   getl4 16
-  cflt
+  cslt4
   bz    $L_update_level_6
   .line 362
   p0000
@@ -7146,7 +7146,7 @@ resolve_player_collision:
   .line 521
   getg4 vx 0
   p0000
-  cflt
+  cslt4
   bz    $L_resolve_player_collision_3
   .line 522
   p00
@@ -7214,7 +7214,7 @@ $L_resolve_player_collision_3:
   .line 531
   p0000
   getg4 vx 0
-  cflt
+  cslt4
   bz    $L_resolve_player_collision_8
   .line 532
   p00
@@ -7277,7 +7277,7 @@ $L_resolve_player_collision_8:
   .line 541
   getg4 vy 0
   p0000
-  cflt
+  cslt4
   bz    $L_resolve_player_collision_12
   .line 542
   p00
@@ -7351,7 +7351,7 @@ $L_resolve_player_collision_12:
   .line 555
   p0000
   getg4 vy 0
-  cflt
+  cslt4
   bz    $L_resolve_player_collision_17
   .line 556
   p0
@@ -7876,7 +7876,7 @@ $L_update_camera_position_7:
   .line 692
   getl4 12
   p0000
-  cflt
+  cslt4
   bz    $L_update_camera_position_8
   p0000
   setl4 12
@@ -7884,7 +7884,7 @@ $L_update_camera_position_8:
   .line 693
   getl4 16
   p0000
-  cflt
+  cslt4
   bz    $L_update_camera_position_9
   p0000
   setl4 16
@@ -8123,7 +8123,7 @@ $L_touch_object_6:
   bnz   $L_touch_object_20
   p0000
   getg4 vy 0
-  cflt
+  cslt4
   bnz   $L_touch_object_9
 $L_touch_object_20:
 $L_touch_object_19:

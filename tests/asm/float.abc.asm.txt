@@ -169,7 +169,7 @@ main:
   .line 39
   getg4 y 0
   p0000
-  cflt
+  cslt4
   sys   assert
   .line 40
   getg4 x 0
@@ -213,7 +213,7 @@ main:
   getg4 y 0
   fadd
   p0000
-  cflt
+  cslt4
   sys   assert
   .line 48
   getg4 x 0

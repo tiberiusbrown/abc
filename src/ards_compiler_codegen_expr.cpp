@@ -5,6 +5,13 @@
 namespace ards
 {
 
+static bool is_zero_constant(ast_node_t const& n)
+{
+    return
+        n.type == AST::INT_CONST && n.value == 0 ||
+        n.type == AST::FLOAT_CONST && n.fvalue == 0.f;
+}
+
 void compiler_t::resolve_format_call(
     ast_node_t const& n, compiler_func_decl_t const& decl,
     std::vector<compiler_type_t>& arg_types, std::string& fmt)
@@ -652,7 +659,13 @@ void compiler_t::codegen_expr(
             assert(a.children[0].comp_type.is_float);
             assert(a.children[1].comp_type.is_float);
 
-            f.instrs.push_back({ equality ? I_CFEQ : I_CFLT, a.line() });
+            instr_t instr = equality ? I_CFEQ : I_CFLT;
+
+            // optimize to an integer comparison if inequality comparison against zero
+            if(!equality && (is_zero_constant(a.children[0]) || is_zero_constant(a.children[1])))
+                instr = I_CSLT4;
+
+            f.instrs.push_back({ instr, a.line() });
         }
         else
         {
