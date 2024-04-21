@@ -7132,9 +7132,7 @@ $L_player_take_damage_2:
   ret
 $L_player_take_damage_3:
   .line 737
-  call  player_death
-  .line 722
-  ret
+  jmp   player_death
 
 resolve_player_collision:
   .file update.abc
@@ -9377,9 +9375,7 @@ $L_render_intro_9:
 render_level_complete:
   .file render.abc
   .line 387
-  call  render_level
-  .line 385
-  ret
+  jmp   render_level
 
 render_level:
   .file render.abc
@@ -10044,9 +10040,7 @@ setup:
   p0
   setg  current_map 0
   .line 14
-  call  load_map
-  .line 10
-  ret
+  jmp   load_map
 
 main:
   .file benchmark.abc

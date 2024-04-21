@@ -550,6 +550,15 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
+        // tail call optimization
+        if(i0.instr == I_CALL && i1.instr == I_RET)
+        {
+            i0.instr = I_JMP;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i0.instr == I_REFL)
         {
             if(i1.instr == I_GETR)
