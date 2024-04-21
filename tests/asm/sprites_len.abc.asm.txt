@@ -1042,6 +1042,16 @@ $globinit:
   .line 1
   ret
 
+get_w:
+  .file sprites_len.abc
+  .line 10
+  p3
+  getln 3
+  getp
+  setl  4
+  pop3
+  ret
+
 main:
   .file sprites_len.abc
   .line 25
@@ -1103,13 +1113,7 @@ main:
   .line 48
   p0
   pushl $PD_0 0
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  .line 48
+  call  get_w
   p0
   p128
   sub2b
@@ -1119,13 +1123,7 @@ main:
   .line 49
   p0
   pushl $PD_1 0
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  .line 49
+  call  get_w
   p64
   sub
   not
@@ -1133,13 +1131,7 @@ main:
   .line 50
   p0
   pushl $PD_2 0
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  .line 50
+  call  get_w
   p32
   sub
   not
@@ -1147,13 +1139,7 @@ main:
   .line 51
   p0
   pushl $PD_3 0
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  .line 51
+  call  get_w
   p16
   sub
   not
@@ -1161,13 +1147,7 @@ main:
   .line 52
   p0
   pushl $PD_4 0
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  .line 52
+  call  get_w
   p8
   sub
   not
@@ -1175,13 +1155,7 @@ main:
   .line 53
   p0
   pushl $PD_5 0
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  .line 53
+  call  get_w
   p4
   sub
   not
@@ -1189,15 +1163,7 @@ main:
   .line 55
   p0
   pushl $PD_0 0
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  .line 55
+  call  get_h
   p64
   sub
   not
@@ -1205,15 +1171,7 @@ main:
   .line 56
   p0
   pushl $PD_1 0
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  .line 56
+  call  get_h
   p32
   sub
   not
@@ -1221,15 +1179,7 @@ main:
   .line 57
   p0
   pushl $PD_2 0
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  .line 57
+  call  get_h
   p16
   sub
   not
@@ -1237,15 +1187,7 @@ main:
   .line 58
   p0
   pushl $PD_3 0
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  .line 58
+  call  get_h
   p8
   sub
   not
@@ -1253,15 +1195,7 @@ main:
   .line 59
   p0
   pushl $PD_4 0
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  .line 59
+  call  get_h
   p4
   sub
   not
@@ -1269,15 +1203,7 @@ main:
   .line 60
   p0
   pushl $PD_5 0
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  .line 60
+  call  get_h
   p2
   sub
   not
@@ -1285,15 +1211,7 @@ main:
   .line 62
   p00
   pushl $PD_0 0
-  .line 20
-  p3
-  getln 3
-  p2
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  .line 62
+  call  get_len
   p1
   sub2b
   bool2
@@ -1302,15 +1220,7 @@ main:
   .line 63
   p00
   pushl $PD_1 0
-  .line 20
-  p3
-  getln 3
-  p2
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  .line 63
+  call  get_len
   p4
   sub2b
   bool2
@@ -1319,15 +1229,7 @@ main:
   .line 64
   p00
   pushl $PD_2 0
-  .line 20
-  p3
-  getln 3
-  p2
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  .line 64
+  call  get_len
   p16
   sub2b
   bool2
@@ -1336,15 +1238,7 @@ main:
   .line 65
   p00
   pushl $PD_3 0
-  .line 20
-  p3
-  getln 3
-  p2
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  .line 65
+  call  get_len
   p64
   sub2b
   bool2
@@ -1353,15 +1247,7 @@ main:
   .line 66
   p00
   pushl $PD_4 0
-  .line 20
-  p3
-  getln 3
-  p2
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  .line 66
+  call  get_len
   p0
   p1
   sub2
@@ -1371,15 +1257,7 @@ main:
   .line 67
   p00
   pushl $PD_5 0
-  .line 20
-  p3
-  getln 3
-  p2
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  .line 67
+  call  get_len
   p0
   p4
   sub2
@@ -1389,5 +1267,29 @@ main:
   .line 70
   sys   debug_break
   .line 23
+  ret
+
+get_h:
+  .file sprites_len.abc
+  .line 15
+  p3
+  getln 3
+  p1
+  add3b
+  getp
+  setl  4
+  pop3
+  ret
+
+get_len:
+  .file sprites_len.abc
+  .line 20
+  p3
+  getln 3
+  p2
+  add3b
+  getpn 2
+  setl2 5
+  pop3
   ret
 

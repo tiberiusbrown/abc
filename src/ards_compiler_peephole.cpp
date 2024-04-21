@@ -143,8 +143,8 @@ bool compiler_t::inline_or_remove_functions()
         }
         else if(should_inline(n, c))
         {
-            inline_function(n);
-            t = true;
+            //inline_function(n);
+            //t = true;
         }
     }
     return t;
