@@ -32,20 +32,49 @@ void compiler_t::tail_call_optimization()
     }
 }
 
-void compiler_t::remove_unreferenced_labels()
+bool compiler_t::remove_unreferenced_labels()
 {
     std::unordered_map<std::string, int> label_counts;
     for(auto const& [n, f] : funcs)
         for(auto const& i : f.instrs)
             if(!i.is_label && !i.label.empty())
                 label_counts[i.label] += 1;
+    bool t = false;
     for(auto& [n, f] : funcs)
     {
         for(auto& i : f.instrs)
             if(i.is_label && label_counts[i.label] == 0)
-                i.instr = I_REMOVE;
+                i.instr = I_REMOVE, t = true;
         clear_removed_instrs(f.instrs);
     }
+    return t;
+}
+
+bool compiler_t::merge_adjacent_labels()
+{
+    bool t = false;
+    for(auto& [n, f] : funcs)
+    {
+        for(size_t i = 0; i < f.instrs.size(); ++i)
+        {
+            if(!f.instrs[i].is_label) continue;
+            for(size_t j = i + 1; j < f.instrs.size(); ++j)
+            {
+                auto& j0 = f.instrs[j];
+                if(!j0.is_label)
+                    break;
+                
+                for(auto& ti : f.instrs)
+                    if(!ti.is_label && ti.label == j0.label)
+                        ti.label = f.instrs[i].label;
+
+                j0.instr = I_REMOVE;
+                t = true;
+            }
+        }
+        clear_removed_instrs(f.instrs);
+    }
+    return t;
 }
 
 bool compiler_t::is_inlinable(
@@ -207,8 +236,8 @@ bool compiler_t::peephole(compiler_func_t& f)
         t = true;
     while(peephole_compress_duplicate_pushes(f))
         t = true;
-
-    remove_unreferenced_labels();
+    while(peephole_jmp_to_ret(f))
+        t = true;
 
     return t;
 }
@@ -1688,6 +1717,53 @@ bool compiler_t::peephole_compress_duplicate_pushes(compiler_func_t& f)
             }
             if(t) continue;
         }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_jmp_to_ret(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+
+        if(i0.instr != I_JMP) continue;
+
+        size_t labeli;
+        for(labeli = 0; labeli < f.instrs.size(); ++labeli)
+            if(f.instrs[labeli].is_label && f.instrs[labeli].label == i0.label)
+                break;
+        if(labeli >= f.instrs.size()) continue;
+
+        size_t n = 0;
+        for(size_t j = labeli + 1; j < f.instrs.size(); ++j)
+        {
+            auto& j0 = f.instrs[j];
+            if(n >= 8 || j == i || j0.is_label ||
+                j0.instr == I_BZ || j0.instr == I_BNZ ||
+                j0.instr == I_BZP || j0.instr == I_BNZP)
+            {
+                n = 0;
+                break;
+            };
+
+            n += 1;
+
+            if(j0.instr == I_JMP || j0.instr == I_RET)
+                break;
+        }
+        if(n == 0) continue;
+
+        std::vector<compiler_instr_t> slice(
+            f.instrs.begin() + labeli + 1,
+            f.instrs.begin() + labeli + 1 + n);
+        i0.instr = I_REMOVE;
+        f.instrs.insert(f.instrs.begin() + i, slice.begin(), slice.end());
+
+        t = true;
     }
     return t;
 }

@@ -674,7 +674,8 @@ private:
         size_t iw, size_t ih, size_t w, size_t h, bool masked,
         std::vector<uint8_t> const& idata);
 
-    void remove_unreferenced_labels();
+    bool remove_unreferenced_labels();
+    bool merge_adjacent_labels();
 
     bool is_inlinable(std::string const& func, std::unordered_set<std::string>& refs);
     bool is_inlinable(std::string const& func);
@@ -700,6 +701,7 @@ private:
     bool peephole_compress_push(compiler_func_t& f);
     bool peephole_compress_pushes_pushn(compiler_func_t& f);
     bool peephole_compress_duplicate_pushes(compiler_func_t& f);
+    bool peephole_jmp_to_ret(compiler_func_t& f);
 
     void tail_call_optimization();
 

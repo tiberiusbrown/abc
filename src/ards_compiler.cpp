@@ -556,6 +556,8 @@ void compiler_t::compile(
             while(peephole(f))
                 ;
         }
+        repeat |= remove_unreferenced_labels();
+        repeat |= merge_adjacent_labels();
     }
     
     tail_call_optimization();
