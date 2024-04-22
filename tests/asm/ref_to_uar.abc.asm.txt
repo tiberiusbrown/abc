@@ -24,7 +24,26 @@ main:
   .line 3
   p0000
   .line 4
-  jmp   $L_main_2
+  dupw
+  dupw7
+  cult2
+  bnz   $L_main_1
+  pop2
+  .line 6
+  setl2 6
+  pop4
+  .line 15
+  dupw
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 17
+  sys   debug_break
+  .line 9
+  popn  8
+  ret
 $L_main_1:
   .line 5
   dupw3
@@ -39,7 +58,6 @@ $L_main_1:
   p1
   add2b
   setl2 2
-$L_main_2:
   dupw
   dupw7
   cult2
