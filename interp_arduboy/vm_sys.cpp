@@ -532,13 +532,14 @@ static void sys_set_frame_rate()
     auto ptr = vm_pop_begin();
     uint8_t fr = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    ards::vm.frame_dur = 1000u / fr;
+    ards::vm.frame_dur = fr > 4 ? 1024u / fr : 255;
 }
 
 extern unsigned long volatile timer0_millis;
+extern unsigned long volatile timer0_overflow_count;
 static void sys_next_frame()
 {
-    uint8_t now = (uint8_t)timer0_millis;
+    uint8_t now = (uint8_t)timer0_overflow_count;
     uint8_t frame_duration = now - ards::vm.frame_start;
     
     if(ards::vm.just_rendered)
