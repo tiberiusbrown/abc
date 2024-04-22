@@ -236,8 +236,8 @@ bool compiler_t::peephole(compiler_func_t& f)
         t = true;
     while(peephole_compress_duplicate_pushes(f))
         t = true;
-    while(peephole_jmp_to_ret(f))
-        t = true;
+    //while(peephole_jmp_to_ret(f))
+    //    t = true;
 
     return t;
 }

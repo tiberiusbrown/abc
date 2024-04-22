@@ -3927,12 +3927,8 @@ update:
   bnz   $L_update_0
   .line 6
   call  update_level
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 5
+  jmp   $L_update_35
 $L_update_0:
   .line 7
   getg  state 0
@@ -3940,12 +3936,8 @@ $L_update_0:
   bnz   $L_update_1
   .line 8
   call  update_intro
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 7
+  jmp   $L_update_35
 $L_update_1:
   .line 9
   getg  state 0
@@ -3968,12 +3960,8 @@ $L_update_1:
   inc
   setg  current_map 0
 $L_update_91:
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 9
+  jmp   $L_update_35
 $L_update_2:
   .line 11
   getg  state 0
@@ -3994,16 +3982,8 @@ $L_update_2:
   dec
   setg  pause_menui 0
 $L_update_38:
-  .line 118
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 77
+  jmp   $L_update_48
 $L_update_39:
   .line 82
   p16
@@ -4019,16 +3999,8 @@ $L_update_39:
   inc
   setg  pause_menui 0
 $L_update_40:
-  .line 118
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 82
+  jmp   $L_update_48
 $L_update_41:
   .line 87
   p8
@@ -4040,16 +4012,8 @@ $L_update_41:
   .line 90
   p2
   setg  state 0
-  .line 118
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 89
+  jmp   $L_update_46
 $L_update_42:
   .line 91
   getg  pause_menui 0
@@ -4061,23 +4025,14 @@ $L_update_42:
   getg  sound_on 0
   not
   setg  sound_on 0
-  .line 118
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 91
+  jmp   $L_update_46
 $L_update_43:
   .line 96
   getg  pause_menui 0
   p2
   sub
-  .line 87
-  bz    $L_update_48
+  bz    $L_update_46
   .line 98
   getg  pause_menui 0
   p3
@@ -4101,16 +4056,8 @@ $L_update_43:
   p1
   setg  state 0
   pop
-  .line 118
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 100
+  jmp   $L_update_46
 $L_update_45:
   .line 111
   p0
@@ -4119,16 +4066,8 @@ $L_update_45:
   push  9
   setg  state 0
 $L_update_46:
-  .line 118
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 87
+  jmp   $L_update_48
 $L_update_47:
   .line 116
   p4
@@ -4142,12 +4081,8 @@ $L_update_48:
   getg  frame_count 0
   dec
   setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 11
+  jmp   $L_update_35
 $L_update_3:
   .line 13
   getg  state 0
@@ -4168,16 +4103,8 @@ $L_update_3:
   dec
   setg  pause_menui 0
 $L_update_22:
-  .line 72
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 41
+  jmp   $L_update_30
 $L_update_23:
   .line 46
   p16
@@ -4193,16 +4120,8 @@ $L_update_23:
   inc
   setg  pause_menui 0
 $L_update_24:
-  .line 72
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 46
+  jmp   $L_update_30
 $L_update_25:
   .line 51
   p8
@@ -4214,16 +4133,8 @@ $L_update_25:
   .line 55
   p2
   setg  state 0
-  .line 72
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 53
+  jmp   $L_update_27
 $L_update_26:
   .line 57
   getg  pause_menui 0
@@ -4238,16 +4149,8 @@ $L_update_26:
   .line 62
   sys   save
 $L_update_27:
-  .line 72
-  getg  frame_count 0
-  dec
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 51
+  jmp   $L_update_30
 $L_update_29:
   .line 67
   p4
@@ -4264,12 +4167,8 @@ $L_update_30:
   getg  frame_count 0
   dec
   setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 13
+  jmp   $L_update_35
 $L_update_4:
   .line 15
   getg  state 0
@@ -4278,12 +4177,8 @@ $L_update_4:
   bnz   $L_update_5
   .line 16
   call  update_score_tally
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 15
+  jmp   $L_update_35
 $L_update_5:
   .line 17
   getg  state 0
@@ -4335,13 +4230,7 @@ $L_update_75:
   setg  single_level 0
   .line 190
   getg  save_exists 0
-  bnz   $L_update_77
-  .line 201
-  p1
-  setg  state 0
-  .line 187
-  jmp   $L_update_84
-$L_update_77:
+  bz    $L_update_78
   .line 194
   getg  saved_current_map 0
   setg  current_map 0
@@ -4364,6 +4253,7 @@ $L_update_77:
   .line 199
   getg  saved_lives 0
   setg  lives 0
+$L_update_78:
   .line 201
   p1
   setg  state 0
@@ -4450,12 +4340,8 @@ $L_update_86:
   inc
   setg  menui 0
 $L_update_88:
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 17
+  jmp   $L_update_35
 $L_update_6:
   .line 19
   getg  state 0
@@ -4479,29 +4365,19 @@ $L_update_6:
   dec
   setg  levelseloff 0
 $L_update_57:
-  .line 144
-  p0
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 137
+  jmp   $L_update_59
 $L_update_58:
   .line 143
   getg  levelseli 0
   dec
   setg  levelseli 0
+$L_update_59:
   .line 144
   p0
   setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 135
+  jmp   $L_update_66
 $L_update_60:
   .line 146
   p16
@@ -4522,15 +4398,8 @@ $L_update_60:
   inc
   setg  levelseloff 0
 $L_update_61:
-  .line 155
-  p0
-  setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 148
+  jmp   $L_update_63
 $L_update_62:
   .line 153
   getg  levelseli 0
@@ -4552,12 +4421,8 @@ $L_update_63:
   .line 155
   p0
   setg  frame_count 0
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 146
+  jmp   $L_update_66
 $L_update_64:
   .line 157
   p4
@@ -4582,12 +4447,8 @@ $L_update_64:
   p1
   setg  state 0
 $L_update_66:
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 19
+  jmp   $L_update_35
 $L_update_7:
   .line 21
   getg  state 0
@@ -4599,12 +4460,8 @@ $L_update_7:
   sys   just_pressed
   bz    $L_update_51
 $L_update_51:
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 21
+  jmp   $L_update_35
 $L_update_8:
   .line 23
   getg  state 0
@@ -4616,12 +4473,8 @@ $L_update_8:
   sys   just_pressed
   bz    $L_update_54
 $L_update_54:
-  .line 28
-  getg  frame_count 0
-  inc
-  setg  frame_count 0
-  .line 1
-  ret
+  .line 23
+  jmp   $L_update_35
 $L_update_9:
   .line 25
   getg  state 0
@@ -4772,9 +4625,8 @@ $L_process_map_tile_4:
   p0000
   setg4 dcamx 0
   popn  8
-  .line 104
-  pop3
-  ret
+  .line 108
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_5:
   .line 123
   dup3
@@ -4797,9 +4649,8 @@ $L_process_map_tile_5:
   p00
   p0000
   call  add_object
-  .line 104
-  pop3
-  ret
+  .line 123
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_6:
   .line 127
   dup3
@@ -4822,9 +4673,8 @@ $L_process_map_tile_6:
   p00
   p0000
   call  add_object
-  .line 104
-  pop3
-  ret
+  .line 127
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_7:
   .line 131
   dup3
@@ -4848,9 +4698,8 @@ $L_process_map_tile_7:
   p00
   p0000
   call  add_object
-  .line 104
-  pop3
-  ret
+  .line 131
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_8:
   .line 135
   dup3
@@ -4873,9 +4722,8 @@ $L_process_map_tile_8:
   p00
   p0000
   call  add_object
-  .line 104
-  pop3
-  ret
+  .line 135
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_9:
   .line 139
   dup3
@@ -5035,9 +4883,8 @@ $L_process_map_tile_34:
   getl4 19
   call  add_object
   popn  11
-  .line 104
-  pop3
-  ret
+  .line 139
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_20:
   .line 161
   dup3
@@ -5090,9 +4937,8 @@ $L_process_map_tile_20:
   pop
   call  add_object
   pop
-  .line 104
-  pop3
-  ret
+  .line 161
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_21:
   .line 166
   dup3
@@ -5145,9 +4991,8 @@ $L_process_map_tile_21:
   pop
   call  add_object
   pop
-  .line 104
-  pop3
-  ret
+  .line 166
+  jmp   $L_process_map_tile_32
 $L_process_map_tile_22:
   .line 171
   dup3
@@ -5703,8 +5548,8 @@ $L_update_score_tally_6:
   .line 259
   p8
   setg  state 0
-  .line 228
-  ret
+  .line 256
+  jmp   $L_update_score_tally_13
 $L_update_score_tally_7:
   .line 261
   getg  current_map 0
@@ -5712,7 +5557,9 @@ $L_update_score_tally_7:
   cult
   bz    $L_update_score_tally_8
   .line 262
-  jmp   load_map
+  call  load_map
+  .line 261
+  jmp   $L_update_score_tally_13
 $L_update_score_tally_8:
   .line 265
   p3
@@ -5763,8 +5610,9 @@ $L_update_score_tally_11:
   .line 274
   p7
   setg  state 0
-  .line 228
-  ret
+$L_update_score_tally_13:
+  .line 252
+  jmp   $L_update_score_tally_16
 $L_update_score_tally_14:
   .line 277
   p4
@@ -5789,13 +5637,16 @@ update_intro:
   bnz   $L_update_intro_1
 $L_update_intro_8:
   .line 286
-  jmp   load_map
+  call  load_map
+  .line 285
+  jmp   $L_update_intro_2
 $L_update_intro_1:
   .line 288
   p6
   setg  state 0
-  .line 281
-  ret
+$L_update_intro_2:
+  .line 283
+  jmp   $L_update_intro_5
 $L_update_intro_3:
   .line 290
   p4
@@ -6565,15 +6416,8 @@ $L_update_level_71:
   setr
 $L_update_level_72:
   pop2
-  .line 616
-  dupw
-  dupw6
-  p1
-  add2b
-  setr2
-  pop2
-  .line 593
-  jmp   $L_update_level_81
+  .line 596
+  jmp   $L_update_level_75
 $L_update_level_73:
   .line 608
   dupw4
@@ -6600,6 +6444,7 @@ $L_update_level_73:
   setr
 $L_update_level_74:
   pop2
+$L_update_level_75:
   .line 616
   dupw
   dupw6
@@ -6919,8 +6764,8 @@ $L_update_level_117:
   push2 49088
   setg4 vx 0
 $L_update_level_121:
-  .line 806
-  jmp   $L_update_level_113
+  .line 735
+  jmp   $L_update_level_127
 $L_update_level_122:
   .line 707
   getg  death_frames 0
@@ -7564,9 +7409,8 @@ $L_resolve_player_collision_20:
   setg4 py 0
 $L_resolve_player_collision_11:
   pop4
-  .line 516
-  popn  6
-  ret
+  .line 541
+  jmp   $L_resolve_player_collision_17
 $L_resolve_player_collision_12:
   .line 555
   p0000
@@ -7651,7 +7495,9 @@ render:
   sub
   bnz   $L_render_0
   .line 14
-  jmp   render_level
+  call  render_level
+  .line 13
+  jmp   $L_render_19
 $L_render_0:
   .line 15
   getg  state 0
@@ -7659,7 +7505,9 @@ $L_render_0:
   sub
   bnz   $L_render_1
   .line 387
-  jmp   render_level
+  call  render_level
+  .line 15
+  jmp   $L_render_19
 $L_render_1:
   .line 17
   getg  state 0
@@ -7668,7 +7516,9 @@ $L_render_1:
   bnz   $L_render_2
   .line 18
   p0
-  jmp   render_pause
+  call  render_pause
+  .line 17
+  jmp   $L_render_19
 $L_render_2:
   .line 19
   getg  state 0
@@ -7677,7 +7527,9 @@ $L_render_2:
   bnz   $L_render_3
   .line 20
   p1
-  jmp   render_pause
+  call  render_pause
+  .line 19
+  jmp   $L_render_19
 $L_render_3:
   .line 21
   getg  state 0
@@ -8097,8 +7949,8 @@ $L_render_79:
   p0
   sys   draw_text_P
 $L_render_80:
-  .line 11
-  ret
+  .line 21
+  jmp   $L_render_19
 $L_render_5:
   .line 23
   getg  state 0
@@ -8222,8 +8074,8 @@ $L_render_70:
   push  14
   p0
   sys   draw_sprite
-  .line 11
-  ret
+  .line 23
+  jmp   $L_render_19
 $L_render_6:
   .line 25
   getg  state 0
@@ -8417,8 +8269,8 @@ $L_render_57:
   p0
   sys   draw_sprite
   pop
-  .line 11
-  ret
+  .line 25
+  jmp   $L_render_19
 $L_render_7:
   .line 27
   getg  state 0
@@ -8994,10 +8846,8 @@ $L_render_46:
   sub2b
   sys   draw_text
   popn  11
-  .line 283
-  popn  8
-  .line 11
-  ret
+  .line 275
+  jmp   $L_render_48
 $L_render_47:
   .line 283
   pushl $PD_66 0
@@ -9008,9 +8858,10 @@ $L_render_47:
   push  110
   p0
   sys   draw_text_P
+$L_render_48:
   popn  8
-  .line 11
-  ret
+  .line 27
+  jmp   $L_render_19
 $L_render_8:
   .line 29
   getg  state 0
@@ -9207,8 +9058,8 @@ $L_render_64:
   p0
   sys   draw_sprite
   pop
-  .line 11
-  ret
+  .line 29
+  jmp   $L_render_19
 $L_render_9:
   .line 31
   getg  state 0
@@ -9629,11 +9480,8 @@ $L_render_level_1:
   p128
   add2b
   sys   draw_sprite
-  .line 428
-  popn  9
-  .line 432
-  p0
-  jmp   $L_render_level_7
+  .line 414
+  jmp   $L_render_level_5
 $L_render_level_2:
   .line 424
   dupw5
@@ -9674,6 +9522,7 @@ $L_render_level_4:
   p128
   add2b
   sys   draw_sprite
+$L_render_level_5:
   popn  9
   .line 432
   p0
@@ -9813,14 +9662,15 @@ $L_render_level_20:
   .line 462
   pop4
   jmp   $L_render_level_19
-  .line 459
-  jmp   $L_render_level_26
+  .line 461
+  jmp   $L_render_level_23
 $L_render_level_22:
   .line 464
   dup2
   p64
   add
   setl  1
+$L_render_level_23:
   .line 459
   jmp   $L_render_level_26
 $L_render_level_24:
