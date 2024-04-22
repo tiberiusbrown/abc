@@ -21,17 +21,7 @@ main:
   refl  8
   p3
   p0
-  .line 3
-  p0000
-  .line 4
-  dupw
-  dupw7
-  cult2
-  bnz   $L_main_1
-  pop2
-  .line 6
-  setl2 6
-  pop4
+  call  sum
   .line 15
   dupw
   p6
@@ -44,7 +34,14 @@ main:
   .line 9
   popn  8
   ret
-$L_main_1:
+
+sum:
+  .file ref_to_uar.abc
+  .line 3
+  p0000
+  .line 4
+  jmp   $L_sum_1
+$L_sum_2:
   .line 5
   dupw3
   getl4 10
@@ -58,24 +55,14 @@ $L_main_1:
   p1
   add2b
   setl2 2
+$L_sum_1:
   dupw
   dupw7
   cult2
-  bnz   $L_main_1
+  bnz   $L_sum_2
   pop2
   .line 6
   setl2 6
   pop4
-  .line 15
-  dupw
-  p6
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 17
-  sys   debug_break
-  .line 9
-  popn  8
   ret
 

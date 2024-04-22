@@ -549,7 +549,9 @@ void compiler_t::compile(
     // peephole optimizations
     for(bool repeat = true; repeat;)
     {
-        repeat = inline_or_remove_functions();
+        repeat = false;
+        if(enable_inlining)
+            repeat |= inline_or_remove_functions();
         for(auto& [n, f] : funcs)
         {
             if(!errs.empty()) return;

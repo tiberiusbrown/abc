@@ -34,26 +34,7 @@ main:
   p0000
   pz16
   .line 23
-  dup
-  p0
-  push  10
-  p0
-  cslt2
-  bnz   $L_main_2
-  popn  23
-  .line 27
-  p0
-  dup
-  p0
-  push  30
-  p0
-  cslt2
-  bnz   $L_main_6
-  pop
-  .line 30
-  sys   debug_break
-  .line 10
-  ret
+  jmp   $L_main_1
 $L_main_2:
   .line 24
   dup
@@ -66,6 +47,7 @@ $L_main_2:
   setr2
   .line 23
   inc
+$L_main_1:
   dup
   p0
   push  10
@@ -75,17 +57,7 @@ $L_main_2:
   popn  23
   .line 27
   p0
-  dup
-  p0
-  push  30
-  p0
-  cslt2
-  bnz   $L_main_6
-  pop
-  .line 30
-  sys   debug_break
-  .line 10
-  ret
+  jmp   $L_main_5
 $L_main_6:
   .line 28
   dup
@@ -98,6 +70,7 @@ $L_main_6:
   setr2
   .line 27
   inc
+$L_main_5:
   dup
   p0
   push  30

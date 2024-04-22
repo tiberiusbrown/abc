@@ -575,6 +575,9 @@ struct compiler_t
     // "Private but technically public" API
     //
 
+    bool enable_inlining = false;
+    bool enable_jmp_to_ret = false;
+
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
 
     void encode_font_ttf(
