@@ -113,6 +113,14 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
         return;
     case AST::OP_CAST:
         assert(n.children.size() == 2);
+        if(n.children[0].comp_type.without_ref().is_label_ref() &&
+            n.children[1].comp_type.without_ref() != n.children[0].comp_type.without_ref())
+        {
+            errs.push_back({
+                "Incompatible conversion to asset handle type",
+                n.line_info });
+            return;
+        }
         if(is_float == n.children[1].comp_type.is_float)
             n.value = n.children[1].value;
         else if(is_float)
@@ -165,7 +173,7 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
                     errs.push_back({
                         "The modulo operator may not be applied to floating point values",
                         n.line_info });
-                            return;
+                    return;
                 }
                 else
                     assert(false);
