@@ -98,36 +98,28 @@ std::string compiler_t::encode_tones_midi(
         while(tone.start_tick > tick)
         {
             // insert silence
-            //uint16_t per = periods[0];
             uint8_t per = 0;
-            //uint16_t dur = uint16_t(std::min<int>(tone.start_tick - tick, UINT16_MAX));
             uint8_t dur = uint8_t(std::min<int>(tone.start_tick - tick, 255));
             data.push_back(uint8_t(per >> 0));
-            //data.push_back(uint8_t(per >> 8));
             data.push_back(uint8_t(dur >> 0));
-            //data.push_back(uint8_t(dur >> 8));
             tick += dur;
         }
 
+        int ticks_left = tone.dur_ticks;
         while(tick < tone.start_tick + tone.dur_ticks)
         {
             // insert note
-            //uint16_t per = periods[std::clamp(tone.note, 1, 127)];
             uint8_t per = (uint8_t)std::clamp(tone.note, 1, 127);
-            //uint16_t dur = uint16_t(std::min<int>(tone.dur_ticks, UINT16_MAX));
-            uint8_t dur = uint8_t(std::min<int>(tone.dur_ticks, 255));
+            uint8_t dur = uint8_t(std::min<int>(ticks_left, 255));
             data.push_back(uint8_t(per >> 0));
-            //data.push_back(uint8_t(per >> 8));
             data.push_back(uint8_t(dur >> 0));
-            //data.push_back(uint8_t(dur >> 8));
             tick += dur;
+            ticks_left -= dur;
         }
     }
 
     data.push_back(255);
     data.push_back(0);
-    //data.push_back(0);
-    //data.push_back(0);
 
     return "";
 }
