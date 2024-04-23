@@ -152,6 +152,7 @@ static void seek_to_pc()
             cpi  r16, %[tones_maxsize]
             brsh 2f
             clr  r1
+            rcall L%=_delay_13
             sbi  %[fxport], %[fxbit]
             call %x[tones_update]
             rjmp 1b
