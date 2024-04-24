@@ -2,6 +2,9 @@ void update()
 {
     $poll_buttons();
 
+    if(!$tones_playing())
+        $tones_play(tones{ "../midi/simple.mid" });
+
     if(state == STATE_LEVEL)
         update_level();
     else if(state == STATE_INTRO)

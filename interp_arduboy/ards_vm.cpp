@@ -322,7 +322,7 @@ I_PUSH:
     lpm
     dispatch_noalign_reverse
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_P0:
@@ -330,7 +330,7 @@ I_P0:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 0
     mov  r9, r16
     dispatch
@@ -340,7 +340,7 @@ I_P1:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 1
     mov  r9, r16
     dispatch
@@ -350,7 +350,7 @@ I_P2:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 2
     mov  r9, r16
     dispatch
@@ -360,7 +360,7 @@ I_P3:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 3
     mov  r9, r16
     dispatch
@@ -370,7 +370,7 @@ I_P4:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 4
     mov  r9, r16
     dispatch
@@ -380,7 +380,7 @@ I_P5:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 5
     mov  r9, r16
     dispatch
@@ -390,7 +390,7 @@ I_P6:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 6
     mov  r9, r16
     dispatch
@@ -400,7 +400,7 @@ I_P7:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 7
     mov  r9, r16
     dispatch
@@ -410,7 +410,7 @@ I_P8:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 8
     mov  r9, r16
     dispatch
@@ -420,7 +420,7 @@ I_P16:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 16
     mov  r9, r16
     dispatch
@@ -430,7 +430,7 @@ I_P32:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 32
     mov  r9, r16
     dispatch
@@ -440,7 +440,7 @@ I_P64:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 64
     mov  r9, r16
     dispatch
@@ -450,7 +450,7 @@ I_P128:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  ldi  r16, 128
     mov  r9, r16
     dispatch_noalign
@@ -467,7 +467,7 @@ I_P00:
     clr  r9
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_P000:
@@ -479,7 +479,7 @@ I_P000:
     clr  r9
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_P0000:
@@ -492,7 +492,7 @@ I_P0000:
     clr  r9
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_PZ8:
@@ -509,7 +509,7 @@ I_PZ8:
     clr  r9
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_PZ16:
@@ -535,7 +535,7 @@ I_PZ16:
     dispatch_noalign
 push2_error:
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_PUSH2:
@@ -599,7 +599,7 @@ I_PUSH3:
 push3_error:
 push4_error:
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_PUSH4:
@@ -640,7 +640,7 @@ I_SEXT:
     nop
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_SEXT2:
@@ -652,7 +652,7 @@ I_SEXT2:
     st   Y+, r9
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_SEXT3:
@@ -665,7 +665,7 @@ I_SEXT3:
     st   Y+, r9
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP:
@@ -674,7 +674,7 @@ I_DUP:
     breq 1f
     dispatch_noalign_reverse
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP2:
@@ -686,7 +686,7 @@ I_DUP2:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP3:
@@ -698,7 +698,7 @@ I_DUP3:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP4:
@@ -710,7 +710,7 @@ I_DUP4:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP5:
@@ -722,7 +722,7 @@ I_DUP5:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP6:
@@ -734,7 +734,7 @@ I_DUP6:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP7:
@@ -746,7 +746,7 @@ I_DUP7:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUP8:
@@ -758,7 +758,7 @@ I_DUP8:
     ld   r9, X
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW:
@@ -772,7 +772,7 @@ I_DUPW:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW2:
@@ -786,7 +786,7 @@ I_DUPW2:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW3:
@@ -800,7 +800,7 @@ I_DUPW3:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW4:
@@ -814,7 +814,7 @@ I_DUPW4:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW5:
@@ -828,7 +828,7 @@ I_DUPW5:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW6:
@@ -842,7 +842,7 @@ I_DUPW6:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW7:
@@ -856,7 +856,7 @@ I_DUPW7:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_DUPW8:
@@ -870,7 +870,7 @@ I_DUPW8:
     ld   r9, X+
     dispatch_noalign
 1:  ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_GETL:
@@ -878,7 +878,7 @@ I_GETL:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -899,7 +899,7 @@ I_GETL2:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -921,7 +921,7 @@ I_GETL4:
     brlo 1f
 getln_error:
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  add  r6, r4
     movw r26, r28
     in   r0, %[spdr]
@@ -1051,7 +1051,7 @@ I_GETG:
     cpi  r28, 255
     brne 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -1094,7 +1094,7 @@ I_GETG2:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  nop
     cli
     out  %[spdr], r2
@@ -1120,7 +1120,7 @@ I_GETG4:
     brlo 1f
 getgn_error:
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  rjmp .+0
     in   r26, %[spdr]
     out  %[spdr], r2
@@ -1174,7 +1174,7 @@ I_GTGB:
     cpi  r28, 255
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  st   Y+, r9
     in   r10, %[sreg]
     cli
@@ -1200,7 +1200,7 @@ I_GTGB2:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  st   Y+, r9
     in   r10, %[sreg]
     cli
@@ -1224,7 +1224,7 @@ I_GTGB4:
     cpi  r28, 252
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  st   Y+, r9
     ldi  r27, 2
     add  r6, r4
@@ -1472,7 +1472,7 @@ I_SETR:
     dispatch_noalign
 getrn_error:
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
     ; TODO: SPACE HERE
 
@@ -1603,7 +1603,7 @@ I_AIXB1:
     dispatch_noalign_reverse
 aidx_error:
     ldi  r24, 2
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_AIDXB:
@@ -1974,7 +1974,7 @@ I_REFL:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -2005,7 +2005,7 @@ I_REFGB:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  in   r10, %[sreg]
     cli
     out  %[spdr], r2
@@ -2085,7 +2085,7 @@ I_PINC3:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
@@ -2106,7 +2106,7 @@ I_PINC4:
     cpi  r28, 253
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
@@ -2154,7 +2154,7 @@ I_PDEC3:
     cpi  r28, 254
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
@@ -2175,7 +2175,7 @@ I_PDEC4:
     cpi  r28, 253
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  mov  r27, r9
     ld   r26, -Y
     ld   r16, X+
@@ -2202,7 +2202,7 @@ I_PINCF:
     cpi  r28, 253
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  mov  r27, r9
     ld   r26, -Y
     ld   r22, X+
@@ -2232,7 +2232,7 @@ I_PDECF:
     cpi  r28, 253
     brlo 1f
     ldi  r24, 5
-    jmp  call_vm_error
+    call call_vm_error
 1:  mov  r27, r9
     ld   r26, -Y
     ld   r22, X+
@@ -2486,7 +2486,7 @@ I_UDIV2:
     cpc  r23, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
@@ -2511,7 +2511,7 @@ I_UDIV4:
     cpc  r21, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
@@ -2534,7 +2534,7 @@ I_DIV2:
     cpc  r23, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
@@ -2559,7 +2559,7 @@ I_DIV4:
     cpc  r21, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
@@ -2582,7 +2582,7 @@ I_UMOD2:
     cpc  r23, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
@@ -2607,7 +2607,7 @@ I_UMOD4:
     cpc  r21, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
@@ -2630,7 +2630,7 @@ I_MOD2:
     cpc  r23, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
@@ -2655,7 +2655,7 @@ I_MOD4:
     cpc  r21, r2
     brne 1f
     ldi  r24, 3
-    jmp  call_vm_error
+    call call_vm_error
 1:  movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
@@ -3582,7 +3582,7 @@ I_JMP1:
     rjmp jump_to_pc_delayed2
 call_error:
     ldi  r24, 6
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_CALL:
@@ -3642,7 +3642,7 @@ I_CALL1:
     adc  r8, r1
     rjmp jump_to_pc_delayed2
 1:  ldi  r24, 6
-    jmp  call_vm_error
+    call call_vm_error
     .align 6
 
 I_RET:
@@ -3886,7 +3886,7 @@ upidx_impl:
 
 upidx_error:
     ldi  r24, 2
-    rjmp call_vm_error
+    rcall call_vm_error
     
 jump_to_pc:
     fx_disable
