@@ -416,6 +416,15 @@ void compiler_t::codegen_convert(
     auto const& rfrom = orig_from.without_ref();
     auto const& rto = orig_to.without_ref();
 
+    if(rto.is_label_ref() && (
+        !rfrom.is_label_ref() || rto.without_prog() != rfrom.without_prog()))
+    {
+        errs.push_back({
+            "Invalid conversion to asset handle",
+            n.line_info });
+        return;
+    }
+
     auto* pfrom = &orig_from;
     if(rto.is_array() && rfrom.is_array_ref())
     {
