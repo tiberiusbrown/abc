@@ -3924,7 +3924,8 @@ jump_to_pc_delayed2:
     dispatch_noalign_reverse
     
 2:  clr  r1
-    rcall seek_delay_11
+    lpm
+    rjmp .+0
     fx_disable
     call %x[tones_update]
     rjmp 1b
