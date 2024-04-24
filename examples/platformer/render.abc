@@ -243,9 +243,9 @@ void render_level_select()
         for(u8 i = 0; i < NUM_MAPS; ++i)
         {
             if(map_high_scores[i] != 0)
-              sum_score += map_high_scores[i];
+                sum_score += map_high_scores[i];
             else
-              has_sum_score = false;
+                has_sum_score = false;
             if(map_best_times[i] != 0)
                 sum_time += map_best_times[i];
             else
