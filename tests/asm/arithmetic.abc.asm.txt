@@ -1044,7 +1044,26 @@ main:
   call  test_u16
   .line 161
   call  test_u24
-  .line 163
+  .line 164
+  push4 1430537284
+  .line 165
+  push2 21845
+  .line 167
+  p6
+  getln 6
+  add3
+  p3
+  setln 6
+  .line 168
+  p3
+  getln 6
+  push3 10066329
+  sub3
+  bool3
+  not
+  sys   assert
+  popn  6
+  .line 171
   sys   debug_break
   .line 154
   ret

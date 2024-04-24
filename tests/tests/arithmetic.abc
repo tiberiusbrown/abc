@@ -160,5 +160,13 @@ void main()
     test_u16();
     test_u24();
     
+    {
+        u24 x = 0x444444;
+        u24 y = 0x555555;
+        
+        x += y;
+        $assert(x == 0x999999);
+    }
+    
     $debug_break();
 }

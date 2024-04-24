@@ -1035,14 +1035,14 @@ I_SETLN:
     brcc 1f
     ld   r0, -Y
     st   -X, r0
-    breq setln_dispatch
+    breq 2f
 1:  ld   r0, -Y
     st   -X, r0
     ld   r0, -Y
     st   -X, r0
     dec  r16
     brne 1b
-    ld   r9, -Y
+2:  ld   r9, -Y
     rjmp setln_dispatch
     .align 6
 

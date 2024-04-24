@@ -54,7 +54,7 @@
    34   setl N
    35   setl2 N
    36   setl4 N
-   36   setln N (3)
+   40   setln N (3)
    49   setln N (5)
    67   setln N (8)
   111   setln N (16)

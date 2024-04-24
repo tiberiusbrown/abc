@@ -1,0 +1,36 @@
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file setln_bug.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  push4 1430537284
+  .line 6
+  push2 21845
+  .line 8
+  p6
+  getln 6
+  add3
+  p3
+  setln 6
+  .line 9
+  p3
+  getln 6
+  push3 10066329
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 11
+  sys   debug_break
+  .line 1
+  popn  6
+  ret
+
