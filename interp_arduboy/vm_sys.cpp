@@ -1737,7 +1737,7 @@ static void sys_tones_play()
 
 static void sys_tones_playing()
 {
-    vm_push<bool>(ards::Tones::playing());
+    vm_push<uint8_t>(ards::Tones::playing());
 }
 
 static void sys_tones_stop()
@@ -1747,7 +1747,7 @@ static void sys_tones_stop()
 
 static void sys_audio_enabled()
 {
-    vm_push<bool>(Arduboy2Audio::enabled());
+    vm_push<uint8_t>(Arduboy2Audio::enabled());
 }
 
 static void sys_audio_toggle()
