@@ -23,7 +23,7 @@ struct SpritesABC
 
     static void drawBasic(
         int16_t x, int16_t y, uint8_t w, uint8_t h,
-        uint24_t image, uint16_t frame, uint8_t mode);
+        uint24_t image, uint8_t mode);
 };
 
 #ifdef SPRITESABC_IMPLEMENTATION
@@ -31,7 +31,7 @@ struct SpritesABC
 __attribute__((naked, noinline))
 void SpritesABC::drawBasic(
     int16_t x, int16_t y, uint8_t w, uint8_t h,
-    uint24_t image, uint16_t frame, uint8_t mode)
+    uint24_t image, uint8_t mode)
 {
     /*
     register bool     bottom     asm("r2");
@@ -41,9 +41,8 @@ void SpritesABC::drawBasic(
     register uint16_t shift_mask asm("r6");
     register uint8_t  cols       asm("r8");
     register uint8_t  buf_data   asm("r9");
-    register uint8_t  a_mode     asm("r10") = mode;
+    register uint8_t  a_mode     asm("r12") = mode;
     register uint8_t  reseek     asm("r11");
-    register uint16_t a_frame    asm("r12") = frame;
     register uint24_t a_image    asm("r14") = image;
     register int8_t   page_start asm("r17");
     register uint8_t  a_h        asm("r18") = h;
@@ -100,36 +99,7 @@ void SpritesABC::drawBasic(
             push r15
             push r16
             push r17
-    
-            cp   r12, __zero_reg__
-            cpc  r13, __zero_reg__
-            breq 1f
-            
-            ; add frame offset to image
-            mov  r6, r18
-            lsr  r6
-            lsr  r6
-            lsr  r6
-            sbrc r10, 0
-            lsl  r6
-            mul  r6, r20
-            movw r6, r0
-            
-            mul  r6, r13
-            add  r15, r0
-            adc  r16, r1
-            mul  r7, r12
-            add  r15, r0
-            adc  r16, r1
-            mul  r7, r13
-            add  r16, r0
-            mul  r6, r12
-            add  r14, r0
-            adc  r15, r1
-            clr  __zero_reg__
-            adc  r16, __zero_reg__
-        1:
-    
+        
             mov  r3, r24
             clr  r2
             mov  r8, r20
@@ -158,7 +128,7 @@ void SpritesABC::drawBasic(
             brge 1f
             com  r17
             sub  r19, r17
-            sbrc r10, 0
+            sbrc r12, 0
             lsl  r17
             mul  r17, r20
             add  r14, r0
@@ -176,7 +146,7 @@ void SpritesABC::drawBasic(
             sbrs r25, 7
             rjmp 2f
             add  r8, r24
-            sbrs r10, 0
+            sbrs r12, 0
             rjmp 1f
             lsl  r24
             rol  r25
@@ -269,11 +239,11 @@ void SpritesABC::drawBasic(
             add  r14, r20
             adc  r15, __zero_reg__
             adc  r16, __zero_reg__
-            sbrc r10, 0
+            sbrc r12, 0
             add  r14, r20
-            sbrc r10, 0
+            sbrc r12, 0
             adc  r15, __zero_reg__
-            sbrc r10, 0
+            sbrc r12, 0
             adc  r16, __zero_reg__
             clr  r11
             cp   r20, r8
@@ -306,9 +276,9 @@ void SpritesABC::drawBasic(
 
         L%=_begin:
 
-            sbrc r10, 1
+            sbrc r12, 1
             rjmp L%=_begin_erase
-            sbrc r10, 2
+            sbrc r12, 2
             rjmp L%=_begin_selfmask
             cp   r17, __zero_reg__
             brlt L%=_top
@@ -324,7 +294,7 @@ void SpritesABC::drawBasic(
             mov  r21, r8
 
             ; loop dispatch
-            sbrc r10, 0
+            sbrc r12, 0
             rjmp L%=_top_loop_masked
 
         L%=_top_loop:
@@ -396,7 +366,7 @@ void SpritesABC::drawBasic(
             mov  r21, r8
 
             ; loop dispatch
-            sbrc r10, 0
+            sbrc r12, 0
             rjmp L%=_middle_loop_inner_masked
 
             lsr  r21
@@ -490,7 +460,7 @@ void SpritesABC::drawBasic(
         L%=_bottom_dispatch:
 
             ; loop dispatch
-            sbrc r10, 0
+            sbrc r12, 0
             rjmp L%=_bottom_loop_masked
 
         L%=_bottom_loop:

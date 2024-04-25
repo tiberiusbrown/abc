@@ -706,12 +706,13 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         draw_sprite_helper_delay_11:
             rjmp .+0
             rjmp .+0
+        draw_sprite_helper_delay_7:
             ret
         1:  ldi  %[w], 5
 
             out  %[spdr], %A[num]
             rcall draw_sprite_helper_delay_16
-            in   r0, %[sreg]
+            in   %B[num], %[sreg]
             out  %[spdr], %A[image]
             add  %A[image], %[w]
             adc  %B[image], __zero_reg__
@@ -723,34 +724,62 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             cli
             out  %[spdr], __zero_reg__
             in   %[w], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %B[num]
             rcall draw_sprite_helper_delay_13
 
             cli
             out  %[spdr], __zero_reg__
             in   %[h], %[spdr]
-            out  %[sreg], r0
+            out  %[sreg], %B[num]
             subi %[h], -7
             andi %[h], 0xf8
-            rcall draw_sprite_helper_delay_11
+
+            ; add frame offset to image
+            mov  %A[ptr], %[h]
+            lsr  %A[ptr]
+            lsr  %A[ptr]
+            lsr  %A[ptr]
+            rcall draw_sprite_helper_delay_7
+
+            cli
+            out  %[spdr], __zero_reg__
+            in   %[mode], %[spdr]
+            out  %[sreg], %B[num]
+
+            ; add frame offset to image
+            or   %[mode], %[mask]
+            sbrc %[mode], 0
+            lsl  %A[ptr]
+            mul  %A[ptr], %[w]
+            movw %A[ptr], r0
+            mul  %A[ptr], %B[frame]
+            add  %B[image], r0
+            adc  %C[image], r1
+            clr  __zero_reg__
+            rjmp .+0
 
             cli
             out  %[spdr], __zero_reg__
             in   %A[num], %[spdr]
-            out  %[sreg], r0
-            rcall draw_sprite_helper_delay_13
+            out  %[sreg], %B[num]
 
-            cli
-            out  %[spdr], __zero_reg__
+            ; add frame offset to image
+            mul  %B[ptr], %A[frame]
+            add  %B[image], r0
+            adc  %C[image], r1
+            mul  %B[ptr], %B[frame]
+            add  %C[image], r0
+            mul  %A[ptr], %A[frame]
+            add  %A[image], r0
+            adc  %B[image], r1
+            clr  __zero_reg__
+            adc  %C[image], __zero_reg__
+            nop
+
             in   %B[num], %[spdr]
-            out  %[sreg], r0
-            rcall draw_sprite_helper_delay_14
-
-            in   %[mode], %[spdr]
             in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
 
-            or   %[mode], %[mask]
         )"
         : [w]        "=&d" (w)
         , [h]        "=&d" (h)
@@ -772,7 +801,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     );
     if(frame >= num)
         vm_error(ards::ERR_FRM);
-    SpritesABC::drawBasic(x, y, w, h, image, frame, mode);
+    SpritesABC::drawBasic(x, y, w, h, image, mode);
 #endif
 
 #if !DRAW_SPRITE_HELPER_OPT
@@ -995,8 +1024,7 @@ static void draw_char(
         , [HEADER] "i"   (FONT_HEADER_BYTES)
         );
         SpritesABC::drawBasic(
-            xv, y, (uint8_t)c, h, addr, 0,
-            ards::vm.text_mode);
+            xv, y, (uint8_t)c, h, addr, ards::vm.text_mode);
 #endif
 }
 

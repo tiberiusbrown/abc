@@ -1,7 +1,7 @@
 .saved 0
 
 $PD_0:
-  .b c 08 08 01 00 00 3c 7e db bf bf db 7e 3c
+  .b c 08 08 00 01 00 3c 7e db bf bf db 7e 3c
 
 $globinit:
   .file <internal>.abc

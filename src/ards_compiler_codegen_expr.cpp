@@ -444,7 +444,7 @@ void compiler_t::codegen_expr(
             {
             case SYS_SPRITES_WIDTH: offset = 0; size = 1; break;
             case SYS_SPRITES_HEIGHT: offset = 1; size = 1; break;
-            case SYS_SPRITES_FRAMES: offset = 2; size = 2; break;
+            case SYS_SPRITES_FRAMES: offset = 3; size = 2; break;
             default: assert(false); return;
             }
             if(offset != 0)

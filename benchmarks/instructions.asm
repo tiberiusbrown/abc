@@ -7,29 +7,29 @@ p:
     .b f 10 11 12 13 14 15 16 17 18 19 1a 1b 1c 1d 1e 1f
 
 unmasked_sprite_small:
-    .b 5 01 08 01 00 00 ff
+    .b 5 01 08 00 01 00 ff
 
 unmasked_sprite:
-    .b c 08 08 01 00 00 3c 42 81 81 81 81 42 3c
+    .b c 08 08 00 01 00 3c 42 81 81 81 81 42 3c
 
 masked_sprite:
-    .b f 08 08 01 00 01 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b f 08 08 01 01 00 3c 3c 42 7e 81 ff 81 ff 81 ff 81
     .b 4 ff 42 7e 3c 3c
 
 unmasked_sprite16:
-    .b f 10 10 01 00 00 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 10 10 00 01 00 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
     .b 4 81 81 81 42 3c
 
 masked_sprite16:
-    .b f 10 10 01 00 01 3c 3c 42 7e 81 ff 81 ff 81 ff 81
+    .b f 10 10 01 01 00 3c 3c 42 7e 81 ff 81 ff 81 ff 81
     .b f ff 42 7e 3c 3c 3c 3c 42 7e 81 ff 81 ff 81 ff 81
     .b f ff 42 7e 3c 3c 3c 3c 42 7e 81 ff 81 ff 81 ff 81
     .b f ff 42 7e 3c 3c 3c 3c 42 7e 81 ff 81 ff 81 ff 81
     .b 4 ff 42 7e 3c 3c
 
 unmasked_sprite32:
-    .b f 20 20 01 00 00 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 20 20 00 01 00 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
@@ -40,7 +40,7 @@ unmasked_sprite32:
     .b 4 81 81 81 42 3c
 
 masked_sprite128x64:
-    .b f 80 40 01 00 01 3c fe 42 ff 81 ff 81 ff 81 ff 81
+    .b f 80 40 01 01 00 3c fe 42 ff 81 ff 81 ff 81 ff 81
     .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
     .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
     .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
@@ -171,7 +171,7 @@ masked_sprite128x64:
     .b 4 ff 42 ff 3c ff
 
 unmasked_sprite128x64:
-    .b f 80 40 01 00 00 3c 42 81 81 81 81 42 3c 3c 42 81
+    .b f 80 40 00 01 00 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
     .b f 81 81 81 42 3c 3c 42 81 81 81 81 42 3c 3c 42 81
@@ -238,7 +238,7 @@ unmasked_sprite128x64:
     .b 4 81 81 81 42 3c
 
 masked_sprite32:
-    .b f 20 20 01 00 01 3c fe 42 ff 81 ff 81 ff 81 ff 81
+    .b f 20 20 01 01 00 3c fe 42 ff 81 ff 81 ff 81 ff 81
     .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
     .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81
     .b f ff 42 ff 3c ff 3c ff 42 ff 81 ff 81 ff 81 ff 81

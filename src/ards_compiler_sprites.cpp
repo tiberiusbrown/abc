@@ -21,8 +21,8 @@ Sprite Encoding
 ================================
 Width             (1 byte)
 Height            (1 byte)
-Number of Sprites (2 bytes)
 Masked            (1 byte)
+Number of Sprites (2 bytes)
 Sprite Data
 
 */
@@ -155,10 +155,9 @@ void compiler_t::encode_sprites_image(
 
     data.push_back(uint8_t(uint16_t(w) >> 0));
     data.push_back(uint8_t(uint16_t(h) >> 0));
-
+    data.push_back(masked ? 1 : 0);
     data.push_back(uint8_t(num_sprites >> 0));
     data.push_back(uint8_t(num_sprites >> 8));
-    data.push_back(masked ? 1 : 0);
 
     size_t pages = actual_h / 8;
     size_t bytes_per_sprite = size_t(w * pages);
