@@ -543,16 +543,19 @@ extern unsigned long volatile timer0_millis;
 extern unsigned long volatile timer0_overflow_count;
 static void sys_next_frame()
 {
-    uint8_t now = (uint8_t)timer0_overflow_count;
-    uint8_t frame_duration = now - ards::vm.frame_start;
-    
     if(ards::vm.just_rendered)
     {
         ards::vm.just_rendered = false;
         vm_push<uint8_t>(0);
         return;
     }
-    else if(frame_duration < ards::vm.frame_dur)
+
+    //uint8_t now = (uint8_t)timer0_overflow_count;
+    uint8_t now;
+    asm volatile("lds %[n], %[t]\n" : [n] "=&r" (now) : [t] "" (&timer0_overflow_count));
+    
+    uint8_t frame_duration = now - ards::vm.frame_start;
+    if(frame_duration < ards::vm.frame_dur)
     {
         if(++frame_duration < ards::vm.frame_dur)
             Arduboy2Base::idle();
