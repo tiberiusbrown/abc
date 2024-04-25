@@ -3659,23 +3659,52 @@ I_RET:
     rjmp jump_to_pc_delayed2
     .align 6
 
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; NOTE! I_SYS impl is too long, but it's the last one so it's OK
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 I_SYS:
     ldi  r30, lo8(%[sys_funcs])
     ldi  r31, hi8(%[sys_funcs])
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    rjmp .+0
+
+    ; pc
+    ; these regs are call-saved, but we store them anyway to
+    ; allow finding file/line info in error handling
+    sts  %[vm_pc]+0, r6
+
     in   r0, %[spdr]
     out  %[spdr], r2
+
+    sts  %[vm_pc]+1, r7
+    sts  %[vm_pc]+2, r8
+    
     add  r30, r0
     adc  r31, r2
     lpm  r0, Z+
     lpm  r31, Z
     mov  r30, r0
-    rjmp store_vm_state
-    ; TODO: if SYSB is the last instr the following align can be removed
-    ;.align 6
+
+    ; stack pointer: stack always begins at 0x100
+    ; these regs are call-saved but are needed by sys funcs
+    st   Y+, r9
+    sts  %[vm_sp], r28
+
+    clr  r1
+
+    icall
+
+    ; restore stack setup
+    lds  r28, %[vm_sp]
+    ld   r9, -Y
+
+    dispatch_noalign
+
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ; NOTE! I_SYS impl is too long, but it's the last one so it's OK
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -3738,30 +3767,6 @@ instr_mul4:
     st   Y+, r20
     mov  r9, r21
 seek_dispatch:
-    dispatch_noalign
-
-    ; these two methods are used by the SYS instruction
-store_vm_state:
-
-    ; pc
-    ; these regs are call-saved, but we store them anyway to
-    ; allow finding file/line info in error handling
-    sts  %[vm_pc]+0, r6
-    sts  %[vm_pc]+1, r7
-    sts  %[vm_pc]+2, r8
-    
-    ; stack pointer: stack always begins at 0x100
-    ; these regs are call-saved but are needed by sys funcs
-    st   Y+, r9
-    sts  %[vm_sp], r28
-
-    clr  r1
-
-    icall
-
-    lds  r28, %[vm_sp]
-    ld   r9, -Y
-
     dispatch_noalign
 
 pidx_part2:

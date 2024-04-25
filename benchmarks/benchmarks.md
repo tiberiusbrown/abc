@@ -3,7 +3,7 @@
 <details><summary>bubble1: 46.25x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 34714</td><td>Cycles: 1605514</td></tr>
+<tr><td>Cycles: 34714</td><td>Cycles: 1605510</td></tr>
 <tr>
 <td>
 
@@ -93,7 +93,7 @@ void main()
 <details><summary>bubble2: 32.74x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 52858</td><td>Cycles: 1730506</td></tr>
+<tr><td>Cycles: 52858</td><td>Cycles: 1730502</td></tr>
 <tr>
 <td>
 
@@ -183,7 +183,7 @@ void main()
 <details><summary>bubble3: 28.83x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 71002</td><td>Cycles: 2047018</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 2047014</td></tr>
 <tr>
 <td>
 
@@ -273,7 +273,7 @@ void main()
 <details><summary>bubble4: 24.32x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 89146</td><td>Cycles: 2167978</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2167974</td></tr>
 <tr>
 <td>
 
@@ -363,7 +363,7 @@ void main()
 <details><summary>mat3rotation: 1.27x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 13138</td><td>Cycles: 16748</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 16720</td></tr>
 <tr>
 <td>
 
@@ -479,7 +479,7 @@ void main()
 <details><summary>fibonacci: 18.24x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 128131</td><td>Cycles: 2336675</td></tr>
+<tr><td>Cycles: 128131</td><td>Cycles: 2336671</td></tr>
 <tr>
 <td>
 
@@ -534,7 +534,7 @@ void main()
 <details><summary>sieve: 53.04x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 20499</td><td>Cycles: 1087206</td></tr>
+<tr><td>Cycles: 20499</td><td>Cycles: 1087202</td></tr>
 <tr>
 <td>
 
@@ -601,7 +601,7 @@ void main()
 <details><summary>text: 0.32x slowdown (3.15x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 65790</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 65766</td></tr>
 <tr>
 <td>
 
@@ -656,10 +656,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 3.24x slowdown</summary>
+<details><summary>tilessprite: 3.22x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 44482</td><td>Cycles: 143937</td></tr>
+<tr><td>Cycles: 44482</td><td>Cycles: 143421</td></tr>
 <tr>
 <td>
 
@@ -741,7 +741,7 @@ void main()
 <details><summary>tilessprite16: 1.90x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 26978</td><td>Cycles: 51353</td></tr>
+<tr><td>Cycles: 26978</td><td>Cycles: 51221</td></tr>
 <tr>
 <td>
 
@@ -830,10 +830,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilesrect: 0.35x slowdown (2.88x speedup)</summary>
+<details><summary>tilesrect: 0.35x slowdown (2.90x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 257725</td><td>Cycles: 89441</td></tr>
+<tr><td>Cycles: 257725</td><td>Cycles: 88925</td></tr>
 <tr>
 <td>
 
