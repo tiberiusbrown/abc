@@ -649,16 +649,6 @@ static void reverse_str(char* b, char* p)
 
 static void draw_sprite_helper(uint8_t selfmask_bit)
 {
-#define DRAW_SPRITE_HELPER_OPT 1
-#if !DRAW_SPRITE_HELPER_OPT
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint24_t image = vm_pop<uint24_t>(ptr);
-    (void)FX::readEnd();
-#endif
-
-#if DRAW_SPRITE_HELPER_OPT
     void* ptr;
     int16_t x;
     int16_t y;
@@ -669,7 +659,10 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     uint8_t mode;
     uint16_t frame;
     asm volatile(R"(
+
+            ; the function prologue provides enough delay to disable FX here
             sbi  %[fxport], %[fxbit]
+
             cbi  %[fxport], %[fxbit]
             ldi  %[w], 3
             out  %[spdr], %[w]
@@ -774,11 +767,16 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             adc  %B[image], r1
             clr  __zero_reg__
             adc  %C[image], __zero_reg__
-            nop
+            cp   %A[frame], %A[num]
 
             in   %B[num], %[spdr]
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
+
+            cpc  %B[frame], %B[num]
+            brlo 1f
+            ldi  r24, %[err]
+            call %x[vm_error]
+        1:
 
         )"
         : [w]        "=&d" (w)
@@ -797,32 +795,11 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
         , [spsr]     "i"   (_SFR_IO_ADDR(SPSR))
         , [sreg]     "i"   (_SFR_IO_ADDR(SREG))
+        , [err]      "i"   (ards::ERR_FRM)
         , [datapage] ""    (&FX::programDataPage)
+        , [vm_error] ""    (vm_error)
     );
-    if(frame >= num)
-        vm_error(ards::ERR_FRM);
     SpritesABC::drawBasic(x, y, w, h, image, mode);
-#endif
-
-#if !DRAW_SPRITE_HELPER_OPT
-    struct
-    {
-        uint8_t w;
-        uint8_t h;
-        uint16_t num;
-        uint8_t mode;
-    } sprite_data;
-    ards::detail::fx_read_data_bytes(image, (uint8_t*)&sprite_data, sizeof(sprite_data));
-    auto sd = sprite_data;
-    sd.mode |= selfmask_bit;
-    uint16_t frame = vm_pop<uint16_t>(ptr);
-    vm_pop_end(ptr);
-
-    if(frame >= sd.num)
-        vm_error(ards::ERR_FRM);
-    SpritesABC::drawBasic(x, y, sd.w, sd.h, image + 5, frame, sd.mode);
-#endif
-
     seek_to_pc();
 }
 
