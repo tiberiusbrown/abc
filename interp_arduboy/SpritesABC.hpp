@@ -238,21 +238,21 @@ void SpritesABC::drawBasic(
             mul  r30, r5
             movw r6, r0
             com  r6
-            com  r7
-        1:
             
             ; continue initial seek
             out  %[spdr], r14
+
+            com  r7
         
             ; continue initial seek
             clr  __zero_reg__
             in   r24, %[sreg]
-            rcall L%=_delay_14
+            rcall L%=_delay_13
             out  %[spdr], __zero_reg__
-            clr r11
-            cp  r20, r8
+            clr  r11
+            cp   r20, r8
             breq .+2
-            inc r11
+            inc  r11
             rjmp L%=_begin
 
         ;
@@ -262,31 +262,31 @@ void SpritesABC::drawBasic(
         L%=_seek:
 
             ; seek subroutine
-            cbi %[fxport], %[fxbit]
-            ldi r30, 3
-            out %[spdr], r30
-            clr __zero_reg__
-            add r14, r20
-            adc r15, __zero_reg__
-            adc r16, __zero_reg__
+            cbi  %[fxport], %[fxbit]
+            ldi  r30, 3
+            out  %[spdr], r30
+            clr  __zero_reg__
+            add  r14, r20
+            adc  r15, __zero_reg__
+            adc  r16, __zero_reg__
             sbrc r10, 0
-            add r14, r20
+            add  r14, r20
             sbrc r10, 0
-            adc r15, __zero_reg__
+            adc  r15, __zero_reg__
             sbrc r10, 0
-            adc r16, __zero_reg__
-            clr r11
-            cp  r20, r8
+            adc  r16, __zero_reg__
+            clr  r11
+            cp   r20, r8
             breq .+2
-            inc r11
+            inc  r11
             lpm
-            out %[spdr], r16
+            out  %[spdr], r16
             rcall L%=_delay_17
-            out %[spdr], r15
+            out  %[spdr], r15
             rcall L%=_delay_17
-            out %[spdr], r14
+            out  %[spdr], r14
             rcall L%=_delay_16
-            out %[spdr], __zero_reg__
+            out  %[spdr], __zero_reg__
             rjmp .+0
             rjmp .+0
             ret
@@ -407,7 +407,7 @@ void SpritesABC::drawBasic(
 
         L%=_middle_loop_inner:
 
-            ; write one page from image to buf/buf+128
+            ; unrolled twice to meet SPI rate
             in   r24, %[spdr]
             out  %[spdr], __zero_reg__
             mul  r24, r5
@@ -437,7 +437,6 @@ void SpritesABC::drawBasic(
 
         L%=_middle_loop_inner_masked:
 
-            ; write one page from image to buf/buf+128
             cli
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
