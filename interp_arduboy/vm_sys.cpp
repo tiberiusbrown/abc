@@ -236,7 +236,7 @@ static void seek_to_pc()
             movw  r20, r22
             mov   r22, r24
             lpm
-            rjmp .+0
+            lpm
             rcall L%=_seek
             nop
             ret

@@ -1,0 +1,36 @@
+.saved 0
+
+$PD_0:
+$PD_1:
+  .b 4 48 65 6c 6c 6f
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file simple_string.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  push4 1819043144
+  push  111
+  p0
+  p0000
+  .line 6
+  pushl $PD_1 0
+  p5
+  p00
+  refl  16
+  push  10
+  p0
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 8
+  sys   debug_break
+  .line 1
+  popn  10
+  ret
+
