@@ -256,7 +256,7 @@ static void seek_to_pc()
 }
 
 __attribute__((noinline, naked))
-static uint8_t fx_read_byte_inc(uint24_t& fb)
+static void fx_read_byte_inc_helper(uint24_t& fb)
 {
     asm volatile(R"(
         cbi  %[fxport], %[fxbit]
@@ -284,17 +284,18 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
         st   -Z, r24
         rcall L%=_delay_7
         out  %[spdr], __zero_reg__
-        rcall L%=_delay_16
-        in   r24, %[spdr]
-        sbi  %[fxport], %[fxbit]
+        rcall L%=_delay_11
+        nop  ; avoid TCO from linker relaxing
         ret
 
     L%=_delay_17:
         nop
     L%=_delay_16:
         lpm
-        lpm
-        lpm
+        rjmp .+0
+    L%=_delay_11:
+        rjmp .+0
+        rjmp .+0
     L%=_delay_7:
         ret
         )"
@@ -305,6 +306,23 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
         , [spsr]     "i" (_SFR_IO_ADDR(SPSR))
         , [datapage] ""  (&FX::programDataPage)
     );
+}
+
+__attribute__((always_inline))
+static uint8_t fx_read_byte_inc(uint24_t& fb)
+{
+    uint8_t r;
+    fx_read_byte_inc_helper(fb);
+    asm volatile(R"(
+            in   %[r], %[spdr]
+            sbi  %[fxport], %[fxbit]
+        )"
+        : [r] "=&r" (r)
+        : [fxport]   "i" (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i" (FX_BIT)
+        , [spdr]     "i" (_SFR_IO_ADDR(SPDR))
+        );
+    return r;
 }
 
 static void sys_display()
