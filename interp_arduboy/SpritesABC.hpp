@@ -208,16 +208,15 @@ void SpritesABC::drawBasic(
             mul  r30, r5
             movw r6, r0
             com  r6
+            com  r7
             
             ; continue initial seek
             out  %[spdr], r14
-
-            com  r7
         
             ; continue initial seek
             clr  __zero_reg__
             in   r24, %[sreg]
-            rcall L%=_delay_13
+            rcall L%=_delay_14
             out  %[spdr], __zero_reg__
             clr  r11
             cp   r20, r8
