@@ -98,10 +98,13 @@ template<size_t N>
 __attribute__((noinline))
 inline void vm_push_n(uint8_t* ptr, byte_storage<N> x)
 {
-    if((uint8_t)(uintptr_t)ptr + N >= 256)
-        vm_error(ards::ERR_DST);
-    vm_push_n_unsafe<N>(ptr, x);
-    ards::vm.sp = (uint8_t)(uintptr_t)ptr;
+    if((uint8_t)(uintptr_t)ptr < uint8_t(256 - N))
+    {
+        vm_push_n_unsafe<N>(ptr, x);
+        ards::vm.sp = (uint8_t)(uintptr_t)ptr;
+        return;
+    }
+    vm_error(ards::ERR_DST);
 }
 
 template<class T>
