@@ -730,7 +730,9 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             out  %[spdr], __zero_reg__
             in   %[h], %[spdr]
             out  %[sreg], r0
-            rcall draw_sprite_helper_delay_13
+            subi %[h], -7
+            andi %[h], 0xf8
+            rcall draw_sprite_helper_delay_11
 
             cli
             out  %[spdr], __zero_reg__
@@ -751,7 +753,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             or   %[mode], %[mask]
         )"
         : [w]        "=&d" (w)
-        , [h]        "=&r" (h)
+        , [h]        "=&d" (h)
         , [num]      "=&r" (num)
         , [mode]     "=&r" (mode)
         , [ptr]      "=&z" (ptr)
