@@ -660,17 +660,6 @@ static void sys_millis()
     vm_push((uint32_t)millis());
 }
 
-static void reverse_str(char* b, char* p)
-{
-    while(b < p)
-    {
-        char bc = *b;
-        char pc = (char)ld_predec(p);
-        st_inc(b, pc);
-        *p = bc;
-    }
-}
-
 static void draw_sprite_helper(uint8_t selfmask_bit)
 {
     void* ptr;
@@ -840,22 +829,6 @@ static void sys_draw_sprite_selfmask()
 static void draw_char(
     int16_t& x, int16_t y, char c)
 {
-#if 0
-    FX::seekData(font + (uint8_t)c * (uint8_t)FONT_HEADER_PER_CHAR);
-    uint8_t xadv = (uint8_t)FX::readPendingUInt8();
-    int8_t xoff = (int8_t)FX::readPendingUInt8();
-    int8_t yoff = (int8_t)FX::readPendingUInt8();
-    uint8_t offset_lo = FX::readPendingUInt8();
-    uint8_t offset_hi = FX::readPendingUInt8();
-    uint8_t w = FX::readPendingUInt8();
-    uint8_t h = FX::readPendingLastUInt8();
-    //SpritesABC::fillRect(x + xoff, y + yoff, w, h, WHITE);
-    SpritesABC::drawBasic(
-        x + xoff, y + yoff, w, h,
-        font + FONT_HEADER_BYTES + offset_lo + offset_hi * 256,
-        0, ards::vm.text_mode);
-    x += xadv;
-#else
     /*
         BEFORE
         =================
@@ -1026,7 +999,6 @@ static void draw_char(
         );
         SpritesABC::drawBasic(
             xv, y, (uint8_t)c, h, addr, ards::vm.text_mode);
-#endif
 }
 
 static void sys_wrap_text()
@@ -1636,12 +1608,12 @@ static void format_exec_to_buffer(char c)
         sbc  r23, __zero_reg__
         std  Z+2, r22
         std  Z+3, r23
-    1:  ld   r26, Z
+        ld   r26, Z
         ldd  r27, Z+1
         st   X+, r24
         st   Z, r26
         std  Z+1, r27
-        ret
+    1:  ret
         )"
         :
         : [format_user] "" (format_user)

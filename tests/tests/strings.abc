@@ -30,6 +30,10 @@ void main()
     //$assert($strcmp(str, str2) == 0);
     //$assert($strcmp(str2, str) == 0);
     
+    $format(str, "%u", 42000);
+    $assert(str == "4200");
+    $assert(str2 == "aaaa");
+    
     $format(str, "%u", 42);
     $assert(str == "42");
     
