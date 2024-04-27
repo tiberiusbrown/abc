@@ -151,9 +151,9 @@ static void seek_to_pc()
             out  %[spdr], r24
 
             ; see if we need to call ards::Tones::update()
-            lds  r16, %[tones_size]
-            cpi  r16, %[tones_maxsize]
-            brsh 2f
+            lds  r16, %[tones_reload]
+            cp   r16, __zero_reg__
+            breq 2f
             clr  r1
             rcall L%=_delay_13
             sbi  %[fxport], %[fxbit]
@@ -250,8 +250,7 @@ static void seek_to_pc()
         , [spdr]            "i" (_SFR_IO_ADDR(SPDR))
         , [datapage]        ""  (&FX::programDataPage)
         , [tones_update]    ""  (ards::Tones::update)
-        , [tones_size]      ""  (&ards::detail::buffer_size)
-        , [tones_maxsize]   ""  (sizeof(ards::detail::buffer))
+        , [tones_reload]    ""  (&ards::detail::reload_needed)
         );
 }
 

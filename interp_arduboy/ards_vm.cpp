@@ -3909,9 +3909,9 @@ jump_to_pc_delayed:
 jump_to_pc_delayed2:
 
     ; see if we need to call ards::Tones::update()
-    lds  r16, %[tones_size]
-    cpi  r16, %[tones_maxsize]
-    brlo 2f
+    lds  r16, %[tones_reload]
+    cp   r16, r2
+    brne 2f
 
     lds  r16, %[data_page]+0
     lds  r17, %[data_page]+1
@@ -3980,8 +3980,7 @@ call_vm_error:
     , [vm_csp]        ""  (&ards::vm.csp)
     , [sys_funcs]     ""  (&SYS_FUNCS[0])
     , [tones_update]  ""  (ards::Tones::update)
-    , [tones_size]    ""  (&ards::detail::buffer_size)
-    , [tones_maxsize] ""  (sizeof(ards::detail::buffer))
+    , [tones_reload]  ""  (&ards::detail::reload_needed)
     , [MAX_CALLS]     ""  (MAX_CALLS)
     );
 }
