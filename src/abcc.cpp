@@ -34,8 +34,25 @@ static void usage(char const* argv0)
     std::cout << "Usage: " << argv0 << " <main.abc> [fxdata.bin] [-a game.arduboy]" << std::endl;
 }
 
+#include <cmath>
+
 int main(int argc, char** argv)
 {
+    for(int i = 0; i < 129; ++i)
+    {
+        double f = 440.0 * std::pow(2.0, 1.0 / 12 * (i - 69));
+        double pre = ceil(log2(16e6 / (1023 * f))) + 1.0;
+        pre = std::clamp(pre, 1.0, 15.0);
+        double top = round(16e6 / pow(2.0, pre - 1.0) / f) - 1.0;
+        uint16_t ipre = (uint16_t)pre;
+        uint16_t itop = (uint16_t)top;
+        if(i == 0)
+            ipre = itop = 0;
+        uint16_t t = (ipre << 12) | (itop & 0x0fff);
+        printf("0x%04x,%c", t, i % 8 == 7 ? '\n' : ' ');
+    }
+
+
     std::filesystem::path psrc;
     std::filesystem::path pbin;
     std::filesystem::path pdata;

@@ -48,7 +48,6 @@ struct channel_t
 extern volatile channel_t c0; // timer3 channel
 extern volatile channel_t c1; // timer4 channel
 extern volatile channel_t c2; // timer4 channel #2 for sfx
-extern volatile bool c2_active;
 extern volatile bool reload_needed;
 }
 
@@ -83,10 +82,30 @@ static uint16_t const TIMER3_PERIODS[129] PROGMEM =
     0x0100,
 };
 
+static uint16_t const TIMER4_PERIODS[129] PROGMEM =
+{
+0x0000, 0xc385, 0xc352, 0xc323, 0xc2f5, 0xc2cb, 0xc2a3, 0xc27d,
+0xc259, 0xc237, 0xc217, 0xb3f3, 0xb3bb, 0xb385, 0xb352, 0xb323,
+0xb2f5, 0xb2cb, 0xb2a3, 0xb27d, 0xb259, 0xb237, 0xb217, 0xa3f3,
+0xa3bb, 0xa385, 0xa352, 0xa323, 0xa2f5, 0xa2cb, 0xa2a3, 0xa27d,
+0xa259, 0xa237, 0xa217, 0x93f3, 0x93bb, 0x9385, 0x9352, 0x9323,
+0x92f5, 0x92cb, 0x92a3, 0x927d, 0x9259, 0x9237, 0x9217, 0x83f3,
+0x83bb, 0x8385, 0x8352, 0x8323, 0x82f5, 0x82cb, 0x82a3, 0x827d,
+0x8259, 0x8237, 0x8217, 0x73f3, 0x73bb, 0x7385, 0x7352, 0x7323,
+0x72f5, 0x72cb, 0x72a3, 0x727d, 0x7259, 0x7237, 0x7217, 0x63f3,
+0x63bb, 0x6385, 0x6352, 0x6323, 0x62f5, 0x62cb, 0x62a3, 0x627d,
+0x6259, 0x6237, 0x6217, 0x53f3, 0x53bb, 0x5385, 0x5352, 0x5323,
+0x52f5, 0x52cb, 0x52a3, 0x527d, 0x5259, 0x5237, 0x5217, 0x43f3,
+0x43bb, 0x4385, 0x4352, 0x4323, 0x42f5, 0x42cb, 0x42a3, 0x427d,
+0x4259, 0x4237, 0x4217, 0x33f3, 0x33bb, 0x3385, 0x3352, 0x3323,
+0x32f5, 0x32cb, 0x32a3, 0x327d, 0x3259, 0x3237, 0x3217, 0x23f3,
+0x23bb, 0x2385, 0x2352, 0x2323, 0x22f5, 0x22cb, 0x22a3, 0x227d,
+0x2259,
+};
+
 volatile channel_t c0; // timer3 channel
 volatile channel_t c1; // timer4 channel
 volatile channel_t c2; // timer4 channel #2 for sfx
-volatile bool c2_active;
 volatile bool reload_needed;
 
 __attribute__((naked, noinline))
@@ -168,14 +187,12 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
 
 static void disable()
 {
-    TCCR3B = 0x18;
     PORTC = 0;
     TIMSK1 = 0x00;
 }
 
 static void enable()
 {
-    TCCR3B = 0x1a; // Fast PWM 2 MHz
     TIMSK1 = 0x02;
 }
 
@@ -186,15 +203,13 @@ static bool enabled()
 
 static void update_timer3(uint8_t index)
 {
-    if(index == 255)
+    if(index >= 129)
     {
-        TCCR3B = 0x18; // silence
-        c0.active = false;
+        TCCR3B = 0x18;
     }
     else if(index == 0)
     {
-        TCCR3B = 0x18; // silence
-        PORTC = 0;
+        TCCR3B = 0x18;
     }
     else
     {
@@ -206,7 +221,39 @@ static void update_timer3(uint8_t index)
 
 static void update_timer4(uint8_t index)
 {
-    // TODO
+    if(index >= 129)
+    {
+        TCCR4A = 0x00;
+    }
+    else if(index == 0)
+    {
+        TCCR4A = 0x00;
+        PORTC = 0;
+    }
+    else
+    {
+        uint16_t top = pgm_read_word(&TIMER4_PERIODS[index]);
+        uint8_t pre;
+
+        asm volatile(R"(
+                mov  %[pre], %B[top]
+                swap %[pre]
+                andi %[pre], 0x0f
+                andi %B[top], 0x0f
+            )"
+            : [top] "+&d" (top)
+            , [pre] "=&d" (pre)
+            );
+
+        TCCR4B = pre;
+        TC4H  = uint8_t(top >> 8);
+        OCR4C = uint8_t(top >> 0);
+        top >>= 1;
+        TC4H  = uint8_t(top >> 8);
+        OCR4A = uint8_t(top >> 0);
+        
+        TCCR4A = 0x82;
+    }
 }
 
 } // namespace detail
@@ -220,6 +267,12 @@ void Tones::setup()
     
     // timer3: fast PWM 2 MHz, toggle OC3A on compare match
     TCCR3A = 0x43;
+    TCCR3B = 0x18;
+
+    // clear previous config of timer4
+    TCCR4A = 0x00;
+    TCCR4B = 0x00;
+    TCCR4D = 0x00;
 
     stop();
 }
@@ -241,7 +294,7 @@ static void update_channel(volatile channel_t& c)
     uint8_t bytes = sizeof(c.buffer) - size;
     if(bytes > 0)
     {
-        uint24_t addr = detail::c0.addr;
+        uint24_t addr = c.addr;
         detail::fx_read_data_bytes(
             addr,
             (uint8_t*)&c.buffer[0] + size,
@@ -261,17 +314,25 @@ void Tones::play(uint24_t song)
     uint8_t sreg = SREG;
     cli();
 
+    if(!detail::c0.active)
     {
-        auto& c = detail::c0.active ? detail::c1 : detail::c0;
-        c.size = 0;
-        c.addr = song;
-        c.active = true;
-        detail::update_channel(c);
+        detail::c0.size = 0;
+        detail::c0.addr = song;
+        detail::c0.active = true;
+        detail::update_channel(detail::c0);
+        detail::update_timer3(detail::c0.buffer[0].period);
+    }
+    else
+    {
+        detail::c1.size = 0;
+        detail::c1.addr = song;
+        detail::c1.active = true;
+        detail::update_channel(detail::c1);
+        detail::update_timer4(detail::c1.buffer[0].period);
     }
 
     SREG = sreg;
 
-    detail::update_timer3(detail::c0.buffer[0].period);
     detail::enable();
 }
 
@@ -287,10 +348,10 @@ void Tones::update()
     if(!detail::reload_needed)
         return;
     uint8_t sreg = SREG;
+
     cli();
-
     detail::update_channel(detail::c0);
-
+    detail::update_channel(detail::c1);
     detail::reload_needed = false;
     SREG = sreg;
 }
@@ -305,9 +366,11 @@ struct advance_info_t
 
 static advance_info_t advance_channel(volatile channel_t& c)
 {
+    if(!c.active) return;
     uint8_t ticks = c.buffer[0].ticks;
     if(--ticks == 0)
     {
+        ards::detail::reload_needed = true;
         uint8_t size = c.size;
         size -= sizeof(ards::detail::note_t);
         if(size == 0)
@@ -322,7 +385,6 @@ static advance_info_t advance_channel(volatile channel_t& c)
             &c.buffer[0],
             &c.buffer[1],
             sizeof(ards::detail::note_t) * (ARDS_TONES_BUFFER_SIZE - 1));
-        ards::detail::reload_needed = true;
         c.size = size;
         return { true, c.buffer[0].period };
     }
@@ -338,11 +400,16 @@ ISR(TIMER1_COMPA_vect)
     ards::detail::advance_info_t a;
     
     a = ards::detail::advance_channel(ards::detail::c0);
+    if(a.period >= 129) ards::detail::c0.active = false;
     if(a.update) ards::detail::update_timer3(a.period);
     
     a = ards::detail::advance_channel(ards::detail::c1);
+    if(a.period >= 129) ards::detail::c1.active = false;
     if(ards::detail::c2.active)
+    {
         a = ards::detail::advance_channel(ards::detail::c2);
+        if(a.period >= 129) ards::detail::c2.active = false;
+    }
     if(a.update) ards::detail::update_timer4(a.period);
 }
 
