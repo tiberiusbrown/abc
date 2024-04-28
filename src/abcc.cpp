@@ -38,6 +38,7 @@ static void usage(char const* argv0)
 
 int main(int argc, char** argv)
 {
+#if 0
     for(int i = 0; i < 129; ++i)
     {
         double f = 440.0 * std::pow(2.0, 1.0 / 12 * (i - 69));
@@ -51,7 +52,7 @@ int main(int argc, char** argv)
         uint16_t t = (ipre << 12) | (itop & 0x0fff);
         printf("0x%04x,%c", t, i % 8 == 7 ? '\n' : ' ');
     }
-
+#endif
 
     std::filesystem::path psrc;
     std::filesystem::path pbin;

@@ -330,7 +330,7 @@ void level_complete()
     }
     $save();
 
-    $tones_play(SOUND_LEVEL_COMPLETE);
+    $tones_play_primary(SOUND_LEVEL_COMPLETE);
 }
 
 void update_level()
@@ -369,7 +369,7 @@ void update_level()
     if(player_on_ground && $just_pressed(A_BUTTON))
     {
         jump_frames_remaining = PLAYER_JUMP_FRAMES;
-        $tones_play(SOUND_JUMP);
+        $tones_play_auto(SOUND_JUMP);
     }
 
     if(!$pressed(A_BUTTON))
@@ -404,17 +404,17 @@ void update_level()
                 else if(t == TILE_SPRING)
                 {
                     vy = -PLAYER_SPRING_VEL;
-                    $tones_play(SOUND_SPRING);
+                    $tones_play_auto(SOUND_SPRING);
                 }
                 else if(t == TILE_SPRING_R)
                 {
                     vx = PLAYER_SPRING_VEL_H;
-                    $tones_play(SOUND_SPRING);
+                    $tones_play_auto(SOUND_SPRING);
                 }
                 else if(t == TILE_SPRING_L)
                 {
                     vx = -PLAYER_SPRING_VEL_H;
-                    $tones_play(SOUND_SPRING);
+                    $tones_play_auto(SOUND_SPRING);
                 }
                 else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
                 {
@@ -562,7 +562,7 @@ void resolve_player_collision()
             vy = 0;
             py -= t;
             //if(!player_on_ground)
-            //    $tones_play(SOUND_LANDING);
+            //    $tones_play_auto(SOUND_LANDING);
             player_on_ground = PLAYER_ON_GROUND_FRAMES;
         }
     }
@@ -657,7 +657,7 @@ void update_map_objects()
     {
         vy = -2.0;
         jump_frames_remaining = PLAYER_JUMP_FRAMES;
-        $tones_play(SOUND_MOB_JUMP);
+        $tones_play_auto(SOUND_MOB_JUMP);
     }
 }
 
@@ -716,7 +716,7 @@ void player_death()
         save_exists = (saved_lives > 0);
         $save();
     }
-    $tones_play(SOUND_DEATH);
+    $tones_play_auto(SOUND_DEATH);
 }
 
 void player_take_damage()
@@ -728,7 +728,7 @@ void player_take_damage()
     if(--hearts != 0)
     {
         invincibility_frames = INVINCIBILITY_DAMAGE;
-        $tones_play(SOUND_DAMAGE);
+        $tones_play_auto(SOUND_DAMAGE);
         vy = -1.5;
         vx = 1.5;
         if(player_facing_right) vx = -1.5;
@@ -778,26 +778,26 @@ void touch_object(map_object_t& obj)
     {
         score += SCORE_COIN;
         obj.type = OBJ_NONE;
-        $tones_play(SOUND_COIN);
+        $tones_play_auto(SOUND_COIN);
     }
     else if(type == OBJ_KEY)
     {
         keys += 1;
         obj.type = OBJ_NONE;
-        $tones_play(SOUND_KEY);
+        $tones_play_auto(SOUND_KEY);
     }
     else if(type == OBJ_SUPERCOIN)
     {
         score += SCORE_SUPERCOIN;
         obj.type = OBJ_NONE;
-        $tones_play(SOUND_SUPERCOIN);
+        $tones_play_auto(SOUND_SUPERCOIN);
     }
     else if(type == OBJ_HEART)
     {
         if(lives < 99)
             lives += 1;
         obj.type = OBJ_NONE;
-        $tones_play(SOUND_HEAL);
+        $tones_play_auto(SOUND_HEAL);
     }
     else if(type >= OBJ_MOB && type <= OBJ_MOB_FLY)
     {

@@ -96,7 +96,7 @@ void load_map()
         $assert(false);
     }
 
-    $tones_play(SOUND_LEVEL_START);
+    $tones_play_primary(SOUND_LEVEL_START);
 
     $debug_printf("key_required=%u\n", keys_required);
 }

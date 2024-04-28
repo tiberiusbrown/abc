@@ -20,11 +20,45 @@ struct Tones
 {
     static void setup();
     
-    static void play(uint24_t song);
-    static void stop();
-    static bool playing();
-    
     static void update();
+
+    // Tones play only on the tones and/or the primary channel.
+    // Tones never play on the secondary channel -- it's reserved for
+    // a dual-channel score playing simultaneously with tones.
+
+    // When both a score (primary+secondary) and tones (tones) are playing,
+    // The tones channel is given priority over the score's secondary channel,
+    // but the score's secondary channel still advances.
+    
+    // Play a tone on the tones channel.
+    static void tones_play(uint24_t t);
+
+    // Play a tone on the primary channel.
+    static void tones_play_primary(uint24_t t);
+
+    // Play a tone on an unused channel, prioritizing the tones channel.
+    static void tones_play_auto(uint24_t t);
+
+    // Stop all playing tones.
+    static void tones_stop();
+
+    // Return true if any tones are playing.
+    static bool tones_playing();
+
+    // Play a score on primary and secondary channels.
+    static void score_play(uint24_t song);
+
+    // Stop a playing score.
+    static void score_stop();
+
+    // Return true if a score is playing.
+    static bool score_playing();
+
+    // Stop all audio.
+    static void stop();
+
+    // Return true if any audio is playing.
+    static bool playing();
 };
 
 namespace detail
@@ -45,10 +79,9 @@ struct channel_t
     bool active;
 };
 
-extern volatile channel_t c0; // timer3 channel
-extern volatile channel_t c1; // timer4 channel
-extern volatile channel_t c2; // timer4 channel #2 for sfx
+extern volatile channel_t channels[3]; // primary, secondary, tones channels
 extern volatile bool reload_needed;
+extern volatile bool score_active;
 }
 
 }
@@ -84,29 +117,28 @@ static uint16_t const TIMER3_PERIODS[129] PROGMEM =
 
 static uint16_t const TIMER4_PERIODS[129] PROGMEM =
 {
-0x0000, 0xc385, 0xc352, 0xc323, 0xc2f5, 0xc2cb, 0xc2a3, 0xc27d,
-0xc259, 0xc237, 0xc217, 0xb3f3, 0xb3bb, 0xb385, 0xb352, 0xb323,
-0xb2f5, 0xb2cb, 0xb2a3, 0xb27d, 0xb259, 0xb237, 0xb217, 0xa3f3,
-0xa3bb, 0xa385, 0xa352, 0xa323, 0xa2f5, 0xa2cb, 0xa2a3, 0xa27d,
-0xa259, 0xa237, 0xa217, 0x93f3, 0x93bb, 0x9385, 0x9352, 0x9323,
-0x92f5, 0x92cb, 0x92a3, 0x927d, 0x9259, 0x9237, 0x9217, 0x83f3,
-0x83bb, 0x8385, 0x8352, 0x8323, 0x82f5, 0x82cb, 0x82a3, 0x827d,
-0x8259, 0x8237, 0x8217, 0x73f3, 0x73bb, 0x7385, 0x7352, 0x7323,
-0x72f5, 0x72cb, 0x72a3, 0x727d, 0x7259, 0x7237, 0x7217, 0x63f3,
-0x63bb, 0x6385, 0x6352, 0x6323, 0x62f5, 0x62cb, 0x62a3, 0x627d,
-0x6259, 0x6237, 0x6217, 0x53f3, 0x53bb, 0x5385, 0x5352, 0x5323,
-0x52f5, 0x52cb, 0x52a3, 0x527d, 0x5259, 0x5237, 0x5217, 0x43f3,
-0x43bb, 0x4385, 0x4352, 0x4323, 0x42f5, 0x42cb, 0x42a3, 0x427d,
-0x4259, 0x4237, 0x4217, 0x33f3, 0x33bb, 0x3385, 0x3352, 0x3323,
-0x32f5, 0x32cb, 0x32a3, 0x327d, 0x3259, 0x3237, 0x3217, 0x23f3,
-0x23bb, 0x2385, 0x2352, 0x2323, 0x22f5, 0x22cb, 0x22a3, 0x227d,
-0x2259,
+    0x0000, 0xc385, 0xc352, 0xc323, 0xc2f5, 0xc2cb, 0xc2a3, 0xc27d,
+    0xc259, 0xc237, 0xc217, 0xb3f3, 0xb3bb, 0xb385, 0xb352, 0xb323,
+    0xb2f5, 0xb2cb, 0xb2a3, 0xb27d, 0xb259, 0xb237, 0xb217, 0xa3f3,
+    0xa3bb, 0xa385, 0xa352, 0xa323, 0xa2f5, 0xa2cb, 0xa2a3, 0xa27d,
+    0xa259, 0xa237, 0xa217, 0x93f3, 0x93bb, 0x9385, 0x9352, 0x9323,
+    0x92f5, 0x92cb, 0x92a3, 0x927d, 0x9259, 0x9237, 0x9217, 0x83f3,
+    0x83bb, 0x8385, 0x8352, 0x8323, 0x82f5, 0x82cb, 0x82a3, 0x827d,
+    0x8259, 0x8237, 0x8217, 0x73f3, 0x73bb, 0x7385, 0x7352, 0x7323,
+    0x72f5, 0x72cb, 0x72a3, 0x727d, 0x7259, 0x7237, 0x7217, 0x63f3,
+    0x63bb, 0x6385, 0x6352, 0x6323, 0x62f5, 0x62cb, 0x62a3, 0x627d,
+    0x6259, 0x6237, 0x6217, 0x53f3, 0x53bb, 0x5385, 0x5352, 0x5323,
+    0x52f5, 0x52cb, 0x52a3, 0x527d, 0x5259, 0x5237, 0x5217, 0x43f3,
+    0x43bb, 0x4385, 0x4352, 0x4323, 0x42f5, 0x42cb, 0x42a3, 0x427d,
+    0x4259, 0x4237, 0x4217, 0x33f3, 0x33bb, 0x3385, 0x3352, 0x3323,
+    0x32f5, 0x32cb, 0x32a3, 0x327d, 0x3259, 0x3237, 0x3217, 0x23f3,
+    0x23bb, 0x2385, 0x2352, 0x2323, 0x22f5, 0x22cb, 0x22a3, 0x227d,
+    0x2259,
 };
 
-volatile channel_t c0; // timer3 channel
-volatile channel_t c1; // timer4 channel
-volatile channel_t c2; // timer4 channel #2 for sfx
+volatile channel_t channels[3]; // primary, secondary, tones channels
 volatile bool reload_needed;
+volatile bool score_active;
 
 __attribute__((naked, noinline))
 void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
@@ -201,6 +233,14 @@ static bool enabled()
     return TIMSK1 != 0;
 }
 
+static void check_all_channels()
+{
+    for(volatile auto& c : channels)
+        if(c.active)
+            return;
+    TIMSK1 = 0x00;
+}
+
 static void update_timer3(uint8_t index)
 {
     if(index >= 129)
@@ -280,8 +320,13 @@ void Tones::setup()
 void Tones::stop()
 {
     detail::disable();
-    // prevent update from doing anything
-    detail::c0.size = sizeof(detail::c0.buffer);
+
+    // prevent updates from doing anything
+    detail::channels[0].active = false;
+    detail::channels[1].active = false;
+    detail::channels[2].active = false;
+    detail::reload_needed = false;
+    detail::score_active = false;
 }
 
 namespace detail
@@ -305,40 +350,80 @@ static void update_channel(volatile channel_t& c)
     }
 }
 
+static void init_channel(uint24_t t, volatile channel_t& c)
+{
+    c.size = 0;
+    c.addr = t;
+    c.active = true;
+    update_channel(c);
 }
 
-void Tones::play(uint24_t song)
+}
+
+void Tones::tones_play(uint24_t t)
 {
     detail::disable();
 
     uint8_t sreg = SREG;
     cli();
-
-    if(!detail::c0.active)
-    {
-        detail::c0.size = 0;
-        detail::c0.addr = song;
-        detail::c0.active = true;
-        detail::update_channel(detail::c0);
-        detail::update_timer3(detail::c0.buffer[0].period);
-    }
-    else
-    {
-        detail::c1.size = 0;
-        detail::c1.addr = song;
-        detail::c1.active = true;
-        detail::update_channel(detail::c1);
-        detail::update_timer4(detail::c1.buffer[0].period);
-    }
-
+    detail::init_channel(t, detail::channels[2]);
+    detail::update_timer4(detail::channels[2].buffer[0].period);
     SREG = sreg;
 
     detail::enable();
 }
 
+void Tones::tones_play_primary(uint24_t t)
+{
+    detail::disable();
+
+    uint8_t sreg = SREG;
+    cli();
+    detail::init_channel(t, detail::channels[0]);
+    detail::update_timer3(detail::channels[0].buffer[0].period);
+    SREG = sreg;
+
+    detail::enable();
+}
+
+void Tones::tones_play_auto(uint24_t t)
+{
+    if(!detail::channels[2].active)
+        tones_play(t);
+    else
+        tones_play_primary(t);
+}
+
+void Tones::tones_stop()
+{
+    detail::channels[2].active = false;
+    if(!score_playing())
+        detail::channels[0].active = false;
+    detail::check_all_channels();
+}
+
+bool Tones::tones_playing()
+{
+    return playing() && (!score_playing() || detail::channels[2].active);
+}
+
 bool Tones::playing()
 {
     return detail::enabled();
+}
+
+void Tones::score_stop()
+{
+    if(!detail::score_active) return;
+    detail::score_active = false;
+    detail::channels[0].active = false;
+    detail::channels[1].active = false;
+    detail::check_all_channels();
+}
+
+bool Tones::score_playing()
+{
+    return detail::score_active;
 }
 
 void Tones::update()
@@ -350,8 +435,8 @@ void Tones::update()
     uint8_t sreg = SREG;
 
     cli();
-    detail::update_channel(detail::c0);
-    detail::update_channel(detail::c1);
+    for(volatile auto& c : detail::channels)
+        detail::update_channel(c);
     detail::reload_needed = false;
     SREG = sreg;
 }
@@ -399,18 +484,20 @@ ISR(TIMER1_COMPA_vect)
 {
     ards::detail::advance_info_t a;
     
-    a = ards::detail::advance_channel(ards::detail::c0);
-    if(a.period >= 129) ards::detail::c0.active = false;
+    a = ards::detail::advance_channel(ards::detail::channels[0]);
+    if(a.period >= 129) ards::detail::channels[0].active = false;
     if(a.update) ards::detail::update_timer3(a.period);
     
-    a = ards::detail::advance_channel(ards::detail::c1);
-    if(a.period >= 129) ards::detail::c1.active = false;
-    if(ards::detail::c2.active)
+    a = ards::detail::advance_channel(ards::detail::channels[1]);
+    if(a.period >= 129) ards::detail::channels[1].active = false;
+    if(ards::detail::channels[2].active)
     {
-        a = ards::detail::advance_channel(ards::detail::c2);
-        if(a.period >= 129) ards::detail::c2.active = false;
+        a = ards::detail::advance_channel(ards::detail::channels[2]);
+        if(a.period >= 129) ards::detail::channels[2].active = false;
     }
     if(a.update) ards::detail::update_timer4(a.period);
+
+    ards::detail::check_all_channels();
 }
 
 #endif

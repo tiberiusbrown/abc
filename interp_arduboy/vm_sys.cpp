@@ -1711,7 +1711,7 @@ static void sys_draw_textf()
     seek_to_pc();
 }
 
-static void sys_tones_play()
+static void tones_play_helper(void(*f)(uint24_t))
 {
     auto ptr = vm_pop_begin();
     uint24_t song = vm_pop<uint24_t>(ptr);
@@ -1722,19 +1722,34 @@ static void sys_tones_play()
     
     (void)FX::readEnd();
     
-    ards::Tones::play(song);
+    f(song);
     
     seek_to_pc();
 }
 
+static void sys_tones_play()
+{
+    tones_play_helper(ards::Tones::tones_play);
+}
+
+static void sys_tones_play_primary()
+{
+    tones_play_helper(ards::Tones::tones_play_primary);
+}
+
+static void sys_tones_play_auto()
+{
+    tones_play_helper(ards::Tones::tones_play_auto);
+}
+
 static void sys_tones_playing()
 {
-    vm_push<uint8_t>(ards::Tones::playing());
+    vm_push<uint8_t>(ards::Tones::tones_playing());
 }
 
 static void sys_tones_stop()
 {
-    ards::Tones::stop();
+    ards::Tones::tones_stop();
 }
 
 static void sys_audio_enabled()
@@ -1746,6 +1761,16 @@ static void sys_audio_toggle()
 {
     Arduboy2Audio::toggle();
     ards::Tones::setup();
+}
+
+static void sys_audio_stop()
+{
+    ards::Tones::stop();
+}
+
+static void sys_audio_playing()
+{
+    vm_push<uint8_t>(ards::Tones::playing());
 }
 
 static void sys_save_exists()
@@ -2223,11 +2248,18 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_strcpy,
     sys_strcpy_P,
     sys_format,
+
     sys_tones_play,
+    sys_tones_play_primary,
+    sys_tones_play_auto,
     sys_tones_playing,
     sys_tones_stop,
+
     sys_audio_enabled,
     sys_audio_toggle,
+    sys_audio_playing,
+    sys_audio_stop,
+
     sys_save_exists,
     sys_save,
     sys_load,
