@@ -4776,7 +4776,7 @@ $L_load_map_13:
 $L_load_map_14:
   .line 99
   pushl $PD_31 0
-  sys   tones_play
+  sys   tones_play_primary
   .line 101
   getg  keys_required 0
   p000
@@ -6485,7 +6485,7 @@ $L_level_complete_3:
   sys   save
   .line 333
   pushl $PD_35 0
-  sys   tones_play
+  sys   tones_play_primary
   .line 304
   popn  5
   ret
@@ -6590,7 +6590,7 @@ $L_update_level_7:
   setg  jump_frames_remaining 0
   .line 372
   pushl $PD_25 0
-  sys   tones_play
+  sys   tones_play_auto
 $L_update_level_9:
   .line 375
   p8
@@ -6749,7 +6749,7 @@ $L_update_level_19:
   setg4 vy 0
   .line 407
   pushl $PD_27 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 404
   jmp   $L_update_level_33
 $L_update_level_20:
@@ -6764,7 +6764,7 @@ $L_update_level_20:
   setg4 vx 0
   .line 412
   pushl $PD_27 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 409
   jmp   $L_update_level_33
 $L_update_level_21:
@@ -6778,7 +6778,7 @@ $L_update_level_21:
   setg4 vx 0
   .line 417
   pushl $PD_27 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 414
   jmp   $L_update_level_33
 $L_update_level_22:
@@ -7112,7 +7112,7 @@ $L_player_take_damage_1:
   setg  invincibility_frames 0
   .line 731
   pushl $PD_32 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 732
   p00
   push2 49088
@@ -7739,7 +7739,7 @@ $L_update_map_objects_1:
   setg  jump_frames_remaining 0
   .line 660
   pushl $PD_26 0
-  sys   tones_play
+  sys   tones_play_auto
 $L_update_map_objects_22:
   .line 571
   popn  8
@@ -7986,7 +7986,7 @@ $L_player_death_0:
 $L_player_death_1:
   .line 719
   pushl $PD_34 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 705
   ret
 
@@ -8011,7 +8011,7 @@ touch_object:
   setr
   .line 781
   pushl $PD_28 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 777
   jmp   $L_touch_object_18
 $L_touch_object_0:
@@ -8030,7 +8030,7 @@ $L_touch_object_0:
   setr
   .line 787
   pushl $PD_30 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 783
   jmp   $L_touch_object_18
 $L_touch_object_1:
@@ -8050,7 +8050,7 @@ $L_touch_object_1:
   setr
   .line 793
   pushl $PD_29 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 789
   jmp   $L_touch_object_18
 $L_touch_object_2:
@@ -8075,7 +8075,7 @@ $L_touch_object_3:
   setr
   .line 800
   pushl $PD_33 0
-  sys   tones_play
+  sys   tones_play_auto
   .line 795
   jmp   $L_touch_object_18
 $L_touch_object_4:
