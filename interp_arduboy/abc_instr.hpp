@@ -52,6 +52,10 @@ enum sysfunc_t : uint8_t
     SYS_STRCPY_P,
     SYS_FORMAT,
 
+    SYS_MUSIC_PLAY,
+    SYS_MUSIC_PLAYING,
+    SYS_MUSIC_STOP,
+
     SYS_TONES_PLAY,
     SYS_TONES_PLAY_PRIMARY,
     SYS_TONES_PLAY_AUTO,

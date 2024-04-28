@@ -125,6 +125,12 @@ void compiler_t::progdata_expr(
         encode_font(pd.data, n);
         break;
     }
+    case compiler_type_t::MUSIC:
+    {
+        assert(n.children[0].type == AST::STRING_LITERAL);
+        encode_tones_midi(pd.data, std::string(n.children[0].data), true);
+        break;
+    }
     case compiler_type_t::TONES:
     {
         encode_tones(pd.data, n);

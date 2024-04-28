@@ -1727,6 +1727,11 @@ static void tones_play_helper(void(*f)(uint24_t))
     seek_to_pc();
 }
 
+static void sys_music_play()
+{
+    tones_play_helper(ards::Tones::music_play);
+}
+
 static void sys_tones_play()
 {
     tones_play_helper(ards::Tones::tones_play);
@@ -1742,9 +1747,19 @@ static void sys_tones_play_auto()
     tones_play_helper(ards::Tones::tones_play_auto);
 }
 
+static void sys_music_playing()
+{
+    vm_push<uint8_t>(ards::Tones::music_playing());
+}
+
 static void sys_tones_playing()
 {
     vm_push<uint8_t>(ards::Tones::tones_playing());
+}
+
+static void sys_music_stop()
+{
+    ards::Tones::music_stop();
 }
 
 static void sys_tones_stop()
@@ -2248,6 +2263,10 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_strcpy,
     sys_strcpy_P,
     sys_format,
+    
+    sys_music_play,
+    sys_music_playing,
+    sys_music_stop,
 
     sys_tones_play,
     sys_tones_play_primary,

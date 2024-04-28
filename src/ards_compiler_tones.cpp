@@ -41,7 +41,7 @@ bool operator<(midi_tone_t const& a, midi_tone_t const& b)
 }
 
 std::string compiler_t::encode_tones_midi(
-    std::vector<uint8_t>& data, std::string const& filename)
+    std::vector<uint8_t>& data, std::string const& filename, bool music)
 {
     std::vector<char> d;
     std::string path = current_path + "/" + filename;
@@ -81,12 +81,21 @@ std::string compiler_t::encode_tones_midi(
     // sort in ascending time order
     std::sort(tones.begin(), tones.end());
 
-    int tick = 0;
+    std::vector<uint8_t> cdata[2];
+    int ctick[2] = { 0, 0 };
+    ctick[1] = music ? 0 : INT_MAX;
+
     for(auto tone : tones)
     {
         // skip note if entirely overlapping with prior note
-        if(tone.start_tick + tone.dur_ticks <= tick)
+        int end_tick = tone.start_tick + tone.dur_ticks;
+        if(end_tick <= ctick[0] && end_tick <= ctick[1])
             continue;
+
+        // get first available channel
+        int channel = ctick[0] < ctick[1] ? 0 : 1;
+        auto& cd = cdata[channel];
+        int tick = ctick[channel];
 
         // adjust tone if it partially overlaps with prior note
         if(tone.start_tick < tick)
@@ -100,8 +109,8 @@ std::string compiler_t::encode_tones_midi(
             // insert silence
             uint8_t per = 0;
             uint8_t dur = uint8_t(std::min<int>(tone.start_tick - tick, 255));
-            data.push_back(uint8_t(per >> 0));
-            data.push_back(uint8_t(dur >> 0));
+            cd.push_back(uint8_t(per >> 0));
+            cd.push_back(uint8_t(dur >> 0));
             tick += dur;
         }
 
@@ -111,15 +120,34 @@ std::string compiler_t::encode_tones_midi(
             // insert note
             uint8_t per = (uint8_t)std::clamp(tone.note, 1, 127);
             uint8_t dur = uint8_t(std::min<int>(ticks_left, 255));
-            data.push_back(uint8_t(per >> 0));
-            data.push_back(uint8_t(dur >> 0));
+            cd.push_back(uint8_t(per >> 0));
+            cd.push_back(uint8_t(dur >> 0));
             tick += dur;
             ticks_left -= dur;
         }
+
+        ctick[channel] = tick;
     }
 
-    data.push_back(255);
-    data.push_back(0);
+    for(auto& cd : cdata)
+    {
+        cd.push_back(255);
+        cd.push_back(0);
+    }
+
+    if(music)
+    {
+        size_t offset = cdata[0].size();
+        data.push_back(uint8_t(offset >> 0));
+        data.push_back(uint8_t(offset >> 8));
+        data.push_back(uint8_t(offset >> 16));
+        data.insert(data.end(), cdata[0].begin(), cdata[0].end());
+        data.insert(data.end(), cdata[1].begin(), cdata[1].end());
+    }
+    else
+    {
+        data = std::move(cdata[0]);
+    }
 
     return "";
 }
@@ -180,7 +208,7 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
 
     if(n.children[0].type == AST::STRING_LITERAL)
     {
-        auto e = encode_tones_midi(data, std::string(n.children[0].data));
+        auto e = encode_tones_midi(data, std::string(n.children[0].data), false);
         if(!e.empty())
             errs.push_back({ e, n.line_info });
         return;

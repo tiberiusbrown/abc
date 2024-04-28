@@ -111,6 +111,7 @@ enum class AST
     SPRITES,    // children are w, h, TOKEN (children are rows/TOKEN)
                 //           or w, h, path string
     FONT,       // children are pixel height and path string
+    MUSIC,      // children are path string
     TONES,      // children are path string
                 //           or note, dur, note, dur, ...
 
@@ -137,6 +138,7 @@ struct compiler_type_t
         SPRITES,
         FONT,
         TONES,
+        MUSIC,
     } type;
 
     bool is_signed;
@@ -160,6 +162,7 @@ struct compiler_type_t
     bool is_sprites() const { return type == SPRITES; }
     bool is_font() const { return type == FONT; }
     bool is_tones() const { return type == TONES; }
+    bool is_music() const { return type == MUSIC; }
 
     bool is_any_nonprog_ref() const {
         return is_any_ref() && (!children[0].is_prog || children[0].is_any_nonprog_ref());
@@ -167,7 +170,7 @@ struct compiler_type_t
 
     bool is_label_ref() const
     {
-        return is_sprites() || is_font() || is_tones();
+        return is_sprites() || is_font() || is_tones() || is_music();
     }
 
     // empty for primitives
@@ -363,6 +366,9 @@ const compiler_type_t TYPE_FONT = {
 
 const compiler_type_t TYPE_TONES = {
     3, compiler_type_t::TONES };
+
+const compiler_type_t TYPE_MUSIC = {
+    3, compiler_type_t::MUSIC };
 
 const compiler_type_t TYPE_CHAR = {
     1, compiler_type_t::PRIM, false, false, true };
@@ -665,7 +671,8 @@ private:
 
     void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_tones(std::vector<uint8_t>& data, ast_node_t const& n);
-    std::string encode_tones_midi(std::vector<uint8_t>& data, std::string const& filename);
+    std::string encode_tones_midi(
+        std::vector<uint8_t>& data, std::string const& filename, bool music);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 
     // idata encoding:

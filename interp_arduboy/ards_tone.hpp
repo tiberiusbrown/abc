@@ -24,11 +24,11 @@ struct Tones
 
     // Tones play only on the tones and/or the primary channel.
     // Tones never play on the secondary channel -- it's reserved for
-    // a dual-channel score playing simultaneously with tones.
+    // dual-channel music playing simultaneously with tones.
 
-    // When both a score (primary+secondary) and tones (tones) are playing,
-    // The tones channel is given priority over the score's secondary channel,
-    // but the score's secondary channel still advances.
+    // When both music (primary+secondary) and tones (tones) are playing,
+    // The tones channel is given priority over the music's secondary channel,
+    // but the music's secondary channel still advances.
     
     // Play a tone on the tones channel.
     static void tones_play(uint24_t t);
@@ -45,14 +45,14 @@ struct Tones
     // Return true if any tones are playing.
     static bool tones_playing();
 
-    // Play a score on primary and secondary channels.
-    static void score_play(uint24_t song);
+    // Play music on primary and secondary channels.
+    static void music_play(uint24_t song);
 
-    // Stop a playing score.
-    static void score_stop();
+    // Stop playing music.
+    static void music_stop();
 
-    // Return true if a score is playing.
-    static bool score_playing();
+    // Return true if music is playing.
+    static bool music_playing();
 
     // Stop all audio.
     static void stop();
@@ -81,7 +81,7 @@ struct channel_t
 
 extern volatile channel_t channels[3]; // primary, secondary, tones channels
 extern volatile bool reload_needed;
-extern volatile bool score_active;
+extern volatile bool music_active;
 }
 
 }
@@ -138,7 +138,7 @@ static uint16_t const TIMER4_PERIODS[129] PROGMEM =
 
 volatile channel_t channels[3]; // primary, secondary, tones channels
 volatile bool reload_needed;
-volatile bool score_active;
+volatile bool music_active;
 
 __attribute__((naked, noinline))
 void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
@@ -235,10 +235,13 @@ static bool enabled()
 
 static void check_all_channels()
 {
-    for(volatile auto& c : channels)
-        if(c.active)
-            return;
+    if(channels[0].active || channels[1].active)
+        return;
+    music_active = false;
+    if(channels[2].active)
+        return;
     TIMSK1 = 0x00;
+    PORTC = 0;
 }
 
 static void update_timer3(uint8_t index)
@@ -326,7 +329,7 @@ void Tones::stop()
     detail::channels[1].active = false;
     detail::channels[2].active = false;
     detail::reload_needed = false;
-    detail::score_active = false;
+    detail::music_active = false;
 }
 
 namespace detail
@@ -397,14 +400,14 @@ void Tones::tones_play_auto(uint24_t t)
 void Tones::tones_stop()
 {
     detail::channels[2].active = false;
-    if(!score_playing())
+    if(!music_playing())
         detail::channels[0].active = false;
     detail::check_all_channels();
 }
 
 bool Tones::tones_playing()
 {
-    return playing() && (!score_playing() || detail::channels[2].active);
+    return playing() && (!music_playing() || detail::channels[2].active);
 }
 
 bool Tones::playing()
@@ -412,18 +415,39 @@ bool Tones::playing()
     return detail::enabled();
 }
 
-void Tones::score_stop()
+void Tones::music_play(uint24_t song)
 {
-    if(!detail::score_active) return;
-    detail::score_active = false;
+    detail::disable();
+
+    uint24_t offset;
+    detail::fx_read_data_bytes(song, &offset, 3);
+    song += 3;
+
+    uint8_t sreg = SREG;
+    cli();
+    detail::init_channel(song, detail::channels[0]);
+    song += offset;
+    detail::init_channel(song, detail::channels[1]);
+    detail::update_timer3(detail::channels[0].buffer[0].period);
+    detail::update_timer4(detail::channels[1].buffer[0].period);
+    detail::music_active = true;
+    SREG = sreg;
+
+    detail::enable();
+}
+
+void Tones::music_stop()
+{
+    if(!detail::music_active) return;
+    detail::music_active = false;
     detail::channels[0].active = false;
     detail::channels[1].active = false;
     detail::check_all_channels();
 }
 
-bool Tones::score_playing()
+bool Tones::music_playing()
 {
-    return detail::score_active;
+    return detail::music_active;
 }
 
 void Tones::update()

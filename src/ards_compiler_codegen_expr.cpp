@@ -1014,6 +1014,14 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::MUSIC:
+    {
+        std::string label = resolve_label_ref(frame, a, TYPE_MUSIC);
+        f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
+        frame.size += 3;
+        return;
+    }
+
     case AST::TONES:
     {
         std::string label = resolve_label_ref(frame, a, TYPE_TONES);
