@@ -126,6 +126,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     case AST::FONT:
         a.comp_type = TYPE_FONT;
         break;
+    case AST::MUSIC:
+        a.comp_type = TYPE_MUSIC;
+        break;
     case AST::TONES:
         a.comp_type = TYPE_TONES;
         break;

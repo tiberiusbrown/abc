@@ -8,7 +8,6 @@
 #define EEPROM_h
 #endif
 
-#include <Arduboy2Audio.h>
 #include <ArduboyFX.h>
 #include <string.h>
 
@@ -21,11 +20,45 @@ struct Tones
 {
     static void setup();
     
-    static void play(uint24_t song);
-    static void stop();
-    static bool playing();
-    
     static void update();
+
+    // Tones play only on the tones and/or the primary channel.
+    // Tones never play on the secondary channel -- it's reserved for
+    // dual-channel music playing simultaneously with tones.
+
+    // When both music (primary+secondary) and tones (tones) are playing,
+    // The tones channel is given priority over the music's secondary channel,
+    // but the music's secondary channel still advances.
+    
+    // Play a tone on the tones channel.
+    static void tones_play(uint24_t t);
+
+    // Play a tone on the primary channel.
+    static void tones_play_primary(uint24_t t);
+
+    // Play a tone on an unused channel, prioritizing the tones channel.
+    static void tones_play_auto(uint24_t t);
+
+    // Stop all playing tones.
+    static void tones_stop();
+
+    // Return true if any tones are playing.
+    static bool tones_playing();
+
+    // Play music on primary and secondary channels.
+    static void music_play(uint24_t song);
+
+    // Stop playing music.
+    static void music_stop();
+
+    // Return true if music is playing.
+    static bool music_playing();
+
+    // Stop all audio.
+    static void stop();
+
+    // Return true if any audio is playing.
+    static bool playing();
 };
 
 namespace detail
@@ -38,8 +71,17 @@ struct note_t
     uint8_t ticks;
 };
 
-extern volatile note_t buffer[ARDS_TONES_BUFFER_SIZE];
-extern volatile uint8_t buffer_size;
+struct channel_t
+{
+    note_t buffer[ARDS_TONES_BUFFER_SIZE];
+    uint8_t size;
+    uint24_t addr;
+    bool active;
+};
+
+extern volatile channel_t channels[3]; // primary, secondary, tones channels
+extern volatile bool reload_needed;
+extern volatile bool music_active;
 }
 
 }
@@ -52,7 +94,7 @@ namespace ards
 namespace detail
 {
 
-static uint16_t const PERIODS[129] PROGMEM =
+static uint16_t const TIMER3_PERIODS[129] PROGMEM =
 {
     0x0000, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff, 0xffff,
     0xffff, 0xffff, 0xffff, 0xfd19, 0xeee4, 0xe17c, 0xd4d4, 0xc8e2,
@@ -73,11 +115,30 @@ static uint16_t const PERIODS[129] PROGMEM =
     0x0100,
 };
 
-volatile note_t buffer[ARDS_TONES_BUFFER_SIZE];
-volatile uint8_t buffer_size;
+static uint16_t const TIMER4_PERIODS[129] PROGMEM =
+{
+    0x0000, 0xc385, 0xc352, 0xc323, 0xc2f5, 0xc2cb, 0xc2a3, 0xc27d,
+    0xc259, 0xc237, 0xc217, 0xb3f3, 0xb3bb, 0xb385, 0xb352, 0xb323,
+    0xb2f5, 0xb2cb, 0xb2a3, 0xb27d, 0xb259, 0xb237, 0xb217, 0xa3f3,
+    0xa3bb, 0xa385, 0xa352, 0xa323, 0xa2f5, 0xa2cb, 0xa2a3, 0xa27d,
+    0xa259, 0xa237, 0xa217, 0x93f3, 0x93bb, 0x9385, 0x9352, 0x9323,
+    0x92f5, 0x92cb, 0x92a3, 0x927d, 0x9259, 0x9237, 0x9217, 0x83f3,
+    0x83bb, 0x8385, 0x8352, 0x8323, 0x82f5, 0x82cb, 0x82a3, 0x827d,
+    0x8259, 0x8237, 0x8217, 0x73f3, 0x73bb, 0x7385, 0x7352, 0x7323,
+    0x72f5, 0x72cb, 0x72a3, 0x727d, 0x7259, 0x7237, 0x7217, 0x63f3,
+    0x63bb, 0x6385, 0x6352, 0x6323, 0x62f5, 0x62cb, 0x62a3, 0x627d,
+    0x6259, 0x6237, 0x6217, 0x53f3, 0x53bb, 0x5385, 0x5352, 0x5323,
+    0x52f5, 0x52cb, 0x52a3, 0x527d, 0x5259, 0x5237, 0x5217, 0x43f3,
+    0x43bb, 0x4385, 0x4352, 0x4323, 0x42f5, 0x42cb, 0x42a3, 0x427d,
+    0x4259, 0x4237, 0x4217, 0x33f3, 0x33bb, 0x3385, 0x3352, 0x3323,
+    0x32f5, 0x32cb, 0x32a3, 0x327d, 0x3259, 0x3237, 0x3217, 0x23f3,
+    0x23bb, 0x2385, 0x2352, 0x2323, 0x22f5, 0x22cb, 0x22a3, 0x227d,
+    0x2259,
+};
 
-// current song address
-static volatile uint24_t addr;
+volatile channel_t channels[3]; // primary, secondary, tones channels
+volatile bool reload_needed;
+volatile bool music_active;
 
 __attribute__((naked, noinline))
 void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
@@ -158,34 +219,103 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
 
 static void disable()
 {
-    TCCR3B = 0x18;
     PORTC = 0;
-    TIMSK4 = 0x00;
+    TIMSK1 = 0x00;
 }
 
 static void enable()
 {
-    TCCR3B = 0x1a; // Fast PWM 2 MHz
-    TIMSK4 = 0x40;
+    TIMSK1 = 0x02;
 }
 
 static bool enabled()
 {
-    return TIMSK4 != 0;
+    return TIMSK1 != 0;
+}
+
+static void check_all_channels()
+{
+    if(channels[0].active || channels[1].active)
+        return;
+    music_active = false;
+    if(channels[2].active)
+        return;
+    TIMSK1 = 0x00;
+    PORTC = 0;
+}
+
+static void update_timer3(uint8_t index)
+{
+    if(index >= 129)
+    {
+        TCCR3B = 0x18;
+    }
+    else if(index == 0)
+    {
+        TCCR3B = 0x18;
+    }
+    else
+    {
+        uint16_t ocr = pgm_read_word(&TIMER3_PERIODS[index]);
+        OCR3A = ocr;
+        TCCR3B = 0x1a;
+    }
+}
+
+static void update_timer4(uint8_t index)
+{
+    if(index >= 129)
+    {
+        TCCR4A = 0x00;
+    }
+    else if(index == 0)
+    {
+        TCCR4A = 0x00;
+        PORTC = 0;
+    }
+    else
+    {
+        uint16_t top = pgm_read_word(&TIMER4_PERIODS[index]);
+        uint8_t pre;
+
+        asm volatile(R"(
+                mov  %[pre], %B[top]
+                swap %[pre]
+                andi %[pre], 0x0f
+                andi %B[top], 0x0f
+            )"
+            : [top] "+&d" (top)
+            , [pre] "=&d" (pre)
+            );
+
+        TCCR4B = pre;
+        TC4H  = uint8_t(top >> 8);
+        OCR4C = uint8_t(top >> 0);
+        top >>= 1;
+        TC4H  = uint8_t(top >> 8);
+        OCR4A = uint8_t(top >> 0);
+        
+        TCCR4A = 0x82;
+    }
 }
 
 } // namespace detail
 
 void Tones::setup()
 {
-    //TCCR4A = 0x00; // disconnect sound pins
-    TCCR4B = 0x09;   // CK/256
-    //TCCR4D = 0x00; // normal waveform
-    TC4H   = 0x00;
-    OCR4A  = 125;    // 16 MHz / 256 / 125 / 2 = 250 Hz
+    // timer1: CTC 250 Hz (prescaler /256, top 249)
+    TCCR1A = 0x00;
+    TCCR1B = 0x0c;
+    OCR1A = 249;
     
-    TCCR3A = 0x43; // Fast PWM 2 MHz, toggle OC3A on compare match
-    TCCR3B = 0x18; // Fast PWM 2 MHz
+    // timer3: fast PWM 2 MHz, toggle OC3A on compare match
+    TCCR3A = 0x43;
+    TCCR3B = 0x18;
+
+    // clear previous config of timer4
+    TCCR4A = 0x00;
+    TCCR4B = 0x00;
+    TCCR4D = 0x00;
 
     stop();
 }
@@ -193,32 +323,91 @@ void Tones::setup()
 void Tones::stop()
 {
     detail::disable();
-    // prevent update from doing anything
-    detail::buffer_size = sizeof(detail::buffer);
+
+    // prevent updates from doing anything
+    detail::channels[0].active = false;
+    detail::channels[1].active = false;
+    detail::channels[2].active = false;
+    detail::reload_needed = false;
+    detail::music_active = false;
 }
 
-void Tones::play(uint24_t song)
+namespace detail
 {
-    if(!Arduboy2Audio::enabled())
-        return;
+
+static void update_channel(volatile channel_t& c)
+{
+    if(!c.active) return;
+    uint8_t size = c.size;
+    uint8_t bytes = sizeof(c.buffer) - size;
+    if(bytes > 0)
+    {
+        uint24_t addr = c.addr;
+        detail::fx_read_data_bytes(
+            addr,
+            (uint8_t*)&c.buffer[0] + size,
+            bytes);
+        addr += bytes;
+        c.addr = addr;
+        c.size = sizeof(c.buffer);
+    }
+}
+
+static void init_channel(uint24_t t, volatile channel_t& c)
+{
+    c.size = 0;
+    c.addr = t;
+    c.active = true;
+    update_channel(c);
+}
+
+}
+
+void Tones::tones_play(uint24_t t)
+{
+    detail::disable();
+
     uint8_t sreg = SREG;
     cli();
-    detail::disable();
-    detail::buffer_size = sizeof(detail::buffer);
-    detail::fx_read_data_bytes(
-        song,
-        &detail::buffer[0],
-        sizeof(detail::buffer));
-    song += sizeof(detail::buffer);
-    detail::addr = song;
-    uint8_t index = ards::detail::buffer[0].period;
-    OCR3A = pgm_read_word(&ards::detail::PERIODS[index]);;
-    PORTC = 0x80;
-    detail::enable();
-    if(index == 255)
-        stop();
-end:
+    detail::init_channel(t, detail::channels[2]);
+    detail::update_timer4(detail::channels[2].buffer[0].period);
     SREG = sreg;
+
+    detail::enable();
+}
+
+void Tones::tones_play_primary(uint24_t t)
+{
+    detail::disable();
+
+    uint8_t sreg = SREG;
+    cli();
+    detail::init_channel(t, detail::channels[0]);
+    detail::update_timer3(detail::channels[0].buffer[0].period);
+    SREG = sreg;
+
+    detail::enable();
+}
+
+void Tones::tones_play_auto(uint24_t t)
+{
+    if(!detail::channels[2].active)
+        tones_play(t);
+    else
+        tones_play_primary(t);
+}
+
+void Tones::tones_stop()
+{
+    detail::channels[2].active = false;
+    if(!music_playing())
+        detail::channels[0].active = false;
+    detail::check_all_channels();
+}
+
+bool Tones::tones_playing()
+{
+    return playing() && (!music_playing() || detail::channels[2].active);
 }
 
 bool Tones::playing()
@@ -226,34 +415,72 @@ bool Tones::playing()
     return detail::enabled();
 }
 
-void Tones::update()
+void Tones::music_play(uint24_t song)
 {
-    if(!detail::enabled() ||
-        detail::buffer_size >= sizeof(detail::buffer))
-        return;
+    detail::disable();
+
+    uint24_t offset;
+    detail::fx_read_data_bytes(song, &offset, 3);
+    song += 3;
+
     uint8_t sreg = SREG;
     cli();
-    uint8_t size = detail::buffer_size;
-    uint8_t bytes = sizeof(detail::buffer) - size;
-    uint24_t addr = detail::addr;
-    detail::fx_read_data_bytes(
-        addr,
-        (uint8_t*)&detail::buffer[0] + size,
-        bytes);
-    addr += bytes;
-    detail::addr = addr;
-    detail::buffer_size = sizeof(detail::buffer);
+    detail::init_channel(song, detail::channels[0]);
+    song += offset;
+    detail::init_channel(song, detail::channels[1]);
+    detail::update_timer3(detail::channels[0].buffer[0].period);
+    detail::update_timer4(detail::channels[1].buffer[0].period);
+    detail::music_active = true;
+    SREG = sreg;
+
+    detail::enable();
+}
+
+void Tones::music_stop()
+{
+    if(!detail::music_active) return;
+    detail::music_active = false;
+    detail::channels[0].active = false;
+    detail::channels[1].active = false;
+    detail::check_all_channels();
+}
+
+bool Tones::music_playing()
+{
+    return detail::music_active;
+}
+
+void Tones::update()
+{
+    if(!detail::enabled())
+        detail::reload_needed = false;
+    if(!detail::reload_needed)
+        return;
+    uint8_t sreg = SREG;
+
+    cli();
+    for(volatile auto& c : detail::channels)
+        detail::update_channel(c);
+    detail::reload_needed = false;
     SREG = sreg;
 }
 
-} // namespace ards
-
-ISR(TIMER4_COMPA_vect, __attribute((flatten)))
+namespace detail
 {
-    uint8_t ticks = ards::detail::buffer[0].ticks;
+struct advance_info_t
+{
+    bool update;
+    uint8_t period;
+};
+
+static advance_info_t advance_channel(volatile channel_t& c)
+{
+    if(!c.active) return;
+    uint8_t ticks = c.buffer[0].ticks;
     if(--ticks == 0)
     {
-        uint8_t size = ards::detail::buffer_size;
+        ards::detail::reload_needed = true;
+        uint8_t size = c.size;
         size -= sizeof(ards::detail::note_t);
         if(size == 0)
         {
@@ -264,27 +491,37 @@ ISR(TIMER4_COMPA_vect, __attribute((flatten)))
         }
         // should be memmove, but works for backward moves on avr
         memcpy(
-            &ards::detail::buffer[0],
-            &ards::detail::buffer[1],
+            &c.buffer[0],
+            &c.buffer[1],
             sizeof(ards::detail::note_t) * (ARDS_TONES_BUFFER_SIZE - 1));
-        ards::detail::buffer_size = size;
-        uint8_t index = ards::detail::buffer[0].period;
-        if(index == 255)
-            ards::Tones::stop();
-        else if(index == 0)
-        {
-            TCCR3B = 0x18; // silence
-            PORTC = 0;
-        }
-        else
-        {
-            uint16_t ocr = pgm_read_word(&ards::detail::PERIODS[index]);
-            OCR3A = ocr;
-            TCCR3B = 0x1a;
-        }
+        c.size = size;
+        return { true, c.buffer[0].period };
     }
-    else
-        ards::detail::buffer[0].ticks = ticks;
+    c.buffer[0].ticks = ticks;
+    return { false, 0 };
+}
+}
+
+} // namespace ards
+
+ISR(TIMER1_COMPA_vect)
+{
+    ards::detail::advance_info_t a;
+    
+    a = ards::detail::advance_channel(ards::detail::channels[0]);
+    if(a.period >= 129) ards::detail::channels[0].active = false;
+    if(a.update) ards::detail::update_timer3(a.period);
+    
+    a = ards::detail::advance_channel(ards::detail::channels[1]);
+    if(a.period >= 129) ards::detail::channels[1].active = false;
+    if(ards::detail::channels[2].active)
+    {
+        a = ards::detail::advance_channel(ards::detail::channels[2]);
+        if(a.period >= 129) ards::detail::channels[2].active = false;
+    }
+    if(a.update) ards::detail::update_timer4(a.period);
+
+    ards::detail::check_all_channels();
 }
 
 #endif

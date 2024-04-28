@@ -151,9 +151,9 @@ static void seek_to_pc()
             out  %[spdr], r24
 
             ; see if we need to call ards::Tones::update()
-            lds  r16, %[tones_size]
-            cpi  r16, %[tones_maxsize]
-            brsh 2f
+            lds  r16, %[tones_reload]
+            cp   r16, __zero_reg__
+            breq 2f
             clr  r1
             rcall L%=_delay_13
             sbi  %[fxport], %[fxbit]
@@ -250,8 +250,7 @@ static void seek_to_pc()
         , [spdr]            "i" (_SFR_IO_ADDR(SPDR))
         , [datapage]        ""  (&FX::programDataPage)
         , [tones_update]    ""  (ards::Tones::update)
-        , [tones_size]      ""  (&ards::detail::buffer_size)
-        , [tones_maxsize]   ""  (sizeof(ards::detail::buffer))
+        , [tones_reload]    ""  (&ards::detail::reload_needed)
         );
 }
 
@@ -1712,7 +1711,7 @@ static void sys_draw_textf()
     seek_to_pc();
 }
 
-static void sys_tones_play()
+static void tones_play_helper(void(*f)(uint24_t))
 {
     auto ptr = vm_pop_begin();
     uint24_t song = vm_pop<uint24_t>(ptr);
@@ -1723,19 +1722,49 @@ static void sys_tones_play()
     
     (void)FX::readEnd();
     
-    ards::Tones::play(song);
+    f(song);
     
     seek_to_pc();
 }
 
+static void sys_music_play()
+{
+    tones_play_helper(ards::Tones::music_play);
+}
+
+static void sys_tones_play()
+{
+    tones_play_helper(ards::Tones::tones_play);
+}
+
+static void sys_tones_play_primary()
+{
+    tones_play_helper(ards::Tones::tones_play_primary);
+}
+
+static void sys_tones_play_auto()
+{
+    tones_play_helper(ards::Tones::tones_play_auto);
+}
+
+static void sys_music_playing()
+{
+    vm_push<uint8_t>(ards::Tones::music_playing());
+}
+
 static void sys_tones_playing()
 {
-    vm_push<uint8_t>(ards::Tones::playing());
+    vm_push<uint8_t>(ards::Tones::tones_playing());
+}
+
+static void sys_music_stop()
+{
+    ards::Tones::music_stop();
 }
 
 static void sys_tones_stop()
 {
-    ards::Tones::stop();
+    ards::Tones::tones_stop();
 }
 
 static void sys_audio_enabled()
@@ -1747,6 +1776,16 @@ static void sys_audio_toggle()
 {
     Arduboy2Audio::toggle();
     ards::Tones::setup();
+}
+
+static void sys_audio_stop()
+{
+    ards::Tones::stop();
+}
+
+static void sys_audio_playing()
+{
+    vm_push<uint8_t>(ards::Tones::playing());
 }
 
 static void sys_save_exists()
@@ -2224,11 +2263,22 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_strcpy,
     sys_strcpy_P,
     sys_format,
+    
+    sys_music_play,
+    sys_music_playing,
+    sys_music_stop,
+
     sys_tones_play,
+    sys_tones_play_primary,
+    sys_tones_play_auto,
     sys_tones_playing,
     sys_tones_stop,
+
     sys_audio_enabled,
     sys_audio_toggle,
+    sys_audio_playing,
+    sys_audio_stop,
+
     sys_save_exists,
     sys_save,
     sys_load,
