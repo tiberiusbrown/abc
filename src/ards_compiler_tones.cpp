@@ -36,8 +36,8 @@ struct midi_tone_t
 bool operator<(midi_tone_t const& a, midi_tone_t const& b)
 {
     return
-        std::tie(a.start_tick, a.dur_ticks, a.note) <
-        std::tie(b.start_tick, b.dur_ticks, b.note);
+        std::tie(a.start_tick, b.note, a.dur_ticks) <
+        std::tie(b.start_tick, a.note, b.dur_ticks);
 }
 
 std::string compiler_t::encode_tones_midi(
