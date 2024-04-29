@@ -291,7 +291,11 @@ static void update_timer4(uint8_t index)
         TCCR4B = pre;
         TC4H  = uint8_t(top >> 8);
         OCR4C = uint8_t(top >> 0);
-        top >>= 1;
+        asm volatile(R"(
+            lsr  %B[top]
+            ror  %A[top]
+            )"
+            : [top] "+&r" (top));
         TC4H  = uint8_t(top >> 8);
         OCR4A = uint8_t(top >> 0);
         
