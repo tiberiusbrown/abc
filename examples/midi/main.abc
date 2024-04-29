@@ -1,6 +1,27 @@
+bool want_music = false;
+
 void main()
 {
-    $music_play(music{ "simple.mid" });
-    while($music_playing())
-        $idle();
+    while(!$next_frame())
+        ;
+        
+    $poll_buttons();
+    if($just_pressed(A_BUTTON))
+        $tones_play_auto(tones{ C6 500 });
+    if($just_pressed(B_BUTTON))
+        want_music = !want_music;
+    
+    if(want_music && !$music_playing())
+        $music_play(music{ "song.mid" });
+    if(!want_music)
+        $music_stop();
+    
+    $set_text_font(FONT_PIXELOIDSANS);
+    
+    $draw_text_P(0, 10, "Press A to play tones\nPress B to toggle music");
+    
+    $draw_textf(0, 50, "Music playing: %u", $music_playing());
+    $draw_textf(0, 60, "Tones playing: %u", $tones_playing());
+    
+    $display();
 }

@@ -330,6 +330,9 @@ void Tones::stop()
     detail::channels[2].active = false;
     detail::reload_needed = false;
     detail::music_active = false;
+
+    detail::update_timer3(0);
+    detail::update_timer4(0);
 }
 
 namespace detail
@@ -378,6 +381,8 @@ void Tones::tones_play(uint24_t t)
 
 void Tones::tones_play_primary(uint24_t t)
 {
+    music_stop();
+
     detail::disable();
 
     uint8_t sreg = SREG;
@@ -391,7 +396,7 @@ void Tones::tones_play_primary(uint24_t t)
 
 void Tones::tones_play_auto(uint24_t t)
 {
-    if(!detail::channels[2].active)
+    if(!detail::channels[2].active || detail::channels[0].active)
         tones_play(t);
     else
         tones_play_primary(t);
@@ -401,7 +406,11 @@ void Tones::tones_stop()
 {
     detail::channels[2].active = false;
     if(!music_playing())
+    {
         detail::channels[0].active = false;
+        detail::update_timer3(0);
+        detail::update_timer4(0);
+    }
     detail::check_all_channels();
 }
 
@@ -443,6 +452,9 @@ void Tones::music_stop()
     detail::channels[0].active = false;
     detail::channels[1].active = false;
     detail::check_all_channels();
+
+    detail::update_timer3(0);
+    detail::update_timer4(0);
 }
 
 bool Tones::music_playing()
