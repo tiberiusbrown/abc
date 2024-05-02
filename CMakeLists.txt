@@ -99,10 +99,12 @@ endif()
 
 add_library(abc_interp STATIC
     .editorconfig
-    interp_general/abc_instr.h
     interp_general/abc_interp.h
     interp_general/abc_interp.c
     )
+if(MSVC)
+    target_compile_options(abc_interp PRIVATE /Za)
+endif()
     
 add_library(ards_compiler STATIC
     .editorconfig
