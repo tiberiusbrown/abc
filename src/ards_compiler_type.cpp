@@ -676,6 +676,25 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         if(a.comp_type.type == compiler_type_t::PRIM && min_size != a.comp_type.prim_size)
             a.insert_cast(a.comp_type.sized_to(min_size));
         break;
+    case AST::TYPE:
+    case AST::TYPE_ARRAY:
+    case AST::TYPE_REF:
+    case AST::TYPE_AREF:
+    case AST::TYPE_AREF_PROG:
+    case AST::TYPE_PROG:
+    case AST::STRUCT_MEMBER:
+    case AST::ARRAY_LEN:
+    case AST::ARRAY_SLICE:
+    case AST::ARRAY_SLICE_LEN:
+    case AST::SPRITES:
+    case AST::FONT:
+    case AST::TONES:
+    case AST::MUSIC:
+    case AST::LABEL_REF:
+    case AST::FLOAT_CONST:
+    case AST::COMPOUND_LITERAL:
+    case AST::OP_COMPOUND_ASSIGNMENT_DEREF:
+        break;
     default:
         break;
     }
