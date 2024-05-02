@@ -93,7 +93,6 @@ static bool test(std::string const& fpath, std::string const& fname)
                 return binary[addr];
             return 0;
         };
-        host.millis = [](void* user) -> uint32_t { (void)user;  return 0; };
 
         interp = {};
 

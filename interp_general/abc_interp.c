@@ -1566,7 +1566,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 
 abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
 {
-    if(!interp || !h || !h->prog || !h->millis)
+    if(!interp || !h || !h->prog)
         return ABC_RESULT_ERROR;
 
     if(interp->pc == 0)

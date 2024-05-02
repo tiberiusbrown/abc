@@ -28,7 +28,7 @@ typedef enum
 typedef enum
 {
     ABC_RESULT_NORMAL,     /* do nothing (continue executing) */
-    ABC_RESULT_IDLE,       /* wait one millisecond */
+    ABC_RESULT_IDLE,       /* defer to host for a bit */
     ABC_RESULT_BREAK,      /* debug break occurred */
     ABC_RESULT_ERROR,      /* halt: a runtime error occurred */
 } abc_result_t;
@@ -40,15 +40,15 @@ typedef struct abc_host_t
     ****************************************************************/
     
     uint8_t (*prog)      (void* user, uint32_t addr);
-    uint32_t(*millis)    (void* user);
     
     /****************************************************************
-    * The following may be NULL, but functionality will be reduced. *
+    * The following may be NULL, but games may break. *
     ****************************************************************/
 
     uint8_t (*buttons)   (void* user);
-    void    (*debug_putc)(void* user, char c);
+    uint32_t(*millis)    (void* user);
     void    (*tones)     (void* user, abc_channel_t channel, uint32_t addr);
+    void    (*debug_putc)(void* user, char c);
     
     void* user;
     
