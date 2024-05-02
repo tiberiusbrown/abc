@@ -1,6 +1,8 @@
 #include "abc_interp.h"
 
 #include <assert.h>
+#include <math.h>
+#include <stdbool.h>
 #include <string.h>
 
 enum
@@ -1478,6 +1480,204 @@ static abc_result_t sys_load(abc_interp_t* interp, abc_host_t const* h)
     return push(interp, has_save ? 1 : 0);
 }
 
+static void format_add_int(
+    void(*f)(void* u, char c), void* u,
+    uint32_t x, bool sign, uint8_t base, int8_t w)
+{
+    char buf[10];
+    char* tp = buf;
+
+    if(sign && (int32_t)x < 0)
+    {
+        f(u, '-');
+        x = (uint32_t)(-(int32_t)x);
+        --w;
+    }
+
+    if(x == 0)
+    {
+        *tp++ = '0';
+        --w;
+    }
+    while(x != 0)
+    {
+        uint8_t r = x % base;
+        x /= base;
+        *tp++ = (char)(r + (r < 10 ? '0' : 'a' - 10));
+        --w;
+    }
+
+    while(w > 0)
+    {
+        *tp++ = '0';
+        --w;
+    }
+
+    while(tp != buf)
+        f(u, *--tp);
+}
+
+static void format_add_float(
+    void(*f)(void* u, char c), void* u, float x, uint8_t prec)
+{
+    if(isnan(x))
+    {
+        f(u, 'n');
+        f(u, 'a');
+        f(u, 'n');
+        return;
+    }
+    if(isinf(x))
+    {
+        f(u, 'i');
+        f(u, 'n');
+        f(u, 'f');
+        return;
+    }
+    if(x > 4294967040.f || x < -4294967040.f)
+    {
+        f(u, 'o');
+        f(u, 'v');
+        f(u, 'f');
+        return;
+    }
+
+    if(x < 0.0f)
+    {
+        f(u, '-');
+        x = -x;
+    }
+
+    {
+        float r = 0.5f;
+        for(uint8_t i = 0; i < prec; ++i)
+            r *= 0.1f;
+        x += r;
+    }
+
+    uint32_t n = (uint32_t)x;
+    float r = x - (float)n;
+    format_add_int(f, u, n, false, 10, 0);
+
+    if(prec > 0)
+        f(u, '.');
+    while((int8_t)(--prec) >= 0)
+    {
+        r *= 10.f;
+        uint8_t t = (uint8_t)r;
+        f(u, (char)('0' + t));
+        r -= t;
+    }
+}
+
+static void format_exec(
+    abc_interp_t* interp, abc_host_t const* h,
+    void(*f)(void* u, char c), void* u)
+{
+    uint32_t fn = pop24(interp);
+    uint32_t fb = pop24(interp);
+
+    while(fn != 0)
+    {
+        char c = (char)h->prog(h->user, fb++);
+        --fn;
+        if(c != '%')
+        {
+            f(u, c);
+            continue;
+        }
+        c = (char)h->prog(h->user, fb++);
+        --fn;
+        switch(c)
+        {
+        case 'c':
+            f(u, (char)pop8(interp));
+            break;
+        case '%':
+            f(u, c);
+            break;
+        case 's':
+        {
+            uint16_t tn = pop16(interp);
+            uint16_t tb = pop16(interp);
+            uint8_t* p = refptr(interp, tb);
+            if(!p) break;
+            while(tn != 0)
+            {
+                uint8_t tc = *p++;
+                if(tc == '\0') break;
+                f(u, (char)tc);
+                --tn;
+            }
+            break;
+        }
+        case 'S':
+        {
+            uint32_t tn = pop24(interp);
+            uint32_t tb = pop24(interp);
+            while(tn != 0)
+            {
+                uint8_t tc = h->prog(h->user, tb++);
+                if(tc == '\0') break;
+                f(u, (char)tc);
+                --tn;
+            }
+            break;
+        }
+        case 'd':
+        case 'u':
+        case 'x':
+        {
+            uint32_t x = pop32(interp);
+            int8_t w = (int8_t)(h->prog(h->user, fb++) - '0');
+            --fn;
+            format_add_int(f, u, x, c == 'd', c == 'x' ? 16 : 10, w);
+            break;
+        }
+        case 'f':
+        {
+            float x = popf(interp);
+            uint8_t prec = h->prog(h->user, fb++) - '0';
+            --fn;
+            format_add_float(f, u, x, prec);
+            break;
+        }
+        default:
+            break;
+        }
+    }
+
+}
+
+typedef struct
+{
+    char* p;
+    uint16_t n;
+} format_user_buffer;
+
+static void format_exec_to_buffer(void* user, char c)
+{
+    format_user_buffer* u = (format_user_buffer*)user;
+    uint16_t n = u->n;
+    if(n == 0) return;
+    u->n = --n;
+    *(u->p)++ = (uint8_t)c;
+}
+
+static abc_result_t sys_format(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t n = pop16(interp);
+    uint16_t b = pop16(interp);
+    format_user_buffer u;
+    u.p = (char*)refptr(interp, b);
+    if(!u.p || !refptr(interp, b + n - 1)) return ABC_RESULT_ERROR;
+    u.n = n;
+    format_exec(interp, h, format_exec_to_buffer, &u);
+    if(u.n != 0)
+        *u.p = '\0';
+    return ABC_RESULT_NORMAL;
+}
+
 static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 {
     uint8_t sysnum = imm8(interp, h) >> 1;
@@ -1527,7 +1727,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_STRCMP_PP:            return sys_strcmp_PP(interp, h);
     case SYS_STRCPY:               return sys_strcpy(interp);
     case SYS_STRCPY_P:             return sys_strcpy_P(interp, h);
-    case SYS_FORMAT:               goto unknown_sysfunc;
+    case SYS_FORMAT:               return sys_format(interp, h);
     case SYS_MUSIC_PLAY:           goto unknown_sysfunc;
     case SYS_MUSIC_PLAYING:        goto unknown_sysfunc;
     case SYS_MUSIC_STOP:           goto unknown_sysfunc;
