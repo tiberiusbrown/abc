@@ -606,6 +606,9 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         min_size = a.comp_type.prim_size;
     switch(a.type)
     {
+    case AST::OP_UNARY:
+        type_reduce_recurse(a.children[1], a.children[1].comp_type.prim_size);
+        break;
     case AST::ARRAY_INDEX:
         type_reduce_recurse(
             a.children[1], a.children[0].comp_type.is_prog_array() ? 3 : 2);
@@ -664,7 +667,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
             auto& expr = a.children[1].children[i];
             if(!type.is_prim())
                 continue;
-            type_reduce_recurse(expr, std::min(size, type.prim_size));
+            type_reduce_recurse(expr, type.prim_size);
         }
         break;
     }
