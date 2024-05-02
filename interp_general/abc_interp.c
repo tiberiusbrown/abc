@@ -4,6 +4,83 @@
 
 enum
 {
+    SYS_DISPLAY,
+    SYS_DISPLAY_NOCLEAR,
+    SYS_GET_PIXEL,
+    SYS_DRAW_PIXEL,
+    SYS_DRAW_HLINE,
+    SYS_DRAW_VLINE,
+    SYS_DRAW_LINE,
+    SYS_DRAW_RECT,
+    SYS_DRAW_FILLED_RECT,
+    SYS_DRAW_CIRCLE,
+    SYS_DRAW_FILLED_CIRCLE,
+    SYS_DRAW_SPRITE,
+    SYS_DRAW_SPRITE_SELFMASK,
+    SYS_DRAW_TEXT,
+    SYS_DRAW_TEXT_P,
+    SYS_DRAW_TEXTF,
+    SYS_TEXT_WIDTH,
+    SYS_TEXT_WIDTH_P,
+    SYS_WRAP_TEXT,
+    SYS_SET_TEXT_FONT,
+    SYS_SET_TEXT_COLOR,
+    SYS_SET_FRAME_RATE,
+    SYS_NEXT_FRAME,
+    SYS_IDLE,
+    SYS_DEBUG_BREAK,
+    SYS_DEBUG_PRINTF,
+    SYS_ASSERT,
+    SYS_POLL_BUTTONS,
+    SYS_JUST_PRESSED,
+    SYS_JUST_RELEASED,
+    SYS_PRESSED,
+    SYS_ANY_PRESSED,
+    SYS_NOT_PRESSED,
+    SYS_MILLIS,
+    SYS_MEMCPY,
+    SYS_MEMCPY_P,
+    SYS_STRLEN,
+    SYS_STRLEN_P,
+    SYS_STRCMP,
+    SYS_STRCMP_P,
+    SYS_STRCMP_PP,
+    SYS_STRCPY,
+    SYS_STRCPY_P,
+    SYS_FORMAT,
+    SYS_MUSIC_PLAY,
+    SYS_MUSIC_PLAYING,
+    SYS_MUSIC_STOP,
+    SYS_TONES_PLAY,
+    SYS_TONES_PLAY_PRIMARY,
+    SYS_TONES_PLAY_AUTO,
+    SYS_TONES_PLAYING,
+    SYS_TONES_STOP,
+    SYS_AUDIO_ENABLED,
+    SYS_AUDIO_TOGGLE,
+    SYS_AUDIO_PLAYING,
+    SYS_AUDIO_STOP,
+    SYS_SAVE_EXISTS,
+    SYS_SAVE,
+    SYS_LOAD,
+    SYS_SIN,
+    SYS_COS,
+    SYS_TAN,
+    SYS_ATAN2,
+    SYS_FLOOR,
+    SYS_CEIL,
+    SYS_ROUND,
+    SYS_MOD,
+    SYS_POW,
+    SYS_SQRT,
+    SYS_GENERATE_RANDOM_SEED,
+    SYS_INIT_RANDOM_SEED,
+    SYS_RANDOM,
+    SYS_RANDOM_RANGE,
+};
+
+enum
+{
     I_NOP,
     I_PUSH,
     I_P0,
@@ -918,6 +995,265 @@ static abc_result_t u2f(abc_interp_t* interp)
     return pushf(interp, (float)a);
 }
 
+static abc_result_t aixb1(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t n = imm8(interp, h);
+    uint8_t i = pop8(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint16_t p = pop16(interp);
+    return push16(interp, p + i);
+}
+
+static abc_result_t aidxb(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t b = imm8(interp, h);
+    uint8_t n = imm8(interp, h);
+    uint8_t i = pop8(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint16_t p = pop16(interp);
+    return push16(interp, p + i * b);
+}
+
+static abc_result_t aidx(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t b = imm16(interp, h);
+    uint16_t n = imm16(interp, h);
+    uint16_t i = pop16(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint16_t p = pop16(interp);
+    return push16(interp, p + i * b);
+}
+
+static abc_result_t pidxb(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t b = imm8(interp, h);
+    uint8_t n = imm8(interp, h);
+    uint8_t i = pop8(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint32_t p = pop24(interp);
+    return push24(interp, p + i * b);
+}
+
+static abc_result_t pidx(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t b = imm16(interp, h);
+    uint32_t n = imm24(interp, h);
+    uint32_t i = pop24(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint32_t p = pop24(interp);
+    return push24(interp, p + i * b);
+}
+
+static abc_result_t uaidx(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t b = imm16(interp, h);
+    uint16_t i = pop16(interp);
+    uint16_t n = pop16(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint16_t p = pop16(interp);
+    return push16(interp, p + i * b);
+}
+
+static abc_result_t upidx(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t b = imm16(interp, h);
+    uint32_t i = pop24(interp);
+    uint32_t n = pop24(interp);
+    if(i >= n) return ABC_RESULT_ERROR;
+    uint32_t p = pop24(interp);
+    return push24(interp, p + i * b);
+}
+
+static abc_result_t aslc(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t stop = pop16(interp);
+    uint16_t start = pop16(interp);
+    uint16_t n = pop16(interp);
+    uint16_t p = pop16(interp);
+    uint16_t b = imm16(interp, h);
+    if(start >= n || stop > n) return ABC_RESULT_ERROR;
+    push16(interp, p + start * b);
+    return push16(interp, stop - start);
+}
+
+static abc_result_t pslc(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t stop = pop24(interp);
+    uint32_t start = pop24(interp);
+    uint32_t n = pop24(interp);
+    uint32_t p = pop24(interp);
+    uint16_t b = imm16(interp, h);
+    if(start >= n || stop > n) return ABC_RESULT_ERROR;
+    push24(interp, p + start * b);
+    return push24(interp, stop - start);
+}
+
+static abc_result_t bz(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t addr = imm24(interp, h);
+    if(pop8(interp) == 0)
+        interp->pc = addr;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bz1(abc_interp_t* interp, abc_host_t const* h)
+{
+    int8_t offset = (int8_t)imm8(interp, h);
+    if(pop8(interp) == 0)
+        interp->pc += offset;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bnz(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t addr = imm24(interp, h);
+    if(pop8(interp) != 0)
+        interp->pc = addr;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bnz1(abc_interp_t* interp, abc_host_t const* h)
+{
+    int8_t offset = (int8_t)imm8(interp, h);
+    if(pop8(interp) != 0)
+        interp->pc += offset;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bzp(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t addr = imm24(interp, h);
+    if(pop8(interp) == 0)
+        interp->pc = addr, interp->sp += 1;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bzp1(abc_interp_t* interp, abc_host_t const* h)
+{
+    int8_t offset = (int8_t)imm8(interp, h);
+    if(pop8(interp) == 0)
+        interp->pc += offset, interp->sp += 1;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bnzp(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t addr = imm24(interp, h);
+    if(pop8(interp) != 0)
+        interp->pc = addr, interp->sp += 1;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bnzp1(abc_interp_t* interp, abc_host_t const* h)
+{
+    int8_t offset = (int8_t)imm8(interp, h);
+    if(pop8(interp) != 0)
+        interp->pc += offset, interp->sp += 1;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t call(abc_interp_t* interp, uint32_t addr)
+{
+    if(interp->csp >= sizeof(interp->call_stack) / sizeof(interp->call_stack[0]))
+        return ABC_RESULT_ERROR;
+    interp->call_stack[interp->csp++] = interp->pc;
+    interp->pc = addr;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t ret(abc_interp_t* interp)
+{
+    if(interp->csp == 0) return ABC_RESULT_ERROR;
+    interp->pc = interp->call_stack[--interp->csp];
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t sysnum = imm8(interp, h);
+
+    switch(sysnum)
+    {
+    case SYS_DISPLAY:              goto unknown_sysfunc;
+    case SYS_DISPLAY_NOCLEAR:      goto unknown_sysfunc;
+    case SYS_GET_PIXEL:            goto unknown_sysfunc;
+    case SYS_DRAW_PIXEL:           goto unknown_sysfunc;
+    case SYS_DRAW_HLINE:           goto unknown_sysfunc;
+    case SYS_DRAW_VLINE:           goto unknown_sysfunc;
+    case SYS_DRAW_LINE:            goto unknown_sysfunc;
+    case SYS_DRAW_RECT:            goto unknown_sysfunc;
+    case SYS_DRAW_FILLED_RECT:     goto unknown_sysfunc;
+    case SYS_DRAW_CIRCLE:          goto unknown_sysfunc;
+    case SYS_DRAW_FILLED_CIRCLE:   goto unknown_sysfunc;
+    case SYS_DRAW_SPRITE:          goto unknown_sysfunc;
+    case SYS_DRAW_SPRITE_SELFMASK: goto unknown_sysfunc;
+    case SYS_DRAW_TEXT:            goto unknown_sysfunc;
+    case SYS_DRAW_TEXT_P:          goto unknown_sysfunc;
+    case SYS_DRAW_TEXTF:           goto unknown_sysfunc;
+    case SYS_TEXT_WIDTH:           goto unknown_sysfunc;
+    case SYS_TEXT_WIDTH_P:         goto unknown_sysfunc;
+    case SYS_WRAP_TEXT:            goto unknown_sysfunc;
+    case SYS_SET_TEXT_FONT:        goto unknown_sysfunc;
+    case SYS_SET_TEXT_COLOR:       goto unknown_sysfunc;
+    case SYS_SET_FRAME_RATE:       goto unknown_sysfunc;
+    case SYS_NEXT_FRAME:           goto unknown_sysfunc;
+    case SYS_IDLE:                 goto unknown_sysfunc;
+    case SYS_DEBUG_BREAK:          goto unknown_sysfunc;
+    case SYS_DEBUG_PRINTF:         goto unknown_sysfunc;
+    case SYS_ASSERT:               goto unknown_sysfunc;
+    case SYS_POLL_BUTTONS:         goto unknown_sysfunc;
+    case SYS_JUST_PRESSED:         goto unknown_sysfunc;
+    case SYS_JUST_RELEASED:        goto unknown_sysfunc;
+    case SYS_PRESSED:              goto unknown_sysfunc;
+    case SYS_ANY_PRESSED:          goto unknown_sysfunc;
+    case SYS_NOT_PRESSED:          goto unknown_sysfunc;
+    case SYS_MILLIS:               goto unknown_sysfunc;
+    case SYS_MEMCPY:               goto unknown_sysfunc;
+    case SYS_MEMCPY_P:             goto unknown_sysfunc;
+    case SYS_STRLEN:               goto unknown_sysfunc;
+    case SYS_STRLEN_P:             goto unknown_sysfunc;
+    case SYS_STRCMP:               goto unknown_sysfunc;
+    case SYS_STRCMP_P:             goto unknown_sysfunc;
+    case SYS_STRCMP_PP:            goto unknown_sysfunc;
+    case SYS_STRCPY:               goto unknown_sysfunc;
+    case SYS_STRCPY_P:             goto unknown_sysfunc;
+    case SYS_FORMAT:               goto unknown_sysfunc;
+    case SYS_MUSIC_PLAY:           goto unknown_sysfunc;
+    case SYS_MUSIC_PLAYING:        goto unknown_sysfunc;
+    case SYS_MUSIC_STOP:           goto unknown_sysfunc;
+    case SYS_TONES_PLAY:           goto unknown_sysfunc;
+    case SYS_TONES_PLAY_PRIMARY:   goto unknown_sysfunc;
+    case SYS_TONES_PLAY_AUTO:      goto unknown_sysfunc;
+    case SYS_TONES_PLAYING:        goto unknown_sysfunc;
+    case SYS_TONES_STOP:           goto unknown_sysfunc;
+    case SYS_AUDIO_ENABLED:        goto unknown_sysfunc;
+    case SYS_AUDIO_TOGGLE:         goto unknown_sysfunc;
+    case SYS_AUDIO_PLAYING:        goto unknown_sysfunc;
+    case SYS_AUDIO_STOP:           goto unknown_sysfunc;
+    case SYS_SAVE_EXISTS:          goto unknown_sysfunc;
+    case SYS_SAVE:                 goto unknown_sysfunc;
+    case SYS_LOAD:                 goto unknown_sysfunc;
+    case SYS_SIN:                  goto unknown_sysfunc;
+    case SYS_COS:                  goto unknown_sysfunc;
+    case SYS_TAN:                  goto unknown_sysfunc;
+    case SYS_ATAN2:                goto unknown_sysfunc;
+    case SYS_FLOOR:                goto unknown_sysfunc;
+    case SYS_CEIL:                 goto unknown_sysfunc;
+    case SYS_ROUND:                goto unknown_sysfunc;
+    case SYS_MOD:                  goto unknown_sysfunc;
+    case SYS_POW:                  goto unknown_sysfunc;
+    case SYS_SQRT:                 goto unknown_sysfunc;
+    case SYS_GENERATE_RANDOM_SEED: goto unknown_sysfunc;
+    case SYS_INIT_RANDOM_SEED:     goto unknown_sysfunc;
+    case SYS_RANDOM:               goto unknown_sysfunc;
+    case SYS_RANDOM_RANGE:         goto unknown_sysfunc;
+    default:
+    unknown_sysfunc:
+        assert(0);
+        return ABC_RESULT_ERROR;
+    }
+}
+
 abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
 {
     if(!interp || !h || !h->prog || !h->millis)
@@ -929,7 +1265,7 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
         interp->pc = 20;
     }
     
-    uint8_t instr = h->prog(h->user, interp->pc++);
+    uint8_t instr = imm8(interp, h);
     
     switch(instr)
     {
@@ -1007,14 +1343,15 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
     case I_POP3:  interp->sp -= 3; return ABC_RESULT_NORMAL;
     case I_POP4:  interp->sp -= 4; return ABC_RESULT_NORMAL;
     case I_POPN:  interp->sp -= imm8(interp, h); return ABC_RESULT_NORMAL;
-    case I_AIXB1: goto unknown_instruction;
-    case I_AIDXB: goto unknown_instruction;
-    case I_AIDX:  goto unknown_instruction;
-    case I_PIDXB: goto unknown_instruction;
-    case I_UAIDX: goto unknown_instruction;
-    case I_UPIDX: goto unknown_instruction;
-    case I_ASLC:  goto unknown_instruction;
-    case I_PSLC:  goto unknown_instruction;
+    case I_AIXB1: return aixb1(interp, h);
+    case I_AIDXB: return aidxb(interp, h);
+    case I_AIDX:  return aidx(interp, h);
+    case I_PIDXB: return pidxb(interp, h);
+    case I_PIDX:  return pidx(interp, h);
+    case I_UAIDX: return uaidx(interp, h);
+    case I_UPIDX: return upidx(interp, h);
+    case I_ASLC:  return aslc(interp, h);
+    case I_PSLC:  return pslc(interp, h);
     case I_REFL:  return push16(interp, 0x100 + interp->sp - imm8(interp, h));
     case I_REFGB: return push16(interp, 0x200 + imm8(interp, h));
     case I_INC:   interp->stack[(uint8_t)(interp->sp - 1)] += 1; return ABC_RESULT_NORMAL;
@@ -1098,20 +1435,20 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
     case I_F2U:   return f2u(interp);
     case I_I2F:   return i2f(interp);
     case I_U2F:   return u2f(interp);
-    case I_BZ:    goto unknown_instruction;
-    case I_BZ1:   goto unknown_instruction;
-    case I_BNZ:   goto unknown_instruction;
-    case I_BNZ1:  goto unknown_instruction;
-    case I_BZP:   goto unknown_instruction;
-    case I_BZP1:  goto unknown_instruction;
-    case I_BNZP:  goto unknown_instruction;
-    case I_BNZP1: goto unknown_instruction;
-    case I_JMP:   goto unknown_instruction;
-    case I_JMP1:  goto unknown_instruction;
-    case I_CALL:  goto unknown_instruction;
-    case I_CALL1: goto unknown_instruction;
-    case I_RET:   goto unknown_instruction;
-    case I_SYS:   goto unknown_instruction;
+    case I_BZ:    return bz(interp, h);
+    case I_BZ1:   return bz1(interp, h);
+    case I_BNZ:   return bnz(interp, h);
+    case I_BNZ1:  return bnz1(interp, h);
+    case I_BZP:   return bzp(interp, h);
+    case I_BZP1:  return bzp1(interp, h);
+    case I_BNZP:  return bnzp(interp, h);
+    case I_BNZP1: return bnzp1(interp, h);
+    case I_JMP:   interp->pc = imm24(interp, h); return ABC_RESULT_NORMAL;
+    case I_JMP1:  interp->pc += (int8_t)imm8(interp, h); return ABC_RESULT_NORMAL;
+    case I_CALL:  return call(interp, imm24(interp, h));
+    case I_CALL1: return call(interp, interp->pc + (int8_t)imm8(interp, h));
+    case I_RET:   return ret(interp);
+    case I_SYS:   return sys(interp, h);
     default:
     unknown_instruction:
         assert(0);
