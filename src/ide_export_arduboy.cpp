@@ -60,10 +60,33 @@ std::vector<uint8_t> extract_interp_build(char const* id)
     return r;
 }
 
-void export_interpreter_hex(
-    std::string const& filename, bool mini)
+static std::vector<std::string> interp_build_ids()
 {
-    auto r = extract_interp_build(mini ? "ArduboyMini" : "ArduboyFX");
+    std::vector<std::string> r;
+    mz_zip_archive zip{};
+    if(!mz_zip_reader_init_mem(&zip, INTERP_BUILDS_ZIP, INTERP_BUILDS_ZIP_SIZE, 0))
+        return {};
+    auto n = mz_zip_reader_get_num_files(&zip);
+    char fname[256];
+    r.push_back("ArduboyFX");
+    for(mz_uint f = 0; f < n; ++f)
+    {
+        if(mz_zip_reader_is_file_a_directory(&zip, f))
+            continue;
+        (void)mz_zip_reader_get_filename(&zip, f, fname, sizeof(fname));
+        std::string fstr(fname);
+        if(fstr.size() < 24)
+            continue;
+        fstr = fstr.substr(20, fstr.size() - 24);
+        if(fstr != "ArduboyFX")
+            r.push_back(fstr);
+    }
+    return r;
+}
+
+void export_interpreter_hex(std::string const& filename)
+{
+    auto r = extract_interp_build("ArduboyFX");
     auto const* data = r.data();
     size_t size = r.size();
 #ifdef __EMSCRIPTEN__
@@ -79,9 +102,15 @@ void export_interpreter_hex(
 
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save, bool mini,
+    std::vector<uint8_t> const& binary, bool has_save, bool universal,
     std::unordered_map<std::string, std::string> const& fd)
 {
+    std::vector<std::string> ids;
+    if(universal)
+        ids = interp_build_ids();
+    else
+        ids = { "ArduboyFX" };
+
     std::vector<uint8_t> screenshot_png;
     std::string info_json;
     {
@@ -176,24 +205,35 @@ void export_arduboy(
 
         w.Key("binaries");
         w.StartArray();
-        w.StartObject();
+        std::string title;
         if(auto it = fd.find("title"); it != fd.end())
+            title = it->second;
+        for(auto const& id : ids)
         {
+            w.StartObject();
             w.Key("title");
-            w.String(it->second.c_str());
+            if(universal)
+            {
+                if(title.empty())
+                    w.String(id.c_str());
+                else
+                    w.String((title + " (" + id + ")").c_str());
+            }
+            else
+                w.String(title.c_str());
+            w.Key("filename");
+            w.String(("interp_" + id + ".hex").c_str());
+            w.Key("flashdata");
+            w.String("game.bin");
+            if(has_save)
+            {
+                w.Key("flashsave");
+                w.String("save.bin");
+            }
+            w.Key("device");
+            w.String(id.c_str());
+            w.EndObject();
         }
-        w.Key("filename");
-        w.String("interp.hex");
-        w.Key("flashdata");
-        w.String("game.bin");
-        if(has_save)
-        {
-            w.Key("flashsave");
-            w.String("save.bin");
-        }
-        w.Key("device");
-        w.String(mini ? "ArduboyMini" : "ArduboyFX");
-        w.EndObject();
         w.EndArray();
 
         w.EndObject();
@@ -214,10 +254,11 @@ void export_arduboy(
         info_json.data(), info_json.size(),
         compression);
 
+    for(auto const& id : ids)
     {
-        auto r = extract_interp_build(mini ? "ArduboyMini" : "ArduboyFX");
+        auto r = extract_interp_build(id.c_str());
         mz_zip_writer_add_mem(
-            &zip, "interp.hex",
+            &zip, ("interp_" + id + ".hex").c_str(),
             r.data(), r.size(),
             compression);
     }

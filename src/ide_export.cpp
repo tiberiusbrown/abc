@@ -20,8 +20,7 @@ void export_arduboy(
     std::string const& filename,
     std::vector<uint8_t> const& binary, bool has_save, bool mini,
     std::unordered_map<std::string, std::string> const& fd);
-void export_interpreter_hex(
-    std::string const& filename, bool mini);
+void export_interpreter_hex(std::string const& filename);
 
 static void export_compiled_fxdata(std::string const& filename)
 {
@@ -94,7 +93,7 @@ static void export_zip()
 }
 #endif
 
-static void export_arduboy_file_menu_clicked(bool mini)
+static void export_arduboy_file_menu_clicked(bool universal)
 {
     std::string filename;
 
@@ -110,14 +109,14 @@ static void export_arduboy_file_menu_clicked(bool mini)
 #endif
     export_arduboy(
         filename, project.binary,
-        project.has_save(), mini,
+        project.has_save(), universal,
         project.arduboy_directives);
 }
 
-static void export_hex(bool mini)
+static void export_hex()
 {
     std::string filename;
-    filename = mini ? "abc_interpreter_mini.hex" : "abc_interpreter.hex";
+    filename = "abc_interpreter.hex";
 
 #ifndef __EMSCRIPTEN__
     NFD::UniquePath path;
@@ -128,7 +127,7 @@ static void export_hex(bool mini)
     filename = path.get();
 #endif
 
-    export_interpreter_hex(filename, mini);
+    export_interpreter_hex(filename);
 }
 
 void export_menu_items()
@@ -140,14 +139,12 @@ void export_menu_items()
     Separator();
 #endif
     if(MenuItem("Export interpreter hex (FX)..."))
-        export_hex(false);
-    if(MenuItem("Export interpreter hex (Mini)..."))
-        export_hex(true);
+        export_hex();
     if(MenuItem("Export development FX data..."))
         export_fxdata();
     Separator();
-    if(MenuItem("Export .arduboy file (FX)...") && compile_all())
+    if(MenuItem("Export .arduboy file (FX only)...") && compile_all())
         export_arduboy_file_menu_clicked(false);
-    if(MenuItem("Export .arduboy file (Mini)...") && compile_all())
+    if(MenuItem("Export .arduboy file (universal)...") && compile_all())
         export_arduboy_file_menu_clicked(true);
 }

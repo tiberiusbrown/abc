@@ -25,8 +25,7 @@ void export_arduboy(
     std::string const& filename,
     std::vector<uint8_t> const& binary, bool has_save, bool mini,
     std::unordered_map<std::string, std::string> const& fd);
-void export_interpreter_hex(
-    std::string const& filename, bool mini);
+void export_interpreter_hex(std::string const& filename);
 
 static void usage(char const* argv0)
 {
@@ -66,9 +65,6 @@ int main(int argc, char** argv)
     args.add_argument("<main.abc>")
         .help("path to top-level ABC source file")
         .action([&](std::string const& v) { psrc = v; });
-    args.add_argument("-m", "--mini")
-        .help("build for Arduboy Mini")
-        .flag();
     args.add_argument("-i", "--interp")
         .help("path to interpreter .hex output file")
         .metavar("PATH")
@@ -85,6 +81,9 @@ int main(int argc, char** argv)
         .help("path to FX save output file (if there are no saved variables, no file is written)")
         .metavar("PATH")
         .action([&](std::string const& v) { psave = v; });
+    args.add_argument("-u", "--universal")
+        .help("universal .arduboy file (include binaries for Arduboy Mini and homemade variants)")
+        .flag();
     args.add_argument("-a", "--arduboy")
         .help("path to .arduboy output file")
         .metavar("PATH")
@@ -129,6 +128,7 @@ int main(int argc, char** argv)
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/if_statement.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
+    parduboy = "C:/Users/Brown/Documents/GitHub/abc/examples/test/test.arduboy";
 #endif
 
     if(psrc.empty())
@@ -267,14 +267,14 @@ int main(int argc, char** argv)
 
     if(!pinterp.empty())
     {
-        export_interpreter_hex(pinterp.generic_string(), args["--mini"] == true);
+        export_interpreter_hex(pinterp.generic_string());
     }
 
     if(!parduboy.empty())
     {
         export_arduboy(
             parduboy.generic_string(),
-            a.data(), a.has_save(), args["--mini"] == true,
+            a.data(), a.has_save(), args["--universal"] == true,
             c.arduboy_directives());
     }
 

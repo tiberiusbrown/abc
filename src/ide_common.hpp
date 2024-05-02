@@ -119,6 +119,10 @@ extern const unsigned char INTERP_BUILDS_ZIP[];
 extern const size_t INTERP_BUILDS_ZIP_SIZE;
 void export_menu_items();
 std::vector<uint8_t> extract_interp_build(char const* id);
+void export_arduboy(
+    std::string const& filename,
+    std::vector<uint8_t> const& binary, bool has_save, bool universal,
+    std::unordered_map<std::string, std::string> const& fd);
 
 // ide_import.cpp
 void import_menu_item();
