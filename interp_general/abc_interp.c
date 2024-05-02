@@ -1,6 +1,7 @@
 #include "abc_interp.h"
 
 #include <assert.h>
+#include <string.h>
 
 enum
 {
@@ -441,7 +442,7 @@ static abc_result_t getgn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
     if(!space(interp, n)) return ABC_RESULT_ERROR;
     uint16_t t = imm16(interp, h);
     for(uint8_t i = 0; i < n; ++i)
-        (void)push(interp, interp->globals[(t + i) & 1023]);
+        (void)push(interp, interp->globals[(t + i - 0x200) & 1023]);
     return ABC_RESULT_NORMAL;
 }
 
@@ -458,7 +459,7 @@ static abc_result_t setgn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 {
     uint16_t t = imm16(interp, h) + n - 1;
     for(uint8_t i = 0; i < n; ++i)
-        interp->globals[(t - i) & 1023] = interp->stack[--interp->sp];
+        interp->globals[(t - i - 0x200) & 1023] = interp->stack[--interp->sp];
     return ABC_RESULT_NORMAL;
 }
 
@@ -834,42 +835,123 @@ static abc_result_t getpn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t getrn(abc_interp_t* interp, uint8_t n)
+static uint8_t* refptr(abc_interp_t* interp, uint16_t t)
 {
-    uint16_t t = pop16(interp);
-    if(t < 0x100 || t >= 0x600) return ABC_RESULT_ERROR;
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(t < 0x100 || t >= 0x600) return NULL;
     if(t < 0x200)
     {
         /* stack reference */
-        for(uint8_t i = 0; i < n; ++i)
-            (void)push(interp, interp->stack[t - 0x100]);
+        return &interp->stack[t - 0x100];
     }
     else
     {
         /* globals reference */
-        for(uint8_t i = 0; i < n; ++i)
-            (void)push(interp, interp->globals[t - 0x200]);
+        return &interp->globals[t - 0x200];
     }
+}
+
+static abc_result_t getrn(abc_interp_t* interp, uint8_t n)
+{
+    uint16_t t = pop16(interp);
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr || !space(interp, n)) return ABC_RESULT_ERROR;
+    for(uint8_t i = 0; i < n; ++i)
+        (void)push(interp, ptr[i]);
     return ABC_RESULT_NORMAL;
 }
 
 static abc_result_t setrn(abc_interp_t* interp, uint8_t n)
 {
     uint16_t t = pop16(interp);
-    if(t < 0x100 || t >= 0x600) return ABC_RESULT_ERROR;
-    if(t < 0x200)
-    {
-        /* stack reference */
-        for(uint8_t i = 0; i < n; ++i)
-            interp->stack[t + n - 1 - 0x100] = pop8(interp);
-    }
-    else
-    {
-        /* globals reference */
-        for(uint8_t i = 0; i < n; ++i)
-            interp->globals[t + n - 1 - 0x200] = pop8(interp);
-    }
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr) return ABC_RESULT_ERROR;
+    for(uint8_t i = 0; i < n; ++i)
+        ptr[n - 1 - i] = pop8(interp);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t pinc(abc_interp_t* interp, int8_t offset)
+{
+    uint16_t t = pop16(interp);
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr || !space(interp, 3)) return ABC_RESULT_ERROR;
+    uint8_t x = 0;
+    x = (x << 8) + ptr[0];
+    uint8_t y = x + offset;
+    ptr[0] = (uint8_t)(y >> 0);
+    push(interp, x);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t pinc2(abc_interp_t* interp, int8_t offset)
+{
+    uint16_t t = pop16(interp);
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr || !space(interp, 4)) return ABC_RESULT_ERROR;
+    uint16_t x = 0;
+    x = (x << 8) + ptr[1];
+    x = (x << 8) + ptr[0];
+    uint16_t y = x + offset;
+    ptr[0] = (uint8_t)(y >> 0);
+    ptr[1] = (uint8_t)(y >> 8);
+    push16(interp, x);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t pinc3(abc_interp_t* interp, int8_t offset)
+{
+    uint16_t t = pop16(interp);
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr || !space(interp, 5)) return ABC_RESULT_ERROR;
+    uint32_t x = 0;
+    x = (x << 8) + ptr[2];
+    x = (x << 8) + ptr[1];
+    x = (x << 8) + ptr[0];
+    uint32_t y = x + offset;
+    ptr[0] = (uint8_t)(y >> 0);
+    ptr[1] = (uint8_t)(y >> 8);
+    ptr[2] = (uint8_t)(y >> 16);
+    push24(interp, x);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t pinc4(abc_interp_t* interp, int8_t offset)
+{
+    uint16_t t = pop16(interp);
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr || !space(interp, 6)) return ABC_RESULT_ERROR;
+    uint32_t x = 0;
+    x = (x << 8) + ptr[3];
+    x = (x << 8) + ptr[2];
+    x = (x << 8) + ptr[1];
+    x = (x << 8) + ptr[0];
+    uint32_t y = x + offset;
+    ptr[0] = (uint8_t)(y >> 0);
+    ptr[1] = (uint8_t)(y >> 8);
+    ptr[2] = (uint8_t)(y >> 16);
+    ptr[3] = (uint8_t)(y >> 24);
+    push32(interp, x);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t pincf(abc_interp_t* interp, float offset)
+{
+    uint16_t t = pop16(interp);
+    uint8_t* ptr = refptr(interp, t);
+    if(!ptr || !space(interp, 6)) return ABC_RESULT_ERROR;
+    union { float f; uint32_t x; } u, uinc;
+    u.x = 0;
+    u.x = (u.x << 8) + ptr[3];
+    u.x = (u.x << 8) + ptr[2];
+    u.x = (u.x << 8) + ptr[1];
+    u.x = (u.x << 8) + ptr[0];
+    uinc.x = u.x;
+    uinc.f += offset;
+    ptr[0] = (uint8_t)(uinc.x >> 0);
+    ptr[1] = (uint8_t)(uinc.x >> 8);
+    ptr[2] = (uint8_t)(uinc.x >> 16);
+    ptr[3] = (uint8_t)(uinc.x >> 24);
+    push32(interp, u.x);
     return ABC_RESULT_NORMAL;
 }
 
@@ -1152,6 +1234,12 @@ static abc_result_t bnzp1(abc_interp_t* interp, abc_host_t const* h)
     return ABC_RESULT_NORMAL;
 }
 
+static abc_result_t linc(abc_interp_t* interp, uint8_t n, int8_t x)
+{
+    interp->stack[(uint8_t)(interp->sp - n)] += x;
+    return ABC_RESULT_NORMAL;
+}
+
 static abc_result_t call(abc_interp_t* interp, uint32_t addr)
 {
     if(interp->csp >= sizeof(interp->call_stack) / sizeof(interp->call_stack[0]))
@@ -1168,9 +1256,231 @@ static abc_result_t ret(abc_interp_t* interp)
     return ABC_RESULT_NORMAL;
 }
 
+static abc_result_t sys_assert(abc_interp_t* interp)
+{
+    if(pop8(interp) == 0) return ABC_RESULT_ERROR;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_memcpy(abc_interp_t* interp)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint16_t n1 = pop16(interp);
+    uint16_t b1 = pop16(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    uint8_t* p1 = refptr(interp, b1);
+    if(n0 != n1 || !p0 || !p1) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b1 + n1 - 1)) return ABC_RESULT_ERROR;
+    memcpy(p0, p1, n0);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_memcpy_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint32_t n1 = pop24(interp);
+    uint32_t b1 = pop24(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    if(n0 != n1 || !p0) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    for(uint16_t n = 0; n < n0; ++n)
+        p0[n] = h->prog(h->user, b1 + n);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_strcmp(abc_interp_t* interp)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint16_t n1 = pop16(interp);
+    uint16_t b1 = pop16(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    uint8_t* p1 = refptr(interp, b1);
+    if(!p0 || !p1) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b1 + n1 - 1)) return ABC_RESULT_ERROR;
+    uint8_t c0, c1;
+    for(;;)
+    {
+        c0 = *p0++;
+        c1 = *p1++;
+        if(n0 == 0) c0 = '\0'; else --n0;
+        if(n1 == 0) c1 = '\0'; else --n1;
+        if(c1 == '\0') break;
+        if(c0 != c1) break;
+    }
+    return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+}
+
+static abc_result_t sys_strcmp_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint32_t n1 = pop24(interp);
+    uint32_t b1 = pop24(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    if(!p0) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    uint8_t c0, c1;
+    for(;;)
+    {
+        c0 = *p0++;
+        c1 = h->prog(h->user, b1++);
+        if(n0 == 0) c0 = '\0'; else --n0;
+        if(n1 == 0) c1 = '\0'; else --n1;
+        if(c1 == '\0') break;
+        if(c0 != c1) break;
+    }
+    return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+}
+
+static abc_result_t sys_strcmp_PP(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t n0 = pop24(interp);
+    uint32_t b0 = pop24(interp);
+    uint32_t n1 = pop24(interp);
+    uint32_t b1 = pop24(interp);
+    uint8_t c0, c1;
+    for(;;)
+    {
+        c0 = h->prog(h->user, b0++);
+        c1 = h->prog(h->user, b1++);
+        if(n0 == 0) c0 = '\0'; else --n0;
+        if(n1 == 0) c1 = '\0'; else --n1;
+        if(c1 == '\0') break;
+        if(c0 != c1) break;
+    }
+    return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+}
+
+static abc_result_t sys_strcpy(abc_interp_t* interp)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint16_t n1 = pop16(interp);
+    uint16_t b1 = pop16(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    uint8_t* p1 = refptr(interp, b1);
+    uint16_t nr = n0;
+    uint16_t br = b0;
+    if(!p0 || !p1) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b1 + n1 - 1)) return ABC_RESULT_ERROR;
+    if(n0 != 0)
+    {
+        for(;;)
+        {
+            uint8_t c = *p1++;
+            *p0++ = c;
+            if(c == 0) break;
+            if(--n0 == 0) break;
+            if(--n1 == 0) { *p0++ = 0; break; }
+        }
+    }
+    push16(interp, br);
+    push16(interp, nr);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint32_t n1 = pop24(interp);
+    uint32_t b1 = pop24(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    uint16_t nr = n0;
+    uint16_t br = b0;
+    if(!p0) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(n0 != 0)
+    {
+        for(;;)
+        {
+            uint8_t c = h->prog(h->user, b1++);
+            *p0++ = c;
+            if(c == 0) break;
+            if(--n0 == 0) break;
+            if(--n1 == 0) { *p0++ = 0; break; }
+        }
+    }
+    push16(interp, br);
+    push16(interp, nr);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_strlen(abc_interp_t* interp)
+{
+    uint16_t n = pop16(interp);
+    uint16_t b = pop16(interp);
+    uint8_t* p = refptr(interp, b);
+    if(!p) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b + n - 1)) return ABC_RESULT_ERROR;
+    uint16_t t = 0;
+    if(n != 0)
+    {
+        while(*p++ != '\0')
+        {
+            ++t;
+            if(--n == 0) break;
+        }
+    }
+    return push16(interp, t);
+}
+
+static abc_result_t sys_strlen_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t n = pop24(interp);
+    uint32_t b = pop24(interp);
+    uint32_t t = 0;
+    if(n != 0)
+    {
+        while(h->prog(h->user, b++) != '\0')
+        {
+            ++t;
+            if(--n == 0) break;
+        }
+    }
+    return push24(interp, t);
+}
+
+static uint16_t save_size(abc_host_t const* h)
+{
+    uint16_t n = h->prog(h->user, 10) + 256 * h->prog(h->user, 11);
+    return n > 1024 ? 0 : n;
+}
+
+static abc_result_t sys_save_exists(abc_interp_t* interp, abc_host_t const* h)
+{
+    return push(interp, interp->has_save && save_size(h) != 0 ? 1 : 0);
+}
+
+static abc_result_t sys_save(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t n = save_size(h);
+    if(n != 0)
+    {
+        memcpy(interp->saved, interp->globals, n);
+        interp->has_save = 1;
+    }
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_load(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t n = save_size(h);
+    uint8_t has_save = interp->has_save && n != 0;
+    if(has_save)
+        memcpy(interp->globals, interp->saved, n);
+    return push(interp, has_save ? 1 : 0);
+}
+
 static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint8_t sysnum = imm8(interp, h);
+    uint8_t sysnum = imm8(interp, h) >> 1;
 
     switch(sysnum)
     {
@@ -1197,10 +1507,10 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_SET_TEXT_COLOR:       goto unknown_sysfunc;
     case SYS_SET_FRAME_RATE:       goto unknown_sysfunc;
     case SYS_NEXT_FRAME:           goto unknown_sysfunc;
-    case SYS_IDLE:                 goto unknown_sysfunc;
-    case SYS_DEBUG_BREAK:          goto unknown_sysfunc;
+    case SYS_IDLE:                 return ABC_RESULT_IDLE;
+    case SYS_DEBUG_BREAK:          return ABC_RESULT_BREAK;
     case SYS_DEBUG_PRINTF:         goto unknown_sysfunc;
-    case SYS_ASSERT:               goto unknown_sysfunc;
+    case SYS_ASSERT:               return sys_assert(interp);
     case SYS_POLL_BUTTONS:         goto unknown_sysfunc;
     case SYS_JUST_PRESSED:         goto unknown_sysfunc;
     case SYS_JUST_RELEASED:        goto unknown_sysfunc;
@@ -1208,15 +1518,15 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_ANY_PRESSED:          goto unknown_sysfunc;
     case SYS_NOT_PRESSED:          goto unknown_sysfunc;
     case SYS_MILLIS:               goto unknown_sysfunc;
-    case SYS_MEMCPY:               goto unknown_sysfunc;
-    case SYS_MEMCPY_P:             goto unknown_sysfunc;
-    case SYS_STRLEN:               goto unknown_sysfunc;
-    case SYS_STRLEN_P:             goto unknown_sysfunc;
-    case SYS_STRCMP:               goto unknown_sysfunc;
-    case SYS_STRCMP_P:             goto unknown_sysfunc;
-    case SYS_STRCMP_PP:            goto unknown_sysfunc;
-    case SYS_STRCPY:               goto unknown_sysfunc;
-    case SYS_STRCPY_P:             goto unknown_sysfunc;
+    case SYS_MEMCPY:               return sys_memcpy(interp);
+    case SYS_MEMCPY_P:             return sys_memcpy_P(interp, h);
+    case SYS_STRLEN:               return sys_strlen(interp);
+    case SYS_STRLEN_P:             return sys_strlen_P(interp, h);
+    case SYS_STRCMP:               return sys_strcmp(interp);
+    case SYS_STRCMP_P:             return sys_strcmp_P(interp, h);
+    case SYS_STRCMP_PP:            return sys_strcmp_PP(interp, h);
+    case SYS_STRCPY:               return sys_strcpy(interp);
+    case SYS_STRCPY_P:             return sys_strcpy_P(interp, h);
     case SYS_FORMAT:               goto unknown_sysfunc;
     case SYS_MUSIC_PLAY:           goto unknown_sysfunc;
     case SYS_MUSIC_PLAYING:        goto unknown_sysfunc;
@@ -1230,9 +1540,9 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_AUDIO_TOGGLE:         goto unknown_sysfunc;
     case SYS_AUDIO_PLAYING:        goto unknown_sysfunc;
     case SYS_AUDIO_STOP:           goto unknown_sysfunc;
-    case SYS_SAVE_EXISTS:          goto unknown_sysfunc;
-    case SYS_SAVE:                 goto unknown_sysfunc;
-    case SYS_LOAD:                 goto unknown_sysfunc;
+    case SYS_SAVE_EXISTS:          return sys_save_exists(interp, h);
+    case SYS_SAVE:                 return sys_save(interp, h);
+    case SYS_LOAD:                 return sys_load(interp, h);
     case SYS_SIN:                  goto unknown_sysfunc;
     case SYS_COS:                  goto unknown_sysfunc;
     case SYS_TAN:                  goto unknown_sysfunc;
@@ -1254,7 +1564,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     }
 }
 
-abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
+abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
 {
     if(!interp || !h || !h->prog || !h->millis)
         return ABC_RESULT_ERROR;
@@ -1354,19 +1664,19 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
     case I_PSLC:  return pslc(interp, h);
     case I_REFL:  return push16(interp, 0x100 + interp->sp - imm8(interp, h));
     case I_REFGB: return push16(interp, 0x200 + imm8(interp, h));
-    case I_INC:   interp->stack[(uint8_t)(interp->sp - 1)] += 1; return ABC_RESULT_NORMAL;
-    case I_DEC:   interp->stack[(uint8_t)(interp->sp - 1)] -= 1; return ABC_RESULT_NORMAL;
-    case I_LINC:  goto unknown_instruction;
-    case I_PINC:  goto unknown_instruction;
-    case I_PINC2: goto unknown_instruction;
-    case I_PINC3: goto unknown_instruction;
-    case I_PINC4: goto unknown_instruction;
-    case I_PDEC:  goto unknown_instruction;
-    case I_PDEC2: goto unknown_instruction;
-    case I_PDEC3: goto unknown_instruction;
-    case I_PDEC4: goto unknown_instruction;
-    case I_PINCF: goto unknown_instruction;
-    case I_PDECF: goto unknown_instruction;
+    case I_INC:   return linc(interp, 1, +1);
+    case I_DEC:   return linc(interp, 1, -1);
+    case I_LINC:  return linc(interp, imm8(interp, h), +1);
+    case I_PINC:  return pinc(interp, +1);
+    case I_PINC2: return pinc2(interp, +1);
+    case I_PINC3: return pinc3(interp, +1);
+    case I_PINC4: return pinc4(interp, +1);
+    case I_PDEC:  return pinc(interp, -1);
+    case I_PDEC2: return pinc2(interp, -1);
+    case I_PDEC3: return pinc3(interp, -1);
+    case I_PDEC4: return pinc4(interp, -1);
+    case I_PINCF: return pincf(interp, +1.f);
+    case I_PDECF: return pincf(interp, -1.f);
     case I_ADD:   return add(interp);
     case I_ADD2:  return add2(interp);
     case I_ADD3:  return add3(interp);
@@ -1450,7 +1760,6 @@ abc_result_t run(abc_interp_t* interp, abc_host_t const* h)
     case I_RET:   return ret(interp);
     case I_SYS:   return sys(interp, h);
     default:
-    unknown_instruction:
         assert(0);
         return ABC_RESULT_ERROR;
     }

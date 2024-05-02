@@ -5,6 +5,8 @@
 #include <ards_compiler.hpp>
 #include <vm_hex_arduboyfx.hpp>
 
+#include <abc_interp.h>
+
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -14,6 +16,8 @@
 #include <cstdio>
 
 static std::unique_ptr<absim::arduboy_t> arduboy;
+
+static abc_interp_t interp;
 
 static bool test(std::string const& fpath, std::string const& fname)
 {
@@ -45,6 +49,9 @@ static bool test(std::string const& fpath, std::string const& fname)
         binary = a.data();
     }
 
+#if 1
+    // test arduboy interpreter
+
     {
         std::ifstream vmhex(VMHEX_FILE);
         auto t = arduboy->load_file("vm.hex", vmhex);
@@ -69,7 +76,41 @@ static bool test(std::string const& fpath, std::string const& fname)
     arduboy->advance(1'000'000'000'000ull); // up to 1 second
     if(!arduboy->paused)
         return false;
-    return arduboy->cpu.data[0x0635] == 0;
+    if(arduboy->cpu.data[0x0635] != 0)
+        return false;
+#endif
+
+#if 0
+    // test general interpreter
+
+    {
+        abc_host_t host{};
+
+        host.user = &binary;
+        host.prog = [](void* user, uint32_t addr) -> uint8_t {
+            std::vector<uint8_t>& binary = *(std::vector<uint8_t>*)user;
+            if(addr < binary.size())
+                return binary[addr];
+            return 0;
+        };
+        host.millis = [](void* user) -> uint32_t { (void)user;  return 0; };
+
+        interp = {};
+
+        int breaks = 0;
+
+        for(;;)
+        {
+            auto r = abc_run(&interp, &host);
+            if(r == ABC_RESULT_BREAK && ++breaks >= 2)
+                break;
+            if(r == ABC_RESULT_ERROR)
+                return false;
+        }
+    }
+#endif
+
+    return true;
 }
 
 int abc_tests()

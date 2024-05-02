@@ -91,7 +91,7 @@ typedef struct abc_interp_t
 /*
 Execute a single instruction.
 */
-abc_result_t run(abc_interp_t* interp, abc_host_t const* host);
+abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* host);
 
 #ifdef __cplusplus
 }

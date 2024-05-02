@@ -1193,10 +1193,13 @@ static void sys_strlen()
     vm_pop_end(ptr);
     char const* p = reinterpret_cast<char const*>(b);
     uint16_t t = 0;
-    while(*p++ != '\0')
+    if(n != 0)
     {
-        ++t;
-        if(--n == 0) break;
+        while(*p++ != '\0')
+        {
+            ++t;
+            if(--n == 0) break;
+        }
     }
     vm_push(t);
 }
@@ -1207,16 +1210,19 @@ static void sys_strlen_P()
     uint24_t n = vm_pop<uint24_t>(ptr);
     uint24_t b = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    (void)FX::readEnd();
-    fx_seek_data(b);
     uint24_t t = 0;
-    while(FX::readPendingUInt8() != '\0')
+    if(n != 0)
     {
-        ++t;
-        if(--n == 0) break;
+        (void)FX::readEnd();
+        fx_seek_data(b);
+        while(FX::readPendingUInt8() != '\0')
+        {
+            ++t;
+            if(--n == 0) break;
+        }
+        (void)FX::readEnd();
     }
     vm_push(t);
-    (void)FX::readEnd();
     seek_to_pc();
 }
 
@@ -1228,13 +1234,13 @@ static void sys_strcmp()
     uint16_t n1 = vm_pop<uint16_t>(ptr);
     uint16_t b1 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    char const* p0 = reinterpret_cast<char const*>(b0);
-    char const* p1 = reinterpret_cast<char const*>(b1);
-    char c0, c1;
+    uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
+    uint8_t const* p1 = reinterpret_cast<uint8_t const*>(b1);
+    uint8_t c0, c1;
     for(;;)
     {
-        c0 = (char)ld_inc(p0);
-        c1 = (char)ld_inc(p1);
+        c0 = ld_inc(p0);
+        c1 = ld_inc(p1);
         if(n0 == 0) c0 = '\0'; else --n0;
         if(n1 == 0) c1 = '\0'; else --n1;
         if(c1 == '\0') break;
@@ -1253,12 +1259,12 @@ static void sys_strcmp_P()
     vm_pop_end(ptr);
     (void)FX::readEnd();
     fx_seek_data(b1);
-    char const* p0 = reinterpret_cast<char const*>(b0);
-    char c0, c1;
+    uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
+    uint8_t c0, c1;
     for(;;)
     {
-        c0 = (char)ld_inc(p0);
-        c1 = (char)FX::readPendingUInt8();
+        c0 = ld_inc(p0);
+        c1 = FX::readPendingUInt8();
         if(n0 == 0) c0 = '\0'; else --n0;
         if(n1 == 0) c1 = '\0'; else --n1;
         if(c1 == '\0') break;
@@ -1278,7 +1284,7 @@ static void sys_strcmp_PP()
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    char c0, c1;
+    uint8_t c0, c1;
     for(;;)
     {
         c0 = fx_read_byte_inc(b0);
@@ -1304,13 +1310,16 @@ static void sys_strcpy()
     uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
     char const* p1 = reinterpret_cast<char const*>(b1);
-    for(;;)
+    if(n0 != 0)
     {
-        uint8_t c = ld_inc(p1);
-        st_inc(p0, c);
-        if(c == 0) break;
-        if(--n0 == 0) break;
-        if(--n1 == 0) { st_inc(p0, 0); break; }
+        for(;;)
+        {
+            uint8_t c = ld_inc(p1);
+            st_inc(p0, c);
+            if(c == 0) break;
+            if(--n0 == 0) break;
+            if(--n1 == 0) { st_inc(p0, 0); break; }
+        }
     }
     vm_push<uint16_t>(br);
     vm_push<uint16_t>(nr);
@@ -1329,13 +1338,16 @@ static void sys_strcpy_P()
     uint16_t nr = n0;
     uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
-    for(;;)
+    if(n0 != 0)
     {
-        uint8_t c = FX::readPendingUInt8();
-        st_inc(p0, c);
-        if(c == 0) break;
-        if(--n0 == 0) break;
-        if(--n1 == 0) { st_inc(p0, 0); break; }
+        for(;;)
+        {
+            uint8_t c = FX::readPendingUInt8();
+            st_inc(p0, c);
+            if(c == 0) break;
+            if(--n0 == 0) break;
+            if(--n1 == 0) { st_inc(p0, 0); break; }
+        }
     }
     (void)FX::readEnd();
     vm_push<uint16_t>(br);

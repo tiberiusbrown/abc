@@ -105,6 +105,9 @@ add_library(abc_interp STATIC
 if(MSVC)
     target_compile_options(abc_interp PRIVATE /Za)
 endif()
+target_include_directories(abc_interp PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/interp_general"
+    )
     
 add_library(ards_compiler STATIC
     .editorconfig
@@ -255,7 +258,7 @@ add_executable(abc_integration
     tests/abc_tests.cpp
     src/abc_integration.cpp
     )
-target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler)
+target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler abc_interp)
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
 target_include_directories(abc_integration PRIVATE "${GENFONTS_DIR}")
 target_compile_definitions(abc_integration PRIVATE
