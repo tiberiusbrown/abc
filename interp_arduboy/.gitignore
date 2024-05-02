@@ -2,3 +2,7 @@ build/*
 !build/interp_arduboy.ino.hex
 build_mini/*
 !build_mini/interp_arduboy.ino.hex
+build_homemade_alt/*
+!build_homemade_alt/interp_arduboy.ino.hex
+build_homemade_sh1106/*
+!build_homemade_sh1106/interp_arduboy.ino.hex
