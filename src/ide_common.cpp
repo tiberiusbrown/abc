@@ -430,7 +430,8 @@ void init()
 
     arduboy = std::make_unique<absim::arduboy_t>();
     {
-        std::istrstream ss((char const*)VM_HEX_ARDUBOYFX, (int)VM_HEX_ARDUBOYFX_SIZE);
+        auto r = extract_interp_build("ArduboyFX");
+        std::istrstream ss((char const*)r.data(), (int)r.size());
         auto t = arduboy->load_file("vm.hex", ss);
         assert(t.empty());
     }

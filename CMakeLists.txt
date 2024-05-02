@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.21)
 
 project(abc)
 
@@ -9,15 +9,30 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/cmake-bin2h/bin2h.cmake)
 set(GENHEADER_DIR "${CMAKE_CURRENT_BINARY_DIR}/bin2h_headers")
 file(MAKE_DIRECTORY "${GENHEADER_DIR}")
+
+file(GLOB INTERP_BUILDS "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build_*")
+set(BUILDZIP "${CMAKE_CURRENT_BINARY_DIR}/interp_builds.zip")
+set(BUILDZIPDIR "${CMAKE_CURRENT_BINARY_DIR}/interp_builds")
+file(REMOVE_RECURSE "${BUILDZIPDIR}")
+file(MAKE_DIRECTORY "${BUILDZIPDIR}")
+foreach(B ${INTERP_BUILDS})
+    get_filename_component(BB "${B}" NAME)
+    file(COPY_FILE "${B}/interp_arduboy.ino.hex" "${BUILDZIPDIR}/${BB}.hex")
+    execute_process(
+        COMMAND ${CMAKE_COMMAND} -E tar cfv "${BUILDZIP}" --format=zip -- "interp_builds"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+        )
+endforeach()
 bin2h(
-    SOURCE_FILE   interp_arduboy/build/interp_arduboy.ino.hex
+    SOURCE_FILE   "${BUILDZIP}"
+    HEADER_FILE   "${GENHEADER_DIR}/interp_builds.hpp"
+    VARIABLE_NAME INTERP_BUILDS_ZIP
+    )
+
+bin2h(
+    SOURCE_FILE   interp_arduboy/build_ArduboyFX/interp_arduboy.ino.hex
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
-    )
-bin2h(
-    SOURCE_FILE   interp_arduboy/build_mini/interp_arduboy.ino.hex
-    HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboymini.hpp"
-    VARIABLE_NAME VM_HEX_ARDUBOYMINI
     )
     
 bin2h(
@@ -262,7 +277,7 @@ target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler abc_interp
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
 target_include_directories(abc_integration PRIVATE "${GENFONTS_DIR}")
 target_compile_definitions(abc_integration PRIVATE
-    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build/interp_arduboy.ino.hex"
+    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build_ArduboyFX/interp_arduboy.ino.hex"
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
     -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"

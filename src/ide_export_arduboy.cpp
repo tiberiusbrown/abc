@@ -25,13 +25,9 @@
 #include <emscripten_browser_file.h>
 #endif
 
-extern const unsigned char VM_HEX_ARDUBOYFX[];
-extern const size_t VM_HEX_ARDUBOYFX_SIZE;
-#include <vm_hex_arduboyfx.hpp>
-
-extern const unsigned char VM_HEX_ARDUBOYMINI[];
-extern const size_t VM_HEX_ARDUBOYMINI_SIZE;
-#include <vm_hex_arduboymini.hpp>
+extern const unsigned char INTERP_BUILDS_ZIP[];
+extern const size_t INTERP_BUILDS_ZIP_SIZE;
+#include <interp_builds.hpp>
 
 size_t zip_write_data(
     void* data, mz_uint64 file_ofs, const void* pBuf, size_t n)
@@ -45,11 +41,31 @@ size_t zip_write_data(
     return n;
 }
 
+std::vector<uint8_t> extract_interp_build(char const* id)
+{
+    std::vector<uint8_t> r;
+    mz_zip_archive zip{};
+    if(!mz_zip_reader_init_mem(&zip, INTERP_BUILDS_ZIP, INTERP_BUILDS_ZIP_SIZE, 0))
+        return {};
+    std::string fname = std::string("interp_builds/build_") + id + ".hex";
+    int f = mz_zip_reader_locate_file(&zip, fname.c_str(), nullptr, 0);
+    if(f < 0) return {};
+    mz_zip_archive_file_stat stat{};
+    if(!mz_zip_reader_file_stat(&zip, (mz_uint)f, &stat))
+        return {};
+    r.resize(stat.m_uncomp_size);
+    if(!mz_zip_reader_extract_to_mem(&zip, f, r.data(), r.size(), 0))
+        return {};
+    (void)mz_zip_reader_end(&zip);
+    return r;
+}
+
 void export_interpreter_hex(
     std::string const& filename, bool mini)
 {
-    unsigned char const* data = mini ? VM_HEX_ARDUBOYMINI : VM_HEX_ARDUBOYFX;
-    size_t size = mini ? VM_HEX_ARDUBOYMINI_SIZE : VM_HEX_ARDUBOYFX_SIZE;
+    auto r = extract_interp_build(mini ? "ArduboyMini" : "ArduboyFX");
+    auto const* data = r.data();
+    size_t size = r.size();
 #ifdef __EMSCRIPTEN__
     emscripten_browser_file::download(
         filename.c_str(), "application/octet-stream",
@@ -118,9 +134,10 @@ void export_arduboy(
                 if(!t.empty()) break;
             }
             {
+                auto r = extract_interp_build("ArduboyFX");
                 std::istrstream ss(
-                    (char const*)VM_HEX_ARDUBOYFX,
-                    (int)VM_HEX_ARDUBOYFX_SIZE);
+                    (char const*)r.data(),
+                    (int)r.size());
                 auto t = a->load_file("interp.hex", ss);
                 if(!t.empty()) break;
             }
@@ -197,11 +214,13 @@ void export_arduboy(
         info_json.data(), info_json.size(),
         compression);
 
-    mz_zip_writer_add_mem(
-        &zip, "interp.hex",
-        mini ? VM_HEX_ARDUBOYMINI : VM_HEX_ARDUBOYFX,
-        mini ? VM_HEX_ARDUBOYMINI_SIZE : VM_HEX_ARDUBOYFX_SIZE,
-        compression);
+    {
+        auto r = extract_interp_build(mini ? "ArduboyMini" : "ArduboyFX");
+        mz_zip_writer_add_mem(
+            &zip, "interp.hex",
+            r.data(), r.size(),
+            compression);
+    }
 
     mz_zip_writer_add_mem(
         &zip, "game.bin",

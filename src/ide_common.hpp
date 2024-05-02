@@ -115,7 +115,10 @@ void dock_next_window_to_welcome();
 bool compile_all();
 
 // ide_export.cpp
+extern const unsigned char INTERP_BUILDS_ZIP[];
+extern const size_t INTERP_BUILDS_ZIP_SIZE;
 void export_menu_items();
+std::vector<uint8_t> extract_interp_build(char const* id);
 
 // ide_import.cpp
 void import_menu_item();
@@ -152,6 +155,3 @@ std::unique_ptr<open_file_t> create_code_file(std::string const& filename);
 
 // ide_project_info.cpp
 std::unique_ptr<open_file_t> create_project_info_file(std::string const& filename);
-
-extern const unsigned char VM_HEX_ARDUBOYFX[];
-extern const size_t VM_HEX_ARDUBOYFX_SIZE;
