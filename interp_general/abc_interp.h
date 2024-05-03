@@ -82,9 +82,13 @@ typedef struct abc_interp_t
     /* whether a save exists */
     uint8_t  has_save;
     
-    /* button state */
+    /* other state */
+    uint32_t text_font;
+    uint8_t  text_color;
     uint8_t  buttons_prev;
     uint8_t  buttons_curr;
+    uint8_t  frame_start;
+    uint8_t  frame_dur;
     
 } abc_interp_t;
 

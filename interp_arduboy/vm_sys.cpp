@@ -351,9 +351,9 @@ static void sys_draw_pixel()
 static void sys_get_pixel()
 {
     auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint8_t c = Arduboy2Base::getPixel(x, y);
+    uint8_t x = vm_pop<uint8_t>(ptr);
+    uint8_t y = vm_pop<uint8_t>(ptr);
+    uint8_t c = x < 128 && y < 64 ? Arduboy2Base::getPixel(x, y) : 0;
     vm_push_unsafe<uint8_t>(ptr, c);
     vm_pop_end(ptr);
 }
@@ -560,12 +560,12 @@ extern unsigned long volatile timer0_millis;
 extern unsigned long volatile timer0_overflow_count;
 static void sys_next_frame()
 {
-    if(ards::vm.just_rendered)
-    {
-        ards::vm.just_rendered = false;
-        vm_push<uint8_t>(0);
-        return;
-    }
+    //if(ards::vm.just_rendered)
+    //{
+    //    ards::vm.just_rendered = false;
+    //    vm_push<uint8_t>(0);
+    //    return;
+    //}
 
     //uint8_t now = (uint8_t)timer0_overflow_count;
     uint8_t now;
@@ -580,8 +580,8 @@ static void sys_next_frame()
         return;
     }
     
-    ards::vm.just_rendered = true;
-    ards::vm.frame_start = now;
+    //ards::vm.just_rendered = true;
+    ards::vm.frame_start += ards::vm.frame_dur;
     
     vm_push<uint8_t>(1);
 }
@@ -1139,7 +1139,7 @@ static void sys_text_width()
             continue;
         }
         
-        w += font_get_x_advance(c);;
+        w += font_get_x_advance(c);
     }
     if(w > wmax) wmax = w;
     

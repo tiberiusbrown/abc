@@ -19,7 +19,7 @@ foreach(B ${INTERP_BUILDS})
     get_filename_component(BB "${B}" NAME)
     file(COPY_FILE "${B}/interp_arduboy.ino.hex" "${BUILDZIPDIR}/${BB}.hex")
     execute_process(
-        COMMAND ${CMAKE_COMMAND} -E tar cfv "${BUILDZIP}" --format=zip -- "interp_builds"
+        COMMAND ${CMAKE_COMMAND} -E tar cf "${BUILDZIP}" --format=zip -- "interp_builds"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         )
 endforeach()
@@ -123,6 +123,14 @@ endif()
 target_include_directories(abc_interp PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/interp_general"
     )
+
+set(SDL_FORCE_STATIC_VCRT ON CACHE BOOL "" FORCE)
+add_subdirectory(deps/SDL)
+add_executable(abc_interpreter_sdl2 ${EXE_TYPE}
+    .editorconfig
+    interp_general/abc_interpreter_sdl2.c
+    )
+target_link_libraries(abc_interpreter_sdl2 abc_interp SDL2main SDL2-static)
     
 add_library(ards_compiler STATIC
     .editorconfig

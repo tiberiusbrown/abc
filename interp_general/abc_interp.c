@@ -5,6 +5,10 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define FONT_HEADER_PER_CHAR 7
+#define FONT_HEADER_OFFSET 1
+#define FONT_HEADER_BYTES (FONT_HEADER_PER_CHAR * 256 + FONT_HEADER_OFFSET)
+
 enum
 {
     SYS_DISPLAY,
@@ -269,6 +273,38 @@ enum
 static uint8_t space(abc_interp_t* interp, uint8_t n)
 {
     return interp->sp < (uint8_t)(256 - n) ? 1 : 0;
+}
+
+static uint8_t prog8(abc_host_t const* h, uint32_t addr)
+{
+    return h->prog(h->user, addr);
+}
+
+static uint16_t prog16(abc_host_t const* h, uint32_t addr)
+{
+    uint16_t t = 0;
+    t += (h->prog(h->user, addr + 0) << 0);
+    t += (h->prog(h->user, addr + 1) << 8);
+    return t;
+}
+
+static uint32_t prog24(abc_host_t const* h, uint32_t addr)
+{
+    uint32_t t = 0;
+    t += (h->prog(h->user, addr + 0) << 0);
+    t += (h->prog(h->user, addr + 1) << 8);
+    t += (h->prog(h->user, addr + 2) << 16);
+    return t;
+}
+
+static uint32_t prog32(abc_host_t const* h, uint32_t addr)
+{
+    uint32_t t = 0;
+    t += (h->prog(h->user, addr + 0) << 0);
+    t += (h->prog(h->user, addr + 1) << 8);
+    t += (h->prog(h->user, addr + 2) << 16);
+    t += (h->prog(h->user, addr + 3) << 24);
+    return t;
 }
 
 static uint8_t imm8(abc_interp_t* interp, abc_host_t const* h)
@@ -1678,46 +1714,679 @@ static abc_result_t sys_format(abc_interp_t* interp, abc_host_t const* h)
     return ABC_RESULT_NORMAL;
 }
 
+static abc_result_t sys_display(abc_interp_t* interp)
+{
+    memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
+    memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_display_noclear(abc_interp_t* interp)
+{
+    memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
+    return ABC_RESULT_NORMAL;
+}
+
+static uint8_t get_pixel_helper(abc_interp_t* interp, uint8_t x, uint8_t y)
+{
+    uint8_t row = y >> 3;
+    uint8_t bit = y & 7;
+    if(x < 128 && y < 64)
+        return (interp->display_buffer[row * 128 + x] & (1 << bit)) ? 1 : 0;
+    return 0;
+}
+
+static abc_result_t sys_get_pixel(abc_interp_t* interp)
+{
+    uint8_t y = pop8(interp);
+    uint8_t x = pop8(interp);
+    return push(interp, get_pixel_helper(interp, x, y));
+}
+
+static abc_result_t sys_set_frame_rate(abc_interp_t* interp)
+{
+    uint8_t fr = pop8(interp);
+    interp->frame_dur = fr >= 4 ? (uint8_t)(1000u / fr) : 255u;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_next_frame(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t now = (uint8_t)h->millis(h->user);
+    uint8_t frame_duration = now - interp->frame_start;
+    if(frame_duration < interp->frame_dur)
+    {
+        if(ABC_RESULT_ERROR == push(interp, 0))
+            return ABC_RESULT_ERROR;
+        return ABC_RESULT_IDLE;
+    }
+
+    interp->frame_start += interp->frame_dur;
+    return push(interp, 1);
+}
+
+static abc_result_t sys_audio_enabled(abc_interp_t* interp)
+{
+    return push(interp, interp->audio_enabled != 0 ? 1 : 0);
+}
+
+static abc_result_t sys_audio_toggle(abc_interp_t* interp)
+{
+    interp->audio_enabled = !interp->audio_enabled;
+    return ABC_RESULT_NORMAL;
+}
+
+static uint8_t host_buttons(abc_host_t const* h)
+{
+    return h->buttons ? h->buttons(h->user) : 0;
+}
+
+static abc_result_t sys_poll_buttons(abc_interp_t* interp, abc_host_t const* h)
+{
+    interp->buttons_prev = interp->buttons_curr;
+    interp->buttons_curr = host_buttons(h);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_just_pressed(abc_interp_t* interp)
+{
+    uint8_t b = pop8(interp);
+    return push(interp,
+        (b & interp->buttons_curr) && !(b & interp->buttons_prev) ? 1 : 0);
+}
+
+static abc_result_t sys_just_released(abc_interp_t* interp)
+{
+    uint8_t b = pop8(interp);
+    return push(interp,
+        !(b & interp->buttons_curr) && (b & interp->buttons_prev) ? 1 : 0);
+}
+
+static abc_result_t sys_pressed(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t b = pop8(interp);
+    return push(interp, (host_buttons(h) & b) == b ? 1 : 0);
+}
+
+static abc_result_t sys_any_pressed(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t b = pop8(interp);
+    return push(interp, (host_buttons(h) & b) != 0 ? 1 : 0);
+}
+
+static abc_result_t sys_not_pressed(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint8_t b = pop8(interp);
+    return push(interp, (host_buttons(h) & b) == 0 ? 1 : 0);
+}
+
+static abc_result_t sys_millis(abc_interp_t* interp, abc_host_t const* h)
+{
+    return push32(interp, h->millis ? h->millis(h->user) : 0u);
+}
+
+static void draw_pixel_helper(abc_interp_t* interp, int16_t x, int16_t y, uint8_t c)
+{
+    if((uint16_t)x < 128 && (uint16_t)y < 64)
+    {
+        uint8_t* p = &interp->display_buffer[((uint16_t)y >> 3) * 128 + (uint16_t)x];
+        uint8_t m = 1 << ((uint16_t)y & 7);
+        if(c != 0)
+            *p |= m;
+        else
+            *p &= ~m;
+    }
+}
+
+static abc_result_t sys_draw_pixel(abc_interp_t* interp)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint8_t c = pop8(interp);
+    draw_pixel_helper(interp, x, y, c);
+    return ABC_RESULT_NORMAL;
+}
+
+static void draw_filled_rect_helper(abc_interp_t* interp,
+    int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t c)
+{
+    int16_t tx = x + w;
+    int16_t ty = y + h;
+    if(x >= 128 || y >= 64 || tx <= 0 || ty <= 0)
+        return;
+    if(x < 0) x = 0;
+    if(y < 0) y = 0;
+    if(tx > 128) tx = 128;
+    if(ty > 64) ty = 64;
+
+    // TODO: optimize
+    for(int16_t iy = y; iy < ty; ++iy)
+        for(int16_t ix = x; ix < tx; ++ix)
+            draw_pixel_helper(interp, ix, iy, c);
+}
+
+static abc_result_t sys_draw_filled_rect(abc_interp_t* interp)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint8_t w = pop8(interp);
+    uint8_t h = pop8(interp);
+    uint8_t c = pop8(interp);
+    draw_filled_rect_helper(interp, x, y, w, h, c);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_draw_rect(abc_interp_t* interp)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint8_t w = pop8(interp);
+    uint8_t h = pop8(interp);
+    uint8_t c = pop8(interp);
+    draw_filled_rect_helper(interp, x, y, w, 1, c);
+    draw_filled_rect_helper(interp, x, y, 1, h, c);
+    draw_filled_rect_helper(interp, x, y + h - 1, w, 1, c);
+    draw_filled_rect_helper(interp, x + w - 1, y, 1, h, c);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_draw_hline(abc_interp_t* interp)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint8_t w = pop8(interp);
+    uint8_t c = pop8(interp);
+    draw_filled_rect_helper(interp, x, y, w, 1, c);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_draw_vline(abc_interp_t* interp)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint8_t h = pop8(interp);
+    uint8_t c = pop8(interp);
+    draw_filled_rect_helper(interp, x, y, 1, h, c);
+    return ABC_RESULT_NORMAL;
+}
+
+/*
+    Modes
+    ==================
+    0  Overwrite
+    1  Masked
+    2  Self Masked
+    3  Self Masked Erase
+*/
+static void draw_sprite_helper(
+    abc_interp_t* interp, abc_host_t const* host,
+    uint32_t image, int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t mode)
+{
+    // TODO: optimize
+    (void)host;
+    (void)image;
+    (void)mode;
+    uint32_t stride = w;
+    if(mode == 1) stride *= 2;
+    int16_t tx = x + w;
+    int16_t ty = y + h;
+    if(x >= 128 || y >= 64 || tx <= 0 || ty <= 0) return;
+    uint16_t ibx = 0;
+    uint16_t iy = 0;
+    if(x < 0)
+    {
+        ibx = (uint16_t)(-x);
+        x = 0;
+    }
+    if(y < 0)
+    {
+        iy = (uint16_t)(-y);
+        y = 0;
+    }
+    if(tx > 128) tx = 128;
+    if(ty > 64) ty = 64;
+    for(int16_t r = y; r < ty; ++r, ++iy)
+    {
+        uint16_t ix = ibx;
+        for(int16_t c = x; c < tx; ++c, ++ix)
+        {
+            uint32_t offset = w * (iy >> 3) + ix;
+            if(mode == 1) offset *= 2;
+            uint32_t addr = image + offset;
+            uint8_t ip = (prog8(host, addr + 0) & (1 << (iy & 7))) ? 1 : 0;
+            uint8_t im = (prog8(host, addr + 1) & (1 << (iy & 7))) ? 1 : 0;
+            uint8_t* bptr = &interp->display_buffer[((uint16_t)r >> 3) * 128 + c];
+            uint8_t m = 1 << ((uint16_t)r & 7);
+            switch(mode)
+            {
+            case 0:
+                if(ip) *bptr |= m;
+                else   *bptr &= ~m;
+                break;
+            case 1:
+                if(!im) break;
+                if(ip) *bptr |= m;
+                else   *bptr &= ~m;
+                break;
+            case 2:
+                if(ip) *bptr |= m;
+                break;
+            case 3:
+                if(ip) *bptr &= ~m;
+                break;
+            default:
+                break;
+            }
+        }
+    }
+}
+
+static abc_result_t sys_draw_sprite_selfmask(abc_interp_t* interp, abc_host_t const* h)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint32_t image = pop24(interp);
+    uint16_t frame = pop16(interp);
+
+    uint8_t iw = prog8(h, image + 0);
+    uint8_t ih = prog8(h, image + 1);
+    uint8_t masked = prog8(h, image + 2);
+    uint16_t num = prog16(h, image + 3);
+
+    if(frame >= num) return ABC_RESULT_ERROR;
+
+    image += 5;
+    uint8_t pages = (ih + 7) >> 3;
+    uint32_t offset = (uint32_t)pages * iw;
+    if(masked) offset *= 2;
+    image += offset * frame;
+
+    draw_sprite_helper(interp, h, image, x, y, iw, ih, masked ? 1 : 2);
+
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_draw_sprite(abc_interp_t* interp, abc_host_t const* h)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint32_t image = pop24(interp);
+    uint16_t frame = pop16(interp);
+
+    uint8_t iw = prog8(h, image + 0);
+    uint8_t ih = prog8(h, image + 1);
+    uint8_t masked = prog8(h, image + 2);
+    uint16_t num = prog16(h, image + 3);
+
+    if(frame >= num) return ABC_RESULT_ERROR;
+
+    image += 5;
+    uint8_t pages = (ih + 7) >> 3;
+    uint32_t offset = (uint32_t)pages * iw;
+    if(masked) offset *= 2;
+    image += offset * frame;
+
+    draw_sprite_helper(interp, h, image, x, y, iw, ih, masked ? 1 : 0);
+
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_set_text_font(abc_interp_t* interp)
+{
+    interp->text_font = pop24(interp);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_set_text_color(abc_interp_t* interp)
+{
+    interp->text_color = pop8(interp) != 0 ? 1 : 0;
+    return ABC_RESULT_NORMAL;
+}
+
+static uint8_t font_get_line_height(abc_interp_t* interp, abc_host_t const* host)
+{
+    return prog8(host, interp->text_font + FONT_HEADER_PER_CHAR * 256);
+}
+
+static uint8_t font_get_x_advance(abc_interp_t* interp, abc_host_t const* host, char c)
+{
+    return prog8(host, interp->text_font + FONT_HEADER_PER_CHAR * (uint8_t)c + 0);
+}
+
+static uint8_t draw_char_helper(
+    abc_interp_t* interp, abc_host_t const* host,
+    int16_t x, int16_t y, char c)
+{
+    uint32_t font = interp->text_font;
+    uint32_t glyph = font + (uint8_t)c * FONT_HEADER_PER_CHAR;
+    uint8_t xadv = prog8(host, glyph + 0);
+    int8_t xoff = (int8_t)prog8(host, glyph + 1);
+    int8_t yoff = (int8_t)prog8(host, glyph + 2);
+    uint16_t offset = prog16(host, glyph + 3);
+    uint8_t w = prog8(host, glyph + 5);
+    uint8_t h = prog8(host, glyph + 6);
+    uint32_t addr = font + FONT_HEADER_BYTES + offset;
+    draw_sprite_helper(
+        interp, host, addr,
+        x + xoff, y + yoff, w, h,
+        interp->text_color != 0 ? 2 : 3);
+    return xadv;
+}
+
+static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint16_t tn = pop16(interp);
+    uint16_t tb = pop16(interp);
+    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    uint8_t line_height = font_get_line_height(interp, host);
+    int16_t bx = x;
+
+    char c;
+    while(tn != 0)
+    {
+        uint8_t* ptr = refptr(interp, tb++);
+        if(!ptr) return ABC_RESULT_ERROR;
+        c = *ptr;
+        if(c == '\0') break;
+        --tn;
+        if(c == '\n')
+        {
+            x = bx;
+            y += line_height;
+            continue;
+        }
+
+        x += draw_char_helper(interp, host, x, y, c);
+    }
+
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_draw_text_P(abc_interp_t* interp, abc_host_t const* host)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint32_t tn = pop24(interp);
+    uint32_t tb = pop24(interp);
+    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    uint8_t line_height = font_get_line_height(interp, host);
+    int16_t bx = x;
+
+    char c;
+    while(tn != 0)
+    {
+        c = (char)prog8(host, tb++);
+        if(c == '\0') break;
+        --tn;
+        if(c == '\n')
+        {
+            x = bx;
+            y += line_height;
+            continue;
+        }
+
+        x += draw_char_helper(interp, host, x, y, c);
+    }
+
+    return ABC_RESULT_NORMAL;
+}
+
+typedef struct
+{
+    abc_interp_t* interp;
+    abc_host_t const* host;
+    int16_t bx;
+    int16_t x;
+    int16_t y;
+    uint8_t line_height;
+} format_user_draw;
+
+static void format_exec_draw(void* user, char c)
+{
+    format_user_draw* u = (format_user_draw*)user;
+    u->x += draw_char_helper(u->interp, u->host, u->x, u->y, c);
+}
+
+static abc_result_t sys_draw_textf(abc_interp_t* interp, abc_host_t const* host)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+
+    format_user_draw u;
+    u.interp = interp;
+    u.host = host;
+    u.bx = x;
+    u.x = x;
+    u.y = y;
+    u.line_height = font_get_line_height(interp, host);
+
+    format_exec(interp, host, format_exec_draw, &u);
+
+    return ABC_RESULT_NORMAL;
+}
+
+
+typedef struct
+{
+    abc_host_t const* host;
+} format_user_debug;
+
+static void format_exec_debug(void* user, char c)
+{
+    format_user_debug* u = (format_user_debug*)user;
+    abc_host_t const* host = u->host;
+    if(host->debug_putc)
+        host->debug_putc(host->user, c);
+}
+
+static abc_result_t sys_debug_printf(abc_interp_t* interp, abc_host_t const* host)
+{
+    format_user_debug u;
+    u.host = host;
+    format_exec(interp, host, format_exec_debug, &u);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_text_width(abc_interp_t* interp, abc_host_t const* host)
+{
+    uint16_t tn = pop16(interp);
+    uint16_t tb = pop16(interp);
+    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    char c;
+    uint16_t wmax = 0;
+    uint16_t w = 0;
+    while(tn != 0)
+    {
+        uint8_t* ptr = refptr(interp, tb++);
+        if(!ptr) return ABC_RESULT_ERROR;
+        c = *ptr;
+        if(c == '\0') break;
+        --tn;
+        if(c == '\n')
+        {
+            if(w > wmax) wmax = w;
+            w = 0;
+            continue;
+        }
+        w += font_get_x_advance(interp, host, c);
+    }
+    if(w > wmax) wmax = w;
+    return push16(interp, wmax);
+}
+
+static abc_result_t sys_text_width_P(abc_interp_t* interp, abc_host_t const* host)
+{
+    uint32_t tn = pop24(interp);
+    uint32_t tb = pop24(interp);
+    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    char c;
+    uint16_t wmax = 0;
+    uint16_t w = 0;
+    while(tn != 0)
+    {
+        c = (char)prog8(host, tb++);
+        if(c == '\0') break;
+        --tn;
+        if(c == '\n')
+        {
+            if(w > wmax) wmax = w;
+            w = 0;
+            continue;
+        }
+        w += font_get_x_advance(interp, host, c);
+    }
+    if(w > wmax) wmax = w;
+    return push16(interp, wmax);
+}
+
+static abc_result_t sys_music_play(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    uint32_t t = pop24(interp);
+    (void)t;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_music_stop(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    (void)interp;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_music_playing(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    (void)host;
+    return push(interp, 0);
+}
+
+static abc_result_t sys_tones_play(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    uint32_t t = pop24(interp);
+    (void)t;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_tones_play_primary(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    uint32_t t = pop24(interp);
+    (void)t;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_tones_play_auto(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    uint32_t t = pop24(interp);
+    (void)t;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_tones_stop(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    (void)interp;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_tones_playing(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    (void)host;
+    return push(interp, 0);
+}
+
+static abc_result_t sys_audio_stop(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    (void)interp;
+    (void)host;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_audio_playing(abc_interp_t* interp, abc_host_t const* host)
+{
+    // TODO
+    (void)host;
+    return push(interp, 0);
+}
+
+static abc_result_t sys_floor(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, floorf(a));
+}
+
+static abc_result_t sys_ceil(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, ceilf(a));
+}
+
+static abc_result_t sys_round(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, roundf(a));
+}
+
+static abc_result_t sys_mod(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    float b = popf(interp);
+    return pushf(interp, fmodf(a, b));
+}
+
 static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 {
     uint8_t sysnum = imm8(interp, h) >> 1;
 
     switch(sysnum)
     {
-    case SYS_DISPLAY:              goto unknown_sysfunc;
-    case SYS_DISPLAY_NOCLEAR:      goto unknown_sysfunc;
-    case SYS_GET_PIXEL:            goto unknown_sysfunc;
-    case SYS_DRAW_PIXEL:           goto unknown_sysfunc;
-    case SYS_DRAW_HLINE:           goto unknown_sysfunc;
-    case SYS_DRAW_VLINE:           goto unknown_sysfunc;
+    case SYS_DISPLAY:              return sys_display(interp);
+    case SYS_DISPLAY_NOCLEAR:      return sys_display_noclear(interp);
+    case SYS_GET_PIXEL:            return sys_get_pixel(interp);
+    case SYS_DRAW_PIXEL:           return sys_draw_pixel(interp);
+    case SYS_DRAW_HLINE:           return sys_draw_hline(interp);
+    case SYS_DRAW_VLINE:           return sys_draw_vline(interp);
     case SYS_DRAW_LINE:            goto unknown_sysfunc;
-    case SYS_DRAW_RECT:            goto unknown_sysfunc;
-    case SYS_DRAW_FILLED_RECT:     goto unknown_sysfunc;
+    case SYS_DRAW_RECT:            return sys_draw_rect(interp);
+    case SYS_DRAW_FILLED_RECT:     return sys_draw_filled_rect(interp);
     case SYS_DRAW_CIRCLE:          goto unknown_sysfunc;
     case SYS_DRAW_FILLED_CIRCLE:   goto unknown_sysfunc;
-    case SYS_DRAW_SPRITE:          goto unknown_sysfunc;
-    case SYS_DRAW_SPRITE_SELFMASK: goto unknown_sysfunc;
-    case SYS_DRAW_TEXT:            goto unknown_sysfunc;
-    case SYS_DRAW_TEXT_P:          goto unknown_sysfunc;
-    case SYS_DRAW_TEXTF:           goto unknown_sysfunc;
-    case SYS_TEXT_WIDTH:           goto unknown_sysfunc;
-    case SYS_TEXT_WIDTH_P:         goto unknown_sysfunc;
+    case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
+    case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
+    case SYS_DRAW_TEXT:            return sys_draw_text(interp, h);
+    case SYS_DRAW_TEXT_P:          return sys_draw_text_P(interp, h);
+    case SYS_DRAW_TEXTF:           return sys_draw_textf(interp, h);
+    case SYS_TEXT_WIDTH:           return sys_text_width(interp, h);
+    case SYS_TEXT_WIDTH_P:         return sys_text_width_P(interp, h);
     case SYS_WRAP_TEXT:            goto unknown_sysfunc;
-    case SYS_SET_TEXT_FONT:        goto unknown_sysfunc;
-    case SYS_SET_TEXT_COLOR:       goto unknown_sysfunc;
-    case SYS_SET_FRAME_RATE:       goto unknown_sysfunc;
-    case SYS_NEXT_FRAME:           goto unknown_sysfunc;
+    case SYS_SET_TEXT_FONT:        return sys_set_text_font(interp);
+    case SYS_SET_TEXT_COLOR:       return sys_set_text_color(interp);
+    case SYS_SET_FRAME_RATE:       return sys_set_frame_rate(interp);
+    case SYS_NEXT_FRAME:           return sys_next_frame(interp, h);
     case SYS_IDLE:                 return ABC_RESULT_IDLE;
     case SYS_DEBUG_BREAK:          return ABC_RESULT_BREAK;
-    case SYS_DEBUG_PRINTF:         goto unknown_sysfunc;
+    case SYS_DEBUG_PRINTF:         return sys_debug_printf(interp, h);
     case SYS_ASSERT:               return sys_assert(interp);
-    case SYS_POLL_BUTTONS:         goto unknown_sysfunc;
-    case SYS_JUST_PRESSED:         goto unknown_sysfunc;
-    case SYS_JUST_RELEASED:        goto unknown_sysfunc;
-    case SYS_PRESSED:              goto unknown_sysfunc;
-    case SYS_ANY_PRESSED:          goto unknown_sysfunc;
-    case SYS_NOT_PRESSED:          goto unknown_sysfunc;
-    case SYS_MILLIS:               goto unknown_sysfunc;
+    case SYS_POLL_BUTTONS:         return sys_poll_buttons(interp, h);
+    case SYS_JUST_PRESSED:         return sys_just_pressed(interp);
+    case SYS_JUST_RELEASED:        return sys_just_released(interp);
+    case SYS_PRESSED:              return sys_pressed(interp, h);
+    case SYS_ANY_PRESSED:          return sys_any_pressed(interp, h);
+    case SYS_NOT_PRESSED:          return sys_not_pressed(interp, h);
+    case SYS_MILLIS:               return sys_millis(interp, h);
     case SYS_MEMCPY:               return sys_memcpy(interp);
     case SYS_MEMCPY_P:             return sys_memcpy_P(interp, h);
     case SYS_STRLEN:               return sys_strlen(interp);
@@ -1728,18 +2397,18 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_STRCPY:               return sys_strcpy(interp);
     case SYS_STRCPY_P:             return sys_strcpy_P(interp, h);
     case SYS_FORMAT:               return sys_format(interp, h);
-    case SYS_MUSIC_PLAY:           goto unknown_sysfunc;
-    case SYS_MUSIC_PLAYING:        goto unknown_sysfunc;
-    case SYS_MUSIC_STOP:           goto unknown_sysfunc;
-    case SYS_TONES_PLAY:           goto unknown_sysfunc;
-    case SYS_TONES_PLAY_PRIMARY:   goto unknown_sysfunc;
-    case SYS_TONES_PLAY_AUTO:      goto unknown_sysfunc;
-    case SYS_TONES_PLAYING:        goto unknown_sysfunc;
-    case SYS_TONES_STOP:           goto unknown_sysfunc;
-    case SYS_AUDIO_ENABLED:        goto unknown_sysfunc;
-    case SYS_AUDIO_TOGGLE:         goto unknown_sysfunc;
-    case SYS_AUDIO_PLAYING:        goto unknown_sysfunc;
-    case SYS_AUDIO_STOP:           goto unknown_sysfunc;
+    case SYS_MUSIC_PLAY:           return sys_music_play(interp, h);
+    case SYS_MUSIC_PLAYING:        return sys_music_playing(interp, h);
+    case SYS_MUSIC_STOP:           return sys_music_stop(interp, h);
+    case SYS_TONES_PLAY:           return sys_tones_play(interp, h);
+    case SYS_TONES_PLAY_PRIMARY:   return sys_tones_play_primary(interp, h);
+    case SYS_TONES_PLAY_AUTO:      return sys_tones_play_auto(interp, h);
+    case SYS_TONES_PLAYING:        return sys_tones_playing(interp, h);
+    case SYS_TONES_STOP:           return sys_tones_stop(interp, h);
+    case SYS_AUDIO_ENABLED:        return sys_audio_enabled(interp);
+    case SYS_AUDIO_TOGGLE:         return sys_audio_toggle(interp);
+    case SYS_AUDIO_PLAYING:        return sys_audio_playing(interp, h);
+    case SYS_AUDIO_STOP:           return sys_audio_stop(interp, h);
     case SYS_SAVE_EXISTS:          return sys_save_exists(interp, h);
     case SYS_SAVE:                 return sys_save(interp, h);
     case SYS_LOAD:                 return sys_load(interp, h);
@@ -1747,10 +2416,10 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_COS:                  goto unknown_sysfunc;
     case SYS_TAN:                  goto unknown_sysfunc;
     case SYS_ATAN2:                goto unknown_sysfunc;
-    case SYS_FLOOR:                goto unknown_sysfunc;
-    case SYS_CEIL:                 goto unknown_sysfunc;
-    case SYS_ROUND:                goto unknown_sysfunc;
-    case SYS_MOD:                  goto unknown_sysfunc;
+    case SYS_FLOOR:                return sys_floor(interp);
+    case SYS_CEIL:                 return sys_ceil(interp);
+    case SYS_ROUND:                return sys_round(interp);
+    case SYS_MOD:                  return sys_mod(interp);
     case SYS_POW:                  goto unknown_sysfunc;
     case SYS_SQRT:                 goto unknown_sysfunc;
     case SYS_GENERATE_RANDOM_SEED: goto unknown_sysfunc;
@@ -1771,8 +2440,13 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
 
     if(interp->pc == 0)
     {
-        /* starting point of execution */
+        /* interpreter was reset: initialize state */
+        memset(interp, 0, sizeof(abc_interp_t));
         interp->pc = 20;
+        interp->audio_enabled = 1;
+        interp->text_font = 0xffffffff;
+        interp->text_color = 1;
+        interp->frame_dur = 50;
     }
     
     uint8_t instr = imm8(interp, h);

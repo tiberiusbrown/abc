@@ -93,7 +93,7 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
 {
     { SYS_DISPLAY,              { TYPE_VOID,  { }, { } } },
     { SYS_DISPLAY_NOCLEAR,      { TYPE_VOID,  { }, { } } },
-    { SYS_GET_PIXEL,            { TYPE_U8,    { TYPE_I16, TYPE_I16 }, { "x", "y" } } },
+    { SYS_GET_PIXEL,            { TYPE_U8,    { TYPE_U8, TYPE_U8 }, { "x", "y" } } },
     { SYS_DRAW_PIXEL,           { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8 }, { "x", "y", "color" } } },
     { SYS_DRAW_HLINE,           { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "color" } } },
     { SYS_DRAW_VLINE,           { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "h", "color" } } },
