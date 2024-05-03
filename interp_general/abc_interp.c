@@ -2167,7 +2167,6 @@ static abc_result_t sys_draw_textf(abc_interp_t* interp, abc_host_t const* host)
     return ABC_RESULT_NORMAL;
 }
 
-
 typedef struct
 {
     abc_host_t const* host;
@@ -2322,6 +2321,31 @@ static abc_result_t sys_audio_playing(abc_interp_t* interp, abc_host_t const* ho
     return push(interp, 0);
 }
 
+static abc_result_t sys_sin(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, sinf(a));
+}
+
+static abc_result_t sys_cos(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, cosf(a));
+}
+
+static abc_result_t sys_tan(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, tanf(a));
+}
+
+static abc_result_t sys_atan2(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    float b = popf(interp);
+    return pushf(interp, atan2f(a, b));
+}
+
 static abc_result_t sys_floor(abc_interp_t* interp)
 {
     float a = popf(interp);
@@ -2345,6 +2369,19 @@ static abc_result_t sys_mod(abc_interp_t* interp)
     float a = popf(interp);
     float b = popf(interp);
     return pushf(interp, fmodf(a, b));
+}
+
+static abc_result_t sys_pow(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    float b = popf(interp);
+    return pushf(interp, powf(a, b));
+}
+
+static abc_result_t sys_sqrt(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, sqrtf(a));
 }
 
 static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
@@ -2412,16 +2449,16 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_SAVE_EXISTS:          return sys_save_exists(interp, h);
     case SYS_SAVE:                 return sys_save(interp, h);
     case SYS_LOAD:                 return sys_load(interp, h);
-    case SYS_SIN:                  goto unknown_sysfunc;
-    case SYS_COS:                  goto unknown_sysfunc;
-    case SYS_TAN:                  goto unknown_sysfunc;
-    case SYS_ATAN2:                goto unknown_sysfunc;
+    case SYS_SIN:                  return sys_sin(interp);
+    case SYS_COS:                  return sys_cos(interp);
+    case SYS_TAN:                  return sys_tan(interp);
+    case SYS_ATAN2:                return sys_atan2(interp);
     case SYS_FLOOR:                return sys_floor(interp);
     case SYS_CEIL:                 return sys_ceil(interp);
     case SYS_ROUND:                return sys_round(interp);
     case SYS_MOD:                  return sys_mod(interp);
-    case SYS_POW:                  goto unknown_sysfunc;
-    case SYS_SQRT:                 goto unknown_sysfunc;
+    case SYS_POW:                  return sys_pow(interp);
+    case SYS_SQRT:                 return sys_sqrt(interp);
     case SYS_GENERATE_RANDOM_SEED: goto unknown_sysfunc;
     case SYS_INIT_RANDOM_SEED:     goto unknown_sysfunc;
     case SYS_RANDOM:               goto unknown_sysfunc;

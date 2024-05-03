@@ -39,16 +39,18 @@ typedef struct abc_host_t
     * The following must not be NULL.                               *
     ****************************************************************/
     
-    uint8_t (*prog)      (void* user, uint32_t addr);
+    uint8_t (*prog)         (void* user, uint32_t addr);
     
     /****************************************************************
     * The following may be NULL, but games may break. *
     ****************************************************************/
 
-    uint8_t (*buttons)   (void* user);
-    uint32_t(*millis)    (void* user);
-    void    (*tones)     (void* user, abc_channel_t channel, uint32_t addr);
-    void    (*debug_putc)(void* user, char c);
+    uint8_t (*buttons)      (void* user);
+    uint32_t(*millis)       (void* user);
+    void    (*tones_play)   (void* user, abc_channel_t channel, uint32_t addr);
+    void    (*tones_playing)(void* user, abc_channel_t channel);
+    void    (*tones_stop)   (void* user, abc_channel_t channel);
+    void    (*debug_putc)   (void* user, char c);
     
     void* user;
     
