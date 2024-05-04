@@ -114,21 +114,21 @@ endif()
 
 add_library(abc_interp STATIC
     .editorconfig
-    interp_general/abc_interp.h
-    interp_general/abc_interp.c
+    interp_generic/abc_interp.h
+    interp_generic/abc_interp.c
     )
 if(MSVC)
     target_compile_options(abc_interp PRIVATE /Za)
 endif()
 target_include_directories(abc_interp PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/interp_general"
+    "${CMAKE_CURRENT_SOURCE_DIR}/interp_generic"
     )
 
 set(SDL_FORCE_STATIC_VCRT ON CACHE BOOL "" FORCE)
 add_subdirectory(deps/SDL)
 add_executable(abc_interpreter_sdl2 ${EXE_TYPE}
     .editorconfig
-    interp_general/abc_interpreter_sdl2.c
+    interp_generic/abc_interpreter_sdl2.c
     )
 target_link_libraries(abc_interpreter_sdl2 abc_interp SDL2main SDL2-static)
     
