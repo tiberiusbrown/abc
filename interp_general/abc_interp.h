@@ -47,9 +47,6 @@ typedef struct abc_host_t
 
     uint8_t (*buttons)      (void* user);
     uint32_t(*millis)       (void* user);
-    void    (*tones_play)   (void* user, abc_channel_t channel, uint32_t addr);
-    void    (*tones_playing)(void* user, abc_channel_t channel);
-    void    (*tones_stop)   (void* user, abc_channel_t channel);
     void    (*debug_putc)   (void* user, char c);
     
     void* user;
@@ -69,22 +66,28 @@ typedef struct abc_interp_t
     uint8_t  stack[256];
     uint32_t call_stack[24];
     
-    /* program counter */
+    /* Program counter */
     uint32_t pc;
     
-    /* whether audio is enabled */
-    uint8_t audio_enabled;
+    /* Audio state */
+    uint32_t audio_ns_rem;
+    uint32_t audio_phase[3];
+    uint32_t audio_addrs[3];
+    uint8_t  audio_tones[3];
+    uint8_t  audio_ticks[3];
+    uint8_t  music_active;
+    uint8_t  audio_enabled;
     
-    /* call stack pointer */
+    /* Call stack pointer */
     uint8_t  csp;
     
-    /* stack pointer */
+    /* Stack pointer */
     uint8_t  sp;
     
-    /* whether a save exists */
+    /* Whether a save exists */
     uint8_t  has_save;
     
-    /* other state */
+    /* Other state */
     uint32_t text_font;
     uint8_t  text_color;
     uint8_t  buttons_prev;
@@ -97,7 +100,22 @@ typedef struct abc_interp_t
 /*
 Execute a single instruction.
 */
-abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* host);
+abc_result_t abc_run(
+    abc_interp_t* interp,
+    abc_host_t const* host
+);
+
+/*
+Fill audio buffer with tones data.
+The host should call this function regularly
+*/
+void abc_audio(
+    abc_interp_t* interp,
+    abc_host_t const* host,
+    int16_t* samples,     /* Audio sample buffer to fill */
+    uint32_t num_samples, /* Number of requested samples */
+    uint32_t sample_rate  /* Sample rate in Hz */
+);
 
 #ifdef __cplusplus
 }

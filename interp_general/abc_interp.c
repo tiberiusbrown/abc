@@ -2240,85 +2240,114 @@ static abc_result_t sys_text_width_P(abc_interp_t* interp, abc_host_t const* hos
     return push16(interp, wmax);
 }
 
+static void advance_audio_channel(abc_interp_t* interp, abc_host_t const* host, uint8_t i)
+{
+    uint32_t addr = interp->audio_addrs[i];
+    uint8_t tone = prog8(host, addr++);
+    uint8_t tick = prog8(host, addr++);
+    if(tone > 128)
+        addr = 0;
+    interp->audio_ticks[i] = tick;
+    interp->audio_tones[i] = tone;
+    interp->audio_addrs[i] = addr;
+    if(interp->audio_addrs[0] == 0 && interp->audio_addrs[1] == 0)
+        interp->music_active = false;
+}
+
 static abc_result_t sys_music_play(abc_interp_t* interp, abc_host_t const* host)
 {
-    // TODO
-    uint32_t t = pop24(interp);
-    (void)t;
-    (void)host;
+    uint32_t song = pop24(interp);
+    if(!interp->audio_enabled)
+        return ABC_RESULT_NORMAL;
+    uint32_t offset = prog24(host, song);
+    song += 3;
+    interp->audio_addrs[0] = song;
+    interp->audio_addrs[1] = song + offset;
+    advance_audio_channel(interp, host, 0);
+    advance_audio_channel(interp, host, 1);
+    interp->music_active = 1;
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_music_stop(abc_interp_t* interp, abc_host_t const* host)
+static abc_result_t sys_music_stop(abc_interp_t* interp)
 {
-    // TODO
-    (void)interp;
-    (void)host;
+    if(interp->music_active)
+    {
+        interp->audio_addrs[0] = 0;
+        interp->audio_addrs[1] = 0;
+    }
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_music_playing(abc_interp_t* interp, abc_host_t const* host)
+static abc_result_t sys_music_playing(abc_interp_t* interp)
 {
-    // TODO
-    (void)host;
-    return push(interp, 0);
+    return push(interp, interp->music_active != 0 ? 1 : 0);
 }
 
 static abc_result_t sys_tones_play(abc_interp_t* interp, abc_host_t const* host)
 {
-    // TODO
     uint32_t t = pop24(interp);
-    (void)t;
-    (void)host;
+    interp->audio_addrs[2] = t;
+    advance_audio_channel(interp, host, 2);
     return ABC_RESULT_NORMAL;
 }
 
 static abc_result_t sys_tones_play_primary(abc_interp_t* interp, abc_host_t const* host)
 {
-    // TODO
     uint32_t t = pop24(interp);
-    (void)t;
-    (void)host;
+    if(interp->music_active)
+    {
+        interp->music_active = false;
+        interp->audio_addrs[1] = 0;
+    }
+    interp->audio_addrs[0] = t;
+    advance_audio_channel(interp, host, 0);
     return ABC_RESULT_NORMAL;
 }
 
 static abc_result_t sys_tones_play_auto(abc_interp_t* interp, abc_host_t const* host)
 {
-    // TODO
     uint32_t t = pop24(interp);
-    (void)t;
-    (void)host;
+    uint8_t i = interp->audio_addrs[2] == 0 || interp->audio_addrs[0] != 0 ? 2 : 0;
+    interp->audio_addrs[i] = t;
+    advance_audio_channel(interp, host, i);
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_tones_stop(abc_interp_t* interp, abc_host_t const* host)
+static abc_result_t sys_tones_stop(abc_interp_t* interp)
 {
-    // TODO
-    (void)interp;
-    (void)host;
+    interp->audio_tones[2] = 0;
+    if(!interp->music_active)
+        interp->audio_addrs[0] = 0;
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_tones_playing(abc_interp_t* interp, abc_host_t const* host)
+static abc_result_t sys_tones_playing(abc_interp_t* interp)
 {
-    // TODO
-    (void)host;
-    return push(interp, 0);
+    uint32_t t =
+        interp->audio_addrs[0] |
+        interp->audio_addrs[1] |
+        interp->audio_addrs[2];
+    return push(interp,
+        t != 0 && (!interp->music_active || interp->audio_addrs[2] != 0) ? 1 : 0);
 }
 
-static abc_result_t sys_audio_stop(abc_interp_t* interp, abc_host_t const* host)
+static abc_result_t sys_audio_stop(abc_interp_t* interp)
 {
-    // TODO
-    (void)interp;
-    (void)host;
+    interp->audio_addrs[0] = 0;
+    interp->audio_addrs[1] = 0;
+    interp->audio_addrs[2] = 0;
+    interp->music_active = 0;
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_audio_playing(abc_interp_t* interp, abc_host_t const* host)
+static abc_result_t sys_audio_playing(abc_interp_t* interp)
 {
-    // TODO
-    (void)host;
-    return push(interp, 0);
+    uint32_t t =
+        interp->audio_addrs[0] |
+        interp->audio_addrs[1] |
+        interp->audio_addrs[2];
+    return push(interp, t != 0 ? 1 : 0);
 }
 
 static abc_result_t sys_sin(abc_interp_t* interp)
@@ -2435,17 +2464,17 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_STRCPY_P:             return sys_strcpy_P(interp, h);
     case SYS_FORMAT:               return sys_format(interp, h);
     case SYS_MUSIC_PLAY:           return sys_music_play(interp, h);
-    case SYS_MUSIC_PLAYING:        return sys_music_playing(interp, h);
-    case SYS_MUSIC_STOP:           return sys_music_stop(interp, h);
+    case SYS_MUSIC_PLAYING:        return sys_music_playing(interp);
+    case SYS_MUSIC_STOP:           return sys_music_stop(interp);
     case SYS_TONES_PLAY:           return sys_tones_play(interp, h);
     case SYS_TONES_PLAY_PRIMARY:   return sys_tones_play_primary(interp, h);
     case SYS_TONES_PLAY_AUTO:      return sys_tones_play_auto(interp, h);
-    case SYS_TONES_PLAYING:        return sys_tones_playing(interp, h);
-    case SYS_TONES_STOP:           return sys_tones_stop(interp, h);
+    case SYS_TONES_PLAYING:        return sys_tones_playing(interp);
+    case SYS_TONES_STOP:           return sys_tones_stop(interp);
     case SYS_AUDIO_ENABLED:        return sys_audio_enabled(interp);
     case SYS_AUDIO_TOGGLE:         return sys_audio_toggle(interp);
-    case SYS_AUDIO_PLAYING:        return sys_audio_playing(interp, h);
-    case SYS_AUDIO_STOP:           return sys_audio_stop(interp, h);
+    case SYS_AUDIO_PLAYING:        return sys_audio_playing(interp);
+    case SYS_AUDIO_STOP:           return sys_audio_stop(interp);
     case SYS_SAVE_EXISTS:          return sys_save_exists(interp, h);
     case SYS_SAVE:                 return sys_save(interp, h);
     case SYS_LOAD:                 return sys_load(interp, h);
@@ -2674,4 +2703,106 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
         assert(0);
         return ABC_RESULT_ERROR;
     }
+}
+
+static uint32_t audio_phase_adv(uint8_t tone, uint32_t sample_rate)
+{
+    if(tone == 0 || tone > 128)
+        return 0;
+
+    /* Compute frequency of tone in Hz */
+    /* TODO: use LUT for this */
+    float f = 440.f * powf(2.f, (1.f / 12.f) * (float)(tone - 69));
+
+    /* Divide by sample rate to get phase advance per sample */
+    float adv = f / (float)sample_rate;
+
+    return (uint32_t)(adv * 4294967296.f);
+}
+
+void abc_audio(
+    abc_interp_t* interp,
+    abc_host_t const* host,
+    int16_t* samples,     /* Audio sample buffer to fill */
+    uint32_t num_samples, /* Number of requested samples */
+    uint32_t sample_rate  /* Sample rate in Hz */
+)
+{
+    if(!samples)
+        return;
+
+    if(interp == 0 || num_samples == 0)
+    {
+        memset(samples, 0, sizeof(int16_t) * num_samples);
+        return;
+    }
+
+    uint32_t ns = (uint32_t)(1e9f * (float)num_samples / (float)sample_rate);
+    ns += interp->audio_ns_rem;
+
+    /* Audio ticks are 4 milliseconds */
+    uint32_t ticks = ns / 4000000;
+    interp->audio_ns_rem = ns - ticks * 4000000;
+
+    /* Convert sample rate from Hz to samples/tick */
+    float samples_per_tick = (float)sample_rate * 0.004f;
+    float sample_count = 0.f;
+    uint32_t index = 0;
+
+    /* Update channel states */
+    while(index < num_samples)
+    {
+        if(ticks != 0)
+        {
+            --ticks;
+            for(uint8_t i = 0; i < 3; ++i)
+            {
+                if(--interp->audio_ticks[i] == 0)
+                    advance_audio_channel(interp, host, i);
+            }
+        }
+
+        /* Compute phase advances */
+        uint32_t phase_adv[3];
+        for(uint8_t i = 0; i < 3; ++i)
+        {
+            phase_adv[i] = interp->audio_addrs[i] == 0 ? 0 :
+                audio_phase_adv(interp->audio_tones[i], sample_rate);
+        }
+
+        /* Figure out how many samples to produce for this tick */
+        sample_count += samples_per_tick;
+        uint32_t n = (uint32_t)sample_count;
+        sample_count -= (float)n;
+        n += index;
+        if(n > num_samples)
+            n = num_samples;
+
+        while(index < n)
+        {
+            /* Compute sample */
+            int16_t s = 0;
+            for(uint8_t i = 0; i < 3; ++i)
+            {
+                if(interp->audio_addrs[i] == 0) continue;
+
+                /* Square wave audio */
+                if(interp->audio_phase[i] < 0x80000000u)
+                    s += 2048;
+                else
+                    s -= 2048;
+
+                interp->audio_phase[i] += phase_adv[i];
+            }
+
+            /* Write sample to buffer */
+            samples[index++] = s;
+        }
+    }
+
+    /* Fill out any remainder of the buffer */
+    for(; index < num_samples; ++index)
+        samples[index] = samples[index - 1];
+
+    return;
 }

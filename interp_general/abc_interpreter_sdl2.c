@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +17,19 @@ static size_t data_size;
 static uint64_t start_ticks;
 
 static uint32_t display[128 * 64];
+
+static SDL_AudioSpec audio_desired;
+static SDL_AudioSpec audio_obtained;
+static SDL_AudioDeviceID audio_device;
+
+static void SDLCALL audio_callback(void* user, uint8_t* stream, int len)
+{
+    (void)user;
+    int16_t* samples = (int16_t*)stream;
+    uint32_t num_samples = (uint32_t)len / 2;
+    uint32_t sample_rate = (uint32_t)audio_obtained.freq;
+    abc_audio(&interp, &host, samples, num_samples, sample_rate);
+}
 
 static uint8_t host_prog(void* user, uint32_t addr)
 {
@@ -104,6 +118,20 @@ int main(int argc, char** argv)
         goto sdl_quit;
     }
 
+    memset(&audio_desired, 0, sizeof(audio_desired));
+    audio_desired.freq = 44100;
+    audio_desired.format = AUDIO_S16;
+    audio_desired.channels = 1;
+    audio_desired.samples = 1024;
+    audio_desired.callback = audio_callback;
+    audio_desired.userdata = NULL;
+    audio_device = SDL_OpenAudioDevice(
+        NULL, 0,
+        &audio_desired,
+        &audio_obtained,
+        SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+    SDL_PauseAudioDevice(audio_device, 0);
+
     SDL_SetHint(SDL_HINT_RENDER_VSYNC, "1");
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
@@ -152,13 +180,19 @@ int main(int argc, char** argv)
         SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
         SDL_RenderClear(renderer);
 
-        for(unsigned i = 0; i < 1000000; ++i)
+        bool idle = false;
+        for(unsigned i = 0; !idle && i < 100000; ++i)
         {
-            abc_result_t t = abc_run(&interp, &host);
-            if(t == ABC_RESULT_ERROR)
-                __debugbreak();
-            if(t == ABC_RESULT_IDLE)
-                break;
+            SDL_LockAudioDevice(audio_device);
+            for(unsigned j = 0; !idle && j < 10; ++j)
+            {
+                abc_result_t t = abc_run(&interp, &host);
+                if(t == ABC_RESULT_ERROR)
+                    __debugbreak();
+                if(t == ABC_RESULT_IDLE)
+                    idle = true;
+            }
+            SDL_UnlockAudioDevice(audio_device);
         }
 
         for(unsigned y = 0; y < 64; ++y)
@@ -183,6 +217,7 @@ sdl_destroy_renderer:
     SDL_DestroyRenderer(renderer);
 sdl_destroy_window:
     SDL_DestroyWindow(window);
+    SDL_CloseAudioDevice(audio_device);
 sdl_quit:
     SDL_Quit();
     free(data);
