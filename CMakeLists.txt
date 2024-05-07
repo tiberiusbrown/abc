@@ -131,7 +131,13 @@ add_executable(abc_interpreter_sdl2 ${EXE_TYPE}
     interp_generic/abc_interpreter_sdl2.c
     )
 target_link_libraries(abc_interpreter_sdl2 abc_interp SDL2main SDL2-static)
-    
+
+add_executable(abc_interpreter_sokol ${EXE_TYPE}
+    .editorconfig
+    interp_generic/abc_interpreter_sokol.c
+    )
+target_link_libraries(abc_interpreter_sokol abc_interp)
+
 add_library(ards_compiler STATIC
     .editorconfig
     interp_arduboy/abc_instr.hpp

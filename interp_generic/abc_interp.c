@@ -2373,6 +2373,8 @@ static abc_result_t sys_text_width_P(abc_interp_t* interp, abc_host_t const* hos
 static void advance_audio_channel(abc_interp_t* interp, abc_host_t const* host, uint8_t i)
 {
     uint32_t addr = interp->audio_addrs[i];
+    if(addr == 0)
+        return;
     uint8_t tone = prog8(host, addr++);
     uint8_t tick = prog8(host, addr++);
     if(tone > 128)

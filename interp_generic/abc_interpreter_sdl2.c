@@ -181,7 +181,7 @@ int main(int argc, char** argv)
         SDL_RenderClear(renderer);
 
         bool idle = false;
-        for(unsigned i = 0; !idle && i < 1000; ++i)
+        for(unsigned i = 0; !idle && i < 100; ++i)
         {
             SDL_LockAudioDevice(audio_device);
             for(unsigned j = 0; !idle && j < 1000; ++j)
