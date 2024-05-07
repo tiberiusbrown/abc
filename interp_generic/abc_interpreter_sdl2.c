@@ -181,10 +181,10 @@ int main(int argc, char** argv)
         SDL_RenderClear(renderer);
 
         bool idle = false;
-        for(unsigned i = 0; !idle && i < 100000; ++i)
+        for(unsigned i = 0; !idle && i < 1000; ++i)
         {
             SDL_LockAudioDevice(audio_device);
-            for(unsigned j = 0; !idle && j < 10; ++j)
+            for(unsigned j = 0; !idle && j < 1000; ++j)
             {
                 abc_result_t t = abc_run(&interp, &host);
                 if(t == ABC_RESULT_ERROR)

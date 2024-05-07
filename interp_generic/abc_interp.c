@@ -2031,6 +2031,136 @@ static abc_result_t sys_draw_sprite(abc_interp_t* interp, abc_host_t const* h)
     return ABC_RESULT_NORMAL;
 }
 
+static void draw_fast_vline(
+    abc_interp_t* interp,
+    int16_t x, int16_t y, uint16_t h, uint8_t color)
+{
+    draw_filled_rect_helper(interp, x, y, 1, (uint8_t)h, color);
+}
+
+/* adapted from Arduboy2 library (BSD 3 - clause) */
+static void fill_circle_helper(
+    abc_interp_t* interp,
+    int16_t x0, int16_t y0, uint8_t r,
+    uint8_t sides, int16_t delta, uint8_t color)
+{
+    int16_t f = 1 - r;
+    int16_t ddF_x = 1;
+    int16_t ddF_y = -2 * r;
+    int16_t x = 0;
+    int16_t y = r;
+
+    while(x < y)
+    {
+        if(f >= 0)
+        {
+            y--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+
+        x++;
+        ddF_x += 2;
+        f += ddF_x;
+
+        if(sides & 0x1) /* right side */
+        {
+            draw_fast_vline(interp, x0 + x, y0 - y, 2 * y + 1 + delta, color);
+            draw_fast_vline(interp, x0 + y, y0 - x, 2 * x + 1 + delta, color);
+        }
+
+        if(sides & 0x2) /* left side */
+        {
+            draw_fast_vline(interp, x0 - x, y0 - y, 2 * y + 1 + delta, color);
+            draw_fast_vline(interp, x0 - y, y0 - x, 2 * x + 1 + delta, color);
+        }
+    }
+}
+
+static abc_result_t sys_draw_filled_circle(abc_interp_t* interp)
+{
+    int16_t x = (int16_t)pop16(interp);
+    int16_t y = (int16_t)pop16(interp);
+    uint8_t r = pop8(interp);
+    uint8_t c = pop8(interp);
+    draw_fast_vline(interp, x, y - r, 2 * r + 1, c);
+    fill_circle_helper(interp, x, y, r, 3, 0, c);
+    return ABC_RESULT_NORMAL;
+}
+
+/* adapted from Arduboy2 library (BSD 3 - clause) */
+static void draw_line_helper(
+    abc_interp_t* interp,
+    int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint8_t color)
+{
+    bool steep = abs(y1 - y0) > abs(x1 - x0);
+    if(steep) {
+        int16_t t;
+        t = x0;
+        x0 = y0;
+        y0 = t;
+        t = x1;
+        x1 = y1;
+        y1 = t;
+    }
+
+    if(x0 > x1) {
+        int16_t t;
+        t = x0;
+        x0 = x1;
+        x1 = t;
+        t = y0;
+        y0 = y1;
+        y1 = t;
+    }
+
+    int16_t dx, dy;
+    dx = x1 - x0;
+    dy = (int16_t)abs(y1 - y0);
+
+    int16_t err = dx / 2;
+    int8_t ystep;
+
+    if(y0 < y1)
+    {
+        ystep = 1;
+    }
+    else
+    {
+        ystep = -1;
+    }
+
+    for(; x0 <= x1; x0++)
+    {
+        if(steep)
+        {
+            draw_pixel_helper(interp, y0, x0, color);
+        }
+        else
+        {
+            draw_pixel_helper(interp, x0, y0, color);
+        }
+
+        err -= dy;
+        if(err < 0)
+        {
+            y0 += ystep;
+            err += dx;
+        }
+    }
+}
+
+static abc_result_t sys_draw_line(abc_interp_t* interp)
+{
+    int16_t x0 = (int16_t)pop16(interp);
+    int16_t y0 = (int16_t)pop16(interp);
+    int16_t x1 = (int16_t)pop16(interp);
+    int16_t y1 = (int16_t)pop16(interp);
+    uint8_t c = pop8(interp);
+    draw_line_helper(interp, x0, y0, x1, y1, c);
+    return ABC_RESULT_NORMAL;
+}
+
 static abc_result_t sys_set_text_font(abc_interp_t* interp)
 {
     interp->text_font = pop24(interp);
@@ -2425,11 +2555,11 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_PIXEL:           return sys_draw_pixel(interp);
     case SYS_DRAW_HLINE:           return sys_draw_hline(interp);
     case SYS_DRAW_VLINE:           return sys_draw_vline(interp);
-    case SYS_DRAW_LINE:            goto unknown_sysfunc;
+    case SYS_DRAW_LINE:            return sys_draw_line(interp);
     case SYS_DRAW_RECT:            return sys_draw_rect(interp);
     case SYS_DRAW_FILLED_RECT:     return sys_draw_filled_rect(interp);
     case SYS_DRAW_CIRCLE:          goto unknown_sysfunc;
-    case SYS_DRAW_FILLED_CIRCLE:   goto unknown_sysfunc;
+    case SYS_DRAW_FILLED_CIRCLE:   return sys_draw_filled_circle(interp);
     case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
     case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
     case SYS_DRAW_TEXT:            return sys_draw_text(interp, h);
