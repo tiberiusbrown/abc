@@ -1009,12 +1009,14 @@ static void sys_wrap_text()
     vm_pop_end(ptr);
     uint24_t font = ards::vm.text_font;
     (void)FX::readEnd();
+    if(uint8_t(font >> 16) == 0xff)
+        vm_error(ards::ERR_FNT);
 
     char c;
     uint8_t cw = 0; // current width
     char* tp = p;   // pointer after last word break
     uint8_t tw = 0; // width at last word break
-    uint16_t ttn;   // tn at last word break
+    uint16_t ttn = tn;   // tn at last word break
     while((c = ld_inc(p)) != '\0' && tn != 0)
     {
         --tn;

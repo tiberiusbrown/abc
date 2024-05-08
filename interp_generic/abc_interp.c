@@ -2089,6 +2089,51 @@ static abc_result_t sys_draw_filled_circle(abc_interp_t* interp)
 }
 
 /* adapted from Arduboy2 library (BSD 3 - clause) */
+static abc_result_t sys_draw_circle(abc_interp_t* interp)
+{
+    int16_t x0    = (int16_t)pop16(interp);
+    int16_t y0    = (int16_t)pop16(interp);
+    uint8_t r     = pop8(interp);
+    uint8_t color = pop8(interp);
+
+    int16_t f = 1 - r;
+    int16_t ddF_x = 1;
+    int16_t ddF_y = -2 * r;
+    int16_t x = 0;
+    int16_t y = r;
+
+    draw_pixel_helper(interp, x0, y0 + r, color);
+    draw_pixel_helper(interp, x0, y0 - r, color);
+    draw_pixel_helper(interp, x0 + r, y0, color);
+    draw_pixel_helper(interp, x0 - r, y0, color);
+
+    while(x < y)
+    {
+        if(f >= 0)
+        {
+            y--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+
+        x++;
+        ddF_x += 2;
+        f += ddF_x;
+
+        draw_pixel_helper(interp, x0 + x, y0 + y, color);
+        draw_pixel_helper(interp, x0 - x, y0 + y, color);
+        draw_pixel_helper(interp, x0 + x, y0 - y, color);
+        draw_pixel_helper(interp, x0 - x, y0 - y, color);
+        draw_pixel_helper(interp, x0 + y, y0 + x, color);
+        draw_pixel_helper(interp, x0 - y, y0 + x, color);
+        draw_pixel_helper(interp, x0 + y, y0 - x, color);
+        draw_pixel_helper(interp, x0 - y, y0 - x, color);
+    }
+
+    return ABC_RESULT_NORMAL;
+}
+
+/* adapted from Arduboy2 library (BSD 3 - clause) */
 static void draw_line_helper(
     abc_interp_t* interp,
     int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint8_t color)
@@ -2370,6 +2415,50 @@ static abc_result_t sys_text_width_P(abc_interp_t* interp, abc_host_t const* hos
     return push16(interp, wmax);
 }
 
+static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
+{
+    uint16_t tn = pop16(interp);
+    uint16_t tb = pop16(interp);
+    uint8_t w = pop8(interp);
+    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    char c;
+    uint8_t cw = 0; // current width
+    char* p = (char*)refptr(interp, tb);
+    if(!p) return ABC_RESULT_ERROR;
+    char* tp = p;   // pointer after last word break
+    uint8_t tw = 0; // width at last word break
+    uint16_t ttn = tn;   // tn at last word break
+    while((c = *p) != '\0' && tn != 0)
+    {
+        p = (char*)refptr(interp, ++tb);
+        if(!p) return ABC_RESULT_ERROR;
+        --tn;
+        cw += font_get_x_advance(interp, host, c);
+        if(c == '\n')
+        {
+            cw = 0;
+            tw = 0;
+            tp = p;
+            continue;
+        }
+        if(c == ' ')
+        {
+            tp = p;
+            tw = cw;
+            ttn = tn;
+        }
+        if(cw <= w) continue;
+        if(tw == 0) continue;
+        p = tp;
+        *(tp - 1) = '\n';
+        cw = 0;
+        tw = 0;
+        tn = ttn;
+    }
+
+    return ABC_RESULT_NORMAL;
+}
+
 static void advance_audio_channel(abc_interp_t* interp, abc_host_t const* host, uint8_t i)
 {
     uint32_t addr = interp->audio_addrs[i];
@@ -2560,7 +2649,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_LINE:            return sys_draw_line(interp);
     case SYS_DRAW_RECT:            return sys_draw_rect(interp);
     case SYS_DRAW_FILLED_RECT:     return sys_draw_filled_rect(interp);
-    case SYS_DRAW_CIRCLE:          goto unknown_sysfunc;
+    case SYS_DRAW_CIRCLE:          return sys_draw_circle(interp);
     case SYS_DRAW_FILLED_CIRCLE:   return sys_draw_filled_circle(interp);
     case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
     case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
@@ -2569,7 +2658,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_TEXTF:           return sys_draw_textf(interp, h);
     case SYS_TEXT_WIDTH:           return sys_text_width(interp, h);
     case SYS_TEXT_WIDTH_P:         return sys_text_width_P(interp, h);
-    case SYS_WRAP_TEXT:            goto unknown_sysfunc;
+    case SYS_WRAP_TEXT:            return sys_text_wrap(interp, h);
     case SYS_SET_TEXT_FONT:        return sys_set_text_font(interp);
     case SYS_SET_TEXT_COLOR:       return sys_set_text_color(interp);
     case SYS_SET_FRAME_RATE:       return sys_set_frame_rate(interp);
