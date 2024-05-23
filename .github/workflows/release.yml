@@ -82,6 +82,10 @@ jobs:
         cd ${{github.workspace}}/abc_web
         zip -r ${{github.workspace}}/abc_web.zip *
         
+    - name: Pre-Deploy
+      run: |
+        cp ${{github.workspace}}/resources/live_abc.html ${{github.workspace}}/abc_web/index.html
+        
     - name: Deploy to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
