@@ -162,9 +162,9 @@ void render_victory()
 
     $set_text_font(FONT_BR5D);
     if(was_high_score)
-        $draw_text_P(x, y + 12, "New High Score!");
+        $draw_text_P(x, y + 17, "New High Score!");
     if(was_best_time)
-        $draw_text_P(x + 1, y + 35, "New Best Time!");
+        $draw_text_P(x + 1, y + 40, "New Best Time!");
 
     {
         u8 i = (frame_count >> 3) & 7;
