@@ -120,6 +120,8 @@ static uint16_t const FONT_DATA[] PROGMEM =
 
 uint8_t draw_char(uint8_t x, uint8_t y, char c)
 {
+    if(c == ' ')
+        return SPACE_WIDTH;
     uint16_t p = pgm_read_word(FONT_DATA + c - 33);
     uint8_t d[3], n = 3;
     d[0] = uint8_t(p) & 0x1f;
@@ -141,11 +143,6 @@ uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog)
     {
         char c = prog ? pgm_read_byte(t++) : *t++;
         if(c == '\0') return x;
-        if(c == ' ')
-        {
-            x += SPACE_WIDTH + 1;
-            continue;
-        }
         x += draw_char(x, y, c) + 1;
     }
     return x;

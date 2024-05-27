@@ -1016,7 +1016,7 @@ static void sys_wrap_text()
     uint8_t cw = 0; // current width
     char* tp = p;   // pointer after last word break
     uint8_t tw = 0; // width at last word break
-    uint16_t ttn = tn;   // tn at last word break
+    uint16_t ttn = tn; // tn at last word break
     while((c = ld_inc(p)) != '\0' && tn != 0)
     {
         --tn;

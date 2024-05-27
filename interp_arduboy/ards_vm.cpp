@@ -126,7 +126,7 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
     uint8_t n = e > ERR_SIG ? vm.csp / 3 + 1 : 0;
     uint8_t curr = 0;
     bool redraw = true;
-    constexpr uint8_t NUM_ROWS = 8;
+    constexpr uint8_t NUM_ROWS = 7;
 
     for(;;)
     {
@@ -140,7 +140,15 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
         if(redraw)
         {
             static char const ERROR[] PROGMEM = "ERROR";
-            draw_text(54, 1, ERROR, true);
+            draw_text(1, 1, ERROR, true);
+            if(e != ERR_SIG)
+            {
+                FX::seekData(0x20);
+                uint8_t x = 67;
+                for(uint8_t i = 0; i < 16; ++i)
+                    x += draw_char(x, 1, (char)FX::readPendingUInt8()) + 1;
+                (void)FX::readEnd();
+            }
             for(uint8_t i = 0; i < 128; ++i)
                 Arduboy2Base::sBuffer[i] ^= 0x7f;
             {

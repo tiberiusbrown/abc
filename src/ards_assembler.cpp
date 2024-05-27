@@ -1,7 +1,8 @@
 #include "ards_assembler.hpp"
 
+#include <cassert>
+#include <ctime>
 #include <sstream>
-#include <assert.h>
 
 namespace ards
 {
@@ -753,6 +754,15 @@ error_t assembler_t::link()
     linked_data.push_back(24);
     linked_data.push_back(0);
     linked_data.push_back(0);
+
+    // build data
+    {
+        char b[17] = {};
+        std::time_t t = std::time(nullptr);
+        strftime(b, sizeof(b), "%Y-%m-%d %H:%M", std::localtime(&t));
+        for(int i = 0; i < 16; ++i)
+            linked_data.push_back((uint8_t)b[i]);
+    }
 
     // header size is fixed at 256 bytes
     linked_data.resize(256);

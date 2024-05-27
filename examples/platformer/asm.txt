@@ -8431,7 +8431,7 @@ $L_render_victory_1:
   pushl $PD_70 0
   push  15
   p00
-  push  24
+  push  29
   p0
   push  13
   p0
@@ -8444,7 +8444,7 @@ $L_render_victory_9:
   pushl $PD_71 0
   push  14
   p00
-  push  47
+  push  52
   p0
   push  14
   p0
