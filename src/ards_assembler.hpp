@@ -71,6 +71,8 @@ private:
     // convert label name to global data offset
     std::unordered_map<std::string, size_t> globals;
 
+    std::string githash;
+
     // current amount of global data bytes
     size_t globals_bytes;
 

@@ -1,3 +1,4 @@
+.githash f7832084806fb3a248306d1191500ae5df98ed9d
 .global save_exists 1
 .global saved_current_map 1
 .global saved_lives 1

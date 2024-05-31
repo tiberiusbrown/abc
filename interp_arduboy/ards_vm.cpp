@@ -144,8 +144,8 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
             if(e != ERR_SIG)
             {
                 FX::seekData(0x20);
-                uint8_t x = 67;
-                for(uint8_t i = 0; i < 16; ++i)
+                uint8_t x = 36;
+                for(uint8_t i = 0; i < 24; ++i)
                     x += draw_char(x, 1, (char)FX::readPendingUInt8()) + 1;
                 (void)FX::readEnd();
             }

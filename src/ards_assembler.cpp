@@ -1,6 +1,7 @@
 #include "ards_assembler.hpp"
 
 #include <cassert>
+#include <cctype>
 #include <ctime>
 #include <sstream>
 
@@ -251,6 +252,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
 error_t assembler_t::assemble(std::istream& f)
 {
     std::string t;
+    githash.clear();
 
     //counting_stream_buffer counting_buf(f_orig.rdbuf(), error);
     //std::istream f(&counting_buf);
@@ -619,6 +621,10 @@ error_t assembler_t::assemble(std::istream& f)
         {
             f >> saved_bytes;
         }
+        else if(t == ".githash")
+        {
+            f >> githash;
+        }
         else
         {
             error.msg = "Unknown instruction or directive \"" + t + "\"";
@@ -755,13 +761,17 @@ error_t assembler_t::link()
     linked_data.push_back(0);
     linked_data.push_back(0);
 
-    // build data
+    // build date and git short hash
     {
         char b[17] = {};
         std::time_t t = std::time(nullptr);
         strftime(b, sizeof(b), "%Y-%m-%d %H:%M", std::localtime(&t));
         for(int i = 0; i < 16; ++i)
             linked_data.push_back((uint8_t)b[i]);
+        auto const& h = githash;
+        linked_data.push_back((uint8_t)' ');
+        for(size_t i = 0; i < 7; ++i)
+            linked_data.push_back((uint8_t)(i < h.size() ? toupper(h[i]) : 'X'));
     }
 
     // header size is fixed at 256 bytes
