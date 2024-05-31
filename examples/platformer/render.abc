@@ -393,8 +393,6 @@ void render_level()
     int icamx = int($round(camx));
     int icamy = int($round(camy));
 
-    $assert(false);
-
     // render map tiles
     {
         i8 cx = icamx / 16;
