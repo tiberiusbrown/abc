@@ -13,8 +13,16 @@
 
 #include <avr/io.h>
 
+#include "ards_vm.hpp"
+
 namespace ards
 {
+
+#if ABC_SHADES == 2
+constexpr uint16_t TPS = 250;
+#else
+constexpr uint16_t TPS = 155;
+#endif
 
 struct Tones
 {
@@ -220,21 +228,30 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
 static void disable()
 {
     PORTC = 0;
+#if ABC_SHADES == 2
     TIMSK1 = 0x00;
+#endif
 }
 
 static void enable()
 {
+#if ABC_SHADES == 2
     TIMSK1 = 0x02;
+#endif
 }
 
 static bool enabled()
 {
+#if ABC_SHADES == 2
     return TIMSK1 != 0;
+#else
+    return true;
+#endif
 }
 
 static void check_all_channels()
 {
+#if ABC_SHADES == 2
     if(channels[0].active || channels[1].active)
         return;
     music_active = false;
@@ -242,6 +259,7 @@ static void check_all_channels()
         return;
     TIMSK1 = 0x00;
     PORTC = 0;
+#endif
 }
 
 static void update_timer3(uint8_t index)
@@ -310,8 +328,11 @@ void Tones::setup()
     // timer1: CTC 250 Hz (prescaler /256, top 249)
     TCCR1A = 0x00;
     TCCR1B = 0x0c;
-    OCR1A = 249;
-    
+    OCR1A = (16000000ul / 256) / TPS - 1;
+#if ABC_SHADES > 2
+    TIMSK1 = 0x02;
+#endif
+
     // timer3: fast PWM 2 MHz, toggle OC3A on compare match
     TCCR3A = 0x43;
     TCCR3B = 0x18;
@@ -523,6 +544,10 @@ static advance_info_t advance_channel(volatile channel_t& c)
 ISR(TIMER1_COMPA_vect)
 {
     ards::detail::advance_info_t a;
+
+#if ABC_SHADES > 2
+    ards::vm.needs_render = true;
+#endif
     
     a = ards::detail::advance_channel(ards::detail::channels[0]);
     if(a.period >= 129) ards::detail::channels[0].active = false;

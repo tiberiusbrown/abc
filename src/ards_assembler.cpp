@@ -253,6 +253,7 @@ error_t assembler_t::assemble(std::istream& f)
 {
     std::string t;
     githash.clear();
+    shades = 2;
 
     //counting_stream_buffer counting_buf(f_orig.rdbuf(), error);
     //std::istream f(&counting_buf);
@@ -625,6 +626,10 @@ error_t assembler_t::assemble(std::istream& f)
         {
             f >> githash;
         }
+        else if(t == ".shades")
+        {
+            f >> shades;
+        }
         else
         {
             error.msg = "Unknown instruction or directive \"" + t + "\"";
@@ -699,10 +704,11 @@ error_t assembler_t::link()
 
     relax_jumps();
 
-    if(globals_bytes > 1024)
+    if(globals_bytes > max_globals_bytes())
     {
         std::ostringstream ss;
-        ss << "Too much global data: " << globals_bytes << " bytes (1024 max)";
+        ss << "Too much global data: " << globals_bytes
+            << " bytes (" << max_globals_bytes() << " max)";
         error.msg = ss.str();
         return error;
     }

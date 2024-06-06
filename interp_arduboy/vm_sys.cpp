@@ -326,16 +326,20 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
 
 static void sys_display()
 {
+#if ABC_SHADES == 2
     (void)FX::readEnd();
     FX::display(true);
     seek_to_pc();
+#endif
 }
 
 static void sys_display_noclear()
 {
+#if ABC_SHADES == 2
     (void)FX::readEnd();
     FX::display(false);
     seek_to_pc();
+#endif
 }
 
 static void sys_draw_pixel()
@@ -345,7 +349,9 @@ static void sys_draw_pixel()
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
+#if ABC_SHADES == 2
     Arduboy2Base::drawPixel(x, y, color);
+#endif
 }
 
 static void sys_get_pixel()
@@ -353,7 +359,11 @@ static void sys_get_pixel()
     auto ptr = vm_pop_begin();
     uint8_t x = vm_pop<uint8_t>(ptr);
     uint8_t y = vm_pop<uint8_t>(ptr);
+#if ABC_SHADES == 2
     uint8_t c = x < 128 && y < 64 ? Arduboy2Base::getPixel(x, y) : 0;
+#else
+    uint8_t c = 0;
+#endif
     vm_push_unsafe<uint8_t>(ptr, c);
     vm_pop_end(ptr);
 }
@@ -429,7 +439,9 @@ static void sys_draw_line()
     int16_t y1 = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
+#if ABC_SHADES == 2
     Arduboy2Base::drawLine(x0, y0, x1, y1, color);
+#endif
 }
 
 static void sys_draw_rect()
@@ -487,7 +499,9 @@ static void sys_draw_circle()
     uint8_t r = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
+#if ABC_SHADES == 2
     Arduboy2Base::drawCircle(x, y, r, color);
+#endif
 }
 
 __attribute__((always_inline))
@@ -543,9 +557,11 @@ static void sys_draw_filled_circle()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
 
+#if ABC_SHADES == 2
     draw_fast_vline(x, y-r, 2 * r + 1, color);
     fill_circle_helper(x, y, r, 3, 0, color);
     //Arduboy2Base::fillCircle(x, y, r, color);
+#endif
 }
 
 static void sys_set_frame_rate()
@@ -560,14 +576,6 @@ extern unsigned long volatile timer0_millis;
 extern unsigned long volatile timer0_overflow_count;
 static void sys_next_frame()
 {
-    //if(ards::vm.just_rendered)
-    //{
-    //    ards::vm.just_rendered = false;
-    //    vm_push<uint8_t>(0);
-    //    return;
-    //}
-
-    //uint8_t now = (uint8_t)timer0_overflow_count;
     uint8_t now;
     asm volatile("lds %[n], %[t]\n" : [n] "=&r" (now) : [t] "" (&timer0_overflow_count));
     
@@ -580,7 +588,6 @@ static void sys_next_frame()
         return;
     }
     
-    //ards::vm.just_rendered = true;
     ards::vm.frame_start += ards::vm.frame_dur;
     
     vm_push<uint8_t>(1);
@@ -822,7 +829,11 @@ static void sys_draw_sprite()
 
 static void sys_draw_sprite_selfmask()
 {
+#if ABC_SHADES == 2
     draw_sprite_helper(4);
+#else
+    ards::vm.sp -= 9; // x:2 y:2 img:3 frame:2
+#endif
 }
 
 static void draw_char(

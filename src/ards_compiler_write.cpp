@@ -250,6 +250,7 @@ static auto tie_var(compiler_global_t const* v)
 void compiler_t::write(std::ostream& f)
 {
     // attempt to find git hash
+    if(!do_suppress_githash)
     {
         std::filesystem::path p(base_path);
         std::string h;
@@ -279,6 +280,9 @@ void compiler_t::write(std::ostream& f)
         if(!h.empty())
             f << ".githash " << h << "\n";
     }
+
+    // .shades directive
+    f << ".shades " << shades << "\n";
 
     // sort globals by ascending size for optimizing access
 

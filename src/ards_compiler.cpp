@@ -16,11 +16,12 @@ namespace ards
 static std::string const GLOBINIT_FUNC = "$globinit";
 static std::string const FILE_INTERNAL = "<internal>";
 
-static std::vector<std::string> const arduboy_keywords =
+static std::vector<std::string> const directive_keywords =
 {
     "title", "author", "version", "description",
     "date", "genre", "publisher", "idea", "code", "art", "sound",
     "url", "sourceUrl", "email", "companion",
+    "shades",
 };
 
 std::unordered_set<std::string> const keywords =
@@ -435,6 +436,8 @@ void compiler_t::compile(
     arduboy_file_directives["version"] = "1.0";
     arduboy_file_directives["date"] =
         fmt::format("{:%Y-%m-%d}", fmt::localtime(std::time(nullptr)));
+    shades = 2;
+    non_directive_found = false;
 
     for(auto const& d : builtin_constexprs)
     {
@@ -695,7 +698,9 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             n.type == AST::FUNC_STMT ||
             n.type == AST::STRUCT_STMT ||
             n.type == AST::IMPORT_STMT ||
-            n.type == AST::ARDUBOY_DIRECTIVE);
+            n.type == AST::DIRECTIVE);
+        if(n.type != AST::DIRECTIVE)
+            non_directive_found = true;
         if(n.type == AST::DECL_STMT)
         {
             compiler_frame_t empty_frame{};
@@ -803,31 +808,59 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             }
             import_set.erase(filename);
         }
-        else if(n.type == AST::ARDUBOY_DIRECTIVE)
+        else if(n.type == AST::DIRECTIVE)
         {
             assert(n.children.size() == 2);
             assert(n.children[0].type == AST::TOKEN);
             assert(n.children[1].type == AST::STRING_LITERAL);
+            if(non_directive_found)
+            {
+                errs.push_back({
+                    "Compiler directives must occur before all other statements",
+                    n.line_info
+                });
+                return;
+            }
             std::string k = std::string(n.children[0].data);
             assert(!k.empty());
             auto d = strlit_data(n.children[1]);
             std::string v = std::string(d.begin(), d.end());
             bool keyword_valid = false;
-            for(auto const& t : arduboy_keywords)
+            for(auto const& t : directive_keywords)
                 if(t == k)
                     keyword_valid = true;
             if(keyword_valid)
+            {
                 arduboy_file_directives[k] = v;
+                if(k == "shades")
+                {
+                    if(v == "2")
+                        shades = 2;
+                    else if(v == "3")
+                        shades = 3;
+                    else if(v == "4")
+                        shades = 4;
+                    else
+                    {
+                        errs.push_back({
+                            "The '#shades' directive must have a value of '2', '3', or '4'",
+                            n.line_info
+                        });
+                        return;
+                    }
+                }
+            }
             else
             {
-                std::string msg = "Invalid arduboy directive: '#";
+                std::string msg = "Invalid directive: '#";
                 msg += k;
                 msg += "'. Valid directives: '#";
-                msg += arduboy_keywords[0];
+                msg += directive_keywords[0];
                 msg += "'";
-                for(size_t i = 1; i < arduboy_keywords.size(); ++i)
-                    msg += ", '#" + arduboy_keywords[i] + "'";
+                for(size_t i = 1; i < directive_keywords.size(); ++i)
+                    msg += ", '#" + directive_keywords[i] + "'";
                 errs.push_back({ msg, n.line_info });
+                return;
             }
         }
     }

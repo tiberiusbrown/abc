@@ -38,7 +38,7 @@ enum class AST
     //
 
     PROGRAM,      // children are global declarations and functions
-    ARDUBOY_DIRECTIVE, // children are keyword and string literal
+    DIRECTIVE, // children are keyword and string literal
     IMPORT_STMT,  // child is path string literal
     BLOCK,        // children are child statements
     EMPTY_STMT,
@@ -546,6 +546,8 @@ struct compiler_t
         : progdata_label_index(0)
     {}
 
+    void suppress_githash() { do_suppress_githash = true; }
+
     void compile(
         std::string const& path,
         std::string const& name,
@@ -759,6 +761,10 @@ private:
     std::unordered_set<std::string> import_set;
 
     std::unordered_map<std::string, std::string> arduboy_file_directives;
+
+    int shades;
+    bool non_directive_found;
+    bool do_suppress_githash;
 };
 
 }

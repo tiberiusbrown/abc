@@ -29,6 +29,7 @@ static bool test(std::string const& fpath, std::string const& fname)
 
     {
         ards::compiler_t c{};
+        c.suppress_githash();
         std::ostringstream fo;
         c.compile(fpath, name, fo);
         for(auto const& e : c.errors())

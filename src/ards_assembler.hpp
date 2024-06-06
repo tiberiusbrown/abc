@@ -72,6 +72,8 @@ private:
     std::unordered_map<std::string, size_t> globals;
 
     std::string githash;
+    int shades;
+    size_t max_globals_bytes() const { return shades == 2 ? 1024 : 256; }
 
     // current amount of global data bytes
     size_t globals_bytes;
