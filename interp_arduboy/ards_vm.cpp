@@ -3960,7 +3960,8 @@ R"(
 R"(
 call_shades_display:
     clr  r1
-    lpm
+    sei
+    rjmp .+0
     rjmp .+0
     fx_disable
     call %x[shades_display]

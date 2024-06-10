@@ -876,7 +876,7 @@ static void sys_draw_sprite_selfmask()
 #endif
 }
 
-static void draw_char(
+__attribute__((noinline)) void draw_char(
     int16_t& x, int16_t y, char c)
 {
     /*
@@ -1110,24 +1110,34 @@ static void sys_draw_text()
     (void)FX::readEnd();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
+#if ABC_SHADES == 2
     uint8_t line_height = font_get_line_height();
     int16_t bx = x;
+#else
+    shades_draw_chars_begin(x, y);
+#endif
     
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
     while((c = ld_inc(p)) != '\0' && tn != 0)
     {
         --tn;
+#if ABC_SHADES == 2
         if(c == '\n')
         {
             x = bx;
             y += line_height;
             continue;
         }
-        
         draw_char(x, y, c);
+#else
+        shades_draw_char(c);
+#endif
     }
     
+#if ABC_SHADES != 2
+    shades_draw_chars_end();
+#endif
     seek_to_pc();
 }
 
@@ -1144,8 +1154,12 @@ static void sys_draw_text_P()
     (void)FX::readEnd();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
+#if ABC_SHADES == 2
     uint8_t line_height = font_get_line_height();
     int16_t bx = x;
+#else
+    shades_draw_chars_begin(x, y);
+#endif
     
     char c;
     while(tn != 0)
@@ -1154,16 +1168,22 @@ static void sys_draw_text_P()
         if(c == '\0') break;
         --tn;
         
+#if ABC_SHADES == 2
         if(c == '\n')
         {
             x = bx;
             y += line_height;
             continue;
         }
-        
         draw_char(x, y, c);
+#else
+        shades_draw_char(c);
+#endif
     }
     
+#if ABC_SHADES != 2
+    shades_draw_chars_end();
+#endif
     seek_to_pc();
 }
 
@@ -1694,6 +1714,7 @@ static void format_exec_to_buffer(char c)
 #endif
 }
 
+#if ABC_SHADES == 2
 struct format_user_draw
 {
     int16_t bx;
@@ -1701,9 +1722,11 @@ struct format_user_draw
     int16_t y;
     uint8_t line_height;
 };
+#endif
 
 static void format_exec_draw(char c)
 {
+#if ABC_SHADES == 2
     format_user_draw* u = (format_user_draw*)format_user;
     
     if(c == '\n')
@@ -1715,6 +1738,9 @@ static void format_exec_draw(char c)
     {
         draw_char(u->x, u->y, c);
     }
+#else
+    shades_draw_char(c);
+#endif
 }
 
 static void format_exec_debug_printf(char c)
@@ -1753,6 +1779,7 @@ static void sys_debug_printf()
 
 static void sys_draw_textf()
 {
+#if ABC_SHADES == 2
     format_user_draw user;
     format_user = &user;
     
@@ -1762,6 +1789,7 @@ static void sys_draw_textf()
         user.y = vm_pop<int16_t> (ptr);
         vm_pop_end(ptr);
     }
+#endif
     (void)FX::readEnd();
 
     {
@@ -1769,7 +1797,9 @@ static void sys_draw_textf()
         if(t == 0xff)
             vm_error(ards::ERR_FNT);
     }
+#if ABC_SHADES == 2
     user.line_height = font_get_line_height();
+#endif
     
     format_exec(format_exec_draw);
     
@@ -2255,6 +2285,7 @@ static void sys_set_text_font()
 #endif
 }
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_set_text_color()
 {
@@ -2281,6 +2312,14 @@ static void sys_set_text_color()
     ards::vm.text_mode = t ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
 #endif
 }
+#else
+static void sys_set_text_color()
+{
+    auto ptr = vm_pop_begin();
+    ards::vm.text_mode = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+}
+#endif
 
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {

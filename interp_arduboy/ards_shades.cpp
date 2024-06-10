@@ -7,8 +7,12 @@
 #define ABG_PRECHARGE_CYCLES 1
 #define ABG_DISCHARGE_CYCLES 2
 
+void draw_char(int16_t& x, int16_t y, char c);
+extern "C" uint8_t font_get_x_advance(char c);
+extern "C" uint8_t font_get_line_height();
+
 static uint8_t* cmd_ptr;
-static uint8_t* batch_ptr; // for sprite batching (nullptr if no active batch)
+static uint8_t* batch_ptr; // for sprite/char batching (nullptr if no active batch)
 static uint8_t current_plane;
 
 inline uint8_t const* cmd0_end()
@@ -366,6 +370,40 @@ void shades_display()
             }
             break;
         }
+        case SHADES_CMD_CHARS:
+        {
+            int16_t x = (int16_t)ld_inc2(p);
+            int16_t y = (int16_t)ld_inc2(p);
+            uint24_t font = ld_inc3(p);
+            uint8_t mode = ld_inc(p);
+            uint16_t n = ld_inc2(p);
+            int16_t bx = x;
+            {
+                uint24_t t = ards::vm.text_font;
+                ards::vm.text_font = font;
+                font = t;
+            }
+            mode = planeColor(mode) ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
+            {
+                uint8_t t = ards::vm.text_mode;
+                ards::vm.text_mode = mode;
+                mode = t;
+            }
+            while(n-- != 0)
+            {
+                uint8_t c = ld_inc(p);
+                if(c == '\n')
+                {
+                    x = bx;
+                    y += font_get_line_height();
+                    continue;
+                }
+                draw_char(x, y, c);
+            }
+            ards::vm.text_font = font;
+            ards::vm.text_mode = mode;
+            break;
+        }
         default:
             break;
         }
@@ -427,6 +465,7 @@ void shades_draw_sprite(
         if(x < -128 || y < -128) goto unbatchable;
         if(frame >= 256) goto unbatchable;
         if(b == nullptr) goto start_new_batch;
+        if(ld_inc(b) != SHADES_CMD_SPRITE_BATCH) goto start_new_batch;
         if(ld_inc3(b) != img) goto start_new_batch;
         uint8_t n = *b;
         n += 1;
@@ -439,8 +478,8 @@ start_new_batch:
     if(!cmd0_room(8))
         return;
 
-    st_inc(p, SHADES_CMD_SPRITE_BATCH);
     batch_ptr = p;
+    st_inc(p, SHADES_CMD_SPRITE_BATCH);
     st_inc3(p, img);
     st_inc(p, 0);
 
@@ -461,6 +500,42 @@ unbatchable:
     st_inc3(p, img);
     st_inc2(p, frame);
     cmd_ptr = p;
+}
+
+void shades_draw_chars_begin(int16_t x, int16_t y)
+{
+    if(!cmd0_room(12)) // at least one char
+        return;
+    
+    uint8_t* p = cmd_ptr;
+    st_inc(p, SHADES_CMD_CHARS);
+    st_inc2(p, (uint16_t)x);
+    st_inc2(p, (uint16_t)y);
+    st_inc3(p, ards::vm.text_font);
+    st_inc(p, ards::vm.text_mode);
+    batch_ptr = p;
+    st_inc2(p, 0);
+    cmd_ptr = p;
+}
+
+void shades_draw_char(char c)
+{
+    uint8_t* b = batch_ptr;
+    if(b == nullptr) return;
+    if(!cmd0_room(1))
+    {
+        batch_ptr = nullptr;
+        return;
+    }
+    uint16_t n = *(uint16_t*)b;
+    n += 1;
+    *(uint16_t*)b = n;
+    st_inc(cmd_ptr, (uint8_t)c);
+}
+
+void shades_draw_chars_end()
+{
+    batch_ptr = nullptr;
 }
 
 #endif
