@@ -57,7 +57,7 @@ extern __attribute__((section(".beforedata"))) struct vm_t
     uint8_t  error;            // 0x635
     uint8_t  frame_dur;        // 0x636
     uint8_t  frame_start;      // 0x637
-    bool     needs_render;     // 0x638
+    uint8_t  needs_render;     // 0x638
     uint8_t  text_mode;        // 0x639
     uint24_t text_font;        // 0x63a
     uint8_t  current_plane;    // 0x63d

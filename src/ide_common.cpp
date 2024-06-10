@@ -429,12 +429,6 @@ void init()
     default_style = style;
 
     arduboy = std::make_unique<absim::arduboy_t>();
-    {
-        auto r = extract_interp_build("ArduboyFX");
-        std::istrstream ss((char const*)r.data(), (int)r.size());
-        auto t = arduboy->load_file("vm.hex", ss);
-        assert(t.empty());
-    }
     arduboy->fx.erase_all_data();
     arduboy->reset();
     arduboy->paused = true;

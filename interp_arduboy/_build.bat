@@ -53,3 +53,11 @@ arduino-cli.exe compile ^
     --build-property compiler.c.extra_flags="-mtiny-stack -DABC_SHADES=3" ^
     --build-property compiler.cpp.extra_flags="{compiler.c.extra_flags}" ^
     --build-property compiler.elf2hex.extra_flags="-R .beforedata"
+
+arduino-cli.exe compile ^
+    -b arduboy-homemade:avr:arduboy-fx . ^
+    --output-dir "build_s4_ArduboyFX" ^
+    --build-property compiler.c.elf.extra_flags="-Wl,--relax -Wl,--section-start=.beforedata=0x800100 -Wl,--section-start=.data=0x80063e" ^
+    --build-property compiler.c.extra_flags="-mtiny-stack -DABC_SHADES=4" ^
+    --build-property compiler.cpp.extra_flags="{compiler.c.extra_flags}" ^
+    --build-property compiler.elf2hex.extra_flags="-R .beforedata"

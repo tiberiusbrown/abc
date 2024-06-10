@@ -59,10 +59,12 @@ void shades_init()
         0xA8, 0     // park at row 0
     };
 
+    FX::enableOLED();
     Arduboy2Base::LCDCommandMode();
     for (uint8_t i = 0; i < sizeof(CMDS); i++)
         Arduboy2Base::SPItransfer(pgm_read_byte(CMDS + i));
     Arduboy2Base::LCDDataMode();
+    FX::disableOLED();
 
     cmd_ptr = &ards::vm.gs.buf0[0];
 }
@@ -213,7 +215,9 @@ void shades_display()
 {
     // Push display buffer to display
 
-    ards::vm.needs_render = false;
+    while(*(uint8_t volatile*)&ards::vm.needs_render != 2)
+        ;
+    ards::vm.needs_render = 0;
 #if ABC_SHADES == 3
     current_plane = !current_plane;
 #elif ABC_SHADES == 4
@@ -225,19 +229,23 @@ void shades_display()
 #endif
     auto* b = Arduboy2Base::sBuffer;
 
-    paint(&b[128 * 7], 0x0000, 0x0001, 0x7f);
+    FX::enableOLED();
+
+    paint(&b[128 * 7], 0x0001, 0x0001, 0x7f);
 
     Arduboy2Base::LCDCommandMode();
     Arduboy2Base::SPItransfer(0xa8);
     Arduboy2Base::SPItransfer(63);
     Arduboy2Base::LCDDataMode();
 
-    paint(&b[128 * 0], 0x0000, 0x0107, 0xff);
+    paint(&b[128 * 0], 0x0001, 0x0107, 0xff);
 
     Arduboy2Base::LCDCommandMode();
     Arduboy2Base::SPItransfer(0xa8);
     Arduboy2Base::SPItransfer(0);
     Arduboy2Base::LCDDataMode();
+
+    FX::disableOLED();
 
     // Render command buffer 1 to display buffer
     uint8_t const* p = ards::vm.gs.buf1;

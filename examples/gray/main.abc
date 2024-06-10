@@ -1,12 +1,18 @@
-#shades "3"
+#shades "4"
+
+int x = 0;
 
 void loop()
 {
     while(!$next_frame())
         ;
     
-    $draw_filled_rect(10, 10, 20, 20, GRAY);
-    $draw_filled_rect(40, 10, 20, 20, WHITE);
+    if($pressed(LEFT_BUTTON )) --x;
+    if($pressed(RIGHT_BUTTON)) ++x;
+    
+    $draw_filled_rect(x     , 10, 30, 50, DARK_GRAY);
+    $draw_filled_rect(x + 40, 10, 30, 50, LIGHT_GRAY);
+    $draw_filled_rect(x + 80, 10, 30, 50, WHITE);
     
     $display();
 }

@@ -476,7 +476,7 @@ static void sys_draw_filled_rect()
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr) >> 1;
     vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, w, h, color);
 #endif
@@ -489,6 +489,7 @@ static void sys_draw_filled_rect()
             ld   r20, -Y
             ld   r18, -Y
             ld   r16, -Y
+            lsr  r16
             sts  %[vmsp], r28
             jmp  %x[fillrect]
         )"
@@ -508,8 +509,8 @@ static void sys_draw_filled_rect()
     uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     shades_draw_filled_rect(x, y, w, h, c);
-#endif
 }
+#endif
 
 static void sys_draw_circle()
 {
