@@ -44,6 +44,8 @@ struct assembler_t
     size_t data_size() const { return data_bytes; }
     size_t debug_size() const { return debug_bytes; }
 
+    int num_shades() const { return shades; }
+
     std::vector<uint8_t> const& data() { return linked_data; }
 private:
     std::vector<uint8_t> linked_data;

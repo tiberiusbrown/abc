@@ -35,6 +35,7 @@
                 "ARDUINO=10607",
                 "ARDUINO_AVR_ARDUBOY",
                 "ARDUINO_ARCH_AVR",
+                "ABC_SHADES=4",
                 "ARDUBOY_10",
                 "CART_CS_SDA",
                 "USB_VID=0x2341",

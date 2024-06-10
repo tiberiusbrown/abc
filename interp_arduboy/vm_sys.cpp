@@ -9,6 +9,7 @@
 #define SPRITESABC_IMPLEMENTATION
 #include "SpritesABC.hpp"
 
+#include "ards_shades.hpp"
 #include "ards_tone.hpp"
 
 #include "ards_vm.hpp"
@@ -330,6 +331,8 @@ static void sys_display()
     (void)FX::readEnd();
     FX::display(true);
     seek_to_pc();
+#else
+    shades_swap();
 #endif
 }
 
@@ -339,18 +342,22 @@ static void sys_display_noclear()
     (void)FX::readEnd();
     FX::display(false);
     seek_to_pc();
+#else
+    shades_swap();
 #endif
 }
 
 static void sys_draw_pixel()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-#if ABC_SHADES == 2
     Arduboy2Base::drawPixel(x, y, color);
+#else
+    ards::vm.sp -= 5;
 #endif
 }
 
@@ -371,7 +378,15 @@ static void sys_get_pixel()
 __attribute__((naked))
 static void sys_draw_hline()
 {
-#if 1
+#if 0
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesABC::fillRect(x, y, w, 1, color);
+#endif
     // no need to push r16
     asm volatile(R"(
             ld   r25, -Y
@@ -388,21 +403,20 @@ static void sys_draw_hline()
         : [vmsp]     "i" (&ards::vm.sp)
         , [fillrect] ""  (SpritesABC::fillRect)
         );
-#else
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint8_t w = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
-    vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, 1, color);
-#endif
 }
 
 __attribute__((naked))
 static void sys_draw_vline()
 {
-#if 1
+#if 0
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesABC::fillRect(x, y, 1, h, color);
+#endif
     // no need to push r16
     asm volatile(R"(
             ld   r25, -Y
@@ -419,19 +433,11 @@ static void sys_draw_vline()
         : [vmsp]     "i" (&ards::vm.sp)
         , [fillrect] ""  (SpritesABC::fillRect)
         );
-#else
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
-    vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, 1, h, color);
-#endif
 }
 
 static void sys_draw_line()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x0 = vm_pop<int16_t>(ptr);
     int16_t y0 = vm_pop<int16_t>(ptr);
@@ -439,8 +445,9 @@ static void sys_draw_line()
     int16_t y1 = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-#if ABC_SHADES == 2
     Arduboy2Base::drawLine(x0, y0, x1, y1, color);
+#else
+    ards::vm.sp -= 9;
 #endif
 }
 
@@ -459,10 +466,20 @@ static void sys_draw_rect()
     SpritesABC::fillRect(x + w - 1, y, 1, h, color);
 }
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_draw_filled_rect()
 {
-#if 1
+#if 0
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesABC::fillRect(x, y, w, h, color);
+#endif
     // no need to push r16
     asm volatile(R"(
             ld   r25, -Y
@@ -479,28 +496,33 @@ static void sys_draw_filled_rect()
         : [vmsp]     "i" (&ards::vm.sp)
         , [fillrect] ""  (SpritesABC::fillRect)
         );
+}
 #else
+static void sys_draw_filled_rect()
+{
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, h, color);
+    shades_draw_filled_rect(x, y, w, h, c);
 #endif
 }
 
 static void sys_draw_circle()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t r = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-#if ABC_SHADES == 2
     Arduboy2Base::drawCircle(x, y, r, color);
+#else
+    ards::vm.sp -= 6;
 #endif
 }
 
@@ -550,6 +572,7 @@ static void fill_circle_helper(
 
 static void sys_draw_filled_circle()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
@@ -557,10 +580,11 @@ static void sys_draw_filled_circle()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
 
-#if ABC_SHADES == 2
     draw_fast_vline(x, y-r, 2 * r + 1, color);
     fill_circle_helper(x, y, r, 3, 0, color);
     //Arduboy2Base::fillCircle(x, y, r, color);
+#else
+    ards::vm.sp -= 6;
 #endif
 }
 

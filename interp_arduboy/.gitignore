@@ -1,2 +1,3 @@
+build/*
 build_*/*
 !build_*/interp_arduboy.ino.hex

@@ -1,6 +1,8 @@
 #include "ards_vm.hpp"
 #include "abc_instr.hpp"
 
+#include "ards_shades.hpp"
+
 #define ARDS_TONES_IMPLEMENTATION
 #include "ards_tone.hpp"
 
@@ -3910,11 +3912,22 @@ jump_to_pc:
 
 jump_to_pc_delayed:
 
-    rjmp .+0
-    rjmp .+0
     nop
+    rjmp .+0
+    rjmp .+0
 
 jump_to_pc_delayed2:
+
+)"
+#if ABC_SHADES != 2
+R"(
+    ; see if we need to call shades_display()
+    lds  r16, 0x638 ; needs_display
+    cp   r16, r2
+    brne call_shades_display
+)"
+#endif
+R"(
 
     ; see if we need to call ards::Tones::update()
     lds  r16, %[tones_reload]
@@ -3942,6 +3955,19 @@ jump_to_pc_delayed2:
     fx_disable
     call %x[tones_update]
     rjmp 1b
+)"
+#if ABC_SHADES != 2
+R"(
+call_shades_display:
+    clr  r1
+    lpm
+    rjmp .+0
+    fx_disable
+    call %x[shades_display]
+    rjmp 1b
+)"
+#endif
+R"(
 
 seek_delay_17:
     nop
@@ -3975,21 +4001,24 @@ call_vm_error:
 )"
 
     :
-    : [spdr]          "i" (_SFR_IO_ADDR(SPDR))
-    , [spsr]          "i" (_SFR_IO_ADDR(SPSR))
-    , [sreg]          "i" (_SFR_IO_ADDR(SREG))
-    , [fxport]        "i" (_SFR_IO_ADDR(FX_PORT))
-    , [fxbit]         "i" (FX_BIT)
-    , [data_page]     ""  (&FX::programDataPage)
-    , [vm_calls]      ""  (&ards::vm.calls[0])
-    , [vm_calls_end]  ""  (&ards::vm.calls[ards::MAX_CALLS])
-    , [vm_sp]         ""  (&ards::vm.sp)
-    , [vm_pc]         ""  (&ards::vm.pc)
-    , [vm_csp]        ""  (&ards::vm.csp)
-    , [sys_funcs]     ""  (&SYS_FUNCS[0])
-    , [tones_update]  ""  (ards::Tones::update)
-    , [tones_reload]  ""  (&ards::detail::reload_needed)
-    , [MAX_CALLS]     ""  (MAX_CALLS)
+    : [spdr]           "i" (_SFR_IO_ADDR(SPDR))
+    , [spsr]           "i" (_SFR_IO_ADDR(SPSR))
+    , [sreg]           "i" (_SFR_IO_ADDR(SREG))
+    , [fxport]         "i" (_SFR_IO_ADDR(FX_PORT))
+    , [fxbit]          "i" (FX_BIT)
+    , [data_page]      ""  (&FX::programDataPage)
+    , [vm_calls]       ""  (&ards::vm.calls[0])
+    , [vm_calls_end]   ""  (&ards::vm.calls[ards::MAX_CALLS])
+    , [vm_sp]          ""  (&ards::vm.sp)
+    , [vm_pc]          ""  (&ards::vm.pc)
+    , [vm_csp]         ""  (&ards::vm.csp)
+    , [sys_funcs]      ""  (&SYS_FUNCS[0])
+    , [tones_update]   ""  (ards::Tones::update)
+    , [tones_reload]   ""  (&ards::detail::reload_needed)
+#if ABC_SHADES != 2
+    , [shades_display] ""  (&shades_display)
+#endif
+    , [MAX_CALLS]      ""  (MAX_CALLS)
     );
 }
 
@@ -4014,6 +4043,10 @@ void vm_run()
     // entry point in header
     *(volatile uint24_t*)&vm.pc = 20;
     *(volatile uint8_t*)&vm.sp = 1;
+
+#if ABC_SHADES != 2
+    shades_init();
+#endif
     
     FX::seekData(20);
 

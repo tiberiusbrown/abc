@@ -60,7 +60,14 @@ std::vector<uint8_t> extract_interp_build(char const* id)
     return r;
 }
 
-static std::vector<std::string> interp_build_ids()
+static std::string arduboyfx_name(int shades)
+{
+    char buf[64];
+    snprintf(buf, sizeof(buf), "s%d_ArduboyFX", shades);
+    return buf;
+}
+
+static std::vector<std::string> interp_build_ids(int shades)
 {
     std::vector<std::string> r;
     mz_zip_archive zip{};
@@ -68,7 +75,8 @@ static std::vector<std::string> interp_build_ids()
         return {};
     auto n = mz_zip_reader_get_num_files(&zip);
     char fname[256];
-    r.push_back("ArduboyFX");
+    std::string arduboyfx = arduboyfx_name(shades);
+    r.push_back(arduboyfx);
     for(mz_uint f = 0; f < n; ++f)
     {
         if(mz_zip_reader_is_file_a_directory(&zip, f))
@@ -77,16 +85,18 @@ static std::vector<std::string> interp_build_ids()
         std::string fstr(fname);
         if(fstr.size() < 24)
             continue;
+        if(fstr[0] != 's' || fstr[1] != '0' + shades)
+            continue;
         fstr = fstr.substr(20, fstr.size() - 24);
-        if(fstr != "ArduboyFX")
+        if(fstr != arduboyfx)
             r.push_back(fstr);
     }
     return r;
 }
 
-void export_interpreter_hex(std::string const& filename)
+void export_interpreter_hex(std::string const& filename, int shades = 2)
 {
-    auto r = extract_interp_build("ArduboyFX");
+    auto r = extract_interp_build(arduboyfx_name(shades).c_str());
     auto const* data = r.data();
     size_t size = r.size();
 #ifdef __EMSCRIPTEN__
@@ -102,14 +112,14 @@ void export_interpreter_hex(std::string const& filename)
 
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save, bool universal,
+    std::vector<uint8_t> const& binary, bool has_save, bool universal, int shades,
     std::unordered_map<std::string, std::string> const& fd)
 {
     std::vector<std::string> ids;
     if(universal)
-        ids = interp_build_ids();
+        ids = interp_build_ids(shades);
     else
-        ids = { "ArduboyFX" };
+        ids = { arduboyfx_name(shades) };
 
     std::vector<uint8_t> screenshot_png;
     std::string info_json;

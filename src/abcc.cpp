@@ -23,9 +23,9 @@
 
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save, bool mini,
+    std::vector<uint8_t> const& binary, bool has_save, bool universal, int shades,
     std::unordered_map<std::string, std::string> const& fd);
-void export_interpreter_hex(std::string const& filename);
+void export_interpreter_hex(std::string const& filename, int shades = 2);
 
 static void usage(char const* argv0)
 {
@@ -267,14 +267,14 @@ int main(int argc, char** argv)
 
     if(!pinterp.empty())
     {
-        export_interpreter_hex(pinterp.generic_string());
+        export_interpreter_hex(pinterp.generic_string(), a.num_shades());
     }
 
     if(!parduboy.empty())
     {
         export_arduboy(
             parduboy.generic_string(),
-            a.data(), a.has_save(), args["--universal"] == true,
+            a.data(), a.has_save(), args["--universal"] == true, a.num_shades(),
             c.arduboy_directives());
     }
 
