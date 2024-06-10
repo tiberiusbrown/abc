@@ -5360,7 +5360,7 @@ render_credits:
   p0
   sys   draw_sprite
   .line 52
-  p1
+  p3
   p2
   p128
   push  14
@@ -6048,39 +6048,39 @@ $L_render_level_select_1:
 $L_render_level_select_0:
   pop
   .line 230
-  p1
+  p3
   p128
   p7
   p000
   sys   draw_hline
   .line 231
-  p1
+  p3
   p128
   push  44
   p000
   sys   draw_hline
   .line 232
-  p1
+  p3
   p128
   push  60
   p000
   sys   draw_hline
   .line 233
-  p1
+  p3
   push  60
   p00
   p8
   p0
   sys   draw_vline
   .line 234
-  p1
+  p3
   push  60
   p00
   push  58
   p0
   sys   draw_vline
   .line 235
-  p1
+  p3
   push  60
   p00
   push  95
@@ -8613,7 +8613,7 @@ $L_render_pause_5:
   p0
   sys   draw_text_P
   .line 84
-  p1
+  p3
   p2
   push2 2366
   p0
@@ -8858,7 +8858,7 @@ render_menu:
   sub2b
   sys   draw_sprite
   .line 291
-  p1
+  p3
   p2
   p128
   push  14
@@ -9100,7 +9100,7 @@ $L_render_intro_2:
   p0
   sys   draw_text_P
   .line 339
-  p1
+  p3
   p1
   push2 5666
   p0
@@ -9191,7 +9191,7 @@ $L_render_intro_4:
   p0
   sys   draw_text_P
   .line 356
-  p1
+  p3
   p1
   push2 11813
   p0
@@ -9274,7 +9274,7 @@ $L_render_intro_6:
   p0
   sys   draw_text_P
   .line 369
-  p1
+  p3
   p1
   push2 11813
   p000

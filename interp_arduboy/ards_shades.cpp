@@ -253,20 +253,36 @@ void shades_display()
     {
         uint8_t cmd = ld_inc(p);
         if(cmd == SHADES_CMD_END) break;
-        if(cmd == SHADES_CMD_FILLED_RECT)
+        switch(cmd)
+        {
+        case SHADES_CMD_RECT:
+        case SHADES_CMD_FILLED_RECT:
         {
             int8_t x = (int8_t)ld_inc(p);
             int8_t y = (int8_t)ld_inc(p);
             uint8_t w = ld_inc(p);
             uint8_t h = ld_inc(p);
             uint8_t c = planeColor(ld_inc(p));
-            SpritesABC::fillRect(x, y, w, h, c);
+            if(cmd == SHADES_CMD_FILLED_RECT)
+            {
+                SpritesABC::fillRect(x, y, w, h, c);
+            }
+            else
+            {
+                SpritesABC::fillRect(x, y, w, 1, c);
+                SpritesABC::fillRect(x, y, 1, h, c);
+                SpritesABC::fillRect(x, y + h - 1, w, 1, c);
+                SpritesABC::fillRect(x + w - 1, y, 1, h, c);
+            }
+        }
+        default:
+            break;
         }
     }
 }
 
-void shades_draw_filled_rect(
-    int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t c)
+void shades_draw_rect(
+    int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t c, bool filled)
 {
     if(!cmd0_room(6))
         return;
@@ -289,7 +305,7 @@ void shades_draw_filled_rect(
     }
 
     uint8_t* p = cmd_ptr;
-    st_inc(p, SHADES_CMD_FILLED_RECT);
+    st_inc(p, filled ? SHADES_CMD_FILLED_RECT : SHADES_CMD_RECT);
     st_inc(p, (uint8_t)x);
     st_inc(p, (uint8_t)y);
     st_inc(p, w);

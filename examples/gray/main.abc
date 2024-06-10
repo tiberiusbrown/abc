@@ -10,7 +10,7 @@ void loop()
     if($pressed(LEFT_BUTTON )) --x;
     if($pressed(RIGHT_BUTTON)) ++x;
     
-    $draw_filled_rect(x     , 10, 30, 50, DARK_GRAY);
+    $draw_rect(x     , 10, 30, 50, DARK_GRAY);
     $draw_filled_rect(x + 40, 10, 30, 50, LIGHT_GRAY);
     $draw_filled_rect(x + 80, 10, 30, 50, WHITE);
     

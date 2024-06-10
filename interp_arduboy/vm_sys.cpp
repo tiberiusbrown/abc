@@ -458,12 +458,17 @@ static void sys_draw_rect()
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, 1, color);
-    SpritesABC::fillRect(x, y, 1, h, color);
-    SpritesABC::fillRect(x, y + h - 1, w, 1, color);
-    SpritesABC::fillRect(x + w - 1, y, 1, h, color);
+#if ABC_SHADES == 2
+    c >>= 1;
+    SpritesABC::fillRect(x, y, w, 1, c);
+    SpritesABC::fillRect(x, y, 1, h, c);
+    SpritesABC::fillRect(x, y + h - 1, w, 1, c);
+    SpritesABC::fillRect(x + w - 1, y, 1, h, c);
+#else
+    shades_draw_rect(x, y, w, h, c, false);
+#endif
 }
 
 #if ABC_SHADES == 2
@@ -476,9 +481,9 @@ static void sys_draw_filled_rect()
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr) >> 1;
+    uint8_t c = vm_pop<uint8_t>(ptr) >> 1;
     vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, h, color);
+    SpritesABC::fillRect(x, y, w, h, c);
 #endif
     // no need to push r16
     asm volatile(R"(
@@ -508,7 +513,7 @@ static void sys_draw_filled_rect()
     uint8_t h = vm_pop<uint8_t>(ptr);
     uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    shades_draw_filled_rect(x, y, w, h, c);
+    shades_draw_rect(x, y, w, h, c, true);
 }
 #endif
 
