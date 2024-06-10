@@ -22,6 +22,8 @@ enum
     SHADES_CMD_END,
     SHADES_CMD_RECT,
     SHADES_CMD_FILLED_RECT,
+    SHADES_CMD_SPRITE,
+    SHADES_CMD_SPRITE_BATCH,
 };
 
 void shades_init();
@@ -31,3 +33,5 @@ void shades_display();
 
 void shades_draw_rect(
     int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t c, bool filled);
+void shades_draw_sprite(
+    int16_t x, int16_t y, uint24_t img, uint16_t frame);

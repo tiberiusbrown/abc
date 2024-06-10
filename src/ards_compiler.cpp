@@ -841,11 +841,29 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 if(k == "shades")
                 {
                     if(v == "2")
+                    {
                         shades = 2;
+                        globals["WHITE"].var.value = 1;
+                        globals["LIGHT_GRAY"].var.value = 1;
+                        globals["GRAY"].var.value = 1;
+                        globals["DARK_GRAY"].var.value = 0;
+                    }
                     else if(v == "3")
+                    {
                         shades = 3;
+                        globals["WHITE"].var.value = 2;
+                        globals["LIGHT_GRAY"].var.value = 1;
+                        globals["GRAY"].var.value = 1;
+                        globals["DARK_GRAY"].var.value = 0;
+                    }
                     else if(v == "4")
+                    {
                         shades = 4;
+                        globals["WHITE"].var.value = 3;
+                        globals["LIGHT_GRAY"].var.value = 2;
+                        globals["GRAY"].var.value = 1;
+                        globals["DARK_GRAY"].var.value = 1;
+                    }
                     else
                     {
                         errs.push_back({
@@ -854,6 +872,9 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                         });
                         return;
                     }
+                    globals["LIGHT_GREY"].var.value = globals["LIGHT_GRAY"].var.value;
+                    globals["GREY"].var.value = globals["GRAY"].var.value;
+                    globals["DARK_GREY"].var.value = globals["DARK_GRAY"].var.value;
                 }
             }
             else

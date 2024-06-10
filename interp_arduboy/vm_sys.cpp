@@ -461,7 +461,6 @@ static void sys_draw_rect()
     uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
 #if ABC_SHADES == 2
-    c >>= 1;
     SpritesABC::fillRect(x, y, w, 1, c);
     SpritesABC::fillRect(x, y, 1, h, c);
     SpritesABC::fillRect(x, y + h - 1, w, 1, c);
@@ -481,7 +480,7 @@ static void sys_draw_filled_rect()
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t c = vm_pop<uint8_t>(ptr) >> 1;
+    uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, w, h, c);
 #endif
@@ -494,7 +493,6 @@ static void sys_draw_filled_rect()
             ld   r20, -Y
             ld   r18, -Y
             ld   r16, -Y
-            lsr  r16
             sts  %[vmsp], r28
             jmp  %x[fillrect]
         )"
@@ -854,7 +852,19 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
 
 static void sys_draw_sprite()
 {
+#if ABC_SHADES == 2
     draw_sprite_helper(0);
+#else
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t img = vm_pop<uint24_t>(ptr);
+    uint16_t frame = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    FX::readEnd();
+    shades_draw_sprite(x, y, img, frame);
+    seek_to_pc();
+#endif
 }
 
 static void sys_draw_sprite_selfmask()

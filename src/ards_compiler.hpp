@@ -544,6 +544,7 @@ struct compiler_t
 {
     compiler_t()
         : progdata_label_index(0)
+        , shades(2)
     {}
 
     void suppress_githash() { do_suppress_githash = true; }

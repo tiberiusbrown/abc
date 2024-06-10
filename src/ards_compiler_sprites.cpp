@@ -70,9 +70,18 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
         {
             uint8_t c = loaded_data[i * 2 + 0];
             uint8_t a = loaded_data[i * 2 + 1];
-            if(a < 128) idata.push_back(0), masked = true;
-            else if(c < 128) idata.push_back(1);
-            else             idata.push_back(2);
+            if(a < 128)
+            {
+                idata.push_back(0);
+                masked = true;
+                continue;
+            }
+            if(shades == 2)
+                idata.push_back(c < 128 ? 1 : 2);
+            if(shades == 3)
+                idata.push_back(c < 0x55 ? 1 : c < 0xaa ? 2 : 3);
+            if(shades == 4)
+                idata.push_back(c < 0x40 ? 1 : c < 0x80 ? 2 : c < 0xc0 ? 3 : 4);
         }
         stbi_image_free(loaded_data);
     }
@@ -88,7 +97,7 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
                 if(isspace(c)) continue;
                 if(c == '-') idata.push_back(0), masked = true;
                 else if(c == '.') idata.push_back(1);
-                else              idata.push_back(2);
+                else              idata.push_back((uint8_t)shades);
             }
             if(iw == 0)
                 iw = idata.size();
@@ -166,28 +175,31 @@ void compiler_t::encode_sprites_image(
 
     for(size_t si = 0; si < num_sprites; ++si)
     {
-        auto const& d = sdata[si];
-        for(size_t p = 0; p < pages; ++p)
+        for(int shade = 2; shade <= shades; ++shade)
         {
-            for(size_t x = 0; x < (size_t)w; ++x)
+            auto const& d = sdata[si];
+            for(size_t p = 0; p < pages; ++p)
             {
-                uint8_t byte = 0;
-                for(size_t r = 0; r < 8; ++r)
+                for(size_t x = 0; x < (size_t)w; ++x)
                 {
-                    size_t y = p * 8 + r;
-                    uint8_t pixel = d[y * w + x];
-                    if(pixel == 2) byte |= (1 << r);
+                    uint8_t byte = 0;
+                    for(size_t r = 0; r < 8; ++r)
+                    {
+                        size_t y = p * 8 + r;
+                        uint8_t pixel = d[y * w + x];
+                        if(pixel >= (uint8_t)shade) byte |= (1 << r);
+                    }
+                    data.push_back(byte);
+                    if(!masked) continue;
+                    byte = 0;
+                    for(size_t r = 0; r < 8; ++r)
+                    {
+                        size_t y = p * 8 + r;
+                        uint8_t pixel = d[y * w + x];
+                        if(pixel != 0) byte |= (1 << r);
+                    }
+                    data.push_back(byte);
                 }
-                data.push_back(byte);
-                if(!masked) continue;
-                byte = 0;
-                for(size_t r = 0; r < 8; ++r)
-                {
-                    size_t y = p * 8 + r;
-                    uint8_t pixel = d[y * w + x];
-                    if(pixel != 0) byte |= (1 << r);
-                }
-                data.push_back(byte);
             }
         }
     }

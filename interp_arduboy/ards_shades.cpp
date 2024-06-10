@@ -32,9 +32,47 @@ template<class T> inline uint8_t ld_inc(T const*& p)
     return r;
 }
 
+template<class T> inline uint16_t ld_inc2(T const*& p)
+{
+    uint16_t r;
+    asm volatile(
+        "ld %A[r], %a[p]+\n"
+        "ld %B[r], %a[p]+\n"
+        : [p] "+&e" (p), [r] "=&r" (r) :: "memory");
+    return r;
+}
+
+template<class T> inline uint24_t ld_inc3(T const*& p)
+{
+    uint24_t r;
+    asm volatile(
+        "ld %A[r], %a[p]+\n"
+        "ld %B[r], %a[p]+\n"
+        "ld %C[r], %a[p]+\n"
+        : [p] "+&e" (p), [r] "=&r" (r) :: "memory");
+    return r;
+}
+
 template<class T> inline void st_inc(T*& p, uint8_t x)
 {
     asm volatile("st %a[p]+, %[x]\n" : [p] "+&e" (p) : [x] "r" (x) : "memory");
+}
+
+template<class T> inline void st_inc2(T*& p, uint16_t x)
+{
+    asm volatile(
+        "st %a[p]+, %A[x]\n"
+        "st %a[p]+, %B[x]\n"
+        : [p] "+&e" (p) : [x] "r" (x) : "memory");
+}
+
+template<class T> inline void st_inc3(T*& p, uint24_t x)
+{
+    asm volatile(
+        "st %a[p]+, %A[x]\n"
+        "st %a[p]+, %B[x]\n"
+        "st %a[p]+, %C[x]\n"
+        : [p] "+&e" (p) : [x] "r" (x) : "memory");
 }
 
 static inline uint8_t planeColor(uint8_t c)
@@ -207,7 +245,7 @@ static void paint(uint8_t* image, uint16_t clear, uint16_t pages, uint8_t mask)
 void shades_swap()
 {
     memcpy(ards::vm.gs.buf1, ards::vm.gs.buf0, sizeof(ards::vm.gs.buf1));
-    ards::vm.gs.buf0[0] = SHADES_CMD_END;
+    memset(ards::vm.gs.buf0, SHADES_CMD_END, sizeof(ards::vm.gs.buf0));
     cmd_ptr = &ards::vm.gs.buf0[0];
 }
 
@@ -274,6 +312,30 @@ void shades_display()
                 SpritesABC::fillRect(x, y + h - 1, w, 1, c);
                 SpritesABC::fillRect(x + w - 1, y, 1, h, c);
             }
+            break;
+        }
+        case SHADES_CMD_SPRITE:
+        {
+            int16_t x = (int16_t)ld_inc2(p);
+            int16_t y = (int16_t)ld_inc2(p);
+            uint24_t img = ld_inc3(p);
+            uint16_t frame = ld_inc2(p);
+            FX::seekData(img);
+            uint8_t w = FX::readPendingUInt8();
+            uint8_t h = FX::readPendingUInt8();
+            uint8_t mode = FX::readPendingLastUInt8();
+
+            uint8_t p = h + 7;
+            p >>= 3;
+            if(mode) p <<= 1;
+            uint24_t t = w * p;
+            frame *= (ABC_SHADES - 1);
+            frame += current_plane;
+            img += t * frame;
+            img += 5;
+
+            SpritesABC::drawBasic(x, y, w, h, img, mode);
+            break;
         }
         default:
             break;
@@ -311,6 +373,31 @@ void shades_draw_rect(
     st_inc(p, w);
     st_inc(p, h);
     st_inc(p, c);
+    cmd_ptr = p;
+}
+
+void shades_draw_sprite(
+    int16_t x, int16_t y, uint24_t img, uint16_t frame)
+{
+    if(!cmd0_room(10))
+        return;
+    
+    if(x >= WIDTH) return;
+    if(y >= HEIGHT) return;
+
+    FX::seekData(img);
+    uint8_t w = FX::readPendingUInt8();
+    uint8_t h = FX::readPendingLastUInt8();
+
+    if(x + w <= 0) return;
+    if(y + h <= 0) return;
+
+    uint8_t* p = cmd_ptr;
+    st_inc(p, SHADES_CMD_SPRITE);
+    st_inc2(p, (uint16_t)x);
+    st_inc2(p, (uint16_t)y);
+    st_inc3(p, img);
+    st_inc2(p, frame);
     cmd_ptr = p;
 }
 

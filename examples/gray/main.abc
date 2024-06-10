@@ -1,6 +1,10 @@
 #shades "4"
 
 int x = 0;
+u8 f = 0;
+
+constexpr sprites CELTIC_FRAME = sprites{ "celtic_frame.png" };
+constexpr sprites SPRITES = sprites{ 16x16 "sprites.png" };
 
 void loop()
 {
@@ -10,9 +14,14 @@ void loop()
     if($pressed(LEFT_BUTTON )) --x;
     if($pressed(RIGHT_BUTTON)) ++x;
     
+    $draw_sprite(0, 0, CELTIC_FRAME, 0);
+    
     $draw_rect(x     , 10, 30, 50, DARK_GRAY);
     $draw_filled_rect(x + 40, 10, 30, 50, LIGHT_GRAY);
     $draw_filled_rect(x + 80, 10, 30, 50, WHITE);
+    
+    $draw_sprite(20, 20, SPRITES, 16 + ((f >> 2) & 3));
+    ++f;
     
     $display();
 }
