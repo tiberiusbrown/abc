@@ -8,6 +8,7 @@
 #define ABG_DISCHARGE_CYCLES 2
 
 static uint8_t* cmd_ptr;
+static uint8_t* batch_ptr; // for sprite batching (nullptr if no active batch)
 static uint8_t current_plane;
 
 inline uint8_t const* cmd0_end()
@@ -25,14 +26,14 @@ inline bool cmd0_room(uint8_t n)
     return cmd_ptr + n < cmd0_end();
 }
 
-template<class T> inline uint8_t ld_inc(T const*& p)
+template<class T> inline uint8_t ld_inc(T*& p)
 {
     uint8_t r;
     asm volatile("ld %[r], %a[p]+\n" : [p] "+&e" (p), [r] "=&r" (r) :: "memory");
     return r;
 }
 
-template<class T> inline uint16_t ld_inc2(T const*& p)
+template<class T> inline uint16_t ld_inc2(T*& p)
 {
     uint16_t r;
     asm volatile(
@@ -42,7 +43,7 @@ template<class T> inline uint16_t ld_inc2(T const*& p)
     return r;
 }
 
-template<class T> inline uint24_t ld_inc3(T const*& p)
+template<class T> inline uint24_t ld_inc3(T*& p)
 {
     uint24_t r;
     asm volatile(
@@ -247,6 +248,7 @@ void shades_swap()
     memcpy(ards::vm.gs.buf1, ards::vm.gs.buf0, sizeof(ards::vm.gs.buf1));
     memset(ards::vm.gs.buf0, SHADES_CMD_END, sizeof(ards::vm.gs.buf0));
     cmd_ptr = &ards::vm.gs.buf0[0];
+    batch_ptr = nullptr;
 }
 
 void shades_display()
@@ -337,6 +339,33 @@ void shades_display()
             SpritesABC::drawBasic(x, y, w, h, img, mode);
             break;
         }
+        case SHADES_CMD_SPRITE_BATCH:
+        {
+            uint24_t img = ld_inc3(p);
+            uint8_t n = ld_inc(p);
+            FX::seekData(img);
+            uint8_t w = FX::readPendingUInt8();
+            uint8_t h = FX::readPendingUInt8();
+            uint8_t mode = FX::readPendingLastUInt8();
+            img += 5;
+            uint16_t t;
+            {
+                uint8_t p = h + 7;
+                p >>= 3;
+                if(mode) p <<= 1;
+                t = w * p;
+                img += t * current_plane;
+                t *= (ABC_SHADES - 1);
+            }
+            for(uint8_t i = 0; i <= n; ++i)
+            {
+                int8_t x = (int8_t)ld_inc(p);
+                int8_t y = (int8_t)ld_inc(p);
+                uint8_t f = ld_inc(p);
+                SpritesABC::drawBasic(x, y, w, h, img + uint24_t(t) * f, mode);
+            }
+            break;
+        }
         default:
             break;
         }
@@ -379,9 +408,9 @@ void shades_draw_rect(
 void shades_draw_sprite(
     int16_t x, int16_t y, uint24_t img, uint16_t frame)
 {
-    if(!cmd0_room(10))
+    if(!cmd0_room(3))
         return;
-    
+
     if(x >= WIDTH) return;
     if(y >= HEIGHT) return;
 
@@ -393,6 +422,39 @@ void shades_draw_sprite(
     if(y + h <= 0) return;
 
     uint8_t* p = cmd_ptr;
+    {
+        uint8_t* b = batch_ptr;
+        if(x < -128 || y < -128) goto unbatchable;
+        if(frame >= 256) goto unbatchable;
+        if(b == nullptr) goto start_new_batch;
+        if(ld_inc3(b) != img) goto start_new_batch;
+        uint8_t n = *b;
+        n += 1;
+        if(n == 0) goto start_new_batch;
+        *b = n;
+        goto batch_add;
+    }
+
+start_new_batch:
+    if(!cmd0_room(8))
+        return;
+
+    st_inc(p, SHADES_CMD_SPRITE_BATCH);
+    batch_ptr = p;
+    st_inc3(p, img);
+    st_inc(p, 0);
+
+batch_add:
+    st_inc(p, (uint8_t)x);
+    st_inc(p, (uint8_t)y);
+    st_inc(p, (uint8_t)frame);
+    cmd_ptr = p;
+    return;
+
+unbatchable:
+    if(!cmd0_room(10))
+        return;
+    
     st_inc(p, SHADES_CMD_SPRITE);
     st_inc2(p, (uint16_t)x);
     st_inc2(p, (uint16_t)y);
