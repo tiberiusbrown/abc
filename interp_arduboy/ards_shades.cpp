@@ -93,6 +93,7 @@ void shades_init()
 {
     static uint8_t const CMDS[] PROGMEM =
     {
+        //0xDB, 0x50,
         0xC0, 0xA0, // reset to normal orientation
         0xD9, ((ABG_PRECHARGE_CYCLES) | ((ABG_DISCHARGE_CYCLES) << 4)),
 #if defined(OLED_SH1106)
@@ -255,6 +256,7 @@ void shades_swap()
     batch_ptr = nullptr;
 }
 
+__attribute__((noinline))
 void shades_display()
 {
     // Push display buffer to display
@@ -262,15 +264,6 @@ void shades_display()
     while(*(uint8_t volatile*)&ards::vm.needs_render != 2)
         ;
     ards::vm.needs_render = 0;
-#if ABC_SHADES == 3
-    current_plane = !current_plane;
-#elif ABC_SHADES == 4
-    {
-        uint8_t t = current_plane;
-        if(++t > 2) t = 0;
-        current_plane = t;
-    }
-#endif
     auto* b = Arduboy2Base::sBuffer;
 
     FX::enableOLED();
@@ -278,6 +271,23 @@ void shades_display()
     paint(&b[128 * 7], 0x0001, 0x0001, 0x7f);
 
     Arduboy2Base::LCDCommandMode();
+
+    {
+        uint8_t t = current_plane;
+        uint8_t contrast = 255;
+#if ABC_SHADES == 3
+        t = !t;
+        if(t & 1) contrast = 1;
+#elif ABC_SHADES == 4
+        if(++t > 2) t = 0;
+        if(t & 1) contrast = 0x55;
+        if(t & 2) contrast = 0xaa;
+#endif
+        current_plane = t;
+        Arduboy2Base::SPItransfer(0x81);
+        Arduboy2Base::SPItransfer(contrast);
+    }
+
     Arduboy2Base::SPItransfer(0xa8);
     Arduboy2Base::SPItransfer(63);
     Arduboy2Base::LCDDataMode();

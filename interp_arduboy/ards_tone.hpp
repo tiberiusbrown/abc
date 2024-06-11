@@ -20,11 +20,17 @@ namespace ards
 
 constexpr uint16_t STANDARD_TPS = 250;
 
+#if ABC_SHADES == 3
+constexpr uint16_t GRAY_TPS = 155;
+#elif ABC_SHADES == 4
+constexpr uint16_t GRAY_TPS = 155;
+#endif
+
 #if ABC_SHADES == 2
 constexpr uint16_t TPS = STANDARD_TPS;
 #else
 constexpr uint8_t TPS_FACTOR = 32;
-constexpr uint16_t TPS = 155 * TPS_FACTOR;
+constexpr uint16_t TPS = GRAY_TPS * TPS_FACTOR;
 constexpr uint8_t TPS_TONE_COUNTER = (TPS + STANDARD_TPS / 2) / STANDARD_TPS;
 #endif
 

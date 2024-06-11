@@ -118,7 +118,7 @@ void render()
 
     // paddles
     $draw_filled_rect(0, $round(py0), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
-    $draw_filled_rect(128 - PADDLE_WIDTH, $round(py1), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
+    $draw_filled_rect(128 - PADDLE_WIDTH, $round(py1), PADDLE_WIDTH, PADDLE_HEIGHT, GRAY);
     
     // ball
     $draw_sprite($round(bx), $round(by), img_ball, 0);

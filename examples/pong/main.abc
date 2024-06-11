@@ -1,3 +1,5 @@
+#shades "3"
+
 import frame;
 import sprites;
 import vars;
