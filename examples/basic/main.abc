@@ -1,3 +1,5 @@
+#shades "4"
+
 constexpr font f = FONT_BR5D;
 
 constexpr sprites BALL = sprites{

@@ -325,27 +325,23 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
     return r;
 }
 
+#if ABC_SHADES == 2
 static void sys_display()
 {
-#if ABC_SHADES == 2
     (void)FX::readEnd();
     FX::display(true);
     seek_to_pc();
-#else
-    shades_swap();
-#endif
 }
+#endif
 
+#if ABC_SHADES == 2
 static void sys_display_noclear()
 {
-#if ABC_SHADES == 2
     (void)FX::readEnd();
     FX::display(false);
     seek_to_pc();
-#else
-    shades_swap();
-#endif
 }
+#endif
 
 static void sys_draw_pixel()
 {
@@ -375,6 +371,7 @@ static void sys_get_pixel()
     vm_pop_end(ptr);
 }
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_draw_hline()
 {
@@ -404,7 +401,15 @@ static void sys_draw_hline()
         , [fillrect] ""  (SpritesABC::fillRect)
         );
 }
+#else
+static void sys_draw_hline()
+{
+    // TODO
+    ards::vm.sp -= 6;
+}
+#endif
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_draw_vline()
 {
@@ -434,6 +439,13 @@ static void sys_draw_vline()
         , [fillrect] ""  (SpritesABC::fillRect)
         );
 }
+#else
+static void sys_draw_vline()
+{
+    // TODO
+    ards::vm.sp -= 6;
+}
+#endif
 
 static void sys_draw_line()
 {
@@ -1589,6 +1601,10 @@ static void format_exec(format_char_func f)
         
     while(fn != 0)
     {
+#if ABC_SHADES != 2
+        if(ards::vm.needs_render)
+            shades_display();
+#endif
         char c = (char)fx_read_byte_inc(fb);
         --fn;
         if(c != '%')
@@ -2337,8 +2353,13 @@ static void sys_set_text_color()
 
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
+#if ABC_SHADES == 2
     sys_display,
     sys_display_noclear,
+#else
+    shades_swap,
+    shades_swap,
+#endif
     sys_get_pixel,
     sys_draw_pixel,
     sys_draw_hline,

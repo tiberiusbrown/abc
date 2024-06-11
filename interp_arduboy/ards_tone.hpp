@@ -18,11 +18,14 @@
 namespace ards
 {
 
+constexpr uint16_t STANDARD_TPS = 250;
+
 #if ABC_SHADES == 2
-constexpr uint16_t TPS = 250;
+constexpr uint16_t TPS = STANDARD_TPS;
 #else
 constexpr uint8_t TPS_FACTOR = 32;
 constexpr uint16_t TPS = 155 * TPS_FACTOR;
+constexpr uint8_t TPS_TONE_COUNTER = (TPS + STANDARD_TPS / 2) / STANDARD_TPS;
 #endif
 
 struct Tones
@@ -442,12 +445,22 @@ void Tones::tones_stop()
 
 bool Tones::tones_playing()
 {
+#if ABC_SHADES == 2
     return playing() && (!music_playing() || detail::channels[2].active);
+#else
+    if(music_playing())
+        return detail::channels[2].active;
+    return playing();
+#endif
 }
 
 bool Tones::playing()
 {
+#if ABC_SHADES == 2
     return detail::enabled();
+#else
+    return detail::channels[0].active || detail::channels[1].active || detail::channels[2].active;
+#endif
 }
 
 void Tones::music_play(uint24_t song)
@@ -544,6 +557,7 @@ static advance_info_t advance_channel(volatile channel_t& c)
 
 #if ABC_SHADES != 2
 static volatile uint8_t tps_counter = 0;
+static volatile uint8_t tps_tone_counter = 0;
 #endif
 
 ISR(TIMER1_COMPA_vect)
@@ -554,8 +568,12 @@ ISR(TIMER1_COMPA_vect)
         if(++t >= ards::TPS_FACTOR) t = 0;
         if(t <= 1) ards::vm.needs_render = t + 1;
         tps_counter = t;
-        if(t != 0)
-            return;
+    }
+    {
+        uint8_t t = tps_tone_counter;
+        if(++t >= ards::TPS_TONE_COUNTER) t = 0;
+        tps_tone_counter = t;
+        if(t != 0) return;
     }
 #endif
     

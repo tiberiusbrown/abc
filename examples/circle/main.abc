@@ -8,9 +8,7 @@ void loop()
     ++r;
     int x = 40;
     int y = 30;
-    
-    r = 223;
-    
+        
     $draw_filled_circle(x, y, r + 3, WHITE);
     $draw_filled_circle(x, y, r, BLACK);
     

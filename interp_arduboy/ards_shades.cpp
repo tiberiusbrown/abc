@@ -1,8 +1,8 @@
 #include "ards_shades.hpp"
 
-#include "SpritesABC.hpp"
-
 #if ABC_SHADES != 2
+
+#include "SpritesABC.hpp"
 
 #define ABG_PRECHARGE_CYCLES 1
 #define ABG_DISCHARGE_CYCLES 2
