@@ -1789,6 +1789,14 @@ static void sys_draw_textf()
         user.y = vm_pop<int16_t> (ptr);
         vm_pop_end(ptr);
     }
+#else
+    {
+        auto ptr = vm_pop_begin();
+        int16_t x = vm_pop<int16_t> (ptr);
+        int16_t y = vm_pop<int16_t> (ptr);
+        vm_pop_end(ptr);
+        shades_draw_chars_begin(x, y);
+    }
 #endif
     (void)FX::readEnd();
 
@@ -1802,6 +1810,10 @@ static void sys_draw_textf()
 #endif
     
     format_exec(format_exec_draw);
+
+#if ABC_SHADES != 2
+    shades_draw_chars_end();
+#endif
     
     seek_to_pc();
 }
