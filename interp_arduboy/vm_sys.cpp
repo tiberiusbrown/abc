@@ -1724,9 +1724,9 @@ struct format_user_draw
 };
 #endif
 
+#if ABC_SHADES == 2
 static void format_exec_draw(char c)
 {
-#if ABC_SHADES == 2
     format_user_draw* u = (format_user_draw*)format_user;
     
     if(c == '\n')
@@ -1738,10 +1738,8 @@ static void format_exec_draw(char c)
     {
         draw_char(u->x, u->y, c);
     }
-#else
-    shades_draw_char(c);
-#endif
 }
+#endif
 
 static void format_exec_debug_printf(char c)
 {
@@ -1809,7 +1807,11 @@ static void sys_draw_textf()
     user.line_height = font_get_line_height();
 #endif
     
+#if ABC_SHADES == 2
     format_exec(format_exec_draw);
+#else
+    format_exec(shades_draw_char);
+#endif
 
 #if ABC_SHADES != 2
     shades_draw_chars_end();
