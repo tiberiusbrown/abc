@@ -331,8 +331,8 @@ void shades_display()
             uint8_t h = FX::readPendingUInt8();
             uint8_t mode = FX::readPendingLastUInt8();
 
-            uint8_t p = h + 7;
-            p >>= 3;
+            h = (h + 7) & 0xf8;
+            uint8_t p = h >> 3;
             if(mode) p <<= 1;
             uint24_t t = w * p;
             frame *= (ABC_SHADES - 1);
@@ -354,8 +354,8 @@ void shades_display()
             img += 5;
             uint16_t t;
             {
-                uint8_t p = h + 7;
-                p >>= 3;
+                h = (h + 7) & 0xf8;
+                uint8_t p = h >> 3;
                 if(mode) p <<= 1;
                 t = w * p;
                 img += t * current_plane;
