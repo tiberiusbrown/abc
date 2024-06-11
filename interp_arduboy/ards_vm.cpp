@@ -95,7 +95,7 @@ static void draw_pc_line(uint24_t pc, uint8_t y)
         {
             tpc = FX::readPendingUInt8();
             tpc |= ((uint16_t)FX::readPendingUInt8() << 8);
-            tpc |= ((uint16_t)FX::readPendingUInt8() << 16);
+            tpc |= ((uint24_t)FX::readPendingUInt8() << 16);
         }
     }
     (void)FX::readEnd();
@@ -117,6 +117,11 @@ static void draw_pc_line(uint24_t pc, uint8_t y)
     }
 }
 
+struct LetMeUseBootOLED : public Arduboy2Base
+{
+    static void bootOLED() { Arduboy2Base::bootOLED(); }
+};
+
 extern "C" __attribute__((used)) void vm_error(error_t e)
 {
     vm.error = (uint8_t)e;
@@ -124,6 +129,16 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
     FX::disable();
 
     ards::Tones::stop();
+
+#if ABC_SHADES != 2
+    FX::enableOLED();
+    LetMeUseBootOLED::bootOLED();
+    Arduboy2Base::LCDCommandMode();
+    Arduboy2Base::SPItransfer(0xa8);
+    Arduboy2Base::SPItransfer(63);
+    Arduboy2Base::LCDDataMode();
+    FX::disableOLED();
+#endif
 
     uint8_t n = e > ERR_SIG ? vm.csp / 3 + 1 : 0;
     uint8_t curr = 0;
