@@ -9,6 +9,11 @@
 #define ABC_SHADES 2
 #endif
 
+#ifndef ABC_SHADES_ADJUST_CONTRAST
+// setting this to 1 causes random data stack overflow... why?
+#define ABC_SHADES_ADJUST_CONTRAST 0
+#endif
+
 namespace ards
 {
 

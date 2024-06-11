@@ -277,15 +277,17 @@ void shades_display()
         uint8_t contrast = 255;
 #if ABC_SHADES == 3
         t = !t;
-        if(t & 1) contrast = 1;
+        if(t & 1) contrast = 0x20;
 #elif ABC_SHADES == 4
         if(++t > 2) t = 0;
-        if(t & 1) contrast = 0x55;
-        if(t & 2) contrast = 0xaa;
+        if(t & 1) contrast = 0x20;
+        if(t & 2) contrast = 0x80;
 #endif
         current_plane = t;
+#if ABC_SHADES_ADJUST_CONTRAST
         Arduboy2Base::SPItransfer(0x81);
         Arduboy2Base::SPItransfer(contrast);
+#endif
     }
 
     Arduboy2Base::SPItransfer(0xa8);
