@@ -331,9 +331,9 @@ I_NOP:
     .align 6
 
 I_PUSH:
-    st   Y+, r9
     cpi  r28, 255
-    breq 1f
+    brsh 1f
+    st   Y+, r9
     add  r6, r4
     in   r10, %[sreg]
     cli
@@ -351,132 +351,132 @@ I_PUSH:
     .align 6
 
 I_P0:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 0
+1:  st   Y+, r9
+    ldi  r16, 0
     mov  r9, r16
     dispatch
 
 I_P1:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 1
+1:  st   Y+, r9
+    ldi  r16, 1
     mov  r9, r16
     dispatch
 
 I_P2:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 2
+1:  st   Y+, r9
+    ldi  r16, 2
     mov  r9, r16
     dispatch
 
 I_P3:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 3
+1:  st   Y+, r9
+    ldi  r16, 3
     mov  r9, r16
     dispatch
 
 I_P4:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 4
+1:  st   Y+, r9
+    ldi  r16, 4
     mov  r9, r16
     dispatch
 
 I_P5:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 5
+1:  st   Y+, r9
+    ldi  r16, 5
     mov  r9, r16
     dispatch
 
 I_P6:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 6
+1:  st   Y+, r9
+    ldi  r16, 6
     mov  r9, r16
     dispatch
 
 I_P7:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 7
+1:  st   Y+, r9
+    ldi  r16, 7
     mov  r9, r16
     dispatch
 
 I_P8:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 8
+1:  st   Y+, r9
+    ldi  r16, 8
     mov  r9, r16
     dispatch
 
 I_P16:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 16
+1:  st   Y+, r9
+    ldi  r16, 16
     mov  r9, r16
     dispatch
 
 I_P32:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 32
+1:  st   Y+, r9
+    ldi  r16, 32
     mov  r9, r16
     dispatch
 
 I_P64:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 64
+1:  st   Y+, r9
+    ldi  r16, 64
     mov  r9, r16
     dispatch
 
 I_P128:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  ldi  r16, 128
+1:  st   Y+, r9
+    ldi  r16, 128
     mov  r9, r16
     dispatch_noalign
 push2_dispatch:
@@ -485,7 +485,7 @@ push4_dispatch:
     dispatch_reverse
 
 I_P00:
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
     st   Y+, r9
     st   Y+, r2
@@ -496,7 +496,7 @@ I_P00:
     .align 6
 
 I_P000:
-    cpi  r28, 253
+    cpi  r28, 252
     brsh 1f
     st   Y+, r9
     st   Y+, r2
@@ -508,7 +508,7 @@ I_P000:
     .align 6
 
 I_P0000:
-    cpi  r28, 252
+    cpi  r28, 251
     brsh 1f
     st   Y+, r9
     st   Y+, r2
@@ -521,7 +521,7 @@ I_P0000:
     .align 6
 
 I_PZ8:
-    cpi  r28, 248
+    cpi  r28, 247
     brsh 1f
     st   Y+, r9
     st   Y+, r2
@@ -538,7 +538,7 @@ I_PZ8:
     .align 6
 
 I_PZ16:
-    cpi  r28, 248
+    cpi  r28, 239
     brsh 1f
     st   Y+, r9
     st   Y+, r2
@@ -564,9 +564,9 @@ push2_error:
     .align 6
 
 I_PUSH2:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh push2_error
+    st   Y+, r9
     ldi  r16, 2
     in   r10, %[sreg]
     cli
@@ -598,9 +598,9 @@ pushg_delay_7:
     .align 6
 
 I_PUSH3:
-    st   Y+, r9
-    cpi  r28, 253
+    cpi  r28, 252
     brsh push3_error
+    st   Y+, r9
     ldi  r16, 3
     in   r10, %[sreg]
     cli
@@ -628,9 +628,9 @@ push4_error:
     .align 6
 
 I_PUSH4:
-    st   Y+, r9
-    cpi  r28, 252
+    cpi  r28, 251
     brsh push4_error
+    st   Y+, r9
     ldi  r16, 4
     in   r10, %[sreg]
     cli
@@ -657,9 +657,9 @@ I_PUSH4:
     .align 6
 
 I_SEXT:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     lsl  r9
     sbc  r9, r9
     nop
@@ -669,9 +669,9 @@ I_SEXT:
     .align 6
 
 I_SEXT2:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     lsl  r9
     sbc  r9, r9
     st   Y+, r9
@@ -681,9 +681,9 @@ I_SEXT2:
     .align 6
 
 I_SEXT3:
-    st   Y+, r9
-    cpi  r28, 253
+    cpi  r28, 252
     brsh 1f
+    st   Y+, r9
     lsl  r9
     sbc  r9, r9
     st   Y+, r9
@@ -694,18 +694,18 @@ I_SEXT3:
     .align 6
 
 I_DUP:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     dispatch_noalign_reverse
 1:  ldi  r24, 5
     call call_vm_error
     .align 6
 
 I_DUP2:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 2
     ld   r9, X
@@ -715,9 +715,9 @@ I_DUP2:
     .align 6
 
 I_DUP3:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 3
     ld   r9, X
@@ -727,9 +727,9 @@ I_DUP3:
     .align 6
 
 I_DUP4:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 4
     ld   r9, X
@@ -739,9 +739,9 @@ I_DUP4:
     .align 6
 
 I_DUP5:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 5
     ld   r9, X
@@ -751,9 +751,9 @@ I_DUP5:
     .align 6
 
 I_DUP6:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 6
     ld   r9, X
@@ -763,9 +763,9 @@ I_DUP6:
     .align 6
 
 I_DUP7:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 7
     ld   r9, X
@@ -775,9 +775,9 @@ I_DUP7:
     .align 6
 
 I_DUP8:
+    cpi  r28, 254
+    brsh 1f
     st   Y+, r9
-    cpi  r28, 255
-    breq 1f
     movw r26, r28
     subi r26, 8
     ld   r9, X
@@ -787,9 +787,9 @@ I_DUP8:
     .align 6
 
 I_DUPW:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 2
     ld   r0, X+
@@ -801,9 +801,9 @@ I_DUPW:
     .align 6
 
 I_DUPW2:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 3
     ld   r0, X+
@@ -815,9 +815,9 @@ I_DUPW2:
     .align 6
 
 I_DUPW3:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 4
     ld   r0, X+
@@ -829,9 +829,9 @@ I_DUPW3:
     .align 6
 
 I_DUPW4:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 5
     ld   r0, X+
@@ -843,9 +843,9 @@ I_DUPW4:
     .align 6
 
 I_DUPW5:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 6
     ld   r0, X+
@@ -857,9 +857,9 @@ I_DUPW5:
     .align 6
 
 I_DUPW6:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 7
     ld   r0, X+
@@ -871,9 +871,9 @@ I_DUPW6:
     .align 6
 
 I_DUPW7:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 8
     ld   r0, X+
@@ -885,9 +885,9 @@ I_DUPW7:
     .align 6
 
 I_DUPW8:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brsh 1f
+    st   Y+, r9
     movw r26, r28
     subi r26, 9
     ld   r0, X+
@@ -899,12 +899,12 @@ I_DUPW8:
     .align 6
 
 I_GETL:
-    st   Y+, r9
-    cpi  r28, 255
-    brne 1f
+    cpi  r28, 254
+    brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  in   r10, %[sreg]
+1:  st   Y+, r9
+    in   r10, %[sreg]
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
@@ -920,12 +920,12 @@ I_GETL:
     dispatch_reverse
     
 I_GETL2:
-    st   Y+, r9
-    cpi  r28, 254
+    cpi  r28, 253
     brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  in   r10, %[sreg]
+1:  st   Y+, r9
+    in   r10, %[sreg]
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
@@ -941,13 +941,13 @@ I_GETL2:
     dispatch_reverse
     
 I_GETL4:
-    st   Y+, r9
-    cpi  r28, 252
+    cpi  r28, 251
     brlo 1f
 getln_error:
     ldi  r24, 5
     call call_vm_error
-1:  add  r6, r4
+1:  st   Y+, r9
+    add  r6, r4
     movw r26, r28
     in   r0, %[spdr]
     out  %[spdr], r2
