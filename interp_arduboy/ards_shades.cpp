@@ -263,7 +263,6 @@ void shades_display()
 
     while(*(uint8_t volatile*)&ards::vm.needs_render != 2)
         ;
-    ards::vm.needs_render = 0;
     auto* b = Arduboy2Base::sBuffer;
 
     FX::enableOLED();
@@ -420,6 +419,9 @@ void shades_display()
             break;
         }
     }
+    
+    // set this here to allow frame skipping
+    ards::vm.needs_render = 0;
 }
 
 void shades_draw_rect(
