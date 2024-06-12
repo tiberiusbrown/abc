@@ -152,11 +152,14 @@ void compiler_t::encode_font_ttf(
             b = (b >= 128 ? 2 : 1);
 
         sdata.clear();
+        auto tshades = shades;
+        shades = 2;
         encode_sprites_image(
             sdata, n,
             (size_t)w, (size_t)h,
             (size_t)w, (size_t)h,
             false, idata);
+        shades = tshades;
 
         // find an offset for image
         size_t offset = 0;

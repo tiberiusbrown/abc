@@ -30,7 +30,7 @@ bin2h(
     )
 
 bin2h(
-    SOURCE_FILE   interp_arduboy/build_ArduboyFX/interp_arduboy.ino.hex
+    SOURCE_FILE   interp_arduboy/build_s2_ArduboyFX/interp_arduboy.ino.hex
     HEADER_FILE   "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
     VARIABLE_NAME VM_HEX_ARDUBOYFX
     )
@@ -105,7 +105,7 @@ set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
 set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
 set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
 set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
-add_subdirectory(deps/Ardens)
+add_subdirectory(deps/Ardens EXCLUDE_FROM_ALL)
 
 set(EM_FILE_BROWSER_SOURCES)
 if(EMSCRIPTEN)
@@ -287,11 +287,11 @@ add_executable(abc_integration
     tests/abc_tests.cpp
     src/abc_integration.cpp
     )
-target_link_libraries(abc_integration PRIVATE ardenslib ards_compiler abc_interp)
+target_link_libraries(abc_integration PRIVATE ardensdebuggerlib ards_compiler abc_interp)
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
 target_include_directories(abc_integration PRIVATE "${GENFONTS_DIR}")
 target_compile_definitions(abc_integration PRIVATE
-    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build_ArduboyFX/interp_arduboy.ino.hex"
+    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build_s2_ArduboyFX/interp_arduboy.ino.hex"
     -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
     -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
     -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"

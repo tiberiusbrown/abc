@@ -18,10 +18,20 @@
 namespace ards
 {
 
+constexpr uint16_t STANDARD_TPS = 250;
+
+#if ABC_SHADES == 3
+constexpr uint16_t GRAY_TPS = 155;
+#elif ABC_SHADES == 4
+constexpr uint16_t GRAY_TPS = 155;
+#endif
+
 #if ABC_SHADES == 2
-constexpr uint16_t TPS = 250;
+constexpr uint16_t TPS = STANDARD_TPS;
 #else
-constexpr uint16_t TPS = 155;
+constexpr uint8_t TPS_FACTOR = 32;
+constexpr uint16_t TPS = GRAY_TPS * TPS_FACTOR;
+constexpr uint8_t TPS_TONE_COUNTER = (TPS + STANDARD_TPS / 2) / STANDARD_TPS;
 #endif
 
 struct Tones
@@ -325,10 +335,10 @@ static void update_timer4(uint8_t index)
 
 void Tones::setup()
 {
-    // timer1: CTC 250 Hz (prescaler /256, top 249)
+    // timer1: CTC 250 Hz (prescaler /8, top 249)
     TCCR1A = 0x00;
-    TCCR1B = 0x0c;
-    OCR1A = (16000000ul / 256) / TPS - 1;
+    TCCR1B = 0x0a; // prescaler /8
+    OCR1A = (16000000ul / 8) / TPS - 1;
 #if ABC_SHADES > 2
     TIMSK1 = 0x02;
 #endif
@@ -441,12 +451,22 @@ void Tones::tones_stop()
 
 bool Tones::tones_playing()
 {
+#if ABC_SHADES == 2
     return playing() && (!music_playing() || detail::channels[2].active);
+#else
+    if(music_playing())
+        return detail::channels[2].active;
+    return playing();
+#endif
 }
 
 bool Tones::playing()
 {
+#if ABC_SHADES == 2
     return detail::enabled();
+#else
+    return detail::channels[0].active || detail::channels[1].active || detail::channels[2].active;
+#endif
 }
 
 void Tones::music_play(uint24_t song)
@@ -541,14 +561,30 @@ static advance_info_t advance_channel(volatile channel_t& c)
 
 } // namespace ards
 
+#if ABC_SHADES != 2
+static volatile uint8_t tps_counter = 0;
+static volatile uint8_t tps_tone_counter = 0;
+#endif
+
 ISR(TIMER1_COMPA_vect)
 {
-    ards::detail::advance_info_t a;
-
-#if ABC_SHADES > 2
-    ards::vm.needs_render = true;
+#if ABC_SHADES != 2
+    {
+        uint8_t t = tps_counter;
+        if(++t >= ards::TPS_FACTOR) t = 0;
+        if(t <= 1) ards::vm.needs_render = t + 1;
+        tps_counter = t;
+    }
+    {
+        uint8_t t = tps_tone_counter;
+        if(++t >= ards::TPS_TONE_COUNTER) t = 0;
+        tps_tone_counter = t;
+        if(t != 0) return;
+    }
 #endif
     
+    ards::detail::advance_info_t a;
+
     a = ards::detail::advance_channel(ards::detail::channels[0]);
     if(a.period >= 129) ards::detail::channels[0].active = false;
     if(a.update) ards::detail::update_timer3(a.period);

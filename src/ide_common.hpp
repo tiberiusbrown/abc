@@ -68,6 +68,7 @@ struct project_t
     size_t debug_size;
     size_t globals_size;
     size_t save_size;
+    int shades;
     bool has_save() const { return save_size != 0; };
 
     void update_cached_files();
@@ -121,7 +122,7 @@ void export_menu_items();
 std::vector<uint8_t> extract_interp_build(char const* id);
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save, bool universal,
+    std::vector<uint8_t> const& binary, bool has_save, bool universal, int shades,
     std::unordered_map<std::string, std::string> const& fd);
 
 // ide_import.cpp

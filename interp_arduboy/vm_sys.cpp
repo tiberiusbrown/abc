@@ -9,6 +9,7 @@
 #define SPRITESABC_IMPLEMENTATION
 #include "SpritesABC.hpp"
 
+#include "ards_shades.hpp"
 #include "ards_tone.hpp"
 
 #include "ards_vm.hpp"
@@ -324,33 +325,35 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
     return r;
 }
 
+#if ABC_SHADES == 2
 static void sys_display()
 {
-#if ABC_SHADES == 2
     (void)FX::readEnd();
     FX::display(true);
     seek_to_pc();
-#endif
 }
+#endif
 
+#if ABC_SHADES == 2
 static void sys_display_noclear()
 {
-#if ABC_SHADES == 2
     (void)FX::readEnd();
     FX::display(false);
     seek_to_pc();
-#endif
 }
+#endif
 
 static void sys_draw_pixel()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-#if ABC_SHADES == 2
     Arduboy2Base::drawPixel(x, y, color);
+#else
+    ards::vm.sp -= 5;
 #endif
 }
 
@@ -368,10 +371,19 @@ static void sys_get_pixel()
     vm_pop_end(ptr);
 }
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_draw_hline()
 {
-#if 1
+#if 0
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesABC::fillRect(x, y, w, 1, color);
+#endif
     // no need to push r16
     asm volatile(R"(
             ld   r25, -Y
@@ -388,21 +400,28 @@ static void sys_draw_hline()
         : [vmsp]     "i" (&ards::vm.sp)
         , [fillrect] ""  (SpritesABC::fillRect)
         );
-#else
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint8_t w = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
-    vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, 1, color);
-#endif
 }
+#else
+static void sys_draw_hline()
+{
+    // TODO
+    ards::vm.sp -= 6;
+}
+#endif
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_draw_vline()
 {
-#if 1
+#if 0
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t color = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesABC::fillRect(x, y, 1, h, color);
+#endif
     // no need to push r16
     asm volatile(R"(
             ld   r25, -Y
@@ -419,19 +438,18 @@ static void sys_draw_vline()
         : [vmsp]     "i" (&ards::vm.sp)
         , [fillrect] ""  (SpritesABC::fillRect)
         );
-#else
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
-    vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, 1, h, color);
-#endif
 }
+#else
+static void sys_draw_vline()
+{
+    // TODO
+    ards::vm.sp -= 6;
+}
+#endif
 
 static void sys_draw_line()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x0 = vm_pop<int16_t>(ptr);
     int16_t y0 = vm_pop<int16_t>(ptr);
@@ -439,8 +457,9 @@ static void sys_draw_line()
     int16_t y1 = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-#if ABC_SHADES == 2
     Arduboy2Base::drawLine(x0, y0, x1, y1, color);
+#else
+    ards::vm.sp -= 9;
 #endif
 }
 
@@ -451,18 +470,32 @@ static void sys_draw_rect()
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, 1, color);
-    SpritesABC::fillRect(x, y, 1, h, color);
-    SpritesABC::fillRect(x, y + h - 1, w, 1, color);
-    SpritesABC::fillRect(x + w - 1, y, 1, h, color);
+#if ABC_SHADES == 2
+    SpritesABC::fillRect(x, y, w, 1, c);
+    SpritesABC::fillRect(x, y, 1, h, c);
+    SpritesABC::fillRect(x, y + h - 1, w, 1, c);
+    SpritesABC::fillRect(x + w - 1, y, 1, h, c);
+#else
+    shades_draw_rect(x, y, w, h, c, false);
+#endif
 }
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_draw_filled_rect()
 {
-#if 1
+#if 0
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    SpritesABC::fillRect(x, y, w, h, c);
+#endif
     // no need to push r16
     asm volatile(R"(
             ld   r25, -Y
@@ -479,28 +512,33 @@ static void sys_draw_filled_rect()
         : [vmsp]     "i" (&ards::vm.sp)
         , [fillrect] ""  (SpritesABC::fillRect)
         );
+}
 #else
+static void sys_draw_filled_rect()
+{
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    SpritesABC::fillRect(x, y, w, h, color);
-#endif
+    shades_draw_rect(x, y, w, h, c, true);
 }
+#endif
 
 static void sys_draw_circle()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t r = vm_pop<uint8_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-#if ABC_SHADES == 2
     Arduboy2Base::drawCircle(x, y, r, color);
+#else
+    ards::vm.sp -= 6;
 #endif
 }
 
@@ -550,6 +588,7 @@ static void fill_circle_helper(
 
 static void sys_draw_filled_circle()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
@@ -557,10 +596,11 @@ static void sys_draw_filled_circle()
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
 
-#if ABC_SHADES == 2
     draw_fast_vline(x, y-r, 2 * r + 1, color);
     fill_circle_helper(x, y, r, 3, 0, color);
     //Arduboy2Base::fillCircle(x, y, r, color);
+#else
+    ards::vm.sp -= 6;
 #endif
 }
 
@@ -824,7 +864,19 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
 
 static void sys_draw_sprite()
 {
+#if ABC_SHADES == 2
     draw_sprite_helper(0);
+#else
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t img = vm_pop<uint24_t>(ptr);
+    uint16_t frame = vm_pop<uint16_t>(ptr);
+    vm_pop_end(ptr);
+    FX::readEnd();
+    shades_draw_sprite(x, y, img, frame);
+    seek_to_pc();
+#endif
 }
 
 static void sys_draw_sprite_selfmask()
@@ -836,7 +888,7 @@ static void sys_draw_sprite_selfmask()
 #endif
 }
 
-static void draw_char(
+__attribute__((noinline)) void draw_char(
     int16_t& x, int16_t y, char c)
 {
     /*
@@ -1070,24 +1122,34 @@ static void sys_draw_text()
     (void)FX::readEnd();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
+#if ABC_SHADES == 2
     uint8_t line_height = font_get_line_height();
     int16_t bx = x;
+#else
+    shades_draw_chars_begin(x, y);
+#endif
     
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
     while((c = ld_inc(p)) != '\0' && tn != 0)
     {
         --tn;
+#if ABC_SHADES == 2
         if(c == '\n')
         {
             x = bx;
             y += line_height;
             continue;
         }
-        
         draw_char(x, y, c);
+#else
+        shades_draw_char(c);
+#endif
     }
     
+#if ABC_SHADES != 2
+    shades_draw_chars_end();
+#endif
     seek_to_pc();
 }
 
@@ -1104,8 +1166,12 @@ static void sys_draw_text_P()
     (void)FX::readEnd();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
+#if ABC_SHADES == 2
     uint8_t line_height = font_get_line_height();
     int16_t bx = x;
+#else
+    shades_draw_chars_begin(x, y);
+#endif
     
     char c;
     while(tn != 0)
@@ -1114,16 +1180,22 @@ static void sys_draw_text_P()
         if(c == '\0') break;
         --tn;
         
+#if ABC_SHADES == 2
         if(c == '\n')
         {
             x = bx;
             y += line_height;
             continue;
         }
-        
         draw_char(x, y, c);
+#else
+        shades_draw_char(c);
+#endif
     }
     
+#if ABC_SHADES != 2
+    shades_draw_chars_end();
+#endif
     seek_to_pc();
 }
 
@@ -1529,6 +1601,10 @@ static void format_exec(format_char_func f)
         
     while(fn != 0)
     {
+#if ABC_SHADES != 2
+        if(ards::vm.needs_render)
+            shades_display();
+#endif
         char c = (char)fx_read_byte_inc(fb);
         --fn;
         if(c != '%')
@@ -1654,6 +1730,7 @@ static void format_exec_to_buffer(char c)
 #endif
 }
 
+#if ABC_SHADES == 2
 struct format_user_draw
 {
     int16_t bx;
@@ -1661,7 +1738,9 @@ struct format_user_draw
     int16_t y;
     uint8_t line_height;
 };
+#endif
 
+#if ABC_SHADES == 2
 static void format_exec_draw(char c)
 {
     format_user_draw* u = (format_user_draw*)format_user;
@@ -1676,6 +1755,7 @@ static void format_exec_draw(char c)
         draw_char(u->x, u->y, c);
     }
 }
+#endif
 
 static void format_exec_debug_printf(char c)
 {
@@ -1713,6 +1793,7 @@ static void sys_debug_printf()
 
 static void sys_draw_textf()
 {
+#if ABC_SHADES == 2
     format_user_draw user;
     format_user = &user;
     
@@ -1722,6 +1803,15 @@ static void sys_draw_textf()
         user.y = vm_pop<int16_t> (ptr);
         vm_pop_end(ptr);
     }
+#else
+    {
+        auto ptr = vm_pop_begin();
+        int16_t x = vm_pop<int16_t> (ptr);
+        int16_t y = vm_pop<int16_t> (ptr);
+        vm_pop_end(ptr);
+        shades_draw_chars_begin(x, y);
+    }
+#endif
     (void)FX::readEnd();
 
     {
@@ -1729,9 +1819,19 @@ static void sys_draw_textf()
         if(t == 0xff)
             vm_error(ards::ERR_FNT);
     }
+#if ABC_SHADES == 2
     user.line_height = font_get_line_height();
+#endif
     
+#if ABC_SHADES == 2
     format_exec(format_exec_draw);
+#else
+    format_exec(shades_draw_char);
+#endif
+
+#if ABC_SHADES != 2
+    shades_draw_chars_end();
+#endif
     
     seek_to_pc();
 }
@@ -2215,6 +2315,7 @@ static void sys_set_text_font()
 #endif
 }
 
+#if ABC_SHADES == 2
 __attribute__((naked))
 static void sys_set_text_color()
 {
@@ -2241,11 +2342,24 @@ static void sys_set_text_color()
     ards::vm.text_mode = t ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
 #endif
 }
+#else
+static void sys_set_text_color()
+{
+    auto ptr = vm_pop_begin();
+    ards::vm.text_mode = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+}
+#endif
 
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
+#if ABC_SHADES == 2
     sys_display,
     sys_display_noclear,
+#else
+    shades_swap,
+    shades_swap,
+#endif
     sys_get_pixel,
     sys_draw_pixel,
     sys_draw_hline,

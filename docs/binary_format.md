@@ -10,7 +10,7 @@ The compiled binary begins with a 256 byte header.
 | 0x0c | 1 | File Table Length |
 | 0x0d | 3 | File Table Offset |
 | 0x10 | 3 | Line Table Offset |
-| 0x13 | 1 | Unused |
+| 0x13 | 1 | Shades (2, 3, or 4) |
 | 0x14 | 12 | Entry point for execution: `call $globinit`, `call main`, `jmp 24` |
 | 0x20 | 24 | Build Date / Git Hash (format: YYYY-MM-DD HH:MM xxxxxxx) |
 | 0x38 | 200 | Unused |

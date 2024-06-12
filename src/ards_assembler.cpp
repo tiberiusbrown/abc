@@ -731,9 +731,12 @@ error_t assembler_t::link()
     for(int i = 0; i < 4; ++i)
         linked_data.push_back(0);
 
-    // offset 16: line table offset (3 bytes + 1 dummy byte)
-    for(int i = 0; i < 4; ++i)
+    // offset 16: line table offset (3 bytes)
+    for(int i = 0; i < 3; ++i)
         linked_data.push_back(0);
+
+    // offset 19: shades
+    linked_data.push_back((uint8_t)shades);
 
     // offset 20: call $globinit, loop { call main }
     linked_data.push_back(I_CALL);

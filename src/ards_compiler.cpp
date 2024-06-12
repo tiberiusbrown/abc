@@ -72,7 +72,13 @@ bool sysfunc_is_format(std::string const& f)
 
 std::vector<builtin_constexpr_t> const builtin_constexprs
 {
-    { "WHITE",        TYPE_U8,    1 },
+    { "WHITE",        TYPE_U8,    3 },
+    { "LIGHT_GRAY",   TYPE_U8,    2 },
+    { "LIGHT_GREY",   TYPE_U8,    2 },
+    { "GRAY",         TYPE_U8,    1 },
+    { "GREY",         TYPE_U8,    1 },
+    { "DARK_GRAY",    TYPE_U8,    1 },
+    { "DARK_GREY",    TYPE_U8,    1 },
     { "BLACK",        TYPE_U8,    0 },
     { "A_BUTTON",     TYPE_U8,    1 << 3 },
     { "B_BUTTON",     TYPE_U8,    1 << 2 },
@@ -835,11 +841,29 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 if(k == "shades")
                 {
                     if(v == "2")
+                    {
                         shades = 2;
+                        globals["WHITE"].var.value = 1;
+                        globals["LIGHT_GRAY"].var.value = 1;
+                        globals["GRAY"].var.value = 1;
+                        globals["DARK_GRAY"].var.value = 0;
+                    }
                     else if(v == "3")
+                    {
                         shades = 3;
+                        globals["WHITE"].var.value = 2;
+                        globals["LIGHT_GRAY"].var.value = 1;
+                        globals["GRAY"].var.value = 1;
+                        globals["DARK_GRAY"].var.value = 0;
+                    }
                     else if(v == "4")
+                    {
                         shades = 4;
+                        globals["WHITE"].var.value = 3;
+                        globals["LIGHT_GRAY"].var.value = 2;
+                        globals["GRAY"].var.value = 1;
+                        globals["DARK_GRAY"].var.value = 1;
+                    }
                     else
                     {
                         errs.push_back({
@@ -848,6 +872,9 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                         });
                         return;
                     }
+                    globals["LIGHT_GREY"].var.value = globals["LIGHT_GRAY"].var.value;
+                    globals["GREY"].var.value = globals["GRAY"].var.value;
+                    globals["DARK_GREY"].var.value = globals["DARK_GRAY"].var.value;
                 }
             }
             else

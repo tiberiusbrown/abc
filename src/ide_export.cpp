@@ -18,9 +18,9 @@ size_t zip_write_data(
     void* data, mz_uint64 file_ofs, const void* pBuf, size_t n);
 void export_arduboy(
     std::string const& filename,
-    std::vector<uint8_t> const& binary, bool has_save, bool mini,
+    std::vector<uint8_t> const& binary, bool has_save, bool universal, int shades,
     std::unordered_map<std::string, std::string> const& fd);
-void export_interpreter_hex(std::string const& filename);
+void export_interpreter_hex(std::string const& filename, int shades);
 
 static void export_compiled_fxdata(std::string const& filename)
 {
@@ -109,12 +109,15 @@ static void export_arduboy_file_menu_clicked(bool universal)
 #endif
     export_arduboy(
         filename, project.binary,
-        project.has_save(), universal,
+        project.has_save(), universal, project.shades,
         project.arduboy_directives);
 }
 
 static void export_hex()
 {
+    if(!compile_all())
+        return;
+
     std::string filename;
     filename = "abc_interpreter.hex";
 
@@ -127,7 +130,7 @@ static void export_hex()
     filename = path.get();
 #endif
 
-    export_interpreter_hex(filename);
+    export_interpreter_hex(filename, project.shades);
 }
 
 void export_menu_items()

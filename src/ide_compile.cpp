@@ -78,6 +78,7 @@ bool compile_all()
     project.debug_size = a.debug_size();
     project.globals_size = a.globals_size();
     project.save_size = a.save_size();
+    project.shades = a.num_shades();
 
     project.arduboy_directives = c.arduboy_directives();
     return true;

@@ -27,12 +27,25 @@ void player_run()
         return;
     if(!arduboy || project.binary.empty())
         return;
-    std::istrstream ss(
-        (char const*)project.binary.data(),
-        (int)project.binary.size());
-    auto t = arduboy->load_file("fxdata.bin", ss);
+    std::string err;
+    {
+        char buf[64];
+        snprintf(buf, sizeof(buf), "s%d_ArduboyFX", project.shades);
+        auto r = extract_interp_build(buf);
+        std::istrstream ss((char const*)r.data(), (int)r.size());
+        err = arduboy->load_file("vm.hex", ss);
+        assert(err.empty());
+    }
+    if(!err.empty())
+        return;
+    {
+        std::istrstream ss(
+            (char const*)project.binary.data(),
+            (int)project.binary.size());
+        err = arduboy->load_file("fxdata.bin", ss);
+    }
     arduboy->paused = true;
-    if(!t.empty())
+    if(!err.empty())
         return;
     arduboy->paused = false;
     player_active = true;
@@ -92,9 +105,9 @@ void player_window_contents(uint64_t dt)
         arduboy->cpu.sound_buffer.clear();
     }
 
-    if(display_texture && arduboy && arduboy->cpu.decoded)
+    if(display_texture && arduboy)
     {
-        if(player_active)
+        if(player_active && arduboy->cpu.decoded)
         {
             std::vector<uint8_t> pixels;
             pixels.resize(128 * 64 * 4);
@@ -122,7 +135,7 @@ void player_window_contents(uint64_t dt)
         constexpr ImVec4 COLOR = { C, C, C, 1 };
 
         SetCursorPosX(GetCursorPosX() + offset);
-        if(player_active)
+        if(player_active && arduboy->cpu.decoded)
         {
             Image(
                 display_texture->imgui_id(),
