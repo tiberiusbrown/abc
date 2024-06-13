@@ -9,6 +9,15 @@ bool sysfunc_is_format(sysfunc_t f)
     return f == SYS_DRAW_TEXTF || f == SYS_FORMAT || f == SYS_DEBUG_PRINTF;
 }
 
+std::unordered_map<std::string, std::vector<std::string>> const sys_overloads =
+{
+    { "draw_text", { "draw_text_P" }},
+    { "memcpy", { "memcpy_P" }},
+    { "strlen", { "strlen_P" }},
+    { "strcmp", { "strcmp_P", "strcmp_PP" }},
+    { "strcpy", { "strcpy_P" }},
+};
+
 std::unordered_map<std::string, sysfunc_t> const sys_names =
 {
     { "display",              SYS_DISPLAY              },

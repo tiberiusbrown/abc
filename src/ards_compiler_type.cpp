@@ -436,7 +436,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             transform_array_len(a);
             break;
         }
-        auto f = resolve_func(a.children[0]);
+        auto f = resolve_func(a);
         bool is_format = sysfunc_is_format(f.name);
         if(f.name.empty()) break;
 
@@ -660,7 +660,7 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         break;
     case AST::FUNC_CALL:
     {
-        auto func = resolve_func(a.children[0]);
+        auto func = resolve_func(a);
         for(size_t i = 0; i < func.decl.arg_types.size(); ++i)
         {
             auto const& type = func.decl.arg_types[i];

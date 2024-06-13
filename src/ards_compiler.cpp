@@ -113,6 +113,23 @@ static void make_prog(compiler_type_t& t)
         make_prog(child);
 }
 
+bool compiler_t::convertable(compiler_type_t const& dst, compiler_type_t const& src)
+{
+    if(dst.is_prim() && src.without_ref().is_prim())
+        return true;
+    if(dst.is_array_ref() && dst.children[0].is_byte)
+    {
+        if(!src.is_any_ref())
+            return false;
+        return dst.children[0].is_prog == src.children[0].is_prog;
+    }
+    if(dst.is_array_ref() && src.is_ref() && src.without_ref().is_array())
+        return dst.children[0] == src.children[0].children[0];
+    if(dst.is_ref())
+        return dst == src;
+    return dst == src.without_ref();
+}
+
 compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
 {
 
@@ -270,17 +287,52 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     return TYPE_NONE;
 }
 
+bool compiler_t::check_sysfunc_overload(compiler_func_decl_t const& decl, ast_node_t const& n)
+{
+    assert(n.children.size() >= 2);
+    auto const& args = n.children[1];
+    assert(args.type == AST::FUNC_ARGS);
+    if(args.children.size() != decl.arg_types.size())
+        return false;
+    for(size_t i = 0; i < args.children.size(); ++i)
+    {
+        if(!convertable(decl.arg_types[i], args.children[i].comp_type))
+            return false;
+    }
+    return true;
+}
+
 compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
 {
-    assert(n.type == AST::IDENT);
-    std::string name(n.data);
+    assert(n.type == AST::FUNC_CALL);
+    assert(n.children[0].type == AST::IDENT);
+    std::string name(n.children[0].data);
     assert(!name.empty());
     assert(name != "len");
 
     if(name[0] == '$')
     {
-        auto it = sys_names.find(name.substr(1));
-        if(it != sys_names.end())
+        auto subname = name.substr(1);
+        if(auto it = sys_overloads.find(subname); it != sys_overloads.end())
+        {
+            for(auto const& oname : it->second)
+            {
+                auto jt = sys_names.find(oname);
+                assert(jt != sys_names.end());
+                auto s = jt->second;
+                auto kt = sysfunc_decls.find(s);
+                assert(kt != sysfunc_decls.end());
+                if(!check_sysfunc_overload(kt->second, n))
+                    continue;
+                compiler_func_t f{};
+                f.sys = s;
+                f.is_sys = true;
+                f.name = oname;
+                f.decl = kt->second;
+                return f;
+            }
+        }
+        if(auto it = sys_names.find(subname); it != sys_names.end())
         {
             compiler_func_t f{};
             f.sys = it->second;
@@ -291,11 +343,8 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
             f.decl = jt->second;
             return f;
         }
-        else
-        {
-            errs.push_back({ "Undefined system function: \"" + name + "\"", n.line_info });
-            return {};
-        }
+        errs.push_back({ "Undefined system function: \"" + name + "\"", n.line_info });
+        return {};
     }
 
     {

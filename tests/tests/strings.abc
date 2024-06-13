@@ -5,14 +5,14 @@ void main()
     $assert('e' == 'e');
     $assert("hello"[1] == 'e');
     
-    $assert($strlen_P("what") == 4);
+    $assert($strlen("what") == 4);
     
     char[4] str = "blah";
-    $assert($strcmp_P(str, "blah" ) == 0);
-    $assert($strcmp_P(str, "what" ) <  0);
-    $assert($strcmp_P(str, "aaaa" ) >  0);
-    $assert($strcmp_P(str, "bla"  ) >  0);
-    $assert($strcmp_P(str, "blah2") <  0);
+    $assert($strcmp(str, "blah" ) == 0);
+    $assert($strcmp(str, "what" ) <  0);
+    $assert($strcmp(str, "aaaa" ) >  0);
+    $assert($strcmp(str, "bla"  ) >  0);
+    $assert($strcmp(str, "blah2") <  0);
     
     $assert($strlen(str) == 4);
     
