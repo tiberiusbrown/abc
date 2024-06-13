@@ -13,8 +13,6 @@ void bounce_ball_off_wall()
 
 void update()
 {
-    $poll_buttons();
-
     if($pressed(UP_BUTTON))
         py0 -= PADDLE_SPEED;
     if($pressed(DOWN_BUTTON))

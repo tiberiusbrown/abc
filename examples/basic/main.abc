@@ -19,7 +19,6 @@ int coins = 0;
 
 void loop()
 {
-    $poll_buttons();
     if($just_pressed(A_BUTTON))
     {
         $tones_play(tones{ B5 100 E6 200 });

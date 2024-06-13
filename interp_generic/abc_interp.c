@@ -33,12 +33,11 @@ enum
     SYS_SET_TEXT_FONT,
     SYS_SET_TEXT_COLOR,
     SYS_SET_FRAME_RATE,
-    SYS_NEXT_FRAME,
     SYS_IDLE,
     SYS_DEBUG_BREAK,
     SYS_DEBUG_PRINTF,
     SYS_ASSERT,
-    SYS_POLL_BUTTONS,
+    SYS_BUTTONS,
     SYS_JUST_PRESSED,
     SYS_JUST_RELEASED,
     SYS_PRESSED,
@@ -1714,17 +1713,29 @@ static abc_result_t sys_format(abc_interp_t* interp, abc_host_t const* h)
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_display(abc_interp_t* interp)
+static uint8_t host_buttons(abc_host_t const* h)
 {
-    memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
-    memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
+    return h->buttons ? h->buttons(h->user) : 0;
+}
+
+static abc_result_t wait_for_frame_timing(abc_interp_t* interp, abc_host_t const* h)
+{
+    interp->buttons_prev = interp->buttons_curr;
+    interp->buttons_curr = host_buttons(h);
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_display_noclear(abc_interp_t* interp)
+static abc_result_t sys_display(abc_interp_t* interp, abc_host_t const* h)
 {
     memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
-    return ABC_RESULT_NORMAL;
+    memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
+    return wait_for_frame_timing(interp, h);
+}
+
+static abc_result_t sys_display_noclear(abc_interp_t* interp, abc_host_t const* h)
+{
+    memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
+    return wait_for_frame_timing(interp, h);
 }
 
 static uint8_t get_pixel_helper(abc_interp_t* interp, uint8_t x, uint8_t y)
@@ -1750,6 +1761,7 @@ static abc_result_t sys_set_frame_rate(abc_interp_t* interp)
     return ABC_RESULT_NORMAL;
 }
 
+#if 0
 static abc_result_t sys_next_frame(abc_interp_t* interp, abc_host_t const* h)
 {
     uint8_t now = (uint8_t)h->millis(h->user);
@@ -1764,6 +1776,7 @@ static abc_result_t sys_next_frame(abc_interp_t* interp, abc_host_t const* h)
     interp->frame_start += interp->frame_dur;
     return push(interp, 1);
 }
+#endif
 
 static abc_result_t sys_audio_enabled(abc_interp_t* interp)
 {
@@ -1776,16 +1789,9 @@ static abc_result_t sys_audio_toggle(abc_interp_t* interp)
     return ABC_RESULT_NORMAL;
 }
 
-static uint8_t host_buttons(abc_host_t const* h)
+static abc_result_t sys_buttons(abc_interp_t* interp, abc_host_t const* h)
 {
-    return h->buttons ? h->buttons(h->user) : 0;
-}
-
-static abc_result_t sys_poll_buttons(abc_interp_t* interp, abc_host_t const* h)
-{
-    interp->buttons_prev = interp->buttons_curr;
-    interp->buttons_curr = host_buttons(h);
-    return ABC_RESULT_NORMAL;
+    return push(interp, host_buttons(h));
 }
 
 static abc_result_t sys_just_pressed(abc_interp_t* interp)
@@ -2640,8 +2646,8 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 
     switch(sysnum)
     {
-    case SYS_DISPLAY:              return sys_display(interp);
-    case SYS_DISPLAY_NOCLEAR:      return sys_display_noclear(interp);
+    case SYS_DISPLAY:              return sys_display(interp, h);
+    case SYS_DISPLAY_NOCLEAR:      return sys_display_noclear(interp, h);
     case SYS_GET_PIXEL:            return sys_get_pixel(interp);
     case SYS_DRAW_PIXEL:           return sys_draw_pixel(interp);
     case SYS_DRAW_HLINE:           return sys_draw_hline(interp);
@@ -2662,12 +2668,11 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_SET_TEXT_FONT:        return sys_set_text_font(interp);
     case SYS_SET_TEXT_COLOR:       return sys_set_text_color(interp);
     case SYS_SET_FRAME_RATE:       return sys_set_frame_rate(interp);
-    case SYS_NEXT_FRAME:           return sys_next_frame(interp, h);
     case SYS_IDLE:                 return ABC_RESULT_IDLE;
     case SYS_DEBUG_BREAK:          return ABC_RESULT_BREAK;
     case SYS_DEBUG_PRINTF:         return sys_debug_printf(interp, h);
     case SYS_ASSERT:               return sys_assert(interp);
-    case SYS_POLL_BUTTONS:         return sys_poll_buttons(interp, h);
+    case SYS_BUTTONS:              return sys_buttons(interp, h);
     case SYS_JUST_PRESSED:         return sys_just_pressed(interp);
     case SYS_JUST_RELEASED:        return sys_just_released(interp);
     case SYS_PRESSED:              return sys_pressed(interp, h);

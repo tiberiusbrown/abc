@@ -1,7 +1,5 @@
 void update()
 {
-    $poll_buttons();
-
     if(state == STATE_LEVEL)
         update_level();
     else if(state == STATE_INTRO)

@@ -337,7 +337,7 @@ void wait_for_frame_timing()
     for(;;)
     {
         sei();
-        
+
         uint8_t n;
         asm volatile("lds %[n], %[t]\n" : [n] "=&r" (n) : [t] "" (&timer0_overflow_count));
         
@@ -355,6 +355,7 @@ void wait_for_frame_timing()
         if(n) shades_display();
 #endif
     }
+    Arduboy2Base::pollButtons();
 #if ABC_SHADES != 2
     seek_to_pc();
 #endif
@@ -667,9 +668,9 @@ static void sys_assert()
     if(!b) vm_error(ards::ERR_ASS);
 }
 
-static void sys_poll_buttons()
+static void sys_buttons()
 {
-    Arduboy2Base::pollButtons();
+    vm_push((uint8_t)Arduboy2Base::buttonsState());
 }
 
 static void sys_just_pressed()
@@ -2400,7 +2401,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_debug_break,
     sys_debug_printf,
     sys_assert,
-    sys_poll_buttons,
+    sys_buttons,
     sys_just_pressed,
     sys_just_released,
     sys_pressed,
