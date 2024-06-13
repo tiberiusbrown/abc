@@ -1,4 +1,4 @@
-constexpr font font_styled = FONT_GOTHICPIXELS;
+constexpr font font_styled = FONT_THIRDDIMENSION;
 constexpr font font_small = FONT_BR5;
 
 void setup()
@@ -7,9 +7,6 @@ void setup()
 
 void loop()
 {
-    while(!$next_frame())
-        ;
-    
     char[20] str;
     $format(str, "seconds: %u", $millis() / 1000);
         

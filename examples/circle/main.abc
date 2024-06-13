@@ -2,9 +2,6 @@ u8 r;
 
 void loop()
 {
-    while(!$next_frame())
-        ;
-
     ++r;
     int x = 40;
     int y = 30;

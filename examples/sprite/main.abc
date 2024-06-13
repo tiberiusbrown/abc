@@ -1,20 +1,6 @@
-void setup()
+void main()
 {
-}
-
-void loop()
-{
-    while(!$next_frame())
-        ;
-    
     $draw_sprite(0, 0, sprites{ "sprite.png" }, 0);
 
     $display();
-}
-
-void main()
-{
-    setup();
-    while(true)
-        loop();
 }

@@ -29,7 +29,6 @@ enum sysfunc_t : uint8_t
     SYS_SET_TEXT_FONT,
     SYS_SET_TEXT_COLOR,
     SYS_SET_FRAME_RATE,
-    SYS_NEXT_FRAME,
     SYS_IDLE,
     SYS_DEBUG_BREAK,
     SYS_DEBUG_PRINTF,

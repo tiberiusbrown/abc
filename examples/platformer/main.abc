@@ -45,9 +45,6 @@ void setup()
 
 void loop()
 {
-    while(!$next_frame())
-        ;
-    
     update();
     render();
     

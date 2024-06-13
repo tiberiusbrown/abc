@@ -80,6 +80,7 @@ std::vector<builtin_constexpr_t> const builtin_constexprs
     { "DARK_GRAY",    TYPE_U8,    1 },
     { "DARK_GREY",    TYPE_U8,    1 },
     { "BLACK",        TYPE_U8,    0 },
+    { "SHADES",       TYPE_U8,    2 },
     { "A_BUTTON",     TYPE_U8,    1 << 3 },
     { "B_BUTTON",     TYPE_U8,    1 << 2 },
     { "UP_BUTTON",    TYPE_U8,    1 << 7 },
@@ -875,6 +876,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                     globals["LIGHT_GREY"].var.value = globals["LIGHT_GRAY"].var.value;
                     globals["GREY"].var.value = globals["GRAY"].var.value;
                     globals["DARK_GREY"].var.value = globals["DARK_GRAY"].var.value;
+                    globals["SHADES"].var.value = shades;
                 }
             }
             else

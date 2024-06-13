@@ -123,9 +123,6 @@ void advance_snake(bool grow)
 
 void game_loop()
 {
-    while(!$next_frame())
-        ;
-        
     $memcpy(dead, dead);
         
     if(dead != 0)
@@ -153,7 +150,7 @@ void game_loop()
         
     $draw_filled_rect(0, 0, 128, 8, BLACK);
     $draw_filled_rect(0, 6, 128, 2, WHITE);
-    $set_text_font(FONT_BR6);
+    $set_text_font(f);
     $draw_textf(0, 0, "Score: %u", score);
     
     $display_noclear();
@@ -165,9 +162,6 @@ void main_menu()
     u8 cx, cy, cr = 0;
     while(true)
     {
-        while(!$next_frame())
-            ;
-            
         $poll_buttons();
         if($just_pressed(A_BUTTON))
         {
@@ -186,11 +180,11 @@ void main_menu()
         if((cr += 1) > 50)
             cr = 0;
         
-        $draw_filled_rect(37, 24, 53, 9, BLACK);
-        $set_text_font(FONT_NOKIAFC);
+        $draw_filled_rect(37, 26, 53, 7, BLACK);
+        $set_text_font(FONT_CHUNKYSANS6);
         $draw_text_P(38, 32, "ABC SNAKE");
         
-        $set_text_font(FONT_BR6);
+        $set_text_font(f);
         char[20] buf;
         $format(buf, "HIGH SCORE: %u", high_score);
         u8 w = $text_width(buf);
