@@ -630,6 +630,52 @@ void compiler_t::compile(
     
     tail_call_optimization();
 
+    // in case the program has calls to text functions but does not have
+    // any font data, insert a call to set_text_font at the end of $globinit
+    if(font_label_cache.empty())
+    {
+        bool found_text_function = false;
+
+        for(auto const& [n, f] : funcs)
+        {
+            for(auto const& i : f.instrs)
+            {
+                if(i.instr != I_SYS) continue;
+                switch(i.imm)
+                {
+                case SYS_DRAW_TEXT:
+                case SYS_DRAW_TEXT_P:
+                case SYS_DRAW_TEXTF:
+                case SYS_TEXT_WIDTH:
+                case SYS_TEXT_WIDTH_P:
+                case SYS_WRAP_TEXT:
+                    found_text_function = true;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        if(found_text_function)
+        {
+            ast_node_t n{ {}, AST::IDENT };
+            n.data = "FONT_ADAFRUIT";
+            std::string label = resolve_label_ref({}, n, TYPE_FONT);
+            auto& g = funcs[GLOBINIT_FUNC];
+            if(!g.instrs.empty())
+            {
+                compiler_instr_t i0{}, i1{};
+                i0.instr = I_PUSHL;
+                i0.label = label;
+                i1.instr = I_SYS;
+                i1.imm = SYS_SET_TEXT_FONT;
+                i0.line = i1.line = g.instrs.back().line;
+                i0.file = i1.file = g.instrs.back().file;
+                g.instrs.insert(g.instrs.begin() + g.instrs.size() - 1, { i0, i1 });
+            }
+        }
+    }
+
     write(fo);
 }
 

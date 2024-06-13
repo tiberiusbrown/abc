@@ -12,6 +12,7 @@ bool sysfunc_is_format(sysfunc_t f)
 std::unordered_map<std::string, std::vector<std::string>> const sys_overloads =
 {
     { "draw_text", { "draw_text_P" }},
+    { "text_width", { "text_width_P" }},
     { "memcpy", { "memcpy_P" }},
     { "strlen", { "strlen_P" }},
     { "strcmp", { "strcmp_P", "strcmp_PP" }},
