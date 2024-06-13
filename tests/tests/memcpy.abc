@@ -13,7 +13,7 @@ void main()
     $assert(copy[2] == 0);
     $assert(copy[3] == 0);
     
-    $memcpy_P(copy, data);
+    $memcpy(copy, data);
     
     $assert(copy[0] == 1);
     $assert(copy[1] == 2);

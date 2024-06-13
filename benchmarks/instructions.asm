@@ -2801,14 +2801,6 @@ $L_main_13:
     sys debug_break
     sys draw_circle
     sys debug_break
-    
-    sys debug_break
-    sys display
-    sys debug_break
-    
-    sys debug_break
-    sys display_noclear
-    sys debug_break
 
 $globinit:
     ret

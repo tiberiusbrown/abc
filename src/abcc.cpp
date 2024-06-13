@@ -126,9 +126,9 @@ int main(int argc, char** argv)
     psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/if_statement.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/strings.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
-    parduboy = "C:/Users/Brown/Documents/GitHub/abc/examples/test/test.arduboy";
+    //parduboy = "C:/Users/Brown/Documents/GitHub/abc/examples/test/test.arduboy";
 #endif
 
     if(psrc.empty())

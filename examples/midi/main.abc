@@ -2,10 +2,6 @@ bool want_music = false;
 
 void main()
 {
-    while(!$next_frame())
-        ;
-        
-    $poll_buttons();
     if($just_pressed(A_BUTTON))
         $tones_play_auto(tones{ C6 500 });
     if($just_pressed(B_BUTTON))

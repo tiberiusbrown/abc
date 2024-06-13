@@ -13,8 +13,6 @@ void bounce_ball_off_wall()
 
 void update()
 {
-    $poll_buttons();
-
     if($pressed(UP_BUTTON))
         py0 -= PADDLE_SPEED;
     if($pressed(DOWN_BUTTON))
@@ -118,7 +116,7 @@ void render()
 
     // paddles
     $draw_filled_rect(0, $round(py0), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
-    $draw_filled_rect(128 - PADDLE_WIDTH, $round(py1), PADDLE_WIDTH, PADDLE_HEIGHT, GRAY);
+    $draw_filled_rect(128 - PADDLE_WIDTH, $round(py1), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
     
     // ball
     $draw_sprite($round(bx), $round(by), img_ball, 0);

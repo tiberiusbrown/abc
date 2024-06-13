@@ -23,9 +23,7 @@ void loop()
     
     update();
     render();
-    
-    $display();
-    
+        
     $debug_break();
 }
 

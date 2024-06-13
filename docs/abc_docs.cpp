@@ -64,6 +64,23 @@ static void draw_str(
     }
 }
 
+static void print_sysfunc_decl(
+    FILE* f,
+    std::string const& k,
+    ards::sysfunc_t v,
+    ards::compiler_func_decl_t const& decl)
+{
+    fprintf(f, "%-5s $%s(", ards::type_name(decl.return_type).c_str(), k.c_str());
+    for(size_t i = 0; i < decl.arg_types.size(); ++i)
+    {
+        if(i != 0) fprintf(f, ", ");
+        fprintf(f, "%s %s", ards::type_name(decl.arg_types[i]).c_str(), decl.arg_names[i].c_str());
+    }
+    if(ards::sysfunc_is_format(v))
+        fprintf(f, ", ...");
+    fprintf(f, ");\n");
+}
+
 int abc_docs()
 {
     std::map<std::string, ards::sysfunc_t> const sys_names(
@@ -84,18 +101,24 @@ int abc_docs()
     fprintf(f, "# System Calls\n\n```c\n");
     for(auto const& [k, v] : sys_names)
     {
+        bool skip = false;
+        for(auto const& [k2, v2] : ards::sys_overloads)
+            for(auto const& v3 : v2)
+                if(v3 == k) skip = true;
+        if(skip) continue;
         auto it = ards::sysfunc_decls.find(v);
         if(it == ards::sysfunc_decls.end()) continue;
         auto const& decl = it->second;
-        fprintf(f, "%-5s $%s(", ards::type_name(decl.return_type).c_str(), k.c_str());
-        for(size_t i = 0; i < decl.arg_types.size(); ++i)
+        print_sysfunc_decl(f, k, v, decl);
+        if(auto it2 = ards::sys_overloads.find(k); it2 != ards::sys_overloads.end())
         {
-            if(i != 0) fprintf(f, ", ");
-            fprintf(f, "%s %s", ards::type_name(decl.arg_types[i]).c_str(), decl.arg_names[i].c_str());
+            for(auto const& ov : it2->second)
+            {
+                auto jt = ards::sys_names.find(ov);
+                auto kt = ards::sysfunc_decls.find(jt->second);
+                print_sysfunc_decl(f, k, jt->second, kt->second);
+            }
         }
-        if(ards::sysfunc_is_format(v))
-            fprintf(f, ", ...");
-        fprintf(f, ");\n");
     }
     fprintf(f, "```\n\n");
 

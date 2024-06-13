@@ -9,6 +9,16 @@ bool sysfunc_is_format(sysfunc_t f)
     return f == SYS_DRAW_TEXTF || f == SYS_FORMAT || f == SYS_DEBUG_PRINTF;
 }
 
+std::unordered_map<std::string, std::vector<std::string>> const sys_overloads =
+{
+    { "draw_text", { "draw_text_P" }},
+    { "text_width", { "text_width_P" }},
+    { "memcpy", { "memcpy_P" }},
+    { "strlen", { "strlen_P" }},
+    { "strcmp", { "strcmp_P", "strcmp_PP" }},
+    { "strcpy", { "strcpy_P" }},
+};
+
 std::unordered_map<std::string, sysfunc_t> const sys_names =
 {
     { "display",              SYS_DISPLAY              },
@@ -36,12 +46,11 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "sprites_height",       SYS_SPRITES_HEIGHT       },
     { "sprites_frames",       SYS_SPRITES_FRAMES       },
     { "set_frame_rate",       SYS_SET_FRAME_RATE       },
-    { "next_frame",           SYS_NEXT_FRAME           },
     { "idle",                 SYS_IDLE                 },
     { "debug_break",          SYS_DEBUG_BREAK          },
     { "debug_printf",         SYS_DEBUG_PRINTF         },
     { "assert",               SYS_ASSERT               },
-    { "poll_buttons",         SYS_POLL_BUTTONS         },
+    { "buttons",              SYS_BUTTONS              },
     { "just_pressed",         SYS_JUST_PRESSED         },
     { "just_released",        SYS_JUST_RELEASED        },
     { "pressed",              SYS_PRESSED              },
@@ -116,12 +125,11 @@ std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls
     { SYS_SPRITES_HEIGHT,       { TYPE_U8,    { TYPE_SPRITES }, { "s" } } },
     { SYS_SPRITES_FRAMES,       { TYPE_U16,   { TYPE_SPRITES }, { "s" } } },
     { SYS_SET_FRAME_RATE,       { TYPE_VOID,  { TYPE_U8 }, { "fps" } } },
-    { SYS_NEXT_FRAME,           { TYPE_BOOL,  { }, { } } },
     { SYS_IDLE,                 { TYPE_VOID,  { }, { } } },
     { SYS_DEBUG_BREAK,          { TYPE_VOID,  { }, { } } },
     { SYS_DEBUG_PRINTF,         { TYPE_VOID,  { TYPE_STR_PROG }, { "fmt" }}},
     { SYS_ASSERT,               { TYPE_VOID,  { TYPE_BOOL }, { "cond" } } },
-    { SYS_POLL_BUTTONS,         { TYPE_VOID,  { }, { } } },
+    { SYS_BUTTONS,              { TYPE_U8,    { }, { } } },
     { SYS_JUST_PRESSED,         { TYPE_BOOL,  { TYPE_U8 }, { "button" } } },
     { SYS_JUST_RELEASED,        { TYPE_BOOL,  { TYPE_U8 }, { "button" } } },
     { SYS_PRESSED,              { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } } },

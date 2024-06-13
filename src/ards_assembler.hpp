@@ -15,6 +15,9 @@ namespace ards
 
 constexpr size_t FILE_TABLE_STRING_LENGTH = 32;
 
+// overloaded sysfuncs
+extern std::unordered_map<std::string, std::vector<std::string>> const sys_overloads;
+
 // map from sys function names to indices
 extern std::unordered_map<std::string, sysfunc_t> const sys_names;
 

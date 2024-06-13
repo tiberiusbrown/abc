@@ -358,7 +358,7 @@ void compiler_t::codegen_expr(
         assert(a.children.size() == 2);
         assert(a.children[0].type == AST::IDENT);
 
-        auto func = resolve_func(a.children[0]);
+        auto func = resolve_func(a);
         auto sys = SYS_NONE;
         {
             auto it = sys_names.find(func.name.substr(1));

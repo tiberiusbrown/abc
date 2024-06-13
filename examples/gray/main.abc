@@ -6,9 +6,6 @@ constexpr sprites SPRITES = sprites{ 16x16 "sprites.png" };
 
 void loop()
 {
-    while(!$next_frame())
-        ;
-
     for(u8 y = 0; y < 64; y += 16)
         for(u8 x = 0; x < 128; x += 16)
             $draw_sprite(x, y, SPRITES, 16 + ((f >> 2) & 3));

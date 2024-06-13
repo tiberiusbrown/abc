@@ -11,6 +11,8 @@ void draw_char(int16_t& x, int16_t y, char c);
 extern "C" uint8_t font_get_x_advance(char c);
 extern "C" uint8_t font_get_line_height();
 
+void wait_for_frame_timing();
+
 static uint8_t* cmd_ptr;
 static uint8_t* batch_ptr; // for sprite/char batching (nullptr if no active batch)
 static uint8_t current_plane;
@@ -254,6 +256,7 @@ void shades_swap()
     memset(ards::vm.gs.buf0, SHADES_CMD_END, sizeof(ards::vm.gs.buf0));
     cmd_ptr = &ards::vm.gs.buf0[0];
     batch_ptr = nullptr;
+    wait_for_frame_timing();
 }
 
 __attribute__((noinline))

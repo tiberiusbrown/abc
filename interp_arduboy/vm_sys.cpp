@@ -325,11 +325,48 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
     return r;
 }
 
+extern unsigned long volatile timer0_overflow_count;
+void wait_for_frame_timing()
+{
+    uint8_t fd = ards::vm.frame_dur;
+    uint8_t fs = ards::vm.frame_start;
+    ards::vm.frame_start = fs + fd;
+#if ABC_SHADES != 2
+    (void)FX::readEnd();
+#endif
+    for(;;)
+    {
+        sei();
+
+        uint8_t n;
+        asm volatile("lds %[n], %[t]\n" : [n] "=&r" (n) : [t] "" (&timer0_overflow_count));
+        
+        n -= fs;
+        if(n >= fd)
+            break;
+
+        if(++n < fd)
+        {
+            Arduboy2Base::idle();
+        }
+
+#if ABC_SHADES != 2
+        asm volatile("lds %[n], %[t]\n" : [n] "=&r" (n) : [t] "" (&ards::vm.needs_render));
+        if(n) shades_display();
+#endif
+    }
+    Arduboy2Base::pollButtons();
+#if ABC_SHADES != 2
+    seek_to_pc();
+#endif
+}
+
 #if ABC_SHADES == 2
 static void sys_display()
 {
     (void)FX::readEnd();
     FX::display(true);
+    wait_for_frame_timing();
     seek_to_pc();
 }
 #endif
@@ -339,6 +376,7 @@ static void sys_display_noclear()
 {
     (void)FX::readEnd();
     FX::display(false);
+    wait_for_frame_timing();
     seek_to_pc();
 }
 #endif
@@ -609,28 +647,7 @@ static void sys_set_frame_rate()
     auto ptr = vm_pop_begin();
     uint8_t fr = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    ards::vm.frame_dur = fr > 4 ? 1024u / fr : 255;
-}
-
-extern unsigned long volatile timer0_millis;
-extern unsigned long volatile timer0_overflow_count;
-static void sys_next_frame()
-{
-    uint8_t now;
-    asm volatile("lds %[n], %[t]\n" : [n] "=&r" (now) : [t] "" (&timer0_overflow_count));
-    
-    uint8_t frame_duration = now - ards::vm.frame_start;
-    if(frame_duration < ards::vm.frame_dur)
-    {
-        if(++frame_duration < ards::vm.frame_dur)
-            Arduboy2Base::idle();
-        vm_push<uint8_t>(0);
-        return;
-    }
-    
-    ards::vm.frame_start += ards::vm.frame_dur;
-    
-    vm_push<uint8_t>(1);
+    ards::vm.frame_dur = fr > 10 ? 1024u / fr : fr == 0 ? 0 : 100;
 }
 
 static void sys_idle()
@@ -651,9 +668,9 @@ static void sys_assert()
     if(!b) vm_error(ards::ERR_ASS);
 }
 
-static void sys_poll_buttons()
+static void sys_buttons()
 {
-    Arduboy2Base::pollButtons();
+    vm_push((uint8_t)Arduboy2Base::buttonsState());
 }
 
 static void sys_just_pressed()
@@ -2380,12 +2397,11 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_set_text_font,
     sys_set_text_color,
     sys_set_frame_rate,
-    sys_next_frame,
     sys_idle,
     sys_debug_break,
     sys_debug_printf,
     sys_assert,
-    sys_poll_buttons,
+    sys_buttons,
     sys_just_pressed,
     sys_just_released,
     sys_pressed,

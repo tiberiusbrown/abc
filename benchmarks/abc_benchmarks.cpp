@@ -233,15 +233,8 @@ int abc_benchmarks()
             auto t = arduboy->load_file("fxdata.bin", ss);
             assert(t.empty());
         }
-        constexpr int N = 10;
-        uint64_t total = 0;
-        for(int i = 0; i < N; ++i)
-        {
-            uint64_t cycles = measure();
-            total += cycles;
-            out_txt("    %" PRIu64 "\n", cycles);
-        }
-        out_txt("    %.0f  (average)\n", double(total) / N);
+        (void)measure();
+        out_txt("    %" PRIu64 "\n", measure());
     }
     fclose(fout);
 #endif
@@ -411,8 +404,6 @@ int abc_benchmarks()
         "$draw_circle (64, 32, 16)",
         "$draw_circle (64, 32, 32)",
         "$draw_circle (64, 32, 64)",
-        "$display",
-        "$display_noclear",
     };
     (void)measure();
     uint64_t bn = measure();

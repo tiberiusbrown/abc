@@ -351,5 +351,3 @@
  2486   $draw_circle (64, 32, 16)
  4529   $draw_circle (64, 32, 32)
  8776   $draw_circle (64, 32, 64)
-18595   $display
-18595   $display_noclear
