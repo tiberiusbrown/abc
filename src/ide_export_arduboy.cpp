@@ -85,9 +85,9 @@ static std::vector<std::string> interp_build_ids(int shades)
         std::string fstr(fname);
         if(fstr.size() < 24)
             continue;
+        fstr = fstr.substr(20, fstr.size() - 24);
         if(fstr[0] != 's' || fstr[1] != '0' + shades)
             continue;
-        fstr = fstr.substr(20, fstr.size() - 24);
         if(fstr != arduboyfx)
             r.push_back(fstr);
     }
