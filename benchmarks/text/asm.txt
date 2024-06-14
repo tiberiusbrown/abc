@@ -176,6 +176,8 @@ $PD_3:
 $globinit:
   .file <internal>.abc
   .line 1
+  pushl $PD_0 0
+  sys   set_text_font
   ret
 
 main:

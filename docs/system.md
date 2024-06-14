@@ -90,7 +90,7 @@ u16   $strlen(char[]& str);
 u24   $strlen(char[] prog& str);
 float $tan(float angle);
 u16   $text_width(char[]& str);
-u16   $text_width_P(char[] prog& str);
+u16   $text_width(char[] prog& str);
 void  $tones_play(tones sfx);
 void  $tones_play_auto(tones sfx);
 void  $tones_play_primary(tones sfx);
