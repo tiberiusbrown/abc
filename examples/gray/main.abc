@@ -2,17 +2,21 @@
 
 u8 f = 0;
 
+constexpr sprites TILES = sprites{ 8x8 "tiles.png" };
 constexpr sprites SPRITES = sprites{ 16x16 "sprites.png" };
 
 void loop()
 {
-    for(u8 y = 0; y < 64; y += 16)
-        for(u8 x = 0; x < 128; x += 16)
-            $draw_sprite(x, y, SPRITES, 16 + ((f >> 2) & 3));
+    for(u8 y = 0; y < 64; y += 8)
+        for(u8 x = 0; x < 128; x += 8)
+            $draw_sprite(x, y, TILES, 24 + 32);
+    //for(u8 y = 0; y < 64; y += 16)
+    //    for(u8 x = 0; x < 128; x += 16)
+    //        $draw_sprite(x, y, SPRITES, 16 + ((f >> 2) & 3));
     ++f;
     
-    $draw_filled_rect(10, 10, 50, 20, DARK_GRAY);
-    $draw_text_P(12, 25, "Hello World");
+    //$draw_filled_rect(10, 10, 50, 20, DARK_GRAY);
+    //$draw_text_P(12, 25, "Hello World");
     
     
     $display();

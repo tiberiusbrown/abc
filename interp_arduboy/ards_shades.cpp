@@ -16,6 +16,8 @@ void wait_for_frame_timing();
 static uint8_t* cmd_ptr;
 static uint8_t* batch_ptr; // for sprite/char batching (nullptr if no active batch)
 static uint8_t current_plane;
+static int8_t batchx;
+static int8_t batchy;
 
 inline uint8_t const* cmd0_end()
 {
@@ -265,7 +267,7 @@ void shades_display()
     // Push display buffer to display
 
     while(*(uint8_t volatile*)&ards::vm.needs_render != 2)
-        ;
+        Arduboy2Base::idle();
     auto* b = Arduboy2Base::sBuffer;
 
     FX::enableOLED();
@@ -375,11 +377,18 @@ void shades_display()
                 img += t * current_plane;
                 t *= (ABC_SHADES - 1);
             }
+            int8_t x, y;
             for(uint8_t i = 0; i <= n; ++i)
             {
-                int8_t x = (int8_t)ld_inc(p);
-                int8_t y = (int8_t)ld_inc(p);
                 uint8_t f = ld_inc(p);
+                int8_t ty = (int8_t)ld_inc(p);
+                if(ty == 127)
+                    x += w;
+                else
+                {
+                    x = (int8_t)ld_inc(p);
+                    y = ty;
+                }
                 SpritesABC::drawBasic(x, y, w, h, img + uint24_t(t) * f, mode);
             }
             break;
@@ -499,12 +508,24 @@ start_new_batch:
     st_inc(p, SHADES_CMD_SPRITE_BATCH);
     st_inc3(p, img);
     st_inc(p, 0);
+    goto batch_add_first;
 
 batch_add:
-    st_inc(p, (uint8_t)x);
-    st_inc(p, (uint8_t)y);
-    st_inc(p, (uint8_t)frame);
+    if((int8_t)y == batchy && x == batchx + w)
+    {
+        st_inc(p, (uint8_t)frame);
+        st_inc(p, 127);
+    }
+    else
+    {
+batch_add_first:
+        st_inc(p, (uint8_t)frame);
+        st_inc(p, (uint8_t)y);
+        st_inc(p, (uint8_t)x);
+        batchy = (int8_t)y;
+    }
     cmd_ptr = p;
+    batchx = (int8_t)x;
     return;
 
 unbatchable:

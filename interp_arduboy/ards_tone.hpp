@@ -29,7 +29,7 @@ constexpr uint16_t GRAY_TPS = 155;
 #if ABC_SHADES == 2
 constexpr uint16_t TPS = STANDARD_TPS;
 #else
-constexpr uint8_t TPS_FACTOR = 32;
+constexpr uint8_t TPS_FACTOR = 16;
 constexpr uint16_t TPS = GRAY_TPS * TPS_FACTOR;
 constexpr uint8_t TPS_TONE_COUNTER = (TPS + STANDARD_TPS / 2) / STANDARD_TPS;
 #endif
