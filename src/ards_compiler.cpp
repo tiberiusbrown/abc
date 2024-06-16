@@ -322,13 +322,13 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
                 auto s = jt->second;
                 auto kt = sysfunc_decls.find(s);
                 assert(kt != sysfunc_decls.end());
-                if(!check_sysfunc_overload(kt->second, n))
+                if(!check_sysfunc_overload(kt->second.decl, n))
                     continue;
                 compiler_func_t f{};
                 f.sys = s;
                 f.is_sys = true;
                 f.name = oname;
-                f.decl = kt->second;
+                f.decl = kt->second.decl;
                 return f;
             }
         }
@@ -340,7 +340,7 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
             f.name = name;
             auto jt = sysfunc_decls.find(it->second);
             assert(jt != sysfunc_decls.end());
-            f.decl = jt->second;
+            f.decl = jt->second.decl;
             return f;
         }
         errs.push_back({ "Undefined system function: \"" + name + "\"", n.line_info });
@@ -470,7 +470,7 @@ void compiler_t::compile(
 {
     assert(sysfunc_decls.size() == SYS_NUM);
     for(auto const& [k, v] : sysfunc_decls)
-        assert(v.arg_types.size() == v.arg_names.size());
+        assert(v.decl.arg_types.size() == v.decl.arg_names.size());
 
     font_label_cache.clear();
 

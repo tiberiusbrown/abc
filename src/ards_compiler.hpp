@@ -523,8 +523,15 @@ struct compiler_constexpr_ref_t
     size_t offset;
 };
 
+struct sysfunc_info_t
+{
+    compiler_func_decl_t decl;
+    std::string category;
+    std::string desc;
+};
+extern std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls;
+
 extern std::unordered_set<std::string> const keywords;
-extern std::unordered_map<sysfunc_t, compiler_func_decl_t> const sysfunc_decls;
 extern std::unordered_map<std::string, compiler_type_t> const primitive_types;
 
 bool sysfunc_is_format(sysfunc_t f);

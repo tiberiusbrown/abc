@@ -108,7 +108,7 @@ int abc_docs()
         if(skip) continue;
         auto it = ards::sysfunc_decls.find(v);
         if(it == ards::sysfunc_decls.end()) continue;
-        auto const& decl = it->second;
+        auto const& decl = it->second.decl;
         print_sysfunc_decl(f, k, v, decl);
         if(auto it2 = ards::sys_overloads.find(k); it2 != ards::sys_overloads.end())
         {
@@ -116,7 +116,7 @@ int abc_docs()
             {
                 auto jt = ards::sys_names.find(ov);
                 auto kt = ards::sysfunc_decls.find(jt->second);
-                print_sysfunc_decl(f, k, jt->second, kt->second);
+                print_sysfunc_decl(f, k, jt->second, kt->second.decl);
             }
         }
     }

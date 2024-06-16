@@ -69,7 +69,7 @@ void ide_system_reference()
     {
         auto it = ards::sysfunc_decls.find(v);
         if(it == ards::sysfunc_decls.end()) continue;
-        auto const& decl = it->second;
+        auto const& decl = it->second.decl;
         PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
         Text("%-4s", ards::type_name(decl.return_type).c_str());
         PopStyleColor();
