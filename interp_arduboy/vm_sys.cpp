@@ -150,7 +150,24 @@ static void seek_to_pc()
         1:  ldi  r24, 3
             cbi  %[fxport], %[fxbit]
             out  %[spdr], r24
+)"
 
+#if ABC_SHADES != 2
+R"(
+            ; see if we need to call shades_display()
+            lds  r16, %[needs_render]
+            cp   r16, __zero_reg__
+            breq no_shades_display
+            clr  r1
+            rcall L%=_delay_13
+            sbi  %[fxport], %[fxbit]
+            call %x[shades_display]
+            rjmp 1b
+        no_shades_display:
+)"
+#endif
+
+R"(
             ; see if we need to call ards::Tones::update()
             lds  r16, %[tones_reload]
             cp   r16, __zero_reg__
@@ -252,6 +269,10 @@ static void seek_to_pc()
         , [datapage]        ""  (&FX::programDataPage)
         , [tones_update]    ""  (ards::Tones::update)
         , [tones_reload]    ""  (&ards::detail::reload_needed)
+#if ABC_SHADES != 2
+        , [needs_render]    ""  (&ards::vm.needs_render)
+        , [shades_display]  ""  (shades_display)
+#endif
         );
 }
 

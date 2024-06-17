@@ -97,7 +97,7 @@ void shades_init()
 {
     static uint8_t const CMDS[] PROGMEM =
     {
-        //0xDB, 0x50,
+        0xDB, 0x70,
         0xC0, 0xA0, // reset to normal orientation
         0xD9, ((ABG_PRECHARGE_CYCLES) | ((ABG_DISCHARGE_CYCLES) << 4)),
 #if defined(OLED_SH1106)
@@ -281,11 +281,11 @@ void shades_display()
         uint8_t contrast = 255;
 #if ABC_SHADES == 3
         t = !t;
-        if(t & 1) contrast = 0x20;
+        if(t & 1) contrast = 64;
 #elif ABC_SHADES == 4
         if(++t > 2) t = 0;
-        if(t & 1) contrast = 0x20;
-        if(t & 2) contrast = 0x80;
+        if(t & 1) contrast = 25;
+        if(t & 2) contrast = 85;
 #endif
         current_plane = t;
 #if ABC_SHADES_ADJUST_CONTRAST

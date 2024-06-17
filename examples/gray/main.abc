@@ -18,14 +18,14 @@ constexpr sprites SPRITES = sprites{
 constexpr sprites CURSOR = sprites{
     8x8
     
-    XXXX---X  -XXXX---  --XXXX--  ---XXXX-  X---XXXX  XX---XXX  XXX---XX
-    -------X  -------X  --------  X-------  X-------  X------X  X------X
-    -------X  -------X  X------X  X-------  X-------  X-------  -------X
-    -------X  X------X  X------X  X------X  X-------  --------  --------
-    X-------  X------X  X------X  X------X  -------X  --------  --------
-    X-------  X-------  X------X  -------X  -------X  -------X  X-------
-    X-------  X-------  --------  -------X  -------X  X------X  X------X
-    X---XXXX  ---XXXX-  --XXXX--  -XXXX---  XXXX---X  XXX---XX  XX---XXX
+    2XX2---2  -2XX2---  --2XX2--  ---2XX2-  2---2XX2  X2---2XX  XX2---2X
+    -------X  -------2  --------  2-------  X-------  X------2  2------X
+    -------X  -------X  2------2  X-------  X-------  2-------  -------2
+    -------2  2------X  X------X  X------2  2-------  --------  --------
+    2-------  X------2  X------X  2------X  -------2  --------  --------
+    X-------  X-------  2------2  -------X  -------X  -------2  2-------
+    X-------  2-------  --------  -------2  -------X  2------X  X------2
+    2---2XX2  ---2XX2-  --2XX2--  -2XX2---  2XX2---2  XX2---2X  X2---2XX
 };
 
 u8 cix = 3;
@@ -72,12 +72,21 @@ void loop()
     $draw_sprite(cx, cy, CURSOR, cf);
     if(++cf >= 7) cf = 0;
     
+    //$draw_filled_rect(70, 2, 50, 20, WHITE);
+    //$draw_filled_rect(70, 22, 50, 20, LIGHT_GRAY);
+    //$draw_filled_rect(70, 42, 50, 20, DARK_GRAY);
+    
+    $draw_filled_rect( 0, 0, 4, 4, BLACK);
+    $draw_filled_rect( 4, 0, 4, 4, DARK_GRAY);
+    $draw_filled_rect( 8, 0, 4, 4, LIGHT_GRAY);
+    $draw_filled_rect(12, 0, 4, 4, WHITE);
+    
     $display();
 }
 
 void main()
 {
-    $set_text_color(LIGHT_GRAY);
+    $set_text_color(DARK_GRAY);
     $set_text_font(FONT_BR5);
     $set_frame_rate(20);
     while(true)
