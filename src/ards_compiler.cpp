@@ -950,7 +950,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                         globals["WHITE"].var.value = 2;
                         globals["LIGHT_GRAY"].var.value = 1;
                         globals["GRAY"].var.value = 1;
-                        globals["DARK_GRAY"].var.value = 0;
+                        globals["DARK_GRAY"].var.value = 1;
                     }
                     else if(v == "4")
                     {

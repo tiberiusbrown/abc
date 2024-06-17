@@ -1,23 +1,76 @@
 #shades "4"
 
-u8 f = 0;
+constexpr u8 W = 7;
 
-constexpr sprites TILES = sprites{ 8x8 "tiles.png" };
-constexpr sprites SPRITES = sprites{ 16x16 "sprites.png" };
+constexpr sprites SPRITES = sprites{
+    7x8
+    
+    1111111  1111111  1111111  1111111
+    1......  1......  1..22..  1..2...
+    1......  1.1..1.  1.2XX2.  1.2X21.
+    1......  1..11..  12XXXX2  1.X.X21
+    1......  1..11..  1XXXXXX  12X.X22
+    1......  1.1..1.  1..22..  1X...X2
+    1......  1......  1..22..  1X...X2
+    .......  .......  .......  .......
+};
+
+constexpr sprites CURSOR = sprites{
+    8x8
+    
+    XXXX---X  -XXXX---  --XXXX--  ---XXXX-  X---XXXX  XX---XXX  XXX---XX
+    -------X  -------X  --------  X-------  X-------  X------X  X------X
+    -------X  -------X  X------X  X-------  X-------  X-------  -------X
+    -------X  X------X  X------X  X------X  X-------  --------  --------
+    X-------  X------X  X------X  X------X  -------X  --------  --------
+    X-------  X-------  X------X  -------X  -------X  -------X  X-------
+    X-------  X-------  --------  -------X  -------X  X------X  X------X
+    X---XXXX  ---XXXX-  --XXXX--  -XXXX---  XXXX---X  XXX---XX  XX---XXX
+};
+
+u8 cix = 3;
+u8 ciy = 2;
+u8 cx = 21;
+u8 cy = 14;
+u8 cf = 0;
 
 void loop()
 {
-    for(u8 y = 0; y < 64; y += 8)
-        for(u8 x = 0; x < 128; x += 8)
-            $draw_sprite(x, y, TILES, 24 + 32);
-    //for(u8 y = 0; y < 64; y += 16)
-    //    for(u8 x = 0; x < 128; x += 16)
-    //        $draw_sprite(x, y, SPRITES, 16 + ((f >> 2) & 3));
-    ++f;
+    for(u8 y = 0; y < 56; y += 7)
+        for(u8 x = 0; x < 56; x += 7)
+            $draw_sprite(x, y, SPRITES, (x ^ y) & 3);
+    $draw_filled_rect(0, 56, 56, 1, DARK_GRAY);
+    $draw_filled_rect(56, 0, 1, 57, DARK_GRAY);
     
-    //$draw_filled_rect(10, 10, 50, 20, DARK_GRAY);
-    //$draw_text_P(12, 25, "Hello World");
+    for(u8 i = 0; i < 8; ++i)
+    {
+       char[1] b = { '0' + i };
+       $draw_text(58, i * 7 + 6, b);
+       $draw_text(i * 7 + 2, 63, b);
+    }
     
+    if($just_pressed(UP_BUTTON   ) && ciy-- == 0) ciy = 7;
+    if($just_pressed(DOWN_BUTTON ) && ciy++ == 7) ciy = 0;
+    if($just_pressed(LEFT_BUTTON ) && cix-- == 0) cix = 7;
+    if($just_pressed(RIGHT_BUTTON) && cix++ == 7) cix = 0;
+    
+    {
+        u8 tcy = ciy * 7;
+        if(cy < tcy)
+            cy += (tcy - cy + 1) / 2;
+        if(cy > tcy)
+            cy -= (cy - tcy + 1) / 2;
+    }
+    {
+        u8 tcx = cix * 7;
+        if(cx < tcx)
+            cx += (tcx - cx + 1) / 2;
+        if(cx > tcx)
+            cx -= (cx - tcx + 1) / 2;
+    }
+    
+    $draw_sprite(cx, cy, CURSOR, cf);
+    if(++cf >= 7) cf = 0;
     
     $display();
 }
@@ -26,6 +79,7 @@ void main()
 {
     $set_text_color(LIGHT_GRAY);
     $set_text_font(FONT_BR5);
+    $set_frame_rate(20);
     while(true)
         loop();
 }

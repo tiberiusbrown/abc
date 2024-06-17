@@ -95,9 +95,18 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
             for(char c : row.data)
             {
                 if(isspace(c)) continue;
-                if(c == '-') idata.push_back(0), masked = true;
-                else if(c == '.') idata.push_back(1);
-                else              idata.push_back((uint8_t)shades);
+                uint8_t t = 0;
+                if(c == '-')
+                    masked = true;
+                else if(c == '.')
+                    t = 1;
+                else if(c == '1')
+                    t = shades == 2 ? 1 : 2;
+                else if(c == '2')
+                    t = shades == 2 ? 2 : 3;
+                else
+                    t = (uint8_t)shades;
+                idata.push_back(t);
             }
             if(iw == 0)
                 iw = idata.size();
