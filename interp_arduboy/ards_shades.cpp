@@ -378,19 +378,44 @@ void shades_display()
                 t *= (ABC_SHADES - 1);
             }
             int8_t x, y;
-            for(uint8_t i = 0; i <= n; ++i)
+            do
             {
                 uint8_t f = ld_inc(p);
                 int8_t ty = (int8_t)ld_inc(p);
-                if(ty == 127)
-                    x += w;
-                else
+                x += w;
+                if(ty != 127)
                 {
                     x = (int8_t)ld_inc(p);
                     y = ty;
                 }
-                SpritesABC::drawBasic(x, y, w, h, img + uint24_t(t) * f, mode);
-            }
+                uint24_t timg = img;
+
+                //      A1 A0
+                //         B0
+                //   ========
+                //      A0*B0
+                //   A1*B0
+                //   ========
+                //   C2 C1 C0
+                asm volatile(R"(
+                        mul  %B[t], %[f]
+                        add  %B[timg], r0
+                        adc  %C[timg], r1
+                        mul  %A[t], %[f]
+                        add  %A[timg], r0
+                        adc  %B[timg], r1
+                        clr  __zero_reg__
+                        adc  %C[timg], __zero_reg__
+                    )"
+                    : [timg] "+&r" (timg)
+                    : [img]  "r"   (img)
+                    , [t]    "r"   (t)
+                    , [f]    "r"   (f)
+                    );
+                
+                SpritesABC::drawBasic(x, y, w, h, timg, mode);
+
+            } while(--n != 0);
             break;
         }
         case SHADES_CMD_CHARS:
@@ -507,7 +532,7 @@ start_new_batch:
     batch_ptr = p;
     st_inc(p, SHADES_CMD_SPRITE_BATCH);
     st_inc3(p, img);
-    st_inc(p, 0);
+    st_inc(p, 1);
     goto batch_add_first;
 
 batch_add:
