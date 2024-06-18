@@ -181,6 +181,7 @@ struct compiler_type_t
     // only nonempty for structs
     // data is name, offset
     std::vector<std::pair<std::string, size_t>> members;
+    std::string struct_name;
 
     type_t ref_type() const
     {
@@ -276,7 +277,7 @@ struct compiler_type_t
         return std::tie(
             prim_size, type,
             is_signed, is_bool, is_prog, is_char, is_float, is_byte,
-            children);
+            children, struct_name);
     }
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
     bool operator!=(compiler_type_t const& t) const { return !operator==(t); }

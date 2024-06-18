@@ -416,6 +416,14 @@ void compiler_t::codegen_convert(
     auto const& rfrom = orig_from.without_ref();
     auto const& rto = orig_to.without_ref();
 
+    if(rfrom.is_struct() && rto.is_struct() && rfrom.struct_name != rto.struct_name)
+    {
+        errs.push_back({
+            "Cannot convert between different structs",
+            n.line_info });
+        return;
+    }
+
     if(rto.is_label_ref() && (
         !rfrom.is_label_ref() || rto.without_prog() != rfrom.without_prog()))
     {

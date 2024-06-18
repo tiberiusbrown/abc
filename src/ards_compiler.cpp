@@ -261,6 +261,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     {
         compiler_type_t t{};
         t.type = compiler_type_t::STRUCT;
+        t.struct_name = n.children[0].data;
         size_t size = 0;
         for(size_t i = 1; i < n.children.size(); ++i)
         {
