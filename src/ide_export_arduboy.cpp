@@ -121,6 +121,10 @@ void export_arduboy(
     else
         ids = { arduboyfx_name(shades) };
 
+    assert(!ids.empty());
+    if(ids.empty())
+        return;
+
     std::vector<uint8_t> screenshot_png;
     std::string info_json;
     {
@@ -173,14 +177,14 @@ void export_arduboy(
                 if(!t.empty()) break;
             }
             {
-                auto r = extract_interp_build("ArduboyFX");
+                auto r = extract_interp_build(ids[0].c_str());
                 std::istrstream ss(
                     (char const*)r.data(),
                     (int)r.size());
                 auto t = a->load_file("interp.hex", ss);
                 if(!t.empty()) break;
             }
-            a->display.enable_filter = false;
+            a->display.enable_filter = (shades != 2);
             constexpr uint64_t MS = 1000000000ull;
             a->advance(MS * 100);
 
@@ -190,7 +194,7 @@ void export_arduboy(
                 for(int j = 0; j < 128; ++j, ++n)
                 {
                     idata[n * 3 + 0] = idata[n * 3 + 1] = idata[n * 3 + 2] =
-                        (a->display.filtered_pixels[n] >= 128 ? 255 : 0);
+                        (a->display.filtered_pixels[n] >= 96 ? 255 : 0);
                 }
 
             int len = 0;

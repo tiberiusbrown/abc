@@ -4041,6 +4041,7 @@ void vm_run()
 {
     ards::Tones::stop();
     Arduboy2Base::pollButtons();
+    Arduboy2Base::pollButtons();
 
     memset(&vm, 0, sizeof(vm));
     vm.text_mode = SpritesABC::MODE_SELFMASK;
