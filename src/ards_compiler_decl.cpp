@@ -200,10 +200,10 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
         // optimize as memcpy or strcpy
         if(v->type.without_ref().is_copyable() &&
             src_type.is_any_ref() &&
-            src_type.children[0].is_copyable() &&
+            src_type.without_ref().is_copyable() &&
             v->type.without_ref().prim_size >= MIN_MEMCPY_SIZE)
         {
-            bool prog = src_type.children[0].is_prog;
+            bool prog = src_type.without_ref().is_prog;
 
             if(!is_global)
             {

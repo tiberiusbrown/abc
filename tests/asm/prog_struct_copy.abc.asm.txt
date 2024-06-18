@@ -1,0 +1,51 @@
+.shades 2
+.saved 0
+
+my_data:
+  .b f 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 2a
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+f:
+  .file prog_struct_copy.abc
+  .line 15
+  popn  224
+  p3
+  getln 35
+  p32
+  p00
+  refl  38
+  p32
+  p0
+  sys   memcpy_P
+  .line 16
+  getl  32
+  dec
+  not
+  sys   assert
+  .line 17
+  dup
+  push  42
+  sub
+  not
+  sys   assert
+  .line 13
+  popn  35
+  ret
+
+main:
+  .file prog_struct_copy.abc
+  .line 22
+  sys   debug_break
+  .line 24
+  pushl my_data 0
+  call  f
+  .line 26
+  sys   debug_break
+  .line 20
+  ret
+

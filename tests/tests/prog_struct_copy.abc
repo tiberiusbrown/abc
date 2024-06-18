@@ -1,0 +1,27 @@
+struct data_t
+{
+    u8 x;
+    u8[30] z;
+    u8 y;
+};
+
+data_t prog my_data =
+{
+    1, {}, 42
+};
+
+void f(data_t prog& r)
+{
+    data_t t = r;
+    $assert(t.x == 1);
+    $assert(t.y == 42);
+}
+
+void main()
+{
+    $debug_break();
+    
+    f(my_data);
+    
+    $debug_break();
+}

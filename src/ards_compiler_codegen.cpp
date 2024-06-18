@@ -426,6 +426,13 @@ void compiler_t::codegen_convert(
     }
 
     auto* pfrom = &orig_from;
+
+    while(pfrom->is_ref() && pfrom->children[0].is_ref())
+    {
+        pfrom = &pfrom->children[0];
+        codegen_dereference(f, frame, n, *pfrom);
+    }
+
     if(rto.is_array() && rfrom.is_array_ref())
     {
         errs.push_back({
