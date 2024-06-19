@@ -2311,6 +2311,14 @@ static void sys_init_random_seed()
     Arduboy2Base::initRandomSeed();
 }
 
+static void sys_set_random_seed()
+{
+    auto ptr = vm_pop_begin();
+    uint32_t seed = vm_pop<uint32_t>(ptr);
+    vm_pop_end(ptr);
+    srandom(seed);
+}
+
 static void sys_random()
 {
     vm_push<uint32_t>((uint32_t)random());
@@ -2470,6 +2478,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_sqrt,
     sys_generate_random_seed,
     sys_init_random_seed,
+    sys_set_random_seed,
     sys_random,
     sys_random_range,
 

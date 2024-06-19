@@ -74,6 +74,7 @@ float $round(float x);
 void  $save();
 bool  $save_exists();
 void  $set_frame_rate(u8 fps);
+void  $set_random_seed(u32 seed);
 void  $set_text_color(u8 color);
 void  $set_text_font(font f);
 float $sin(float angle);

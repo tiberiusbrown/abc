@@ -94,6 +94,7 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "sqrt",                 SYS_SQRT                 },
     { "generate_random_seed", SYS_GENERATE_RANDOM_SEED },
     { "init_random_seed",     SYS_INIT_RANDOM_SEED     },
+    { "set_random_seed",      SYS_SET_RANDOM_SEED      },
     { "random",               SYS_RANDOM               },
     { "random_range",         SYS_RANDOM_RANGE         },
 };
@@ -182,6 +183,7 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
     { SYS_SQRT,                 { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH, "" } },
     { SYS_GENERATE_RANDOM_SEED, { { TYPE_U32,   { }, { } }, CAT_RANDOM, "" } },
     { SYS_INIT_RANDOM_SEED,     { { TYPE_VOID,  { }, { } }, CAT_RANDOM, "" } },
+    { SYS_SET_RANDOM_SEED,      { { TYPE_VOID,  { TYPE_U32 }, { "seed" } }, CAT_RANDOM, ""}},
     { SYS_RANDOM,               { { TYPE_U32,   { }, { } }, CAT_RANDOM, "" } },
     { SYS_RANDOM_RANGE,         { { TYPE_U32,   { TYPE_U32, TYPE_U32 }, { "lo", "hi" } }, CAT_RANDOM, "" } },
 };
