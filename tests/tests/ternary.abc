@@ -1,0 +1,52 @@
+struct foo_t
+{
+    u8[3] x;
+};
+
+void main()
+{
+    $debug_break();
+    
+    bool t = true;
+    bool f = false;
+    
+    {
+        int a = t ? 42 : 56;
+        int b = f ? 42 : 56;
+        
+        $assert(a == 42);
+        $assert(b == 56);
+        $assert(true  ? 42 : 56 == 42);
+        $assert(t     ? 42 : 56 == 42);
+        $assert(false ? 42 : 56 == 56);
+        $assert(f     ? 42 : 56 == 56);
+    }
+    
+    {
+        foo_t a = { { 41, 42, 43 } };
+        foo_t b = { { 55, 56, 57 } };
+        
+        $assert((true  ? a : b).x[1] == 42);
+        $assert((t     ? a : b).x[1] == 42);
+        $assert((false ? a : b).x[1] == 56);
+        $assert((f     ? a : b).x[1] == 56);
+        
+        foo_t c = t ? a : b;
+        $assert(c.x[1] == 42);
+        c = f ? a : b;
+        $assert(c.x[1] == 56);
+        $assert((c = f ? b : a).x[1] == 42);
+        $assert(c.x[2] == 43);
+        
+        u8[3] d = t ? a.x[0:3] : b.x[0:3];
+        $assert(d[0] == 41);
+        $assert(d[1] == 42);
+        $assert(d[2] == 43);
+        d = f ? a.x[0:3] : b.x[0:3];
+        $assert(d[0] == 55);
+        $assert(d[1] == 56);
+        $assert(d[2] == 57);
+    }
+    
+    $debug_break();
+}

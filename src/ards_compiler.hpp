@@ -74,6 +74,9 @@ enum class AST
     OP_ADDITIVE,   // chain of ops and infix + / - tokens
     OP_MULTIPLICATIVE,
 
+    // ternary conditional operator
+    OP_TERNARY, // children are A, B, C from A ? B : C
+
     // right-associative assignment operators
     OP_ASSIGN,
     OP_ASSIGN_COMPOUND,

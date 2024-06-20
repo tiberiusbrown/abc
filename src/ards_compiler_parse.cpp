@@ -165,7 +165,10 @@ continue_stmt       <- 'continue' ';'
 expr                <- '{' '}' /
                        '{' expr (',' expr)* ','? '}' /
                        postfix_expr assignment_op expr /
-                       logical_or_expr
+                       conditional_expr
+
+# ternary conditional operator
+conditional_expr    <- logical_or_expr ('?' expr ':' conditional_expr)?
 
 # left-associative binary operators
 logical_or_expr     <- logical_and_expr    ('||'              logical_and_expr   )*
@@ -573,6 +576,15 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["shift_expr"         ] = infix<AST::OP_SHIFT>;
     p["additive_expr"      ] = infix<AST::OP_ADDITIVE>;
     p["multiplicative_expr"] = infix<AST::OP_MULTIPLICATIVE>;
+
+    p["conditional_expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        if(v.size() == 1)
+            return std::move(std::any_cast<ast_node_t>(v[0]));
+        ast_node_t a{ v.line_info(), AST::OP_TERNARY, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
 
     p["directive"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::DIRECTIVE, v.token() };

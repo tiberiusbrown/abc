@@ -395,6 +395,65 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         transform_constexprs(a, frame);
         break;
     }
+    case AST::OP_TERNARY:
+    {
+        assert(a.children.size() == 3);
+        for(auto& child : a.children)
+            type_annotate_recurse(child, frame);
+        if(!a.children[0].comp_type.is_bool)
+            a.children[0].insert_cast(TYPE_BOOL);
+        auto const& t0 = a.children[1].comp_type;
+        auto const& t1 = a.children[2].comp_type;
+        auto const& r0 = t0.without_ref();
+        auto const& r1 = t1.without_ref();
+        compiler_type_t t = TYPE_VOID;
+
+        if(t0 == t1)
+        {
+            t = t0;
+        }
+        else if(r0.is_prim() && r1.is_prim() && t0 != t1)
+        {
+            size_t n = std::max(r0.prim_size, r1.prim_size);
+            t.type = compiler_type_t::PRIM;
+            t.prim_size = n;
+            t.is_signed = false;
+
+            if(r0.is_float || r1.is_float)
+                t = TYPE_FLOAT;
+            else if(r0.is_signed || r1.is_signed)
+            {
+                if(!r0.is_signed || !r1.is_signed)
+                    t.prim_size = std::min<size_t>(n + 1, 4);
+                t.is_signed = true;
+            }
+        }
+        else if(r0 == t1)
+        {
+            t = r0;
+        }
+        else if(t0 == r1)
+        {
+            t = r1;
+        }
+
+        if(t.is_void())
+        {
+            errs.push_back({
+                "Incompatible types for ternary operator",
+                a.line_info });
+            return;
+        }
+
+        if(t0 != t) a.children[1].insert_cast(t);
+        if(t1 != t) a.children[2].insert_cast(t);
+
+        a.comp_type = t;
+        for(auto& child : a.children)
+            transform_constexprs(child, frame);
+        transform_constexprs(a, frame);
+        break;
+    }
     case AST::INT_CONST:
     case AST::FLOAT_CONST:
         // already done during parsing
@@ -614,7 +673,9 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
             a.children[1], a.children[0].comp_type.is_prog_array() ? 3 : 2);
         break;
     case AST::OP_CAST:
-        if(a.children[0].comp_type.is_bool || !a.children[0].comp_type.is_prim())
+        // ternary operators can propagate their casts to subexpressions
+        if(a.children[1].type != AST::OP_TERNARY &&
+            (a.children[0].comp_type.is_bool || !a.children[0].comp_type.is_prim()))
             break;
         min_size = std::min(min_size, a.children[0].comp_type.prim_size);
         a.comp_type.prim_size = min_size;
@@ -636,6 +697,23 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         type_reduce_recurse(a.children[0], min_size);
         type_reduce_recurse(a.children[1], min_size);
         if(a.children[0].comp_type.is_float || a.children[1].comp_type.is_float)
+            a.comp_type = TYPE_FLOAT;
+        break;
+    case AST::OP_TERNARY:
+        // if the ternary is inside a cast, apply that cast to subexpressions
+        if(a.parent && a.parent->type == AST::OP_CAST)
+        {
+            auto const& t = a.parent->comp_type;
+            a.children[1].insert_cast(t);
+            a.children[2].insert_cast(t);
+            a.comp_type = t;
+        }
+        if(!a.comp_type.is_prim())
+            break;
+        a.comp_type.prim_size = min_size;
+        type_reduce_recurse(a.children[1], min_size);
+        type_reduce_recurse(a.children[2], min_size);
+        if(a.children[1].comp_type.is_float || a.children[2].comp_type.is_float)
             a.comp_type = TYPE_FLOAT;
         break;
     case AST::OP_LOGICAL_AND:

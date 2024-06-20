@@ -199,6 +199,19 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
             }
         }
         break;
+    case AST::OP_TERNARY:
+    {
+        assert(n.children.size() == 3);
+        if(is_float)
+        {
+            n.value = n.children[0].value != 0 ? n.children[1].value : n.children[2].value;
+        }
+        else
+        {
+            n.fvalue = n.children[0].value != 0 ? n.children[1].fvalue : n.children[2].fvalue;
+        }
+        break;
+    }
     case AST::OP_SHIFT:
         assert(n.children.size() == 2);
         if(is_float || n.children[0].comp_type.is_float)

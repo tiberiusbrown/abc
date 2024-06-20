@@ -123,11 +123,15 @@ bool compiler_t::convertable(compiler_type_t const& dst, compiler_type_t const& 
             return false;
         return dst.children[0].is_prog == src.children[0].is_prog;
     }
-    if(dst.is_array_ref() && src.is_ref() && src.without_ref().is_array())
-        return dst.children[0] == src.children[0].children[0];
+    auto const& rdst = dst.without_ref();
+    auto const& rsrc = src.without_ref();
+    if(rdst.is_struct() && rsrc.is_struct())
+        return rdst.struct_name == rsrc.struct_name;
+    if(dst.is_array_ref() && src.is_ref() && rsrc.is_array())
+        return dst.children[0] == rsrc.children[0];
     if(dst.is_ref())
         return dst == src;
-    return dst == src.without_ref();
+    return dst == rsrc;
 }
 
 compiler_type_t compiler_t::resolve_type(ast_node_t const& n)

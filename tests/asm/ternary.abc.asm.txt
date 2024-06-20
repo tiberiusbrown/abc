@@ -1,0 +1,244 @@
+.shades 2
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file ternary.abc
+  .line 8
+  sys   debug_break
+  .line 10
+  p1
+  .line 11
+  p0
+  .line 14
+  dup2
+  bz    $L_main_0
+  push  42
+  jmp   $L_main_1
+$L_main_0:
+  push  56
+$L_main_1:
+  sext
+  .line 15
+  dup3
+  bz    $L_main_2
+  push  42
+  jmp   $L_main_3
+$L_main_2:
+  push  56
+$L_main_3:
+  sext
+  .line 17
+  dupw3
+  push  42
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 18
+  dupw
+  push  56
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 19
+  p1
+  sys   assert
+  .line 20
+  dup6
+  bz    $L_main_4
+  p1
+  jmp   $L_main_5
+$L_main_4:
+  p0
+$L_main_5:
+  sys   assert
+  .line 21
+  p1
+  sys   assert
+  .line 22
+  dup5
+  bz    $L_main_6
+  p1
+  jmp   $L_main_7
+$L_main_6:
+  p1
+$L_main_7:
+  sys   assert
+  pop4
+  .line 26
+  push4 925575721
+  .line 27
+  push2 14648
+  .line 29
+  dup5
+  push  42
+  sub
+  not
+  sys   assert
+  .line 30
+  dup8
+  bz    $L_main_8
+  refl  6
+  jmp   $L_main_9
+$L_main_8:
+  refl  3
+$L_main_9:
+  p1
+  add2b
+  getr
+  push  42
+  sub
+  not
+  sys   assert
+  .line 31
+  dup2
+  push  56
+  sub
+  not
+  sys   assert
+  .line 32
+  dup7
+  bz    $L_main_10
+  refl  6
+  jmp   $L_main_11
+$L_main_10:
+  refl  3
+$L_main_11:
+  p1
+  add2b
+  getr
+  push  56
+  sub
+  not
+  sys   assert
+  .line 34
+  dup8
+  bz    $L_main_12
+  p3
+  getln 6
+  jmp   $L_main_13
+$L_main_12:
+  p3
+  getln 3
+$L_main_13:
+  .line 35
+  dup2
+  push  42
+  sub
+  not
+  sys   assert
+  .line 36
+  getl  10
+  bz    $L_main_14
+  p3
+  getln 9
+  jmp   $L_main_15
+$L_main_14:
+  p3
+  getln 6
+$L_main_15:
+  p3
+  setln 3
+  .line 37
+  dup2
+  push  56
+  sub
+  not
+  sys   assert
+  .line 38
+  refl  3
+  getl  12
+  bz    $L_main_16
+  refl  8
+  jmp   $L_main_17
+$L_main_16:
+  refl  11
+$L_main_17:
+  getrn 3
+  dupw4
+  setrn 3
+  p1
+  add2b
+  getr
+  push  42
+  sub
+  not
+  sys   assert
+  .line 39
+  dup
+  push  43
+  sub
+  not
+  sys   assert
+  .line 41
+  getl  11
+  bz    $L_main_18
+  p3
+  getln 9
+  jmp   $L_main_19
+$L_main_18:
+  p3
+  getln 6
+$L_main_19:
+  .line 42
+  dup3
+  push  41
+  sub
+  not
+  sys   assert
+  .line 43
+  dup2
+  push  42
+  sub
+  not
+  sys   assert
+  .line 44
+  dup
+  push  43
+  sub
+  not
+  sys   assert
+  .line 45
+  getl  13
+  bz    $L_main_20
+  p3
+  getln 12
+  jmp   $L_main_21
+$L_main_20:
+  p3
+  getln 9
+$L_main_21:
+  p3
+  setln 3
+  .line 46
+  dup3
+  push  55
+  sub
+  not
+  sys   assert
+  .line 47
+  dup2
+  push  56
+  sub
+  not
+  sys   assert
+  .line 48
+  dup
+  push  57
+  sub
+  not
+  sys   assert
+  popn  12
+  .line 51
+  sys   debug_break
+  .line 6
+  pop2
+  ret
+

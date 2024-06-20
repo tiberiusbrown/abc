@@ -1129,6 +1129,57 @@ void compiler_t::codegen_expr(
         return;
     }
 
+    case AST::OP_TERNARY:
+    {
+        assert(a.children.size() == 3);
+        assert(a.children[0].comp_type.is_bool);
+        assert(a.comp_type == a.children[1].comp_type);
+        assert(a.comp_type == a.children[2].comp_type);
+
+        // compile-time 'true' condition
+        if(a.children[0].type == AST::INT_CONST && a.children[0].value != 0)
+        {
+            codegen_expr(f, frame, a.children[1], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[1].comp_type);
+            return;
+        }
+
+        // compile-time 'false' condition
+        if(a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
+        {
+            codegen_expr(f, frame, a.children[2], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[2].comp_type);
+            return;
+        }
+
+        // condition
+        codegen_expr(f, frame, a.children[0], false);
+        codegen_convert(f, frame, a.children[0], TYPE_BOOL, a.children[0].comp_type);
+
+        // branch
+        auto secondary_label = new_label(f);
+        auto end_label = new_label(f);
+        f.instrs.push_back({ I_BZ, a.children[0].line(), 0, 0, secondary_label });
+        frame.size -= 1;
+
+        // primary case
+        auto prev_size = frame.size;
+        codegen_expr(f, frame, a.children[1], false);
+        codegen_convert(f, frame, a.children[1], a.comp_type, a.children[1].comp_type);
+        f.instrs.push_back({ I_JMP, a.children[1].line(), 0, 0, end_label });
+        frame.size = prev_size;
+
+        // secondary case
+        codegen_label(f, secondary_label);
+        codegen_expr(f, frame, a.children[2], false);
+        codegen_convert(f, frame, a.children[2], a.comp_type, a.children[2].comp_type);
+
+        // end label
+        codegen_label(f, end_label);
+
+        break;
+    }
+
     default:
         assert(false);
         errs.push_back({ "(codegen_expr) Unimplemented AST node", a.line_info });
