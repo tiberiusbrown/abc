@@ -10,26 +10,19 @@ constexpr font SCORE_FONT = font{ 9 "assets/score.ttf" };
 
 void render()
 {
-    if(state == STATE_LEVEL)
-        render_level();
-    else if(state == STATE_LEVEL_COMPLETE)
-        render_level_complete();
-    else if(state == STATE_PAUSE)
-        render_pause(false);
-    else if(state == STATE_CONFIRM)
-        render_pause(true);
-    else if(state == STATE_INTRO || state == STATE_SCORE_TALLY)
-        render_intro();
-    else if(state == STATE_MENU)
-        render_menu();
-    else if(state == STATE_VICTORY)
-        render_victory();
-    else if(state == STATE_LEVEL_SELECT)
-        render_level_select();
-    else if(state == STATE_GAME_OVER)
-        render_game_over();
-    else if(state == STATE_CREDITS)
-        render_credits();
+    switch(state)
+    {
+    case(STATE_LEVEL)                    render_level();
+    case(STATE_LEVEL_COMPLETE)           render_level_complete();
+    case(STATE_PAUSE)                    render_pause(false);
+    case(STATE_CONFIRM)                  render_pause(true);
+    case(STATE_INTRO, STATE_SCORE_TALLY) render_intro();
+    case(STATE_MENU)                     render_menu();
+    case(STATE_VICTORY)                  render_victory();
+    case(STATE_LEVEL_SELECT)             render_level_select();
+    case(STATE_GAME_OVER)                render_game_over();
+    case(STATE_CREDITS)                  render_credits();
+    }
 }
 
 void render_credits()

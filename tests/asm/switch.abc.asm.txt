@@ -1,0 +1,445 @@
+.shades 2
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file switch.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  push  42
+  .line 6
+  p00
+  .line 8
+  setl  1
+  .line 9
+  dup2
+  .line 11
+  dup
+  push  41
+  sub
+  bz    $L_main_1
+  .line 12
+  dup
+  push  42
+  sub
+  bz    $L_main_2
+  .line 9
+  jmp   $L_main_3
+$L_main_1:
+  .line 11
+  p0
+  sys   assert
+  jmp   $L_main_2
+  .line 9
+  jmp   $L_main_0
+$L_main_2:
+  .line 12
+  p1
+  setl  2
+  .line 9
+  jmp   $L_main_0
+$L_main_3:
+  .line 13
+  p0
+  sys   assert
+$L_main_0:
+  .line 9
+  pop
+  .line 15
+  dup
+  sys   assert
+  .line 17
+  p0
+  setl  1
+  .line 18
+  dup2
+  .line 20
+  dup
+  push  41
+  sub
+  bz    $L_main_5
+  .line 21
+  dup
+  push  42
+  sub
+  bz    $L_main_6
+  .line 22
+  dup
+  push  43
+  sub
+  bz    $L_main_7
+  .line 18
+  jmp   $L_main_8
+$L_main_5:
+  .line 20
+  p0
+  sys   assert
+  jmp   $L_main_6
+  .line 18
+  jmp   $L_main_4
+$L_main_6:
+  .line 21
+  p1
+  sys   assert
+  jmp   $L_main_7
+  .line 18
+  jmp   $L_main_4
+$L_main_7:
+  .line 22
+  p1
+  setl  2
+  .line 18
+  jmp   $L_main_4
+$L_main_8:
+  .line 23
+  p0
+  sys   assert
+$L_main_4:
+  .line 18
+  pop
+  .line 25
+  dup
+  sys   assert
+  .line 27
+  p0
+  setl  1
+  .line 28
+  dup2
+  .line 30
+  dup
+  push  41
+  sub
+  bz    $L_main_10
+  dup
+  push  42
+  sub
+  .line 28
+  bnz   $L_main_11
+$L_main_10:
+  .line 30
+  p1
+  setl  2
+  .line 28
+  jmp   $L_main_9
+$L_main_11:
+  .line 32
+  p0
+  sys   assert
+$L_main_9:
+  .line 28
+  pop
+  .line 34
+  dup
+  sys   assert
+  .line 36
+  p0
+  setl  1
+  .line 37
+  dup2
+  .line 39
+  dup
+  push  41
+  sub
+  bz    $L_main_13
+  dup
+  push  42
+  sub
+  bz    $L_main_13
+  dup
+  push  43
+  sub
+  .line 37
+  bnz   $L_main_14
+$L_main_13:
+  .line 39
+  p1
+  setl  2
+  .line 37
+  jmp   $L_main_12
+$L_main_14:
+  .line 41
+  p0
+  sys   assert
+$L_main_12:
+  .line 37
+  pop
+  .line 43
+  dup
+  sys   assert
+  .line 45
+  p0
+  setl  1
+  .line 46
+  dup2
+  .line 48
+  dup
+  push  42
+  sub
+  bz    $L_main_16
+  dup
+  push  43
+  sub
+  .line 46
+  bnz   $L_main_17
+$L_main_16:
+  .line 48
+  p1
+  setl  2
+  .line 46
+  jmp   $L_main_15
+$L_main_17:
+  .line 50
+  p0
+  sys   assert
+$L_main_15:
+  .line 46
+  pop
+  .line 52
+  dup
+  sys   assert
+  .line 54
+  p0
+  setl  1
+  .line 55
+  dup2
+  .line 57
+  dup
+  push  42
+  cult
+  bnz   $L_main_20
+  push  43
+  dup2
+  cult
+  bz    $L_main_19
+$L_main_20:
+  .line 55
+  jmp   $L_main_18
+$L_main_19:
+  .line 57
+  p1
+  setl  2
+$L_main_18:
+  .line 55
+  pop
+  .line 59
+  dup
+  sys   assert
+  .line 61
+  p0
+  setl  1
+  .line 62
+  dup2
+  .line 64
+  dup
+  push  41
+  cult
+  bnz   $L_main_23
+  push  42
+  dup2
+  cult
+  bz    $L_main_22
+$L_main_23:
+  .line 62
+  jmp   $L_main_21
+$L_main_22:
+  .line 64
+  p1
+  setl  2
+$L_main_21:
+  .line 62
+  pop
+  .line 66
+  dup
+  sys   assert
+  .line 68
+  p0
+  setl  1
+  .line 69
+  dup2
+  .line 71
+  dup
+  push  42
+  cult
+  bnz   $L_main_26
+  push  42
+  dup2
+  cult
+  bz    $L_main_25
+$L_main_26:
+  .line 69
+  jmp   $L_main_24
+$L_main_25:
+  .line 71
+  p1
+  setl  2
+$L_main_24:
+  .line 69
+  pop
+  .line 73
+  dup
+  sys   assert
+  .line 75
+  p0
+  setl  1
+  .line 76
+  dup2
+  .line 78
+  dup
+  push  40
+  cult
+  bnz   $L_main_29
+  push  45
+  dup2
+  cult
+  bz    $L_main_28
+$L_main_29:
+  .line 76
+  jmp   $L_main_27
+$L_main_28:
+  .line 78
+  p1
+  setl  2
+$L_main_27:
+  .line 76
+  pop
+  .line 80
+  dup
+  sys   assert
+  .line 82
+  p0
+  setl  1
+  .line 83
+  dup2
+  .line 85
+  dup
+  push  38
+  sub
+  bz    $L_main_31
+  dup
+  push  40
+  cult
+  bnz   $L_main_32
+  push  45
+  dup2
+  cult
+  bz    $L_main_31
+$L_main_32:
+  dup
+  push  17
+  sub
+  .line 83
+  bnz   $L_main_30
+$L_main_31:
+  .line 85
+  p1
+  setl  2
+$L_main_30:
+  .line 83
+  pop
+  .line 87
+  dup
+  sys   assert
+  .line 89
+  p0
+  setl  1
+  .line 90
+  dup2
+  .line 92
+  dup
+  push  38
+  cult
+  bnz   $L_main_35
+  push  40
+  dup2
+  cult
+  bz    $L_main_34
+$L_main_35:
+  dup
+  push  42
+  sub
+  bz    $L_main_34
+  dup
+  push  17
+  sub
+  .line 90
+  bnz   $L_main_33
+$L_main_34:
+  .line 92
+  p1
+  setl  2
+$L_main_33:
+  .line 90
+  pop
+  .line 94
+  dup
+  sys   assert
+  .line 96
+  p0
+  setl  1
+  .line 97
+  dup2
+  .line 100
+  dup
+  push  41
+  sub
+  bz    $L_main_38
+  .line 99
+  p1
+  sys   assert
+  jmp   $L_main_38
+  .line 97
+  jmp   $L_main_36
+$L_main_38:
+  .line 100
+  p1
+  setl  2
+$L_main_36:
+  .line 97
+  pop
+  .line 102
+  dup
+  sys   assert
+  .line 104
+  p0
+  setl  1
+  .line 105
+  dup2
+  .line 107
+  dup
+  push  42
+  sub
+  .line 105
+  bnz   $L_main_41
+  .line 107
+  p1
+  setl  2
+  dup3
+  push  42
+  sub
+  bz    $L_main_39
+  p0
+  sys   assert
+  .line 105
+  jmp   $L_main_39
+$L_main_41:
+  .line 108
+  p0
+  sys   assert
+$L_main_39:
+  .line 105
+  pop
+  .line 110
+  dup
+  sys   assert
+  .line 112
+  sys   debug_break
+  .line 1
+  pop2
+  ret
+

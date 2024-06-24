@@ -1,5 +1,6 @@
 #include "ards_compiler.hpp"
 
+#include <algorithm>
 #include <sstream>
 #include <assert.h>
 
@@ -370,6 +371,11 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         decl(f, frame, a);
         break;
     }
+    case AST::SWITCH_STMT:
+    {
+        codegen_switch(f, frame, a);
+        break;
+    }
     default:
         assert(false);
         errs.push_back({ "(codegen) Unimplemented AST node", a.line_info });
@@ -378,6 +384,199 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     (void)prev_size;
     if(a.type != AST::DECL_STMT && errs.empty())
         assert(frame.size == prev_size);
+}
+
+void compiler_t::codegen_switch(
+    compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a)
+{
+    type_annotate(a.children[0], frame);
+    for(size_t i = 1; i < a.children.size(); ++i)
+    {
+        auto& a_case = a.children[i];
+        assert(a_case.type == AST::SWITCH_CASE);
+        for(size_t j = 1; j < a_case.children.size(); ++j)
+        {
+            auto& a_case_item = a_case.children[j];
+            assert(a_case_item.type == AST::SWITCH_CASE_ITEM);
+            for(auto& child : a_case_item.children)
+            {
+                type_annotate(child, frame);
+                if(child.type != AST::INT_CONST)
+                {
+                    errs.push_back({
+                        "Case value must be integral constant expression",
+                        child.line_info });
+                    return;
+                }
+            }
+        }
+    }
+
+    auto expr_type = a.children[0].comp_type.without_ref();
+    if(!expr_type.is_prim() || expr_type.is_float)
+    {
+        errs.push_back({
+            "Switch expression must be of integral type",
+            a.children[0].line_info });
+        return;
+    }
+
+    // verify no more than one default label
+    {
+        bool default_found = false;
+        for(size_t i = 1; i < a.children.size(); ++i)
+        {
+            if(a.children[i].children.size() <= 1)
+            {
+                if(default_found)
+                {
+                    errs.push_back({
+                        "Switch statement cannot have more than one default case",
+                        a.children[i].line_info });
+                    return;
+                }
+                default_found = true;
+            }
+        }
+    }
+
+    // verify no overlapping cases
+    {
+        struct range_t { int64_t a, b; std::string_view data; std::pair<size_t, size_t> line_info; };
+        std::vector<range_t> ranges;
+        for(size_t i = 1; i < a.children.size(); ++i)
+        {
+            auto const& a_case = a.children[i];
+            for(size_t j = 1; j < a_case.children.size(); ++j)
+            {
+                auto const& a_case_item = a_case.children[j];
+                auto const& c = a_case_item.children;
+                std::string_view data = a_case_item.data;
+                auto line_info = a_case_item.line_info;
+                if(c.size() == 1)
+                    ranges.push_back({ c[0].value, c[0].value, data, line_info });
+                else if(c.size() == 2)
+                    ranges.push_back({ c[0].value, c[1].value, data, line_info });
+                else
+                    assert(false);
+            }
+        }
+        std::sort(
+            ranges.begin(), ranges.end(),
+            [](range_t const& x, range_t const& y) { return x.a < y.a; });
+        for(size_t i = 1; i < ranges.size(); ++i)
+        {
+            auto const& ra = ranges[i - 1];
+            auto const& rb = ranges[i];
+            if(ra.b >= rb.a)
+            {
+                errs.push_back({
+                    "Case \"" + std::string(ra.data) + "\" overlaps with case \"" + std::string(rb.data) + "\"",
+                    ra.line_info });
+                return;
+            }
+        }
+    }
+
+    size_t expr_offset = frame.size;
+    codegen_expr(f, frame, a.children[0], false);
+    codegen_convert(f, frame, a.children[0], expr_type, a.children[0].comp_type);
+
+    std::string end_label = new_label(f);
+    std::string default_label;
+    std::vector<std::string> case_labels;
+    case_labels.reserve(a.children.size());
+    for(size_t i = 1; i < a.children.size(); ++i)
+    {
+        case_labels.push_back(new_label(f));
+        if(a.children[i].children.size() <= 1)
+            default_label = case_labels.back();
+    }
+    case_labels.push_back(end_label);
+    if(default_label.empty())
+        default_label = end_label;
+
+    // case jump logic
+    for(size_t i = 1; i < a.children.size(); ++i)
+    {
+        auto const& a_case = a.children[i];
+        auto const& label = case_labels[i - 1];
+        for(size_t j = 1; j < a_case.children.size(); ++j)
+        {
+            auto const& a_case_item = a_case.children[j];
+            auto line = a_case_item.line();
+            instr_t isub = instr_t(I_SUB + expr_type.prim_size - 1);
+            instr_t ibool = instr_t(I_BOOL + expr_type.prim_size - 1);
+            if(a_case_item.children.size() == 1)
+            {
+                // single case value
+                f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
+                f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                frame.size += expr_type.prim_size;
+                codegen_expr(f, frame, a_case_item.children[0], false);
+                codegen_convert(
+                    f, frame, a_case_item.children[0],
+                    expr_type, a_case_item.children[0].comp_type);
+                f.instrs.push_back({ isub, line });
+                f.instrs.push_back({ ibool, line });
+                f.instrs.push_back({ I_BZ, line, 0, 0, label });
+                frame.size -= expr_type.prim_size * 2;
+            }
+            else if(a_case_item.children.size() == 2)
+            {
+                // case range: start ... end
+                std::string temp_label = new_label(f);
+                instr_t ilt = instr_t(
+                    (expr_type.is_signed ? I_CSLT : I_CULT) +
+                    expr_type.prim_size - 1);
+
+                // if(val < start) goto next case item
+                f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
+                f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                frame.size += expr_type.prim_size;
+                codegen_expr(f, frame, a_case_item.children[0], false);
+                codegen_convert(
+                    f, frame, a_case_item.children[0],
+                    expr_type, a_case_item.children[0].comp_type);
+                f.instrs.push_back({ ilt, line });
+                f.instrs.push_back({ I_BNZ, line, 0, 0, temp_label });
+                frame.size -= expr_type.prim_size * 2;
+
+                // if(!(end < val)) goto case label
+                codegen_expr(f, frame, a_case_item.children[1], false);
+                codegen_convert(
+                    f, frame, a_case_item.children[1],
+                    expr_type, a_case_item.children[1].comp_type);
+                f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
+                f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                frame.size += expr_type.prim_size;
+                f.instrs.push_back({ ilt, line });
+                f.instrs.push_back({ I_BZ, line, 0, 0, label });
+                frame.size -= expr_type.prim_size * 2;
+
+                codegen_label(f, temp_label);
+            }
+            else assert(false);
+        }
+    }
+    f.instrs.push_back({ I_JMP, a.line(), 0, 0, default_label });
+
+    // case statements
+    for(size_t i = 1; i < a.children.size(); ++i)
+    {
+        break_stack.push_back({ end_label, frame.size });
+        continue_stack.push_back({ case_labels[i], frame.size });
+        codegen_label(f, case_labels[i - 1]);
+        codegen(f, frame, a.children[i].children[0]);
+        f.instrs.push_back({ I_JMP, a.line(), 0, 0, end_label });
+        break_stack.pop_back();
+        continue_stack.pop_back();
+    }
+
+    codegen_label(f, end_label);
+    for(size_t i = 0; i < expr_type.prim_size; ++i)
+        f.instrs.push_back({ I_POP, a.line() });
+    frame.size -= expr_type.prim_size;
 }
 
 void compiler_t::codegen_store(

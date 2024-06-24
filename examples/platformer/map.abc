@@ -98,7 +98,7 @@ void load_map()
 
     $tones_play_primary(SOUND_LEVEL_START);
 
-    $debug_printf("key_required=%u\n", keys_required);
+    //$debug_printf("key_required=%u\n", keys_required);
 }
 
 void process_map_tile(u8 x, u8 y, u8 t)
