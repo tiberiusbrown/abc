@@ -31,6 +31,7 @@ std::unordered_set<std::string> const keywords =
     "if", "else", "while", "for", "return", "break", "continue",
     "constexpr", "saved", "prog", "sprites", "font", "tones", "music",
     "struct", "import", "len", "float", "byte", "do",
+    "switch", "case", "default",
 };
 
 std::unordered_map<std::string, compiler_type_t> const primitive_types

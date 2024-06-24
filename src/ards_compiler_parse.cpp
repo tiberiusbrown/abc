@@ -149,6 +149,7 @@ stmt                <- compound_stmt /
                        for_stmt      /
                        break_stmt    /
                        continue_stmt /
+                       switch_stmt   /
                        decl_stmt     /
                        expr_stmt
 if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
@@ -160,6 +161,9 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 break_stmt          <- 'break' ';'
 continue_stmt       <- 'continue' ';'
+switch_stmt         <- 'switch' '{' switch_case+ '}'
+switch_case         <- 'case' expr ':' stmt* /
+                       'default' ':' stmt*
 
 # right-associative binary assignment operator
 expr                <- '{' '}' /
@@ -829,6 +833,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["continue_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
         return { v.line_info(), AST::CONTINUE_STMT, v.token() };
     };
+
+    p["switch_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        return { v.line_info(), AST::CONTINUE_STMT, v.token() };
+    };
+
     p["program"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::PROGRAM, v.token() };
         for(auto& child : v)

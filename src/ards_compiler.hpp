@@ -54,6 +54,8 @@ enum class AST
     RETURN_STMT,  // child is expr if it exists
     BREAK_STMT,   // no children
     CONTINUE_STMT,// no children
+    SWITCH_STMT,  // children are switch_case's
+    SWITCH_CASE,  // children are stmt's
 
     //
     // expression nodes
