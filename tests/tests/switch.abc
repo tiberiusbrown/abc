@@ -93,5 +93,21 @@ void main()
     }
     $assert(t);
     
+    t = false;
+    switch(x)
+    {
+    default  { $assert(true); continue; }
+    case(41) t = true;
+    }
+    $assert(t);
+     
+    t = false;
+    switch(x)
+    {
+    case(42) { t = true; if(x == 42) break; $assert(false); }
+    default  $assert(false);
+    }
+    $assert(t);
+   
     $debug_break();
 }

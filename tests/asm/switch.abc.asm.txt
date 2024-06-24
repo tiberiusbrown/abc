@@ -380,6 +380,64 @@ $L_main_33:
   dup
   sys   assert
   .line 96
+  p0
+  setl  1
+  .line 97
+  dup2
+  .line 100
+  dup
+  push  41
+  sub
+  bz    $L_main_38
+  .line 99
+  p1
+  sys   assert
+  jmp   $L_main_38
+  .line 97
+  jmp   $L_main_36
+$L_main_38:
+  .line 100
+  p1
+  setl  2
+$L_main_36:
+  .line 97
+  pop
+  .line 102
+  dup
+  sys   assert
+  .line 104
+  p0
+  setl  1
+  .line 105
+  dup2
+  .line 107
+  dup
+  push  42
+  sub
+  .line 105
+  bnz   $L_main_41
+  .line 107
+  p1
+  setl  2
+  dup3
+  push  42
+  sub
+  bz    $L_main_39
+  p0
+  sys   assert
+  .line 105
+  jmp   $L_main_39
+$L_main_41:
+  .line 108
+  p0
+  sys   assert
+$L_main_39:
+  .line 105
+  pop
+  .line 110
+  dup
+  sys   assert
+  .line 112
   sys   debug_break
   .line 1
   pop2

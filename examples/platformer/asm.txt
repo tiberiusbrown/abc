@@ -51,6 +51,9 @@
 .global vy 4
 .global objects 300
 
+$PD_45:
+$PD_46:
+  .b 3 43 03 ff 00
 map0:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -132,7 +135,7 @@ map_wind:
   .b f 00 00 02 02 02 02 02 02 00 00 00 00 00 00 00 00
   .b f 00 02 02 02 02 02 02 00 00 00 00 00 00 02 02 02
 $PD_57:
-  .b a 45 6e 74 69 72 65 20 47 61 6d 65
+  .b a 53 75 6d 20 6f 66 20 42 65 73 74
 map_floating:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 f4 00 00 00 00 00 00 00 00 00 00 00 00
@@ -166,8 +169,6 @@ map_floating:
   .b f b2 b2 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b f 00 00 00 00 00 b2 b2 00 b2 b2 00 00 00 00 00 00
   .b f b2 b2 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-$PD_44:
-  .b 9 4c 75 6b 65 20 42 72 6f 77 6e
 map1:
   .b f 00 00 00 85 00 00 00 00 00 00 00 00 85 00 00 00
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 f2 00 00
@@ -424,12 +425,12 @@ $PD_23:
   .b f 00 08 10 08 00 f8 1c 00 08 08 07 00 f8 24 00 07
   .b f 08 02 00 f8 2b 00 01 08 04 00 f8 2c 00 03 08 04
   .b 1 00 f8
-$PD_54:
-$PD_56:
-$PD_60:
-$PD_62:
-$PD_64:
-$PD_66:
+$PD_53:
+$PD_55:
+$PD_59:
+$PD_61:
+$PD_63:
+$PD_65:
   .b f 2d 00 03 08 06 00 f8 30 00 05 08 06 00 fb 35 00
   .b f 05 08 03 00 fe 3a 00 02 08 05 00 fd 3c 00 04 08
   .b f 03 00 fe 40 00 02 08 08 00 f8 42 00 08 08 06 00
@@ -455,7 +456,7 @@ $PD_66:
   .b f 03 08 08 00 f8 24 01 08 08 04 00 f8 2c 01 03 08
   .b f 04 00 f8 2f 01 03 08 07 00 ff 32 01 07 08 03 00
   .b e f8 24 01 02 08 06 00 fb 39 01 05 08 06 00 f8
-$PD_83:
+$PD_82:
   .b f 3e 01 05 08 06 00 fb 43 01 05 08 06 00 f8 48 01
   .b f 05 08 06 00 fb 4d 01 05 08 05 00 f8 52 01 04 08
   .b f 06 00 fb 56 01 05 08 06 00 f8 5b 01 05 08 02 00
@@ -611,7 +612,8 @@ map_we_three_keys:
   .b f 07 07 07 07 07 07 07 12 12 17 07 07 07 07 07 07
   .b f 07 07 07 07 07 17 12 12 12 12 12 18 00 b2 00 16
 $PD_39:
-  .b a 50 72 6f 67 72 61 6d 6d 69 6e 67
+  .b f 54 69 6c 65 73 20 61 6e 64 20 53 70 72 69 74 65
+  .b 0 73
 $PD_26:
   .b b 4c 05 4a 05 48 05 4a 05 4c 05 ff 00
 $PD_0:
@@ -873,140 +875,7 @@ $PD_0:
   .b f a6 5d ba 54 ba 75 aa d1 a3 45 8a 15 ae 5d bf 55
   .b 4 aa 55 eb 57 ae
 $PD_38:
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 02 00 00 00 00 01 08 02 00 fa 01 00 01 08 04 00
-  .b f fa 02 00 04 08 06 00 fa 06 00 06 08 06 00 fa 0c
-  .b f 00 06 08 04 00 fa 12 00 04 08 05 00 fa 16 00 05
-  .b f 08 02 00 fa 02 00 01 08 03 00 fa 1b 00 03 08 03
-  .b f 00 fa 1e 00 03 08 04 00 fa 21 00 04 08 04 00 fb
-  .b f 25 00 04 08 03 00 fe 29 00 03 08 04 00 fc 2c 00
-  .b f 04 08 02 00 ff 30 00 01 08 04 00 fa 31 00 04 08
-  .b f 04 00 fa 35 00 04 08 04 00 fa 39 00 04 08 04 00
-  .b f fa 3d 00 04 08 04 00 fa 41 00 04 08 04 00 fa 45
-  .b f 00 04 08 04 00 fa 49 00 04 08 04 00 fa 4d 00 04
-  .b f 08 04 00 fa 51 00 04 08 04 00 fa 55 00 04 08 04
-  .b f 00 fa 59 00 04 08 02 00 fc 21 00 01 08 03 00 fc
-  .b f 5d 00 03 08 04 00 fa 60 00 04 08 04 00 fb 64 00
-  .b f 04 08 04 00 fa 68 00 04 08 04 00 fa 6c 00 04 08
-  .b f 05 00 fa 70 00 05 08 04 00 fa 75 00 04 08 04 00
-  .b f fa 79 00 04 08 04 00 fa 7d 00 04 08 04 00 fa 81
-  .b f 00 04 08 04 00 fa 85 00 04 08 04 00 fa 89 00 04
-  .b f 08 04 00 fa 8d 00 04 08 04 00 fa 91 00 04 08 04
-  .b f 00 fa 95 00 04 08 03 00 fa 99 00 03 08 04 00 fa
-  .b f 9c 00 04 08 04 00 fa a0 00 04 08 06 00 fa a4 00
-  .b f 06 08 05 00 fa aa 00 05 08 05 00 fa af 00 05 08
-  .b f 04 00 fa b4 00 04 08 05 00 fa b8 00 05 08 04 00
-  .b f fa bd 00 04 08 04 00 fa c1 00 04 08 04 00 fa c5
-  .b f 00 04 08 05 00 fa c9 00 05 08 04 00 fa ce 00 04
-  .b f 08 06 00 fa d2 00 06 08 04 00 fa d8 00 04 08 04
-  .b f 00 fa dc 00 04 08 04 00 fa e0 00 04 08 03 00 fa
-  .b f 96 00 03 08 04 00 fa e4 00 04 08 03 00 fa e8 00
-  .b f 03 08 04 00 fa eb 00 04 08 04 00 ff ef 00 04 08
-  .b f 03 00 fa ec 00 03 08 04 00 fb f3 00 04 08 04 00
-  .b f fa f7 00 04 08 03 00 fb fb 00 03 08 04 00 fa fe
-  .b f 00 04 08 04 00 fb 02 01 04 08 03 00 fa 06 01 03
-  .b f 08 04 00 fb 09 01 04 08 04 00 fa 0d 01 04 08 02
-  .b f 00 fa 11 01 01 08 03 00 fa 12 01 03 08 04 00 fa
-  .b f 15 01 04 08 02 00 fa 07 00 01 08 06 00 fb 19 01
-  .b f 06 08 04 00 fb 1f 01 04 08 04 00 fb 23 01 04 08
-  .b f 04 00 fb 27 01 04 08 04 00 fb 2b 01 04 08 04 00
-  .b f fb 2f 01 04 08 03 00 fb 33 01 03 08 03 00 fa 36
-  .b f 01 03 08 04 00 fb 39 01 04 08 04 00 fb 3d 01 04
-  .b f 08 06 00 fb 41 01 06 08 04 00 fb 47 01 04 08 04
-  .b f 00 fb dc 00 04 08 03 00 fb 4b 01 03 08 04 00 fa
-  .b f 4e 01 04 08 02 00 fa 07 00 01 08 04 00 fa 52 01
-  .b f 04 08 05 00 fc 56 01 05 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 02 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
-  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
-  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
-  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
-  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
-  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
-  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
-  .b f 07 00 2e 06 00 06 00 14 3e 14 3e 14 00 04 2a 3e
-  .b f 2a 10 00 32 08 26 00 14 2a 12 28 00 1c 22 00 22
-  .b f 1c 00 0a 04 0a 00 04 0e 04 00 04 02 00 02 02 02
-  .b f 00 01 30 08 06 00 1c 22 1c 00 24 3e 20 00 32 2a
-  .b f 24 00 22 2a 14 00 0e 08 3e 00 2e 2a 12 00 1c 2a
-  .b f 10 00 02 32 0e 00 14 2a 14 00 04 2a 1c 00 10 0a
-  .b f 00 08 14 22 00 0a 0a 0a 00 22 14 08 00 02 2a 04
-  .b f 00 1c 22 2a 0c 00 3c 0a 3c 00 3e 2a 14 00 1c 22
-  .b f 22 00 3e 22 1c 00 3e 2a 22 00 3e 0a 02 00 1c 22
-  .b f 32 00 3e 08 3e 00 22 3e 22 00 22 1e 00 3e 08 36
-  .b f 00 3e 20 20 00 3e 04 08 04 3e 00 3e 04 08 3e 00
-  .b f 1c 22 22 1c 00 3e 0a 04 00 1c 22 32 3c 00 3e 0a
-  .b f 34 00 24 2a 12 00 02 3e 02 00 1e 20 20 1e 00 0e
-  .b f 30 0e 00 0e 30 08 30 0e 00 36 08 36 00 06 28 1e
-  .b f 00 32 2a 26 00 06 08 30 00 22 3e 00 04 02 04 00
-  .b f 01 01 01 00 0c 12 1e 00 3e 24 18 00 0c 12 00 18
-  .b f 24 3e 00 0c 1a 14 00 3c 0a 00 04 2a 1e 00 3e 08
-  .b f 30 00 3a 40 3a 00 3e 08 34 00 1e 02 1c 02 1c 00
-  .b f 1e 02 1c 00 0c 12 0c 00 3e 12 0c 00 0c 12 3e 00
-  .b f 1e 04 02 00 16 1a 00 1e 24 00 0e 10 1e 00 0e 10
-  .b f 0e 00 0e 10 0c 10 0e 00 12 0c 12 00 1a 16 00 08
-  .b b 36 22 00 22 36 08 00 04 02 04 02 00
+  .b a 50 72 6f 67 72 61 6d 6d 69 6e 67
 $PD_27:
   .b f 48 05 49 05 4a 05 4b 05 4c 05 4b 05 4a 05 49 05
   .b d 48 05 48 05 49 05 4a 05 4b 05 4c 05 ff 00
@@ -1924,9 +1793,6 @@ $PD_22:
   .b 0 01
 $PD_4:
   .b 8 01 08 00 04 00 00 00 00 00
-$PD_46:
-$PD_47:
-  .b 3 43 03 ff 00
 maps:
   .rp $PD_5
   .b 2 0d 00 00
@@ -2019,8 +1885,6 @@ VICTORY_TILES:
   .b f 00 00 00 00 00 00 85 00 00 00 00 00 00 00 85 00
   .b f 00 00 00 00 00 5d 85 00 00 00 00 00 00 94 95 96
   .b 7 02 02 02 02 02 02 02 02
-$PD_108:
-  .b 2 25 75 33
 $PD_12:
   .b c 57 65 20 54 68 72 65 65 20 4b 65 79 73
 $PD_15:
@@ -3441,8 +3305,140 @@ GAME_OVER_TILES:
 VICTORY_FRAMES:
   .b 7 00 00 06 05 06 00 00 00
 $PD_37:
-  .b f 6b 65 79 5f 72 65 71 75 69 72 65 64 3d 25 75 30
-  .b 0 0a
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 02 00 00 00 00 01 08 02 00 fa 01 00 01 08 04 00
+  .b f fa 02 00 04 08 06 00 fa 06 00 06 08 06 00 fa 0c
+  .b f 00 06 08 04 00 fa 12 00 04 08 05 00 fa 16 00 05
+  .b f 08 02 00 fa 02 00 01 08 03 00 fa 1b 00 03 08 03
+  .b f 00 fa 1e 00 03 08 04 00 fa 21 00 04 08 04 00 fb
+  .b f 25 00 04 08 03 00 fe 29 00 03 08 04 00 fc 2c 00
+  .b f 04 08 02 00 ff 30 00 01 08 04 00 fa 31 00 04 08
+  .b f 04 00 fa 35 00 04 08 04 00 fa 39 00 04 08 04 00
+  .b f fa 3d 00 04 08 04 00 fa 41 00 04 08 04 00 fa 45
+  .b f 00 04 08 04 00 fa 49 00 04 08 04 00 fa 4d 00 04
+  .b f 08 04 00 fa 51 00 04 08 04 00 fa 55 00 04 08 04
+  .b f 00 fa 59 00 04 08 02 00 fc 21 00 01 08 03 00 fc
+  .b f 5d 00 03 08 04 00 fa 60 00 04 08 04 00 fb 64 00
+  .b f 04 08 04 00 fa 68 00 04 08 04 00 fa 6c 00 04 08
+  .b f 05 00 fa 70 00 05 08 04 00 fa 75 00 04 08 04 00
+  .b f fa 79 00 04 08 04 00 fa 7d 00 04 08 04 00 fa 81
+  .b f 00 04 08 04 00 fa 85 00 04 08 04 00 fa 89 00 04
+  .b f 08 04 00 fa 8d 00 04 08 04 00 fa 91 00 04 08 04
+  .b f 00 fa 95 00 04 08 03 00 fa 99 00 03 08 04 00 fa
+  .b f 9c 00 04 08 04 00 fa a0 00 04 08 06 00 fa a4 00
+  .b f 06 08 05 00 fa aa 00 05 08 05 00 fa af 00 05 08
+  .b f 04 00 fa b4 00 04 08 05 00 fa b8 00 05 08 04 00
+  .b f fa bd 00 04 08 04 00 fa c1 00 04 08 04 00 fa c5
+  .b f 00 04 08 05 00 fa c9 00 05 08 04 00 fa ce 00 04
+  .b f 08 06 00 fa d2 00 06 08 04 00 fa d8 00 04 08 04
+  .b f 00 fa dc 00 04 08 04 00 fa e0 00 04 08 03 00 fa
+  .b f 96 00 03 08 04 00 fa e4 00 04 08 03 00 fa e8 00
+  .b f 03 08 04 00 fa eb 00 04 08 04 00 ff ef 00 04 08
+  .b f 03 00 fa ec 00 03 08 04 00 fb f3 00 04 08 04 00
+  .b f fa f7 00 04 08 03 00 fb fb 00 03 08 04 00 fa fe
+  .b f 00 04 08 04 00 fb 02 01 04 08 03 00 fa 06 01 03
+  .b f 08 04 00 fb 09 01 04 08 04 00 fa 0d 01 04 08 02
+  .b f 00 fa 11 01 01 08 03 00 fa 12 01 03 08 04 00 fa
+  .b f 15 01 04 08 02 00 fa 07 00 01 08 06 00 fb 19 01
+  .b f 06 08 04 00 fb 1f 01 04 08 04 00 fb 23 01 04 08
+  .b f 04 00 fb 27 01 04 08 04 00 fb 2b 01 04 08 04 00
+  .b f fb 2f 01 04 08 03 00 fb 33 01 03 08 03 00 fa 36
+  .b f 01 03 08 04 00 fb 39 01 04 08 04 00 fb 3d 01 04
+  .b f 08 06 00 fb 41 01 06 08 04 00 fb 47 01 04 08 04
+  .b f 00 fb dc 00 04 08 03 00 fb 4b 01 03 08 04 00 fa
+  .b f 4e 01 04 08 02 00 fa 07 00 01 08 04 00 fa 52 01
+  .b f 04 08 05 00 fc 56 01 05 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 02 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00
+  .b f 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00
+  .b f 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01
+  .b f 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08 01
+  .b f 00 00 00 00 01 08 01 00 00 00 00 01 08 01 00 00
+  .b f 00 00 01 08 01 00 00 00 00 01 08 01 00 00 00 00
+  .b f 01 08 01 00 00 00 00 01 08 01 00 00 00 00 01 08
+  .b f 07 00 2e 06 00 06 00 14 3e 14 3e 14 00 04 2a 3e
+  .b f 2a 10 00 32 08 26 00 14 2a 12 28 00 1c 22 00 22
+  .b f 1c 00 0a 04 0a 00 04 0e 04 00 04 02 00 02 02 02
+  .b f 00 01 30 08 06 00 1c 22 1c 00 24 3e 20 00 32 2a
+  .b f 24 00 22 2a 14 00 0e 08 3e 00 2e 2a 12 00 1c 2a
+  .b f 10 00 02 32 0e 00 14 2a 14 00 04 2a 1c 00 10 0a
+  .b f 00 08 14 22 00 0a 0a 0a 00 22 14 08 00 02 2a 04
+  .b f 00 1c 22 2a 0c 00 3c 0a 3c 00 3e 2a 14 00 1c 22
+  .b f 22 00 3e 22 1c 00 3e 2a 22 00 3e 0a 02 00 1c 22
+  .b f 32 00 3e 08 3e 00 22 3e 22 00 22 1e 00 3e 08 36
+  .b f 00 3e 20 20 00 3e 04 08 04 3e 00 3e 04 08 3e 00
+  .b f 1c 22 22 1c 00 3e 0a 04 00 1c 22 32 3c 00 3e 0a
+  .b f 34 00 24 2a 12 00 02 3e 02 00 1e 20 20 1e 00 0e
+  .b f 30 0e 00 0e 30 08 30 0e 00 36 08 36 00 06 28 1e
+  .b f 00 32 2a 26 00 06 08 30 00 22 3e 00 04 02 04 00
+  .b f 01 01 01 00 0c 12 1e 00 3e 24 18 00 0c 12 00 18
+  .b f 24 3e 00 0c 1a 14 00 3c 0a 00 04 2a 1e 00 3e 08
+  .b f 30 00 3a 40 3a 00 3e 08 34 00 1e 02 1c 02 1c 00
+  .b f 1e 02 1c 00 0c 12 0c 00 3e 12 0c 00 0c 12 3e 00
+  .b f 1e 04 02 00 16 1a 00 1e 24 00 0e 10 1e 00 0e 10
+  .b f 0e 00 0e 10 0c 10 0e 00 12 0c 12 00 1a 16 00 08
+  .b b 36 22 00 22 36 08 00 04 02 04 02 00
 $PD_28:
   .b 5 53 19 58 32 ff 00
 $PD_36:
@@ -3461,56 +3457,55 @@ $PD_35:
   .b f 4f 2d 00 05 4f 14 00 05 4f 14 00 05 4f 32 4d 32
   .b 7 4a 32 4d 32 4f 64 ff 00
 $PD_40:
-  .b f 54 69 6c 65 73 20 61 6e 64 20 53 70 72 69 74 65
-  .b 0 73
-$PD_41:
   .b 5 4c 65 76 65 6c 73
-$PD_42:
-$PD_45:
+$PD_41:
+$PD_44:
   .b a 50 65 74 65 72 20 42 72 6f 77 6e
-$PD_43:
+$PD_42:
   .b 8 4b 65 6e 6e 65 79 2e 6e 6c
-$PD_48:
+$PD_43:
+  .b 9 4c 75 6b 65 20 42 72 6f 77 6e
+$PD_47:
   .b 3 4e 61 6d 65
-$PD_49:
+$PD_48:
   .b 9 48 69 67 68 20 53 63 6f 72 65
-$PD_50:
+$PD_49:
   .b 8 42 65 73 74 20 54 69 6d 65
-$PD_51:
+$PD_50:
   .b 1 2d 3e
-$PD_52:
+$PD_51:
   .b 2 25 75 32
-$PD_53:
-$PD_104:
-$PD_107:
-$PD_93:
+$PD_52:
+$PD_103:
+$PD_106:
+$PD_92:
   .b 2 25 75 35
-$PD_55:
-$PD_101:
-$PD_63:
-$PD_65:
-$PD_69:
-$PD_94:
-$PD_98:
-  .b 6 25 75 30 2e 25 75 32
-$PD_58:
-  .b a 53 75 6d 20 6f 66 20 42 65 73 74
-$PD_59:
-$PD_61:
+$PD_54:
+$PD_100:
+$PD_62:
+$PD_64:
 $PD_68:
-$PD_91:
-  .b 2 25 75 36
+$PD_93:
+$PD_97:
+  .b 6 25 75 30 2e 25 75 32
+$PD_56:
+  .b a 45 6e 74 69 72 65 20 47 61 6d 65
+$PD_58:
+$PD_60:
 $PD_67:
+$PD_90:
+  .b 2 25 75 36
+$PD_66:
   .b d 47 61 6d 65 20 43 6f 6d 70 6c 65 74 65 21
+$PD_69:
+  .b 3 4e 65 77 20
+$PD_102:
+  .b a 48 69 67 68 20 53 63 6f 72 65 21
 $PD_70:
   .b 3 4e 65 77 20
-$PD_103:
-  .b a 48 69 67 68 20 53 63 6f 72 65 21
-$PD_71:
-  .b 3 4e 65 77 20
-$PD_100:
+$PD_99:
   .b 9 42 65 73 74 20 54 69 6d 65 21
-$PD_72:
+$PD_71:
   .b f 80 40 01 01 00 00 aa 00 55 00 aa 00 55 00 aa 00
   .b f 55 00 aa 00 55 00 aa 00 55 00 aa 00 55 00 aa 00
   .b f 55 00 aa 00 55 00 aa 00 55 00 aa 00 55 00 aa 00
@@ -3640,53 +3635,55 @@ $PD_72:
   .b f ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00
   .b f ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00
   .b 4 ff 00 ff 00 ff
-$PD_73:
+$PD_72:
   .b a 44 65 6c 65 74 65 20 53 61 76 65
-$PD_74:
+$PD_73:
   .b 1 4e 6f
-$PD_75:
+$PD_74:
   .b 2 59 65 73
-$PD_76:
+$PD_75:
   .b 5 50 61 75 73 65 64
-$PD_77:
+$PD_76:
   .b 5 52 65 73 75 6d 65
+$PD_77:
+$PD_87:
+  .b 8 53 6f 75 6e 64 3a 20 4f 6e
 $PD_78:
 $PD_88:
-  .b 8 53 6f 75 6e 64 3a 20 4f 6e
-$PD_79:
-$PD_89:
   .b 9 53 6f 75 6e 64 3a 20 4f 66 66
-$PD_80:
+$PD_79:
   .b 8 4d 61 69 6e 20 4d 65 6e 75
-$PD_81:
+$PD_80:
   .b 6 52 65 73 74 61 72 74
-$PD_82:
+$PD_81:
   .b 7 45 6e 64 20 47 61 6d 65
-$PD_84:
+$PD_83:
   .b b 47 61 6d 65 20 4f 76 65 72 2e 2e 2e
-$PD_85:
+$PD_84:
   .b a 52 65 73 75 6d 65 20 47 61 6d 65
-$PD_86:
+$PD_85:
   .b 7 4e 65 77 20 47 61 6d 65
-$PD_87:
+$PD_86:
   .b b 4c 65 76 65 6c 20 53 65 6c 65 63 74
-$PD_90:
+$PD_89:
   .b 6 43 72 65 64 69 74 73
-$PD_92:
+$PD_91:
   .b e 4c 65 76 65 6c 20 43 6f 6d 70 6c 65 74 65 21
-$PD_95:
+$PD_94:
   .b f 43 6f 6e 67 72 61 74 75 6c 61 74 69 6f 6e 73 21
-$PD_96:
+$PD_95:
   .b 9 47 65 74 20 52 65 61 64 79 21
-$PD_97:
+$PD_96:
   .b 9 54 6f 74 61 6c 20 54 69 6d 65
-$PD_99:
-$PD_102:
+$PD_98:
+$PD_101:
   .b 8 4e 65 77 20 4c 65 76 65 6c
-$PD_105:
+$PD_104:
   .b 3 78 25 75 30
-$PD_106:
+$PD_105:
   .b 6 50 72 65 73 73 20 41
+$PD_107:
+  .b 2 25 75 33
 
 update_confirm:
   .file update.abc
@@ -3997,7 +3994,7 @@ $L_update_2:
   jmp   $L_update_0
 $L_update_3:
   .line 7
-  call  update_level
+  call  update_level_complete
   .line 3
   jmp   $L_update_0
 $L_update_4:
@@ -4783,13 +4780,6 @@ $L_load_map_14:
   .line 99
   pushl $PD_31 0
   sys   tones_play_primary
-  .line 101
-  getg  keys_required 0
-  p000
-  pushl $PD_37 0
-  push  17
-  p00
-  sys   debug_printf
   .line 35
   popn  8
   ret
@@ -5275,10 +5265,10 @@ render_credits:
   getg  creditsy 0
   sub2b
   .line 32
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 33
-  pushl $PD_39 0
+  pushl $PD_38 0
   push  11
   p00
   dupw7
@@ -5288,7 +5278,7 @@ render_credits:
   p0
   sys   draw_text_P
   .line 34
-  pushl $PD_40 0
+  pushl $PD_39 0
   push  17
   p00
   dupw7
@@ -5298,7 +5288,7 @@ render_credits:
   p0
   sys   draw_text_P
   .line 35
-  pushl $PD_41 0
+  pushl $PD_40 0
   p6
   p00
   dupw7
@@ -5311,7 +5301,7 @@ render_credits:
   pushl $PD_23 0
   sys   set_text_font
   .line 38
-  pushl $PD_42 0
+  pushl $PD_41 0
   push  11
   p00
   dupw7
@@ -5321,7 +5311,7 @@ render_credits:
   p0
   sys   draw_text_P
   .line 39
-  pushl $PD_43 0
+  pushl $PD_42 0
   push  9
   p00
   dupw7
@@ -5331,7 +5321,7 @@ render_credits:
   p0
   sys   draw_text_P
   .line 40
-  pushl $PD_44 0
+  pushl $PD_43 0
   push  10
   p00
   dupw7
@@ -5341,7 +5331,7 @@ render_credits:
   p0
   sys   draw_text_P
   .line 41
-  pushl $PD_45 0
+  pushl $PD_44 0
   push  11
   p00
   dupw7
@@ -5586,7 +5576,7 @@ $L_update_score_tally_0:
   and
   bnz   $L_update_score_tally_1
   .line 228
-  pushl $PD_46 0
+  pushl $PD_45 0
   sys   tones_play
 $L_update_score_tally_1:
   pop
@@ -5628,7 +5618,7 @@ $L_update_score_tally_3:
   and
   bnz   $L_update_score_tally_4
   .line 239
-  pushl $PD_47 0
+  pushl $PD_46 0
   sys   tones_play
 $L_update_score_tally_4:
   pop
@@ -5777,10 +5767,10 @@ $L_update_intro_5:
 render_level_select:
   .file render.abc
   .line 170
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 172
-  pushl $PD_48 0
+  pushl $PD_47 0
   p4
   p00
   p5
@@ -5789,7 +5779,7 @@ render_level_select:
   p0
   sys   draw_text_P
   .line 173
-  pushl $PD_49 0
+  pushl $PD_48 0
   push  10
   p00
   p5
@@ -5798,7 +5788,7 @@ render_level_select:
   p0
   sys   draw_text_P
   .line 174
-  pushl $PD_50 0
+  pushl $PD_49 0
   push  9
   p00
   p5
@@ -5897,7 +5887,7 @@ $L_render_level_select_7:
   p00
   sys   draw_filled_rect
   .line 194
-  pushl $PD_51 0
+  pushl $PD_50 0
   p2
   p00
   getl  10
@@ -5923,7 +5913,7 @@ $L_render_level_select_8:
   p1
   add2b
   sext2
-  pushl $PD_52 0
+  pushl $PD_51 0
   p3
   p00
   getl  11
@@ -5954,7 +5944,7 @@ $L_render_level_select_9:
   aidxb 2 12
   getr2
   p00
-  pushl $PD_53 0
+  pushl $PD_52 0
   p3
   p00
   getl  11
@@ -5966,7 +5956,7 @@ $L_render_level_select_9:
   jmp   $L_render_level_select_11
 $L_render_level_select_10:
   .line 206
-  pushl $PD_54 0
+  pushl $PD_53 0
   p1
   p00
   dup7
@@ -6004,7 +5994,7 @@ $L_render_level_select_11:
   push  50
   p000
   udiv4
-  pushl $PD_55 0
+  pushl $PD_54 0
   p7
   p00
   refl  24
@@ -6033,7 +6023,7 @@ $L_render_level_select_11:
   jmp   $L_render_level_select_13
 $L_render_level_select_12:
   .line 217
-  pushl $PD_56 0
+  pushl $PD_55 0
   p1
   p00
   dup7
@@ -6092,7 +6082,7 @@ $L_render_level_select_0:
   p0
   sys   draw_vline
   .line 229
-  pushl $PD_57 0
+  pushl $PD_56 0
   push  11
   p00
   push  51
@@ -6101,7 +6091,7 @@ $L_render_level_select_0:
   p0
   sys   draw_text_P
   .line 230
-  pushl $PD_58 0
+  pushl $PD_57 0
   push  11
   p00
   push  58
@@ -6187,7 +6177,7 @@ $L_render_level_select_15:
   p3
   getgn high_score 0
   p0
-  pushl $PD_59 0
+  pushl $PD_58 0
   p3
   p00
   push  51
@@ -6199,7 +6189,7 @@ $L_render_level_select_15:
   jmp   $L_render_level_select_23
 $L_render_level_select_22:
   .line 251
-  pushl $PD_60 0
+  pushl $PD_59 0
   p1
   p00
   push  51
@@ -6215,7 +6205,7 @@ $L_render_level_select_23:
   p3
   getln 6
   p0
-  pushl $PD_61 0
+  pushl $PD_60 0
   p3
   p00
   push  58
@@ -6227,7 +6217,7 @@ $L_render_level_select_23:
   jmp   $L_render_level_select_25
 $L_render_level_select_24:
   .line 256
-  pushl $PD_62 0
+  pushl $PD_61 0
   p1
   p00
   push  58
@@ -6260,7 +6250,7 @@ $L_render_level_select_25:
   push  50
   p000
   udiv4
-  pushl $PD_63 0
+  pushl $PD_62 0
   p7
   p00
   refl  24
@@ -6289,7 +6279,7 @@ $L_render_level_select_25:
   jmp   $L_render_level_select_27
 $L_render_level_select_26:
   .line 266
-  pushl $PD_64 0
+  pushl $PD_63 0
   p1
   p00
   push  51
@@ -6320,7 +6310,7 @@ $L_render_level_select_27:
   push  50
   p000
   udiv4
-  pushl $PD_65 0
+  pushl $PD_64 0
   p7
   p00
   refl  24
@@ -6349,7 +6339,7 @@ $L_render_level_select_27:
   jmp   $L_render_level_select_29
 $L_render_level_select_28:
   .line 276
-  pushl $PD_66 0
+  pushl $PD_65 0
   p1
   p00
   push  58
@@ -8361,7 +8351,7 @@ $L_render_victory_1:
   pushl $PD_23 0
   sys   set_text_font
   .line 142
-  pushl $PD_67 0
+  pushl $PD_66 0
   push  14
   p00
   p8
@@ -8376,7 +8366,7 @@ $L_render_victory_1:
   p3
   getgn total_score 0
   p0
-  pushl $PD_68 0
+  pushl $PD_67 0
   p3
   p00
   push  22
@@ -8403,7 +8393,7 @@ $L_render_victory_1:
   push  50
   p000
   udiv4
-  pushl $PD_69 0
+  pushl $PD_68 0
   p7
   p00
   refl  24
@@ -8434,13 +8424,13 @@ $L_render_victory_1:
   sys   draw_text
   popn  11
   .line 156
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 157
   getg  was_high_score 0
   bz    $L_render_victory_9
   .line 158
-  pushl $PD_70 0
+  pushl $PD_69 0
   push  15
   p00
   push  29
@@ -8453,7 +8443,7 @@ $L_render_victory_9:
   getg  was_best_time 0
   bz    $L_render_victory_10
   .line 160
-  pushl $PD_71 0
+  pushl $PD_70 0
   push  14
   p00
   push  52
@@ -8493,7 +8483,7 @@ render_pause:
   call  render_level
   .line 51
   p00
-  pushl $PD_72 0
+  pushl $PD_71 0
   p0000
   sys   draw_sprite
   .line 55
@@ -8503,7 +8493,7 @@ render_pause:
   dup
   bz    $L_render_pause_0
   .line 58
-  pushl $PD_73 0
+  pushl $PD_72 0
   push  11
   p00
   p8
@@ -8512,7 +8502,7 @@ render_pause:
   p0
   sys   draw_text_P
   .line 59
-  pushl $PD_74 0
+  pushl $PD_73 0
   p2
   p00
   push  24
@@ -8521,7 +8511,7 @@ render_pause:
   p0
   sys   draw_text_P
   .line 60
-  pushl $PD_75 0
+  pushl $PD_74 0
   p3
   p00
   push  36
@@ -8533,7 +8523,7 @@ render_pause:
   jmp   $L_render_pause_5
 $L_render_pause_0:
   .line 64
-  pushl $PD_76 0
+  pushl $PD_75 0
   p6
   p00
   p8
@@ -8542,7 +8532,7 @@ $L_render_pause_0:
   p0
   sys   draw_text_P
   .line 65
-  pushl $PD_77 0
+  pushl $PD_76 0
   p6
   p00
   push  24
@@ -8554,7 +8544,7 @@ $L_render_pause_0:
   getg  sound_on 0
   bz    $L_render_pause_1
   .line 67
-  pushl $PD_78 0
+  pushl $PD_77 0
   push  9
   p00
   push  36
@@ -8566,7 +8556,7 @@ $L_render_pause_0:
   jmp   $L_render_pause_2
 $L_render_pause_1:
   .line 69
-  pushl $PD_79 0
+  pushl $PD_78 0
   push  10
   p00
   push  36
@@ -8576,7 +8566,7 @@ $L_render_pause_1:
   sys   draw_text_P
 $L_render_pause_2:
   .line 70
-  pushl $PD_80 0
+  pushl $PD_79 0
   push  9
   p00
   push  48
@@ -8588,7 +8578,7 @@ $L_render_pause_2:
   getg  single_level 0
   bz    $L_render_pause_3
   .line 72
-  pushl $PD_81 0
+  pushl $PD_80 0
   p7
   p00
   push  60
@@ -8600,7 +8590,7 @@ $L_render_pause_2:
   jmp   $L_render_pause_5
 $L_render_pause_3:
   .line 74
-  pushl $PD_82 0
+  pushl $PD_81 0
   p8
   p00
   push  60
@@ -8610,7 +8600,7 @@ $L_render_pause_3:
   sys   draw_text_P
 $L_render_pause_5:
   .line 76
-  pushl $PD_83 0
+  pushl $PD_82 0
   p1
   p00
   push  24
@@ -8714,7 +8704,7 @@ $L_render_game_over_1:
   pushl $PD_23 0
   sys   set_text_font
   .line 99
-  pushl $PD_84 0
+  pushl $PD_83 0
   push  12
   p00
   p8
@@ -8880,7 +8870,7 @@ render_menu:
   getg  save_exists 0
   bz    $L_render_menu_0
   .line 290
-  pushl $PD_85 0
+  pushl $PD_84 0
   push  11
   p00
   push  29
@@ -8892,7 +8882,7 @@ render_menu:
   jmp   $L_render_menu_1
 $L_render_menu_0:
   .line 292
-  pushl $PD_86 0
+  pushl $PD_85 0
   p8
   p00
   push  29
@@ -8902,7 +8892,7 @@ $L_render_menu_0:
   sys   draw_text_P
 $L_render_menu_1:
   .line 293
-  pushl $PD_87 0
+  pushl $PD_86 0
   push  12
   p00
   push  40
@@ -8914,7 +8904,7 @@ $L_render_menu_1:
   getg  sound_on 0
   bz    $L_render_menu_2
   .line 295
-  pushl $PD_88 0
+  pushl $PD_87 0
   push  9
   p00
   push  51
@@ -8926,7 +8916,7 @@ $L_render_menu_1:
   jmp   $L_render_menu_3
 $L_render_menu_2:
   .line 297
-  pushl $PD_89 0
+  pushl $PD_88 0
   push  10
   p00
   push  51
@@ -8936,7 +8926,7 @@ $L_render_menu_2:
   sys   draw_text_P
 $L_render_menu_3:
   .line 298
-  pushl $PD_90 0
+  pushl $PD_89 0
   p7
   p00
   push  62
@@ -8976,7 +8966,7 @@ render_intro:
   p3
   getgn total_score 0
   p0
-  pushl $PD_91 0
+  pushl $PD_90 0
   p3
   p00
   push  27
@@ -8992,7 +8982,7 @@ render_intro:
   pushl $PD_23 0
   sys   set_text_font
   .line 309
-  pushl $PD_92 0
+  pushl $PD_91 0
   push  15
   p00
   p7
@@ -9001,12 +8991,12 @@ render_intro:
   p0
   sys   draw_text_P
   .line 310
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 311
   getg2 score 0
   p00
-  pushl $PD_93 0
+  pushl $PD_92 0
   p3
   p00
   push  35
@@ -9033,7 +9023,7 @@ render_intro:
   p000
   udiv4
   .line 313
-  pushl $PD_94 0
+  pushl $PD_93 0
   p7
   p00
   refl  24
@@ -9070,7 +9060,7 @@ $L_render_intro_0:
   cult
   bnz   $L_render_intro_1
   .line 323
-  pushl $PD_95 0
+  pushl $PD_94 0
   p16
   p00
   p7
@@ -9082,7 +9072,7 @@ $L_render_intro_0:
   jmp   $L_render_intro_2
 $L_render_intro_1:
   .line 325
-  pushl $PD_96 0
+  pushl $PD_95 0
   push  10
   p00
   p7
@@ -9097,10 +9087,10 @@ $L_render_intro_2:
   bool3
   bz    $L_render_intro_4
   .line 329
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 331
-  pushl $PD_97 0
+  pushl $PD_96 0
   push  10
   p00
   push  21
@@ -9137,7 +9127,7 @@ $L_render_intro_2:
   p000
   udiv4
   .line 334
-  pushl $PD_98 0
+  pushl $PD_97 0
   p7
   p00
   refl  24
@@ -9176,13 +9166,13 @@ $L_render_intro_4:
   bool2
   bz    $L_render_intro_8
   .line 344
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 345
   getg  was_best_time 0
   bz    $L_render_intro_6
   .line 347
-  pushl $PD_99 0
+  pushl $PD_98 0
   push  9
   p00
   push  37
@@ -9191,7 +9181,7 @@ $L_render_intro_4:
   p0
   sys   draw_text_P
   .line 348
-  pushl $PD_100 0
+  pushl $PD_99 0
   push  10
   p00
   push  44
@@ -9230,7 +9220,7 @@ $L_render_intro_4:
   p000
   udiv4
   .line 352
-  pushl $PD_101 0
+  pushl $PD_100 0
   p7
   p00
   refl  26
@@ -9265,7 +9255,7 @@ $L_render_intro_6:
   getg  was_high_score 0
   bz    $L_render_intro_8
   .line 360
-  pushl $PD_102 0
+  pushl $PD_101 0
   push  9
   p00
   push  37
@@ -9274,7 +9264,7 @@ $L_render_intro_6:
   p0
   sys   draw_text_P
   .line 361
-  pushl $PD_103 0
+  pushl $PD_102 0
   push  11
   p00
   push  44
@@ -9298,7 +9288,7 @@ $L_render_intro_6:
   .line 365
   dupw
   p00
-  pushl $PD_104 0
+  pushl $PD_103 0
   p3
   p00
   refl  22
@@ -9345,12 +9335,12 @@ $L_render_intro_8:
   p0
   sys   draw_sprite
   .line 371
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 372
   getg  lives 0
   p000
-  pushl $PD_105 0
+  pushl $PD_104 0
   p4
   p00
   push  49
@@ -9369,7 +9359,7 @@ $L_render_intro_8:
   cult
   bz    $L_render_intro_9
   .line 375
-  pushl $PD_106 0
+  pushl $PD_105 0
   p7
   p00
   p64
@@ -9924,12 +9914,12 @@ $L_render_level_39:
   p0
   sys   draw_filled_rect
   .line 502
-  pushl $PD_38 0
+  pushl $PD_37 0
   sys   set_text_font
   .line 503
   getg2 score 0
   p00
-  pushl $PD_107 0
+  pushl $PD_106 0
   p3
   p00
   p5
@@ -9945,7 +9935,7 @@ $L_render_level_39:
   push  50
   p000
   udiv4
-  pushl $PD_108 0
+  pushl $PD_107 0
   p3
   p00
   p5
