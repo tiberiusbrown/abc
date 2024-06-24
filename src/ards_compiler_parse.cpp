@@ -161,9 +161,10 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 break_stmt          <- 'break' ';'
 continue_stmt       <- 'continue' ';'
-switch_stmt         <- 'switch' '{' switch_case+ '}'
-switch_case         <- 'case' expr ':' stmt* /
-                       'default' ':' stmt*
+switch_stmt         <- 'switch' '(' expr ')' '{' switch_case+ '}'
+switch_case         <- 'case' '(' switch_case_item (',' switch_case_item)* ')' stmt /
+                       'default' stmt
+switch_case_item    <- expr ('...' expr)?
 
 # right-associative binary assignment operator
 expr                <- '{' '}' /
@@ -835,7 +836,25 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
 
     p["switch_stmt"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        return { v.line_info(), AST::CONTINUE_STMT, v.token() };
+        ast_node_t a{ v.line_info(), AST::SWITCH_STMT, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
+    p["switch_case"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::SWITCH_CASE, v.token() };
+        // statement first
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v.back())));
+        // then case items
+        for(size_t i = 0; i + 1 < v.size(); ++i)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[i])));
+        return a;
+    };
+    p["switch_case_item"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::SWITCH_CASE_ITEM, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
     };
 
     p["program"] = [](peg::SemanticValues const& v) -> ast_node_t {

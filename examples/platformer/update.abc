@@ -1,28 +1,19 @@
 void update()
 {
-    if(state == STATE_LEVEL)
-        update_level();
-    else if(state == STATE_INTRO)
-        update_intro();
-    else if(state == STATE_LEVEL_COMPLETE)
-        update_level_complete();
-    else if(state == STATE_PAUSE)
-        update_pause();
-    else if(state == STATE_CONFIRM)
-        update_confirm();
-    else if(state == STATE_SCORE_TALLY)
-        update_score_tally();
-    else if(state == STATE_MENU)
-        update_menu();
-    else if(state == STATE_LEVEL_SELECT)
-        update_level_select();
-    else if(state == STATE_VICTORY)
-        update_victory();
-    else if(state == STATE_GAME_OVER)
-        update_game_over();
-    else if(state == STATE_CREDITS)
-        update_credits();
-
+    switch(state)
+    {
+    case(STATE_LEVEL)          update_level();
+    case(STATE_INTRO)          update_intro();
+    case(STATE_LEVEL_COMPLETE) update_level_complete();
+    case(STATE_PAUSE)          update_pause();
+    case(STATE_CONFIRM)        update_confirm();
+    case(STATE_SCORE_TALLY)    update_score_tally();
+    case(STATE_MENU)           update_menu();
+    case(STATE_LEVEL_SELECT)   update_level_select();
+    case(STATE_VICTORY)        update_victory();
+    case(STATE_GAME_OVER)      update_game_over();
+    case(STATE_CREDITS)        update_credits();
+    }
     ++frame_count;
 }
 

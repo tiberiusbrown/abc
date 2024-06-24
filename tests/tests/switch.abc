@@ -1,0 +1,97 @@
+void main()
+{
+    $debug_break();
+
+    u8 x = 42;
+    bool t;
+
+    t = false;
+    switch(x)
+    {
+    case(41) { $assert(false); continue; }
+    case(42) t = true;
+    default  $assert(false);
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(41) { $assert(false); continue; }
+    case(42) { $assert(true); continue; }
+    case(43) t = true;
+    default  $assert(false);
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(41, 42) t = true;
+    default
+        $assert(false);
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(41, 42, 43) t = true;
+    default
+        $assert(false);
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(42, 43) t = true;
+    default
+        $assert(false);
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(42 ... 43) t = true;
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(41 ... 42) t = true;
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(42 ... 42) t = true;
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(40 ... 45) t = true;
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(38, 40 ... 45, 17) t = true;
+    }
+    $assert(t);
+
+    t = false;
+    switch(x)
+    {
+    case(38 ... 40, 42, 17) t = true;
+    }
+    $assert(t);
+    
+    $debug_break();
+}

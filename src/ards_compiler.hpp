@@ -54,8 +54,9 @@ enum class AST
     RETURN_STMT,  // child is expr if it exists
     BREAK_STMT,   // no children
     CONTINUE_STMT,// no children
-    SWITCH_STMT,  // children are switch_case's
-    SWITCH_CASE,  // children are stmt's
+    SWITCH_STMT,  // children are expr and switch_case's
+    SWITCH_CASE,  // children are stmt and values ('default' case has just stmt)
+    SWITCH_CASE_ITEM, // children are start and end exprs for range, or just expr if one child
 
     //
     // expression nodes
@@ -651,6 +652,7 @@ private:
 
     void codegen_function(compiler_func_t& f);
     void codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
+    void codegen_switch(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& a);
     void codegen_expr(compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref);
     void codegen_expr_array_index(
         compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, size_t& offset);
