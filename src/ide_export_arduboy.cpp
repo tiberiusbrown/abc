@@ -231,7 +231,7 @@ void export_arduboy(
                 if(title.empty())
                     w.String(id.c_str());
                 else
-                    w.String((title + " (" + id + ")").c_str());
+                    w.String((title + " (" + id.substr(3) + ")").c_str());
             }
             else
                 w.String(title.c_str());
@@ -244,8 +244,17 @@ void export_arduboy(
                 w.Key("flashsave");
                 w.String("save.bin");
             }
+            // skip 'sN_'
+            bool homemade = id.size() >= 11 && id.substr(3, 8) == "homemade";
+            char const* device = homemade ? "ArduboyFX" : id.c_str() + 3;
             w.Key("device");
-            w.String(id.c_str());
+            w.String(device);
+            if(homemade)
+            {
+                w.Key("spec");
+                w.String(id.c_str() + 3);
+                device = "ArduboyFX";
+            }
             w.EndObject();
         }
         w.EndArray();
