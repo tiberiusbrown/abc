@@ -7,6 +7,10 @@
 #include <strstream>
 #include <tuple>
 
+#include <cctype>
+#include <cstdlib>
+#include <cstdio>
+
 #include <MidiFile.h>
 
 namespace ards
@@ -152,6 +156,136 @@ std::string compiler_t::encode_tones_midi(
     return "";
 }
 
+static bool valid_duration(int d)
+{
+    if((d & (d - 1)) != 0) return false;
+    return d >= 1 && d <= 32;
+}
+
+static bool valid_octave(int x)
+{
+    return x >= 0 && x <= 9;
+}
+
+void compiler_t::encode_tones_rtttl(
+    std::vector<uint8_t>& data, ast_node_t const& n)
+{
+    assert(n.type == AST::TONES_RTTTL);
+
+    size_t i = 0;
+    if(n.children[0].type == AST::IDENT)
+        i = 1;
+
+    assert(i + 3 < n.children.size());
+
+    auto const& node_d = n.children[i++];
+    auto const& node_o = n.children[i++];
+    auto const& node_b = n.children[i++];
+
+    int def_duration = std::atoi(std::string(node_d.data).c_str());
+    int def_octave   = std::atoi(std::string(node_o.data).c_str());
+    int bpm          = std::atoi(std::string(node_b.data).c_str());
+
+    if(!valid_duration(def_duration))
+    {
+        errs.push_back({
+            "Invalid RTTTL default duration: " + std::string(node_d.data),
+            node_d.line_info });
+        return;
+    }
+
+    if(!valid_octave(def_octave))
+    {
+        errs.push_back({
+            "Invalid RTTTL default octave: " + std::string(node_o.data),
+            node_d.line_info });
+        return;
+    }
+
+    float ticks_per_beat = 60 * 1000.f / 4 / float(bpm);
+
+    float ticks_rem = 0.f;
+    int prev_period = 0;
+    for(; i < n.children.size(); ++i)
+    {
+        auto const& ni = n.children[i];
+        assert(ni.type == AST::TOKEN);
+        assert(ni.data.size() >= 1);
+        size_t j = 0;
+        int octave = def_octave;
+        int duration = def_duration;
+        if(isdigit(ni.data[j]))
+        {
+            duration = 0;
+            while(isdigit(ni.data[j]))
+                duration = duration * 10 + (ni.data[j++] - '0');
+        }
+        if(!valid_duration(duration))
+        {
+            errs.push_back({
+                "Invalid RTTTL note duration: " + std::string(ni.data),
+                ni.line_info });
+            return;
+        }
+        std::string note_str;
+        char note = (char)toupper(ni.data[j++]);
+        bool sharp = false;
+        bool dotted = false;
+        if(note == 'H') note = 'B';
+        assert(note == 'P' || note >= 'A' && note <= 'G');
+        if(note == 'P')
+            note_str = "-";
+        else
+        {
+            note_str = note;
+            if(j < ni.data.size() && ni.data[j] == '#')
+                ++j, sharp = true;
+            if(j < ni.data.size() && ni.data[j] == '.')
+                dotted = true;
+            if(j < ni.data.size() && isdigit(ni.data[j]))
+                octave = ni.data[j++] - '0';
+            note_str += char('0' + octave);
+            if(sharp) note_str += '#';
+        }
+        auto it = notes.find(note_str);
+        if(it == notes.end())
+        {
+            errs.push_back({
+                "Invalid RTTTL pitch: " + std::string(ni.data),
+                ni.line_info });
+            return;
+        }
+        float duration_ticks = ticks_per_beat * def_duration / duration;
+        if(j < ni.data.size() && ni.data[j] == '.')
+            dotted = true;
+        if(dotted)
+            duration_ticks += duration_ticks * 0.5f;
+        duration_ticks += ticks_rem;
+        int ticks = (int)duration_ticks;
+        ticks_rem = duration_ticks - (float)ticks;
+
+        constexpr int BRIDGE_TICKS = 4;
+        if(prev_period == it->second && prev_period != 0 && ticks > BRIDGE_TICKS)
+        {
+            ticks -= BRIDGE_TICKS;
+            data.push_back(0);
+            data.push_back(BRIDGE_TICKS);
+        }
+        prev_period = it->second;
+
+        while(ticks > 0)
+        {
+            uint8_t dur = (uint8_t)std::min<int>(ticks, 255);
+            ticks -= dur;
+            data.push_back((uint8_t)it->second);
+            data.push_back(dur);
+        }
+    }
+
+    data.push_back(255);
+    data.push_back(0);
+}
+
 void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
 {
     if(periods.empty())
@@ -171,6 +305,8 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
     if(notes.empty())
     {
         notes["-"] = 0;
+        notes["P"] = 0; // for RTTTL
+        notes["p"] = 0; // for RTTTL
         for(int i = 0; i < 7; ++i)
         {
             char c = "CDEFGAB"[i];
@@ -184,13 +320,13 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
                 int const note2 = note + (j - 4) * 12;
                 notes[t] = note2;
 
-                if(note2 < 128 && c != 'E' && c != 'B')
+                if(note2 < 128)// && c != 'E' && c != 'B')
                 {
                     t += '#';
                     notes[t] = note2 + 1;
                     t.pop_back();
                 }
-                if(note2 > 1 && c != 'F' && c != 'C')
+                if(note2 > 1)// && c != 'F' && c != 'C')
                 {
                     t += 'b';
                     notes[t] = note2 - 1;
@@ -205,6 +341,12 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
     }
 
     assert(n.children.size() >= 1);
+
+    if(n.type == AST::TONES_RTTTL)
+    {
+        encode_tones_rtttl(data, n);
+        return;
+    }
 
     if(n.children[0].type == AST::STRING_LITERAL)
     {
@@ -235,7 +377,6 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
         }
         int note = it->second;
         assert(note >= 0 && note <= 128);
-        //uint16_t per = periods[note];
         uint8_t per = (uint8_t)note;
         int64_t ms = n.children[i + 1].value + ms_rem;
         ms_rem = ms % 4;
@@ -246,9 +387,7 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
             uint8_t dur = (uint8_t)std::min<int64_t>(ticks, 255);
             ticks -= dur;
             data.push_back((uint8_t)(per >> 0));
-            //data.push_back((uint8_t)(per >> 8));
             data.push_back((uint8_t)(dur >> 0));
-            //data.push_back((uint8_t)(dur >> 8));
         }
     }
 

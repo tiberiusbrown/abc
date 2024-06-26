@@ -120,6 +120,7 @@ enum class AST
     MUSIC,      // children are path string
     TONES,      // children are path string
                 //           or note, dur, note, dur, ...
+    TONES_RTTTL,// children are d, o, b, notes...
 
     TYPE,
     TYPE_REF,   // reference (child is type)
@@ -691,6 +692,8 @@ private:
 
     void encode_font(std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_tones(std::vector<uint8_t>& data, ast_node_t const& n);
+    void encode_tones_rtttl(
+        std::vector<uint8_t>& data, ast_node_t const& n);
     std::string encode_tones_midi(
         std::vector<uint8_t>& data, std::string const& filename, bool music);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);

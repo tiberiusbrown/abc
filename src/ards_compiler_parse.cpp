@@ -236,8 +236,15 @@ font_literal        <- 'font' '{' decimal_literal string_literal '}'
 music_literal       <- 'music' '{' string_literal '}'
 
 tones_literal       <- 'tones' '{' string_literal '}' /
-                       'tones' '{' (tones_note decimal_literal)+ '}'
+                       'tones' '{' (tones_note decimal_literal)+ '}' /
+                       'tones' '{'
+                            ([a-zA-Z0-9_-]* ':')?
+                            'd' '=' decimal_literal ','
+                            'o' '=' decimal_literal ','
+                            'b' '=' decimal_literal ':'
+                            tones_rtttl_item (',' tones_rtttl_item)* '}'
 tones_note          <- < [A-G0-9b#-]+ >
+tones_rtttl_item    <- < ('16'/'1'/'2'/'4'/'8'/'32')?[a-hpA-HP]'#'?'.'?[0-9]?'.'? >
 
 decimal_literal     <- < [0-9]+'u'? >
 float_literal       <- < [0-9]*'.'[0-9]+('e'[+-]?[0-9]+)? > /
@@ -569,6 +576,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["unary_op"         ] = token;
     p["sprite_row"       ] = token;
     p["tones_note"       ] = token;
+    p["tones_rtttl_item" ] = token;
     p["directive_keyword"] = token;
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
@@ -615,14 +623,18 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
-        };
+    };
 
     p["tones_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        ast_node_t a{ v.line_info(), AST::TONES, v.token() };
+        ast_node_t a{
+            v.line_info(),
+            v.choice() == 2 ? AST::TONES_RTTTL : AST::TONES,
+            v.token()
+        };
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
-        };
+    };
 
     p["sprites_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::SPRITES, v.token() };
