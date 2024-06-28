@@ -440,41 +440,46 @@ void compiler_t::codegen_switch(
         }
     }
 
-    // verify no overlapping cases
+    struct range_t
     {
-        struct range_t { int64_t a, b; std::string_view data; std::pair<size_t, size_t> line_info; };
-        std::vector<range_t> ranges;
-        for(size_t i = 1; i < a.children.size(); ++i)
+        int64_t a, b;
+        std::string_view data;
+        std::pair<size_t, size_t> line_info;
+    };
+    std::vector<range_t> ranges;
+
+    for(size_t i = 1; i < a.children.size(); ++i)
+    {
+        auto const& a_case = a.children[i];
+        for(size_t j = 1; j < a_case.children.size(); ++j)
         {
-            auto const& a_case = a.children[i];
-            for(size_t j = 1; j < a_case.children.size(); ++j)
-            {
-                auto const& a_case_item = a_case.children[j];
-                auto const& c = a_case_item.children;
-                std::string_view data = a_case_item.data;
-                auto line_info = a_case_item.line_info;
-                if(c.size() == 1)
-                    ranges.push_back({ c[0].value, c[0].value, data, line_info });
-                else if(c.size() == 2)
-                    ranges.push_back({ c[0].value, c[1].value, data, line_info });
-                else
-                    assert(false);
-            }
+            auto const& a_case_item = a_case.children[j];
+            auto const& c = a_case_item.children;
+            std::string_view data = a_case_item.data;
+            auto line_info = a_case_item.line_info;
+            if(c.size() == 1)
+                ranges.push_back({ c[0].value, c[0].value, data, line_info });
+            else if(c.size() == 2)
+                ranges.push_back({ c[0].value, c[1].value, data, line_info });
+            else
+                assert(false);
         }
-        std::sort(
-            ranges.begin(), ranges.end(),
-            [](range_t const& x, range_t const& y) { return x.a < y.a; });
-        for(size_t i = 1; i < ranges.size(); ++i)
+    }
+    std::sort(
+        ranges.begin(), ranges.end(),
+        [](range_t const& x, range_t const& y) { return x.a < y.a; });
+
+    // verify no overlapping cases
+    for(size_t i = 1; i < ranges.size(); ++i)
+    {
+        auto const& ra = ranges[i - 1];
+        auto const& rb = ranges[i];
+        if(ra.b >= rb.a)
         {
-            auto const& ra = ranges[i - 1];
-            auto const& rb = ranges[i];
-            if(ra.b >= rb.a)
-            {
-                errs.push_back({
-                    "Case \"" + std::string(ra.data) + "\" overlaps with case \"" + std::string(rb.data) + "\"",
-                    ra.line_info });
-                return;
-            }
+            errs.push_back({
+                "Case \"" + std::string(ra.data) + "\" overlaps with case \"" + std::string(rb.data) + "\"",
+                ra.line_info });
+            return;
         }
     }
 
@@ -485,6 +490,10 @@ void compiler_t::codegen_switch(
     std::string end_label = new_label(f);
     std::string default_label;
     std::vector<std::string> case_labels;
+
+    //if(ranges.empty())
+    //    goto pop_expr;
+
     case_labels.reserve(a.children.size());
     for(size_t i = 1; i < a.children.size(); ++i)
     {
@@ -574,6 +583,8 @@ void compiler_t::codegen_switch(
     }
 
     codegen_label(f, end_label);
+
+pop_expr:
     for(size_t i = 0; i < expr_type.prim_size; ++i)
         f.instrs.push_back({ I_POP, a.line() });
     frame.size -= expr_type.prim_size;

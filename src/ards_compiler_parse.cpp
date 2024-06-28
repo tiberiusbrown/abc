@@ -161,7 +161,7 @@ expr_stmt           <- ';' / expr ';'
 return_stmt         <- 'return' expr? ';'
 break_stmt          <- 'break' ';'
 continue_stmt       <- 'continue' ';'
-switch_stmt         <- 'switch' '(' expr ')' '{' switch_case+ '}'
+switch_stmt         <- 'switch' '(' expr ')' '{' switch_case* '}'
 switch_case         <- 'case' '(' switch_case_item (',' switch_case_item)* ')' stmt /
                        'default' stmt
 switch_case_item    <- expr ('...' expr)?

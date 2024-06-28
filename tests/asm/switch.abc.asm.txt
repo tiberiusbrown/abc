@@ -11,435 +11,958 @@ main:
   .file switch.abc
   .line 3
   sys   debug_break
-  .line 5
-  push  42
   .line 6
-  p00
-  .line 8
-  setl  1
-  .line 9
-  dup2
-  .line 11
-  dup
-  push  41
-  sub
-  bz    $L_main_1
-  .line 12
-  dup
   push  42
-  sub
-  bz    $L_main_2
-  .line 9
-  jmp   $L_main_3
-$L_main_1:
-  .line 11
+  .line 7
   p0
-  sys   assert
-  jmp   $L_main_2
   .line 9
-  jmp   $L_main_0
-$L_main_2:
-  .line 12
   p1
-  setl  2
-  .line 9
-  jmp   $L_main_0
-$L_main_3:
+  setl  1
+  .line 10
+  dup2
+  pop
+  .line 11
+  dup
+  sys   assert
   .line 13
   p0
-  sys   assert
-$L_main_0:
-  .line 9
-  pop
-  .line 15
-  dup
-  sys   assert
-  .line 17
-  p0
   setl  1
-  .line 18
+  .line 14
   dup2
-  .line 20
+  .line 16
   dup
   push  41
   sub
-  bz    $L_main_5
-  .line 21
+  bz    $L_main_2
+  .line 17
   dup
   push  42
   sub
-  bz    $L_main_6
-  .line 22
-  dup
-  push  43
-  sub
-  bz    $L_main_7
-  .line 18
-  jmp   $L_main_8
-$L_main_5:
-  .line 20
+  bz    $L_main_3
+  .line 14
+  jmp   $L_main_4
+$L_main_2:
+  .line 16
   p0
   sys   assert
-  jmp   $L_main_6
-  .line 18
-  jmp   $L_main_4
-$L_main_6:
-  .line 21
-  p1
-  sys   assert
-  jmp   $L_main_7
-  .line 18
-  jmp   $L_main_4
-$L_main_7:
-  .line 22
+  jmp   $L_main_3
+  .line 14
+  jmp   $L_main_1
+$L_main_3:
+  .line 17
   p1
   setl  2
-  .line 18
-  jmp   $L_main_4
-$L_main_8:
-  .line 23
-  p0
-  sys   assert
+  .line 14
+  jmp   $L_main_1
 $L_main_4:
   .line 18
+  p0
+  sys   assert
+$L_main_1:
+  .line 14
   pop
+  .line 20
+  dup
+  sys   assert
+  .line 22
+  p0
+  setl  1
+  .line 23
+  dup2
   .line 25
   dup
-  sys   assert
-  .line 27
-  p0
-  setl  1
-  .line 28
-  dup2
-  .line 30
-  dup
   push  41
   sub
-  bz    $L_main_10
+  bz    $L_main_6
+  .line 26
   dup
   push  42
   sub
-  .line 28
-  bnz   $L_main_11
-$L_main_10:
-  .line 30
-  p1
-  setl  2
-  .line 28
+  bz    $L_main_7
+  .line 27
+  dup
+  push  43
+  sub
+  bz    $L_main_8
+  .line 23
   jmp   $L_main_9
-$L_main_11:
-  .line 32
+$L_main_6:
+  .line 25
   p0
   sys   assert
+  jmp   $L_main_7
+  .line 23
+  jmp   $L_main_5
+$L_main_7:
+  .line 26
+  p1
+  sys   assert
+  jmp   $L_main_8
+  .line 23
+  jmp   $L_main_5
+$L_main_8:
+  .line 27
+  p1
+  setl  2
+  .line 23
+  jmp   $L_main_5
 $L_main_9:
   .line 28
+  p0
+  sys   assert
+$L_main_5:
+  .line 23
   pop
-  .line 34
+  .line 30
   dup
   sys   assert
-  .line 36
+  .line 32
   p0
   setl  1
-  .line 37
+  .line 33
   dup2
-  .line 39
+  .line 35
   dup
   push  41
   sub
-  bz    $L_main_13
+  bz    $L_main_11
   dup
   push  42
   sub
-  bz    $L_main_13
-  dup
-  push  43
-  sub
-  .line 37
-  bnz   $L_main_14
-$L_main_13:
-  .line 39
+  .line 33
+  bnz   $L_main_12
+$L_main_11:
+  .line 35
   p1
   setl  2
-  .line 37
-  jmp   $L_main_12
-$L_main_14:
-  .line 41
-  p0
-  sys   assert
+  .line 33
+  jmp   $L_main_10
 $L_main_12:
   .line 37
+  p0
+  sys   assert
+$L_main_10:
+  .line 33
   pop
-  .line 43
+  .line 39
   dup
   sys   assert
-  .line 45
+  .line 41
   p0
   setl  1
-  .line 46
+  .line 42
   dup2
-  .line 48
+  .line 44
+  dup
+  push  41
+  sub
+  bz    $L_main_14
   dup
   push  42
   sub
-  bz    $L_main_16
+  bz    $L_main_14
   dup
   push  43
   sub
-  .line 46
-  bnz   $L_main_17
-$L_main_16:
-  .line 48
+  .line 42
+  bnz   $L_main_15
+$L_main_14:
+  .line 44
   p1
   setl  2
-  .line 46
-  jmp   $L_main_15
-$L_main_17:
-  .line 50
-  p0
-  sys   assert
+  .line 42
+  jmp   $L_main_13
 $L_main_15:
   .line 46
+  p0
+  sys   assert
+$L_main_13:
+  .line 42
   pop
-  .line 52
+  .line 48
   dup
   sys   assert
-  .line 54
+  .line 50
   p0
   setl  1
-  .line 55
+  .line 51
   dup2
+  .line 53
+  dup
+  push  42
+  sub
+  bz    $L_main_17
+  dup
+  push  43
+  sub
+  .line 51
+  bnz   $L_main_18
+$L_main_17:
+  .line 53
+  p1
+  setl  2
+  .line 51
+  jmp   $L_main_16
+$L_main_18:
+  .line 55
+  p0
+  sys   assert
+$L_main_16:
+  .line 51
+  pop
   .line 57
+  dup
+  sys   assert
+  .line 59
+  p0
+  setl  1
+  .line 60
+  dup2
+  .line 62
   dup
   push  42
   cult
-  bnz   $L_main_20
+  bnz   $L_main_21
   push  43
   dup2
   cult
-  bz    $L_main_19
-$L_main_20:
-  .line 55
-  jmp   $L_main_18
-$L_main_19:
-  .line 57
-  p1
-  setl  2
-$L_main_18:
-  .line 55
-  pop
-  .line 59
-  dup
-  sys   assert
-  .line 61
-  p0
-  setl  1
-  .line 62
-  dup2
-  .line 64
-  dup
-  push  41
-  cult
-  bnz   $L_main_23
-  push  42
-  dup2
-  cult
-  bz    $L_main_22
-$L_main_23:
-  .line 62
-  jmp   $L_main_21
-$L_main_22:
-  .line 64
-  p1
-  setl  2
+  bz    $L_main_20
 $L_main_21:
+  .line 60
+  jmp   $L_main_19
+$L_main_20:
   .line 62
+  p1
+  setl  2
+$L_main_19:
+  .line 60
   pop
+  .line 64
+  dup
+  sys   assert
   .line 66
-  dup
-  sys   assert
-  .line 68
   p0
   setl  1
-  .line 69
+  .line 67
   dup2
-  .line 71
+  .line 69
   dup
-  push  42
+  push  41
   cult
-  bnz   $L_main_26
+  bnz   $L_main_24
   push  42
   dup2
   cult
-  bz    $L_main_25
-$L_main_26:
-  .line 69
-  jmp   $L_main_24
-$L_main_25:
-  .line 71
-  p1
-  setl  2
+  bz    $L_main_23
 $L_main_24:
+  .line 67
+  jmp   $L_main_22
+$L_main_23:
   .line 69
+  p1
+  setl  2
+$L_main_22:
+  .line 67
   pop
-  .line 73
+  .line 71
   dup
   sys   assert
-  .line 75
+  .line 73
   p0
   setl  1
-  .line 76
+  .line 74
   dup2
+  .line 76
+  dup
+  push  42
+  cult
+  bnz   $L_main_27
+  push  42
+  dup2
+  cult
+  bz    $L_main_26
+$L_main_27:
+  .line 74
+  jmp   $L_main_25
+$L_main_26:
+  .line 76
+  p1
+  setl  2
+$L_main_25:
+  .line 74
+  pop
   .line 78
+  dup
+  sys   assert
+  .line 80
+  p0
+  setl  1
+  .line 81
+  dup2
+  .line 83
   dup
   push  40
   cult
-  bnz   $L_main_29
+  bnz   $L_main_30
   push  45
   dup2
   cult
-  bz    $L_main_28
+  bz    $L_main_29
+$L_main_30:
+  .line 81
+  jmp   $L_main_28
 $L_main_29:
-  .line 76
-  jmp   $L_main_27
-$L_main_28:
-  .line 78
+  .line 83
   p1
   setl  2
-$L_main_27:
-  .line 76
+$L_main_28:
+  .line 81
   pop
-  .line 80
+  .line 85
   dup
   sys   assert
-  .line 82
+  .line 87
   p0
   setl  1
-  .line 83
+  .line 88
   dup2
-  .line 85
+  .line 90
   dup
   push  38
   sub
-  bz    $L_main_31
+  bz    $L_main_32
   dup
   push  40
   cult
-  bnz   $L_main_32
+  bnz   $L_main_33
   push  45
   dup2
   cult
-  bz    $L_main_31
-$L_main_32:
+  bz    $L_main_32
+$L_main_33:
   dup
   push  17
   sub
-  .line 83
-  bnz   $L_main_30
-$L_main_31:
-  .line 85
+  .line 88
+  bnz   $L_main_31
+$L_main_32:
+  .line 90
   p1
   setl  2
-$L_main_30:
-  .line 83
+$L_main_31:
+  .line 88
   pop
-  .line 87
+  .line 92
   dup
   sys   assert
-  .line 89
+  .line 94
   p0
   setl  1
-  .line 90
+  .line 95
   dup2
-  .line 92
+  .line 97
   dup
   push  38
   cult
-  bnz   $L_main_35
+  bnz   $L_main_36
   push  40
   dup2
   cult
-  bz    $L_main_34
-$L_main_35:
+  bz    $L_main_35
+$L_main_36:
   dup
   push  42
   sub
-  bz    $L_main_34
+  bz    $L_main_35
   dup
   push  17
   sub
-  .line 90
-  bnz   $L_main_33
-$L_main_34:
-  .line 92
+  .line 95
+  bnz   $L_main_34
+$L_main_35:
+  .line 97
   p1
   setl  2
-$L_main_33:
-  .line 90
+$L_main_34:
+  .line 95
   pop
-  .line 94
+  .line 99
   dup
   sys   assert
-  .line 96
+  .line 101
   p0
   setl  1
-  .line 97
+  .line 102
   dup2
-  .line 100
+  .line 105
   dup
   push  41
   sub
-  bz    $L_main_38
-  .line 99
+  bz    $L_main_39
+  .line 104
   p1
   sys   assert
-  jmp   $L_main_38
-  .line 97
-  jmp   $L_main_36
-$L_main_38:
-  .line 100
+  jmp   $L_main_39
+  .line 102
+  jmp   $L_main_37
+$L_main_39:
+  .line 105
   p1
   setl  2
-$L_main_36:
-  .line 97
-  pop
+$L_main_37:
   .line 102
+  pop
+  .line 107
   dup
   sys   assert
-  .line 104
+  .line 109
   p0
   setl  1
-  .line 105
+  .line 110
   dup2
-  .line 107
+  .line 112
   dup
   push  42
   sub
-  .line 105
-  bnz   $L_main_41
-  .line 107
+  .line 110
+  bnz   $L_main_42
+  .line 112
   p1
   setl  2
   dup3
   push  42
   sub
-  bz    $L_main_39
+  bz    $L_main_40
   p0
   sys   assert
-  .line 105
-  jmp   $L_main_39
-$L_main_41:
-  .line 108
-  p0
-  sys   assert
-$L_main_39:
-  .line 105
-  pop
   .line 110
+  jmp   $L_main_40
+$L_main_42:
+  .line 113
+  p0
+  sys   assert
+$L_main_40:
+  .line 110
+  pop
+  .line 115
   dup
   sys   assert
-  .line 112
+  pop2
+  .line 119
+  push2 26784
+  p6
+  p000
+  .line 122
+  setl  1
+  .line 123
+  getl4 5
+  .line 125
+  getl4 4
+  push2 16784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_45
+  .line 126
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_46
+  .line 123
+  jmp   $L_main_47
+$L_main_45:
+  .line 125
+  p0
+  sys   assert
+  jmp   $L_main_46
+  .line 123
+  jmp   $L_main_44
+$L_main_46:
+  .line 126
+  p1
+  setl  5
+  .line 123
+  jmp   $L_main_44
+$L_main_47:
+  .line 127
+  p0
+  sys   assert
+$L_main_44:
+  .line 123
+  pop4
+  .line 129
+  dup
+  sys   assert
+  .line 131
+  p0
+  setl  1
+  .line 132
+  getl4 5
+  .line 134
+  getl4 4
+  push2 16784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_49
+  .line 135
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_50
+  .line 136
+  getl4 4
+  push2 36784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_51
+  .line 132
+  jmp   $L_main_52
+$L_main_49:
+  .line 134
+  p0
+  sys   assert
+  jmp   $L_main_50
+  .line 132
+  jmp   $L_main_48
+$L_main_50:
+  .line 135
+  p1
+  sys   assert
+  jmp   $L_main_51
+  .line 132
+  jmp   $L_main_48
+$L_main_51:
+  .line 136
+  p1
+  setl  5
+  .line 132
+  jmp   $L_main_48
+$L_main_52:
+  .line 137
+  p0
+  sys   assert
+$L_main_48:
+  .line 132
+  pop4
+  .line 139
+  dup
+  sys   assert
+  .line 141
+  p0
+  setl  1
+  .line 142
+  getl4 5
+  .line 144
+  getl4 4
+  push2 16784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_54
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  .line 142
+  bnz   $L_main_55
+$L_main_54:
+  .line 144
+  p1
+  setl  5
+  .line 142
+  jmp   $L_main_53
+$L_main_55:
+  .line 146
+  p0
+  sys   assert
+$L_main_53:
+  .line 142
+  pop4
+  .line 148
+  dup
+  sys   assert
+  .line 150
+  p0
+  setl  1
+  .line 151
+  getl4 5
+  .line 153
+  getl4 4
+  push2 16784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_57
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_57
+  getl4 4
+  push2 36784
+  p6
+  p0
+  sub4
+  bool4
+  .line 151
+  bnz   $L_main_58
+$L_main_57:
+  .line 153
+  p1
+  setl  5
+  .line 151
+  jmp   $L_main_56
+$L_main_58:
+  .line 155
+  p0
+  sys   assert
+$L_main_56:
+  .line 151
+  pop4
+  .line 157
+  dup
+  sys   assert
+  .line 159
+  p0
+  setl  1
+  .line 160
+  getl4 5
+  .line 162
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_60
+  getl4 4
+  push2 36784
+  p6
+  p0
+  sub4
+  bool4
+  .line 160
+  bnz   $L_main_61
+$L_main_60:
+  .line 162
+  p1
+  setl  5
+  .line 160
+  jmp   $L_main_59
+$L_main_61:
+  .line 164
+  p0
+  sys   assert
+$L_main_59:
+  .line 160
+  pop4
+  .line 166
+  dup
+  sys   assert
+  .line 168
+  p0
+  setl  1
+  .line 169
+  getl4 5
+  .line 171
+  getl4 4
+  push2 26784
+  p6
+  p0
+  cult4
+  bnz   $L_main_64
+  push2 36784
+  p6
+  p0
+  getl4 8
+  cult4
+  bz    $L_main_63
+$L_main_64:
+  .line 169
+  jmp   $L_main_62
+$L_main_63:
+  .line 171
+  p1
+  setl  5
+$L_main_62:
+  .line 169
+  pop4
+  .line 173
+  dup
+  sys   assert
+  .line 175
+  p0
+  setl  1
+  .line 176
+  getl4 5
+  .line 178
+  getl4 4
+  push2 16784
+  p6
+  p0
+  cult4
+  bnz   $L_main_67
+  push2 26784
+  p6
+  p0
+  getl4 8
+  cult4
+  bz    $L_main_66
+$L_main_67:
+  .line 176
+  jmp   $L_main_65
+$L_main_66:
+  .line 178
+  p1
+  setl  5
+$L_main_65:
+  .line 176
+  pop4
+  .line 180
+  dup
+  sys   assert
+  .line 182
+  p0
+  setl  1
+  .line 183
+  getl4 5
+  .line 185
+  getl4 4
+  push2 26784
+  p6
+  p0
+  cult4
+  bnz   $L_main_70
+  push2 26784
+  p6
+  p0
+  getl4 8
+  cult4
+  bz    $L_main_69
+$L_main_70:
+  .line 183
+  jmp   $L_main_68
+$L_main_69:
+  .line 185
+  p1
+  setl  5
+$L_main_68:
+  .line 183
+  pop4
+  .line 187
+  dup
+  sys   assert
+  .line 189
+  p0
+  setl  1
+  .line 190
+  getl4 5
+  .line 192
+  getl4 4
+  p128
+  push  26
+  p6
+  p0
+  cult4
+  bnz   $L_main_73
+  push2 56784
+  p6
+  p0
+  getl4 8
+  cult4
+  bz    $L_main_72
+$L_main_73:
+  .line 190
+  jmp   $L_main_71
+$L_main_72:
+  .line 192
+  p1
+  setl  5
+$L_main_71:
+  .line 190
+  pop4
+  .line 194
+  dup
+  sys   assert
+  .line 196
+  p0
+  setl  1
+  .line 197
+  getl4 5
+  .line 199
+  getl4 4
+  push2 52320
+  p5
+  p0
+  sub4
+  bool4
+  bz    $L_main_75
+  getl4 4
+  p128
+  push  26
+  p6
+  p0
+  cult4
+  bnz   $L_main_76
+  push2 56784
+  p6
+  p0
+  getl4 8
+  cult4
+  bz    $L_main_75
+$L_main_76:
+  getl4 4
+  p16
+  push  152
+  p2
+  p0
+  sub4
+  bool4
+  .line 197
+  bnz   $L_main_74
+$L_main_75:
+  .line 199
+  p1
+  setl  5
+$L_main_74:
+  .line 197
+  pop4
+  .line 201
+  dup
+  sys   assert
+  .line 203
+  p0
+  setl  1
+  .line 204
+  getl4 5
+  .line 206
+  getl4 4
+  push2 52320
+  p5
+  p0
+  cult4
+  bnz   $L_main_79
+  p128
+  push  26
+  p6
+  p0
+  getl4 8
+  cult4
+  bz    $L_main_78
+$L_main_79:
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_78
+  getl4 4
+  p16
+  push  152
+  p2
+  p0
+  sub4
+  bool4
+  .line 204
+  bnz   $L_main_77
+$L_main_78:
+  .line 206
+  p1
+  setl  5
+$L_main_77:
+  .line 204
+  pop4
+  .line 208
+  dup
+  sys   assert
+  .line 210
+  p0
+  setl  1
+  .line 211
+  getl4 5
+  .line 214
+  getl4 4
+  push2 16784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_82
+  .line 213
+  p1
+  sys   assert
+  jmp   $L_main_82
+  .line 211
+  jmp   $L_main_80
+$L_main_82:
+  .line 214
+  p1
+  setl  5
+$L_main_80:
+  .line 211
+  pop4
+  .line 216
+  dup
+  sys   assert
+  .line 218
+  p0
+  setl  1
+  .line 219
+  getl4 5
+  .line 221
+  getl4 4
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  .line 219
+  bnz   $L_main_85
+  .line 221
+  p1
+  setl  5
+  getl4 9
+  push2 26784
+  p6
+  p0
+  sub4
+  bool4
+  bz    $L_main_83
+  p0
+  sys   assert
+  .line 219
+  jmp   $L_main_83
+$L_main_85:
+  .line 222
+  p0
+  sys   assert
+$L_main_83:
+  .line 219
+  pop4
+  .line 224
+  dup
+  sys   assert
+  popn  5
+  .line 227
   sys   debug_break
   .line 1
-  pop2
   ret
 
