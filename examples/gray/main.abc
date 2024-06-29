@@ -1,94 +1,38 @@
 #shades "4"
 
-constexpr u8 W = 7;
-
-constexpr sprites SPRITES = sprites{
-    7x8
-    
-    1111111  1111111  1111111  1111111
-    1......  1......  1..22..  1..2...
-    1......  1.1..1.  1.2XX2.  1.2X21.
-    1......  1..11..  12XXXX2  1.X.X21
-    1......  1..11..  1XXXXXX  12X.X22
-    1......  1.1..1.  1..22..  1X...X2
-    1......  1......  1..22..  1X...X2
-    .......  .......  .......  .......
-};
-
-constexpr sprites CURSOR = sprites{
-    8x8
-    
-    2XX2---2  -2XX2---  --2XX2--  ---2XX2-  2---2XX2  X2---2XX  XX2---2X
-    -------X  -------2  --------  2-------  X-------  X------2  2------X
-    -------X  -------X  2------2  X-------  X-------  2-------  -------2
-    -------2  2------X  X------X  X------2  2-------  --------  --------
-    2-------  X------2  X------X  2------X  -------2  --------  --------
-    X-------  X-------  2------2  -------X  -------X  -------2  2-------
-    X-------  2-------  --------  -------2  -------X  2------X  X------2
-    2---2XX2  ---2XX2-  --2XX2--  -2XX2---  2XX2---2  XX2---2X  X2---2XX
-};
-
-u8 cix = 3;
-u8 ciy = 2;
-u8 cx = 21;
-u8 cy = 14;
-u8 cf = 0;
-
-void loop()
+u8[16 * 8] prog TILEMAP =
 {
-    for(u8 y = 0; y < 56; y += 7)
-        for(u8 x = 0; x < 56; x += 7)
-            $draw_sprite(x, y, SPRITES, (x ^ y) & 3);
-    $draw_filled_rect(0, 56, 56, 1, DARK_GRAY);
-    $draw_filled_rect(56, 0, 1, 57, DARK_GRAY);
-    
-    for(u8 i = 0; i < 8; ++i)
-    {
-       char[1] b = { '0' + i };
-       $draw_text(58, i * 7 + 6, b);
-       $draw_text(i * 7 + 2, 63, b);
-    }
-    
-    if($just_pressed(UP_BUTTON   ) && ciy-- == 0) ciy = 7;
-    if($just_pressed(DOWN_BUTTON ) && ciy++ == 7) ciy = 0;
-    if($just_pressed(LEFT_BUTTON ) && cix-- == 0) cix = 7;
-    if($just_pressed(RIGHT_BUTTON) && cix++ == 7) cix = 0;
-    
-    {
-        u8 tcy = ciy * 7;
-        if(cy < tcy)
-            cy += (tcy - cy + 1) / 2;
-        if(cy > tcy)
-            cy -= (cy - tcy + 1) / 2;
-    }
-    {
-        u8 tcx = cix * 7;
-        if(cx < tcx)
-            cx += (tcx - cx + 1) / 2;
-        if(cx > tcx)
-            cx -= (cx - tcx + 1) / 2;
-    }
-    
-    $draw_sprite(cx, cy, CURSOR, cf);
-    if(++cf >= 7) cf = 0;
-    
-    //$draw_filled_rect(70, 2, 50, 20, WHITE);
-    //$draw_filled_rect(70, 22, 50, 20, LIGHT_GRAY);
-    //$draw_filled_rect(70, 42, 50, 20, DARK_GRAY);
-    
-    $draw_filled_rect( 0, 0, 4, 4, BLACK);
-    $draw_filled_rect( 4, 0, 4, 4, DARK_GRAY);
-    $draw_filled_rect( 8, 0, 4, 4, LIGHT_GRAY);
-    $draw_filled_rect(12, 0, 4, 4, WHITE);
-    
-    $display();
-}
+    18,19,146,59,134,155,170,6,171,37,37,38,27,17,19,43,
+    35,161,162,163,28,134,155,154,7,7,7,135,74,52,52,75,
+    27,177,178,179,11,11,134,135,81,74,52,52,219,50,50,51,
+    27,193,194,195,17,3,17,19,74,219,50,50,202,53,53,91,
+    28,209,128,211,17,35,142,74,219,202,53,53,91,156,157,158,
+    19,59,74,52,52,52,52,219,202,91,17,19,118,172,173,174,
+    1,3,90,203,50,50,202,53,91,118,6,6,187,204,205,206,
+    34,34,43,90,53,53,91,59,118,171,114,154,135,220,221,222
+};
+
+constexpr sprites TILES = sprites{ 16x16 "tiles.png" };
+
+int ox = 0;
+int oy = 0;
 
 void main()
 {
-    $set_text_color(DARK_GRAY);
-    $set_text_font(FONT_BR5);
-    $set_frame_rate(20);
-    while(true)
-        loop();
+    if($pressed(LEFT_BUTTON ) && ox >   0) --ox;
+    if($pressed(UP_BUTTON   ) && oy >   0) --oy;
+    if($pressed(RIGHT_BUTTON) && ox < 128) ++ox;
+    if($pressed(DOWN_BUTTON ) && oy <  64) ++oy;
+
+    for(u8 y = 0; y < 8; ++y)
+    {
+        u8[16] row = TILEMAP[y*16+:16];
+        for(u8 x = 0; x < 16; ++x)
+        {
+            u8 frame = row[x] - 1;
+            $draw_sprite(x * 16 - ox, y * 16 - oy, TILES, frame);
+        }
+    }
+    
+    $display();
 }

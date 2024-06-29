@@ -18,9 +18,6 @@ main:
   .line 9
   p1
   setl  1
-  .line 10
-  dup2
-  pop
   .line 11
   dup
   sys   assert

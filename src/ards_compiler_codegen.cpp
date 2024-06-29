@@ -490,9 +490,13 @@ void compiler_t::codegen_switch(
     std::string end_label = new_label(f);
     std::string default_label;
     std::vector<std::string> case_labels;
+    int64_t rmin, rmax;
 
-    //if(ranges.empty())
-    //    goto pop_expr;
+    if(ranges.empty())
+        goto pop_expr;
+
+    rmin = ranges.front().a;
+    rmax = ranges.back().b;
 
     case_labels.reserve(a.children.size());
     for(size_t i = 1; i < a.children.size(); ++i)
@@ -505,7 +509,14 @@ void compiler_t::codegen_switch(
     if(default_label.empty())
         default_label = end_label;
 
-    // case jump logic
+    // jump table logic
+    if(!expr_type.is_signed && rmin >= 0 && rmax <= 255 ||
+        expr_type.is_signed && rmin >= -128 && rmax <= 127)
+    {
+        // TODO
+    }
+
+    // linear search logic
     for(size_t i = 1; i < a.children.size(); ++i)
     {
         auto const& a_case = a.children[i];

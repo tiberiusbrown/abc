@@ -16,8 +16,13 @@ void wait_for_frame_timing();
 static uint8_t* cmd_ptr;
 static uint8_t* batch_ptr; // for sprite/char batching (nullptr if no active batch)
 static uint8_t current_plane;
-static int8_t batchx;
-static int8_t batchy;
+
+// for sprite batching
+constexpr int8_t SPRITE_BATCH_ADV = 127;
+static int8_t batch_px; // previous coords
+static int8_t batch_py;
+static int8_t batch_dx; // difference in coords
+static int8_t batch_dy;
 
 inline uint8_t const* cmd0_end()
 {
@@ -377,16 +382,23 @@ void shades_display()
                 img += t * current_plane;
                 t *= (ABC_SHADES - 1);
             }
-            int8_t x, y;
+            int8_t x, y, dx = 0, dy = 0;
             do
             {
                 uint8_t f = ld_inc(p);
                 int8_t ty = (int8_t)ld_inc(p);
-                x += w;
-                if(ty != 127)
+                if(ty == SPRITE_BATCH_ADV)
                 {
-                    x = (int8_t)ld_inc(p);
+                    x += dx;
+                    y += dy;
+                }
+                else
+                {
+                    dy = ty - y;
                     y = ty;
+                    ty = (int8_t)ld_inc(p);
+                    dx = ty - x;
+                    x = ty;
                 }
                 uint24_t timg = img;
 
@@ -530,16 +542,19 @@ start_new_batch:
         return;
 
     batch_ptr = p;
+    batch_px = x;
+    batch_py = y;
     st_inc(p, SHADES_CMD_SPRITE_BATCH);
     st_inc3(p, img);
     st_inc(p, 1);
     goto batch_add_first;
 
 batch_add:
-    if((int8_t)y == batchy && x == batchx + w)
+    if( (int8_t)x == int8_t(batch_px + batch_dx) &&
+        (int8_t)y == int8_t(batch_py + batch_dy))
     {
         st_inc(p, (uint8_t)frame);
-        st_inc(p, 127);
+        st_inc(p, SPRITE_BATCH_ADV);
     }
     else
     {
@@ -547,10 +562,12 @@ batch_add_first:
         st_inc(p, (uint8_t)frame);
         st_inc(p, (uint8_t)y);
         st_inc(p, (uint8_t)x);
-        batchy = (int8_t)y;
+        batch_dx = int8_t(x - batch_px);
+        batch_dy = int8_t(y - batch_py);
     }
+    batch_px = (int8_t)x;
+    batch_py = (int8_t)y;
     cmd_ptr = p;
-    batchx = (int8_t)x;
     return;
 
 unbatchable:
