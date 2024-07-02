@@ -400,7 +400,7 @@ std::string compiler_t::resolve_label_ref(
         assert(n.children[0].type == AST::INT_CONST);
         assert(n.children[1].type == AST::STRING_LITERAL);
         key.first = (int)n.children[0].value;
-        key.second = n.children[1].data;
+        key.second = n.children[1].string_literal();
         auto it = font_label_cache.find(key);
         if(it != font_label_cache.end())
             label = it->second;
@@ -1007,14 +1007,15 @@ static uint8_t hex2val(char hex)
 std::vector<uint8_t> compiler_t::strlit_data(ast_node_t const& n)
 {
     std::vector<uint8_t> d;
-    d.reserve(n.data.size());
-    for(auto it = n.data.begin(); it != n.data.end(); ++it)
+    std::string data = n.string_literal();
+    d.reserve(data.size());
+    for(auto it = data.begin(); it != data.end(); ++it)
     {
         char c = *it;
         if(c == '\\')
         {
             ++it;
-            if(it == n.data.end()) break;
+            if(it == data.end()) break;
             switch(*it)
             {
             case 'n' : c = '\n'; break;
@@ -1025,9 +1026,9 @@ std::vector<uint8_t> compiler_t::strlit_data(ast_node_t const& n)
             case '\\': c = '\\'; break;
             case 'x':
             {
-                if(++it == n.data.end()) break;
+                if(++it == data.end()) break;
                 uint8_t nib1 = hex2val(*it);
-                if(++it == n.data.end()) break;
+                if(++it == data.end()) break;
                 uint8_t nib0 = hex2val(*it);
                 if(nib0 == 255 || nib1 == 255) break;
                 c = nib1 * 16 + nib0;

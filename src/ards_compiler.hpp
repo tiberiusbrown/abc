@@ -491,6 +491,19 @@ struct ast_node_t
     }
 
     void insert_cast(compiler_type_t const& t);
+
+    std::string string_literal() const
+    {
+        if(type != AST::STRING_LITERAL)
+            return std::string(data);
+        std::string t;
+        for(auto const& child : children)
+        {
+            assert(child.type == AST::TOKEN);
+            t += std::string(child.data);
+        }
+        return t;
+    }
 };
 
 struct compiler_lvalue_t

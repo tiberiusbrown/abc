@@ -175,12 +175,13 @@ float_literal       <- < [0-9]*'.'[0-9]+('e'[+-]?[0-9]+)? > /
                        < [0-9]+'.'[0-9]*('e'[+-]?[0-9]+)? > /
                        < [0-9]+'e'[+-]?[0-9]+ >
 hex_literal         <- < '0x'[0-9a-fA-F]+'u'? >
-char_literal        <- < '\'' < string_char > '\'' >
+char_literal        <- < '\'' < string_literal_char > '\'' >
 bool_literal        <- < 'true' / 'false' >
 ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
 
-string_literal      <- < '"' < string_char* > '"' >
-string_char         <- char_escape /
+string_literal      <- string_literal_part+
+string_literal_part <- < '"' < string_literal_char* > '"' >
+string_literal_char <- char_escape /
                        [^\\"\n]
 char_escape         <- '\\x'[0-9a-fA-F][0-9a-fA-F] /
                        '\\'[nr\\t"']
@@ -531,8 +532,11 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["string_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::STRING_LITERAL, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
     };
+    p["string_literal_part"] = token;
 
     p["font_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::FONT, v.token() };

@@ -349,7 +349,7 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
 
     if(n.children[0].type == AST::STRING_LITERAL)
     {
-        auto e = encode_tones_midi(data, std::string(n.children[0].data), false);
+        auto e = encode_tones_midi(data, n.children[0].string_literal(), false);
         if(!e.empty())
             errs.push_back({ e, n.line_info });
         return;

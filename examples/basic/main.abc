@@ -36,7 +36,10 @@ void loop()
     if($just_pressed(B_BUTTON))
         $tones_play_primary(SONG);
     
-    $draw_text_P(0, 5, "Hello World!\nPress A to collect a coin.\nPress B if it's gonna be you.");
+    $draw_text_P(0, 5,
+        "Hello World!\n"
+        "Press A to collect a coin.\n"
+        "Press B if it's gonna be you.");
     $draw_textf(0, 30, "Coins collected: %d", coins);
     $draw_textf(0, 55, "Running for %.2f seconds", float($millis()) / 1000);
     

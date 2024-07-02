@@ -47,7 +47,7 @@ void compiler_t::encode_font(std::vector<uint8_t>& data, ast_node_t const& n)
     std::vector<char> d;
     {
         std::string font_path = current_path + "/";
-        font_path += n.children[1].data;
+        font_path += n.children[1].string_literal();
         if(!file_loader || !file_loader(font_path, d))
         {
             errs.push_back({

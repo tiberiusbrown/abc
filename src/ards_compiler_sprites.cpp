@@ -44,7 +44,7 @@ void compiler_t::encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n)
     {
         std::vector<char> d;
         std::string image_path = current_path + "/";
-        image_path += n.children[2].data;
+        image_path += n.children[2].string_literal();
         if(!file_loader || !file_loader(image_path, d))
         {
             errs.push_back({

@@ -127,8 +127,7 @@ void compiler_t::progdata_expr(
     }
     case compiler_type_t::MUSIC:
     {
-        assert(n.children[0].type == AST::STRING_LITERAL);
-        encode_tones_midi(pd.data, std::string(n.children[0].data), true);
+        encode_tones_midi(pd.data, n.children[0].string_literal(), true);
         break;
     }
     case compiler_type_t::TONES:
