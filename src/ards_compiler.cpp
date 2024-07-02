@@ -417,7 +417,7 @@ std::string compiler_t::resolve_label_ref(
         add_progdata(label, TYPE_MUSIC, n);
         return label;
     }
-    else if(n.type == AST::TONES)
+    else if(n.type == AST::TONES || n.type == AST::TONES_RTTTL)
     {
         std::string label = progdata_label();
         add_progdata(label, TYPE_TONES, n);

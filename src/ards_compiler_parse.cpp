@@ -46,82 +46,6 @@ void compiler_t::init_parser()
         errs.push_back({ msg, { line, column } });
     });
     p.load_grammar(
-#if 0
-// fuller grammar (TODO)
-R"(
-        
-program             <- global_stmt*
-
-global_stmt         <- import_stmt / decl_stmt / func_stmt
-import_stmt         <- 'import' import_path ';'
-import_path         <- ident ('.' ident)*
-decl_stmt           <- type_name decl_list ';'
-func_stmt           <- type_name ident '(' arg_decl_list? ')' compound_stmt
-compound_stmt       <- '{' stmt* '}'
-stmt                <- compound_stmt /
-                       decl_stmt     /
-                       if_stmt       /
-                       while_stmt    /
-                       return_stmt   /
-                       break_stmt    /
-                       continue_stmt /
-                       expr_stmt
-if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
-while_stmt          <- 'while' '(' expr ')' stmt
-return_stmt         <- 'return' expr ';'
-break_stmt          <- 'break' ';'
-continue_stmt       <- 'continue' ';'
-return_stmt         <- 'return' expr? ';'
-expr_stmt           <- ';' / expr ';'
-
-# right-associative binary assignment operator
-expr                <- conditional_expr / unary_expr assignment_op expr
-
-# ternary conditional operator
-conditional_expr    <- logical_or_expr ('?' expr ':' conditional_expr)?
-
-# left-associative binary operators
-logical_or_expr     <- logical_and_expr    ('||'              logical_and_expr   )*
-logical_and_expr    <- bitwise_or_expr     ('&&'              bitwise_or_expr    )*
-bitwise_or_expr     <- bitwise_xor_expr    ('|'               bitwise_xor_expr   )*
-bitwise_xor_expr    <- bitwise_and_expr    ('^'               bitwise_and_expr   )*
-bitwise_and_expr    <- equality_expr       ('&'               equality_expr      )*
-equality_expr       <- relational_expr     (equality_op       relational_expr    )*
-relational_expr     <- shift_expr          (relational_op     shift_expr         )*
-shift_expr          <- additive_expr       (shift_op          additive_expr      )*
-additive_expr       <- multiplicative_expr (additive_op       multiplicative_expr)*
-multiplicative_expr <- cast_expr           (multiplicative_op cast_expr          )*
-
-# unary operators
-cast_expr           <- unary_expr / '(' type_name ')' cast_expr
-unary_expr          <- postfix_expr / prefix_op unary_expr / unary_op cast_expr
-postfix_expr        <- primary_expr postfix*
-primary_expr        <- ident / decimal_literal / '(' expr ')'
-
-postfix             <- postfix_op / '.' ident / '[' expr ']' / '(' arg_expr_list? ')'
-
-type_name           <- ident
-decl_list           <- decl_item (',' decl_item)*
-decl_item           <- ident ('=' expr)?
-arg_decl_list       <- type_name ident (',' type_name ident)*
-arg_expr_list       <- expr (',' expr)*
-
-prefix_op           <- < '++' / '--' >
-postfix_op          <- < '++' / '--' >
-unary_op            <- < [~!+-] >
-multiplicative_op   <- < [*/%] >
-additive_op         <- < [+-] >
-shift_op            <- < '<<' / '>>' >
-relational_op       <- < '<=' / '>=' / '<' / '>' >
-equality_op         <- < '==' / '!=' >
-assignment_op       <- < '=' / [*/%&|^+-]'=' / '<<=' / '>>=' >
-decimal_literal     <- < [0-9]+ >
-ident               <- < [a-zA-Z_][a-zA-Z_0-9]* >
-
-%whitespace         <- [ \t\r\n]*
-
-    )"
-#else
 R"(
 
 program             <- global_stmt*
@@ -236,8 +160,15 @@ font_literal        <- 'font' '{' decimal_literal string_literal '}'
 music_literal       <- 'music' '{' string_literal '}'
 
 tones_literal       <- 'tones' '{' string_literal '}' /
-                       'tones' '{' (tones_note decimal_literal)+ '}'
+                       'tones' '{' (tones_note decimal_literal)+ '}' /
+                       'tones' '{'
+                            ([a-zA-Z0-9_-]* ':')?
+                            'd' '=' decimal_literal ','
+                            'o' '=' decimal_literal ','
+                            'b' '=' decimal_literal ':'
+                            tones_rtttl_item (',' tones_rtttl_item)* ','? '}'
 tones_note          <- < [A-G0-9b#-]+ >
+tones_rtttl_item    <- < [0-9a-hpA-HP#_.]+ >
 
 decimal_literal     <- < [0-9]+'u'? >
 float_literal       <- < [0-9]*'.'[0-9]+('e'[+-]?[0-9]+)? > /
@@ -260,7 +191,6 @@ linebreak           <- [\n\r]
 multiline_comment   <- '/*' (! '*/' .)* '*/'
 
 )"
-#endif
     );
 
     if(!errs.empty()) return;
@@ -569,6 +499,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["unary_op"         ] = token;
     p["sprite_row"       ] = token;
     p["tones_note"       ] = token;
+    p["tones_rtttl_item" ] = token;
     p["directive_keyword"] = token;
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
@@ -615,14 +546,18 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
-        };
+    };
 
     p["tones_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        ast_node_t a{ v.line_info(), AST::TONES, v.token() };
+        ast_node_t a{
+            v.line_info(),
+            v.choice() == 2 ? AST::TONES_RTTTL : AST::TONES,
+            v.token()
+        };
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;
-        };
+    };
 
     p["sprites_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::SPRITES, v.token() };
