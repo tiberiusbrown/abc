@@ -40,7 +40,7 @@ bin2h(
     HEADER_FILE   "${GENHEADER_DIR}/basic_main.hpp"
     VARIABLE_NAME BASIC_MAIN
     )
-
+    
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(GetGitRevisionDescription)
 git_describe(ABC_VERSION)

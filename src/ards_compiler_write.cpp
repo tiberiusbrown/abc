@@ -222,6 +222,7 @@ static void write_instr(
     case I_BNZP:  f << "bnzp  " << instr.label; break;
     case I_JMP:   f << "jmp   " << instr.label; break;
     case I_CALL:  f << "call  " << instr.label; break;
+    case I_ICALL: f << "icall"; break;
     case I_RET:   f << "ret"; break;
     case I_SYS:
     {

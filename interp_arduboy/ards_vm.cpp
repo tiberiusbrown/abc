@@ -3645,7 +3645,7 @@ I_CALL:
 I_CALL1:
     lds  r26, %[vm_csp]
     cpi  r26, %[MAX_CALLS] * 3 - 3
-    brsh 1f
+    brsh call1_error
     ldi  r27, 0x06
     add  r6, r4
     adc  r7, r2
@@ -3666,8 +3666,30 @@ I_CALL1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc_delayed2
-1:  ldi  r24, 6
+call1_error:
+icall_error:
+    ldi  r24, 6
     call call_vm_error
+    .align 6
+
+I_ICALL:
+    lds  r26, %[vm_csp]
+    cpi  r26, %[MAX_CALLS] * 3 - 3
+    brsh icall_error
+    ldi  r27, 0x06
+    st   X+, r6
+    st   X+, r7
+    st   X+, r8
+    sts  %[vm_csp], r26
+    ldi  r18, 3
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    mov  r8, r9
+    ld   r7, -Y
+    ld   r6, -Y
+    ld   r9, -Y
+    rjmp jump_to_pc_delayed2
     .align 6
 
 I_RET:

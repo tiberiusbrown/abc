@@ -2424,10 +2424,14 @@ $L_main_12:
     sys debug_break
     ret
 $L_main_13:
+    
+    pushl call_long 0
+    sys debug_break
+    icall
 
     call $L_main_12
     sys debug_break
-    
+   
     p00
     p00
     sys debug_break

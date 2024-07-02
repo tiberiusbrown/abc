@@ -265,6 +265,7 @@ enum
     I_JMP1,
     I_CALL,
     I_CALL1,
+    I_ICALL,
     I_RET,
     I_SYS,
 };
@@ -2923,6 +2924,7 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_JMP1:  interp->pc += (int8_t)imm8(interp, h); return ABC_RESULT_NORMAL;
     case I_CALL:  return call(interp, imm24(interp, h));
     case I_CALL1: return call(interp, interp->pc + (int8_t)imm8(interp, h));
+    case I_ICALL: return call(interp, pop24(interp));
     case I_RET:   return ret(interp);
     case I_SYS:   return sys(interp, h);
     default:

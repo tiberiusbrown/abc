@@ -361,7 +361,7 @@ int abc_benchmarks()
         "bnzp (not taken)", "bnzp (taken)",
         "bnzp1 (not taken)", "bnzp1 (taken)",
         "jmp", "jmp1",
-        "call", "call1", "ret",
+        "call", "call1", "icall", "ret",
         "$get_pixel",
         "$draw_pixel",
         "$draw_hline (0, 0, 1)",

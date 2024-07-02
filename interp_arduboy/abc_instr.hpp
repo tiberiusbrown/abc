@@ -330,6 +330,7 @@ enum instr_t : uint8_t
     I_CALL,
     I_CALL1,  // imm8 rel offset
     //I_CALL2,// imm16 rel offset
+    I_ICALL,
     I_RET,
 
     I_SYS,   // call sysfunc (imm8)
