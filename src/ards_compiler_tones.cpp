@@ -238,12 +238,17 @@ void compiler_t::encode_tones_rtttl(
         else
         {
             note_str = note;
-            if(j < ni.data.size() && ni.data[j] == '#')
-                ++j, sharp = true;
-            if(j < ni.data.size() && ni.data[j] == '.')
-                dotted = true;
-            if(j < ni.data.size() && isdigit(ni.data[j]))
-                octave = ni.data[j++] - '0';
+            bool done = true;
+            do
+            {
+                done = true;
+                if(j < ni.data.size() && (ni.data[j] == '#' || ni.data[j] == '_'))
+                    done = false, ++j, sharp = true;
+                if(j < ni.data.size() && ni.data[j] == '.')
+                    done = false, ++j, dotted = true;
+                if(j < ni.data.size() && isdigit(ni.data[j]))
+                    done = false, octave = ni.data[j++] - '0';
+            } while(!done);
             note_str += char('0' + octave);
             if(sharp) note_str += '#';
         }
@@ -320,16 +325,10 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
                 int const note2 = note + (j - 4) * 12;
                 notes[t] = note2;
 
-                if(note2 < 128)// && c != 'E' && c != 'B')
+                if(note2 < 128)
                 {
                     t += '#';
                     notes[t] = note2 + 1;
-                    t.pop_back();
-                }
-                if(note2 > 1)// && c != 'F' && c != 'C')
-                {
-                    t += 'b';
-                    notes[t] = note2 - 1;
                     t.pop_back();
                 }
 
