@@ -39,7 +39,7 @@ Language features:
 - References
   - Function arguments can be [passed by reference](https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference)
   - Structs and arrays can contain references, but are then noncopyable
-- Control: `for`, `while`, `if` (`do`-`while` and `switch` not currently supported)
+- Control: `for`, `while`, `do`-`while`, `if`, `switch`
 
 ### Primitive Numeric Types
 The following keyword types are exposed in ABC.
@@ -69,6 +69,14 @@ The following keyword types are exposed in ABC.
 
 The `bool` type is the type of relational and boolean operations (such as `a == b` or `a && b`). It can only contain the values `true` or `false`, which convert to `1` and `0`, respectively, when cast to another numeric type. When converted to `bool`, values of a non-`bool` type convert to `false` when zero, and `true` otherwise.
 
+Unlike C, bitwise operators may not operate on `bool`. This prevents mistakes such as the following:
+```c
+// Intent:  call f() if the lowest three bits of x are cleared
+// Reality: never call f(), as the condition is actually "x & (7 == 0)"
+if(x & 7 == 0)
+    f();
+```
+
 ### The `byte` type
 
 Any reference to a copyable type may be converted to an [unsized array reference](#unsized-array-references) of `byte` type.
@@ -88,6 +96,8 @@ char[6] b_char;
 
 a_char = b_char; // OK
 ```
+
+
 
 ## Arrays
 
@@ -193,6 +203,8 @@ char[12] str2 = "Hello World!";
 // str3 will contain the 12 characters "abcdefghijkl" and no null terminator.
 char[12] str3 = "abcdefghijklmnop";
 ```
+
+A string literal is of type `char[N] prog`, where `N` is the length of the string, *not* including a null terminator.
 
 ## References
 ABC has references (like C++) but not pointers. For any type `T`, the type `T&` is a reference to `T`. As in C++, references cannot be reassigned and must be initialized when declared.
@@ -354,31 +366,3 @@ See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for 
 - Macros
 - Variadic functions (except for system methods like `$format` which have special support)
 - `goto`
-
-## Differences from C
-
-ABC differs from C in several aspects, both to simplify the language and to avoid inheriting some "gotchas" from C.
-
-### String Literals
-In C, a string literal is of type `char const[N]`, where `N` is the length of the string, including a null terminator.
-
-In ABC, a string literal is of type `char[N] prog`, where `N` is the length of the string, *not* including a null terminator.
-
-### Bitwise Operations with `bool`
-Consider the following conditional.
-```c
-// call f() if the lowest three bits of x are cleared
-if(x & 7 == 0)
-    f();
-```
-Despite the obvious intention behind the code, this conditional always evaluates as false. Due to operator precedence, it's equivalent to the form below.
-```c
-if(x & (7 == 0))
-    f();
-```
-To avoid this mistake, ABC could adjust operator precedence to differ from C. However, this would prove poor training for someone who is learning with ABC and will eventually move to C. Instead, ABC disallows performing bitwise operations with boolean types, so the original code would produce a compiler error (since it tries to bitwise AND `x` with `7 == 0`, which is of type `bool`). Thus the programmer is forced to insert parentheses to reflect the intent appropriately, as would be done in C.
-```c
-if((x & 7) == 0)
-    f();
-```
-Naturally, if you actually want to perform a bitwise operation with boolean types, you may first cast any boolean expressions to integer types.
