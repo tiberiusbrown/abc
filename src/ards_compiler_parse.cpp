@@ -162,7 +162,7 @@ music_literal       <- 'music' '{' string_literal '}'
 tones_literal       <- 'tones' '{' string_literal '}' /
                        'tones' '{' (tones_note decimal_literal)+ '}' /
                        'tones' '{'
-                            ([a-zA-Z0-9_-]* ':')?
+                            ([^:=]* ':')?
                             'd' '=' decimal_literal ','
                             'o' '=' decimal_literal ','
                             'b' '=' decimal_literal ':'
