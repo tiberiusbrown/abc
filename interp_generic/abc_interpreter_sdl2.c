@@ -187,8 +187,10 @@ int main(int argc, char** argv)
             for(unsigned j = 0; !idle && j < 1000; ++j)
             {
                 abc_result_t t = abc_run(&interp, &host);
+#ifdef _MSC_VER
                 if(t == ABC_RESULT_ERROR)
                     __debugbreak();
+#endif
                 if(t == ABC_RESULT_IDLE)
                     idle = true;
             }
