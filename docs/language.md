@@ -493,7 +493,11 @@ ABC has basic support for grayscale games with the `#shades` directive. Valid va
 
 The `#shades` directive also affects how `sprites` data is encoded in the compiled program.
 
-Note that enabling grayscale with `#shades "3"` or `#shades "4"` will reduce the amount of memory available for global variables from 1024 to 256 bytes.
+Note that enabling grayscale with `#shades "3"` or `#shades "4"` will reduce the amount of memory available for global variables from 1024 to 256 bytes. Additionally, for performance reasons, only the following system methods are available in grayscale modes:
+- `$draw_filled_rect`
+- `$draw_rect`
+- `$draw_sprite`
+- `$draw_text`
 
 ## Planned to Include in ABC (TODO)
 - Function references
