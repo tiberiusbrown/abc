@@ -262,7 +262,7 @@ add_executable(abc ${EXE_TYPE}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
     )
-target_link_libraries(abc PRIVATE ardenslib ards_compiler)
+target_link_libraries(abc PRIVATE ardensdebuggerlib ards_compiler)
 if(WIN32)
     target_link_libraries(abc PRIVATE d3d11)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")

@@ -48,6 +48,7 @@ void player_run()
     if(!err.empty())
         return;
     arduboy->paused = false;
+    arduboy->profiler_enabled = true;
     player_active = true;
 }
 
@@ -181,6 +182,26 @@ void player_window_contents(uint64_t dt)
     {
         if(Button(ICON_FA_PLAY_CIRCLE " Debug (F5)", button_size))
             player_run();
+    }
+
+    if(player_active)
+    {
+        Separator();
+        float usage = 0.f;
+        size_t i;
+        constexpr size_t n = 16;
+        auto const& d = arduboy->frame_cpu_usage;
+        for(i = 0; i < n; ++i)
+        {
+            if(i >= d.size())
+                break;
+            usage += d[d.size() - i - 1];
+        }
+        usage /= n;
+        bool red = usage > 0.999f;
+        if(red) ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
+        ImGui::Text("CPU Usage: %5.1f%%", usage * 100);
+        if(red) ImGui::PopStyleColor();
     }
 
     if(project.errors.empty() && !project.binary.empty())
