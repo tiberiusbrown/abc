@@ -155,9 +155,6 @@ static void app_cleanup()
     shutdown();
     saudio_shutdown();
     simgui_shutdown();
-#ifndef ARDENS_NO_DEBUGGER
-    platform_destroy_texture(display_buffer_texture);
-#endif
     sg_shutdown();
 }
 
