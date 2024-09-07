@@ -6,6 +6,7 @@
 #include <array>
 #include <memory>
 #include <strstream>
+#include <sstream>
 
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -231,8 +232,20 @@ void player_window_contents(uint64_t dt)
             0;
         Separator();
         PushStyleColor(ImGuiCol_Text, IM_COL32(200, 0, 0, 255));
-        TextUnformatted("Some errors occurred during compilation:");
+        TextUnformatted("Some errors occurred during compilation.");
         PopStyleColor();
+        if(Button("Copy errors to clipboard"))
+        {
+            std::stringstream ss;
+            for(auto const& [f, errs] : project.errors)
+            {
+                for(auto const& e : errs)
+                {
+                    ss << f << ":" << (int)e.line_info.first << "  " << e.msg << "\n";
+                }
+            }
+            platform_set_clipboard_text(ss.str().c_str());
+        }
         if(BeginTable("##errorstable", 3, flags))
         {
             TableSetupColumn("File", ImGuiTableColumnFlags_WidthFixed);
