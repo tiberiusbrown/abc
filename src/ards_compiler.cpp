@@ -714,12 +714,16 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
     // trim all token whitespace
     ast.recurse([](ast_node_t& n) {
         if(n.type == AST::STRING_LITERAL) return;
-        size_t size = n.data.size();
+        if(n.type == AST::TOKEN) return;
+        size_t size;
         size_t i;
+        size = n.data.size();
         if(size == 0) return;
-        for(i = 0; isspace(n.data[i]); ++i);
+        for(i = 0; i < size && isspace(n.data[i]); ++i);
         n.data.remove_prefix(i);
-        for(i = 0; isspace(n.data[size - i - 1]); ++i);
+        size = n.data.size();
+        if(size == 0) return;
+        for(i = 0; i < size && isspace(n.data[size - i - 1]); ++i);
         n.data.remove_suffix(i);
     });
 

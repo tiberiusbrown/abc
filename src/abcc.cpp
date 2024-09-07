@@ -123,7 +123,7 @@ int main(int argc, char** argv)
 #endif
 
 #ifndef NDEBUG
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/basic/main.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/switch.abc";

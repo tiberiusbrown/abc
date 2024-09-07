@@ -4,6 +4,7 @@ void main()
     
     $assert('e' == 'e');
     $assert("hello"[1] == 'e');
+    $assert("  hi"[1] == ' ');
     
     $assert($strlen("what") == 4);
     
