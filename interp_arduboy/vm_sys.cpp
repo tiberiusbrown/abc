@@ -6,7 +6,6 @@
 #include <Arduboy2Audio.h>
 #include <ArduboyFX.h>
 
-#define SPRITESABC_IMPLEMENTATION
 #include "SpritesABC.hpp"
 
 #include "ards_shades.hpp"
