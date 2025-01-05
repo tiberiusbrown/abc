@@ -361,7 +361,7 @@ void shades_display()
             img += t * frame;
             img += 5;
 
-            SpritesABC::drawBasic(x, y, w, h, img, mode);
+            SpritesABC::drawBasicFX(x, y, w, h, img, mode);
             break;
         }
         case SHADES_CMD_SPRITE_BATCH:
@@ -425,7 +425,7 @@ void shades_display()
                     , [f]    "r"   (f)
                     );
                 
-                SpritesABC::drawBasic(x, y, w, h, timg, mode);
+                SpritesABC::drawBasicFX(x, y, w, h, timg, mode);
 
             } while(--n != 0);
             break;

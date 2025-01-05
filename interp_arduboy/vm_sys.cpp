@@ -895,7 +895,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [datapage] ""    (&FX::programDataPage)
         , [vm_error] ""    (vm_error)
     );
-    SpritesABC::drawBasic(x, y, w, h, image, mode);
+    SpritesABC::drawBasicFX(x, y, w, h, image, mode);
     seek_to_pc();
 }
 
@@ -1096,7 +1096,7 @@ __attribute__((noinline)) void draw_char(
         , [font]   "i"   (&ards::vm.text_font)
         , [HEADER] "i"   (FONT_HEADER_BYTES)
         );
-        SpritesABC::drawBasic(
+        SpritesABC::drawBasicFX(
             xv, y, (uint8_t)c, h, addr, ards::vm.text_mode);
 }
 
