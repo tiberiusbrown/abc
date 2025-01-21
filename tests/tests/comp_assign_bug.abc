@@ -1,0 +1,18 @@
+struct foo_t
+{
+    u8 x, y;
+};
+
+foo_t f;
+
+void main()
+{
+    $debug_break();
+    
+    f.x = 0x42;
+    foo_t& r = f;
+    r.x |= 0x01;
+    $assert(r.x == 0x43);
+    
+    $debug_break();
+}

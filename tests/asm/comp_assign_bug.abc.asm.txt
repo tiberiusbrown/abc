@@ -1,0 +1,41 @@
+.shades 2
+.saved 0
+.global f 2
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file comp_assign_bug.abc
+  .line 10
+  sys   debug_break
+  .line 12
+  push  66
+  setg  f 0
+  .line 13
+  pushg f 0
+  .line 14
+  dupw
+  dupw
+  getr
+  p1
+  or
+  dupw2
+  setr
+  pop2
+  .line 15
+  dupw
+  getr
+  push  67
+  sub
+  not
+  sys   assert
+  .line 17
+  sys   debug_break
+  .line 8
+  pop2
+  ret
+

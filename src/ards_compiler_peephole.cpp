@@ -588,7 +588,8 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
         // combine consecutive GETLNs to adjacant stack locations
         if( i0.instr == I_PUSH && i1.instr == I_GETLN &&
             i2.instr == I_PUSH && i3.instr == I_GETLN &&
-            i0.imm + i1.imm == i2.imm + i3.imm)
+            i0.imm + i1.imm == i2.imm + i3.imm &&
+            i0.imm + i2.imm <= i1.imm)
         {
             i0.imm += i2.imm;
             i2.instr = I_REMOVE;
