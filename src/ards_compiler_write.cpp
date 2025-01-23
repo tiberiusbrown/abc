@@ -9,7 +9,7 @@
 namespace ards
 {
 
-static void write_instr(
+void compiler_t::write_instr(
     std::ostream& f, compiler_instr_t const& instr, uint16_t& line,
     uint16_t& file, std::vector<std::string> const& filenames)
 {

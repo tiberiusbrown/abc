@@ -753,6 +753,9 @@ private:
 
     static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs);
 
+    void write_instr(
+        std::ostream& f, compiler_instr_t const& instr, uint16_t& line,
+        uint16_t& file, std::vector<std::string> const& filenames);
     void write(std::ostream& f);
 
     // parse data

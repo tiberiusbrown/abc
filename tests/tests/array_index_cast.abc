@@ -1,0 +1,11 @@
+u8[13][1] data;
+
+void main()
+{
+    $debug_break();
+    
+    u8 a;
+    $assert(data[u8(a+a)][0] == 0);
+    
+    $debug_break();
+}

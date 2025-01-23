@@ -1,0 +1,31 @@
+.shades 2
+.saved 0
+.global data 13
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file array_index_cast.abc
+  .line 5
+  sys   debug_break
+  .line 7
+  p0
+  .line 8
+  pushg data 0
+  dup3
+  dup4
+  add
+  aidxb 13 1
+  getr
+  not
+  sys   assert
+  .line 10
+  sys   debug_break
+  .line 3
+  pop
+  ret
+

@@ -669,9 +669,13 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         type_reduce_recurse(a.children[1], a.children[1].comp_type.prim_size);
         break;
     case AST::ARRAY_INDEX:
+    {
+        type_reduce_recurse(
+            a.children[0], 4);
         type_reduce_recurse(
             a.children[1], a.children[0].comp_type.is_prog_array() ? 3 : 2);
         break;
+    }
     case AST::OP_CAST:
         // ternary operators can propagate their casts to subexpressions
         if(a.children[1].type != AST::OP_TERNARY &&

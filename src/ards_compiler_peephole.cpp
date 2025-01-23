@@ -528,18 +528,6 @@ bool compiler_t::peephole_simplify_derefs(compiler_func_t& f)
             continue;
         }
 
-        // replace prog derefs with GETPN
-        //if(i0.instr == I_REFL && i1.instr == I_GETRN)
-        //{
-        //    i0.instr = I_PUSH;
-        //    i1.instr = I_GETPN;
-        //    i1.label = std::move(i0.label);
-        //    i0.label.clear();
-        //    std::swap(i0.imm, i1.imm);
-        //    t = true;
-        //    continue;
-        //}
-
         // replace GETPN <N>; POP with GETPN <N-1>
         if(i0.instr == I_GETPN && i1.instr == I_POP)
         {
