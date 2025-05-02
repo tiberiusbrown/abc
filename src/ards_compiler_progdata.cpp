@@ -99,6 +99,8 @@ void compiler_t::progdata_expr(
     case compiler_type_t::SPRITES:
     case compiler_type_t::FONT:
     case compiler_type_t::TONES:
+    case compiler_type_t::MUSIC:
+    case compiler_type_t::TILEMAP:
         if(n.type == AST::LABEL_REF)
         {
             std::string name(n.data);
@@ -128,6 +130,13 @@ void compiler_t::progdata_expr(
     case compiler_type_t::MUSIC:
     {
         encode_tones_midi(pd.data, n.children[0].string_literal(), true);
+        break;
+    }
+    case compiler_type_t::TILEMAP:
+    {
+        std::string error = encode_tilemap_tmx(pd.data, n.children[0].string_literal());
+        if(!error.empty())
+            errs.push_back({ error, n.line_info });
         break;
     }
     case compiler_type_t::TONES:

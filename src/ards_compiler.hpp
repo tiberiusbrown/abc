@@ -118,6 +118,7 @@ enum class AST
                 //           or w, h, path string
     FONT,       // children are pixel height and path string
     MUSIC,      // children are path string
+    TILEMAP,    // children are path string
     TONES,      // children are path string
                 //           or note, dur, note, dur, ...
     TONES_RTTTL,// children are d, o, b, notes...
@@ -146,6 +147,7 @@ struct compiler_type_t
         FONT,
         TONES,
         MUSIC,
+        TILEMAP,
     } type;
 
     bool is_signed;
@@ -170,6 +172,7 @@ struct compiler_type_t
     bool is_font() const { return type == FONT; }
     bool is_tones() const { return type == TONES; }
     bool is_music() const { return type == MUSIC; }
+    bool is_tilemap() const { return type == TILEMAP; }
 
     bool is_any_nonprog_ref() const {
         return is_any_ref() && (!children[0].is_prog || children[0].is_any_nonprog_ref());
@@ -177,7 +180,7 @@ struct compiler_type_t
 
     bool is_label_ref() const
     {
-        return is_sprites() || is_font() || is_tones() || is_music();
+        return is_sprites() || is_font() || is_tones() || is_music() || is_tilemap();
     }
 
     // empty for primitives
@@ -377,6 +380,9 @@ const compiler_type_t TYPE_TONES = {
 
 const compiler_type_t TYPE_MUSIC = {
     3, compiler_type_t::MUSIC };
+
+const compiler_type_t TYPE_TILEMAP = {
+    3, compiler_type_t::TILEMAP };
 
 const compiler_type_t TYPE_CHAR = {
     1, compiler_type_t::PRIM, false, false, true };
@@ -709,6 +715,8 @@ private:
         std::vector<uint8_t>& data, ast_node_t const& n);
     std::string encode_tones_midi(
         std::vector<uint8_t>& data, std::string const& filename, bool music);
+    std::string encode_tilemap_tmx(
+        std::vector<uint8_t>& data, std::string const& filename);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 
     // idata encoding:

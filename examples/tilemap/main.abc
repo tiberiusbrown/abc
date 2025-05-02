@@ -1,0 +1,23 @@
+#shades "4"
+
+constexpr tilemap TMAP = tilemap{ "world.tmx" };
+constexpr sprites TILES = sprites{ 16x16 "tiles.png" };
+
+i16 x, y;
+
+void main()
+{
+    $set_frame_rate(60);
+    
+    while(true)
+    {
+        $draw_tilemap(x, y, TILES, TMAP);
+
+        if($pressed(LEFT_BUTTON )) x += 1;
+        if($pressed(RIGHT_BUTTON)) x -= 1;
+        if($pressed(UP_BUTTON   )) y += 1;
+        if($pressed(DOWN_BUTTON )) y -= 1;
+ 
+        $display();
+    }
+}

@@ -48,6 +48,7 @@ void  $draw_sprite_selfmask(i16 x, i16 y, sprites s, u16 frame);
 void  $draw_text(i16 x, i16 y, char[]& str);
 void  $draw_text(i16 x, i16 y, char[] prog& str);
 void  $draw_textf(i16 x, i16 y, char[] prog& fmt, ...);
+void  $draw_tilemap(i16 x, i16 y, sprites s, tilemap tm);
 void  $draw_vline(i16 x, i16 y, u8 h, u8 color);
 float $floor(float x);
 void  $format(char[]& dst, char[] prog& fmt, ...);

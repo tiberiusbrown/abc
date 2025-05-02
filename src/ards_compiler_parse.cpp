@@ -132,6 +132,7 @@ primary_expr        <- hex_literal /
                        font_literal /
                        tones_literal /
                        music_literal /
+                       tilemap_literal /
                        ident /
                        '(' expr ')' /
                        string_literal
@@ -169,6 +170,8 @@ tones_literal       <- 'tones' '{' string_literal '}' /
                             tones_rtttl_item (',' tones_rtttl_item)* ','? '}'
 tones_note          <- < [A-G0-9b#-]+ >
 tones_rtttl_item    <- < [0-9a-hpA-HP#_.]+ >
+
+tilemap_literal     <- 'tilemap' '{' string_literal '}'
 
 decimal_literal     <- < [0-9]+'u'? >
 float_literal       <- < [0-9]*'.'[0-9]+('e'[+-]?[0-9]+)? > /
@@ -547,6 +550,13 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     p["music_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
         ast_node_t a{ v.line_info(), AST::MUSIC, v.token() };
+        for(auto& child : v)
+            a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
+        return a;
+    };
+
+    p["tilemap_literal"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        ast_node_t a{ v.line_info(), AST::TILEMAP, v.token() };
         for(auto& child : v)
             a.children.emplace_back(std::move(std::any_cast<ast_node_t>(child)));
         return a;

@@ -337,13 +337,46 @@ static uint8_t fx_read_byte_inc(uint24_t& fb)
             in   %[r], %[spdr]
             sbi  %[fxport], %[fxbit]
         )"
-        : [r] "=&r" (r)
-        : [fxport]   "i" (_SFR_IO_ADDR(FX_PORT))
-        , [fxbit]    "i" (FX_BIT)
-        , [spdr]     "i" (_SFR_IO_ADDR(SPDR))
+        : [r]        "=&r" (r)
+        : [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i"   (FX_BIT)
+        , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
         );
     return r;
 }
+
+static uint16_t fx_read_word_inc(uint24_t& fb)
+{
+    uint16_t r;
+    void* p;
+    uint8_t t;
+    fx_read_byte_inc_helper(fb);
+    asm volatile(R"(
+            in   %A[r], %[spdr]
+            movw %A[p], %A[fb]
+            ld   %A[fb], %a[p]+
+            ld   %B[fb], %a[p]+
+            ld   %[t], %a[p]+
+            adiw %A[fb], 1
+            adc  %[t], __zero_reg__
+            st   -%a[p], %[t]
+            st   -%a[p], %B[fb]
+            st   -%a[p], %A[fb]
+            rjmp .+0
+            in   %B[r], %[spdr]
+            sbi  %[fxport], %[fxbit]
+        )"
+        : [r]        "=&r" (r)
+        , [p]        "=&e" (p)
+        , [t]        "=&r" (t)
+        , [fb]       "+&w" (fb)
+        : [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
+        , [fxbit]    "i"   (FX_BIT)
+        , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
+        );
+    return r;
+}
+
 
 extern unsigned long volatile timer0_overflow_count;
 void wait_for_frame_timing()
@@ -896,13 +929,13 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [vm_error] ""    (vm_error)
     );
     SpritesABC::drawBasicFX(x, y, w, h, image, mode);
-    seek_to_pc();
 }
 
 static void sys_draw_sprite()
 {
 #if ABC_SHADES == 2
     draw_sprite_helper(0);
+    seek_to_pc();
 #else
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
@@ -920,9 +953,119 @@ static void sys_draw_sprite_selfmask()
 {
 #if ABC_SHADES == 2
     draw_sprite_helper(4);
+    seek_to_pc();
 #else
     ards::vm.sp -= 9; // x:2 y:2 img:3 frame:2
 #endif
+}
+
+static uint24_t mul_24_16_16(uint16_t a, uint16_t b)
+{
+    uint24_t r;
+    /*
+              A1 A0
+              B1 B0
+              =====
+              A0*B0
+           A1*B0
+           A0*B1
+        A1*B1
+        ===========
+           R2 R1 R0
+    */
+    asm volatile(R"(
+            mul  %A[a], %A[b]
+            movw %A[r], r0
+            mul  %B[a], %B[b]
+            mov  %C[r], r0
+            mul  %A[a], %B[b]
+            add  %B[r], r0
+            adc  %C[r], r1
+            mul  %B[a], %A[b]
+            add  %B[r], r0
+            adc  %C[r], r1
+            clr  __zero_reg__
+        )"
+        : [r] "=&r" (r)
+        : [a] "r"   (a)
+        , [b] "r"   (b)
+    );
+    return r;
+}
+
+static void sys_draw_tilemap()
+{
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t img = vm_pop<uint24_t>(ptr);
+    uint24_t tm = vm_pop<uint24_t>(ptr);
+    vm_pop_end(ptr);
+    FX::readEnd();
+
+    if(x >= 128) goto end;
+    if(y >=  64) goto end;
+
+    FX::seekData(tm);
+    uint8_t format = FX::readPendingUInt8();
+    uint16_t nrow = FX::readPendingUInt16();
+    uint16_t ncol = FX::readPendingLastUInt16();
+    tm += 5;
+
+    // sprite dimensions and number
+    FX::seekData(img);
+    uint8_t sw = FX::readPendingUInt8();
+    uint8_t sh = FX::readPendingLastUInt8();
+
+    uint16_t r = 0, c = 0;
+    if(y < 0)
+    {
+        r -= y / sh;
+        y += r * sh;
+    }
+    if(x < 0)
+    {
+        c -= x / sw;
+        x += c * sw;
+    }
+
+    for(; r < nrow && y < HEIGHT; ++r, y += sh)
+    {
+        int16_t tx = x;
+        for(uint16_t tc = c; tc < ncol && tx < WIDTH; ++tc, tx += sw)
+        {
+            uint16_t frame;
+            {
+                uint24_t t = mul_24_16_16(r, ncol) + tc;
+                if(format == 2)
+                    t += t;
+                FX::seekData(tm + t);
+            }
+            if(format == 1)
+                frame = FX::readPendingLastUInt8();
+            else
+                frame = FX::readPendingLastUInt16();
+            if(frame == 0)
+                continue;
+            frame -= 1;
+#if ABC_SHADES == 2
+            ptr = vm_pop_begin();
+            vm_push_unsafe<uint16_t>(ptr, frame);
+            vm_push_unsafe<uint24_t>(ptr, img);
+            vm_push_unsafe<int16_t>(ptr, y);
+            vm_push_unsafe<int16_t>(ptr, tx);
+            vm_pop_end(ptr);
+            draw_sprite_helper(0);
+#else
+            shades_draw_sprite(tx, y, img, frame);
+            if(ards::vm.needs_render)
+                shades_display();
+#endif
+        }
+    }
+end:
+
+    seek_to_pc();
 }
 
 __attribute__((noinline)) void draw_char(
@@ -2416,6 +2559,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_draw_filled_circle,
     sys_draw_sprite,
     sys_draw_sprite_selfmask,
+    sys_draw_tilemap,
     sys_draw_text,
     sys_draw_text_P,
     sys_draw_textf,

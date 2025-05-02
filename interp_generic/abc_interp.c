@@ -24,6 +24,7 @@ enum
     SYS_DRAW_FILLED_CIRCLE,
     SYS_DRAW_SPRITE,
     SYS_DRAW_SPRITE_SELFMASK,
+    SYS_DRAW_TILEMAP,
     SYS_DRAW_TEXT,
     SYS_DRAW_TEXT_P,
     SYS_DRAW_TEXTF,
@@ -2660,6 +2661,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_FILLED_CIRCLE:   return sys_draw_filled_circle(interp);
     case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
     case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
+    case SYS_DRAW_TILEMAP:         assert(0); return ABC_RESULT_ERROR;
     case SYS_DRAW_TEXT:            return sys_draw_text(interp, h);
     case SYS_DRAW_TEXT_P:          return sys_draw_text_P(interp, h);
     case SYS_DRAW_TEXTF:           return sys_draw_textf(interp, h);

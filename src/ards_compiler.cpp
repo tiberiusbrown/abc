@@ -28,8 +28,9 @@ std::unordered_set<std::string> const keywords =
 {
     "u8", "i8", "u16", "i16", "u24", "i24", "u32", "i32",
     "void", "bool", "uchar", "char", "uint", "int", "ulong", "long",
+    "sprites", "font", "tones", "music", "tilemap",
+    "constexpr", "saved", "prog",
     "if", "else", "while", "for", "return", "break", "continue",
-    "constexpr", "saved", "prog", "sprites", "font", "tones", "music",
     "struct", "import", "len", "float", "byte", "do",
     "switch", "case", "default",
 };
@@ -59,6 +60,7 @@ std::unordered_map<std::string, compiler_type_t> const primitive_types
     { "font",    TYPE_FONT    },
     { "tones",   TYPE_TONES   },
     { "music",   TYPE_MUSIC   },
+    { "tilemap", TYPE_TILEMAP },
 };
 
 bool sysfunc_is_format(std::string const& f)
@@ -421,6 +423,12 @@ std::string compiler_t::resolve_label_ref(
     {
         std::string label = progdata_label();
         add_progdata(label, TYPE_TONES, n);
+        return label;
+    }
+    else if(n.type == AST::TILEMAP)
+    {
+        std::string label = progdata_label();
+        add_progdata(label, TYPE_TILEMAP, n);
         return label;
     }
     else if(n.type == AST::IDENT)
@@ -1090,6 +1098,8 @@ std::string type_name(ards::compiler_type_t const& t, bool noprog)
         ss << "tones";
     else if(tt == ards::TYPE_MUSIC)
         ss << "music";
+    else if(tt == ards::TYPE_TILEMAP)
+        ss << "tilemap";
     else if(tt.is_float)
         ss << "float";
     else if(tt.is_byte)

@@ -107,6 +107,14 @@ set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
 set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
 add_subdirectory(deps/Ardens EXCLUDE_FROM_ALL)
 
+set(TMXLITE_STATIC_LIB     ON  CACHE BOOL "" FORCE)
+set(PROJECT_STATIC_RUNTIME ON  CACHE BOOL "" FORCE)
+set(USE_RTTI               OFF CACHE BOOL "" FORCE)
+set(USE_EXTLIBS            OFF CACHE BOOL "" FORCE)
+set(USE_ZSTD               OFF CACHE BOOL "" FORCE)
+add_subdirectory(deps/tmxlite)
+target_link_libraries(tmxlite PUBLIC miniz)
+
 set(EM_FILE_BROWSER_SOURCES)
 if(EMSCRIPTEN)
     set(EM_FILE_BROWSER_SOURCES deps/emscripten-browser-file/emscripten_browser_file.h)
@@ -153,6 +161,7 @@ add_library(ards_compiler STATIC
     src/ards_compiler_peephole.cpp
     src/ards_compiler_progdata.cpp
     src/ards_compiler_sprites.cpp
+    src/ards_compiler_tilemap.cpp
     src/ards_compiler_tones.cpp
     src/ards_compiler_transforms.cpp
     src/ards_compiler_type.cpp
@@ -170,7 +179,7 @@ target_include_directories(ards_compiler PUBLIC
     )
 target_include_directories(ards_compiler PRIVATE "${GENHEADER_DIR}")
 target_include_directories(ards_compiler PRIVATE deps/midifile/include)
-target_link_libraries(ards_compiler PRIVATE fmt midifile)
+target_link_libraries(ards_compiler PRIVATE fmt midifile tmxlite)
 
 add_executable(abcc
     src/abcc.cpp
