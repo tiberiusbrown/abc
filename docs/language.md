@@ -16,6 +16,7 @@
       - [Unsized Array References](#unsized-array-references)
     - [Assets (sprites, fonts, etc)](#assets-sprites-fonts-etc)
       - [Sprite Sets](#sprite-sets)
+      - [Tilemaps](#tilemaps)
       - [Fonts](#fonts)
       - [Tones](#tones)
       - [Music](#music)
@@ -270,6 +271,14 @@ constexpr sprites TILES = sprites{ 16x16 "assets/tileset.png" };
 // Leaving out the size is allowed when loading from a file. In this case,
 // there will be just one sprite the same size as the image.
 constexpr sprites TITLE_IMG = sprites{ "assets/title.png" };
+```
+
+#### Tilemaps
+The `tilemap` type identifies a sized 2D-array of sprite indices, which can be used for drawing with the `$draw_tilemap` system function.
+
+```c
+// TMX tilemaps (e.g., from Tiled Map Editor) are supported
+$draw_tilemap(x, y, sprites{ 16x16 "tiles.png" }, tilemap{ "world.tmx" });
 ```
 
 #### Fonts
