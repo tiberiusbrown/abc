@@ -916,8 +916,6 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
     if(x + w <= 0) return;
     if(y + h <= 0) return;
     if(w == 0 || h == 0) return;
-    
-    if(color & 1) color = 0xff;
 
     // clip coords
     uint8_t xc = x;
@@ -932,6 +930,12 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
         h = 64 - yc;
     if(w >= uint8_t(128 - xc))
         w = 128 - xc;
+
+    fillRect_clipped(xc, yc, w, h, color);
+}
+
+void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, uint8_t color)
+{
     uint8_t y1 = yc + h;
 
     uint8_t c0 = SpritesABC_bitShiftLeftMaskUInt8(yc); // 11100000
@@ -971,6 +975,7 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
     uint8_t bot = c1;
     if(c0 & 1) ++rows; // no top fragment
     if(m1 & 1) ++rows; // no bottom fragment
+    if(color) color = 0xff;
     c0 &= color;
     c1 &= color;
 

@@ -555,6 +555,8 @@ struct sysfunc_info_t
     compiler_func_decl_t decl;
     std::string category;
     std::string desc;
+    std::string return_desc;
+    std::vector<std::string> arg_descs;
 };
 extern std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls;
 
@@ -717,6 +719,8 @@ private:
         std::vector<uint8_t>& data, std::string const& filename, bool music);
     std::string encode_tilemap_tmx(
         std::vector<uint8_t>& data, std::string const& filename);
+    std::string encode_tilemap_literal(
+        std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);
 
     // idata encoding:

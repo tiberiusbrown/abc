@@ -134,7 +134,15 @@ void compiler_t::progdata_expr(
     }
     case compiler_type_t::TILEMAP:
     {
-        std::string error = encode_tilemap_tmx(pd.data, n.children[0].string_literal());
+        std::string error;
+        if(n.children[0].type == AST::STRING_LITERAL)
+        {
+            error = encode_tilemap_tmx(pd.data, n.children[0].string_literal());
+        }
+        else
+        {
+            error = encode_tilemap_literal(pd.data, n);
+        }
         if(!error.empty())
             errs.push_back({ error, n.line_info });
         break;

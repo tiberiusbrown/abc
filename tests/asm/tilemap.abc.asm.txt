@@ -1,0 +1,189 @@
+.shades 2
+.saved 0
+
+$PD_0:
+  .b f 01 08 00 10 00 12 13 92 3b 86 9b aa 06 ab 25 25
+  .b f 26 1b 11 13 2b 23 a1 a2 a3 1c 86 9b 9a 07 07 07
+  .b f 87 4a 34 34 4b 1b b1 b2 b3 0b 0b 86 87 51 4a 34
+  .b f 34 db 32 32 33 1b c1 c2 c3 11 03 11 13 4a db 32
+  .b f 32 ca 35 35 5b 1c d1 80 d3 11 23 8e 4a db ca 35
+  .b f 35 5b 9c 9d 9e 13 3b 4a 34 34 34 34 db ca 5b 11
+  .b f 13 76 ac ad ae 01 03 5a cb 32 32 ca 35 5b 76 06
+  .b f 06 bb cc cd ce 22 22 2b 5a 35 35 5b 3b 76 ab 72
+  .b 4 9a 87 dc dd de
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file tilemap.abc
+  .line 15
+  sys   debug_break
+  .line 19
+  p1
+  sys   assert
+  .line 20
+  p1
+  sys   assert
+  .line 21
+  p0000
+  pushl $PD_0 0
+  sys   tilemap_get
+  push  18
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 22
+  p00
+  p1
+  p0
+  pushl $PD_0 0
+  sys   tilemap_get
+  push  19
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 23
+  p1
+  p000
+  pushl $PD_0 0
+  sys   tilemap_get
+  push  35
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 24
+  p4
+  p0
+  p3
+  p0
+  pushl $PD_0 0
+  sys   tilemap_get
+  push  211
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 25
+  p4
+  p0
+  p16
+  p0
+  pushl $PD_0 0
+  sys   tilemap_get
+  bool2
+  not
+  sys   assert
+  .line 26
+  p8
+  p0
+  p3
+  p0
+  pushl $PD_0 0
+  sys   tilemap_get
+  bool2
+  not
+  sys   assert
+  .line 30
+  pushl $PD_0 0
+  .line 31
+  p3
+  getln 3
+  p3
+  add3b
+  getpn 2
+  p16
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 32
+  p3
+  getln 3
+  p1
+  add3b
+  getpn 2
+  p8
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 33
+  p0000
+  p3
+  getln 7
+  sys   tilemap_get
+  push  18
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 34
+  p00
+  p1
+  p0
+  p3
+  getln 7
+  sys   tilemap_get
+  push  19
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 35
+  p1
+  p000
+  p3
+  getln 7
+  sys   tilemap_get
+  push  35
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 36
+  p4
+  p0
+  p3
+  p0
+  p3
+  getln 7
+  sys   tilemap_get
+  push  211
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 37
+  p4
+  p0
+  p16
+  p0
+  p3
+  getln 7
+  sys   tilemap_get
+  bool2
+  not
+  sys   assert
+  .line 38
+  p8
+  p0
+  p3
+  p0
+  p3
+  getln 7
+  sys   tilemap_get
+  bool2
+  not
+  sys   assert
+  pop3
+  .line 41
+  sys   debug_break
+  .line 13
+  ret
+

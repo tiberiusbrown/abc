@@ -449,16 +449,19 @@ static void sys_draw_pixel()
 
 static void sys_get_pixel()
 {
+#if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
     uint8_t x = vm_pop<uint8_t>(ptr);
     uint8_t y = vm_pop<uint8_t>(ptr);
-#if ABC_SHADES == 2
     uint8_t c = x < 128 && y < 64 ? Arduboy2Base::getPixel(x, y) : 0;
-#else
-    uint8_t c = 0;
-#endif
     vm_push_unsafe<uint8_t>(ptr, c);
     vm_pop_end(ptr);
+#else
+    auto ptr = vm_pop_begin();
+    ptr -= 2;
+    vm_push_unsafe<uint8_t>(ptr, 0);
+    vm_pop_end(ptr);
+#endif
 }
 
 #if ABC_SHADES == 2
@@ -553,7 +556,8 @@ static void sys_draw_line()
 #endif
 }
 
-static void sys_draw_rect()
+#if ABC_SHADES != 2
+static void shades_sys_draw_rect(bool filled)
 {
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
@@ -562,13 +566,26 @@ static void sys_draw_rect()
     uint8_t h = vm_pop<uint8_t>(ptr);
     uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
+    shades_draw_rect(x, y, w, h, c, filled);
+}
+#endif
+
+static void sys_draw_rect()
+{
 #if ABC_SHADES == 2
+    auto ptr = vm_pop_begin();
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint8_t w = vm_pop<uint8_t>(ptr);
+    uint8_t h = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, w, 1, c);
     SpritesABC::fillRect(x, y, 1, h, c);
     SpritesABC::fillRect(x, y + h - 1, w, 1, c);
     SpritesABC::fillRect(x + w - 1, y, 1, h, c);
 #else
-    shades_draw_rect(x, y, w, h, c, false);
+    shades_sys_draw_rect(false);
 #endif
 }
 
@@ -606,14 +623,7 @@ static void sys_draw_filled_rect()
 #else
 static void sys_draw_filled_rect()
 {
-    auto ptr = vm_pop_begin();
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint8_t w = vm_pop<uint8_t>(ptr);
-    uint8_t h = vm_pop<uint8_t>(ptr);
-    uint8_t c = vm_pop<uint8_t>(ptr);
-    vm_pop_end(ptr);
-    shades_draw_rect(x, y, w, h, c, true);
+    shades_sys_draw_rect(true);
 }
 #endif
 
@@ -624,9 +634,9 @@ static void sys_draw_circle()
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t r = vm_pop<uint8_t>(ptr);
-    uint8_t color = vm_pop<uint8_t>(ptr);
+    uint8_t c = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
-    Arduboy2Base::drawCircle(x, y, r, color);
+    Arduboy2Base::drawCircle(x, y, r, c);
 #else
     ards::vm.sp -= 6;
 #endif
@@ -692,6 +702,12 @@ static void sys_draw_filled_circle()
 #else
     ards::vm.sp -= 6;
 #endif
+}
+
+template<int N>
+static void sys_pop_n()
+{
+    ards::vm.sp -= N;
 }
 
 static void sys_set_frame_rate()
@@ -958,6 +974,7 @@ static void sys_draw_sprite_selfmask()
 #endif
 }
 
+[[ gnu::always_inline ]]
 static uint24_t mul_24_16_16(uint16_t a, uint16_t b)
 {
     uint24_t r;
@@ -992,6 +1009,32 @@ static uint24_t mul_24_16_16(uint16_t a, uint16_t b)
     return r;
 }
 
+static fx_read_pending_uint16_le()
+{
+    uint16_t t = FX::readPendingUInt16();
+    asm volatile(R"(
+            mov r0, %A[t]
+            mov %A[t], %B[t]
+            mov %B[t], r0
+        )"
+        : [t] "+&r" (t)
+    );
+    return t;
+}
+
+static fx_read_pending_last_uint16_le()
+{
+    uint16_t t = FX::readPendingLastUInt16();
+    asm volatile(R"(
+            mov r0, %A[t]
+            mov %A[t], %B[t]
+            mov %B[t], r0
+        )"
+        : [t] "+&r" (t)
+    );
+    return t;
+}
+
 static void sys_draw_tilemap()
 {
     auto ptr = vm_pop_begin();
@@ -1007,8 +1050,8 @@ static void sys_draw_tilemap()
 
     FX::seekData(tm);
     uint8_t format = FX::readPendingUInt8();
-    uint16_t nrow = FX::readPendingUInt16();
-    uint16_t ncol = FX::readPendingLastUInt16();
+    uint16_t nrow = fx_read_pending_uint16_le();
+    uint16_t ncol = fx_read_pending_last_uint16_le();
     tm += 5;
 
     // sprite dimensions and number
@@ -1098,7 +1141,42 @@ end:
     seek_to_pc();
 }
 
-__attribute__((noinline)) void draw_char(
+static void sys_tilemap_get()
+{
+    uint16_t r = 0;
+    auto ptr = vm_pop_begin();
+    uint24_t tm = vm_pop<uint24_t>(ptr);
+    uint16_t x = vm_pop<uint16_t>(ptr);
+    uint16_t y = vm_pop<uint16_t>(ptr);
+    FX::readEnd();
+
+    FX::seekData(tm);
+    uint8_t format = FX::readPendingUInt8();
+    uint16_t nrow = fx_read_pending_uint16_le();
+    uint16_t ncol = fx_read_pending_last_uint16_le();
+
+    if(x < ncol && y < nrow)
+    {
+        tm += 5;
+        uint24_t t = mul_24_16_16(y, ncol) + x;
+        if(format == 2) t += t;
+        tm += t;
+        FX::seekData(tm);
+        if(format == 1)
+            r = FX::readPendingLastUInt8();
+        else
+            r = FX::readPendingLastUInt16();
+    }
+
+    vm_push_unsafe<uint16_t>(ptr, r);
+    vm_pop_end(ptr);
+    seek_to_pc();
+}
+
+#if ABC_SHADES == 2
+[[ gnu::noinline ]]
+#endif
+void draw_char(
     int16_t& x, int16_t y, char c)
 {
     /*
@@ -2571,6 +2649,7 @@ static void sys_set_text_color()
 
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
+
 #if ABC_SHADES == 2
     sys_display,
     sys_display_noclear,
@@ -2578,17 +2657,40 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     shades_swap,
     shades_swap,
 #endif
+
     sys_get_pixel,
+
+#if ABC_SHADES == 2
     sys_draw_pixel,
     sys_draw_hline,
     sys_draw_vline,
     sys_draw_line,
+#else
+    sys_pop_n<5>,
+    sys_pop_n<6>,
+    sys_pop_n<6>,
+    sys_pop_n<9>,
+#endif
+
     sys_draw_rect,
     sys_draw_filled_rect,
+
+#if ABC_SHADES == 2
     sys_draw_circle,
     sys_draw_filled_circle,
+#else
+    sys_pop_n<6>,
+    sys_pop_n<6>,
+#endif
+
     sys_draw_sprite,
+
+#if ABC_SHADES == 2
     sys_draw_sprite_selfmask,
+#else
+    sys_pop_n<9>,
+#endif
+
     sys_draw_tilemap,
     sys_draw_text,
     sys_draw_text_P,
@@ -2654,5 +2756,6 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_set_random_seed,
     sys_random,
     sys_random_range,
+    sys_tilemap_get,
 
 };

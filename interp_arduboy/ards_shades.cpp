@@ -323,21 +323,21 @@ void shades_display()
         case SHADES_CMD_RECT:
         case SHADES_CMD_FILLED_RECT:
         {
-            int8_t x = (int8_t)ld_inc(p);
-            int8_t y = (int8_t)ld_inc(p);
+            uint8_t x = ld_inc(p);
+            uint8_t y = ld_inc(p);
             uint8_t w = ld_inc(p);
             uint8_t h = ld_inc(p);
             uint8_t c = planeColor(ld_inc(p));
             if(cmd == SHADES_CMD_FILLED_RECT)
             {
-                SpritesABC::fillRect(x, y, w, h, c);
+                SpritesABC::fillRect_clipped(x, y, w, h, c);
             }
             else
             {
-                SpritesABC::fillRect(x, y, w, 1, c);
-                SpritesABC::fillRect(x, y, 1, h, c);
-                SpritesABC::fillRect(x, y + h - 1, w, 1, c);
-                SpritesABC::fillRect(x + w - 1, y, 1, h, c);
+                SpritesABC::fillRect_clipped(x, y, w, 1, c);
+                SpritesABC::fillRect_clipped(x, y, 1, h, c);
+                SpritesABC::fillRect_clipped(x, y + h - 1, w, 1, c);
+                SpritesABC::fillRect_clipped(x + w - 1, y, 1, h, c);
             }
             break;
         }
@@ -353,13 +353,79 @@ void shades_display()
             uint8_t mode = FX::readPendingLastUInt8();
 
             h = (h + 7) & 0xf8;
+#if 0
             uint8_t p = h >> 3;
+#else
+            uint8_t p = h;
+            asm volatile(R"(
+                lsr %[p]
+                lsr %[p]
+                lsr %[p]
+                )"
+                : [p] "+&r" (p)
+            );
+#endif
             if(mode) p <<= 1;
+#if 0
             uint24_t t = w * p;
             frame *= (ABC_SHADES - 1);
             frame += current_plane;
             img += t * frame;
             img += 5;
+#else
+            uint16_t t;
+            asm volatile(
+#if ABC_SHADES == 4
+                R"(
+                    movw %A[t], %A[frame]
+                    add  %A[frame], %A[frame]
+                    adc  %B[frame], %B[frame]
+                    add  %A[frame], %A[t]
+                    adc  %B[frame], %B[t]
+                )"
+#elif ABC_SHADES == 3
+                R"(
+                    add  %A[frame], %A[frame]
+                    adc  %B[frame], %B[frame]
+                )"
+#else
+#error "shades"
+#endif
+                R"(
+                    ldi  %A[t], 5
+                    add  %A[img], %A[t]
+                    adc  %B[img], __zero_reg__
+                    adc  %C[img], __zero_reg__
+                    
+                    lds  %A[t], %[plane]
+                    add  %A[frame], %A[t]
+                    adc  %B[frame], __zero_reg__
+                    
+                    mul  %[w], %[p]
+                    movw %A[t], r0
+                    
+                    mul  %B[t], %A[frame]
+                    add  %B[img], r0
+                    adc  %C[img], r1
+                    mul  %A[t], %B[frame]
+                    add  %B[img], r0
+                    adc  %C[img], r1
+                    mul  %B[t], %B[frame]
+                    add  %C[img], r0
+                    mul  %A[t], %A[frame]
+                    add  %A[img], r0
+                    adc  %B[img], r1
+                    clr  __zero_reg__
+                    adc  %C[img], __zero_reg__
+                )"
+                : [img]    "+&r" (img)
+                , [frame]  "+&r" (frame)
+                , [t]      "=&d" (t)
+                : [plane]  ""    (&current_plane)
+                , [w]      "r"   (w)
+                , [p]      "r"   (p)
+            );
+#endif
 
             SpritesABC::drawBasicFX(x, y, w, h, img, mode);
             break;
@@ -372,14 +438,25 @@ void shades_display()
             uint8_t w = FX::readPendingUInt8();
             uint8_t h = FX::readPendingUInt8();
             uint8_t mode = FX::readPendingLastUInt8();
-            img += 5;
             uint16_t t;
             {
                 h = (h + 7) & 0xf8;
+#if 0
                 uint8_t p = h >> 3;
+#else
+                uint8_t p = h;
+                asm volatile(R"(
+                    lsr %[p]
+                    lsr %[p]
+                    lsr %[p]
+                    )"
+                    : [p] "+&r" (p)
+                );
+#endif
                 if(mode) p <<= 1;
                 t = w * p;
                 img += t * current_plane;
+                img += 5;
                 t *= (ABC_SHADES - 1);
             }
             int8_t x, y, dx = 0, dy = 0;
@@ -443,7 +520,16 @@ void shades_display()
                 ards::vm.text_font = font;
                 font = t;
             }
+#if 0
+            {
+                uint8_t t = SpritesABC::MODE_SELFMASK;
+                if(planeColor(mode))
+                    t |= (SpritesABC::MODE_SELFMASK ^ SpritesABC::MODE_SELFMASK_ERASE);
+                mode = t;
+            }
+#else
             mode = planeColor(mode) ? SpritesABC::MODE_SELFMASK : SpritesABC::MODE_SELFMASK_ERASE;
+#endif
             {
                 uint8_t t = ards::vm.text_mode;
                 ards::vm.text_mode = mode;
@@ -483,23 +569,32 @@ void shades_draw_rect(
     if(y >= HEIGHT) return;
     if(x + w <= 0) return;
     if(y + h <= 0) return;
+
+    uint8_t xc = x;
+    uint8_t yc = y;
     
     if(x < 0)
     {
-        w += x;
-        x = 0;
+        w += xc;
+        xc = 0;
     }
 
     if(y < 0)
     {
-        h += y;
-        y = 0;
+        h += yc;
+        yc = 0;
     }
 
+    if(h >= uint8_t(64 - yc))
+        h = 64 - yc;
+    if(w >= uint8_t(128 - xc))
+        w = 128 - xc;
+
     uint8_t* p = cmd_ptr;
-    st_inc(p, filled ? SHADES_CMD_FILLED_RECT : SHADES_CMD_RECT);
-    st_inc(p, (uint8_t)x);
-    st_inc(p, (uint8_t)y);
+    static_assert(SHADES_CMD_FILLED_RECT == SHADES_CMD_RECT + 1, "");
+    st_inc(p, SHADES_CMD_RECT + filled);
+    st_inc(p, (uint8_t)xc);
+    st_inc(p, (uint8_t)yc);
     st_inc(p, w);
     st_inc(p, h);
     st_inc(p, c);

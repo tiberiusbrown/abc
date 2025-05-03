@@ -437,14 +437,22 @@ void compiler_t::codegen_expr(
             }
         }
 
-        if(sys == SYS_SPRITES_WIDTH || sys == SYS_SPRITES_HEIGHT || sys == SYS_SPRITES_FRAMES)
+        switch(sys)
+        {
+        case SYS_SPRITES_WIDTH:
+        case SYS_SPRITES_HEIGHT:
+        case SYS_SPRITES_FRAMES:
+        case SYS_TILEMAP_WIDTH:
+        case SYS_TILEMAP_HEIGHT:
         {
             uint8_t offset, size;
             switch(sys)
             {
-            case SYS_SPRITES_WIDTH: offset = 0; size = 1; break;
+            case SYS_SPRITES_WIDTH:  offset = 0; size = 1; break;
             case SYS_SPRITES_HEIGHT: offset = 1; size = 1; break;
             case SYS_SPRITES_FRAMES: offset = 3; size = 2; break;
+            case SYS_TILEMAP_WIDTH:  offset = 3; size = 2; break;
+            case SYS_TILEMAP_HEIGHT: offset = 1; size = 2; break;
             default: assert(false); return;
             }
             if(offset != 0)
@@ -458,6 +466,8 @@ void compiler_t::codegen_expr(
             frame.size -= 3;
             frame.size += size;
             return;
+        }
+        default: break;
         }
 
         // called function should pop stack
@@ -1017,6 +1027,14 @@ void compiler_t::codegen_expr(
     case AST::MUSIC:
     {
         std::string label = resolve_label_ref(frame, a, TYPE_MUSIC);
+        f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
+        frame.size += 3;
+        return;
+    }
+
+    case AST::TILEMAP:
+    {
+        std::string label = resolve_label_ref(frame, a, TYPE_TILEMAP);
         f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
         frame.size += 3;
         return;

@@ -1,7 +1,18 @@
 #shades "4"
 
-u8[16 * 8] prog TILEMAP =
-{
+u8[16 * 8] prog TM_ARRAY = {
+    18,19,146,59,134,155,170,6,171,37,37,38,27,17,19,43,
+    35,161,162,163,28,134,155,154,7,7,7,135,74,52,52,75,
+    27,177,178,179,11,11,134,135,81,74,52,52,219,50,50,51,
+    27,193,194,195,17,3,17,19,74,219,50,50,202,53,53,91,
+    28,209,128,211,17,35,142,74,219,202,53,53,91,156,157,158,
+    19,59,74,52,52,52,52,219,202,91,17,19,118,172,173,174,
+    1,3,90,203,50,50,202,53,91,118,6,6,187,204,205,206,
+    34,34,43,90,53,53,91,59,118,171,114,154,135,220,221,222
+};
+
+constexpr tilemap TM_TILEMAP = tilemap{
+    16x8
     18,19,146,59,134,155,170,6,171,37,37,38,27,17,19,43,
     35,161,162,163,28,134,155,154,7,7,7,135,74,52,52,75,
     27,177,178,179,11,11,134,135,81,74,52,52,219,50,50,51,
@@ -16,23 +27,40 @@ constexpr sprites TILES = sprites{ 16x16 "tiles.png" };
 
 int ox = 0;
 int oy = 0;
+bool use_array = false;
 
 void main()
 {
-    if($pressed(LEFT_BUTTON ) && ox >   0) --ox;
-    if($pressed(UP_BUTTON   ) && oy >   0) --oy;
-    if($pressed(RIGHT_BUTTON) && ox < 128) ++ox;
-    if($pressed(DOWN_BUTTON ) && oy <  64) ++oy;
+    $set_frame_rate(40);
 
-    for(u8 y = 0; y < 8; ++y)
+    if($pressed(LEFT_BUTTON ) && ox <    0) ++ox;
+    if($pressed(UP_BUTTON   ) && oy <    0) ++oy;
+    if($pressed(RIGHT_BUTTON) && ox > -128) --ox;
+    if($pressed(DOWN_BUTTON ) && oy >  -64) --oy;
+    
+    if($just_pressed(A_BUTTON)) use_array = !use_array;
+
+    if(use_array)
     {
-        u8[16] row = TILEMAP[y*16+:16];
-        for(u8 x = 0; x < 16; ++x)
+        for(u8 y = 0; y < 8; ++y)
         {
-            u8 frame = row[x] - 1;
-            $draw_sprite(x * 16 - ox, y * 16 - oy, TILES, frame);
+            u8[16] row = TM_ARRAY[y*16+:16];
+            for(u8 x = 0; x < 16; ++x)
+            {
+                u8 frame = row[x] - 1;
+                $draw_sprite(x * 16 + ox, y * 16 + oy, TILES, frame);
+            }
         }
     }
+    else
+    {
+        $draw_tilemap(ox, oy, TILES, TM_TILEMAP);
+    }
+    
+    $draw_filled_rect(3, 3, 81, 23, BLACK);
+    $set_text_font(FONT_BR5D);
+    $draw_textf(4, 9, "Use array: %d", use_array);
+    $draw_text(4, 17, "Press A to switch\nbetween array/tilemap");
     
     $display();
 }

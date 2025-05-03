@@ -82,8 +82,10 @@ enum
     SYS_SQRT,
     SYS_GENERATE_RANDOM_SEED,
     SYS_INIT_RANDOM_SEED,
+    SYS_SET_RANDOM_SEED,
     SYS_RANDOM,
     SYS_RANDOM_RANGE,
+    SYS_TILEMAP_GET,
 };
 
 enum
@@ -286,6 +288,14 @@ static uint16_t prog16(abc_host_t const* h, uint32_t addr)
     uint16_t t = 0;
     t += (h->prog(h->user, addr + 0) << 0);
     t += (h->prog(h->user, addr + 1) << 8);
+    return t;
+}
+
+static uint16_t prog16_be(abc_host_t const* h, uint32_t addr)
+{
+    uint16_t t = 0;
+    t += (h->prog(h->user, addr + 0) << 8);
+    t += (h->prog(h->user, addr + 1) << 0);
     return t;
 }
 
@@ -2467,6 +2477,26 @@ static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
     return ABC_RESULT_NORMAL;
 }
 
+static abc_result_t sys_tilemap_get(abc_interp_t* interp, abc_host_t const* host)
+{
+    uint32_t tm = pop24(interp);
+    uint16_t x = pop16(interp);
+    uint16_t y = pop16(interp);
+    uint8_t format = prog8(host, tm + 0);
+    uint16_t nrow = prog16(host, tm + 1);
+    uint16_t ncol = prog16(host, tm + 3);
+    uint16_t r = 0;
+    if(x < ncol && y < nrow)
+    {
+        tm += (y * ncol + x) * format + 5;
+        if(format == 1)
+            r = prog8(host, tm);
+        else
+            r = prog16_be(host, tm);
+    }
+    return push16(interp, r);
+}
+
 static void advance_audio_channel(abc_interp_t* interp, abc_host_t const* host, uint8_t i)
 {
     uint32_t addr = interp->audio_addrs[i];
@@ -2661,7 +2691,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_FILLED_CIRCLE:   return sys_draw_filled_circle(interp);
     case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
     case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
-    case SYS_DRAW_TILEMAP:         assert(0); return ABC_RESULT_ERROR;
+    case SYS_DRAW_TILEMAP:         goto unknown_sysfunc;
     case SYS_DRAW_TEXT:            return sys_draw_text(interp, h);
     case SYS_DRAW_TEXT_P:          return sys_draw_text_P(interp, h);
     case SYS_DRAW_TEXTF:           return sys_draw_textf(interp, h);
@@ -2719,8 +2749,10 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_SQRT:                 return sys_sqrt(interp);
     case SYS_GENERATE_RANDOM_SEED: goto unknown_sysfunc;
     case SYS_INIT_RANDOM_SEED:     goto unknown_sysfunc;
+    case SYS_SET_RANDOM_SEED:      goto unknown_sysfunc;
     case SYS_RANDOM:               goto unknown_sysfunc;
     case SYS_RANDOM_RANGE:         goto unknown_sysfunc;
+    case SYS_TILEMAP_GET:          return sys_tilemap_get(interp, h);
     default:
     unknown_sysfunc:
         assert(0);

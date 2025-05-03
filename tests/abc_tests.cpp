@@ -35,6 +35,7 @@ static bool test(std::string const& fpath, std::string const& fname)
         for(auto const& e : c.errors())
             printf("Line %d: %s\n", (int)e.line_info.first, e.msg.c_str());
         assert(c.errors().empty());
+        if(!c.errors().empty()) return false;
         abc_asm = fo.str();
         std::ofstream fasm((fpath + "/../asm/" + fname + ".asm.txt").c_str());
         fasm << abc_asm;
@@ -45,8 +46,10 @@ static bool test(std::string const& fpath, std::string const& fname)
         std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
         auto e = a.assemble(ss);
         assert(e.msg.empty());
+        if(!e.msg.empty()) return false;
         e = a.link();
         assert(e.msg.empty());
+        if(!e.msg.empty()) return false;
         binary = a.data();
     }
 
@@ -57,11 +60,13 @@ static bool test(std::string const& fpath, std::string const& fname)
         std::ifstream vmhex(VMHEX_FILE);
         auto t = arduboy->load_file("vm.hex", vmhex);
         assert(t.empty());
+        if(!t.empty()) return false;
     }
     {
         std::istrstream ss((char const*)binary.data(), binary.size());
         auto t = arduboy->load_file("fxdata.bin", ss);
         assert(t.empty());
+        if(!t.empty()) return false;
     }
 
     arduboy->reset();

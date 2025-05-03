@@ -131,6 +131,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         break;
     case AST::TILEMAP:
         a.comp_type = TYPE_TILEMAP;
+        if(a.children.size() >= 3 && a.children[2].type == AST::LIST)
+        {
+            for(auto& tile : a.children[2].children)
+                type_annotate_recurse(tile, frame);
+        }
         break;
     case AST::TONES:
         a.comp_type = TYPE_TONES;
