@@ -377,7 +377,6 @@ static uint16_t fx_read_word_inc(uint24_t& fb)
     return r;
 }
 
-
 extern unsigned long volatile timer0_overflow_count;
 void wait_for_frame_timing()
 {
@@ -1018,6 +1017,36 @@ static void sys_draw_tilemap()
     uint8_t sh = FX::readPendingLastUInt8();
 
     uint16_t r = 0, c = 0;
+#if 1
+    asm volatile(R"(
+        1:  add  %A[y], %[sh]
+            adc  %B[y], __zero_reg__
+            brge 2f
+            subi %A[r], lo8(-1)
+            sbci %B[r], hi8(-1)
+            rjmp 1b
+        2:  sub  %A[y], %[sh]
+            sbc  %B[y], __zero_reg__
+        3:  add  %A[x], %[sw]
+            adc  %B[x], __zero_reg__
+            brge 4f
+            subi %A[c], lo8(-1)
+            sbci %B[c], hi8(-1)
+            rjmp 3b
+        4:  sub  %A[x], %[sw]
+            sbc  %B[x], __zero_reg__
+        )"
+        : [y]  "+&r" (y)
+        , [x]  "+&r" (x)
+        , [r]  "+&d" (r)
+        , [c]  "+&d" (c)
+        : [sh] "r"   (sh)
+        , [sw] "r"   (sw)
+    );
+#elif 0
+    while((y += sh) <= 0) { ++r; } y -= sh;
+    while((x += sw) <= 0) { ++c; } x -= sw;
+#else
     if(y < 0)
     {
         r -= y / sh;
@@ -1028,6 +1057,7 @@ static void sys_draw_tilemap()
         c -= x / sw;
         x += c * sw;
     }
+#endif
 
     for(; r < nrow && y < HEIGHT; ++r, y += sh)
     {
