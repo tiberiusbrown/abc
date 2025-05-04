@@ -17,11 +17,34 @@ main:
   sys   debug_break
   .line 25
   p0
-  jmp   $L_main_1
+  dup
+  p4
+  cult
+  bnz   $L_main_2
+  pop
+  .line 34
+  sys   debug_break
+  .line 21
+  ret
 $L_main_2:
   .line 27
   p0
-  jmp   $L_main_5
+  dup
+  p8
+  cult
+  bnz   $L_main_6
+  pop
+  .line 25
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_main_2
+  pop
+  .line 34
+  sys   debug_break
+  .line 21
+  ret
 $L_main_6:
   .line 30
   p00
@@ -38,7 +61,6 @@ $L_main_6:
   sys   draw_sprite
   .line 27
   inc
-$L_main_5:
   dup
   p8
   cult
@@ -46,7 +68,6 @@ $L_main_5:
   pop
   .line 25
   inc
-$L_main_1:
   dup
   p4
   cult

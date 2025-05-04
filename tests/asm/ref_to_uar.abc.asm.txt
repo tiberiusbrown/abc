@@ -41,7 +41,15 @@ sum:
   .line 3
   p0000
   .line 4
-  jmp   $L_sum_1
+  dupw
+  dupw7
+  cult2
+  bnz   $L_sum_2
+  pop2
+  .line 6
+  setl2 6
+  pop4
+  ret
 $L_sum_2:
   .line 5
   dupw3
@@ -56,7 +64,6 @@ $L_sum_2:
   p1
   add2b
   setl2 2
-$L_sum_1:
   dupw
   dupw7
   cult2

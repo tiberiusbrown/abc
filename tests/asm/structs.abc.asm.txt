@@ -36,18 +36,6 @@ main:
   sys   assert
   .line 24
   p0
-  jmp   $L_main_1
-$L_main_2:
-  .line 25
-  pushl pe 4
-  dup4
-  pidxb 1 12
-  getp
-  not
-  sys   assert
-  .line 24
-  inc
-$L_main_1:
   dup
   push  12
   cult
@@ -65,18 +53,6 @@ $L_main_1:
   sys   assert
   .line 29
   p0
-  jmp   $L_main_5
-$L_main_6:
-  .line 30
-  pushg e 4
-  dup3
-  aixb1 12
-  getr
-  not
-  sys   assert
-  .line 29
-  inc
-$L_main_5:
   dup
   push  12
   cult
@@ -87,7 +63,120 @@ $L_main_5:
   setg  e 8
   .line 33
   p0
-  jmp   $L_main_9
+  dup
+  push  12
+  cult
+  bnz   $L_main_10
+  pop
+  .line 41
+  push  42
+  p0
+  setg2 enemies 32
+  .line 42
+  push  65
+  p0
+  setg2 enemies 34
+  .line 43
+  push  88
+  setg  enemies 39
+  .line 44
+  p0
+  jmp   $L_main_15
+$L_main_2:
+  .line 25
+  pushl pe 4
+  dup4
+  pidxb 1 12
+  getp
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  push  12
+  cult
+  bnz   $L_main_2
+  pop
+  .line 27
+  getg2 e 0
+  bool2
+  not
+  sys   assert
+  .line 28
+  getg2 e 2
+  bool2
+  not
+  sys   assert
+  .line 29
+  p0
+  dup
+  push  12
+  cult
+  bnz   $L_main_6
+  pop
+  .line 32
+  push  42
+  setg  e 8
+  .line 33
+  p0
+  dup
+  push  12
+  cult
+  bnz   $L_main_10
+  pop
+  .line 41
+  push  42
+  p0
+  setg2 enemies 32
+  .line 42
+  push  65
+  p0
+  setg2 enemies 34
+  .line 43
+  push  88
+  setg  enemies 39
+  .line 44
+  p0
+  jmp   $L_main_15
+$L_main_6:
+  .line 30
+  pushg e 4
+  dup3
+  aixb1 12
+  getr
+  not
+  sys   assert
+  .line 29
+  inc
+  dup
+  push  12
+  cult
+  bnz   $L_main_6
+  pop
+  .line 32
+  push  42
+  setg  e 8
+  .line 33
+  p0
+  dup
+  push  12
+  cult
+  bnz   $L_main_10
+  pop
+  .line 41
+  push  42
+  p0
+  setg2 enemies 32
+  .line 42
+  push  65
+  p0
+  setg2 enemies 34
+  .line 43
+  push  88
+  setg  enemies 39
+  .line 44
+  p0
+  jmp   $L_main_15
 $L_main_10:
   .line 35
   dup
@@ -103,8 +192,27 @@ $L_main_10:
   sub
   not
   sys   assert
-  .line 35
-  jmp   $L_main_11
+  .line 33
+  inc
+  dup
+  push  12
+  cult
+  bnz   $L_main_10
+  pop
+  .line 41
+  push  42
+  p0
+  setg2 enemies 32
+  .line 42
+  push  65
+  p0
+  setg2 enemies 34
+  .line 43
+  push  88
+  setg  enemies 39
+  .line 44
+  p0
+  jmp   $L_main_15
 $L_main_12:
   .line 38
   pushg e 4
@@ -113,10 +221,8 @@ $L_main_12:
   getr
   not
   sys   assert
-$L_main_11:
   .line 33
   inc
-$L_main_9:
   dup
   push  12
   cult
@@ -253,7 +359,15 @@ $L_main_15:
   sys   assert
   .line 65
   p1
-  jmp   $L_main_26
+  dup
+  push  12
+  cult
+  bnz   $L_main_27
+  pop
+  .line 68
+  sys   debug_break
+  .line 18
+  ret
 $L_main_27:
   .line 66
   pushg enemies 36
@@ -264,7 +378,6 @@ $L_main_27:
   sys   assert
   .line 65
   inc
-$L_main_26:
   dup
   push  12
   cult
