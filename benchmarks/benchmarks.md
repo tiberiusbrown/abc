@@ -601,7 +601,7 @@ void main()
 <details><summary>text: 0.31x slowdown (3.18x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 65240</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 65322</td></tr>
 <tr>
 <td>
 
@@ -830,10 +830,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilesrect: 0.35x slowdown (2.88x speedup)</summary>
+<details><summary>tilesrect: 0.35x slowdown (2.89x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 257725</td><td>Cycles: 89437</td></tr>
+<tr><td>Cycles: 257725</td><td>Cycles: 89309</td></tr>
 <tr>
 <td>
 
