@@ -367,6 +367,36 @@ void compiler_t::codegen_expr(
         }
         bool is_format = sysfunc_is_format(sys);
 
+        // call to $tilemap_get with constexpr arguments
+        if(sys == SYS_TILEMAP_GET &&
+            a.children[1].children[0].type == AST::LABEL_REF &&
+            a.children[1].children[1].type == AST::INT_CONST &&
+            a.children[1].children[2].type == AST::INT_CONST)
+        {
+            auto it = progdata.find(std::string(a.children[1].children[0].data));
+            if(it != progdata.end())
+            {
+                auto const& data = it->second.data;
+                int format = data[0];
+                int nrow = data[1] + data[2] * 256;
+                int ncol = data[3] + data[4] * 256;
+                int x = (int)a.children[1].children[1].value;
+                int y = (int)a.children[1].children[2].value;
+                uint16_t t = 0;
+                if(x >= 0 && y >= 0 && x < ncol && y < nrow)
+                {
+                    int i = (y * ncol + x) * format + 5;
+                    t = data[i];
+                    if(format == 2)
+                        t = t * 256 + data[i + 1];
+                }
+                f.instrs.push_back({ I_PUSH, a.line(), uint8_t(t >> 0) });
+                f.instrs.push_back({ I_PUSH, a.line(), uint8_t(t >> 8) });
+                frame.size += 2;
+                return;
+            }
+        }
+
         // TODO: test for reference return type (not allowed)
 
         // system functions don't need space reserved for return value
