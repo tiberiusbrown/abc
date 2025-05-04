@@ -87,16 +87,9 @@ static void draw_pc_line(uint24_t pc, uint8_t y)
         else if(t == 253)
             file = FX::readPendingUInt8();
         else if(t == 254)
-        {
-            line = FX::readPendingUInt8();
-            line |= ((uint16_t)FX::readPendingUInt8() << 8);
-        }
+            line = FX::readPendingUInt16();
         else if(t == 255)
-        {
-            tpc = FX::readPendingUInt8();
-            tpc |= ((uint16_t)FX::readPendingUInt8() << 8);
-            tpc |= ((uint24_t)FX::readPendingUInt8() << 16);
-        }
+            tpc = FX::readPendingUInt24();
     }
     (void)FX::readEnd();
     if(file < num_files)
@@ -125,7 +118,8 @@ struct LetMeUseBootOLED : public Arduboy2Base
 extern "C" __attribute__((used)) void vm_error(error_t e)
 {
     vm.error = (uint8_t)e;
-    Arduboy2Base::clear();
+    //Arduboy2Base::clear();
+    memset(Arduboy2Base::sBuffer, 0, sizeof(Arduboy2Base::sBuffer));
     FX::disable();
 
     ards::Tones::stop();
@@ -166,12 +160,9 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
                     x += draw_char(x, 1, (char)FX::readPendingUInt8()) + 1;
                 (void)FX::readEnd();
             }
-            for(uint8_t i = 0; i < 128; ++i)
-                Arduboy2Base::sBuffer[i] ^= 0x7f;
-            {
-                char const* t = (char const*)pgm_read_ptr(&ERRC[e - 1]);
-                draw_text(0, 8, t, true);
-            }
+            for(uint8_t* ptr = &Arduboy2Base::sBuffer[0]; ptr < &Arduboy2Base::sBuffer[128]; )
+                *ptr++ ^= 0x7f;
+            draw_text(0, 8, (char const*)pgm_read_ptr(&ERRC[e - 1]), true);
             for(uint8_t i = 0; i < NUM_ROWS; ++i)
             {
                 uint8_t j = curr + i;

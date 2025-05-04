@@ -889,8 +889,8 @@ error_t assembler_t::link()
             else
             {
                 line_table.push_back(254);
-                line_table.push_back(uint8_t(line >> 0));
                 line_table.push_back(uint8_t(line >> 8));
+                line_table.push_back(uint8_t(line >> 0));
             }
             current_line = line;
             break;
@@ -981,9 +981,9 @@ void assembler_t::advance_pc_offset()
     else
     {
         line_table.push_back(255);
-        line_table.push_back(uint8_t(offset >> 0));
-        line_table.push_back(uint8_t(offset >> 8));
         line_table.push_back(uint8_t(offset >> 16));
+        line_table.push_back(uint8_t(offset >> 8));
+        line_table.push_back(uint8_t(offset >> 0));
     }
     prev_pc_offset = offset;
 }
