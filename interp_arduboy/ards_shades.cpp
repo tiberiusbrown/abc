@@ -10,6 +10,7 @@
 void draw_char(int16_t& x, int16_t y, char c);
 extern "C" uint8_t font_get_x_advance(char c);
 extern "C" uint8_t font_get_line_height();
+extern "C" void fx_seek_data(uint24_t addr);
 
 void wait_for_frame_timing();
 
@@ -454,9 +455,35 @@ void shades_display()
                 );
 #endif
                 if(mode) p <<= 1;
-                t = w * p;
-                img += t * current_plane;
-                img += 5;
+                {
+#if 0
+                    uint8_t tt;
+                    tt = p * current_plane;
+                    img += w * tt + 5u;
+                    t = w * p;
+#else
+                    uint16_t tt;
+                    asm volatile(R"(
+                            mul  %[p], %[plane]
+                            mul  %[w], r0
+                            movw %A[tt], r0
+                            adiw %A[tt], 5
+                            mul  %[w], %[p]
+                            movw %A[t], r0
+                            clr  __zero_reg__
+                            add  %A[img], %A[tt]
+                            adc  %B[img], %B[tt]
+                            adc  %C[img], __zero_reg__
+                        )"
+                        : [tt]    "=&w" (tt)
+                        , [img]   "+&r" (img)
+                        , [t]     "=&r" (t)
+                        : [w]     "r"   (w)
+                        , [p]     "r"   (p)
+                        , [plane] "r"   (current_plane)
+                    );
+#endif
+                }
                 t *= (ABC_SHADES - 1);
             }
             int8_t x, y, dx = 0, dy = 0;
