@@ -642,8 +642,6 @@ void compiler_t::compile(
         repeat |= merge_adjacent_labels();
     }
     
-    tail_call_optimization();
-
     // in case the program has calls to text functions but does not have
     // any font data, insert a call to set_text_font at the end of $globinit
     if(font_label_cache.empty())

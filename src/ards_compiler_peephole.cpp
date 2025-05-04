@@ -241,6 +241,8 @@ bool compiler_t::peephole(compiler_func_t& f)
         while(peephole_jmp_to_ret(f))
             t = true;
 
+    if(t) tail_call_optimization();
+
     return t;
 }
 

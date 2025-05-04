@@ -5358,10 +5358,8 @@ $L_update_level_select_8:
   .line 146
   p4
   sys   just_pressed
-  bz    $L_update_level_select_9
   .line 147
-  jmp   main_menu
-$L_update_level_select_9:
+  bnz   main_menu
   .line 148
   p8
   sys   just_pressed
@@ -5795,10 +5793,8 @@ $L_update_score_tally_7:
   getg  current_map 0
   push  12
   cult
-  bz    $L_update_score_tally_8
   .line 251
-  jmp   load_map
-$L_update_score_tally_8:
+  bnz   load_map
   .line 254
   p3
   getgn high_score 0
