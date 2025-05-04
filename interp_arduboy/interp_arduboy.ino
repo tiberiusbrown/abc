@@ -13,6 +13,7 @@ Arduboy2Base a;
 ARDUBOY_NO_USB
 
 extern "C" void vm_error(ards::error_t e);
+extern "C" void fx_seek_data(uint24_t addr);
 
 void setup()
 {

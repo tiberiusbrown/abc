@@ -16,6 +16,7 @@
 
 extern uint8_t draw_char(uint8_t x, uint8_t y, char c);
 extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog);
+extern "C" void fx_seek_data(uint24_t addr);
 
 using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
@@ -316,7 +317,7 @@ I_NOP:
     ; this helps tools find where the instructions are for
     ; things like breakpoints/profiling
 
-    ;        0123456789abcdef0123456789abcdef
+    ;       0123456789abcdef0123456789abcdef
     .ascii " ABC Interpreter by Peter Brown "
 
     .align 6
