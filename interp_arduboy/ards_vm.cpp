@@ -14,15 +14,45 @@
 #include <Arduboy2.h>
 #include <Arduboy2Audio.h>
 
+#undef round
+
 extern uint8_t draw_char(uint8_t x, uint8_t y, char c);
 extern uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog);
 extern "C" void fx_seek_data(uint24_t addr);
+
+extern "C" double atan2(double, double);
+extern "C" double ceil(double);
+extern "C" double cos(double);
+extern "C" double floor(double);
+extern "C" double fmod(double, double);
+extern "C" double round(double);
+extern "C" double sin(double);
+extern "C" double tan(double);
+
+extern "C" void vm_push_u8(uint8_t);
+
+extern "C" void sys_assert();
+extern "C" void sys_atan2();
+extern "C" void sys_audio_enabled();
+extern "C" void sys_ceil();
+extern "C" void sys_cos();
+extern "C" void sys_debug_break();
+extern "C" void sys_floor();
+extern "C" void sys_mod();
+extern "C" void sys_round();
+extern "C" void sys_sin();
+extern "C" void sys_tan();
 
 using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
 
 extern volatile unsigned long timer0_millis;
 extern volatile unsigned long timer0_overflow_count;
+
+struct LetMeAccessAudioEnabled : public Arduboy2Audio
+{
+    static constexpr bool& get() { return audio_enabled; }
+};
 
 namespace ards
 {
@@ -350,7 +380,23 @@ I_P0:
 1:  st   Y+, r9
     ldi  r16, 0
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_assert:
+    lds  r30, %[vm_sp]
+    ldi  r31, 1
+    ld   r0, -Z
+    sts  %[vm_sp], r30
+    cpse r0, __zero_reg__
+    ret
+    ldi  r24, 4
+    jmp  vm_error
+
+sys_debug_break:
+    break
+    ret
+
+    .align 6
 
 I_P1:
     cpi  r28, 254
@@ -360,7 +406,24 @@ I_P1:
 1:  st   Y+, r9
     ldi  r16, 1
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_tan:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call tan
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+sys_audio_enabled:
+    lds  r24, %[audio_enabled]
+    jmp  vm_push_u8
+    .align 6
 
 I_P2:
     cpi  r28, 254
@@ -370,7 +433,21 @@ I_P2:
 1:  st   Y+, r9
     ldi  r16, 2
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_sin:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call sin
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+    .align 6
 
 I_P3:
     cpi  r28, 254
@@ -380,7 +457,21 @@ I_P3:
 1:  st   Y+, r9
     ldi  r16, 3
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_cos:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call cos
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+    .align 6
 
 I_P4:
     cpi  r28, 254
@@ -390,7 +481,21 @@ I_P4:
 1:  st   Y+, r9
     ldi  r16, 4
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_round:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call round
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+    .align 6
 
 I_P5:
     cpi  r28, 254
@@ -400,7 +505,21 @@ I_P5:
 1:  st   Y+, r9
     ldi  r16, 5
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_floor:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call floor
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+    .align 6
 
 I_P6:
     cpi  r28, 254
@@ -410,7 +529,21 @@ I_P6:
 1:  st   Y+, r9
     ldi  r16, 6
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_ceil:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call ceil
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+    .align 6
 
 I_P7:
     cpi  r28, 254
@@ -3696,6 +3829,24 @@ I_RET:
     ld   r6, -X
     sts  %[vm_csp], r26
     rjmp jump_to_pc_delayed2
+
+sys_mod:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    call fmod
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    sts  %[vm_sp], r28
+    ret
+
     .align 6
 
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -4027,6 +4178,24 @@ call_vm_error:
     call vm_error
     jmp  0x0000
 
+sys_atan2:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    call atan2
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    sts  %[vm_sp], r28
+    ret
+
+
 )"
 
     :
@@ -4047,6 +4216,7 @@ call_vm_error:
 #if ABC_SHADES != 2
     , [shades_display] ""  (&shades_display)
 #endif
+    , [audio_enabled]  ""  (&LetMeAccessAudioEnabled::get())
     , [MAX_CALLS]      ""  (MAX_CALLS)
     );
 }

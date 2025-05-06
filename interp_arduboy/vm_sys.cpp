@@ -120,7 +120,6 @@ void vm_push_unsafe(uint8_t*& ptr, T x)
 }
 
 template<class T>
-//__attribute__((always_inline))
 void vm_push(T x)
 {
     uint8_t* ptr;
@@ -135,6 +134,13 @@ void vm_push(T x)
         byte_storage<sizeof(T)> b;
     } u = { x };
     vm_push_n<sizeof(T)>(ptr, u.b);
+}
+
+extern "C" void vm_push_u8(uint8_t x);
+[[ gnu::used, gnu::flatten ]]
+void vm_push_u8(uint8_t x)
+{
+    vm_push<uint8_t>(x);
 }
 
 extern "C" uint8_t font_get_x_advance(char c);
@@ -246,17 +252,17 @@ R"(
             sbi  %[fxport], %[fxbit]
             ret
         
-        fx_seek_data:
-            ldi  r25, 3
-            cbi  %[fxport], %[fxbit]
-            out  %[spdr], r25
-            movw  r20, r22
-            mov   r22, r24
-            lpm
-            lpm
-            rcall L%=_seek
-            nop
-            ret
+        ; fx_seek_data:
+        ;     ldi  r25, 3
+        ;     cbi  %[fxport], %[fxbit]
+        ;     out  %[spdr], r25
+        ;     movw  r20, r22
+        ;     mov   r22, r24
+        ;     lpm
+        ;     lpm
+        ;     rcall L%=_seek
+        ;     nop
+        ;     ret
         )"
         :
         : [pc]              "i" (&ards::vm.pc)
@@ -309,10 +315,8 @@ static void fx_read_byte_inc_helper(uint24_t& fb)
         ret
 
     L%=_delay_17:
-        nop
-    L%=_delay_16:
         lpm
-        rjmp .+0
+        lpm
     L%=_delay_11:
         rjmp .+0
         rjmp .+0
@@ -718,16 +722,27 @@ static void sys_set_frame_rate()
     ards::vm.frame_dur = fr > 10 ? 1024u / fr : fr == 0 ? 0 : 100;
 }
 
+#if 1
+#define sys_idle Arduboy2Base::idle
+#else
 static void sys_idle()
 {
     Arduboy2Base::idle();
 }
+#endif
 
+#if 1
+extern "C" void sys_debug_break(); // defined in I_P0
+#else
 static void sys_debug_break()
 {
     asm volatile("break\n");
 }
+#endif
 
+#if 1
+extern "C" void sys_assert(); // defined in I_P0
+#else
 static void sys_assert()
 {
     auto ptr = vm_pop_begin();
@@ -735,6 +750,7 @@ static void sys_assert()
     vm_pop_end(ptr);
     if(!b) vm_error(ards::ERR_ASS);
 }
+#endif
 
 static void sys_buttons()
 {
@@ -1587,7 +1603,7 @@ static void sys_strlen_P()
     if(n != 0)
     {
         (void)FX::readEnd();
-        fx_seek_data(b);
+        FX::seekData(b);
         while(FX::readPendingUInt8() != '\0')
         {
             ++t;
@@ -1619,7 +1635,7 @@ static void sys_strcmp()
         if(c1 == '\0') break;
         if(c0 != c1) break;
     }
-    vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+    vm_push_u8(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
 }
 
 static void sys_strcmp_P()
@@ -1631,7 +1647,7 @@ static void sys_strcmp_P()
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    fx_seek_data(b1);
+    FX::seekData(b1);
     uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
     uint8_t c0, c1;
     for(;;)
@@ -1643,7 +1659,7 @@ static void sys_strcmp_P()
         if(c1 == '\0') break;
         if(c0 != c1) break;
     }
-    vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+    vm_push_u8(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
     (void)FX::readEnd();
     seek_to_pc();
 }
@@ -1667,7 +1683,7 @@ static void sys_strcmp_PP()
         if(c1 == '\0') break;
         if(c0 != c1) break;
     }
-    vm_push<uint8_t>(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+    vm_push_u8(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
     seek_to_pc();
 }
 
@@ -1707,7 +1723,7 @@ static void sys_strcpy_P()
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    fx_seek_data(b1);
+    FX::seekData(b1);
     uint16_t nr = n0;
     uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
@@ -2162,12 +2178,12 @@ static void sys_tones_play_auto()
 
 static void sys_music_playing()
 {
-    vm_push<uint8_t>(ards::Tones::music_playing());
+    vm_push_u8(ards::Tones::music_playing());
 }
 
 static void sys_tones_playing()
 {
-    vm_push<uint8_t>(ards::Tones::tones_playing());
+    vm_push_u8(ards::Tones::tones_playing());
 }
 
 static void sys_music_stop()
@@ -2180,10 +2196,14 @@ static void sys_tones_stop()
     ards::Tones::tones_stop();
 }
 
+#if 1
+extern "C" void sys_audio_enabled(); // I_P1
+#else
 static void sys_audio_enabled()
 {
-    vm_push<uint8_t>(Arduboy2Audio::enabled());
+    vm_push_u8(Arduboy2Audio::enabled());
 }
+#endif
 
 static void sys_audio_toggle()
 {
@@ -2198,14 +2218,14 @@ static void sys_audio_stop()
 
 static void sys_audio_playing()
 {
-    vm_push<uint8_t>(ards::Tones::playing());
+    vm_push_u8(ards::Tones::playing());
 }
 
 static void sys_save_exists()
 {
     uint16_t save_size;
     (void)FX::readEnd();
-    fx_seek_data(10);
+    FX::seekData(10);
     union
     {
         uint16_t save_size;
@@ -2228,7 +2248,7 @@ static void sys_save()
 {
     uint16_t save_size;
     (void)FX::readEnd();
-    fx_seek_data(10);
+    FX::seekData(10);
     union
     {
         uint16_t save_size;
@@ -2245,7 +2265,7 @@ static void sys_save()
 static void sys_load()
 {
     (void)FX::readEnd();
-    fx_seek_data(10);
+    FX::seekData(10);
     union
     {
         uint16_t save_size;
@@ -2260,6 +2280,9 @@ static void sys_load()
     seek_to_pc();
 }
 
+#if 1
+extern "C" void sys_sin();
+#else
 __attribute__((naked))
 static void sys_sin()
 {
@@ -2286,7 +2309,11 @@ static void sys_sin()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_cos();
+#else
 __attribute__((naked))
 static void sys_cos()
 {
@@ -2313,7 +2340,11 @@ static void sys_cos()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_tan(); // I_P1
+#else
 __attribute__((naked))
 static void sys_tan()
 {
@@ -2340,8 +2371,12 @@ static void sys_tan()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
-__attribute__((naked))
+#if 1
+extern "C" void sys_atan2();
+#else
+[[gnu::naked]]
 static void sys_atan2()
 {
 #if 1
@@ -2374,7 +2409,11 @@ static void sys_atan2()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_floor();
+#else
 __attribute__((naked))
 static void sys_floor()
 {
@@ -2401,7 +2440,11 @@ static void sys_floor()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_ceil();
+#else
 __attribute__((naked))
 static void sys_ceil()
 {
@@ -2428,7 +2471,11 @@ static void sys_ceil()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_round();
+#else
 __attribute__((naked))
 static void sys_round()
 {
@@ -2455,7 +2502,11 @@ static void sys_round()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_mod();
+#else
 __attribute__((naked))
 static void sys_mod()
 {
@@ -2489,6 +2540,7 @@ static void sys_mod()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
 __attribute__((naked))
 static void sys_pow()

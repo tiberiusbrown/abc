@@ -104,11 +104,15 @@ bool compiler_t::should_inline(std::string const& func, int ref_count)
     if(!is_inlinable(func)) return false;
     if(!funcs.count(func)) return false;
     if(ref_count == 1) return true;
+#if 0
+    return false;
+#else
     auto const& instrs = funcs[func].instrs;
     if(instrs.size() <= 8) return true;
     if((size_t)ref_count * instrs.size() < 128)
         return true;
     return false;
+#endif
 }
 
 bool compiler_t::inline_function(std::string const& func)
@@ -152,9 +156,11 @@ bool compiler_t::inline_function(std::string const& func)
                     fi.label = replacement_label;
                     continue;
                 }
-                if(fi.instr != I_RET) continue;
-                fi.instr = I_JMP;
-                fi.label = ret_label;
+                if(fi.instr == I_RET)
+                {
+                    fi.instr = I_JMP;
+                    fi.label = ret_label;
+                }
             }
 
             tf.instrs.erase(tf.instrs.begin() + i);
