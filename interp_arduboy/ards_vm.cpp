@@ -25,8 +25,10 @@ extern "C" double ceil(double);
 extern "C" double cos(double);
 extern "C" double floor(double);
 extern "C" double fmod(double, double);
+extern "C" double pow(double, double);
 extern "C" double round(double);
 extern "C" double sin(double);
+extern "C" double sqrt(double);
 extern "C" double tan(double);
 
 extern "C" void vm_push_u8(uint8_t);
@@ -39,8 +41,10 @@ extern "C" void sys_cos();
 extern "C" void sys_debug_break();
 extern "C" void sys_floor();
 extern "C" void sys_mod();
+extern "C" void sys_pow();
 extern "C" void sys_round();
 extern "C" void sys_sin();
+extern "C" void sys_sqrt();
 extern "C" void sys_tan();
 
 using sys_func_t = void(*)();
@@ -553,7 +557,21 @@ I_P7:
 1:  st   Y+, r9
     ldi  r16, 7
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_sqrt:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call sqrt
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+    
+    .align 6
 
 I_P8:
     cpi  r28, 254
@@ -2412,7 +2430,26 @@ I_ADD:
     ld   r14, -Y
     add  r9, r14
     nop
-    dispatch_reverse
+    dispatch_noalign_reverse
+
+sys_pow:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    ld   r21, -Y
+    ld   r20, -Y
+    ld   r19, -Y
+    ld   r18, -Y
+    call pow
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    sts  %[vm_sp], r28
+    ret
+
+    .align 6
     ; TODO: SPACE HERE
 
 I_ADD2:

@@ -754,7 +754,7 @@ static void sys_assert()
 
 static void sys_buttons()
 {
-    vm_push((uint8_t)Arduboy2Base::buttonsState());
+    vm_push_u8((uint8_t)Arduboy2Base::buttonsState());
 }
 
 static void sys_just_pressed()
@@ -2092,7 +2092,7 @@ static void sys_debug_printf()
     
     format_exec(format_exec_debug_printf);
     
-    seek_to_pc();
+    [[gnu::musttail]] return seek_to_pc();
 }
 
 static void sys_draw_textf()
@@ -2542,6 +2542,9 @@ static void sys_mod()
 }
 #endif
 
+#if 1
+extern "C" void sys_pow();
+#else
 __attribute__((naked))
 static void sys_pow()
 {
@@ -2575,7 +2578,11 @@ static void sys_pow()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
+#if 1
+extern "C" void sys_sqrt();
+#else
 __attribute__((naked))
 static void sys_sqrt()
 {
@@ -2602,6 +2609,7 @@ static void sys_sqrt()
     vm_pop_end(ptr);
 #endif
 }
+#endif
 
 static void sys_generate_random_seed()
 {
