@@ -584,28 +584,6 @@ void compiler_t::compile(
         clear_removed_instrs(f.instrs);
     }
 
-    // remove unreferenced labels
-    {
-        std::unordered_set<std::string> all_labels;
-        for(auto& [n, f] : funcs)
-        {
-            if(!errs.empty()) return;
-            for(auto const& i : f.instrs)
-            {
-                if(!i.is_label && !i.label.empty())
-                    all_labels.insert(i.label);
-            }
-        }
-        for(auto& [n, f] : funcs)
-        {
-            if(!errs.empty()) return;
-            for(auto& i : f.instrs)
-                if(i.is_label && all_labels.count(i.label) == 0)
-                    i.instr = I_REMOVE;
-            clear_removed_instrs(f.instrs);
-        }
-    }
-
     // annotate instructions with file info to preserve over inlining
     {
         std::unordered_map<std::string, uint16_t> filename_map;

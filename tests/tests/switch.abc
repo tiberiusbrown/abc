@@ -20,6 +20,19 @@ void main()
         $assert(t);
 
         t = false;
+        x = -42;
+        switch(x)
+        {
+        case(17) { $assert(false); continue; }
+        case(-42) t = true;
+        case(-3) { $assert(false); continue; }
+        case(-7) { $assert(false); continue; }
+        default  $assert(false);
+        }
+        $assert(t);
+        x = 42;
+
+        t = false;
         switch(x)
         {
         case(41) { $assert(false); continue; }

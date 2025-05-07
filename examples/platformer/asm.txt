@@ -5901,8 +5901,27 @@ $L_render_level_2:
   dupw6
   getl2 13
   sys   draw_sprite
-  .line 417
-  jmp   $L_render_level_4
+  .line 421
+  p3
+  p0
+  p3
+  getln 11
+  dupw6
+  getl2 13
+  p128
+  add2b
+  sys   draw_sprite
+  popn  9
+  .line 425
+  p0
+  dup
+  p5
+  cult
+  bnz   $L_render_level_8
+  popn  12
+  .line 444
+  p0
+  jmp   $L_render_level_17
 $L_render_level_3:
   .line 420
   p2
@@ -5915,7 +5934,6 @@ $L_render_level_3:
   p1
   add2
   sys   draw_sprite
-$L_render_level_4:
   .line 421
   p3
   p0

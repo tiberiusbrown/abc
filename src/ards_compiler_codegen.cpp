@@ -400,6 +400,7 @@ void compiler_t::codegen_switch(
             assert(a_case_item.type == AST::SWITCH_CASE_ITEM);
             for(auto& child : a_case_item.children)
             {
+                child.insert_cast(a.children[0].comp_type.without_ref());
                 type_annotate(child, frame);
                 if(child.type != AST::INT_CONST)
                 {
@@ -492,6 +493,7 @@ void compiler_t::codegen_switch(
     std::string default_label;
     std::vector<std::string> case_labels;
     int64_t rmin, rmax;
+    bool is_jump_table = false;
 
     if(ranges.empty())
         goto pop_expr;
@@ -510,10 +512,13 @@ void compiler_t::codegen_switch(
     if(default_label.empty())
         default_label = end_label;
 
-#if 0
+    is_jump_table = expr_type.prim_size == 1 &&
+        ranges.size() >= switch_min_ranges_for_jump_table && (
+        !expr_type.is_signed && rmin >= 0 && rmax <= 255 ||
+        expr_type.is_signed && rmin >= -128 && rmax <= 127);
+
     // 8-bit jump table logic
-    if(!expr_type.is_signed && rmin >= 0 && rmax <= 255 ||
-        expr_type.is_signed && rmin >= -128 && rmax <= 127)
+    if(is_jump_table)
     {
         std::vector<std::string> table;
         table.resize(256);
@@ -531,74 +536,87 @@ void compiler_t::codegen_switch(
         pdata.relocs_prog.resize(256);
         for(size_t i = 0; i < 256; ++i)
             pdata.relocs_prog[i] = { i * 3, table[i] };
-        // TODO: complete this
+
+        // TODO: dedicated jump table instruction that does all this?
+        f.instrs.push_back({ I_PUSH, a.children[0].line(), 0 });
+        f.instrs.push_back({ I_PUSH, a.children[0].line(), 3 });
+        f.instrs.push_back({ I_PUSH, a.children[0].line(), 0 });
+        f.instrs.push_back({ I_MUL2, a.children[0].line() });
+        f.instrs.push_back({ I_PUSH, a.children[0].line(), 0 });
+        f.instrs.push_back({ I_PUSHL, a.children[0].line(), 0, 0, jump_table });
+        f.instrs.push_back({ I_ADD3, a.children[0].line() });
+        f.instrs.push_back({ I_GETPN, a.children[0].line(), 3 });
+        f.instrs.push_back({ I_IJMP, a.children[0].line() });
+        frame.size -= 1;
     }
-#endif
 
     // linear search logic
-    for(size_t i = 1; i < a.children.size(); ++i)
+    if(!is_jump_table)
     {
-        auto const& a_case = a.children[i];
-        auto const& label = case_labels[i - 1];
-        for(size_t j = 1; j < a_case.children.size(); ++j)
+        for(size_t i = 1; i < a.children.size(); ++i)
         {
-            auto const& a_case_item = a_case.children[j];
-            auto line = a_case_item.line();
-            instr_t isub = instr_t(I_SUB + expr_type.prim_size - 1);
-            instr_t ibool = instr_t(I_BOOL + expr_type.prim_size - 1);
-            if(a_case_item.children.size() == 1)
+            auto const& a_case = a.children[i];
+            auto const& label = case_labels[i - 1];
+            for(size_t j = 1; j < a_case.children.size(); ++j)
             {
-                // single case value
-                f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
-                f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
-                frame.size += expr_type.prim_size;
-                codegen_expr(f, frame, a_case_item.children[0], false);
-                codegen_convert(
-                    f, frame, a_case_item.children[0],
-                    expr_type, a_case_item.children[0].comp_type);
-                f.instrs.push_back({ isub, line });
-                f.instrs.push_back({ ibool, line });
-                f.instrs.push_back({ I_BZ, line, 0, 0, label });
-                frame.size -= expr_type.prim_size * 2;
+                auto const& a_case_item = a_case.children[j];
+                auto line = a_case_item.line();
+                instr_t isub = instr_t(I_SUB + expr_type.prim_size - 1);
+                instr_t ibool = instr_t(I_BOOL + expr_type.prim_size - 1);
+                if(a_case_item.children.size() == 1)
+                {
+                    // single case value
+                    f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
+                    f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                    frame.size += expr_type.prim_size;
+                    codegen_expr(f, frame, a_case_item.children[0], false);
+                    codegen_convert(
+                        f, frame, a_case_item.children[0],
+                        expr_type, a_case_item.children[0].comp_type);
+                    f.instrs.push_back({ isub, line });
+                    f.instrs.push_back({ ibool, line });
+                    f.instrs.push_back({ I_BZ, line, 0, 0, label });
+                    frame.size -= expr_type.prim_size * 2;
+                }
+                else if(a_case_item.children.size() == 2)
+                {
+                    // case range: start ... end
+                    std::string temp_label = new_label(f);
+                    instr_t ilt = instr_t(
+                        (expr_type.is_signed ? I_CSLT : I_CULT) +
+                        expr_type.prim_size - 1);
+
+                    // if(val < start) goto next case item
+                    f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
+                    f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                    frame.size += expr_type.prim_size;
+                    codegen_expr(f, frame, a_case_item.children[0], false);
+                    codegen_convert(
+                        f, frame, a_case_item.children[0],
+                        expr_type, a_case_item.children[0].comp_type);
+                    f.instrs.push_back({ ilt, line });
+                    f.instrs.push_back({ I_BNZ, line, 0, 0, temp_label });
+                    frame.size -= expr_type.prim_size * 2;
+
+                    // if(!(end < val)) goto case label
+                    codegen_expr(f, frame, a_case_item.children[1], false);
+                    codegen_convert(
+                        f, frame, a_case_item.children[1],
+                        expr_type, a_case_item.children[1].comp_type);
+                    f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
+                    f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                    frame.size += expr_type.prim_size;
+                    f.instrs.push_back({ ilt, line });
+                    f.instrs.push_back({ I_BZ, line, 0, 0, label });
+                    frame.size -= expr_type.prim_size * 2;
+
+                    codegen_label(f, temp_label);
+                }
+                else assert(false);
             }
-            else if(a_case_item.children.size() == 2)
-            {
-                // case range: start ... end
-                std::string temp_label = new_label(f);
-                instr_t ilt = instr_t(
-                    (expr_type.is_signed ? I_CSLT : I_CULT) +
-                    expr_type.prim_size - 1);
-
-                // if(val < start) goto next case item
-                f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
-                f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
-                frame.size += expr_type.prim_size;
-                codegen_expr(f, frame, a_case_item.children[0], false);
-                codegen_convert(
-                    f, frame, a_case_item.children[0],
-                    expr_type, a_case_item.children[0].comp_type);
-                f.instrs.push_back({ ilt, line });
-                f.instrs.push_back({ I_BNZ, line, 0, 0, temp_label });
-                frame.size -= expr_type.prim_size * 2;
-
-                // if(!(end < val)) goto case label
-                codegen_expr(f, frame, a_case_item.children[1], false);
-                codegen_convert(
-                    f, frame, a_case_item.children[1],
-                    expr_type, a_case_item.children[1].comp_type);
-                f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
-                f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
-                frame.size += expr_type.prim_size;
-                f.instrs.push_back({ ilt, line });
-                f.instrs.push_back({ I_BZ, line, 0, 0, label });
-                frame.size -= expr_type.prim_size * 2;
-
-                codegen_label(f, temp_label);
-            }
-            else assert(false);
         }
+        f.instrs.push_back({ I_JMP, a.line(), 0, 0, default_label });
     }
-    f.instrs.push_back({ I_JMP, a.line(), 0, 0, default_label });
 
     // case statements
     for(size_t i = 1; i < a.children.size(); ++i)
@@ -615,9 +633,12 @@ void compiler_t::codegen_switch(
     codegen_label(f, end_label);
 
 pop_expr:
-    for(size_t i = 0; i < expr_type.prim_size; ++i)
-        f.instrs.push_back({ I_POP, a.line() });
-    frame.size -= expr_type.prim_size;
+    if(!is_jump_table)
+    {
+        for(size_t i = 0; i < expr_type.prim_size; ++i)
+            f.instrs.push_back({ I_POP, a.line() });
+        frame.size -= expr_type.prim_size;
+    }
 }
 
 void compiler_t::codegen_store(

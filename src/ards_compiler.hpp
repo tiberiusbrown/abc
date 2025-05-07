@@ -622,6 +622,7 @@ struct compiler_t
 
     bool enable_inlining = false;
     bool enable_jmp_to_ret = true;
+    size_t switch_min_ranges_for_jump_table = 16;
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
 
