@@ -9,23 +9,10 @@
 .global ra3 6
 .global ra4 6
 
-a2:
-  .b 7 00 10 00 20 00 30 00 40
-x1:
-  .b 0 12
 a1:
   .b 3 10 20 30 40
-x2:
-  .b 1 34 12
-prs:
-  .rp pua
-  .rp pub
-  .rp puc
-  .rp pud
-x3:
-  .b 2 56 34 12
-x4:
-  .b 3 78 56 34 12
+a2:
+  .b 7 00 10 00 20 00 30 00 40
 a3:
   .b b 00 00 10 00 00 20 00 00 30 00 00 40
 a4:
@@ -35,14 +22,6 @@ grs:
   .rg ub
   .rg uc
   .rg ud
-pua:
-  .b 1 01 00
-pub:
-  .b 1 02 00
-puc:
-  .b 1 03 00
-pud:
-  .b 1 04 00
 pra1:
   .rp a1
   .b 2 04 00 00
@@ -55,6 +34,27 @@ pra3:
 pra4:
   .rp a4
   .b 2 04 00 00
+prs:
+  .rp pua
+  .rp pub
+  .rp puc
+  .rp pud
+pua:
+  .b 1 01 00
+pub:
+  .b 1 02 00
+puc:
+  .b 1 03 00
+pud:
+  .b 1 04 00
+x1:
+  .b 0 12
+x2:
+  .b 1 34 12
+x3:
+  .b 2 56 34 12
+x4:
+  .b 3 78 56 34 12
 
 $globinit:
   .file <internal>.abc

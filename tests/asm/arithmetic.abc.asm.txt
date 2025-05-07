@@ -2,557 +2,45 @@
 .saved 0
 
 
-test_u8:
-  .file arithmetic.abc
-  .line 3
-  push  45
-  .line 4
-  p7
-  .line 5
-  dup2
-  p0
-  dup3
-  add2b
-  push  52
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 6
-  dup
-  p0
-  dup4
-  add2b
-  push  52
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 7
-  dup2
-  p0
-  dup3
-  sub2b
-  push  38
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 8
-  dup
-  p0
-  dup4
-  sub2b
-  push  38
-  add2b
-  bool2
-  not
-  sys   assert
-  .line 9
-  dup2
-  p0
-  dup3
-  mul2b
-  push  59
-  p1
-  sub2
-  bool2
-  not
-  sys   assert
-  .line 10
-  dup2
-  p0
-  dup3
-  p0
-  udiv2
-  p6
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 11
-  dup2
-  p0
-  dup3
-  p0
-  umod2
-  p3
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 12
-  dup2
-  p1
-  lsl
-  push  90
-  sub
-  not
-  sys   assert
-  .line 13
-  dup2
-  p1
-  lsr
-  push  22
-  sub
-  not
-  sys   assert
-  .line 15
-  dup2
-  push  45
-  sub
-  not
-  sys   assert
-  .line 16
-  refl  2
-  dup4
-  dec
-  dupw2
-  setr
-  getr
-  push  44
-  sub
-  not
-  sys   assert
-  .line 17
-  dup2
-  push  44
-  sub
-  not
-  sys   assert
-  .line 19
-  dup2
-  push  44
-  sub
-  not
-  sys   assert
-  .line 20
-  refl  2
-  pdec
-  push  44
-  sub
-  not
-  sys   assert
-  .line 21
-  dup2
-  push  43
-  sub
-  not
-  sys   assert
-  .line 23
-  dup2
-  push  43
-  sub
-  not
-  sys   assert
-  .line 24
-  refl  2
-  dup4
-  inc
-  dupw2
-  setr
-  getr
-  push  44
-  sub
-  not
-  sys   assert
-  .line 25
-  dup2
-  push  44
-  sub
-  not
-  sys   assert
-  .line 27
-  dup2
-  push  44
-  sub
-  not
-  sys   assert
-  .line 28
-  refl  2
-  pinc
-  push  44
-  sub
-  not
-  sys   assert
-  .line 29
-  dup2
-  push  45
-  sub
-  not
-  sys   assert
-  .line 31
-  dup2
-  p0
-  push  45
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 32
-  dup2
-  p0
-  push  45
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 34
-  dup2
-  p0
-  push  45
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 35
-  dup2
-  p0
-  push  45
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 1
-  pop2
-  ret
-
 $globinit:
   .file <internal>.abc
   .line 1
   ret
 
-test_u24:
+main:
   .file arithmetic.abc
-  .line 115
-  push2 56784
+  .line 156
+  sys   debug_break
+  .line 158
+  call  test_u8
+  .line 159
+  call  test_i8
+  .line 160
+  call  test_u16
+  .line 161
+  call  test_u24
+  .line 164
+  push4 1430537284
+  .line 165
+  push2 21845
+  .line 167
   p6
-  .line 116
-  push2 4464
-  p1
-  .line 117
-  push  188
-  p2
-  p0
-  .line 118
+  getln 6
+  add3
   p3
-  getln 9
-  p0
-  p3
-  getln 10
-  p0
-  add4
-  p64
-  push  239
-  p7
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 119
+  setln 6
+  .line 168
   p3
   getln 6
-  p0
-  p3
-  getln 13
-  p0
-  add4
-  p64
-  push  239
-  p7
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 120
-  p3
-  getln 9
-  p0
-  p3
-  getln 10
-  p0
-  sub4
-  push2 52320
-  p5
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 121
-  p3
-  getln 6
-  p0
-  p3
-  getln 13
-  p0
-  sub4
-  push4 4294587296
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 122
-  p3
-  getln 9
-  p0
-  p3
-  getln 7
-  p0
-  mul4
-  push4 315000000
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 123
-  p3
-  getln 6
-  p0
-  p3
-  getln 7
-  p0
-  mul4
-  p64
-  push2 60334
-  p2
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 124
-  p3
-  getln 9
-  p0
-  p3
-  getln 10
-  p0
-  udiv4
-  p6
-  p000
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 125
-  p3
-  getln 9
-  p0
-  p3
-  getln 10
-  p0
-  umod4
-  push2 30000
-  p00
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 126
-  p3
-  getln 9
-  p0
-  p1
-  lsl4
-  pop
-  push3 900000
+  push3 10066329
   sub3
   bool3
   not
   sys   assert
-  .line 127
-  p3
-  getln 9
-  p0
-  p1
-  lsr4
-  pop
-  push2 28392
-  p3
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 128
-  p3
-  getln 9
-  p0
-  push  11
-  lsr4
-  pop3
-  push  219
-  sub
-  not
-  sys   assert
-  .line 130
-  p3
-  getln 9
-  push2 56784
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 131
-  refl  9
-  p3
-  getln 11
-  p1
-  p00
-  sub3
-  dupw4
-  setrn 3
-  getrn 3
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 132
-  p3
-  getln 9
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 134
-  p3
-  getln 9
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 135
-  refl  9
-  pdec3
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 136
-  p3
-  getln 9
-  push2 56782
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 138
-  p3
-  getln 9
-  push2 56782
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 139
-  refl  9
-  p3
-  getln 11
-  p1
-  add3b
-  dupw4
-  setrn 3
-  getrn 3
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 140
-  p3
-  getln 9
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 142
-  p3
-  getln 9
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 143
-  refl  9
-  pinc3
-  push2 56783
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 144
-  p3
-  getln 9
-  push2 56784
-  p6
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 146
-  p3
-  getln 9
-  p0
-  push2 56784
-  p6
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 147
-  p3
-  getln 9
-  p0
-  push2 56784
-  p6
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 149
-  p3
-  getln 9
-  p0
-  push2 56784
-  p6
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 150
-  p3
-  getln 9
-  p0
-  push2 56784
-  p6
-  p0
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 113
-  popn  9
+  popn  6
+  .line 171
+  sys   debug_break
+  .line 154
   ret
 
 test_i8:
@@ -1033,39 +521,551 @@ test_u16:
   pop4
   ret
 
-main:
+test_u24:
   .file arithmetic.abc
-  .line 156
-  sys   debug_break
-  .line 158
-  call  test_u8
-  .line 159
-  call  test_i8
-  .line 160
-  call  test_u16
-  .line 161
-  call  test_u24
-  .line 164
-  push4 1430537284
-  .line 165
-  push2 21845
-  .line 167
+  .line 115
+  push2 56784
   p6
-  getln 6
-  add3
+  .line 116
+  push2 4464
+  p1
+  .line 117
+  push  188
+  p2
+  p0
+  .line 118
   p3
-  setln 6
-  .line 168
+  getln 9
+  p0
+  p3
+  getln 10
+  p0
+  add4
+  p64
+  push  239
+  p7
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 119
   p3
   getln 6
-  push3 10066329
+  p0
+  p3
+  getln 13
+  p0
+  add4
+  p64
+  push  239
+  p7
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 120
+  p3
+  getln 9
+  p0
+  p3
+  getln 10
+  p0
+  sub4
+  push2 52320
+  p5
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 121
+  p3
+  getln 6
+  p0
+  p3
+  getln 13
+  p0
+  sub4
+  push4 4294587296
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 122
+  p3
+  getln 9
+  p0
+  p3
+  getln 7
+  p0
+  mul4
+  push4 315000000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 123
+  p3
+  getln 6
+  p0
+  p3
+  getln 7
+  p0
+  mul4
+  p64
+  push2 60334
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 124
+  p3
+  getln 9
+  p0
+  p3
+  getln 10
+  p0
+  udiv4
+  p6
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 125
+  p3
+  getln 9
+  p0
+  p3
+  getln 10
+  p0
+  umod4
+  push2 30000
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 126
+  p3
+  getln 9
+  p0
+  p1
+  lsl4
+  pop
+  push3 900000
   sub3
   bool3
   not
   sys   assert
-  popn  6
-  .line 171
-  sys   debug_break
-  .line 154
+  .line 127
+  p3
+  getln 9
+  p0
+  p1
+  lsr4
+  pop
+  push2 28392
+  p3
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 128
+  p3
+  getln 9
+  p0
+  push  11
+  lsr4
+  pop3
+  push  219
+  sub
+  not
+  sys   assert
+  .line 130
+  p3
+  getln 9
+  push2 56784
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 131
+  refl  9
+  p3
+  getln 11
+  p1
+  p00
+  sub3
+  dupw4
+  setrn 3
+  getrn 3
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 132
+  p3
+  getln 9
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 134
+  p3
+  getln 9
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 135
+  refl  9
+  pdec3
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 136
+  p3
+  getln 9
+  push2 56782
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 138
+  p3
+  getln 9
+  push2 56782
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 139
+  refl  9
+  p3
+  getln 11
+  p1
+  add3b
+  dupw4
+  setrn 3
+  getrn 3
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 140
+  p3
+  getln 9
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 142
+  p3
+  getln 9
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 143
+  refl  9
+  pinc3
+  push2 56783
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 144
+  p3
+  getln 9
+  push2 56784
+  p6
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 146
+  p3
+  getln 9
+  p0
+  push2 56784
+  p6
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 147
+  p3
+  getln 9
+  p0
+  push2 56784
+  p6
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 149
+  p3
+  getln 9
+  p0
+  push2 56784
+  p6
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 150
+  p3
+  getln 9
+  p0
+  push2 56784
+  p6
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 113
+  popn  9
+  ret
+
+test_u8:
+  .file arithmetic.abc
+  .line 3
+  push  45
+  .line 4
+  p7
+  .line 5
+  dup2
+  p0
+  dup3
+  add2b
+  push  52
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 6
+  dup
+  p0
+  dup4
+  add2b
+  push  52
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 7
+  dup2
+  p0
+  dup3
+  sub2b
+  push  38
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 8
+  dup
+  p0
+  dup4
+  sub2b
+  push  38
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 9
+  dup2
+  p0
+  dup3
+  mul2b
+  push  59
+  p1
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 10
+  dup2
+  p0
+  dup3
+  p0
+  udiv2
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 11
+  dup2
+  p0
+  dup3
+  p0
+  umod2
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 12
+  dup2
+  p1
+  lsl
+  push  90
+  sub
+  not
+  sys   assert
+  .line 13
+  dup2
+  p1
+  lsr
+  push  22
+  sub
+  not
+  sys   assert
+  .line 15
+  dup2
+  push  45
+  sub
+  not
+  sys   assert
+  .line 16
+  refl  2
+  dup4
+  dec
+  dupw2
+  setr
+  getr
+  push  44
+  sub
+  not
+  sys   assert
+  .line 17
+  dup2
+  push  44
+  sub
+  not
+  sys   assert
+  .line 19
+  dup2
+  push  44
+  sub
+  not
+  sys   assert
+  .line 20
+  refl  2
+  pdec
+  push  44
+  sub
+  not
+  sys   assert
+  .line 21
+  dup2
+  push  43
+  sub
+  not
+  sys   assert
+  .line 23
+  dup2
+  push  43
+  sub
+  not
+  sys   assert
+  .line 24
+  refl  2
+  dup4
+  inc
+  dupw2
+  setr
+  getr
+  push  44
+  sub
+  not
+  sys   assert
+  .line 25
+  dup2
+  push  44
+  sub
+  not
+  sys   assert
+  .line 27
+  dup2
+  push  44
+  sub
+  not
+  sys   assert
+  .line 28
+  refl  2
+  pinc
+  push  44
+  sub
+  not
+  sys   assert
+  .line 29
+  dup2
+  push  45
+  sub
+  not
+  sys   assert
+  .line 31
+  dup2
+  p0
+  push  45
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 32
+  dup2
+  p0
+  push  45
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 34
+  dup2
+  p0
+  push  45
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 35
+  dup2
+  p0
+  push  45
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 1
+  pop2
   ret
 

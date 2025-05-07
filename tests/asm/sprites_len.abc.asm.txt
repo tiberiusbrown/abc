@@ -1043,6 +1043,30 @@ $globinit:
   .line 1
   ret
 
+get_h:
+  .file sprites_len.abc
+  .line 15
+  p3
+  getln 3
+  p1
+  add3b
+  getp
+  setl  4
+  pop3
+  ret
+
+get_len:
+  .file sprites_len.abc
+  .line 20
+  p3
+  getln 3
+  p3
+  add3b
+  getpn 2
+  setl2 5
+  pop3
+  ret
+
 get_w:
   .file sprites_len.abc
   .line 10
@@ -1268,29 +1292,5 @@ main:
   .line 70
   sys   debug_break
   .line 23
-  ret
-
-get_h:
-  .file sprites_len.abc
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  ret
-
-get_len:
-  .file sprites_len.abc
-  .line 20
-  p3
-  getln 3
-  p3
-  add3b
-  getpn 2
-  setl2 5
-  pop3
   ret
 

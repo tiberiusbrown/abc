@@ -775,8 +775,8 @@ private:
     std::string input_data;
 
     // codegen data
-    std::unordered_map<std::string, compiler_func_t> funcs;
-    std::unordered_map<std::string, compiler_global_t> globals;
+    std::map<std::string, compiler_func_t> funcs;
+    std::map<std::string, compiler_global_t> globals;
     std::unordered_map<std::string, compiler_type_t> structs;
     bool symbol_exists(std::string const& name)
     {
@@ -796,7 +796,7 @@ private:
     std::function<bool(std::string const&, std::vector<char>&)> file_loader;
 
     size_t progdata_label_index;
-    std::unordered_map<std::string, compiler_progdata_t> progdata;
+    std::map<std::string, compiler_progdata_t> progdata;
 
     std::vector<error_t> errs;
     std::vector<error_t> warns;

@@ -3,54 +3,19 @@
 .global gf 1
 
 
-test_logical_and:
-  .file if_statement.abc
-  .line 3
-  p0
-  .line 4
-  dup2
-  bz    $L_test_logical_and_1
-  dup3
-  bz    $L_test_logical_and_1
-  p1
-  setl  1
-$L_test_logical_and_1:
-  .line 5
-  dup
-  dup5
-  sub
-  not
-  sys   assert
-  .line 1
-  pop4
-  ret
-
 $globinit:
   .file <internal>.abc
   .line 1
   ret
 
-test_logical_or:
+call_me:
   .file if_statement.abc
-  .line 10
-  p0
-  .line 11
-  dup2
-  bnz   $L_test_logical_or_2
-  dup3
-  bz    $L_test_logical_or_1
-$L_test_logical_or_2:
+  .line 24
+  p1
+  setg  gf 0
+  .line 25
   p1
   setl  1
-$L_test_logical_or_1:
-  .line 12
-  dup
-  dup5
-  sub
-  not
-  sys   assert
-  .line 8
-  pop4
   ret
 
 dont_call_me:
@@ -200,13 +165,48 @@ $L_main_12:
   pop2
   ret
 
-call_me:
+test_logical_and:
   .file if_statement.abc
-  .line 24
-  p1
-  setg  gf 0
-  .line 25
+  .line 3
+  p0
+  .line 4
+  dup2
+  bz    $L_test_logical_and_1
+  dup3
+  bz    $L_test_logical_and_1
   p1
   setl  1
+$L_test_logical_and_1:
+  .line 5
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 1
+  pop4
+  ret
+
+test_logical_or:
+  .file if_statement.abc
+  .line 10
+  p0
+  .line 11
+  dup2
+  bnz   $L_test_logical_or_2
+  dup3
+  bz    $L_test_logical_or_1
+$L_test_logical_or_2:
+  p1
+  setl  1
+$L_test_logical_or_1:
+  .line 12
+  dup
+  dup5
+  sub
+  not
+  sys   assert
+  .line 8
+  pop4
   ret
 

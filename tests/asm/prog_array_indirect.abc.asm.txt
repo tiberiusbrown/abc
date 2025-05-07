@@ -2,12 +2,12 @@
 .saved 0
 .global data1 8
 
+data0:
+  .b 7 64 00 c8 00 2c 01 90 01
 foo:
   .b 0 01
   .rg data1
   .b 1 04 00
-data0:
-  .b 7 64 00 c8 00 2c 01 90 01
 foop:
   .b 0 01
   .rp data0
