@@ -84,7 +84,7 @@ __attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
 template<size_t N> struct byte_storage { uint8_t d[N]; };
 
 template<size_t N>
-__attribute__((always_inline))
+[[ gnu::always_inline ]]
 inline void vm_push_n_unsafe(uint8_t*& ptr, byte_storage<N> x)
 {
     static_assert(N <= 4, "");
@@ -95,7 +95,7 @@ inline void vm_push_n_unsafe(uint8_t*& ptr, byte_storage<N> x)
 }
 
 template<size_t N>
-__attribute__((noinline))
+[[ gnu::always_inline ]]
 inline void vm_push_n(uint8_t* ptr, byte_storage<N> x)
 {
     if((uint8_t)(uintptr_t)ptr < uint8_t(256 - N))
@@ -1891,7 +1891,7 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     }
 }
 
-__attribute__((flatten))
+[[gnu::flatten]]
 static void format_exec(format_char_func f)
 {
     uint24_t fn;
@@ -2092,7 +2092,7 @@ static void sys_debug_printf()
     
     format_exec(format_exec_debug_printf);
     
-    [[gnu::musttail]] return seek_to_pc();
+    seek_to_pc();
 }
 
 static void sys_draw_textf()
@@ -2221,6 +2221,8 @@ static void sys_audio_playing()
     vm_push_u8(ards::Tones::playing());
 }
 
+constexpr size_t MAX_SAVE_SIZE = (ABC_SHADES == 2 ? 1024 : 256);
+
 static void sys_save_exists()
 {
     uint16_t save_size;
@@ -2234,13 +2236,13 @@ static void sys_save_exists()
     u.b[0] = FX::readPendingUInt8();
     u.b[1] = FX::readPendingLastUInt8();
     bool r = false;
-    if(u.save_size > 0 && u.save_size <= 1024)
+    if(u.save_size > 0 && u.save_size <= MAX_SAVE_SIZE)
     {
         uint16_t t;
         FX::seekSave(0);
         r = (FX::readPendingLastUInt16() == u.save_size);
     }
-    vm_push<bool>(r);
+    vm_push_u8(r);
     seek_to_pc();
 }
 
@@ -2256,7 +2258,7 @@ static void sys_save()
     } u;
     u.b[0] = FX::readPendingUInt8();
     u.b[1] = FX::readPendingLastUInt8();
-    if(u.save_size > 0 && u.save_size <= 1024)
+    if(u.save_size > 0 && u.save_size <= MAX_SAVE_SIZE)
         FX::saveGameState(&ards::vm.globals[0], u.save_size);
     FX::waitWhileBusy();
     seek_to_pc();
@@ -2274,9 +2276,9 @@ static void sys_load()
     u.b[0] = FX::readPendingUInt8();
     u.b[1] = FX::readPendingLastUInt8();
     bool r = false;
-    if(u.save_size > 0 && u.save_size <= 1024)
+    if(u.save_size > 0 && u.save_size <= MAX_SAVE_SIZE)
         r = (bool)FX::loadGameState(&ards::vm.globals[0], u.save_size);
-    vm_push<bool>(r);
+    vm_push_u8(r);
     seek_to_pc();
 }
 

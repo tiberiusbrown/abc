@@ -47,7 +47,6 @@ $L_main_2:
   sub
   not
   sys   assert
-$L_main_4:
   .line 19
   dup
   p7
@@ -64,16 +63,6 @@ $L_main_4:
   .line 1
   pop
   ret
-  .line 21
-  dup
-  p7
-  add
-  setl  1
-  .line 22
-  dup
-  push  100
-  cult
-  bnz   $L_main_4
   .line 24
   dup
   push  26

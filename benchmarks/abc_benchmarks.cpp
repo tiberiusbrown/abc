@@ -13,6 +13,7 @@
 #include <sstream>
 #include <string>
 #include <strstream>
+#include <tuple>
 
 static std::unique_ptr<absim::arduboy_t> arduboy;
 
@@ -407,11 +408,11 @@ int abc_benchmarks()
     };
     (void)measure();
     uint64_t bn = measure();
+    std::vector<std::tuple<char const*, uint64_t>> timings;
     for(auto const* i : INSTRS)
-    {
-        uint64_t c = measure() - bn;
-        fprintf(fout, "%5" PRIu64 "   %s\n", c, i);
-    }
+        timings.push_back({ i, uint64_t(measure() - bn) });
+    for(auto const& t : timings)
+        fprintf(fout, "%5" PRIu64 "   %s\n", std::get<1>(t), std::get<0>(t));
 
     fclose(fout);
 

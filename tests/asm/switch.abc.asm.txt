@@ -47,7 +47,6 @@ $L_main_2:
   setl  2
   .line 14
   jmp   $L_main_1
-  jmp   $L_main_1
 $L_main_3:
   .line 17
   p1
@@ -98,7 +97,6 @@ $L_main_6:
   setl  2
   .line 23
   jmp   $L_main_5
-  jmp   $L_main_5
 $L_main_7:
   .line 26
   p1
@@ -107,7 +105,6 @@ $L_main_7:
   p1
   setl  2
   .line 23
-  jmp   $L_main_5
   jmp   $L_main_5
 $L_main_8:
   .line 27
@@ -411,14 +408,10 @@ $L_main_34:
   .line 104
   p1
   sys   assert
-  jmp   $L_main_39
-  .line 102
-  jmp   $L_main_37
 $L_main_39:
   .line 105
   p1
   setl  2
-$L_main_37:
   .line 102
   pop
   .line 107
@@ -492,7 +485,6 @@ $L_main_45:
   setl  5
   .line 123
   jmp   $L_main_44
-  jmp   $L_main_44
 $L_main_46:
   .line 126
   p1
@@ -552,7 +544,6 @@ $L_main_49:
   setl  5
   .line 132
   jmp   $L_main_48
-  jmp   $L_main_48
 $L_main_50:
   .line 135
   p1
@@ -561,7 +552,6 @@ $L_main_50:
   p1
   setl  5
   .line 132
-  jmp   $L_main_48
   jmp   $L_main_48
 $L_main_51:
   .line 136
@@ -930,14 +920,10 @@ $L_main_77:
   .line 213
   p1
   sys   assert
-  jmp   $L_main_82
-  .line 211
-  jmp   $L_main_80
 $L_main_82:
   .line 214
   p1
   setl  5
-$L_main_80:
   .line 211
   pop4
   .line 216

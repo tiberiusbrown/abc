@@ -243,6 +243,8 @@ bool compiler_t::peephole(compiler_func_t& f)
     while(peephole_compress_duplicate_pushes(f))
         t = true;
 
+    t |= peephole_remove_inaccessible_code(f);
+
     if(enable_jmp_to_ret)
         while(peephole_jmp_to_ret(f))
             t = true;
@@ -1715,6 +1717,29 @@ bool compiler_t::peephole_compress_duplicate_pushes(compiler_func_t& f)
                 t = true;
             }
             if(t) continue;
+        }
+    }
+    return t;
+}
+
+bool compiler_t::peephole_remove_inaccessible_code(compiler_func_t& f)
+{
+    bool t = false;
+    clear_removed_instrs(f.instrs);
+
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+
+        // remove all code between jmp and label
+        if(i0.instr == I_JMP)
+        {
+            for(size_t j = i + 1; j < f.instrs.size(); ++j)
+            {
+                auto& ti = f.instrs[j];
+                if(ti.is_label) break;
+                ti.instr = I_REMOVE;
+            }
         }
     }
     return t;

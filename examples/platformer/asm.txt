@@ -9985,8 +9985,6 @@ $L_render_level_20:
   .line 455
   pop4
   jmp   $L_render_level_19
-  .line 452
-  jmp   $L_render_level_26
 $L_render_level_22:
   .line 457
   dup2
@@ -10339,6 +10337,4 @@ $L_main_2:
   call  loop
   .line 33
   jmp   $L_main_2
-  .line 30
-  ret
 

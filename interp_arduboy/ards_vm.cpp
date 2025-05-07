@@ -4130,12 +4130,14 @@ jump_to_pc:
 jump_to_pc_delayed:
 
     nop
-    rjmp .+0
-    rjmp .+0
-
-jump_to_pc_delayed2:
-
+    ; rjmp .+0
+    ; rjmp .+0
 )"
+#if ABC_SHADES == 2
+    "rjmp .+0\n"
+    "rjmp .+0\n"
+#endif
+"jump_to_pc_delayed2:\n"
 #if ABC_SHADES != 2
 R"(
     ; see if we need to call shades_display()
