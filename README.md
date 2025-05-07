@@ -10,12 +10,8 @@ int dx = 1, dy = -1;
 
 void loop()
 {
-    // wait for frame timing to maintain constant FPS
-    while(!$next_frame())
-        ;
-        
     // draw some text with one of the built-in fonts
-    $draw_text_P(29, 36, "Hello World!");
+    $draw_text(29, 36, "Hello World!");
         
     x += dx;
     y += dy;
@@ -43,7 +39,6 @@ void loop()
 
 void main()
 {
-    $set_text_font(FONT_ADAFRUIT);
     while(true)
         loop();
 }
