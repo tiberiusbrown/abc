@@ -326,6 +326,7 @@ enum instr_t : uint8_t
     I_JMP,    // jmp imm3
     I_JMP1,   // imm8 rel offset
     //I_JMP2, // imm16 rel offset
+    I_IJMP,
     I_CALL,
     I_CALL1,  // imm8 rel offset
     //I_CALL2,// imm16 rel offset

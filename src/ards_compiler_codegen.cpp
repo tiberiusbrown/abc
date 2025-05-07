@@ -445,6 +445,7 @@ void compiler_t::codegen_switch(
         int64_t a, b;
         std::string_view data;
         std::pair<size_t, size_t> line_info;
+        size_t index;
     };
     std::vector<range_t> ranges;
 
@@ -458,9 +459,9 @@ void compiler_t::codegen_switch(
             std::string_view data = a_case_item.data;
             auto line_info = a_case_item.line_info;
             if(c.size() == 1)
-                ranges.push_back({ c[0].value, c[0].value, data, line_info });
+                ranges.push_back({ c[0].value, c[0].value, data, line_info, i - 1 });
             else if(c.size() == 2)
-                ranges.push_back({ c[0].value, c[1].value, data, line_info });
+                ranges.push_back({ c[0].value, c[1].value, data, line_info, i - 1 });
             else
                 assert(false);
         }
@@ -509,12 +510,30 @@ void compiler_t::codegen_switch(
     if(default_label.empty())
         default_label = end_label;
 
-    // jump table logic
+#if 0
+    // 8-bit jump table logic
     if(!expr_type.is_signed && rmin >= 0 && rmax <= 255 ||
         expr_type.is_signed && rmin >= -128 && rmax <= 127)
     {
-        // TODO
+        std::vector<std::string> table;
+        table.resize(256);
+        for(auto& t : table)
+            t = default_label;
+        for(size_t i = 0; i < ranges.size(); ++i)
+        {
+            auto const& r = ranges[i];
+            for(auto j = r.a; j <= r.b; ++j)
+                table[(uint8_t)j] = case_labels[r.index];
+        }
+        std::string jump_table = progdata_label();
+        auto& pdata = progdata[jump_table];
+        pdata.data.resize(256 * 3);
+        pdata.relocs_prog.resize(256);
+        for(size_t i = 0; i < 256; ++i)
+            pdata.relocs_prog[i] = { i * 3, table[i] };
+        // TODO: complete this
     }
+#endif
 
     // linear search logic
     for(size_t i = 1; i < a.children.size(); ++i)

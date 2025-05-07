@@ -3772,6 +3772,18 @@ call_error:
     call call_vm_error
     .align 6
 
+I_IJMP:
+    mov  r8, r9
+    ld   r7, -Y
+    ld   r6, -Y
+    ld   r9, -Y
+    ldi  r18, 3
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    rjmp jump_to_pc_delayed
+    .align 6
+
 I_CALL:
     lds  r26, %[vm_csp]
     cpi  r26, %[MAX_CALLS] * 3 - 3

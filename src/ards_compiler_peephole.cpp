@@ -39,6 +39,9 @@ bool compiler_t::remove_unreferenced_labels()
         for(auto const& i : f.instrs)
             if(!i.is_label && !i.label.empty())
                 label_counts[i.label] += 1;
+    for(auto const& [k, d] : progdata)
+        for(auto const& p : d.relocs_prog)
+            label_counts[p.second] += 1;
     bool t = false;
     for(auto& [n, f] : funcs)
     {
@@ -104,7 +107,7 @@ bool compiler_t::should_inline(std::string const& func, int ref_count)
     if(!is_inlinable(func)) return false;
     if(!funcs.count(func)) return false;
     if(ref_count == 1) return true;
-#if 0
+#if 1
     return false;
 #else
     auto const& instrs = funcs[func].instrs;

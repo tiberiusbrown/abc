@@ -221,6 +221,7 @@ void compiler_t::write_instr(
     case I_BZP:   f << "bzp   " << instr.label; break;
     case I_BNZP:  f << "bnzp  " << instr.label; break;
     case I_JMP:   f << "jmp   " << instr.label; break;
+    case I_IJMP:  f << "ijmp"; break;
     case I_CALL:  f << "call  " << instr.label; break;
     case I_ICALL: f << "icall"; break;
     case I_RET:   f << "ret"; break;

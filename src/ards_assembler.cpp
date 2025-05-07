@@ -246,6 +246,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "f2u", I_F2U },
     { "i2f", I_I2F },
     { "u2f", I_U2F },
+    { "ijmp", I_IJMP },
     { "icall", I_ICALL },
     { "ret", I_RET },
 };
