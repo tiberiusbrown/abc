@@ -1,18 +1,21 @@
 // frame counter: increments each frame
 u8 frame_count;
 
-constexpr u8 STATE_MENU = 0;
-constexpr u8 STATE_INTRO = 1;
-constexpr u8 STATE_LEVEL = 2;
-constexpr u8 STATE_PAUSE = 3;
-constexpr u8 STATE_GAME_OVER = 4;
-constexpr u8 STATE_LEVEL_COMPLETE = 5;
-constexpr u8 STATE_SCORE_TALLY = 6;
-constexpr u8 STATE_VICTORY = 7;
-constexpr u8 STATE_LEVEL_SELECT = 8;
-constexpr u8 STATE_CONFIRM = 9;
-constexpr u8 STATE_CREDITS = 10;
-u8 state;
+enum state_t
+{
+    STATE_MENU,
+    STATE_INTRO,
+    STATE_LEVEL,
+    STATE_PAUSE,
+    STATE_GAME_OVER,
+    STATE_LEVEL_COMPLETE,
+    STATE_SCORE_TALLY,
+    STATE_VICTORY,
+    STATE_LEVEL_SELECT,
+    STATE_CONFIRM,
+    STATE_CREDITS,
+};
+state_t state;
 
 u8 menui;
 u8 menu_sprite;

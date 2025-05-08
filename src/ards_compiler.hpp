@@ -44,6 +44,9 @@ enum class AST
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
     STRUCT_STMT,  // children are ident and decl_stmt*
+    ENUM_STMT,    // children are ident and list, if any
+    ENUM_ITEM_LIST, // children are enum items
+    ENUM_ITEM,    // children are ident [and expr]
     DECL_STMT,    // after parse, children are type, DECL_ITEM*
                   // before codegen, children are type, ident [, expr]
     DECL_ITEM,    // children are ident [, expr]
@@ -779,12 +782,14 @@ private:
     std::map<std::string, compiler_func_t> funcs;
     std::map<std::string, compiler_global_t> globals;
     std::unordered_map<std::string, compiler_type_t> structs;
+    std::unordered_map<std::string, compiler_type_t> enums;
     bool symbol_exists(std::string const& name)
     {
         return
             funcs  .count(name) != 0 ||
             globals.count(name) != 0 ||
-            structs.count(name) != 0;
+            structs.count(name) != 0 ||
+            enums  .count(name) != 0;
     }
 
     // font caching

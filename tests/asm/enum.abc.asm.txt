@@ -1,0 +1,30 @@
+.shades 2
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file enum.abc
+  .line 15
+  sys   debug_break
+  .line 17
+  p1
+  sys   assert
+  .line 18
+  p1
+  sys   assert
+  .line 19
+  p1
+  sys   assert
+  .line 20
+  p1
+  sys   assert
+  .line 22
+  sys   debug_break
+  .line 13
+  ret
+

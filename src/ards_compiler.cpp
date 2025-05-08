@@ -31,7 +31,7 @@ std::unordered_set<std::string> const keywords =
     "sprites", "font", "tones", "music", "tilemap",
     "constexpr", "saved", "prog",
     "if", "else", "while", "for", "return", "break", "continue",
-    "struct", "import", "len", "float", "byte", "do",
+    "struct", "import", "len", "float", "byte", "enum", "do",
     "switch", "case", "default",
 };
 
@@ -156,6 +156,8 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
             pt = &it->second;
         else if(auto it2 = primitive_types.find(name); it2 != primitive_types.end())
             pt = &it2->second;
+        else if(auto it3 = enums.find(name); it3 != enums.end())
+            pt = &it3->second;
         else
         {
             errs.push_back({
@@ -289,6 +291,64 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
             }
         }
         t.prim_size = size;
+        return t;
+    }
+    if(n.type == AST::ENUM_STMT)
+    {
+        compiler_type_t t{};
+        t.type = compiler_type_t::PRIM;
+        t.prim_size = 1;
+        t.is_signed = false;
+        if(n.children.size() < 2)
+            return t;
+        int64_t v = 0;
+        for(auto const& c : n.children[1].children)
+        {
+            std::string ident = std::string(c.children[0].data);
+            if(globals.count(ident) != 0)
+            {
+                errs.push_back({
+                    "Duplicate symbol \"" + ident + "\"",
+                    c.children[0].line_info });
+                return {};
+            }
+            auto& g = globals[ident];
+            g.name = ident;
+            g.var.is_constexpr = true;
+            g.var.value = v;
+            if(c.children.size() >= 2)
+            {
+                if(c.children[1].type != AST::INT_CONST)
+                {
+                    errs.push_back({
+                        "Value for \"" + ident + "\" is not a constant integral expression",
+                        c.children[1].line_info });
+                    return {};
+                }
+                g.var.value = c.children[1].value;
+            }
+            v = g.var.value;
+            auto& gt = g.var.type;
+            gt.type = compiler_type_t::PRIM;
+            if(v < 0) gt.is_signed = true;
+            gt.prim_size = 1;
+            if(gt.is_signed)
+            {
+                if(v >= 0x100    ) gt.prim_size = std::max<size_t>(gt.prim_size, 2);
+                if(v >= 0x10000  ) gt.prim_size = std::max<size_t>(gt.prim_size, 3);
+                if(v >= 0x1000000) gt.prim_size = 4;
+            }
+            else
+            {
+                if(v < -0x80     || v >= 0x80    ) gt.prim_size = std::max<size_t>(gt.prim_size, 2);
+                if(v < -0x8000   || v >= 0x8000  ) gt.prim_size = std::max<size_t>(gt.prim_size, 3);
+                if(v < -0x800000 || v >= 0x800000) gt.prim_size = 4;
+            }
+            if(gt.is_signed) t.is_signed = true;
+            t.prim_size = std::max(t.prim_size, gt.prim_size);
+            v += 1;
+        }
+
         return t;
     }
 
@@ -793,6 +853,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             n.type == AST::DECL_STMT ||
             n.type == AST::FUNC_STMT ||
             n.type == AST::STRUCT_STMT ||
+            n.type == AST::ENUM_STMT ||
             n.type == AST::IMPORT_STMT ||
             n.type == AST::DIRECTIVE);
         if(n.type != AST::DIRECTIVE)
@@ -873,6 +934,24 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 return;
             }
             structs[name] = resolve_type(n);
+        }
+        else if(n.type == AST::ENUM_STMT)
+        {
+            std::string name(n.children[0].data);
+            if(!name.empty() && symbol_exists(name))
+            {
+                errs.push_back({
+                    "Duplicate symbol \"" + name + "\"",
+                    n.line_info });
+                return;
+            }
+            if(n.children.size() >= 2)
+                for(auto& c : n.children[1].children)
+                    if(c.children.size() >= 2)
+                        type_annotate(c.children[1], {});
+            auto t = resolve_type(n);
+            if(!name.empty())
+                enums[name] = t;
         }
         else if(n.type == AST::IMPORT_STMT)
         {

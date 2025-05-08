@@ -1,0 +1,23 @@
+enum foo_t
+{
+    BLAH,
+    BLAH2,
+};
+
+enum
+{
+    BLAH3 = 17,
+    BLAH4,
+};
+
+void main()
+{
+    $debug_break();
+    
+    $assert(BLAH == 0);
+    $assert(BLAH2 == 1);
+    $assert(BLAH3 == 17);
+    $assert(BLAH4 == 18);
+    
+    $debug_break();
+}
