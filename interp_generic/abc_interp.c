@@ -9,6 +9,21 @@
 #define FONT_HEADER_OFFSET 1
 #define FONT_HEADER_BYTES (FONT_HEADER_PER_CHAR * 256 + FONT_HEADER_OFFSET)
 
+#define SPRITE_BATCH_ADV 127
+
+// default seed in avr-libc
+#define DEFAULT_SEED 1
+
+enum
+{
+    SHADES_CMD_END,
+    SHADES_CMD_RECT,
+    SHADES_CMD_FILLED_RECT,
+    SHADES_CMD_SPRITE,
+    SHADES_CMD_SPRITE_BATCH,
+    SHADES_CMD_CHARS,
+};
+
 enum
 {
     SYS_DISPLAY,
@@ -273,6 +288,71 @@ enum
     I_RET,
     I_SYS,
 };
+
+#define st_inc(p__, x__) (*(p__)++ = (x__))
+#define st_inc2(p__, x__) do { \
+    *(p__)++ = (uint8_t)(x__); \
+    *(p__)++ = (uint8_t)((x__) >> 8); \
+} while(0)
+#define st_inc3(p__, x__) do { \
+    *(p__)++ = (uint8_t)(x__); \
+    *(p__)++ = (uint8_t)((x__) >> 8); \
+    *(p__)++ = (uint8_t)((x__) >> 16); \
+} while(0)
+
+static uint32_t ld_inc3(uint8_t** p)
+{
+    uint32_t r = 0;
+    uint8_t* t = *p;
+    r += ((uint32_t)(*t++) << 0);
+    r += ((uint32_t)(*t++) << 8);
+    r += ((uint32_t)(*t++) << 16);
+    *p = t;
+    return r;
+}
+
+#define CMD_SIZE ((1024-256)/2)
+static uint8_t* cmd0_begin(abc_interp_t* interp)
+{
+    return &interp->globals[256];
+}
+static uint8_t* cmd1_begin(abc_interp_t* interp)
+{
+    return &interp->globals[256 + CMD_SIZE];
+}
+static uint8_t* cmd0_end(abc_interp_t* interp)
+{
+    return cmd0_begin(interp) + CMD_SIZE;
+}
+static uint8_t* cmd1_end(abc_interp_t* interp)
+{
+    return cmd0_begin(interp) + CMD_SIZE;
+}
+static uint8_t* cmd_ptr(abc_interp_t* interp)
+{
+    return cmd0_begin(interp) + interp->cmd_ptr;
+}
+static uint8_t* batch_ptr(abc_interp_t* interp)
+{
+    if(interp->batch_ptr == UINT16_MAX)
+        return NULL;
+    return cmd0_begin(interp) + interp->batch_ptr;
+}
+static void cmd_ptr_set(abc_interp_t* interp, uint8_t* p)
+{
+    interp->cmd_ptr = (uint16_t)(uintptr_t)(p - cmd0_begin(interp));
+}
+static void batch_ptr_set(abc_interp_t* interp, uint8_t* p)
+{
+    if(!p)
+        interp->batch_ptr = UINT16_MAX;
+    else
+        interp->batch_ptr = (uint16_t)(uintptr_t)(p - cmd0_begin(interp));
+}
+static bool cmd0_room(abc_interp_t* interp, uint8_t n)
+{
+    return cmd_ptr(interp) + n < cmd0_end(interp);
+}
 
 static uint8_t space(abc_interp_t* interp, uint8_t n)
 {
@@ -1497,20 +1577,25 @@ static abc_result_t sys_strlen_P(abc_interp_t* interp, abc_host_t const* h)
     return push24(interp, t);
 }
 
-static uint16_t save_size(abc_host_t const* h)
+static uint16_t max_save_size(abc_interp_t* interp)
+{
+    return interp->shades == 2 ? 1024 : 256;
+}
+
+static uint16_t save_size(abc_interp_t* interp, abc_host_t const* h)
 {
     uint16_t n = h->prog(h->user, 10) + 256 * h->prog(h->user, 11);
-    return n > 1024 ? 0 : n;
+    return n > max_save_size(interp) ? 0 : n;
 }
 
 static abc_result_t sys_save_exists(abc_interp_t* interp, abc_host_t const* h)
 {
-    return push(interp, interp->has_save && save_size(h) != 0 ? 1 : 0);
+    return push(interp, interp->has_save && save_size(interp, h) != 0 ? 1 : 0);
 }
 
 static abc_result_t sys_save(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint16_t n = save_size(h);
+    uint16_t n = save_size(interp, h);
     if(n != 0)
     {
         memcpy(interp->saved, interp->globals, n);
@@ -1521,7 +1606,7 @@ static abc_result_t sys_save(abc_interp_t* interp, abc_host_t const* h)
 
 static abc_result_t sys_load(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint16_t n = save_size(h);
+    uint16_t n = save_size(interp, h);
     uint8_t has_save = interp->has_save && n != 0;
     if(has_save)
         memcpy(interp->globals, interp->saved, n);
@@ -1735,19 +1820,31 @@ static abc_result_t wait_for_frame_timing(abc_interp_t* interp, abc_host_t const
 {
     interp->buttons_prev = interp->buttons_curr;
     interp->buttons_curr = host_buttons(h);
-    return ABC_RESULT_NORMAL;
+    interp->waiting_for_frame = 1;
+    return ABC_RESULT_IDLE;
+}
+
+static void copy_display_buffer(abc_interp_t* interp)
+{
+    for(uint32_t i = 0; i < 1024; ++i)
+    {
+        uint8_t b = interp->display_buffer[i];
+        uint32_t ti = (i >> 7) * 1024 + (i & 0x7f);
+        for(uint32_t j = 0; j < 8; ++j, b>>= 1)
+            interp->display[ti + j * 128] = (b & 1) ? 255 : 0;
+    }
 }
 
 static abc_result_t sys_display(abc_interp_t* interp, abc_host_t const* h)
 {
-    memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
+    copy_display_buffer(interp);
     memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
     return wait_for_frame_timing(interp, h);
 }
 
 static abc_result_t sys_display_noclear(abc_interp_t* interp, abc_host_t const* h)
 {
-    memcpy(interp->display, interp->display_buffer, sizeof(interp->display));
+    copy_display_buffer(interp);
     return wait_for_frame_timing(interp, h);
 }
 
@@ -1770,26 +1867,9 @@ static abc_result_t sys_get_pixel(abc_interp_t* interp)
 static abc_result_t sys_set_frame_rate(abc_interp_t* interp)
 {
     uint8_t fr = pop8(interp);
-    interp->frame_dur = fr >= 4 ? (uint8_t)(1000u / fr) : 255u;
+    interp->frame_dur = fr >= 4 ? (uint32_t)(1000u / fr) : 255u;
     return ABC_RESULT_NORMAL;
 }
-
-#if 0
-static abc_result_t sys_next_frame(abc_interp_t* interp, abc_host_t const* h)
-{
-    uint8_t now = (uint8_t)h->millis(h->user);
-    uint8_t frame_duration = now - interp->frame_start;
-    if(frame_duration < interp->frame_dur)
-    {
-        if(ABC_RESULT_ERROR == push(interp, 0))
-            return ABC_RESULT_ERROR;
-        return ABC_RESULT_IDLE;
-    }
-
-    interp->frame_start += interp->frame_dur;
-    return push(interp, 1);
-}
-#endif
 
 static abc_result_t sys_audio_enabled(abc_interp_t* interp)
 {
@@ -1862,6 +1942,8 @@ static abc_result_t sys_draw_pixel(abc_interp_t* interp)
     int16_t x = (int16_t)pop16(interp);
     int16_t y = (int16_t)pop16(interp);
     uint8_t c = pop8(interp);
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
     draw_pixel_helper(interp, x, y, c);
     return ABC_RESULT_NORMAL;
 }
@@ -1884,6 +1966,48 @@ static void draw_filled_rect_helper(abc_interp_t* interp,
             draw_pixel_helper(interp, ix, iy, c);
 }
 
+static void shades_draw_rect(
+    abc_interp_t* interp,
+    int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t c, bool filled)
+{
+    if(!cmd0_room(interp, 6))
+        return;
+
+    if(x >= 128) return;
+    if(y >= 64) return;
+    if(x + w <= 0) return;
+    if(y + h <= 0) return;
+
+    uint8_t xc = (uint8_t)x;
+    uint8_t yc = (uint8_t)y;
+
+    if(x < 0)
+    {
+        w += xc;
+        xc = 0;
+    }
+
+    if(y < 0)
+    {
+        h += yc;
+        yc = 0;
+    }
+
+    if(h >= (uint8_t)(64 - yc))
+        h = 64 - yc;
+    if(w >= (uint8_t)(128 - xc))
+        w = 128 - xc;
+
+    uint8_t* p = cmd_ptr(interp);
+    *p++ = SHADES_CMD_RECT + (uint8_t)filled;
+    *p++ = (uint8_t)xc;
+    *p++ = (uint8_t)yc;
+    *p++ = w;
+    *p++ = h;
+    *p++ = c;
+    cmd_ptr_set(interp, p);
+}
+
 static abc_result_t sys_draw_filled_rect(abc_interp_t* interp)
 {
     int16_t x = (int16_t)pop16(interp);
@@ -1891,7 +2015,10 @@ static abc_result_t sys_draw_filled_rect(abc_interp_t* interp)
     uint8_t w = pop8(interp);
     uint8_t h = pop8(interp);
     uint8_t c = pop8(interp);
-    draw_filled_rect_helper(interp, x, y, w, h, c);
+    if(interp->shades == 2)
+        draw_filled_rect_helper(interp, x, y, w, h, c);
+    else
+        shades_draw_rect(interp, x, y, w, h, c, true);
     return ABC_RESULT_NORMAL;
 }
 
@@ -1902,10 +2029,15 @@ static abc_result_t sys_draw_rect(abc_interp_t* interp)
     uint8_t w = pop8(interp);
     uint8_t h = pop8(interp);
     uint8_t c = pop8(interp);
-    draw_filled_rect_helper(interp, x, y, w, 1, c);
-    draw_filled_rect_helper(interp, x, y, 1, h, c);
-    draw_filled_rect_helper(interp, x, y + h - 1, w, 1, c);
-    draw_filled_rect_helper(interp, x + w - 1, y, 1, h, c);
+    if(interp->shades == 2)
+    {
+        draw_filled_rect_helper(interp, x, y, w, 1, c);
+        draw_filled_rect_helper(interp, x, y, 1, h, c);
+        draw_filled_rect_helper(interp, x, y + h - 1, w, 1, c);
+        draw_filled_rect_helper(interp, x + w - 1, y, 1, h, c);
+    }
+    else
+        shades_draw_rect(interp, x, y, w, h, c, false);
     return ABC_RESULT_NORMAL;
 }
 
@@ -1915,6 +2047,8 @@ static abc_result_t sys_draw_hline(abc_interp_t* interp)
     int16_t y = (int16_t)pop16(interp);
     uint8_t w = pop8(interp);
     uint8_t c = pop8(interp);
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
     draw_filled_rect_helper(interp, x, y, w, 1, c);
     return ABC_RESULT_NORMAL;
 }
@@ -1925,6 +2059,8 @@ static abc_result_t sys_draw_vline(abc_interp_t* interp)
     int16_t y = (int16_t)pop16(interp);
     uint8_t h = pop8(interp);
     uint8_t c = pop8(interp);
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
     draw_filled_rect_helper(interp, x, y, 1, h, c);
     return ABC_RESULT_NORMAL;
 }
@@ -2007,6 +2143,9 @@ static abc_result_t sys_draw_sprite_selfmask(abc_interp_t* interp, abc_host_t co
     uint32_t image = pop24(interp);
     uint16_t frame = pop16(interp);
 
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
+
     uint8_t iw = prog8(h, image + 0);
     uint8_t ih = prog8(h, image + 1);
     uint8_t masked = prog8(h, image + 2);
@@ -2025,6 +2164,82 @@ static abc_result_t sys_draw_sprite_selfmask(abc_interp_t* interp, abc_host_t co
     return ABC_RESULT_NORMAL;
 }
 
+static void shades_draw_sprite(
+    abc_interp_t* interp, abc_host_t const* host,
+    int16_t x, int16_t y, uint32_t img, uint16_t frame)
+{
+    if(!cmd0_room(interp, 3))
+        return;
+
+    if(x >= 128) return;
+    if(y >= 64) return;
+
+    uint8_t w = prog8(host, img + 0);
+    uint8_t h = prog8(host, img + 1);
+
+    if(x + w <= 0) return;
+    if(y + h <= 0) return;
+
+    uint8_t* p = cmd_ptr(interp);
+    {
+        uint8_t* b = batch_ptr(interp);
+        if(x < -128 || y < -128) goto unbatchable;
+        if(frame >= 256) goto unbatchable;
+        if(b == NULL) goto start_new_batch;
+        if(*b++ != SHADES_CMD_SPRITE_BATCH) goto start_new_batch;
+        if(ld_inc3(&b) != img) goto start_new_batch;
+        uint8_t n = *b;
+        n += 1;
+        if(n == 0) goto start_new_batch;
+        *b = n;
+        goto batch_add;
+    }
+
+start_new_batch:
+    if(!cmd0_room(interp, 8))
+        return;
+
+    batch_ptr_set(interp, p);
+    interp->batch_px = (uint8_t)x;
+    interp->batch_py = (uint8_t)y;
+    st_inc(p, SHADES_CMD_SPRITE_BATCH);
+    st_inc3(p, img);
+    st_inc(p, 1);
+    goto batch_add_first;
+
+batch_add:
+    if((int8_t)x == (int8_t)(interp->batch_px + interp->batch_dx) &&
+        (int8_t)y == (int8_t)(interp->batch_py + interp->batch_dy))
+    {
+        st_inc(p, (uint8_t)frame);
+        st_inc(p, SPRITE_BATCH_ADV);
+    }
+    else
+    {
+    batch_add_first:
+        st_inc(p, (uint8_t)frame);
+        st_inc(p, (uint8_t)y);
+        st_inc(p, (uint8_t)x);
+        interp->batch_dx = (int8_t)(x - interp->batch_px);
+        interp->batch_dy = (int8_t)(y - interp->batch_py);
+    }
+    interp->batch_px = (int8_t)x;
+    interp->batch_py = (int8_t)y;
+    cmd_ptr_set(interp, p);
+    return;
+
+unbatchable:
+    if(!cmd0_room(interp, 10))
+        return;
+
+    st_inc(p, SHADES_CMD_SPRITE);
+    st_inc2(p, (uint16_t)x);
+    st_inc2(p, (uint16_t)y);
+    st_inc3(p, img);
+    st_inc2(p, frame);
+    cmd_ptr_set(interp, p);
+}
+
 static abc_result_t sys_draw_sprite(abc_interp_t* interp, abc_host_t const* h)
 {
     int16_t x = (int16_t)pop16(interp);
@@ -2039,13 +2254,80 @@ static abc_result_t sys_draw_sprite(abc_interp_t* interp, abc_host_t const* h)
 
     if(frame >= num) return ABC_RESULT_ERROR;
 
-    image += 5;
-    uint8_t pages = (ih + 7) >> 3;
-    uint32_t offset = (uint32_t)pages * iw;
-    if(masked) offset *= 2;
-    image += offset * frame;
+    if(interp->shades == 2)
+    {
+        image += 5;
+        uint8_t pages = (ih + 7) >> 3;
+        uint32_t offset = (uint32_t)pages * iw;
+        if(masked) offset *= 2;
+        image += offset * frame;
+        draw_sprite_helper(interp, h, image, x, y, iw, ih, masked ? 1 : 0);
+    }
+    else
+        shades_draw_sprite(interp, h, x, y, image, frame);
 
-    draw_sprite_helper(interp, h, image, x, y, iw, ih, masked ? 1 : 0);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_draw_tilemap(abc_interp_t* interp, abc_host_t const* h)
+{
+    int32_t x = (int16_t)pop16(interp);
+    int32_t y = (int16_t)pop16(interp);
+    uint32_t image = pop24(interp);
+    uint32_t tm = pop24(interp);
+
+    if(x >= 128 || y >= 64)
+        return ABC_RESULT_NORMAL;
+
+    uint8_t sw = prog8(h, image + 0);
+    uint8_t sh = prog8(h, image + 1);
+    uint8_t masked = prog8(h, image + 2);
+    uint16_t num = prog16(h, image + 3);
+    image += 5;
+
+    uint8_t format = prog8(h, tm + 0);
+    uint32_t nrow = prog16(h, tm + 1);
+    uint32_t ncol = prog16(h, tm + 3);
+    tm += 5;
+
+    if(format != 1 && format != 2)
+        return ABC_RESULT_ERROR;
+
+    uint32_t r = 0, c = 0;
+    if(y < 0)
+    {
+        r -= y / sh;
+        y += r * sh;
+    }
+    if(x < 0)
+    {
+        c -= x / sw;
+        x += c * sw;
+    }
+
+    for(; r < nrow && y < 64; ++r, y += sh)
+    {
+        int32_t tx = x;
+        for(uint32_t tc = c; tc < ncol && tx < 128; ++tc, tx += sw)
+        {
+            uint32_t t = (r * ncol + tc) * format;
+            uint16_t frame = prog8(h, tm + t);
+            if(format == 2)
+                frame = (frame << 8) + prog8(h, tm + t + 1);
+            if(frame == 0)
+                continue;
+            frame -= 1;
+            if(frame >= num)
+                return ABC_RESULT_ERROR;
+            uint32_t pages = (sh + 7) >> 3;
+            uint32_t offset = pages * sw;
+            if(masked) offset *= 2;
+            draw_sprite_helper(
+                interp, h,
+                image + offset * frame,
+                (int16_t)tx, (int16_t)y, sw, sh, masked ? 1 : 0);
+        }
+    }
 
     return ABC_RESULT_NORMAL;
 }
@@ -2102,6 +2384,8 @@ static abc_result_t sys_draw_filled_circle(abc_interp_t* interp)
     int16_t y = (int16_t)pop16(interp);
     uint8_t r = pop8(interp);
     uint8_t c = pop8(interp);
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
     draw_fast_vline(interp, x, y - r, 2 * r + 1, c);
     fill_circle_helper(interp, x, y, r, 3, 0, c);
     return ABC_RESULT_NORMAL;
@@ -2114,6 +2398,9 @@ static abc_result_t sys_draw_circle(abc_interp_t* interp)
     int16_t y0    = (int16_t)pop16(interp);
     uint8_t r     = pop8(interp);
     uint8_t color = pop8(interp);
+
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
 
     int16_t f = 1 - r;
     int16_t ddF_x = 1;
@@ -2221,6 +2508,8 @@ static abc_result_t sys_draw_line(abc_interp_t* interp)
     int16_t x1 = (int16_t)pop16(interp);
     int16_t y1 = (int16_t)pop16(interp);
     uint8_t c = pop8(interp);
+    if(interp->shades != 2)
+        return ABC_RESULT_NORMAL;
     draw_line_helper(interp, x0, y0, x1, y1, c);
     return ABC_RESULT_NORMAL;
 }
@@ -2233,7 +2522,9 @@ static abc_result_t sys_set_text_font(abc_interp_t* interp)
 
 static abc_result_t sys_set_text_color(abc_interp_t* interp)
 {
-    interp->text_color = pop8(interp) != 0 ? 1 : 0;
+    interp->text_color = pop8(interp);
+    if(interp->text_color >= interp->shades)
+        interp->text_color = interp->shades - 1;
     return ABC_RESULT_NORMAL;
 }
 
@@ -2267,6 +2558,47 @@ static uint8_t draw_char_helper(
     return xadv;
 }
 
+static void shades_draw_chars_begin(abc_interp_t* interp, int16_t x, int16_t y)
+{
+    if(!cmd0_room(interp, 12))
+        return;
+
+    uint8_t* p = cmd_ptr(interp);
+    st_inc(p, SHADES_CMD_CHARS);
+    st_inc2(p, (uint16_t)x);
+    st_inc2(p, (uint16_t)y);
+    st_inc3(p, interp->text_font);
+    st_inc(p, interp->text_color);
+    batch_ptr_set(interp, p);
+    st_inc2(p, 0);
+    cmd_ptr_set(interp, p);
+}
+
+static void shades_draw_char(abc_interp_t* interp, char c)
+{
+    uint8_t* b = batch_ptr(interp);
+    if(b == NULL) return;
+    if(!cmd0_room(interp, 1))
+    {
+        batch_ptr_set(interp, NULL);
+        return;
+    }
+    uint16_t n = 0;
+    n += (*(b + 0) << 0);
+    n += (*(b + 1) << 8);
+    n += 1;
+    *(b + 0) = (uint8_t)(n >> 0);
+    *(b + 1) = (uint8_t)(n >> 8);
+    uint8_t* p = cmd_ptr(interp);
+    st_inc(p, (uint8_t)c);
+    cmd_ptr_set(interp, p);
+}
+
+static void shades_draw_chars_end(abc_interp_t* interp)
+{
+    batch_ptr_set(interp, NULL);
+}
+
 static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
 {
     int16_t x = (int16_t)pop16(interp);
@@ -2277,6 +2609,9 @@ static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
     uint8_t line_height = font_get_line_height(interp, host);
     int16_t bx = x;
 
+    if(interp->shades != 2)
+        shades_draw_chars_begin(interp, x, y);
+
     char c;
     while(tn != 0)
     {
@@ -2285,15 +2620,22 @@ static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
         c = *ptr;
         if(c == '\0') break;
         --tn;
-        if(c == '\n')
+        if(interp->shades == 2)
         {
-            x = bx;
-            y += line_height;
-            continue;
+            if(c == '\n')
+            {
+                x = bx;
+                y += line_height;
+                continue;
+            }
+            x += draw_char_helper(interp, host, x, y, c);
         }
-
-        x += draw_char_helper(interp, host, x, y, c);
+        else
+            shades_draw_char(interp, c);
     }
+
+    if(interp->shades != 2)
+        shades_draw_chars_end(interp);
 
     return ABC_RESULT_NORMAL;
 }
@@ -2308,21 +2650,31 @@ static abc_result_t sys_draw_text_P(abc_interp_t* interp, abc_host_t const* host
     uint8_t line_height = font_get_line_height(interp, host);
     int16_t bx = x;
 
+    if(interp->shades != 2)
+        shades_draw_chars_begin(interp, x, y);
+
     char c;
     while(tn != 0)
     {
         c = (char)prog8(host, tb++);
         if(c == '\0') break;
         --tn;
-        if(c == '\n')
+        if(interp->shades == 2)
         {
-            x = bx;
-            y += line_height;
-            continue;
+            if(c == '\n')
+            {
+                x = bx;
+                y += line_height;
+                continue;
+            }
+            x += draw_char_helper(interp, host, x, y, c);
         }
-
-        x += draw_char_helper(interp, host, x, y, c);
+        else
+            shades_draw_char(interp, c);
     }
+
+    if(interp->shades != 2)
+        shades_draw_chars_end(interp);
 
     return ABC_RESULT_NORMAL;
 }
@@ -2340,7 +2692,10 @@ typedef struct
 static void format_exec_draw(void* user, char c)
 {
     format_user_draw* u = (format_user_draw*)user;
-    u->x += draw_char_helper(u->interp, u->host, u->x, u->y, c);
+    if(u->interp->shades == 2)
+        u->x += draw_char_helper(u->interp, u->host, u->x, u->y, c);
+    else
+        shades_draw_char(u->interp, c);
 }
 
 static abc_result_t sys_draw_textf(abc_interp_t* interp, abc_host_t const* host)
@@ -2356,7 +2711,13 @@ static abc_result_t sys_draw_textf(abc_interp_t* interp, abc_host_t const* host)
     u.y = y;
     u.line_height = font_get_line_height(interp, host);
 
+    if(interp->shades != 2)
+        shades_draw_chars_begin(interp, x, y);
+
     format_exec(interp, host, format_exec_draw, &u);
+
+    if(interp->shades != 2)
+        shades_draw_chars_end(interp);
 
     return ABC_RESULT_NORMAL;
 }
@@ -2673,6 +3034,63 @@ static abc_result_t sys_sqrt(abc_interp_t* interp)
     return pushf(interp, sqrtf(a));
 }
 
+static abc_result_t sys_generate_random_seed(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t t = 0;
+    if(h->rand_seed)
+        t = h->rand_seed(h->user);
+    if(t == 0)
+        t = DEFAULT_SEED;
+    return push32(interp, t);
+}
+
+static abc_result_t sys_init_random_seed(abc_interp_t* interp, abc_host_t const* h)
+{
+    interp->seed = 0;
+    if(h->rand_seed)
+        interp->seed = h->rand_seed(h->user);
+    if(interp->seed == 0)
+        interp->seed = DEFAULT_SEED;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_set_random_seed(abc_interp_t* interp)
+{
+    interp->seed = pop32(interp);
+    return ABC_RESULT_NORMAL;
+}
+
+static uint32_t random_helper(abc_interp_t* interp)
+{
+    int32_t hi, lo, x;
+    x = (int32_t)interp->seed;
+    if(x == 0)
+        x = 123456789;
+    hi = x / 127773;
+    lo = x % 127773;
+    x = 16807 * lo - 2836 * hi;
+    if(x < 0)
+        x += 0x7fffffff;
+    x %= 0x80000000;
+    interp->seed = x;
+    return (uint32_t)x;
+}
+
+static abc_result_t sys_random(abc_interp_t* interp)
+{
+    return push32(interp, random_helper(interp));
+}
+
+static abc_result_t sys_random_range(abc_interp_t* interp)
+{
+    uint32_t a = pop32(interp);
+    uint32_t b = pop32(interp);
+    uint32_t t = a;
+    if(a < b)
+        t += random_helper(interp) % (b - a);
+    return push32(interp, t);
+}
+
 static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 {
     uint8_t sysnum = imm8(interp, h) >> 1;
@@ -2692,7 +3110,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_FILLED_CIRCLE:   return sys_draw_filled_circle(interp);
     case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
     case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
-    case SYS_DRAW_TILEMAP:         goto unknown_sysfunc;
+    case SYS_DRAW_TILEMAP:         return sys_draw_tilemap(interp, h);
     case SYS_DRAW_TEXT:            return sys_draw_text(interp, h);
     case SYS_DRAW_TEXT_P:          return sys_draw_text_P(interp, h);
     case SYS_DRAW_TEXTF:           return sys_draw_textf(interp, h);
@@ -2748,14 +3166,13 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_MOD:                  return sys_mod(interp);
     case SYS_POW:                  return sys_pow(interp);
     case SYS_SQRT:                 return sys_sqrt(interp);
-    case SYS_GENERATE_RANDOM_SEED: goto unknown_sysfunc;
-    case SYS_INIT_RANDOM_SEED:     goto unknown_sysfunc;
-    case SYS_SET_RANDOM_SEED:      goto unknown_sysfunc;
-    case SYS_RANDOM:               goto unknown_sysfunc;
-    case SYS_RANDOM_RANGE:         goto unknown_sysfunc;
+    case SYS_GENERATE_RANDOM_SEED: return sys_generate_random_seed(interp, h);
+    case SYS_INIT_RANDOM_SEED:     return sys_init_random_seed(interp, h);
+    case SYS_SET_RANDOM_SEED:      return sys_set_random_seed(interp);
+    case SYS_RANDOM:               return sys_random(interp);
+    case SYS_RANDOM_RANGE:         return sys_random_range(interp);
     case SYS_TILEMAP_GET:          return sys_tilemap_get(interp, h);
     default:
-    unknown_sysfunc:
         assert(0);
         return ABC_RESULT_ERROR;
     }
@@ -2766,6 +3183,23 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     if(!interp || !h || !h->prog)
         return ABC_RESULT_ERROR;
 
+    if(interp->waiting_for_frame)
+    {
+        if(!h->millis)
+            interp->waiting_for_frame = 0;
+        else
+        {
+            uint32_t m = h->millis(h->user);
+            if(m >= interp->frame_start + interp->frame_dur)
+            {
+                interp->frame_start += interp->frame_dur;
+                interp->waiting_for_frame = 0;
+            }
+            else
+                return ABC_RESULT_IDLE;
+        }
+    }
+
     if(interp->pc == 0)
     {
         /* interpreter was reset: initialize state */
@@ -2775,6 +3209,12 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
         interp->text_font = 0xffffffff;
         interp->text_color = 1;
         interp->frame_dur = 50;
+        interp->shades = h->prog(h->user, 0x13);
+        if(interp->shades < 2 || interp->shades > 4)
+            interp->shades = 2;
+        if(h->millis)
+            interp->frame_start = h->millis(h->user);
+        (void)sys_init_random_seed(interp, h);
     }
     
     uint8_t instr = imm8(interp, h);

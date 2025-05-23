@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include <abc_interp.h>
 
@@ -62,6 +63,12 @@ static uint8_t host_buttons(void* user)
     return b;
 }
 
+static uint32_t host_rand_seed(void* user)
+{
+    (void)user;
+    return (uint32_t)time(0);
+}
+
 int main(int argc, char** argv)
 {
     if(argc < 2)
@@ -110,6 +117,7 @@ int main(int argc, char** argv)
     host.prog = host_prog;
     host.millis = host_millis;
     host.buttons = host_buttons;
+    host.rand_seed = host_rand_seed;
 
     if(0 != SDL_Init(SDL_INIT_EVERYTHING))
     {
@@ -202,8 +210,12 @@ int main(int argc, char** argv)
             for(unsigned x = 0; x < 128; ++x)
             {
                 uint32_t t = 0xff000000;
-                if(interp.display[(y >> 3) * 128 + x] & (1 << (y & 7)))
-                    t = 0xffc0c0c0;
+                uint32_t b = interp.display[y * 128 + x];
+                b = (b * 0xc0) >> 8;
+                b += 0x10;
+                t += (b << 0);
+                t += (b << 8);
+                t += (b << 16);
                 display[y * 128 + x] = t;
             }
         }

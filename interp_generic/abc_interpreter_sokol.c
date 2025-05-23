@@ -51,6 +51,12 @@ static uint8_t host_buttons(void* user)
     return buttons;
 }
 
+static uint32_t host_rand_seed(void* user)
+{
+    (void)user;
+    return (uint32_t)stm_now();
+}
+
 static void cb_stream(float* buffer, int num_frames, int num_channels)
 {
     if(audio_buffer_size < num_frames)
@@ -82,6 +88,7 @@ static void cb_init(void)
     host.millis = host_millis;
     host.buttons = host_buttons;
     host.debug_putc = NULL;
+    host.rand_seed = host_rand_seed;
 
     memset(&interp, 0, sizeof(interp));
 
@@ -131,8 +138,12 @@ static void cb_frame(void)
             for(unsigned x = 0; x < 128; ++x)
             {
                 uint32_t t = 0xff000000;
-                if(interp.display[(y >> 3) * 128 + x] & (1 << (y & 7)))
-                    t = 0xffc0c0c0;
+                uint32_t b = interp.display[y * 128 + x];
+                b = (b * 0xc0) >> 8;
+                b += 0x10;
+                t += (b << 0);
+                t += (b << 8);
+                t += (b << 16);
                 display[y * 128 + x] = t;
             }
         }

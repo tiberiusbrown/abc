@@ -48,6 +48,7 @@ typedef struct abc_host_t
     uint8_t (*buttons)      (void* user);
     uint32_t(*millis)       (void* user);
     void    (*debug_putc)   (void* user, char c);
+    uint32_t(*rand_seed)    (void* user);
     
     void* user;
     
@@ -58,7 +59,7 @@ typedef struct abc_interp_t
 {
     
     /* The host should use this for rendering. */
-    uint8_t  display[1024];
+    uint8_t  display[8192];
     
     uint8_t  display_buffer[1024];
     uint8_t  saved[1024];
@@ -88,12 +89,22 @@ typedef struct abc_interp_t
     uint8_t  has_save;
     
     /* Other state */
+    uint8_t  shades;
+    uint32_t seed;
     uint32_t text_font;
     uint8_t  text_color;
     uint8_t  buttons_prev;
     uint8_t  buttons_curr;
-    uint8_t  frame_start;
-    uint8_t  frame_dur;
+    uint8_t  waiting_for_frame;
+    uint32_t frame_start;
+    uint32_t frame_dur;
+    uint16_t cmd_ptr;
+    uint16_t batch_ptr;
+    uint8_t  current_plane;
+    int8_t   batch_px;
+    int8_t   batch_py;
+    int8_t   batch_dx;
+    int8_t   batch_dy;
     
 } abc_interp_t;
 
