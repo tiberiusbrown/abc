@@ -2655,7 +2655,8 @@ static void sys_set_random_seed()
 
 static uint32_t abc_random()
 {
-    uint32_t r, t;
+    uint32_t r;
+    uint16_t t;
     
     // xorshift: (a, b, c) = (8, 9, 23)
 
@@ -2677,23 +2678,23 @@ static uint32_t abc_random()
             eor  %B[r], %A[r]
 
             ; r ^= r >> 9
-            movw %A[t], %A[r]
-            movw %C[t], %C[r]
-            lsr  %D[t]
-            ror  %C[t]
+            movw %A[t], %C[r]
+            lsr  %B[t]
+            ror  %A[t]
+            eor  %C[r], %B[t]
+            mov  %B[t], %B[r]
+            eor  %B[r], %A[t]
             ror  %B[t]
-            eor  %C[r], %D[t]
-            eor  %B[r], %C[t]
             eor  %A[r], %B[t]
 
             ; r ^= r << 23
             movw %A[t], %A[r]
-            clr  %C[t]
             lsr  %B[t]
             ror  %A[t]
-            ror  %C[t]
-            eor  %C[r], %C[t]
             eor  %D[r], %A[t]
+            clr  %A[t]
+            ror  %A[t]
+            eor  %C[r], %A[t]
 
             sts  %[P]+0, %A[r]
             sts  %[P]+1, %B[r]
