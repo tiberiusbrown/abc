@@ -20,6 +20,8 @@ void main_menu()
         current_map = 0;
         sound_on = true;
     }
+    if(current_map >= NUM_MAPS)
+        save_exists = false;
     update_sound();
     state = STATE_MENU;
 }
