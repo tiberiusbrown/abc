@@ -1,5 +1,4 @@
-
-u32 my_seed;
+u32 my_seed = 0xdeadbeef;
 
 u32 my_random()
 {
@@ -15,13 +14,12 @@ void main()
 {
     $debug_break();
     
-    my_seed = 0xdeadbeef;
+    $set_random_seed(my_seed);
     
-    for(u16 i = 0; i < 100; ++i)
+    for(u8 i = 0; i < 100; ++i)
     {
         u32 ra = $random();
         u32 rb = my_random();
-        //$debug_printf("%08x %08x\n", ra, rb);
         $assert(ra == rb);
     }
     

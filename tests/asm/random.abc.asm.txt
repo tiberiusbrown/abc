@@ -6,34 +6,35 @@
 $globinit:
   .file <internal>.abc
   .line 1
+  push4 3735928559
+  setg4 my_seed 0
   ret
 
 main:
   .file random.abc
-  .line 16
+  .line 15
   sys   debug_break
-  .line 18
-  push4 3735928559
-  setg4 my_seed 0
-  .line 20
-  p00
-  dupw
-  push  100
+  .line 17
+  getg4 my_seed 0
+  sys   set_random_seed
+  .line 19
   p0
-  cult2
+  dup
+  push  100
+  cult
   bnz   $L_main_2
-  pop2
-  .line 28
+  pop
+  .line 26
   sys   debug_break
-  .line 14
+  .line 13
   ret
 $L_main_2:
-  .line 22
+  .line 21
   sys   random
-  .line 23
+  .line 22
   p0000
   call  my_random
-  .line 25
+  .line 23
   p8
   getln 8
   sub4
@@ -41,51 +42,47 @@ $L_main_2:
   not
   sys   assert
   popn  8
-  .line 20
-  dupw
-  p1
-  add2b
-  setl2 2
-  dupw
+  .line 19
+  inc
+  dup
   push  100
-  p0
-  cult2
+  cult
   bnz   $L_main_2
-  pop2
-  .line 28
+  pop
+  .line 26
   sys   debug_break
-  .line 14
+  .line 13
   ret
 
 my_random:
   .file random.abc
-  .line 6
+  .line 5
   getg4 my_seed 0
-  .line 7
+  .line 6
   getl4 4
   getl4 8
   p8
   lsl4
   xor4
   setl4 4
-  .line 8
+  .line 7
   getl4 4
   getl4 8
   push  9
   lsr4
   xor4
   setl4 4
-  .line 9
+  .line 8
   getl4 4
   getl4 8
   push  23
   lsl4
   xor4
   setl4 4
-  .line 10
+  .line 9
   getl4 4
   setg4 my_seed 0
-  .line 11
+  .line 10
   setl4 4
   ret
 

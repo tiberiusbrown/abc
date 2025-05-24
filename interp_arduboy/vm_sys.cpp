@@ -15,8 +15,8 @@
 
 #include <math.h>
 
-extern uint16_t abc_seed[2];
-uint16_t abc_seed[2];
+extern uint8_t abc_seed[4];
+uint8_t abc_seed[4];
 
 constexpr uint8_t FONT_HEADER_PER_CHAR = 7;
 constexpr uint8_t FONT_HEADER_OFFSET = 1;
@@ -2658,13 +2658,13 @@ static uint32_t abc_random()
     uint32_t r;
     uint16_t t;
     
-    // xorshift: (a, b, c) = (8, 9, 23)
+    // xorshift-32: (a, b, c) = (8, 9, 23)
 
     //           D        C        B        A
-    // y      abcdefgh ijklmnop qrstuvwx 01234567
-    // y<<8   ijklmnop qrstuvwx 01234567 ........
-    // y>>9   ........ .abcdefg hijklmno pqrstuvw
-    // y<<23  x0123456 7....... ........ ........
+    // r      abcdefgh ijklmnop qrstuvwx 01234567
+    // r<<8   ijklmnop qrstuvwx 01234567 ........
+    // r>>9   ........ .abcdefg hijklmno pqrstuvw
+    // r<<23  x0123456 7....... ........ ........
 
     asm volatile(R"(
             lds  %A[r], %[P]+0
