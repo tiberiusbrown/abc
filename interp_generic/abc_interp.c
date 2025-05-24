@@ -2587,13 +2587,23 @@ static abc_result_t sys_draw_tilemap(abc_interp_t* interp, abc_host_t const* h)
             frame -= 1;
             if(frame >= num)
                 return ABC_RESULT_ERROR;
-            uint32_t pages = (sh + 7) >> 3;
-            uint32_t offset = pages * sw;
-            if(masked) offset *= 2;
-            draw_sprite_helper(
-                interp, h,
-                image + offset * frame,
-                (int16_t)tx, (int16_t)y, sw, sh, masked ? 1 : 0);
+            if(interp->shades == 2)
+            {
+                uint32_t pages = (sh + 7) >> 3;
+                uint32_t offset = pages * sw;
+                if(masked) offset *= 2;
+                draw_sprite_helper(
+                    interp, h,
+                    image + offset * frame,
+                    (int16_t)tx, (int16_t)y, sw, sh, masked ? 1 : 0);
+            }
+            else
+            {
+                shades_draw_sprite(
+                    interp, h,
+                    (int16_t)tx, (int16_t)y,
+                    (uint32_t)(image - 5), frame);
+            }
         }
     }
 
