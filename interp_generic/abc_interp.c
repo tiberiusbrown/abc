@@ -11,8 +11,7 @@
 
 #define SPRITE_BATCH_ADV 127
 
-// default seed in avr-libc
-#define DEFAULT_SEED 1
+#define DEFAULT_SEED 0xdeadbeef
 
 enum
 {
@@ -3062,18 +3061,13 @@ static abc_result_t sys_set_random_seed(abc_interp_t* interp)
 
 static uint32_t random_helper(abc_interp_t* interp)
 {
-    int32_t hi, lo, x;
-    x = (int32_t)interp->seed;
-    if(x == 0)
-        x = 123456789;
-    hi = x / 127773;
-    lo = x % 127773;
-    x = 16807 * lo - 2836 * hi;
-    if(x < 0)
-        x += 0x7fffffff;
-    x %= 0x80000000;
-    interp->seed = x;
-    return (uint32_t)x;
+    // xorshift: (a, b, c) = (8, 9, 23)
+    uint32_t t = interp->seed;
+    t ^= t << 8;
+    t ^= t >> 9;
+    t ^= t << 23;
+    interp->seed = t;
+    return t;
 }
 
 static abc_result_t sys_random(abc_interp_t* interp)

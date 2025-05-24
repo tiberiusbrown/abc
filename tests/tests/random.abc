@@ -1,0 +1,29 @@
+
+u32 my_seed;
+
+u32 my_random()
+{
+    u32 t = my_seed;
+    t ^= t << 8;
+    t ^= t >> 9;
+    t ^= t << 23;
+    my_seed = t;
+    return t;
+}
+
+void main()
+{
+    $debug_break();
+    
+    my_seed = 0xdeadbeef;
+    
+    for(u16 i = 0; i < 100; ++i)
+    {
+        u32 ra = $random();
+        u32 rb = my_random();
+        //$debug_printf("%08x %08x\n", ra, rb);
+        $assert(ra == rb);
+    }
+    
+    $debug_break();
+}

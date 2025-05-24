@@ -15,6 +15,9 @@
 
 #include <math.h>
 
+extern uint16_t abc_seed[2];
+uint16_t abc_seed[2];
+
 constexpr uint8_t FONT_HEADER_PER_CHAR = 7;
 constexpr uint8_t FONT_HEADER_OFFSET = 1;
 constexpr uint16_t FONT_HEADER_BYTES =
@@ -2620,7 +2623,17 @@ static void sys_generate_random_seed()
 
 static void sys_init_random_seed()
 {
-    Arduboy2Base::initRandomSeed();
+    uint32_t seed = Arduboy2Base::generateRandomSeed();
+    asm volatile(R"(
+            sts %[P]+0, %A[s]
+            sts %[P]+1, %B[s]
+            sts %[P]+2, %C[s]
+            sts %[P]+3, %D[s]
+        )"
+        :
+        : [s] "r" (seed)
+        , [P] ""  (&abc_seed[0])
+    );
 }
 
 static void sys_set_random_seed()
@@ -2628,12 +2641,75 @@ static void sys_set_random_seed()
     auto ptr = vm_pop_begin();
     uint32_t seed = vm_pop<uint32_t>(ptr);
     vm_pop_end(ptr);
-    srandom(seed);
+    asm volatile(R"(
+            sts %[P]+0, %A[s]
+            sts %[P]+1, %B[s]
+            sts %[P]+2, %C[s]
+            sts %[P]+3, %D[s]
+        )"
+        :
+        : [s] "r" (seed)
+        , [P] ""  (&abc_seed[0])
+    );
+}
+
+static uint32_t abc_random()
+{
+    uint32_t r, t;
+    
+    // xorshift: (a, b, c) = (8, 9, 23)
+
+    //           D        C        B        A
+    // y      abcdefgh ijklmnop qrstuvwx 01234567
+    // y<<8   ijklmnop qrstuvwx 01234567 ........
+    // y>>9   ........ .abcdefg hijklmno pqrstuvw
+    // y<<23  x0123456 7....... ........ ........
+
+    asm volatile(R"(
+            lds  %A[r], %[P]+0
+            lds  %B[r], %[P]+1
+            lds  %C[r], %[P]+2
+            lds  %D[r], %[P]+3
+
+            ; r ^= r << 8
+            eor  %D[r], %C[r]
+            eor  %C[r], %B[r]
+            eor  %B[r], %A[r]
+
+            ; r ^= r >> 9
+            movw %A[t], %A[r]
+            movw %C[t], %C[r]
+            lsr  %D[t]
+            ror  %C[t]
+            ror  %B[t]
+            eor  %C[r], %D[t]
+            eor  %B[r], %C[t]
+            eor  %A[r], %B[t]
+
+            ; r ^= r << 23
+            movw %A[t], %A[r]
+            clr  %C[t]
+            lsr  %B[t]
+            ror  %A[t]
+            ror  %C[t]
+            eor  %C[r], %C[t]
+            eor  %D[r], %A[t]
+
+            sts  %[P]+0, %A[r]
+            sts  %[P]+1, %B[r]
+            sts  %[P]+2, %C[r]
+            sts  %[P]+3, %D[r]
+        )"
+        : [r] "=&r" (r)
+        , [t] "=&r" (t)
+        : [P] ""    (&abc_seed[0])
+    );
+    return r;
 }
 
 static void sys_random()
 {
-    vm_push<uint32_t>((uint32_t)random());
+    vm_push<uint32_t>(abc_random());
 }
 
 static void sys_random_range()
@@ -2643,7 +2719,7 @@ static void sys_random_range()
     uint32_t b = vm_pop<uint32_t>(ptr);
     uint32_t t = a;
     if(a < b)
-        t += random() % (b - a);
+        t += abc_random() % (b - a);
     vm_push_unsafe<uint32_t>(ptr, t);
     vm_pop_end(ptr);
 }

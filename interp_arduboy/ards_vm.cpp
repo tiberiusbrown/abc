@@ -53,6 +53,8 @@ extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern volatile unsigned long timer0_millis;
 extern volatile unsigned long timer0_overflow_count;
 
+extern uint16_t abc_seed[2];
+
 struct LetMeAccessAudioEnabled : public Arduboy2Audio
 {
     static constexpr bool& get() { return audio_enabled; }
@@ -4274,6 +4276,9 @@ sys_atan2:
 
 void vm_run()
 {
+    abc_seed[1] = 0xdead;
+    abc_seed[0] = 0xbeef;
+
     ards::Tones::stop();
     Arduboy2Base::pollButtons();
     Arduboy2Base::pollButtons();

@@ -3831,7 +3831,9 @@ $L_level_complete_2:
   getg  lives 0
   setg  saved_lives 0
   .line 318
-  p1
+  getg  saved_current_map 0
+  push  12
+  cult
   setg  save_exists 0
 $L_level_complete_3:
   .line 320
