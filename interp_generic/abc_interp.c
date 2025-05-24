@@ -299,6 +299,16 @@ enum
     *(p__)++ = (uint8_t)((x__) >> 16); \
 } while(0)
 
+static uint16_t ld_inc2(uint8_t** p)
+{
+    uint16_t r = 0;
+    uint8_t* t = *p;
+    r += ((uint16_t)(*t++) << 0);
+    r += ((uint16_t)(*t++) << 8);
+    *p = t;
+    return r;
+}
+
 static uint32_t ld_inc3(uint8_t** p)
 {
     uint32_t r = 0;
@@ -325,7 +335,7 @@ static uint8_t* cmd0_end(abc_interp_t* interp)
 }
 static uint8_t* cmd1_end(abc_interp_t* interp)
 {
-    return cmd0_begin(interp) + CMD_SIZE;
+    return cmd1_begin(interp) + CMD_SIZE;
 }
 static uint8_t* cmd_ptr(abc_interp_t* interp)
 {
@@ -1834,16 +1844,275 @@ static void copy_display_buffer(abc_interp_t* interp)
     }
 }
 
+static void shades_swap(abc_interp_t* interp)
+{
+    memcpy(cmd1_begin(interp), cmd0_begin(interp), CMD_SIZE);
+    memset(cmd0_begin(interp), 0, CMD_SIZE);
+    interp->cmd_ptr = 0;
+    interp->batch_ptr = UINT16_MAX;
+}
+
+static uint8_t plane_color(abc_interp_t* interp, uint8_t c)
+{
+    switch(interp->shades)
+    {
+    case 2: return c * 0xff;
+    case 3: return c * 0x79;
+    case 4: return c * 0x55;
+    default: assert(0); return 0;
+    }
+}
+
+static void shades_display_filled_rect(
+    abc_interp_t* interp,
+    uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint8_t c)
+{
+    uint32_t x0 = x;
+    uint32_t y0 = y;
+    if(x0 >= 128) return;
+    if(y0 >= 64) return;
+    uint32_t x1 = x + w;
+    uint32_t y1 = y + h;
+    if(x1 > 128) x1 = 128;
+    if(y1 > 64) y1 = 64;
+    for(uint32_t iy = y0; iy < y1; ++iy)
+        for(uint32_t ix = x0; ix < x1; ++ix)
+            interp->display[iy * 128 + ix] = c;
+}
+
+static uint8_t shades_display_sprite(
+    abc_interp_t* interp, abc_host_t const* host,
+    int16_t x, int16_t y, uint32_t img, uint16_t frame)
+{
+    // TODO: optimize
+
+    if(x >= 128) return 1;
+    if(y >= 64) return 1;
+
+    uint8_t w = prog8(host, img + 0);
+    uint8_t h = prog8(host, img + 1);
+    uint8_t masked = prog8(host, img + 2);
+    uint16_t num_frames = prog16(host, img + 3);
+
+    if(frame >= num_frames)
+        return 0;
+
+    if(x + w <= 0) return 1;
+    if(y + h <= 0) return 1;
+
+    img += 5;
+
+    uint32_t fb = w * ((h + 7) >> 3);
+    if(masked) fb *= 2;
+    uint32_t frame_off = fb * (uint32_t)(interp->shades - 1) * frame;
+
+    int32_t x0 = x;
+    int32_t y0 = y;
+    int32_t x1 = x0 + w;
+    int32_t y1 = y0 + h;
+
+    uint8_t tc = interp->shades == 3 ? 0x79 : 0x55;
+
+    for(int32_t iy = y0, py = 0; iy < y1; ++iy, ++py)
+    {
+        if(iy < 0) continue;
+        if(iy >= 64) break;
+        uint32_t bit = (1u << (py & 7));
+        for(int32_t ix = x0, px = 0; ix < x1; ++ix, ++px)
+        {
+            if(ix < 0) continue;
+            if(ix >= 128) break;
+            uint32_t off = (py >> 3) * w + px;
+            if(masked) off += off;
+            off += frame_off;
+            if(masked && !(prog8(host, img + off + 1) & bit))
+                continue;
+            uint8_t c = 0;
+            for(uint32_t plane = 0; plane < interp->shades - 1; ++plane)
+            {
+                if(prog8(host, img + fb * plane + off) & bit)
+                    c += tc;
+            }
+            interp->display[(size_t)(iy * 128 + ix)] = c;
+        }
+    }
+
+    return 1;
+}
+
+static uint8_t font_get_line_height(abc_interp_t* interp, abc_host_t const* host)
+{
+    return prog8(host, interp->text_font + FONT_HEADER_PER_CHAR * 256);
+}
+
+static uint8_t font_get_x_advance(abc_interp_t* interp, abc_host_t const* host, char c)
+{
+    return prog8(host, interp->text_font + FONT_HEADER_PER_CHAR * (uint8_t)c + 0);
+}
+
+static uint8_t shades_display_char(
+    abc_interp_t* interp, abc_host_t const* host,
+    int16_t x, int16_t y, uint8_t c, uint8_t mode)
+{
+    // TODO: optimize
+
+    uint32_t font = interp->text_font;
+    uint32_t glyph = font + (uint8_t)c * FONT_HEADER_PER_CHAR;
+    uint8_t xadv = prog8(host, glyph + 0);
+    int8_t xoff = (int8_t)prog8(host, glyph + 1);
+    int8_t yoff = (int8_t)prog8(host, glyph + 2);
+    uint16_t offset = prog16(host, glyph + 3);
+    uint8_t w = prog8(host, glyph + 5);
+    uint8_t h = prog8(host, glyph + 6);
+    uint32_t addr = font + FONT_HEADER_BYTES + offset;
+
+    int32_t x0 = x + xoff;
+    int32_t y0 = y + yoff;
+    int32_t x1 = x0 + w;
+    int32_t y1 = y0 + h;
+
+    for(int32_t iy = y0, py = 0; iy < y1; ++iy, ++py)
+    {
+        uint8_t bit = (1u << (py & 7));
+        for(int32_t ix = x0, px = 0; ix < x1; ++ix, ++px)
+        {
+            uint32_t off = (py >> 3) * w + px;
+            uint8_t p = prog8(host, addr + off);
+            if(p & bit)
+                interp->display[iy * 128 + ix] = mode;
+        }
+    }
+
+    return xadv;
+}
+
+static uint8_t shades_display(abc_interp_t* interp, abc_host_t const* host)
+{
+    shades_swap(interp);
+    memset(interp->display, 0, sizeof(interp->display));
+    uint8_t const* p = cmd1_begin(interp);
+    while(p < cmd1_end(interp))
+    {
+        uint8_t cmd = *p++;
+        if(cmd == SHADES_CMD_END) break;
+        switch(cmd)
+        {
+        case SHADES_CMD_RECT:
+        case SHADES_CMD_FILLED_RECT:
+        {
+            uint8_t x = *p++;
+            uint8_t y = *p++;
+            uint8_t w = *p++;
+            uint8_t h = *p++;
+            uint8_t c = plane_color(interp, *p++);
+            if(cmd == SHADES_CMD_FILLED_RECT)
+            {
+                shades_display_filled_rect(interp, x, y, w, h, c);
+            }
+            else
+            {
+                shades_display_filled_rect(interp, x, y, w, 1, c);
+                shades_display_filled_rect(interp, x, y, 1, h, c);
+                shades_display_filled_rect(interp, x, y + h - 1, w, 1, c);
+                shades_display_filled_rect(interp, x + w - 1, y, 1, h, c);
+            }
+            break;
+        }
+        case SHADES_CMD_SPRITE:
+        {
+            int16_t x = (int16_t)ld_inc2(&p);
+            int16_t y = (int16_t)ld_inc2(&p);
+            uint32_t img = ld_inc3(&p);
+            uint16_t frame = ld_inc2(&p);
+            if(!shades_display_sprite(interp, host, x, y, img, frame))
+                return 0;
+            break;
+        }
+        case SHADES_CMD_SPRITE_BATCH:
+        {
+            uint32_t img = ld_inc3(&p);
+            uint32_t n = *p++;
+            int32_t x = 0, y = 0, dx = 0, dy = 0;
+            do
+            {
+                uint8_t frame = *p++;
+                int8_t ty = (int8_t)(*p++);
+                if(ty == SPRITE_BATCH_ADV)
+                {
+                    x += dx;
+                    y += dy;
+                }
+                else
+                {
+                    dy = ty - y;
+                    y = ty;
+                    ty = (int8_t)(*p++);
+                    dx = ty - x;
+                    x = ty;
+                }
+                if(!shades_display_sprite(interp, host, (int16_t)x, (int16_t)y, img, frame))
+                    return 0;
+            } while(--n != 0);
+            break;
+        }
+        case SHADES_CMD_CHARS:
+        {
+            int16_t x = (int16_t)ld_inc2(&p);
+            int16_t y = (int16_t)ld_inc2(&p);
+            uint32_t font = ld_inc3(&p);
+            uint8_t mode = plane_color(interp, *p++);
+            uint16_t n = ld_inc2(&p);
+            int16_t bx = x;
+            {
+                uint32_t t = interp->text_font;
+                interp->text_font = font;
+                font = t;
+            }
+            while(n-- != 0)
+            {
+                uint8_t c = *p++;
+                if((char)c == '\n')
+                {
+                    x = bx;
+                    y = (int16_t)(y + font_get_line_height(interp, host));
+                    continue;
+                }
+                x += shades_display_char(interp, host, x, y, c, mode);
+            }
+            interp->text_font = font;
+            break;
+        }
+        default:
+            return 0;
+        }
+    }
+    return 1;
+}
+
 static abc_result_t sys_display(abc_interp_t* interp, abc_host_t const* h)
 {
-    copy_display_buffer(interp);
-    memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
+    if(interp->shades == 2)
+    {
+        copy_display_buffer(interp);
+        memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
+    }
+    else
+    {
+        if(!shades_display(interp, h))
+            return ABC_RESULT_ERROR;
+    }
     return wait_for_frame_timing(interp, h);
 }
 
 static abc_result_t sys_display_noclear(abc_interp_t* interp, abc_host_t const* h)
 {
-    copy_display_buffer(interp);
+    if(interp->shades == 2)
+        copy_display_buffer(interp);
+    else
+    {
+        if(!shades_display(interp, h))
+            return ABC_RESULT_ERROR;
+    }
     return wait_for_frame_timing(interp, h);
 }
 
@@ -2525,16 +2794,6 @@ static abc_result_t sys_set_text_color(abc_interp_t* interp)
     if(interp->text_color >= interp->shades)
         interp->text_color = interp->shades - 1;
     return ABC_RESULT_NORMAL;
-}
-
-static uint8_t font_get_line_height(abc_interp_t* interp, abc_host_t const* host)
-{
-    return prog8(host, interp->text_font + FONT_HEADER_PER_CHAR * 256);
-}
-
-static uint8_t font_get_x_advance(abc_interp_t* interp, abc_host_t const* host, char c)
-{
-    return prog8(host, interp->text_font + FONT_HEADER_PER_CHAR * (uint8_t)c + 0);
 }
 
 static uint8_t draw_char_helper(

@@ -33,6 +33,9 @@ typedef enum
     ABC_RESULT_ERROR,      /* halt: a runtime error occurred */
 } abc_result_t;
 
+/********************************************************************
+* Host platform interface.                                          *
+********************************************************************/
 typedef struct abc_host_t
 {
     /****************************************************************
@@ -54,15 +57,19 @@ typedef struct abc_host_t
     
 } abc_host_t;
 
-/* Interpreter state: zero-initialize to reset interpreter. */
+/********************************************************************
+* Interpreter state: zero-initialize to reset interpreter.          *
+********************************************************************/
 typedef struct abc_interp_t
 {
     
-    /* The host should use this for rendering. */
+    /* The host can use this for rendering: 128x64 8-bit pixels. */
     uint8_t  display[8192];
+
+    /* The host can persist this to support saved games. */
+    uint8_t  saved[1024];
     
     uint8_t  display_buffer[1024];
-    uint8_t  saved[1024];
     uint8_t  globals[1024];
     uint8_t  stack[256];
     uint32_t call_stack[24];

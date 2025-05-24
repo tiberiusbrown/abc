@@ -109,7 +109,6 @@ static void cb_init(void)
         .height = 64,
         .usage = SG_USAGE_STREAM,
         .pixel_format = SG_PIXELFORMAT_RGBA8,
-        .data = { display, sizeof(display) },
         .label = "Display",
     });
 
@@ -238,19 +237,30 @@ static void cb_event(sapp_event const* e)
     }
 }
 
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\summer_camp\\build\\fxdata.bin"
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\platformer\\fxdata.bin"
+
 sapp_desc sokol_main(int argc, char* argv[])
 {
+#ifndef OVERRIDE
     if(argc < 2)
     {
         fprintf(stderr, "Usage: %s <data.bin>\n", argv[0]);
         goto error;
     }
+    char const* fname = argv[1];
+#else
+    (void)argc;
+    (void)argv;
+    char const* fname = OVERRIDE;
+#endif
+
 
     {
-        FILE* f = fopen(argv[1], "rb");
+        FILE* f = fopen(fname, "rb");
         if(!f)
         {
-            fprintf(stderr, "Unable to open \"%s\"\n", argv[1]);
+            fprintf(stderr, "Unable to open \"%s\"\n", fname);
             goto error;
         }
 
@@ -261,7 +271,7 @@ sapp_desc sokol_main(int argc, char* argv[])
         data = malloc(data_size);
         if(!data)
         {
-            fprintf(stderr, "Unable to allocate buffer for \"%s\"\n", argv[1]);
+            fprintf(stderr, "Unable to allocate buffer for \"%s\"\n", fname);
             fclose(f);
             goto error;
         }
@@ -269,7 +279,7 @@ sapp_desc sokol_main(int argc, char* argv[])
         size_t r = fread(data, 1, data_size, f);
         if(r != data_size)
         {
-            fprintf(stderr, "Unable to read \"%s\"\n", argv[1]);
+            fprintf(stderr, "Unable to read \"%s\"\n", fname);
             free(data);
             fclose(f);
             goto error;
@@ -280,6 +290,7 @@ sapp_desc sokol_main(int argc, char* argv[])
 
 error:
     return (sapp_desc) {
+        .window_title = "ABC Interpreter",
         .width = 6 * 128,
         .height = 6 * 64,
         .init_cb = cb_init,
