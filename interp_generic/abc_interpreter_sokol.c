@@ -238,8 +238,14 @@ static void cb_event(sapp_event const* e)
 }
 
 //#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\summer_camp\\build\\fxdata.bin"
-//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\platformer\\fxdata.bin"
+
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\basic\\fxdata.bin"
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\circle\\fxdata.bin"
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\font\\fxdata.bin"
 //#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\gray\\fxdata.bin"
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\platformer\\fxdata.bin"
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\pong\\fxdata.bin"
+//#define OVERRIDE "C:\\Users\\Brown\\Documents\\GitHub\\abc\\examples\\snake\\fxdata.bin"
 
 sapp_desc sokol_main(int argc, char* argv[])
 {

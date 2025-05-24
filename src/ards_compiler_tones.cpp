@@ -331,6 +331,12 @@ void compiler_t::encode_tones(std::vector<uint8_t>& data, ast_node_t const& n)
                     notes[t] = note2 + 1;
                     t.pop_back();
                 }
+                if(note2 > 12)
+                {
+                    t += 'b';
+                    notes[t] = note2 - 1;
+                    t.pop_back();
+                }
 
                 t.pop_back();
             }
