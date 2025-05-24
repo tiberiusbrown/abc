@@ -4,7 +4,7 @@
         {
             "label": "Build Arduboy File",
             "type": "shell",
-            "command": "abcc main.abc -b fxdata.bin -u -a platformer.arduboy",
+            "command": "abcc main.abc -b fxdata.bin -u -a DazzleDash.arduboy",
             "group": {
                 "kind": "build",
                 "isDefault": true
