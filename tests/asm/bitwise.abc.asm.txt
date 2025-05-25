@@ -882,7 +882,2497 @@ $L_main_9:
   not
   sys   assert
   .line 105
+  p1
+  p00
+  p3
+  setgn a3 0
+  .line 106
+  p3
+  getgn a3 0
+  p00
+  lsl4
+  pop
+  p1
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 107
+  p3
+  getgn a3 0
+  p0
+  p1
+  lsl4
+  pop
+  p2
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 108
+  p3
+  getgn a3 0
+  p0
+  p2
+  lsl4
+  pop
+  p4
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 109
+  p3
+  getgn a3 0
+  p0
+  p3
+  lsl4
+  pop
+  p8
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 110
+  p3
+  getgn a3 0
+  p0
+  p4
+  lsl4
+  pop
+  p16
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 111
+  p3
+  getgn a3 0
+  p0
+  p5
+  lsl4
+  pop
+  p32
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 112
+  p3
+  getgn a3 0
+  p0
+  p6
+  lsl4
+  pop
+  p64
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 113
+  p3
+  getgn a3 0
+  p0
+  p7
+  lsl4
+  pop
+  p128
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 114
+  p3
+  getgn a3 0
+  p0
+  p8
+  lsl4
+  pop
+  p0
+  p1
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 115
+  p3
+  getgn a3 0
+  p0
+  push  9
+  lsl4
+  pop
+  p0
+  p2
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 116
+  p3
+  getgn a3 0
+  p0
+  push  10
+  lsl4
+  pop
+  p0
+  p4
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 117
+  p3
+  getgn a3 0
+  p0
+  push  11
+  lsl4
+  pop
+  p0
+  p8
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 118
+  p3
+  getgn a3 0
+  p0
+  push  12
+  lsl4
+  pop
+  p0
+  p16
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 119
+  p3
+  getgn a3 0
+  p0
+  push  13
+  lsl4
+  pop
+  p0
+  p32
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 120
+  p3
+  getgn a3 0
+  p0
+  push  14
+  lsl4
+  pop
+  p0
+  p64
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 121
+  p3
+  getgn a3 0
+  p0
+  push  15
+  lsl4
+  pop
+  p0
+  p128
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 122
+  p3
+  getgn a3 0
+  p0
+  p16
+  lsl4
+  pop
+  p00
+  p1
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 123
+  p3
+  getgn a3 0
+  p0
+  push  17
+  lsl4
+  pop
+  p00
+  p2
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 124
+  p3
+  getgn a3 0
+  p0
+  push  18
+  lsl4
+  pop
+  p00
+  p4
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 125
+  p3
+  getgn a3 0
+  p0
+  push  19
+  lsl4
+  pop
+  p00
+  p8
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 126
+  p3
+  getgn a3 0
+  p0
+  push  20
+  lsl4
+  pop
+  p00
+  p16
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 127
+  p3
+  getgn a3 0
+  p0
+  push  21
+  lsl4
+  pop
+  p00
+  p32
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 128
+  p3
+  getgn a3 0
+  p0
+  push  22
+  lsl4
+  pop
+  p00
+  p64
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 129
+  p3
+  getgn a3 0
+  p0
+  push  23
+  lsl4
+  pop
+  p00
+  p128
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 130
+  p3
+  getgn a3 0
+  p0
+  push  24
+  lsl4
+  pop
+  bool3
+  not
+  sys   assert
+  .line 132
+  p1
+  p000
+  setg4 a4 0
+  .line 133
+  getg4 a4 0
+  p0
+  lsl4
+  p1
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 134
+  getg4 a4 0
+  p1
+  lsl4
+  p2
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 135
+  getg4 a4 0
+  p2
+  lsl4
+  p4
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 136
+  getg4 a4 0
+  p3
+  lsl4
+  p8
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 137
+  getg4 a4 0
+  p4
+  lsl4
+  p16
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 138
+  getg4 a4 0
+  p5
+  lsl4
+  p32
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 139
+  getg4 a4 0
+  p6
+  lsl4
+  p64
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 140
+  getg4 a4 0
+  p7
+  lsl4
+  p128
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 141
+  getg4 a4 0
+  p8
+  lsl4
+  p0
+  p1
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 142
+  getg4 a4 0
+  push  9
+  lsl4
+  p0
+  p2
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 143
+  getg4 a4 0
+  push  10
+  lsl4
+  p0
+  p4
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 144
+  getg4 a4 0
+  push  11
+  lsl4
+  p0
+  p8
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 145
+  getg4 a4 0
+  push  12
+  lsl4
+  p0
+  p16
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 146
+  getg4 a4 0
+  push  13
+  lsl4
+  p0
+  p32
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 147
+  getg4 a4 0
+  push  14
+  lsl4
+  p0
+  p64
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 148
+  getg4 a4 0
+  push  15
+  lsl4
+  p0
+  p128
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 149
+  getg4 a4 0
+  p16
+  lsl4
+  p00
+  p1
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 150
+  getg4 a4 0
+  push  17
+  lsl4
+  p00
+  p2
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 151
+  getg4 a4 0
+  push  18
+  lsl4
+  p00
+  p4
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 152
+  getg4 a4 0
+  push  19
+  lsl4
+  p00
+  p8
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 153
+  getg4 a4 0
+  push  20
+  lsl4
+  p00
+  p16
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 154
+  getg4 a4 0
+  push  21
+  lsl4
+  p00
+  p32
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 155
+  getg4 a4 0
+  push  22
+  lsl4
+  p00
+  p64
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 156
+  getg4 a4 0
+  push  23
+  lsl4
+  p00
+  p128
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 157
+  getg4 a4 0
+  push  24
+  lsl4
+  p000
+  p1
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 158
+  getg4 a4 0
+  push  25
+  lsl4
+  p000
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 159
+  getg4 a4 0
+  push  26
+  lsl4
+  p000
+  p4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 160
+  getg4 a4 0
+  push  27
+  lsl4
+  p000
+  p8
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 161
+  getg4 a4 0
+  push  28
+  lsl4
+  p000
+  p16
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 162
+  getg4 a4 0
+  push  29
+  lsl4
+  p000
+  p32
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 163
+  getg4 a4 0
+  push  30
+  lsl4
+  p000
+  p64
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 164
+  getg4 a4 0
+  push  31
+  lsl4
+  p000
+  p128
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 165
+  getg4 a4 0
+  p32
+  lsl4
+  bool4
+  not
+  sys   assert
+  .line 167
+  p128
+  setg  a1 0
+  .line 168
+  getg  a1 0
+  p0
+  lsr
+  p128
+  sub
+  not
+  sys   assert
+  .line 169
+  getg  a1 0
+  p1
+  lsr
+  p64
+  sub
+  not
+  sys   assert
+  .line 170
+  getg  a1 0
+  p2
+  lsr
+  p32
+  sub
+  not
+  sys   assert
+  .line 171
+  getg  a1 0
+  p3
+  lsr
+  p16
+  sub
+  not
+  sys   assert
+  .line 172
+  getg  a1 0
+  p4
+  lsr
+  p8
+  sub
+  not
+  sys   assert
+  .line 173
+  getg  a1 0
+  p5
+  lsr
+  p4
+  sub
+  not
+  sys   assert
+  .line 174
+  getg  a1 0
+  p6
+  lsr
+  p2
+  sub
+  not
+  sys   assert
+  .line 175
+  getg  a1 0
+  p7
+  lsr
+  dec
+  not
+  sys   assert
+  .line 176
+  getg  a1 0
+  p8
+  lsr
+  not
+  sys   assert
+  .line 178
+  p0
+  p128
+  setg2 a2 0
+  .line 179
+  getg2 a2 0
+  p0
+  lsr2
+  p0
+  p128
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 180
+  getg2 a2 0
+  p1
+  lsr2
+  p0
+  p64
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 181
+  getg2 a2 0
+  p2
+  lsr2
+  p0
+  p32
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 182
+  getg2 a2 0
+  p3
+  lsr2
+  p0
+  p16
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 183
+  getg2 a2 0
+  p4
+  lsr2
+  p0
+  p8
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 184
+  getg2 a2 0
+  p5
+  lsr2
+  p0
+  p4
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 185
+  getg2 a2 0
+  p6
+  lsr2
+  p0
+  p2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 186
+  getg2 a2 0
+  p7
+  lsr2
+  p0
+  p1
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 187
+  getg2 a2 0
+  p8
+  lsr2
+  p128
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 188
+  getg2 a2 0
+  push  9
+  lsr2
+  p64
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 189
+  getg2 a2 0
+  push  10
+  lsr2
+  p32
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 190
+  getg2 a2 0
+  push  11
+  lsr2
+  p16
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 191
+  getg2 a2 0
+  push  12
+  lsr2
+  p8
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 192
+  getg2 a2 0
+  push  13
+  lsr2
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 193
+  getg2 a2 0
+  push  14
+  lsr2
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 194
+  getg2 a2 0
+  push  15
+  lsr2
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 195
+  getg2 a2 0
+  p16
+  lsr2
+  bool2
+  not
+  sys   assert
+  .line 197
+  p00
+  p128
+  p3
+  setgn a3 0
+  .line 198
+  p3
+  getgn a3 0
+  p00
+  lsr4
+  pop
+  p00
+  p128
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 199
+  p3
+  getgn a3 0
+  p0
+  p1
+  lsr4
+  pop
+  p00
+  p64
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 200
+  p3
+  getgn a3 0
+  p0
+  p2
+  lsr4
+  pop
+  p00
+  p32
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 201
+  p3
+  getgn a3 0
+  p0
+  p3
+  lsr4
+  pop
+  p00
+  p16
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 202
+  p3
+  getgn a3 0
+  p0
+  p4
+  lsr4
+  pop
+  p00
+  p8
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 203
+  p3
+  getgn a3 0
+  p0
+  p5
+  lsr4
+  pop
+  p00
+  p4
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 204
+  p3
+  getgn a3 0
+  p0
+  p6
+  lsr4
+  pop
+  p00
+  p2
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 205
+  p3
+  getgn a3 0
+  p0
+  p7
+  lsr4
+  pop
+  p00
+  p1
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 206
+  p3
+  getgn a3 0
+  p0
+  p8
+  lsr4
+  pop
+  p0
+  p128
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 207
+  p3
+  getgn a3 0
+  p0
+  push  9
+  lsr4
+  pop
+  p0
+  p64
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 208
+  p3
+  getgn a3 0
+  p0
+  push  10
+  lsr4
+  pop
+  p0
+  p32
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 209
+  p3
+  getgn a3 0
+  p0
+  push  11
+  lsr4
+  pop
+  p0
+  p16
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 210
+  p3
+  getgn a3 0
+  p0
+  push  12
+  lsr4
+  pop
+  p0
+  p8
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 211
+  p3
+  getgn a3 0
+  p0
+  push  13
+  lsr4
+  pop
+  p0
+  p4
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 212
+  p3
+  getgn a3 0
+  p0
+  push  14
+  lsr4
+  pop
+  p0
+  p2
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 213
+  p3
+  getgn a3 0
+  p0
+  push  15
+  lsr4
+  pop
+  p0
+  p1
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 214
+  p3
+  getgn a3 0
+  p0
+  p16
+  lsr4
+  pop
+  p128
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 215
+  p3
+  getgn a3 0
+  p0
+  push  17
+  lsr4
+  pop
+  p64
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 216
+  p3
+  getgn a3 0
+  p0
+  push  18
+  lsr4
+  pop
+  p32
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 217
+  p3
+  getgn a3 0
+  p0
+  push  19
+  lsr4
+  pop
+  p16
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 218
+  p3
+  getgn a3 0
+  p0
+  push  20
+  lsr4
+  pop
+  p8
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 219
+  p3
+  getgn a3 0
+  p0
+  push  21
+  lsr4
+  pop
+  p4
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 220
+  p3
+  getgn a3 0
+  p0
+  push  22
+  lsr4
+  pop
+  p2
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 221
+  p3
+  getgn a3 0
+  p0
+  push  23
+  lsr4
+  pop
+  p1
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 222
+  p3
+  getgn a3 0
+  p0
+  push  24
+  lsr4
+  pop
+  bool3
+  not
+  sys   assert
+  .line 224
+  p000
+  p128
+  setg4 a4 0
+  .line 225
+  getg4 a4 0
+  p0
+  lsr4
+  p000
+  p128
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 226
+  getg4 a4 0
+  p1
+  lsr4
+  p000
+  p64
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 227
+  getg4 a4 0
+  p2
+  lsr4
+  p000
+  p32
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 228
+  getg4 a4 0
+  p3
+  lsr4
+  p000
+  p16
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 229
+  getg4 a4 0
+  p4
+  lsr4
+  p000
+  p8
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 230
+  getg4 a4 0
+  p5
+  lsr4
+  p000
+  p4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 231
+  getg4 a4 0
+  p6
+  lsr4
+  p000
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 232
+  getg4 a4 0
+  p7
+  lsr4
+  p000
+  p1
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 233
+  getg4 a4 0
+  p8
+  lsr4
+  p00
+  p128
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 234
+  getg4 a4 0
+  push  9
+  lsr4
+  p00
+  p64
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 235
+  getg4 a4 0
+  push  10
+  lsr4
+  p00
+  p32
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 236
+  getg4 a4 0
+  push  11
+  lsr4
+  p00
+  p16
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 237
+  getg4 a4 0
+  push  12
+  lsr4
+  p00
+  p8
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 238
+  getg4 a4 0
+  push  13
+  lsr4
+  p00
+  p4
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 239
+  getg4 a4 0
+  push  14
+  lsr4
+  p00
+  p2
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 240
+  getg4 a4 0
+  push  15
+  lsr4
+  p00
+  p1
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 241
+  getg4 a4 0
+  p16
+  lsr4
+  p0
+  p128
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 242
+  getg4 a4 0
+  push  17
+  lsr4
+  p0
+  p64
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 243
+  getg4 a4 0
+  push  18
+  lsr4
+  p0
+  p32
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 244
+  getg4 a4 0
+  push  19
+  lsr4
+  p0
+  p16
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 245
+  getg4 a4 0
+  push  20
+  lsr4
+  p0
+  p8
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 246
+  getg4 a4 0
+  push  21
+  lsr4
+  p0
+  p4
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 247
+  getg4 a4 0
+  push  22
+  lsr4
+  p0
+  p2
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 248
+  getg4 a4 0
+  push  23
+  lsr4
+  p0
+  p1
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 249
+  getg4 a4 0
+  push  24
+  lsr4
+  p128
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 250
+  getg4 a4 0
+  push  25
+  lsr4
+  p64
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 251
+  getg4 a4 0
+  push  26
+  lsr4
+  p32
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 252
+  getg4 a4 0
+  push  27
+  lsr4
+  p16
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 253
+  getg4 a4 0
+  push  28
+  lsr4
+  p8
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 254
+  getg4 a4 0
+  push  29
+  lsr4
+  p4
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 255
+  getg4 a4 0
+  push  30
+  lsr4
+  p2
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 256
+  getg4 a4 0
+  push  31
+  lsr4
+  p1
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 257
+  getg4 a4 0
+  p32
+  lsr4
+  bool4
+  not
+  sys   assert
+  .line 259
+  p128
+  .line 260
+  dup
+  p0
+  asr
+  sext
+  p128
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 261
+  dup
+  p1
+  asr
+  push  192
+  sub
+  not
+  sys   assert
+  .line 262
+  dup
+  p2
+  asr
+  push  224
+  sub
+  not
+  sys   assert
+  .line 263
+  dup
+  p3
+  asr
+  push  240
+  sub
+  not
+  sys   assert
+  .line 264
+  dup
+  p4
+  asr
+  push  248
+  sub
+  not
+  sys   assert
+  .line 265
+  dup
+  p5
+  asr
+  push  252
+  sub
+  not
+  sys   assert
+  .line 266
+  dup
+  p6
+  asr
+  push  254
+  sub
+  not
+  sys   assert
+  .line 267
+  dup
+  p7
+  asr
+  push  255
+  sub
+  not
+  sys   assert
+  .line 268
+  dup
+  p8
+  asr
+  push  255
+  sub
+  not
+  sys   assert
+  .line 270
+  p0
+  p128
+  .line 271
+  dupw
+  p0
+  asr2
+  sext
+  p0
+  p128
+  push  255
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 272
+  dupw
+  p1
+  asr2
+  p0
+  push  192
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 273
+  dupw
+  p2
+  asr2
+  p0
+  push  224
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 274
+  dupw
+  p3
+  asr2
+  p0
+  push  240
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 275
+  dupw
+  p4
+  asr2
+  p0
+  push  248
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 276
+  dupw
+  p5
+  asr2
+  p0
+  push  252
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 277
+  dupw
+  p6
+  asr2
+  p0
+  push  254
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 278
+  dupw
+  p7
+  asr2
+  p0
+  push  255
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 279
+  dupw
+  p8
+  asr2
+  p128
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 280
+  dupw
+  push  9
+  asr2
+  p64
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 281
+  dupw
+  push  10
+  asr2
+  p32
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 282
+  dupw
+  push  11
+  asr2
+  p16
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 283
+  dupw
+  push  12
+  asr2
+  p8
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 284
+  dupw
+  push  13
+  asr2
+  p4
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 285
+  dupw
+  push  14
+  asr2
+  p2
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 286
+  dupw
+  push  15
+  asr2
+  p1
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 287
+  dupw
+  p16
+  asr2
+  p1
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 289
+  p00
+  p128
+  .line 290
+  p3
+  getln 3
+  sext
+  p0
+  asr4
+  pop
+  sext
+  p00
+  p128
+  push  255
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 291
+  p3
+  getln 3
+  sext
+  p1
+  asr4
+  pop
+  p00
+  push  192
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 292
+  p3
+  getln 3
+  sext
+  p2
+  asr4
+  pop
+  p00
+  push  224
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 293
+  p3
+  getln 3
+  sext
+  p3
+  asr4
+  pop
+  p00
+  push  240
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 294
+  p3
+  getln 3
+  sext
+  p4
+  asr4
+  pop
+  p00
+  push  248
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 295
+  p3
+  getln 3
+  sext
+  p5
+  asr4
+  pop
+  p00
+  push  252
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 296
+  p3
+  getln 3
+  sext
+  p6
+  asr4
+  pop
+  p00
+  push  254
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 297
+  p3
+  getln 3
+  sext
+  p7
+  asr4
+  pop
+  p00
+  push  255
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 298
+  p3
+  getln 3
+  sext
+  p8
+  asr4
+  pop
+  p0
+  p128
+  push  255
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 299
+  p3
+  getln 3
+  sext
+  push  9
+  asr4
+  pop
+  p0
+  push2 65472
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 300
+  p3
+  getln 3
+  sext
+  push  10
+  asr4
+  pop
+  p0
+  push2 65504
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 301
+  p3
+  getln 3
+  sext
+  push  11
+  asr4
+  pop
+  p0
+  push2 65520
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 302
+  p3
+  getln 3
+  sext
+  push  12
+  asr4
+  pop
+  p0
+  push2 65528
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 303
+  p3
+  getln 3
+  sext
+  push  13
+  asr4
+  pop
+  p0
+  push2 65532
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 304
+  p3
+  getln 3
+  sext
+  push  14
+  asr4
+  pop
+  p0
+  push2 65534
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 305
+  p3
+  getln 3
+  sext
+  push  15
+  asr4
+  pop
+  p0
+  push2 65535
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 306
+  p3
+  getln 3
+  sext
+  p16
+  asr4
+  pop
+  p128
+  push2 65535
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 307
+  p3
+  getln 3
+  sext
+  push  17
+  asr4
+  pop
+  push3 16777152
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 308
+  p3
+  getln 3
+  sext
+  push  18
+  asr4
+  pop
+  push3 16777184
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 309
+  p3
+  getln 3
+  sext
+  push  19
+  asr4
+  pop
+  push3 16777200
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 310
+  p3
+  getln 3
+  sext
+  push  20
+  asr4
+  pop
+  push3 16777208
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 311
+  p3
+  getln 3
+  sext
+  push  21
+  asr4
+  pop
+  push3 16777212
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 312
+  p3
+  getln 3
+  sext
+  push  22
+  asr4
+  pop
+  push3 16777214
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 313
+  p3
+  getln 3
+  sext
+  push  23
+  asr4
+  pop
+  push3 16777215
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 314
+  p3
+  getln 3
+  sext
+  push  24
+  asr4
+  pop
+  push3 16777215
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 316
+  p000
+  p128
+  .line 317
+  getl4 4
+  p0
+  asr4
+  p000
+  p128
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 318
+  getl4 4
+  p1
+  asr4
+  p000
+  push  192
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 319
+  getl4 4
+  p2
+  asr4
+  p000
+  push  224
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 320
+  getl4 4
+  p3
+  asr4
+  p000
+  push  240
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 321
+  getl4 4
+  p4
+  asr4
+  p000
+  push  248
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 322
+  getl4 4
+  p5
+  asr4
+  p000
+  push  252
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 323
+  getl4 4
+  p6
+  asr4
+  p000
+  push  254
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 324
+  getl4 4
+  p7
+  asr4
+  p000
+  push  255
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 325
+  getl4 4
+  p8
+  asr4
+  p00
+  p128
+  push  255
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 326
+  getl4 4
+  push  9
+  asr4
+  p00
+  push2 65472
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 327
+  getl4 4
+  push  10
+  asr4
+  p00
+  push2 65504
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 328
+  getl4 4
+  push  11
+  asr4
+  p00
+  push2 65520
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 329
+  getl4 4
+  push  12
+  asr4
+  p00
+  push2 65528
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 330
+  getl4 4
+  push  13
+  asr4
+  p00
+  push2 65532
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 331
+  getl4 4
+  push  14
+  asr4
+  p00
+  push2 65534
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 332
+  getl4 4
+  push  15
+  asr4
+  p00
+  push2 65535
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 333
+  getl4 4
+  p16
+  asr4
+  p0
+  p128
+  push2 65535
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 334
+  getl4 4
+  push  17
+  asr4
+  p0
+  push3 16777152
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 335
+  getl4 4
+  push  18
+  asr4
+  p0
+  push3 16777184
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 336
+  getl4 4
+  push  19
+  asr4
+  p0
+  push3 16777200
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 337
+  getl4 4
+  push  20
+  asr4
+  p0
+  push3 16777208
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 338
+  getl4 4
+  push  21
+  asr4
+  p0
+  push3 16777212
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 339
+  getl4 4
+  push  22
+  asr4
+  p0
+  push3 16777214
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 340
+  getl4 4
+  push  23
+  asr4
+  p0
+  push3 16777215
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 341
+  getl4 4
+  push  24
+  asr4
+  p128
+  push3 16777215
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 342
+  getl4 4
+  push  25
+  asr4
+  push4 4294967232
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 343
+  getl4 4
+  push  26
+  asr4
+  push4 4294967264
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 344
+  getl4 4
+  push  27
+  asr4
+  push4 4294967280
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 345
+  getl4 4
+  push  28
+  asr4
+  push4 4294967288
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 346
+  getl4 4
+  push  29
+  asr4
+  push4 4294967292
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 347
+  getl4 4
+  push  30
+  asr4
+  push4 4294967294
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 348
+  getl4 4
+  push  31
+  asr4
+  push4 4294967295
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 349
+  getl4 4
+  p32
+  asr4
+  push4 4294967295
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 351
   sys   debug_break
   .line 8
+  popn  10
   ret
 

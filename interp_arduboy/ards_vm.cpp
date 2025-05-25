@@ -2886,23 +2886,31 @@ I_LSL2:
     mov  r20, r9
     ld   r17, -Y
     ld   r16, -Y
+
     cpi  r20, 8
-    breq 4f
+    brlo 3f
     cpi  r20, 16
-    brlo 2f
-    st   Y+, r2
-    clr  r9
-    rjmp 3f
+    brsh 6f
+    mov  r17, r16
+    clr  r16
+    subi r20, 8
+    breq 3f
+
 1:  lsl  r16
     rol  r17
 2:  dec  r20
-    brpl 1b
-    st   Y+, r16
+    brne 1b
+3:  tst  r20
+    brne 1b
+    
+4:  st   Y+, r16
     mov  r9, r17
-3:  dispatch_noalign
-4:  st   Y+, r2
-    mov  r9, r16
-    rjmp 3b
+lsl4_dispatch:
+5: dispatch_noalign
+
+6:  st   Y+, r2
+    clr  r9
+    rjmp 5b
     .align 6
 
 I_LSL4:
@@ -2911,24 +2919,32 @@ I_LSL4:
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
-    cpi  r20, 32
+    cpi  r20, 16
     brlo 2f
-    st   Y+, r2
-    st   Y+, r2
-    st   Y+, r2
-    clr  r9
-    rjmp 3f
+    cpi  r20, 32
+    brsh 4f
+    movw r18, r16
+    clr  r16
+    clr  r17
+    subi r20, 17
+    brlt 3f
 1:  lsl  r16
     rol  r17
     rol  r18
     rol  r19
 2:  dec  r20
     brpl 1b
-    st   Y+, r16
+3:  st   Y+, r16
     st   Y+, r17
     st   Y+, r18
     mov  r9, r19
-3:  dispatch
+    rjmp lsl4_dispatch
+4:  st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    clr  r9
+    rjmp lsl4_dispatch
+    .align 6
 
 I_LSR:
     mov  r20, r9
@@ -2958,18 +2974,32 @@ I_LSR2:
     mov  r20, r9
     ld   r17, -Y
     ld   r16, -Y
+
+    cpi  r20, 8
+    brlo 3f
     cpi  r20, 16
-    brlo 2f
-    st   Y+, r2
-    mov  r9, r2
-    rjmp 3f
+    brsh 6f
+    mov  r16, r17
+    clr  r17
+    subi r20, 8
+    breq 3f
+
 1:  lsr  r17
     ror  r16
 2:  dec  r20
-    brpl 1b
-    st   Y+, r16
+    brne 1b
+3:  tst  r20
+    brne 1b
+    
+4:  st   Y+, r16
     mov  r9, r17
-3:  dispatch
+lsr4_dispatch:
+5:  dispatch_noalign
+
+6:  st   Y+, r2
+    clr  r9
+    rjmp 5b
+    .align 6
 
 I_LSR4:
     mov  r20, r9
@@ -2977,24 +3007,32 @@ I_LSR4:
     ld   r18, -Y
     ld   r17, -Y
     ld   r16, -Y
-    cpi  r20, 32
+    cpi  r20, 16
     brlo 2f
-    st   Y+, r2
-    st   Y+, r2
-    st   Y+, r2
-    mov  r9, r2
-    rjmp 3f
+    cpi  r20, 32
+    brsh 4f
+    movw r16, r18
+    clr  r18
+    clr  r19
+    subi r20, 17
+    brlt 3f
 1:  lsr  r19
     ror  r18
     ror  r17
     ror  r16
 2:  dec  r20
     brpl 1b
-    st   Y+, r16
+3:  st   Y+, r16
     st   Y+, r17
     st   Y+, r18
     mov  r9, r19
-3:  dispatch
+    rjmp lsr4_dispatch
+4:  st   Y+, r2
+    st   Y+, r2
+    st   Y+, r2
+    clr  r9
+    rjmp lsr4_dispatch
+    .align 6
 
 I_ASR:
     mov  r20, r9
@@ -3042,7 +3080,7 @@ I_ASR4:
     cpi  r20, 32
     brlo 2f
     ldi  r21, 0x00
-    sbrc r18, 7
+    sbrc r19, 7
     ldi  r21, 0xff
     st   Y+, r21
     st   Y+, r21
