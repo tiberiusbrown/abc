@@ -309,6 +309,11 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     }
     case AST::BREAK_STMT:
     {
+        if(break_stack.empty())
+        {
+            errs.push_back({ "No control block for 'break'", a.line_info });
+            return;
+        }
         assert(!break_stack.empty());
         size_t n = frame.size - break_stack.back().second;
         for(size_t i = 0; i < n; ++i)
@@ -318,6 +323,11 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
     }
     case AST::CONTINUE_STMT:
     {
+        if(continue_stack.empty())
+        {
+            errs.push_back({ "No control block for 'continue'", a.line_info });
+            return;
+        }
         assert(!continue_stack.empty());
         size_t n = frame.size - continue_stack.back().second;
         for(size_t i = 0; i < n; ++i)
