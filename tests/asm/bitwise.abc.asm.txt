@@ -64,15 +64,7 @@ main:
   pop
   .line 55
   p2
-  dup
-  p4
-  cult
-  bnz   $L_main_10
-  pop
-  .line 75
-  sys   debug_break
-  .line 8
-  ret
+  jmp   $L_main_9
 $L_main_2:
   .line 24
   pushg m 0
@@ -129,15 +121,7 @@ $L_main_2:
   pop
   .line 55
   p2
-  dup
-  p4
-  cult
-  bnz   $L_main_10
-  pop
-  .line 75
-  sys   debug_break
-  .line 8
-  ret
+  jmp   $L_main_9
 $L_main_6:
   .line 32
   getg  a1 0
@@ -426,15 +410,7 @@ $L_main_6:
   pop
   .line 55
   p2
-  dup
-  p4
-  cult
-  bnz   $L_main_10
-  pop
-  .line 75
-  sys   debug_break
-  .line 8
-  ret
+  jmp   $L_main_9
 $L_main_10:
   .line 57
   getg  a1 1
@@ -664,12 +640,248 @@ $L_main_10:
   sys   assert
   .line 55
   inc
+$L_main_9:
   dup
   p4
   cult
   bnz   $L_main_10
   pop
   .line 75
+  p1
+  setg  a1 0
+  .line 76
+  getg  a1 0
+  p0
+  lsl
+  dec
+  not
+  sys   assert
+  .line 77
+  getg  a1 0
+  p1
+  lsl
+  p2
+  sub
+  not
+  sys   assert
+  .line 78
+  getg  a1 0
+  p2
+  lsl
+  p4
+  sub
+  not
+  sys   assert
+  .line 79
+  getg  a1 0
+  p3
+  lsl
+  p8
+  sub
+  not
+  sys   assert
+  .line 80
+  getg  a1 0
+  p4
+  lsl
+  p16
+  sub
+  not
+  sys   assert
+  .line 81
+  getg  a1 0
+  p5
+  lsl
+  p32
+  sub
+  not
+  sys   assert
+  .line 82
+  getg  a1 0
+  p6
+  lsl
+  p64
+  sub
+  not
+  sys   assert
+  .line 83
+  getg  a1 0
+  p7
+  lsl
+  p128
+  sub
+  not
+  sys   assert
+  .line 84
+  getg  a1 0
+  p8
+  lsl
+  not
+  sys   assert
+  .line 86
+  p1
+  p0
+  setg2 a2 0
+  .line 87
+  getg2 a2 0
+  p0
+  lsl2
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 88
+  getg2 a2 0
+  p1
+  lsl2
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 89
+  getg2 a2 0
+  p2
+  lsl2
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 90
+  getg2 a2 0
+  p3
+  lsl2
+  p8
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 91
+  getg2 a2 0
+  p4
+  lsl2
+  p16
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 92
+  getg2 a2 0
+  p5
+  lsl2
+  p32
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 93
+  getg2 a2 0
+  p6
+  lsl2
+  p64
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 94
+  getg2 a2 0
+  p7
+  lsl2
+  p128
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 95
+  getg2 a2 0
+  p8
+  lsl2
+  p0
+  p1
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 96
+  getg2 a2 0
+  push  9
+  lsl2
+  p0
+  p2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 97
+  getg2 a2 0
+  push  10
+  lsl2
+  p0
+  p4
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 98
+  getg2 a2 0
+  push  11
+  lsl2
+  p0
+  p8
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 99
+  getg2 a2 0
+  push  12
+  lsl2
+  p0
+  p16
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 100
+  getg2 a2 0
+  push  13
+  lsl2
+  p0
+  p32
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 101
+  getg2 a2 0
+  push  14
+  lsl2
+  p0
+  p64
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 102
+  getg2 a2 0
+  push  15
+  lsl2
+  p0
+  p128
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 103
+  getg2 a2 0
+  p16
+  lsl2
+  bool2
+  not
+  sys   assert
+  .line 105
   sys   debug_break
   .line 8
   ret

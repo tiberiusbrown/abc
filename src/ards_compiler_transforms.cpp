@@ -403,20 +403,23 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
             0xffffffffff000000ull,
             0xffffffff00000000ull,
         };
-        uint64_t sign = SIGNS[n.comp_type.prim_size - 1];
-        uint64_t mask = MASKS[n.comp_type.prim_size - 1];
-        if(n.comp_type.is_bool)
-            n.value = uint64_t(n.value != 0);
-        if(n.comp_type.is_signed && ((uint64_t)n.value & sign))
-            n.value = int64_t(uint64_t(n.value) | mask);
-        else
-            n.value = int64_t(uint64_t(n.value) & ~mask);
 
         if(!preserve_type)
         {
             n.comp_type.prim_size = (n.comp_type.is_signed && n.value < 0) ?
                 prim_type_for_dec((uint32_t)(-n.value), n.comp_type.is_signed).prim_size :
                 prim_type_for_dec((uint32_t)(+n.value), n.comp_type.is_signed).prim_size;
+        }
+        else
+        {
+            uint64_t sign = SIGNS[n.comp_type.prim_size - 1];
+            uint64_t mask = MASKS[n.comp_type.prim_size - 1];
+            if(n.comp_type.is_bool)
+                n.value = uint64_t(n.value != 0);
+            if(n.comp_type.is_signed && ((uint64_t)n.value & sign))
+                n.value = int64_t(uint64_t(n.value) | mask);
+            else
+                n.value = int64_t(uint64_t(n.value) & ~mask);
         }
     }
 

@@ -71,6 +71,36 @@ void main()
         $assert((a3[1] | a3[i]) == 0xffffff);
         $assert((a4[1] | a4[i]) == 0xffffffff);
     }
+    
+    a1[0] = 1;
+    $assert(a1[0] << 0 == 1u << 0);
+    $assert(a1[0] << 1 == 1u << 1);
+    $assert(a1[0] << 2 == 1u << 2);
+    $assert(a1[0] << 3 == 1u << 3);
+    $assert(a1[0] << 4 == 1u << 4);
+    $assert(a1[0] << 5 == 1u << 5);
+    $assert(a1[0] << 6 == 1u << 6);
+    $assert(a1[0] << 7 == 1u << 7);
+    $assert(a1[0] << 8 == 0);
+    
+    a2[0] = 1;
+    $assert(a2[0] <<  0 == 1u <<  0);
+    $assert(a2[0] <<  1 == 1u <<  1);
+    $assert(a2[0] <<  2 == 1u <<  2);
+    $assert(a2[0] <<  3 == 1u <<  3);
+    $assert(a2[0] <<  4 == 1u <<  4);
+    $assert(a2[0] <<  5 == 1u <<  5);
+    $assert(a2[0] <<  6 == 1u <<  6);
+    $assert(a2[0] <<  7 == 1u <<  7);
+    $assert(a2[0] <<  8 == 1u <<  8);
+    $assert(a2[0] <<  9 == 1u <<  9);
+    $assert(a2[0] << 10 == 1u << 10);
+    $assert(a2[0] << 11 == 1u << 11);
+    $assert(a2[0] << 12 == 1u << 12);
+    $assert(a2[0] << 13 == 1u << 13);
+    $assert(a2[0] << 14 == 1u << 14);
+    $assert(a2[0] << 15 == 1u << 15);
+    $assert(a2[0] << 16 == 0);
    
     $debug_break();
 }
