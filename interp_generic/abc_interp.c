@@ -822,10 +822,12 @@ static abc_result_t lsr4(abc_interp_t* interp)
 
 static uint32_t asr_helper(int32_t x, uint8_t n)
 {
-    uint32_t sign = 0x80000000u >> n;
+    if(n >= 32)
+        return x < 0 ? 0xffffffff : 0;
+    n &= 31;
     uint32_t mask = ~(0xffffffffu >> n);
     uint32_t t = (uint32_t)x >> n;
-    if((uint32_t)x & sign)
+    if(x < 0)
         t |= mask;
     return t;
 }
@@ -1397,7 +1399,8 @@ static abc_result_t ret(abc_interp_t* interp)
 
 static abc_result_t sys_assert(abc_interp_t* interp)
 {
-    if(pop8(interp) == 0) return ABC_RESULT_ERROR;
+    if(pop8(interp) == 0)
+        return ABC_RESULT_ERROR;
     return ABC_RESULT_NORMAL;
 }
 
@@ -1928,7 +1931,7 @@ static uint8_t shades_display_sprite(
             if(masked && !(prog8(host, img + off + 1) & bit))
                 continue;
             uint8_t c = 0;
-            for(uint32_t plane = 0; plane < interp->shades - 1; ++plane)
+            for(uint32_t plane = 0; plane < (uint32_t)(interp->shades - 1); ++plane)
             {
                 if(prog8(host, img + fb * plane + off) & bit)
                     c += tc;
