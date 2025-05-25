@@ -1,0 +1,358 @@
+void bench_math()
+{
+
+    // unary
+    constexpr u8 N = 10;
+    constexpr float B = 1e-8;
+    constexpr float F = 37.0;
+    
+    // binary
+    constexpr u8 BN = 4;
+    constexpr float BB = 1e-5;
+    constexpr float BB2 = 3e-4;
+    constexpr float BF = 1373.0;
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f + %.8f\n", x, y);
+                $debug_break();
+                z = x + y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = -BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f + %.8f\n", x, y);
+                $debug_break();
+                z = x + y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f - %.8f\n", x, y);
+                $debug_break();
+                z = x - y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = -BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f - %.8f\n", x, y);
+                $debug_break();
+                z = x - y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f * %.8f\n", x, y);
+                $debug_break();
+                z = x * y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = -BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f * %.8f\n", x, y);
+                $debug_break();
+                z = x * y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f / %.8f\n", x, y);
+                $debug_break();
+                z = x / y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = -BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("%.8f / %.8f\n", x, y);
+                $debug_break();
+                z = x / y;
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("$mod(%.8f, %.8f)\n", x, y);
+                $debug_break();
+                z = $mod(x, y);
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = -BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("$mod(%.8f, %.8f)\n", x, y);
+                $debug_break();
+                z = $mod(x, y);
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("$pow(%.8f, %.8f)\n", x, y);
+                $debug_break();
+                z = $pow(x, y);
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = -BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("$pow(%.8f, %.8f)\n", x, y);
+                $debug_break();
+                z = $pow(x, y);
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("$atan2(%.8f, %.8f)\n", x, y);
+                $debug_break();
+                z = $atan2(x, y);
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = -BB;
+        float z;
+        for(u8 i = 0; i < BN; ++i)
+        {
+            float y = BB2;
+            for(u8 j = 0; j < BN; ++j)
+            {
+                $debug_printf("$atan2(%.8f, %.8f)\n", x, y);
+                $debug_break();
+                z = $atan2(x, y);
+                $debug_break();
+                y *= BF;
+            }
+            x *= BF;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$sin(%.8f)\n", x);
+            $debug_break();
+            y = $sin(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$cos(%.8f)\n", x);
+            $debug_break();
+            y = $cos(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$tan(%.8f)\n", x);
+            $debug_break();
+            y = $tan(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$sqrt(%.8f)\n", x);
+            $debug_break();
+            y = $sqrt(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$floor(%.8f)\n", x);
+            $debug_break();
+            y = $floor(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$ceil(%.8f)\n", x);
+            $debug_break();
+            y = $ceil(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$round(%.8f)\n", x);
+            $debug_break();
+            y = $round(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+}

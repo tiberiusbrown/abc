@@ -61,6 +61,8 @@ static uint64_t measure()
     arduboy->cpu.data[0x71] = 0;
     arduboy->cpu.data[0x72] = 0;
 
+    if(arduboy->cpu.data[0x0635] != 0)
+        return 0;
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
     arduboy->paused = false;
@@ -68,6 +70,8 @@ static uint64_t measure()
     assert(arduboy->paused);
     cycle_b = arduboy->cpu.cycle_count;
 
+    if(arduboy->cpu.data[0x0635] != 0)
+        return 0;
     return cycle_b - cycle_a;
 }
 
@@ -240,7 +244,7 @@ int abc_benchmarks()
     fclose(fout);
 #endif
 
-    fout = fopen(BENCHMARKS_DIR "/latencies.txt", "w");
+    fout = fopen(BENCHMARKS_DIR "/cycles_instruction.txt", "w");
     if(!fout) return 1;
     {
         ards::assembler_t a{};
@@ -408,12 +412,56 @@ int abc_benchmarks()
     };
     (void)measure();
     uint64_t bn = measure();
-    std::vector<std::tuple<char const*, uint64_t>> timings;
-    for(auto const* i : INSTRS)
-        timings.push_back({ i, uint64_t(measure() - bn) });
-    for(auto const& t : timings)
-        fprintf(fout, "%5" PRIu64 "   %s\n", std::get<1>(t), std::get<0>(t));
+    {
+        std::vector<std::tuple<char const*, uint64_t>> timings;
+        for(auto const* i : INSTRS)
+            timings.push_back({ i, uint64_t(measure() - bn) });
+        for(auto const& t : timings)
+            fprintf(fout, "%5" PRIu64 "   %s\n", std::get<1>(t), std::get<0>(t));
+    }
 
+    fclose(fout);
+
+    fout = fopen(BENCHMARKS_DIR "/cycles_code.txt", "w");
+    if(!fout) return 1;
+    {
+        auto d = compile(BENCHMARKS_DIR "/_cycles_code/main.abc");
+
+        {
+            std::ifstream vmhex(VMHEX_FILE);
+            auto t = arduboy->load_file("vm.hex", vmhex);
+            assert(t.empty());
+        }
+        {
+            std::istrstream ss((char const*)d.data(), (int)d.size());
+            auto t = arduboy->load_file("fxdata.bin", ss);
+            assert(t.empty());
+        }
+
+        std::vector<uint64_t> timings;
+        for(;;)
+        {
+            uint64_t t = measure();
+            if(t == 0)
+                break;
+            t -= bn;
+            timings.push_back(t);
+        }
+
+        std::vector<std::string> lines;
+        {
+            std::istrstream ss(
+                (char const*)arduboy->cpu.serial_bytes.data(),
+                (int)arduboy->cpu.serial_bytes.size());
+            std::string line;
+            while(std::getline(ss, line))
+                lines.push_back(line);
+        }
+        assert(lines.size() == timings.size());
+
+        for(size_t i = 0; i < std::min(lines.size(), timings.size()); ++i)
+            fprintf(fout, "%7" PRIu64 "    %s\n", timings[i], lines[i].c_str());
+    }
     fclose(fout);
 
     return 0;

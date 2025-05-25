@@ -57,7 +57,6 @@ void compiler_t::resolve_format_call(
         switch(c)
         {
         case '%':
-            fmt += c;
             break;
         case '.':
         {

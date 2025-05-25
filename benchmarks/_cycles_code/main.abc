@@ -1,0 +1,170 @@
+import bench_math;
+
+void main()
+{
+    $debug_printf("nothing (baseline)\n");
+    $debug_break();
+    $debug_break();
+    
+    $debug_printf("$assert(1)\n");
+    $debug_break();
+    $assert(1);
+    $debug_break();
+    
+    $debug_printf("$set_frame_rate(0)\n");
+    $debug_break();
+    $set_frame_rate(0);
+    $debug_break();
+    
+    $debug_printf("$display()\n");
+    $debug_break();
+    $display();
+    $debug_break();
+    
+    $debug_printf("$display_noclear()\n");
+    $debug_break();
+    $display_noclear();
+    $debug_break();
+    
+    $debug_printf("$random()\n");
+    $debug_break();
+    $random();
+    $debug_break();
+    
+    $debug_printf("$millis()\n");
+    $debug_break();
+    $millis();
+    $debug_break();
+    
+    {
+        char[32] b;
+        
+        $debug_printf("$format(b, \"%%d\", 0)\n");
+        $debug_break();
+        $format(b, "%d", 0);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", 100)\n");
+        $debug_break();
+        $format(b, "%d", 100);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", 10000)\n");
+        $debug_break();
+        $format(b, "%d", 10000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", 1000000)\n");
+        $debug_break();
+        $format(b, "%d", 1000000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", 100000000)\n");
+        $debug_break();
+        $format(b, "%d", 100000000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", -100)\n");
+        $debug_break();
+        $format(b, "%d", -100);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", -10000)\n");
+        $debug_break();
+        $format(b, "%d", -10000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", -1000000)\n");
+        $debug_break();
+        $format(b, "%d", -1000000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%d\", -100000000)\n");
+        $debug_break();
+        $format(b, "%d", -100000000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%u\", 0)\n");
+        $debug_break();
+        $format(b, "%u", 0);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%u\", 100)\n");
+        $debug_break();
+        $format(b, "%u", 100);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%u\", 10000)\n");
+        $debug_break();
+        $format(b, "%u", 10000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%u\", 1000000)\n");
+        $debug_break();
+        $format(b, "%u", 1000000);
+        $debug_break();
+        
+        $debug_printf("$format(b, \"%%u\", 100000000)\n");
+        $debug_break();
+        $format(b, "%u", 100000000);
+        $debug_break();
+        
+        constexpr u8 N = 10;
+        constexpr float B = 1e-8;
+        constexpr float F = 37.0;
+        {
+            float x = B;
+            float y;
+            for(u8 i = 0; i < N; ++i)
+            {
+                $debug_printf("$format(b, \"%%.1f\", %.8f)\n", x);
+                $debug_break();
+                $format(b, "%.1f", x);
+                $debug_break();
+                x *= F;
+            }
+        }
+        {
+            float x = B;
+            float y;
+            for(u8 i = 0; i < N; ++i)
+            {
+                $debug_printf("$format(b, \"%%.8f\", %.8f)\n", x);
+                $debug_break();
+                $format(b, "%.8f", x);
+                $debug_break();
+                x *= F;
+            }
+        }
+        
+    }
+    
+    $debug_printf("for(u8  i = 10; i != 0; --i) {}\n");
+    $debug_break();
+    for(u8  i = 10; i != 0; --i) {}
+    $debug_break();
+    
+    $debug_printf("for(u8  i = 0; i < 10; ++i) {}\n");
+    $debug_break();
+    for(u8  i = 0; i < 10; ++i) {}
+    $debug_break();
+    
+    $debug_printf("for(u16 i = 0; i < 10; ++i) {}\n");
+    $debug_break();
+    for(u16 i = 0; i < 10; ++i) {}
+    $debug_break();
+    
+    $debug_printf("for(u24 i = 0; i < 10; ++i) {}\n");
+    $debug_break();
+    for(u24 i = 0; i < 10; ++i) {}
+    $debug_break();
+    
+    $debug_printf("for(u32 i = 0; i < 10; ++i) {}\n");
+    $debug_break();
+    for(u32 i = 0; i < 10; ++i) {}
+    $debug_break();
+    
+    bench_math();
+
+    $assert(0);
+}
