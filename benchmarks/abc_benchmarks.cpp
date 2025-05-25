@@ -39,7 +39,7 @@ static void out_txt(char const* fmt, ...)
     va_end(v);
 }
 
-static uint64_t measure()
+static uint64_t measure(bool abc = false)
 {
     uint64_t cycle_a, cycle_b;
 
@@ -61,7 +61,7 @@ static uint64_t measure()
     arduboy->cpu.data[0x71] = 0;
     arduboy->cpu.data[0x72] = 0;
 
-    if(arduboy->cpu.data[0x0635] != 0)
+    if(abc && arduboy->cpu.data[0x0635] != 0)
         return 0;
     assert(arduboy->paused);
     cycle_a = arduboy->cpu.cycle_count;
@@ -70,7 +70,7 @@ static uint64_t measure()
     assert(arduboy->paused);
     cycle_b = arduboy->cpu.cycle_count;
 
-    if(arduboy->cpu.data[0x0635] != 0)
+    if(abc && arduboy->cpu.data[0x0635] != 0)
         return 0;
     return cycle_b - cycle_a;
 }
@@ -441,7 +441,7 @@ int abc_benchmarks()
         std::vector<uint64_t> timings;
         for(;;)
         {
-            uint64_t t = measure();
+            uint64_t t = measure(true);
             if(t == 0)
                 break;
             t -= bn;
