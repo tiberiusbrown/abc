@@ -3661,11 +3661,25 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_BZP1:  return bzp1(interp, h);
     case I_BNZP:  return bnzp(interp, h);
     case I_BNZP1: return bnzp1(interp, h);
-    case I_JMP:   interp->pc = imm24(interp, h); return ABC_RESULT_NORMAL;
-    case I_JMP1:  interp->pc += (int8_t)imm8(interp, h); return ABC_RESULT_NORMAL;
+    case I_JMP:
+    {
+        uint32_t t = imm24(interp, h);
+        interp->pc = t;
+        return ABC_RESULT_NORMAL;
+    }
+    case I_JMP1:
+    {
+        int8_t t = (int8_t)imm8(interp, h);
+        interp->pc += t;
+        return ABC_RESULT_NORMAL;
+    }
     case I_IJMP:  interp->pc = pop24(interp); return ABC_RESULT_NORMAL;
     case I_CALL:  return call(interp, imm24(interp, h));
-    case I_CALL1: return call(interp, interp->pc + (int8_t)imm8(interp, h));
+    case I_CALL1:
+    {
+        int8_t t = (int8_t)imm8(interp, h);
+        return call(interp, interp->pc + t);
+    }
     case I_ICALL: return call(interp, pop24(interp));
     case I_RET:   return ret(interp);
     case I_SYS:   return sys(interp, h);
