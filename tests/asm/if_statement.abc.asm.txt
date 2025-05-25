@@ -37,11 +37,7 @@ main:
   .line 38
   p1
   .line 40
-  dup
-  bnz   $L_main_1
-  .line 41
-  p0
-  sys   assert
+  jmp   $L_main_1
 $L_main_1:
   .line 42
   dup
@@ -113,16 +109,15 @@ $L_main_8:
   .line 66
   p1
   .line 67
-  dup
+  p1
   bnzp  $L_main_9
   p0
   call  dont_call_me
 $L_main_9:
   pop2
   .line 71
-  p0
+  p00
   .line 72
-  dup
   bzp   $L_main_10
   p0
   call  dont_call_me

@@ -239,12 +239,15 @@ bool compiler_t::peephole(compiler_func_t& f)
         t = true;
     while(peephole_compress_pop(f))
         t = true;
-    while(peephole_compress_push(f))
-        t = true;
-    while(peephole_compress_pushes_pushn(f))
-        t = true;
-    while(peephole_compress_duplicate_pushes(f))
-        t = true;
+    if(!t)
+    {
+        while(peephole_compress_push(f))
+            t = true;
+        while(peephole_compress_pushes_pushn(f))
+            t = true;
+        while(peephole_compress_duplicate_pushes(f))
+            t = true;
+    }
 
     t |= peephole_remove_inaccessible_code(f);
 
@@ -724,6 +727,16 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
+        // replace PUSH N; DUP with PUSH N; PUSH N
+        // (allows future optimizations)
+        if(i0.instr == I_PUSH && i1.instr == I_DUP)
+        {
+            i1.instr = I_PUSH;
+            i1.imm = i0.imm;
+            t = true;
+            continue;
+        }
+
         if(i0.instr == I_REFL)
         {
             if(i1.instr == I_GETR)
@@ -1102,6 +1115,43 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             i2.instr = I_PIDXB;
             t = true;
             continue;
+        }
+
+        // replace PUSH M; PUSH N; OP with PUSH OP(M,N)
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH)
+        {
+            bool tt = true;
+            switch(i2.instr)
+            {
+            case I_ADD: i0.imm = uint8_t(i0.imm + i1.imm); break;
+            case I_SUB: i0.imm = uint8_t(i0.imm - i1.imm); break;
+            case I_MUL: i0.imm = uint8_t(i0.imm * i1.imm); break;
+            case I_AND: i0.imm = uint8_t(i0.imm & i1.imm); break;
+            case I_OR : i0.imm = uint8_t(i0.imm | i1.imm); break;
+            case I_XOR: i0.imm = uint8_t(i0.imm ^ i1.imm); break;
+            case I_LSL: i0.imm = uint8_t(i0.imm << i1.imm); break;
+            case I_LSR: i0.imm = uint8_t(i0.imm >> i1.imm); break;
+            case I_CULT: i0.imm = i0.imm < i1.imm ? 1 : 0; break;
+            case I_CSLT: i0.imm = (int8_t)i0.imm < (int8_t)i1.imm ? 1 : 0; break;
+            case I_BOOL2: i0.imm = i0.imm != 0 || i1.imm != 0 ? 1 : 0; break;
+            case I_COMP2:
+            {
+                uint16_t t = uint16_t(-(i0.imm + i1.imm * 256));
+                i0.imm = uint8_t(t >> 0);
+                i1.imm = uint8_t(t >> 1);
+                i2.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            default: tt = false; break;
+            }
+            if(tt)
+            {
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
         }
 
         // replace BZ <L1>; JMP <L2>; <L1>: with BNZ <L2>

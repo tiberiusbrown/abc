@@ -2481,7 +2481,7 @@ $L_main_9:
   .line 259
   p128
   .line 260
-  dup
+  p128
   p0
   asr
   sext

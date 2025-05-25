@@ -436,11 +436,8 @@ main:
   sys   assert
   pop4
   .line 93
-  push  162
+  push2 41122
   .line 94
-  dup
-  push  240
-  and
   setl  1
   .line 95
   dup
@@ -471,11 +468,8 @@ main:
   sys   assert
   pop2
   .line 102
-  push  162
+  push2 62114
   .line 103
-  dup
-  push  240
-  or
   setl  1
   .line 104
   dup
@@ -506,11 +500,8 @@ main:
   sys   assert
   pop2
   .line 111
-  push  162
+  push2 21154
   .line 112
-  dup
-  push  240
-  xor
   setl  1
   .line 113
   dup
