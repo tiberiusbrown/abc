@@ -4190,9 +4190,7 @@ $L_mob_solid_3:
   upidx 1
   getp
   .line 199
-  dup
   dec
-  setl  1
   .line 200
   dup
   p0
@@ -8976,9 +8974,7 @@ $L_update_level_15:
   dup
   bz    $L_update_level_33
   .line 386
-  dup
   dec
-  setl  1
   .line 387
   dup
   push  177

@@ -120,19 +120,24 @@ $PD_7:
   .b 9 25 66 38 20 2f 20 25 66 38 0a
 $PD_60:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 7d 0a
+  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
+  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_61:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69
-  .b e 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 7d 0a
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_62:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69
-  .b e 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 7d 0a
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_63:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69
-  .b e 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 7d 0a
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_64:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69
-  .b e 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 7d 0a
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_8:
 $PD_9:
   .b e 24 6d 6f 64 28 25 66 38 2c 20 25 66 38 29 0a
@@ -606,7 +611,7 @@ $L_bench_math_70:
   .line 167
   getl4 5
   getl4 18
-  push  52
+  push  117
   p4
   p0
   push  15
@@ -662,7 +667,7 @@ $L_bench_math_78:
   .line 185
   getl4 5
   getl4 18
-  push  52
+  push  117
   p4
   p0
   push  15
@@ -1684,52 +1689,56 @@ $L_main_6:
   push  152
   p3
   p0
-  p32
+  push  45
   p00
   sys   debug_printf
   .line 143
   sys   debug_break
   .line 144
   push  10
-$L_main_11:
-  dup
+$L_main_10:
+  p1
+  sys   assert
   dec
-  setl  1
-  bnzp  $L_main_11
+  bnzp  $L_main_10
   .line 145
   sys   debug_break
   .line 147
-  push  184
+  push  197
   p3
   p0
-  push  31
+  push  44
   p00
   sys   debug_printf
   .line 148
   sys   debug_break
   .line 149
   p0
-$L_main_15:
+$L_main_14:
+  p1
+  sys   assert
   inc
   dup
   push  10
   cult
-  bnz   $L_main_15
+  bnz   $L_main_14
   pop
   .line 150
   sys   debug_break
   .line 152
-  push  215
+  push  241
   p3
   p0
-  push  31
+  push  44
   p00
   sys   debug_printf
   .line 153
   sys   debug_break
   .line 154
   p00
-$L_main_19:
+$L_main_18:
+  p1
+  sys   assert
   dupw
   p1
   add2b
@@ -1738,22 +1747,24 @@ $L_main_19:
   push  10
   p0
   cult2
-  bnz   $L_main_19
+  bnz   $L_main_18
   pop2
   .line 155
   sys   debug_break
   .line 157
-  push  246
-  p3
+  push  29
+  p4
   p0
-  push  31
+  push  44
   p00
   sys   debug_printf
   .line 158
   sys   debug_break
   .line 159
   p000
-$L_main_23:
+$L_main_22:
+  p1
+  sys   assert
   p3
   getln 3
   p1
@@ -1765,22 +1776,24 @@ $L_main_23:
   push  10
   p00
   cult3
-  bnz   $L_main_23
+  bnz   $L_main_22
   pop3
   .line 160
   sys   debug_break
   .line 162
-  push  21
+  push  73
   p4
   p0
-  push  31
+  push  44
   p00
   sys   debug_printf
   .line 163
   sys   debug_break
   .line 164
   p0000
-$L_main_27:
+$L_main_26:
+  p1
+  sys   assert
   getl4 4
   p1
   p000
@@ -1790,7 +1803,7 @@ $L_main_27:
   push  10
   p000
   cult4
-  bnz   $L_main_27
+  bnz   $L_main_26
   pop4
   .line 165
   sys   debug_break

@@ -1138,6 +1138,16 @@ bool compiler_t::peephole_linc(compiler_func_t& f)
             t = true;
             continue;
         }
+
+        if(i0.instr == I_GETL && i1.instr == I_DEC && i2.instr == I_SETL &&
+            i0.imm == i2.imm && i0.imm == 1)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_DEC;
+            t = true;
+            continue;
+        }
     }
 
     return t;
