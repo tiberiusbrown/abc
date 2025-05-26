@@ -278,7 +278,18 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         std::string end = new_label(f);
         std::string cond = new_label(f);
         if(!nocond)
+        {
+#if 0
+            // jump to condition
             f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, cond });
+#else
+            // duplicate codegen for condition
+            codegen_expr(f, frame, a.children[0], false);
+            codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
+            f.instrs.push_back({ I_BZ, a.children[0].line(), 0, 0, end });
+            frame.size -= 1;
+#endif
+        }
         std::string start = codegen_label(f);
         std::string cont = is_for ? new_label(f) : start;
         break_stack.push_back({ end, frame.size });

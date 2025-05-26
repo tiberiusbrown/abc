@@ -61,7 +61,6 @@ main:
   sys   assert
   .line 22
   p0
-  jmp   $L_main_1
 $L_main_2:
   .line 24
   push  66
@@ -92,7 +91,6 @@ $L_main_2:
   setrn 4
   .line 22
   inc
-$L_main_1:
   dup
   p4
   cult

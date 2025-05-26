@@ -36,9 +36,6 @@ main:
   p0
   .line 38
   p1
-  .line 40
-  jmp   $L_main_1
-$L_main_1:
   .line 42
   dup
   bnz   $L_main_2

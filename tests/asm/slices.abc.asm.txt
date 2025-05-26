@@ -29,8 +29,6 @@ main:
   .line 6
   p000
   pz8
-  .line 7
-  jmp   $L_main_1
 $L_main_2:
   .line 8
   dup
@@ -40,7 +38,6 @@ $L_main_2:
   setr
   .line 7
   inc
-$L_main_1:
   dup
   push  10
   cult

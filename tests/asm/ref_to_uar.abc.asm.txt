@@ -39,17 +39,12 @@ main:
 sum:
   .file ref_to_uar.abc
   .line 3
-  p0000
+  p00
   .line 4
-  dupw
+  p0000
   dupw7
   cult2
-  bnz   $L_sum_2
-  pop2
-  .line 6
-  setl2 6
-  pop4
-  ret
+  bz    $L_sum_0
 $L_sum_2:
   .line 5
   dupw3
@@ -68,6 +63,7 @@ $L_sum_2:
   dupw7
   cult2
   bnz   $L_sum_2
+$L_sum_0:
   pop2
   .line 6
   setl2 6

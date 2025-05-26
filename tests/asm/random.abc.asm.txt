@@ -19,15 +19,6 @@ main:
   sys   set_random_seed
   .line 19
   p0
-  dup
-  push  100
-  cult
-  bnz   $L_main_2
-  pop
-  .line 26
-  sys   debug_break
-  .line 13
-  ret
 $L_main_2:
   .line 21
   sys   random

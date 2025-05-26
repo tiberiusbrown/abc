@@ -149,240 +149,11 @@ bench_math:
   .line 17
   p0
   p0000
-  .line 18
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_2
-  popn  9
-  .line 34
-  push4 3072837036
-  .line 35
-  p0
-  p0000
-  .line 36
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_10
-  popn  9
-  .line 52
-  push4 925353388
-  .line 53
-  p0
-  p0000
-  .line 54
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_18
-  popn  9
-  .line 70
-  push4 3072837036
-  .line 71
-  p0
-  p0000
-  .line 72
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_26
-  popn  9
-  .line 88
-  push4 925353388
-  .line 89
-  p0
-  p0000
-  .line 90
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_34
-  popn  9
-  .line 106
-  push4 3072837036
-  .line 107
-  p0
-  p0000
-  .line 108
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_42
-  popn  9
-  .line 124
-  push4 925353388
-  .line 125
-  p0
-  p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_2:
   .line 20
   push4 966609234
   .line 21
   p0
-  jmp   $L_bench_math_5
 $L_bench_math_6:
   .line 23
   getl4 5
@@ -410,7 +181,6 @@ $L_bench_math_6:
   setl4 5
   .line 21
   inc
-$L_bench_math_5:
   dup
   p4
   cult
@@ -435,229 +205,11 @@ $L_bench_math_5:
   .line 35
   p0
   p0000
-  .line 36
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_10
-  popn  9
-  .line 52
-  push4 925353388
-  .line 53
-  p0
-  p0000
-  .line 54
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_18
-  popn  9
-  .line 70
-  push4 3072837036
-  .line 71
-  p0
-  p0000
-  .line 72
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_26
-  popn  9
-  .line 88
-  push4 925353388
-  .line 89
-  p0
-  p0000
-  .line 90
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_34
-  popn  9
-  .line 106
-  push4 3072837036
-  .line 107
-  p0
-  p0000
-  .line 108
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_42
-  popn  9
-  .line 124
-  push4 925353388
-  .line 125
-  p0
-  p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_10:
   .line 38
   push4 966609234
   .line 39
   p0
-  jmp   $L_bench_math_13
 $L_bench_math_14:
   .line 41
   getl4 5
@@ -685,7 +237,6 @@ $L_bench_math_14:
   setl4 5
   .line 39
   inc
-$L_bench_math_13:
   dup
   p4
   cult
@@ -710,218 +261,11 @@ $L_bench_math_13:
   .line 53
   p0
   p0000
-  .line 54
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_18
-  popn  9
-  .line 70
-  push4 3072837036
-  .line 71
-  p0
-  p0000
-  .line 72
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_26
-  popn  9
-  .line 88
-  push4 925353388
-  .line 89
-  p0
-  p0000
-  .line 90
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_34
-  popn  9
-  .line 106
-  push4 3072837036
-  .line 107
-  p0
-  p0000
-  .line 108
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_42
-  popn  9
-  .line 124
-  push4 925353388
-  .line 125
-  p0
-  p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_18:
   .line 56
   push4 966609234
   .line 57
   p0
-  jmp   $L_bench_math_21
 $L_bench_math_22:
   .line 59
   getl4 5
@@ -949,7 +293,6 @@ $L_bench_math_22:
   setl4 5
   .line 57
   inc
-$L_bench_math_21:
   dup
   p4
   cult
@@ -974,207 +317,11 @@ $L_bench_math_21:
   .line 71
   p0
   p0000
-  .line 72
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_26
-  popn  9
-  .line 88
-  push4 925353388
-  .line 89
-  p0
-  p0000
-  .line 90
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_34
-  popn  9
-  .line 106
-  push4 3072837036
-  .line 107
-  p0
-  p0000
-  .line 108
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_42
-  popn  9
-  .line 124
-  push4 925353388
-  .line 125
-  p0
-  p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_26:
   .line 74
   push4 966609234
   .line 75
   p0
-  jmp   $L_bench_math_29
 $L_bench_math_30:
   .line 77
   getl4 5
@@ -1202,7 +349,6 @@ $L_bench_math_30:
   setl4 5
   .line 75
   inc
-$L_bench_math_29:
   dup
   p4
   cult
@@ -1227,196 +373,11 @@ $L_bench_math_29:
   .line 89
   p0
   p0000
-  .line 90
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_34
-  popn  9
-  .line 106
-  push4 3072837036
-  .line 107
-  p0
-  p0000
-  .line 108
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_42
-  popn  9
-  .line 124
-  push4 925353388
-  .line 125
-  p0
-  p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_34:
   .line 92
   push4 966609234
   .line 93
   p0
-  jmp   $L_bench_math_37
 $L_bench_math_38:
   .line 95
   getl4 5
@@ -1444,7 +405,6 @@ $L_bench_math_38:
   setl4 5
   .line 93
   inc
-$L_bench_math_37:
   dup
   p4
   cult
@@ -1469,185 +429,11 @@ $L_bench_math_37:
   .line 107
   p0
   p0000
-  .line 108
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_42
-  popn  9
-  .line 124
-  push4 925353388
-  .line 125
-  p0
-  p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_42:
   .line 110
   push4 966609234
   .line 111
   p0
-  jmp   $L_bench_math_45
 $L_bench_math_46:
   .line 113
   getl4 5
@@ -1675,7 +461,6 @@ $L_bench_math_46:
   setl4 5
   .line 111
   inc
-$L_bench_math_45:
   dup
   p4
   cult
@@ -1700,174 +485,11 @@ $L_bench_math_45:
   .line 125
   p0
   p0000
-  .line 126
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_50
-  popn  9
-  .line 142
-  push4 3072837036
-  .line 143
-  p0
-  p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_50:
   .line 128
   push4 966609234
   .line 129
   p0
-  jmp   $L_bench_math_53
 $L_bench_math_54:
   .line 131
   getl4 5
@@ -1895,7 +517,6 @@ $L_bench_math_54:
   setl4 5
   .line 129
   inc
-$L_bench_math_53:
   dup
   p4
   cult
@@ -1920,163 +541,11 @@ $L_bench_math_53:
   .line 143
   p0
   p0000
-  .line 144
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_58
-  popn  9
-  .line 160
-  push4 925353388
-  .line 161
-  p0
-  p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_58:
   .line 146
   push4 966609234
   .line 147
   p0
-  jmp   $L_bench_math_61
 $L_bench_math_62:
   .line 149
   getl4 5
@@ -2104,7 +573,6 @@ $L_bench_math_62:
   setl4 5
   .line 147
   inc
-$L_bench_math_61:
   dup
   p4
   cult
@@ -2129,152 +597,11 @@ $L_bench_math_61:
   .line 161
   p0
   p0000
-  .line 162
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_66
-  popn  9
-  .line 178
-  push4 3072837036
-  .line 179
-  p0
-  p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_66:
   .line 164
   push4 966609234
   .line 165
   p0
-  jmp   $L_bench_math_69
 $L_bench_math_70:
   .line 167
   getl4 5
@@ -2302,7 +629,6 @@ $L_bench_math_70:
   setl4 5
   .line 165
   inc
-$L_bench_math_69:
   dup
   p4
   cult
@@ -2327,141 +653,11 @@ $L_bench_math_69:
   .line 179
   p0
   p0000
-  .line 180
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_74
-  popn  9
-  .line 196
-  push4 925353388
-  .line 197
-  p0
-  p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_74:
   .line 182
   push4 966609234
   .line 183
   p0
-  jmp   $L_bench_math_77
 $L_bench_math_78:
   .line 185
   getl4 5
@@ -2489,7 +685,6 @@ $L_bench_math_78:
   setl4 5
   .line 183
   inc
-$L_bench_math_77:
   dup
   p4
   cult
@@ -2514,130 +709,11 @@ $L_bench_math_77:
   .line 197
   p0
   p0000
-  .line 198
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_82
-  popn  9
-  .line 214
-  push4 925353388
-  .line 215
-  p0
-  p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_82:
   .line 200
   push4 966609234
   .line 201
   p0
-  jmp   $L_bench_math_85
 $L_bench_math_86:
   .line 203
   getl4 5
@@ -2665,7 +741,6 @@ $L_bench_math_86:
   setl4 5
   .line 201
   inc
-$L_bench_math_85:
   dup
   p4
   cult
@@ -2690,119 +765,11 @@ $L_bench_math_85:
   .line 215
   p0
   p0000
-  .line 216
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_90
-  popn  9
-  .line 232
-  push4 925353388
-  .line 233
-  p0
-  p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_90:
   .line 218
   push4 3114092882
   .line 219
   p0
-  jmp   $L_bench_math_93
 $L_bench_math_94:
   .line 221
   getl4 5
@@ -2830,7 +797,6 @@ $L_bench_math_94:
   setl4 5
   .line 219
   inc
-$L_bench_math_93:
   dup
   p4
   cult
@@ -2855,108 +821,11 @@ $L_bench_math_93:
   .line 233
   p0
   p0000
-  .line 234
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_98
-  popn  9
-  .line 250
-  push4 3072837036
-  .line 251
-  p0
-  p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_98:
   .line 236
   push4 966609234
   .line 237
   p0
-  jmp   $L_bench_math_101
 $L_bench_math_102:
   .line 239
   getl4 5
@@ -2984,7 +853,6 @@ $L_bench_math_102:
   setl4 5
   .line 237
   inc
-$L_bench_math_101:
   dup
   p4
   cult
@@ -3009,97 +877,11 @@ $L_bench_math_101:
   .line 251
   p0
   p0000
-  .line 252
-  dup
-  p4
-  cult
-  bnz   $L_bench_math_106
-  popn  9
-  .line 268
-  push4 841731191
-  .line 269
-  p0
-  p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_106:
   .line 254
   push4 966609234
   .line 255
   p0
-  jmp   $L_bench_math_109
 $L_bench_math_110:
   .line 257
   getl4 5
@@ -3127,7 +909,6 @@ $L_bench_math_110:
   setl4 5
   .line 255
   inc
-$L_bench_math_109:
   dup
   p4
   cult
@@ -3152,80 +933,6 @@ $L_bench_math_109:
   .line 269
   p0
   p0000
-  .line 270
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
-  .line 281
-  push4 841731191
-  .line 282
-  p0
-  p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_114:
   .line 272
   getl4 9
@@ -3261,69 +968,6 @@ $L_bench_math_114:
   .line 282
   p0
   p0000
-  .line 283
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
-  .line 294
-  push4 841731191
-  .line 295
-  p0
-  p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_118:
   .line 285
   getl4 9
@@ -3359,58 +1003,6 @@ $L_bench_math_118:
   .line 295
   p0
   p0000
-  .line 296
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
-  .line 307
-  push4 841731191
-  .line 308
-  p0
-  p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_122:
   .line 298
   getl4 9
@@ -3446,47 +1038,6 @@ $L_bench_math_122:
   .line 308
   p0
   p0000
-  .line 309
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
-  .line 320
-  push4 841731191
-  .line 321
-  p0
-  p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_126:
   .line 311
   getl4 9
@@ -3522,36 +1073,6 @@ $L_bench_math_126:
   .line 321
   p0
   p0000
-  .line 322
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
-  .line 333
-  push4 841731191
-  .line 334
-  p0
-  p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_130:
   .line 324
   getl4 9
@@ -3587,25 +1108,6 @@ $L_bench_math_130:
   .line 334
   p0
   p0000
-  .line 335
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
-  .line 346
-  push4 841731191
-  .line 347
-  p0
-  p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_134:
   .line 337
   getl4 9
@@ -3641,14 +1143,6 @@ $L_bench_math_134:
   .line 347
   p0
   p0000
-  .line 348
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
-  .line 1
-  ret
 $L_bench_math_138:
   .line 350
   getl4 9
@@ -4107,86 +1601,6 @@ main:
   .line 117
   p0
   p0000
-  .line 118
-  dup
-  push  10
-  cult
-  bnz   $L_main_2
-  popn  9
-  .line 128
-  push4 841731191
-  .line 129
-  p0
-  p0000
-  .line 130
-  dup
-  push  10
-  cult
-  bnz   $L_main_6
-  popn  41
-  .line 142
-  push  152
-  p3
-  p0
-  p32
-  p00
-  sys   debug_printf
-  .line 143
-  sys   debug_break
-  .line 144
-  push  10
-  bnzp  $L_main_11
-  .line 145
-  sys   debug_break
-  .line 147
-  push  184
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 148
-  sys   debug_break
-  .line 149
-  p0
-  dup
-  push  10
-  cult
-  bnz   $L_main_15
-  pop
-  .line 150
-  sys   debug_break
-  .line 152
-  push  215
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 153
-  sys   debug_break
-  .line 154
-  p00
-  dupw
-  push  10
-  p0
-  cult2
-  bnz   $L_main_19
-  pop2
-  .line 155
-  sys   debug_break
-  .line 157
-  push  246
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 158
-  sys   debug_break
-  .line 159
-  p000
-  jmp   $L_main_21
 $L_main_2:
   .line 120
   getl4 9
@@ -4229,75 +1643,6 @@ $L_main_2:
   .line 129
   p0
   p0000
-  .line 130
-  dup
-  push  10
-  cult
-  bnz   $L_main_6
-  popn  41
-  .line 142
-  push  152
-  p3
-  p0
-  p32
-  p00
-  sys   debug_printf
-  .line 143
-  sys   debug_break
-  .line 144
-  push  10
-  bnzp  $L_main_11
-  .line 145
-  sys   debug_break
-  .line 147
-  push  184
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 148
-  sys   debug_break
-  .line 149
-  p0
-  dup
-  push  10
-  cult
-  bnz   $L_main_15
-  pop
-  .line 150
-  sys   debug_break
-  .line 152
-  push  215
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 153
-  sys   debug_break
-  .line 154
-  p00
-  dupw
-  push  10
-  p0
-  cult2
-  bnz   $L_main_19
-  pop2
-  .line 155
-  sys   debug_break
-  .line 157
-  push  246
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 158
-  sys   debug_break
-  .line 159
-  p000
-  jmp   $L_main_21
 $L_main_6:
   .line 132
   getl4 9
@@ -4346,60 +1691,7 @@ $L_main_6:
   sys   debug_break
   .line 144
   push  10
-  bnzp  $L_main_11
-  .line 145
-  sys   debug_break
-  .line 147
-  push  184
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 148
-  sys   debug_break
-  .line 149
-  p0
-  dup
-  push  10
-  cult
-  bnz   $L_main_15
-  pop
-  .line 150
-  sys   debug_break
-  .line 152
-  push  215
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 153
-  sys   debug_break
-  .line 154
-  p00
-  dupw
-  push  10
-  p0
-  cult2
-  bnz   $L_main_19
-  pop2
-  .line 155
-  sys   debug_break
-  .line 157
-  push  246
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 158
-  sys   debug_break
-  .line 159
-  p000
-  jmp   $L_main_21
 $L_main_11:
-  .line 144
   dup
   dec
   setl  1
@@ -4417,46 +1709,7 @@ $L_main_11:
   sys   debug_break
   .line 149
   p0
-  dup
-  push  10
-  cult
-  bnz   $L_main_15
-  pop
-  .line 150
-  sys   debug_break
-  .line 152
-  push  215
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 153
-  sys   debug_break
-  .line 154
-  p00
-  dupw
-  push  10
-  p0
-  cult2
-  bnz   $L_main_19
-  pop2
-  .line 155
-  sys   debug_break
-  .line 157
-  push  246
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 158
-  sys   debug_break
-  .line 159
-  p000
-  jmp   $L_main_21
 $L_main_15:
-  .line 149
   inc
   dup
   push  10
@@ -4475,29 +1728,12 @@ $L_main_15:
   .line 153
   sys   debug_break
   .line 154
-  p00
-  dupw
+  p0000
   push  10
   p0
   cult2
-  bnz   $L_main_19
-  pop2
-  .line 155
-  sys   debug_break
-  .line 157
-  push  246
-  p3
-  p0
-  push  31
-  p00
-  sys   debug_printf
-  .line 158
-  sys   debug_break
-  .line 159
-  p000
-  jmp   $L_main_21
+  bz    $L_main_16
 $L_main_19:
-  .line 154
   dupw
   p1
   add2b
@@ -4507,6 +1743,7 @@ $L_main_19:
   p0
   cult2
   bnz   $L_main_19
+$L_main_16:
   pop2
   .line 155
   sys   debug_break
@@ -4520,8 +1757,12 @@ $L_main_19:
   .line 158
   sys   debug_break
   .line 159
-  p000
-  jmp   $L_main_21
+  p00
+  p0000
+  push  10
+  p00
+  cult3
+  bz    $L_main_20
 $L_main_23:
   p3
   getln 3
@@ -4529,13 +1770,13 @@ $L_main_23:
   add3b
   p3
   setln 3
-$L_main_21:
   p3
   getln 3
   push  10
   p00
   cult3
   bnz   $L_main_23
+$L_main_20:
   pop3
   .line 160
   sys   debug_break
@@ -4549,24 +1790,12 @@ $L_main_21:
   .line 163
   sys   debug_break
   .line 164
-  p0000
-  getl4 4
+  pz8
   push  10
   p000
   cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  bz    $L_main_24
 $L_main_27:
-  .line 164
   getl4 4
   p1
   p000
@@ -4577,6 +1806,7 @@ $L_main_27:
   p000
   cult4
   bnz   $L_main_27
+$L_main_24:
   pop4
   .line 165
   sys   debug_break

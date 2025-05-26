@@ -110,7 +110,6 @@ main:
   sys   assert
   .line 43
   p0
-  jmp   $L_main_1
 $L_main_2:
   .line 45
   dup
@@ -185,7 +184,6 @@ $L_main_2:
   pop
   .line 43
   inc
-$L_main_1:
   dup
   p4
   cult

@@ -46,6 +46,7 @@ void compiler_t::optimize()
 
             while(peephole(f))
                 ;
+
             clear_removed_instrs(f.instrs);
         }
         repeat |= remove_unreferenced_labels();
@@ -302,6 +303,19 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
         auto& i0 = f.instrs[i + 0];
+
+        // untransform DUPx
+        if(i0.instr >= I_DUP && i0.instr <= I_DUP8)
+        {
+            f.instrs.insert(f.instrs.begin() + i, 1, { I_GETLN, i0.line });
+            f.instrs[i + 1].imm = f.instrs[i + 1].instr - I_DUP + 1;
+            f.instrs[i + 1].instr = I_GETLN;
+            f.instrs[i + 0].instr = I_PUSH;
+            f.instrs[i + 0].imm = 1;
+            t = true;
+            continue;
+        }
+
         auto& i1 = f.instrs[i + 1];
 
         // replace PUSH N; DUP with PUSH N; PUSH N

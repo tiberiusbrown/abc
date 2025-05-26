@@ -12,34 +12,13 @@ main:
   .line 3
   sys   debug_break
   .line 5
-  p0000
+  p00
   .line 6
-  dupw
+  p0000
   push  10
   p0
   cslt2
-  bnz   $L_main_2
-  pop2
-  .line 13
-  dupw
-  push  42
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 17
-  p00
-  dupw
-  push  200
-  p0
-  cslt2
-  bnz   $L_main_7
-  pop2
-  .line 28
-  sys   debug_break
-  .line 1
-  pop2
-  ret
+  bz    $L_main_0
 $L_main_2:
   .line 8
   dupw
@@ -69,6 +48,7 @@ $L_main_3:
   p0
   cslt2
   bnz   $L_main_2
+$L_main_0:
   pop2
   .line 13
   dupw
@@ -78,25 +58,21 @@ $L_main_3:
   not
   sys   assert
   .line 17
-  p00
-  dupw
+  p0000
   push  200
   p0
   cslt2
-  bnz   $L_main_7
-  pop2
-  .line 28
-  sys   debug_break
-  .line 1
-  pop2
-  ret
+  bz    $L_main_5
 $L_main_7:
   .line 19
   p00
   setl2 4
   .line 20
-  p00
-  jmp   $L_main_10
+  p0000
+  push  10
+  p0
+  cslt2
+  bz    $L_main_9
 $L_main_11:
   .line 22
   dupw
@@ -109,24 +85,7 @@ $L_main_11:
   bool2
   bnz   $L_main_13
   pop2
-  .line 20
-  pop2
-  .line 17
-  dupw
-  p1
-  add2b
-  setl2 2
-  dupw
-  push  200
-  p0
-  cslt2
-  bnz   $L_main_7
-  pop2
-  .line 28
-  sys   debug_break
-  .line 1
-  pop2
-  ret
+  jmp   $L_main_9
 $L_main_13:
   .line 24
   dupw7
@@ -139,12 +98,12 @@ $L_main_13:
   p1
   add2b
   setl2 2
-$L_main_10:
   dupw
   push  10
   p0
   cslt2
   bnz   $L_main_11
+$L_main_9:
   pop2
   .line 17
   dupw
@@ -156,6 +115,7 @@ $L_main_10:
   p0
   cslt2
   bnz   $L_main_7
+$L_main_5:
   pop2
   .line 28
   sys   debug_break
