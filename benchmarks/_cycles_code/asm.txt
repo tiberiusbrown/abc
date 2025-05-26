@@ -1728,11 +1728,7 @@ $L_main_15:
   .line 153
   sys   debug_break
   .line 154
-  p0000
-  push  10
-  p0
-  cult2
-  bz    $L_main_16
+  p00
 $L_main_19:
   dupw
   p1
@@ -1743,7 +1739,6 @@ $L_main_19:
   p0
   cult2
   bnz   $L_main_19
-$L_main_16:
   pop2
   .line 155
   sys   debug_break
@@ -1757,12 +1752,7 @@ $L_main_16:
   .line 158
   sys   debug_break
   .line 159
-  p00
-  p0000
-  push  10
-  p00
-  cult3
-  bz    $L_main_20
+  p000
 $L_main_23:
   p3
   getln 3
@@ -1776,7 +1766,6 @@ $L_main_23:
   p00
   cult3
   bnz   $L_main_23
-$L_main_20:
   pop3
   .line 160
   sys   debug_break
@@ -1790,11 +1779,7 @@ $L_main_20:
   .line 163
   sys   debug_break
   .line 164
-  pz8
-  push  10
-  p000
-  cult4
-  bz    $L_main_24
+  p0000
 $L_main_27:
   getl4 4
   p1
@@ -1806,7 +1791,6 @@ $L_main_27:
   p000
   cult4
   bnz   $L_main_27
-$L_main_24:
   pop4
   .line 165
   sys   debug_break

@@ -39,14 +39,27 @@ void compiler_t::optimize()
 
         for(auto& [n, f] : funcs)
         {
-            if(!errs.empty()) return;
-
+            if(!errs.empty())
+                return;
             while(peephole_reduce(f))
                 ;
+            clear_removed_instrs(f.instrs);
+        }
+        repeat |= remove_unreferenced_labels();
+        repeat |= merge_adjacent_labels();
+    }
 
+    for(bool repeat = true; repeat;)
+    {
+        repeat = false;
+        for(auto& [n, f] : funcs)
+        {
+            if(!errs.empty())
+                return;
+            while(peephole_reduce(f))
+                ;
             while(peephole(f))
                 ;
-
             clear_removed_instrs(f.instrs);
         }
         repeat |= remove_unreferenced_labels();
@@ -303,19 +316,6 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
         auto& i0 = f.instrs[i + 0];
-
-        // untransform DUPx
-        if(i0.instr >= I_DUP && i0.instr <= I_DUP8)
-        {
-            f.instrs.insert(f.instrs.begin() + i, 1, { I_GETLN, i0.line });
-            f.instrs[i + 1].imm = f.instrs[i + 1].instr - I_DUP + 1;
-            f.instrs[i + 1].instr = I_GETLN;
-            f.instrs[i + 0].instr = I_PUSH;
-            f.instrs[i + 0].imm = 1;
-            t = true;
-            continue;
-        }
-
         auto& i1 = f.instrs[i + 1];
 
         // replace PUSH N; DUP with PUSH N; PUSH N
@@ -697,15 +697,14 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             case I_XOR: i0.imm = uint8_t(i0.imm ^ i1.imm); break;
             case I_LSL: i0.imm = uint8_t(i0.imm << i1.imm); break;
             case I_LSR: i0.imm = uint8_t(i0.imm >> i1.imm); break;
-            case I_CULT:
-                i0.imm = i0.imm < i1.imm ? 1 : 0; break;
+            case I_CULT: i0.imm = i0.imm < i1.imm ? 1 : 0; break;
             case I_CSLT: i0.imm = (int8_t)i0.imm < (int8_t)i1.imm ? 1 : 0; break;
             case I_BOOL2: i0.imm = i0.imm != 0 || i1.imm != 0 ? 1 : 0; break;
             case I_COMP2:
             {
                 uint16_t imm16 = uint16_t(-int16_t(i0.imm + i1.imm * 256));
                 i0.imm = uint8_t(imm16 >> 0);
-                i1.imm = uint8_t(imm16 >> 1);
+                i1.imm = uint8_t(imm16 >> 8);
                 i2.instr = I_REMOVE;
                 t = true;
                 continue;
@@ -942,6 +941,58 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
+        // replace PUSH x4; OP2 with PUSH OP2(M,N)
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_PUSH)
+        {
+            bool tt = true;
+            uint32_t imm0 = i0.imm + (i1.imm << 8);
+            uint32_t imm1 = i2.imm + (i3.imm << 8);
+            switch(i4.instr)
+            {
+            case I_ADD2: imm0 += imm1; break;
+            case I_SUB2: imm0 -= imm1; break;
+            case I_MUL2: imm0 *= imm1; break;
+            case I_AND2: imm0 &= imm1; break;
+            case I_OR2:  imm0 |= imm1; break;
+            case I_XOR2: imm0 ^= imm1; break;
+            case I_CULT2:
+                imm0 = imm0 < imm1 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                break;
+            case I_CSLT2:
+                imm0 = (int16_t)imm0 < (int16_t)imm1 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                break;
+            case I_BOOL4:
+                imm0 = imm0 != 0 || imm1 != 0 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                break;
+            case I_COMP4:
+            {
+                uint32_t imm32 = uint32_t(-int32_t(imm0 + (imm1 << 16)));
+                i0.imm = uint8_t(imm32 >> 0);
+                i1.imm = uint8_t(imm32 >> 8);
+                i2.imm = uint8_t(imm32 >> 16);
+                i3.imm = uint8_t(imm32 >> 24);
+                i4.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+            default: tt = false; break;
+            }
+            if(tt)
+            {
+                i0.imm = uint8_t(imm0 >> 0);
+                i1.imm = uint8_t(imm0 >> 8);
+                i2.instr = I_REMOVE;
+                i3.instr = I_REMOVE;
+                i4.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+        }
+
         if(i + 5 >= f.instrs.size()) continue;
         auto& i5 = f.instrs[i + 5];
 
@@ -968,6 +1019,47 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             t = true;
             continue;
         }
+        
+        // replace PUSH x6; OP3 with PUSH OP3(M,N)
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i3.instr == I_PUSH &&
+            i4.instr == I_PUSH && i5.instr == I_PUSH)
+        {
+            bool tt = true;
+            uint32_t imm0 = i0.imm + (i1.imm << 8) + (i2.imm << 16);
+            uint32_t imm1 = i3.imm + (i4.imm << 8) + (i5.imm << 16);
+            switch(i6.instr)
+            {
+            case I_ADD3: imm0 += imm1; break;
+            case I_SUB3: imm0 -= imm1; break;
+            case I_MUL3: imm0 *= imm1; break;
+            case I_CULT3:
+                imm0 = imm0 < imm1 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                break;
+            case I_CSLT3:
+                if(imm0 & 0x800000) imm0 |= 0xff000000;
+                if(imm1 & 0x800000) imm1 |= 0xff000000;
+                imm0 = (int32_t)imm0 < (int32_t)imm1 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                break;
+            default: tt = false; break;
+            }
+            if(tt)
+            {
+                i0.imm = uint8_t(imm0 >> 0);
+                i1.imm = uint8_t(imm0 >> 8);
+                i2.imm = uint8_t(imm0 >> 16);
+                i3.instr = I_REMOVE;
+                i4.instr = I_REMOVE;
+                i5.instr = I_REMOVE;
+                i6.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
+        }
 
         if(i + 7 >= f.instrs.size()) continue;
         auto& i7 = f.instrs[i + 7];
@@ -975,29 +1067,48 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i + 8 >= f.instrs.size()) continue;
         auto& i8 = f.instrs[i + 8];
 
-        // bake PUSH A; ... PUSH H; ADD4/SUB4/MUL4
+        // replace PUSH x8; OP4 with PUSH OP4(M,N)
         if(i0.instr == I_PUSH && i1.instr == I_PUSH &&
             i2.instr == I_PUSH && i3.instr == I_PUSH &&
             i4.instr == I_PUSH && i5.instr == I_PUSH &&
-            i6.instr == I_PUSH && i7.instr == I_PUSH &&
-            (i8.instr == I_ADD4 || i8.instr == I_SUB4 || i8.instr == I_MUL4))
+            i6.instr == I_PUSH && i7.instr == I_PUSH)
         {
-            uint32_t dst = uint32_t(i0.imm + (i1.imm << 8) + (i2.imm << 16) + (i3.imm << 24));
-            uint32_t src = uint32_t(i4.imm + (i5.imm << 8) + (i6.imm << 16) + (i7.imm << 24));
-            if(i8.instr == I_ADD4) dst += src;
-            if(i8.instr == I_SUB4) dst -= src;
-            if(i8.instr == I_MUL4) dst *= src;
-            i0.imm = uint8_t(dst >> 0);
-            i1.imm = uint8_t(dst >> 8);
-            i2.imm = uint8_t(dst >> 16);
-            i3.imm = uint8_t(dst >> 24);
-            i4.instr = I_REMOVE;
-            i5.instr = I_REMOVE;
-            i6.instr = I_REMOVE;
-            i7.instr = I_REMOVE;
-            i8.instr = I_REMOVE;
-            t = true;
-            continue;
+            bool tt = true;
+            uint32_t imm0 = i0.imm + (i1.imm << 8) + (i2.imm << 16) + (i3.imm << 24);
+            uint32_t imm1 = i4.imm + (i5.imm << 8) + (i6.imm << 16) + (i7.imm << 24);
+            switch(i8.instr)
+            {
+            case I_ADD4: imm0 += imm1; break;
+            case I_SUB4: imm0 -= imm1; break;
+            case I_MUL4: imm0 *= imm1; break;
+            case I_CULT4:
+                imm0 = imm0 < imm1 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                i3.instr = I_REMOVE;
+                break;
+            case I_CSLT4:
+                imm0 = (int32_t)imm0 < (int32_t)imm1 ? 1 : 0;
+                i1.instr = I_REMOVE;
+                i2.instr = I_REMOVE;
+                i3.instr = I_REMOVE;
+                break;
+            default: tt = false; break;
+            }
+            if(tt)
+            {
+                i0.imm = uint8_t(imm0 >> 0);
+                i1.imm = uint8_t(imm0 >> 8);
+                i2.imm = uint8_t(imm0 >> 16);
+                i3.imm = uint8_t(imm0 >> 24);
+                i4.instr = I_REMOVE;
+                i5.instr = I_REMOVE;
+                i6.instr = I_REMOVE;
+                i7.instr = I_REMOVE;
+                i8.instr = I_REMOVE;
+                t = true;
+                continue;
+            }
         }
 
     }

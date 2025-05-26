@@ -13,11 +13,7 @@ main:
   .line 7
   sys   debug_break
   .line 9
-  p0000
-  push  132
-  p3
-  cult2
-  bz    $L_main_0
+  p00
 $L_main_2:
   .line 10
   p1
@@ -35,7 +31,6 @@ $L_main_2:
   p3
   cult2
   bnz   $L_main_2
-$L_main_0:
   pop2
   .line 11
   p2

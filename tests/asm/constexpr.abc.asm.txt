@@ -27,14 +27,9 @@ main:
   p1
   sys   assert
   .line 22
-  p000
+  p0
   p0000
   pz16
-  .line 23
-  push  10
-  p0
-  cslt2
-  bz    $L_main_0
 $L_main_2:
   .line 24
   dup
@@ -53,14 +48,9 @@ $L_main_2:
   p0
   cslt2
   bnz   $L_main_2
-$L_main_0:
   popn  23
   .line 27
-  p000
-  push  30
   p0
-  cslt2
-  bz    $L_main_4
 $L_main_6:
   .line 28
   dup
@@ -79,7 +69,6 @@ $L_main_6:
   p0
   cslt2
   bnz   $L_main_6
-$L_main_4:
   pop
   .line 30
   sys   debug_break
