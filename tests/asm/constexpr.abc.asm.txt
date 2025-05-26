@@ -24,11 +24,7 @@ main:
   push  11
   p0
   .line 20
-  dupw
-  push  11
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 22
   p0

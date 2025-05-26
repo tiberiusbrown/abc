@@ -98,12 +98,7 @@ main:
   push  244
   p1
   .line 26
-  dupw
-  push  244
   p1
-  sub2
-  bool2
-  not
   sys   assert
   .line 27
   refl  4
@@ -131,12 +126,7 @@ main:
   push  132
   p3
   .line 33
-  dupw7
-  push  88
-  p2
-  sub2
-  bool2
-  not
+  p1
   sys   assert
   .line 34
   dupw5

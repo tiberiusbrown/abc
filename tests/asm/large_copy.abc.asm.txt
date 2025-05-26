@@ -183,8 +183,7 @@ main:
   pz16
   pz16
   .line 58
-  getl  100
-  not
+  p1
   sys   assert
   .line 59
   pushl c 0

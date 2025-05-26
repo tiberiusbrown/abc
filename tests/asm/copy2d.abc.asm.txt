@@ -26,8 +26,7 @@ main:
   p5
   p5
   .line 18
-  getl  12
-  not
+  p1
   sys   assert
   .line 19
   getl  10

@@ -98,11 +98,7 @@ main:
   p1
   sys   assert
   .line 41
-  push4 305419896
-  push4 305419896
-  sub4
-  bool4
-  not
+  p1
   sys   assert
   .line 43
   p0

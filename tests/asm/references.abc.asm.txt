@@ -428,12 +428,9 @@ $L_main_1:
   p2
   p0
   .line 96
-  dup2
-  .line 97
-  dup
   p2
-  sub
-  not
+  .line 97
+  p1
   sys   assert
   popn  7
   .line 100

@@ -14,11 +14,9 @@ main:
   .line 5
   push4 1430537284
   .line 6
-  push2 21845
+  push4 2576962901
   .line 8
-  p6
-  getln 6
-  add3
+  push  153
   p3
   setln 6
   .line 9

@@ -22,11 +22,9 @@ main:
   .line 164
   push4 1430537284
   .line 165
-  push2 21845
+  push4 2576962901
   .line 167
-  p6
-  getln 6
-  add3
+  push  153
   p3
   setln 6
   .line 168
@@ -50,15 +48,7 @@ test_i8:
   .line 41
   p7
   .line 42
-  dup2
-  sext
-  dup3
-  sext
-  add2
-  push  52
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 43
   dup
@@ -270,16 +260,7 @@ test_u16:
   .line 78
   p2
   .line 79
-  dupw3
-  p0
-  dupw4
-  p0
-  add3
-  push2 5200
-  p0
-  sub3
-  bool3
-  not
+  p1
   sys   assert
   .line 80
   dupw
@@ -534,20 +515,7 @@ test_u24:
   p2
   p0
   .line 118
-  p3
-  getln 9
-  p0
-  p3
-  getln 10
-  p0
-  add4
-  p64
-  push  239
-  p7
-  p0
-  sub4
-  bool4
-  not
+  p1
   sys   assert
   .line 119
   p3
@@ -861,14 +829,7 @@ test_u8:
   .line 4
   p7
   .line 5
-  dup2
-  p0
-  dup3
-  add2b
-  push  52
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 6
   dup

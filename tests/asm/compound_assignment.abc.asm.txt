@@ -15,9 +15,8 @@ main:
   p2
   p0
   .line 7
-  dupw
-  p1
-  add2b
+  p3
+  p0
   setl2 2
   .line 8
   dupw
@@ -148,9 +147,8 @@ main:
   p2
   p0
   .line 31
-  dupw
   p1
-  sub2b
+  p0
   setl2 2
   .line 32
   dupw
@@ -188,9 +186,8 @@ main:
   p2
   p0
   .line 40
-  dupw
-  p2
-  mul2b
+  p4
+  p0
   setl2 2
   .line 41
   dupw
@@ -228,8 +225,8 @@ main:
   push  100
   p0
   .line 49
-  dupw
-  sext2
+  push  100
+  p000
   p3
   p000
   div4
@@ -274,8 +271,8 @@ main:
   push  98
   p0
   .line 58
-  dupw
-  sext2
+  push  98
+  p000
   push  11
   p000
   mod4
@@ -320,7 +317,8 @@ main:
   push  98
   p0
   .line 67
-  dupw
+  push  98
+  p0
   p2
   asr2
   setl2 2
@@ -357,9 +355,8 @@ main:
   sys   assert
   pop4
   .line 75
-  push2 65438
+  push4 4288610206
   .line 76
-  dupw
   p2
   asr2
   setl2 2
@@ -399,7 +396,8 @@ main:
   p2
   p0
   .line 85
-  dupw
+  p2
+  p0
   p2
   lsl2
   setl2 2
@@ -436,11 +434,8 @@ main:
   sys   assert
   pop4
   .line 93
-  push  162
+  push2 41122
   .line 94
-  dup
-  push  240
-  and
   setl  1
   .line 95
   dup
@@ -471,11 +466,8 @@ main:
   sys   assert
   pop2
   .line 102
-  push  162
+  push2 62114
   .line 103
-  dup
-  push  240
-  or
   setl  1
   .line 104
   dup
@@ -506,11 +498,8 @@ main:
   sys   assert
   pop2
   .line 111
-  push  162
+  push2 21154
   .line 112
-  dup
-  push  240
-  xor
   setl  1
   .line 113
   dup

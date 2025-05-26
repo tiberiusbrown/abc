@@ -14,11 +14,7 @@ main:
   .line 5
   push4 2864434397
   .line 7
-  getl4 4
-  push4 2864434397
-  sub4
-  bool4
-  not
+  p1
   sys   assert
   .line 9
   sys   debug_break

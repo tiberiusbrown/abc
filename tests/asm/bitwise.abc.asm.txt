@@ -2481,7 +2481,7 @@ $L_main_9:
   .line 259
   p128
   .line 260
-  dup
+  p128
   p0
   asr
   sext
@@ -2558,7 +2558,8 @@ $L_main_9:
   p0
   p128
   .line 271
-  dupw
+  p0
+  p128
   p0
   asr2
   sext
@@ -2724,9 +2725,9 @@ $L_main_9:
   p00
   p128
   .line 290
-  p3
-  getln 3
-  sext
+  p00
+  p128
+  push  255
   p0
   asr4
   pop
@@ -3047,7 +3048,8 @@ $L_main_9:
   p000
   p128
   .line 317
-  getl4 4
+  p000
+  p128
   p0
   asr4
   p000

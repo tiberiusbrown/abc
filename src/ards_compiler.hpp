@@ -749,10 +749,8 @@ private:
     void optimize();
     bool peephole(compiler_func_t& f);
     bool peephole_reduce(compiler_func_t& f);
-    bool peephole_dup_setln(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
     bool peephole_linc(compiler_func_t& f);
-    bool peephole_ref(compiler_func_t& f);
     bool peephole_dup_sext(compiler_func_t& f);
     bool peephole_bzp(compiler_func_t& f);
     bool peephole_redundant_bzp(compiler_func_t& f);

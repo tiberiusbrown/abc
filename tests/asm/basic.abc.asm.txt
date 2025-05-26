@@ -16,14 +16,7 @@ main:
   .line 6
   p0
   .line 7
-  dup2
-  p0
-  dup3
-  add2b
   p1
-  sub2b
-  bool2
-  not
   sys   assert
   .line 9
   p1

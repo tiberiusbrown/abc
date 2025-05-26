@@ -113,11 +113,7 @@ main:
   p4
   p0
   .line 28
-  dupw7
   p1
-  sub2b
-  bool2
-  not
   sys   assert
   .line 29
   dupw5
