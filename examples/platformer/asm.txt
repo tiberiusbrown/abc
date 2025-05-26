@@ -4158,8 +4158,8 @@ $L_mob_solid_1:
   .line 189
   getg  map_width 0
   .line 192
-  dupw2
-  dup3
+  p3
+  getln 3
   p0
   cslt2
   bnz   $L_mob_solid_2
@@ -4720,8 +4720,8 @@ $L_process_map_tile_34:
   p0
   p16
   mul2b
-  getl2 16
-  getl  16
+  p3
+  getln 16
   p16
   p0
   getl  20
@@ -7875,8 +7875,8 @@ $L_solid_3:
   .line 753
   p6
   getln 11
-  dupw8
-  getl  9
+  p3
+  getln 9
   mul2b
   getl2 13
   add2

@@ -201,9 +201,7 @@ main:
   not
   sys   assert
   .line 61
-  pushl c 0
-  push  200
-  add3b
+  pushl c 200
   push  100
   p00
   refl  106

@@ -47,9 +47,7 @@ $L_main_1:
   bnz   $L_main_2
   pop
   .line 11
-  refl  10
-  p1
-  add2b
+  refl  9
   p3
   p0
   .line 12
@@ -114,9 +112,7 @@ $L_main_1:
   sys   assert
   popn  6
   .line 27
-  refl  10
-  p1
-  add2b
+  refl  9
   .line 28
   getl  10
   p2
@@ -137,10 +133,8 @@ $L_main_1:
   sys   assert
   pop2
   .line 34
-  refl  10
-  p1
-  add2b
-  getrn 3
+  p3
+  getln 9
   .line 35
   getl  11
   p2
@@ -187,9 +181,7 @@ $L_main_1:
   pushl $PD_3 0
   p3
   p00
-  refl  16
-  p1
-  add2b
+  refl  15
   p3
   p0
   sys   strcmp_P
@@ -209,9 +201,7 @@ $L_main_1:
   pushl $PD_5 0
   p3
   p00
-  refl  16
-  p1
-  add2b
+  refl  15
   p3
   p0
   sys   strcpy_P
@@ -254,9 +244,7 @@ $L_main_1:
   sys   assert
   popn  14
   .line 66
-  pushl $PD_9 0
-  p1
-  add3b
+  pushl $PD_9 1
   p3
   p00
   pushl $PD_10 0

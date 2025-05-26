@@ -664,21 +664,7 @@ void compiler_t::compile(
         }
     }
 
-    // peephole optimizations
-    for(bool repeat = true; repeat;)
-    {
-        repeat = false;
-        if(enable_inlining)
-            repeat |= inline_or_remove_functions();
-        for(auto& [n, f] : funcs)
-        {
-            if(!errs.empty()) return;
-            while(peephole(f))
-                ;
-        }
-        repeat |= remove_unreferenced_labels();
-        repeat |= merge_adjacent_labels();
-    }
+    optimize();
     
     // in case the program has calls to text functions but does not have
     // any font data, insert a call to set_text_font at the end of $globinit

@@ -17,9 +17,7 @@ main:
   p3
   p4
   .line 7
-  refl  4
-  p1
-  add2b
+  refl  3
   .line 8
   dupw
   getr

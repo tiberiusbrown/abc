@@ -746,13 +746,10 @@ private:
     bool inline_or_remove_functions();
 
     // perform a series of peephole optimizations on a function
+    void optimize();
     bool peephole(compiler_func_t& f);
-    bool peephole_bake_getpn(compiler_func_t& f);
-    bool peephole_remove_pop(compiler_func_t& f);
-    bool peephole_simplify_derefs(compiler_func_t& f);
-    bool peephole_bake_offsets(compiler_func_t& f);
+    bool peephole_reduce(compiler_func_t& f);
     bool peephole_dup_setln(compiler_func_t& f);
-    bool peephole_arithmetic(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
     bool peephole_linc(compiler_func_t& f);
     bool peephole_ref(compiler_func_t& f);
