@@ -42,7 +42,9 @@ main:
   .line 22
   sys   debug_break
   .line 24
-  pushl my_data 0
+  p0
+  p1
+  p0
   call  f
   .line 26
   sys   debug_break

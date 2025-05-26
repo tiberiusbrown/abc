@@ -93,12 +93,26 @@ main:
   sys   assert
   .line 6
   p1
+  p1
+  p0
+  getp
+  push  101
+  sub
+  not
   sys   assert
   .line 7
+  p6
   p1
+  p0
+  getp
+  p32
+  sub
+  not
   sys   assert
   .line 9
-  pushl $PD_2 0
+  push  28
+  p1
+  p0
   p4
   p00
   sys   strlen_P
@@ -111,7 +125,9 @@ main:
   .line 11
   push4 1751215202
   .line 12
-  pushl $PD_4 0
+  push  52
+  p1
+  p0
   p4
   p00
   refl  10
@@ -121,7 +137,9 @@ main:
   not
   sys   assert
   .line 13
-  pushl $PD_5 0
+  push  28
+  p1
+  p0
   p4
   p00
   refl  10
@@ -133,7 +151,9 @@ main:
   sys   assert
   .line 14
   p0
-  pushl $PD_6 0
+  push  168
+  p1
+  p0
   p4
   p00
   refl  11
@@ -144,7 +164,9 @@ main:
   sys   assert
   .line 15
   p0
-  pushl $PD_7 0
+  push  52
+  p1
+  p0
   p3
   p00
   refl  11
@@ -154,7 +176,9 @@ main:
   cslt
   sys   assert
   .line 16
-  pushl $PD_8 0
+  push  172
+  p1
+  p0
   p5
   p00
   refl  10
@@ -177,7 +201,9 @@ main:
   .line 20
   p0000
   .line 22
-  pushl $PD_9 0
+  push  52
+  p1
+  p0
   p4
   p00
   refl  10
@@ -195,7 +221,9 @@ main:
   not
   sys   assert
   .line 23
-  pushl $PD_10 0
+  push  28
+  p1
+  p0
   p4
   p00
   refl  10
@@ -214,7 +242,9 @@ main:
   cslt
   sys   assert
   .line 24
-  pushl $PD_11 0
+  push  168
+  p1
+  p0
   p4
   p00
   refl  10
@@ -233,7 +263,9 @@ main:
   cslt
   sys   assert
   .line 26
-  pushl $PD_12 0
+  p7
+  p1
+  p0
   p2
   p00
   refl  14
@@ -241,7 +273,9 @@ main:
   p0
   sys   strcpy_P
   pop4
-  pushl $PD_13 0
+  p7
+  p1
+  p0
   p2
   p00
   refl  14
@@ -251,7 +285,9 @@ main:
   not
   sys   assert
   .line 27
-  pushl $PD_14 0
+  push  9
+  p1
+  p0
   p6
   p00
   refl  14
@@ -259,7 +295,9 @@ main:
   p0
   sys   strcpy_P
   pop4
-  pushl $PD_15 0
+  push  9
+  p1
+  p0
   p4
   p00
   refl  14
@@ -269,7 +307,9 @@ main:
   not
   sys   assert
   .line 28
-  pushl $PD_16 0
+  push  15
+  p1
+  p0
   p6
   p00
   refl  14
@@ -277,7 +317,9 @@ main:
   p0
   sys   strcpy_P
   pop4
-  pushl $PD_17 0
+  push  15
+  p1
+  p0
   p6
   p00
   refl  14
@@ -290,7 +332,9 @@ main:
   p16
   push  164
   p00
-  pushl $PD_18 0
+  push  21
+  p1
+  p0
   p3
   p00
   refl  18
@@ -298,7 +342,9 @@ main:
   p0
   sys   format
   .line 35
-  pushl $PD_19 0
+  push  24
+  p1
+  p0
   p4
   p00
   refl  14
@@ -308,7 +354,9 @@ main:
   not
   sys   assert
   .line 36
-  pushl $PD_20 0
+  push  168
+  p1
+  p0
   p4
   p00
   refl  10
@@ -320,7 +368,9 @@ main:
   .line 38
   push  42
   p000
-  pushl $PD_21 0
+  push  21
+  p1
+  p0
   p3
   p00
   refl  18
@@ -328,7 +378,9 @@ main:
   p0
   sys   format
   .line 39
-  pushl $PD_22 0
+  push  24
+  p1
+  p0
   p2
   p00
   refl  14
@@ -340,7 +392,9 @@ main:
   .line 41
   push  42
   p000
-  pushl $PD_23 0
+  p32
+  p1
+  p0
   p3
   p00
   refl  18
@@ -348,7 +402,9 @@ main:
   p0
   sys   format
   .line 42
-  pushl $PD_24 0
+  push  35
+  p1
+  p0
   p3
   p00
   refl  14
@@ -360,7 +416,9 @@ main:
   .line 44
   push  42
   p000
-  pushl $PD_25 0
+  push  38
+  p1
+  p0
   p3
   p00
   refl  18
@@ -368,7 +426,9 @@ main:
   p0
   sys   format
   .line 45
-  pushl $PD_26 0
+  push  41
+  p1
+  p0
   p4
   p00
   refl  14
@@ -381,7 +441,9 @@ main:
   push2 41943
   p32
   p64
-  pushl $PD_27 0
+  push  45
+  p1
+  p0
   p3
   p00
   refl  18
@@ -389,7 +451,9 @@ main:
   p0
   sys   format
   .line 48
-  pushl $PD_28 0
+  push  48
+  p1
+  p0
   p4
   p00
   refl  14
@@ -401,7 +465,9 @@ main:
   .line 50
   push3 6354329
   p64
-  pushl $PD_29 0
+  push  45
+  p1
+  p0
   p3
   p00
   refl  18
@@ -409,7 +475,9 @@ main:
   p0
   sys   format
   .line 51
-  pushl $PD_30 0
+  push  56
+  p1
+  p0
   p4
   p00
   refl  14
@@ -421,7 +489,9 @@ main:
   .line 53
   push3 9468662
   p64
-  pushl $PD_31 0
+  push  45
+  p1
+  p0
   p3
   p00
   refl  18
@@ -429,7 +499,9 @@ main:
   p0
   sys   format
   .line 54
-  pushl $PD_32 0
+  push  60
+  p1
+  p0
   p4
   p00
   refl  14
@@ -441,7 +513,9 @@ main:
   .line 56
   push3 11565793
   p64
-  pushl $PD_33 0
+  p64
+  p1
+  p0
   p3
   p00
   refl  18
@@ -449,7 +523,9 @@ main:
   p0
   sys   format
   .line 57
-  pushl $PD_34 0
+  push  67
+  p1
+  p0
   p3
   p00
   refl  14
@@ -461,7 +537,9 @@ main:
   .line 59
   push3 13736367
   p64
-  pushl $PD_35 0
+  p64
+  p1
+  p0
   p3
   p00
   refl  18
@@ -469,7 +547,9 @@ main:
   p0
   sys   format
   .line 60
-  pushl $PD_36 0
+  push  70
+  p1
+  p0
   p3
   p00
   refl  14
@@ -485,7 +565,9 @@ main:
   .line 64
   pz16
   .line 65
-  pushl $PD_37 0
+  push  73
+  p1
+  p0
   p4
   p00
   refl  36
@@ -513,7 +595,9 @@ main:
   not
   sys   assert
   .line 68
-  pushl $PD_38 0
+  push  73
+  p1
+  p0
   p4
   p00
   refl  36
@@ -523,7 +607,9 @@ main:
   not
   sys   assert
   .line 69
-  pushl $PD_39 0
+  push  73
+  p1
+  p0
   p4
   p00
   refl  36
@@ -533,17 +619,23 @@ main:
   not
   sys   assert
   .line 70
-  pushl $PD_40 0
+  push  73
+  p1
+  p0
   p4
   p00
-  pushl $PD_41 0
+  push  73
+  p1
+  p0
   p4
   p00
   sys   strcmp_PP
   not
   sys   assert
   .line 71
-  pushl $PD_42 0
+  push  77
+  p1
+  p0
   p5
   p00
   refl  36
@@ -559,7 +651,9 @@ main:
   pz16
   pz16
   .line 76
-  pushl $PD_43 0
+  push  82
+  p1
+  p0
   push  43
   p00
   refl  70
@@ -568,7 +662,9 @@ main:
   sys   strcpy_P
   pop4
   .line 77
-  pushl $PD_44 0
+  push  82
+  p1
+  p0
   push  43
   p00
   refl  70
@@ -580,7 +676,9 @@ main:
   popn  255
   .line 81
   pop
-  pushl $PD_45 0
+  push  125
+  p1
+  p0
   push  43
   p00
   refl  70
@@ -589,7 +687,9 @@ main:
   sys   strcpy_P
   pop4
   .line 82
-  pushl $PD_46 0
+  push  125
+  p1
+  p0
   push  43
   p00
   refl  70

@@ -178,7 +178,9 @@ $L_main_1:
   p0
   p0000
   .line 49
-  pushl $PD_3 0
+  p1
+  p1
+  p0
   p3
   p00
   refl  15
@@ -188,7 +190,9 @@ $L_main_1:
   not
   sys   assert
   .line 50
-  pushl $PD_4 0
+  p0
+  p1
+  p0
   p5
   p00
   refl  16
@@ -198,7 +202,9 @@ $L_main_1:
   not
   sys   assert
   .line 51
-  pushl $PD_5 0
+  p5
+  p1
+  p0
   p3
   p00
   refl  15
@@ -207,7 +213,9 @@ $L_main_1:
   sys   strcpy_P
   pop4
   .line 52
-  pushl $PD_6 0
+  p8
+  p1
+  p0
   p5
   p00
   refl  16
@@ -227,7 +235,9 @@ $L_main_1:
   push  10
   p0
   .line 58
-  pushl $PD_8 0
+  p1
+  p1
+  p0
   p3
   p00
   getl4 10
@@ -244,10 +254,14 @@ $L_main_1:
   sys   assert
   popn  14
   .line 66
-  pushl $PD_9 1
+  p1
+  p1
+  p0
   p3
   p00
-  pushl $PD_10 0
+  p1
+  p1
+  p0
   p3
   p00
   sys   strcmp_PP

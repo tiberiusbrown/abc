@@ -15,6 +15,28 @@ void compiler_t::optimize()
         repeat = false;
         if(enable_inlining)
             repeat |= inline_or_remove_functions();
+
+        // compute progdata offsets
+        {
+            uint32_t offset = 256;
+            for(auto& [label, pd] : progdata)
+            {
+                pd.offset = offset;
+                offset += (uint32_t)pd.data.size();
+            }
+        }
+        // compute progdata(interlabel) offsets
+        for(auto& [label, pd] : progdata)
+        {
+            for(auto const& i : pd.inter_labels)
+            {
+                if(auto it = progdata.find(i.second); it != progdata.end())
+                {
+                    it->second.offset = pd.offset + (uint32_t)i.first;
+                }
+            }
+        }
+
         for(auto& [n, f] : funcs)
         {
             if(!errs.empty()) return;
@@ -355,39 +377,60 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
-        // replace PUSHL <LABEL>; GETPN <N> with a bunch of pushes
-        if(i0.instr == I_PUSHL && i1.instr == I_GETPN && i1.imm <= 16)
+        if(enable_bake_pushl)
         {
-            // locate label
-            auto offset = i0.imm;
-            auto n = i1.imm;
-            auto it = progdata.find(i0.label);
-            if(it == progdata.end())
+            // replace PUSHL <LABEL>; GETPN <N> with a bunch of pushes
+            if(i0.instr == I_PUSHL && i1.instr == I_GETPN && i1.imm <= 16)
+            {
+                // locate label
+                auto offset = i0.imm;
+                auto n = i1.imm;
+                auto it = progdata.find(i0.label);
+                if(it == progdata.end())
+                    continue;
+                auto const& d = it->second.data;
+                if(offset + n > d.size())
+                    continue;
+                bool valid = true;
+                for(auto const& p : it->second.relocs_glob)
+                    if(p.first >= offset && p.first < offset + n)
+                        valid = false;
+                for(auto const& p : it->second.relocs_prog)
+                    if(p.first >= offset && p.first < offset + n)
+                        valid = false;
+                if(!valid)
+                    continue;
+
+                i0.instr = I_REMOVE;
+                i1.instr = I_REMOVE;
+
+                f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH, i0.line });
+
+                // i0, i1 invalidated now
+
+                for(size_t j = 0; j < n; ++j)
+                    f.instrs[i + j].imm = d[offset + j];
+                t = true;
                 continue;
-            auto const& d = it->second.data;
-            if(offset + n > d.size())
+            }
+        }
+
+        // bake progdata labels as PUSH's
+        if(i0.instr == I_PUSHL)
+        {
+            if(auto it = progdata.find(i0.label); it != progdata.end())
+            {
+                auto offset = it->second.offset + i0.imm;
+                i0.instr = I_PUSH;
+                i0.imm = uint8_t(offset >> 0);
+                std::string empty;
+                i0.label.swap(empty);
+                f.instrs.insert(f.instrs.begin() + i, 2, i0);
+                f.instrs[i + 1].imm = uint8_t(offset >> 8);
+                f.instrs[i + 2].imm = uint8_t(offset >> 16);
+                t = true;
                 continue;
-            bool valid = true;
-            for(auto const& p : it->second.relocs_glob)
-                if(p.first >= offset && p.first < offset + n)
-                    valid = false;
-            for(auto const& p : it->second.relocs_prog)
-                if(p.first >= offset && p.first < offset + n)
-                    valid = false;
-            if(!valid)
-                continue;
-
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-
-            f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH, i0.line });
-
-            // i0, i1 invalidated now
-
-            for(size_t j = 0; j < n; ++j)
-                f.instrs[i + j].imm = d[offset + j];
-            t = true;
-            continue;
+            }
         }
 
         // replace GETPN <N>; POP with GETPN <N-1>

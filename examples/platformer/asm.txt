@@ -3839,7 +3839,8 @@ $L_level_complete_3:
   .line 320
   sys   save
   .line 322
-  pushl $PD_35 0
+  push2 44177
+  p0
   sys   tones_play_primary
   .line 293
   popn  5
@@ -3890,17 +3891,20 @@ load_map:
   p1
   setg  player_on_ground 0
   .line 52
-  pushl maps 6
+  push2 54740
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 6
   .line 53
-  pushl maps 12
+  push2 54746
+  p0
   getg  current_map 0
   pidxb 17 12
   getp
   .line 54
-  pushl maps 13
+  push2 54747
+  p0
   getg  current_map 0
   pidxb 17 12
   getp
@@ -4078,7 +4082,8 @@ $L_load_map_13:
   .line 95
   getg2 total_objects 0
   p00
-  pushl $PD_36 0
+  push2 44201
+  p0
   push  13
   p00
   sys   debug_printf
@@ -4087,7 +4092,8 @@ $L_load_map_13:
   sys   assert
 $L_load_map_14:
   .line 99
-  pushl $PD_31 0
+  push2 44115
+  p0
   sys   tones_play_primary
   .line 35
   popn  8
@@ -4182,7 +4188,8 @@ $L_mob_solid_2:
   ret
 $L_mob_solid_3:
   .line 198
-  pushl maps 6
+  push2 54740
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 6
@@ -4303,7 +4310,8 @@ $L_player_death_0:
   sys   save
 $L_player_death_1:
   .line 708
-  pushl $PD_34 0
+  push2 44141
+  p0
   sys   tones_play_auto
   .line 694
   ret
@@ -4334,7 +4342,8 @@ $L_player_take_damage_1:
   push  75
   setg  invincibility_frames 0
   .line 720
-  pushl $PD_32 0
+  push2 44129
+  p0
   sys   tones_play_auto
   .line 721
   p00
@@ -5005,10 +5014,12 @@ render_credits:
   getg  creditsy 0
   sub2b
   .line 32
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 33
-  pushl $PD_38 0
+  push2 46354
+  p0
   push  11
   p00
   dupw7
@@ -5018,7 +5029,8 @@ render_credits:
   p0
   sys   draw_text_P
   .line 34
-  pushl $PD_39 0
+  push2 46365
+  p0
   push  17
   p00
   dupw7
@@ -5028,7 +5040,8 @@ render_credits:
   p0
   sys   draw_text_P
   .line 35
-  pushl $PD_40 0
+  push2 46391
+  p0
   p6
   p00
   dupw7
@@ -5038,10 +5051,12 @@ render_credits:
   p0
   sys   draw_text_P
   .line 37
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 38
-  pushl $PD_41 0
+  push2 46397
+  p0
   push  11
   p00
   dupw7
@@ -5051,7 +5066,8 @@ render_credits:
   p0
   sys   draw_text_P
   .line 39
-  pushl $PD_42 0
+  push2 46408
+  p0
   push  9
   p00
   dupw7
@@ -5061,7 +5077,8 @@ render_credits:
   p0
   sys   draw_text_P
   .line 40
-  pushl $PD_43 0
+  push2 46417
+  p0
   push  10
   p00
   dupw7
@@ -5071,7 +5088,8 @@ render_credits:
   p0
   sys   draw_text_P
   .line 41
-  pushl $PD_44 0
+  push2 46397
+  p0
   push  11
   p00
   dupw7
@@ -5088,7 +5106,8 @@ render_credits:
   sys   draw_filled_rect
   .line 44
   p00
-  pushl $PD_22 0
+  push2 35221
+  p0
   p2
   p0
   push  13
@@ -5116,7 +5135,8 @@ $L_render_game_over_2:
   jmp   $L_render_game_over_5
 $L_render_game_over_6:
   .line 93
-  pushl VICTORY_TILES 0
+  push2 48854
+  p0
   dup5
   p0
   p8
@@ -5137,7 +5157,8 @@ $L_render_game_over_6:
   .line 95
   dup
   p0
-  pushl $PD_17 0
+  push2 8615
+  p0
   dup8
   p0
   p16
@@ -5168,10 +5189,12 @@ $L_render_game_over_1:
   bnz   $L_render_game_over_2
   pop
   .line 98
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 99
-  pushl $PD_45 0
+  push2 46427
+  p0
   push  12
   p00
   p8
@@ -5193,7 +5216,8 @@ $L_render_game_over_1:
   p16
   mul2b
   add2
-  pushl $PD_18 0
+  push2 25004
+  p0
   p8
   p0
   push  76
@@ -5207,7 +5231,8 @@ $L_render_game_over_1:
   p16
   mul2b
   add2
-  pushl $PD_18 0
+  push2 25004
+  p0
   push  15
   p0
   push  27
@@ -5227,7 +5252,8 @@ $L_render_game_over_1:
   p16
   mul2b
   add2
-  pushl $PD_18 0
+  push2 25004
+  p0
   push  40
   p0
   push  13
@@ -5247,7 +5273,8 @@ $L_render_game_over_1:
   p16
   mul2b
   add2
-  pushl $PD_18 0
+  push2 25004
+  p0
   push  40
   p0
   push  38
@@ -5267,7 +5294,8 @@ $L_render_game_over_1:
   p16
   mul2b
   add2
-  pushl $PD_18 0
+  push2 25004
+  p0
   push  40
   p0
   push  74
@@ -5281,7 +5309,8 @@ $L_render_game_over_1:
   p16
   mul2b
   add2
-  pushl $PD_18 0
+  push2 25004
+  p0
   push  21
   p0
   push  58
@@ -5290,7 +5319,8 @@ $L_render_game_over_1:
   .line 112
   p64
   p0
-  pushl $PD_18 0
+  push2 25004
+  p0
   push  39
   p0
   push  56
@@ -5303,13 +5333,15 @@ $L_render_game_over_1:
 render_intro:
   .file render.abc
   .line 304
-  pushl $PD_24 0
+  push2 38020
+  p0
   sys   set_text_font
   .line 305
   p3
   getgn total_score 0
   p0
-  pushl $PD_46 0
+  push2 46439
+  p0
   p3
   p00
   push  27
@@ -5322,10 +5354,12 @@ render_intro:
   bool2
   bz    $L_render_intro_0
   .line 308
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 309
-  pushl $PD_47 0
+  push2 46442
+  p0
   push  15
   p00
   p7
@@ -5334,12 +5368,14 @@ render_intro:
   p0
   sys   draw_text_P
   .line 310
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 311
   getg2 score 0
   p00
-  pushl $PD_48 0
+  push2 46457
+  p0
   p3
   p00
   push  35
@@ -5366,7 +5402,8 @@ render_intro:
   p000
   udiv4
   .line 313
-  pushl $PD_49 0
+  push2 46460
+  p0
   p7
   p00
   refl  24
@@ -5395,7 +5432,8 @@ render_intro:
   jmp   $L_render_intro_4
 $L_render_intro_0:
   .line 321
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 322
   getg  current_map 0
@@ -5403,7 +5441,8 @@ $L_render_intro_0:
   cult
   bnz   $L_render_intro_1
   .line 323
-  pushl $PD_50 0
+  push2 46480
+  p0
   p16
   p00
   p7
@@ -5415,7 +5454,8 @@ $L_render_intro_0:
   jmp   $L_render_intro_2
 $L_render_intro_1:
   .line 325
-  pushl $PD_51 0
+  push2 46496
+  p0
   push  10
   p00
   p7
@@ -5430,10 +5470,12 @@ $L_render_intro_2:
   bool3
   bz    $L_render_intro_4
   .line 329
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 331
-  pushl $PD_52 0
+  push2 46506
+  p0
   push  10
   p00
   push  21
@@ -5470,7 +5512,8 @@ $L_render_intro_2:
   p000
   udiv4
   .line 334
-  pushl $PD_53 0
+  push2 46460
+  p0
   p7
   p00
   refl  24
@@ -5509,13 +5552,15 @@ $L_render_intro_4:
   bool2
   bz    $L_render_intro_8
   .line 344
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 345
   getg  was_best_time 0
   bz    $L_render_intro_6
   .line 347
-  pushl $PD_54 0
+  push2 46516
+  p0
   push  9
   p00
   push  37
@@ -5524,7 +5569,8 @@ $L_render_intro_4:
   p0
   sys   draw_text_P
   .line 348
-  pushl $PD_55 0
+  push2 46525
+  p0
   push  10
   p00
   push  44
@@ -5563,7 +5609,8 @@ $L_render_intro_4:
   p000
   udiv4
   .line 352
-  pushl $PD_56 0
+  push2 46460
+  p0
   p7
   p00
   refl  26
@@ -5598,7 +5645,8 @@ $L_render_intro_6:
   getg  was_high_score 0
   bz    $L_render_intro_8
   .line 360
-  pushl $PD_57 0
+  push2 46516
+  p0
   push  9
   p00
   push  37
@@ -5607,7 +5655,8 @@ $L_render_intro_6:
   p0
   sys   draw_text_P
   .line 361
-  pushl $PD_58 0
+  push2 46535
+  p0
   push  11
   p00
   push  44
@@ -5631,7 +5680,8 @@ $L_render_intro_6:
   .line 365
   dupw
   p00
-  pushl $PD_59 0
+  push2 46457
+  p0
   p3
   p00
   refl  22
@@ -5671,19 +5721,22 @@ $L_render_intro_8:
   p3
   and
   add2b
-  pushl $PD_19 0
+  push2 30129
+  p0
   push  37
   p0
   push  56
   p0
   sys   draw_sprite
   .line 371
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 372
   getg  lives 0
   p000
-  pushl $PD_60 0
+  push2 46559
+  p0
   p4
   p00
   push  49
@@ -5692,7 +5745,8 @@ $L_render_intro_8:
   p0
   sys   draw_textf
   .line 373
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 374
   getg  frame_count 0
@@ -5702,7 +5756,8 @@ $L_render_intro_8:
   cult
   bz    $L_render_intro_9
   .line 375
-  pushl $PD_61 0
+  push2 46563
+  p0
   p7
   p00
   p64
@@ -5757,14 +5812,16 @@ render_level:
   sub2
   pop
   .line 395
-  pushl maps 6
+  push2 54740
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 6
   .line 396
   getg  map_width 0
   .line 400
-  pushl maps 14
+  push2 54748
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 3
@@ -6032,7 +6089,8 @@ $L_render_level_14:
   .line 436
   dup
   p0
-  pushl $PD_17 0
+  push2 8615
+  p0
   getl  19
   p0
   p16
@@ -6135,7 +6193,8 @@ $L_render_level_26:
   dup
   p0
   .line 467
-  pushl $PD_18 0
+  push2 25004
+  p0
   dupw8
   p3
   add2b
@@ -6234,7 +6293,8 @@ $L_render_level_32:
   .line 492
   dup7
   p0
-  pushl $PD_19 0
+  push2 30129
+  p0
   dupw6
   getl4 13
   sys   round
@@ -6259,8 +6319,8 @@ $L_render_level_36:
   getg  hearts 0
   cult
   p0
-  pushl $PD_21 0
-  p00
+  push2 35176
+  p000
   push  119
   p0
   getl  10
@@ -6286,7 +6346,8 @@ $L_render_level_40:
   cult
   not
   p0
-  pushl $PD_20 0
+  push2 35131
+  p0
   p8
   p0
   push  119
@@ -6320,12 +6381,14 @@ $L_render_level_39:
   p0
   sys   draw_filled_rect
   .line 502
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 503
   getg2 score 0
   p00
-  pushl $PD_62 0
+  push2 46457
+  p0
   p3
   p00
   p5
@@ -6341,7 +6404,8 @@ $L_render_level_39:
   push  50
   p000
   udiv4
-  pushl $PD_63 0
+  push2 46570
+  p0
   p3
   p00
   p5
@@ -6353,10 +6417,12 @@ $L_render_level_39:
   getg  level_start_frames 0
   bz    $L_render_level_44
   .line 509
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 510
-  pushl maps 0
+  push2 54734
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 6
@@ -6439,10 +6505,12 @@ render_level_complete:
 render_level_select:
   .file render.abc
   .line 170
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 172
-  pushl $PD_64 0
+  push2 46573
+  p0
   p4
   p00
   p5
@@ -6451,7 +6519,8 @@ render_level_select:
   p0
   sys   draw_text_P
   .line 173
-  pushl $PD_65 0
+  push2 46535
+  p0
   push  10
   p00
   p5
@@ -6460,7 +6529,8 @@ render_level_select:
   p0
   sys   draw_text_P
   .line 174
-  pushl $PD_66 0
+  push2 46525
+  p0
   push  9
   p00
   p5
@@ -6498,7 +6568,8 @@ $L_render_level_select_4:
   .line 184
   p00
   .line 185
-  pushl maps 0
+  push2 54734
+  p0
   dup7
   pidxb 17 12
   getpn 6
@@ -6537,7 +6608,8 @@ $L_render_level_select_4:
   setl2 3
 $L_render_level_select_7:
   .line 192
-  pushl maps 0
+  push2 54734
+  p0
   dup8
   pidxb 17 12
   getpn 6
@@ -6559,7 +6631,8 @@ $L_render_level_select_7:
   p00
   sys   draw_filled_rect
   .line 194
-  pushl $PD_67 0
+  push2 46577
+  p0
   p2
   p00
   getl  10
@@ -6570,7 +6643,8 @@ $L_render_level_select_7:
   jmp   $L_render_level_select_9
 $L_render_level_select_8:
   .line 198
-  pushl maps 0
+  push2 54734
+  p0
   dup5
   pidxb 17 12
   getpn 6
@@ -6585,7 +6659,9 @@ $L_render_level_select_8:
   p1
   add2b
   sext2
-  pushl $PD_68 0
+  p128
+  push  181
+  p0
   p3
   p00
   getl  11
@@ -6616,7 +6692,8 @@ $L_render_level_select_9:
   aidxb 2 12
   getr2
   p00
-  pushl $PD_69 0
+  push2 46457
+  p0
   p3
   p00
   getl  11
@@ -6628,7 +6705,9 @@ $L_render_level_select_9:
   jmp   $L_render_level_select_11
 $L_render_level_select_10:
   .line 206
-  pushl $PD_70 0
+  p0
+  push  35
+  p0
   p1
   p00
   dup7
@@ -6666,7 +6745,8 @@ $L_render_level_select_11:
   push  50
   p000
   udiv4
-  pushl $PD_71 0
+  push2 46460
+  p0
   p7
   p00
   refl  24
@@ -6695,7 +6775,9 @@ $L_render_level_select_11:
   jmp   $L_render_level_select_13
 $L_render_level_select_12:
   .line 217
-  pushl $PD_72 0
+  p0
+  push  35
+  p0
   p1
   p00
   dup7
@@ -6754,7 +6836,9 @@ $L_render_level_select_0:
   p0
   sys   draw_vline
   .line 229
-  pushl $PD_73 0
+  p4
+  push  182
+  p0
   push  11
   p00
   push  51
@@ -6763,7 +6847,8 @@ $L_render_level_select_0:
   p0
   sys   draw_text_P
   .line 230
-  pushl $PD_74 0
+  push2 46607
+  p0
   push  11
   p00
   push  58
@@ -6849,7 +6934,8 @@ $L_render_level_select_15:
   p3
   getgn high_score 0
   p0
-  pushl $PD_75 0
+  push2 46439
+  p0
   p3
   p00
   push  51
@@ -6864,7 +6950,8 @@ $L_render_level_select_15:
   p3
   getln 6
   p0
-  pushl $PD_77 0
+  push2 46439
+  p0
   p3
   p00
   push  58
@@ -6876,7 +6963,9 @@ $L_render_level_select_15:
   jmp   $L_render_level_select_25
 $L_render_level_select_22:
   .line 251
-  pushl $PD_76 0
+  p0
+  push  35
+  p0
   p1
   p00
   push  51
@@ -6891,7 +6980,8 @@ $L_render_level_select_22:
   p3
   getln 6
   p0
-  pushl $PD_77 0
+  push2 46439
+  p0
   p3
   p00
   push  58
@@ -6903,7 +6993,9 @@ $L_render_level_select_22:
   jmp   $L_render_level_select_25
 $L_render_level_select_24:
   .line 256
-  pushl $PD_78 0
+  p0
+  push  35
+  p0
   p1
   p00
   push  58
@@ -6936,7 +7028,8 @@ $L_render_level_select_25:
   push  50
   p000
   udiv4
-  pushl $PD_79 0
+  push2 46460
+  p0
   p7
   p00
   refl  24
@@ -6965,7 +7058,9 @@ $L_render_level_select_25:
   jmp   $L_render_level_select_27
 $L_render_level_select_26:
   .line 266
-  pushl $PD_80 0
+  p0
+  push  35
+  p0
   p1
   p00
   push  51
@@ -6996,7 +7091,8 @@ $L_render_level_select_27:
   push  50
   p000
   udiv4
-  pushl $PD_81 0
+  push2 46460
+  p0
   p7
   p00
   refl  24
@@ -7027,7 +7123,9 @@ $L_render_level_select_27:
   ret
 $L_render_level_select_28:
   .line 276
-  pushl $PD_82 0
+  p0
+  push  35
+  p0
   p1
   p00
   push  58
@@ -7043,7 +7141,8 @@ render_menu:
   .file render.abc
   .line 282
   p00
-  pushl $PD_22 0
+  push2 35221
+  p0
   p2
   p0
   push  13
@@ -7056,7 +7155,8 @@ render_menu:
   push  48
   and
   add2b
-  pushl $PD_18 0
+  push2 25004
+  p0
   push2 65534
   getg2 menu_spritex 0
   p16
@@ -7070,13 +7170,15 @@ render_menu:
   p000
   sys   draw_filled_rect
   .line 288
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 289
   getg  save_exists 0
   bz    $L_render_menu_0
   .line 290
-  pushl $PD_83 0
+  push2 46632
+  p0
   push  11
   p00
   push  29
@@ -7088,7 +7190,8 @@ render_menu:
   jmp   $L_render_menu_1
 $L_render_menu_0:
   .line 292
-  pushl $PD_84 0
+  push2 46643
+  p0
   p8
   p00
   push  29
@@ -7098,7 +7201,8 @@ $L_render_menu_0:
   sys   draw_text_P
 $L_render_menu_1:
   .line 293
-  pushl $PD_85 0
+  push2 46651
+  p0
   push  12
   p00
   push  40
@@ -7110,7 +7214,8 @@ $L_render_menu_1:
   getg  sound_on 0
   bz    $L_render_menu_2
   .line 295
-  pushl $PD_86 0
+  push2 46663
+  p0
   push  9
   p00
   push  51
@@ -7122,7 +7227,8 @@ $L_render_menu_1:
   jmp   $L_render_menu_3
 $L_render_menu_2:
   .line 297
-  pushl $PD_87 0
+  push2 46672
+  p0
   push  10
   p00
   push  51
@@ -7132,7 +7238,8 @@ $L_render_menu_2:
   sys   draw_text_P
 $L_render_menu_3:
   .line 298
-  pushl $PD_88 0
+  push2 46682
+  p0
   p7
   p00
   push  62
@@ -7149,7 +7256,8 @@ $L_render_menu_3:
   p3
   and
   add2b
-  pushl $PD_19 0
+  push2 30129
+  p0
   p16
   p0
   getg  menui 0
@@ -7169,17 +7277,20 @@ render_pause:
   call  render_level
   .line 51
   p00
-  pushl $PD_89 0
+  push2 46689
+  p0
   p0000
   sys   draw_sprite
   .line 55
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 56
   dup
   bz    $L_render_pause_0
   .line 58
-  pushl $PD_90 0
+  push2 48760
+  p0
   push  11
   p00
   p8
@@ -7188,7 +7299,8 @@ render_pause:
   p0
   sys   draw_text_P
   .line 59
-  pushl $PD_91 0
+  push2 48771
+  p0
   p2
   p00
   push  24
@@ -7197,7 +7309,8 @@ render_pause:
   p0
   sys   draw_text_P
   .line 60
-  pushl $PD_92 0
+  push2 48773
+  p0
   p3
   p00
   push  36
@@ -7209,7 +7322,8 @@ render_pause:
   jmp   $L_render_pause_5
 $L_render_pause_0:
   .line 64
-  pushl $PD_93 0
+  push2 48776
+  p0
   p6
   p00
   p8
@@ -7218,7 +7332,8 @@ $L_render_pause_0:
   p0
   sys   draw_text_P
   .line 65
-  pushl $PD_94 0
+  push2 46632
+  p0
   p6
   p00
   push  24
@@ -7230,7 +7345,8 @@ $L_render_pause_0:
   getg  sound_on 0
   bz    $L_render_pause_1
   .line 67
-  pushl $PD_95 0
+  push2 46663
+  p0
   push  9
   p00
   push  36
@@ -7242,7 +7358,8 @@ $L_render_pause_0:
   jmp   $L_render_pause_2
 $L_render_pause_1:
   .line 69
-  pushl $PD_96 0
+  push2 46672
+  p0
   push  10
   p00
   push  36
@@ -7252,7 +7369,8 @@ $L_render_pause_1:
   sys   draw_text_P
 $L_render_pause_2:
   .line 70
-  pushl $PD_97 0
+  push2 48782
+  p0
   push  9
   p00
   push  48
@@ -7264,7 +7382,8 @@ $L_render_pause_2:
   getg  single_level 0
   bz    $L_render_pause_3
   .line 72
-  pushl $PD_98 0
+  push2 48791
+  p0
   p7
   p00
   push  60
@@ -7276,7 +7395,8 @@ $L_render_pause_2:
   jmp   $L_render_pause_5
 $L_render_pause_3:
   .line 74
-  pushl $PD_99 0
+  push2 48798
+  p0
   p8
   p00
   push  60
@@ -7286,7 +7406,9 @@ $L_render_pause_3:
   sys   draw_text_P
 $L_render_pause_5:
   .line 76
-  pushl $PD_100 0
+  push  103
+  p8
+  p0
   p1
   p00
   push  24
@@ -7322,7 +7444,8 @@ $L_render_victory_2:
   jmp   $L_render_victory_5
 $L_render_victory_6:
   .line 136
-  pushl VICTORY_TILES 0
+  push2 48854
+  p0
   dup5
   p0
   p8
@@ -7343,7 +7466,8 @@ $L_render_victory_6:
   .line 138
   dup
   p0
-  pushl $PD_17 0
+  push2 8615
+  p0
   dup8
   p0
   p16
@@ -7374,10 +7498,12 @@ $L_render_victory_1:
   bnz   $L_render_victory_2
   pop
   .line 141
-  pushl $PD_23 0
+  push2 35430
+  p0
   sys   set_text_font
   .line 142
-  pushl $PD_101 0
+  push2 8481
+  p0
   push  14
   p00
   p8
@@ -7386,13 +7512,15 @@ $L_render_victory_1:
   p0
   sys   draw_text_P
   .line 147
-  pushl $PD_24 0
+  push2 38020
+  p0
   sys   set_text_font
   .line 148
   p3
   getgn total_score 0
   p0
-  pushl $PD_102 0
+  push2 46439
+  p0
   p3
   p00
   push  22
@@ -7419,7 +7547,8 @@ $L_render_victory_1:
   push  50
   p000
   udiv4
-  pushl $PD_103 0
+  push2 46460
+  p0
   p7
   p00
   refl  24
@@ -7450,13 +7579,15 @@ $L_render_victory_1:
   sys   draw_text
   popn  11
   .line 156
-  pushl $PD_37 0
+  push2 44214
+  p0
   sys   set_text_font
   .line 157
   getg  was_high_score 0
   bz    $L_render_victory_9
   .line 158
-  pushl $PD_104 0
+  push2 8495
+  p0
   push  15
   p00
   push  29
@@ -7469,7 +7600,8 @@ $L_render_victory_9:
   getg  was_best_time 0
   bz    $L_render_victory_10
   .line 160
-  pushl $PD_105 0
+  push2 8510
+  p0
   push  14
   p00
   push  52
@@ -7485,13 +7617,16 @@ $L_render_victory_10:
   p7
   and
   .line 164
-  pushl VICTORY_FRAMES 0
+  push2 48846
+  p0
   dup4
   pidxb 1 8
   getp
   p0
-  pushl $PD_19 0
-  pushl VICTORY_OFFY 0
+  push2 30129
+  p0
+  push2 20060
+  p0
   getl  9
   pidxb 1 8
   getp
@@ -7506,7 +7641,8 @@ $L_render_victory_10:
 resolve_player_collision:
   .file update.abc
   .line 507
-  pushl maps 6
+  push2 54740
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 6
@@ -7970,7 +8106,8 @@ touch_object:
   dupw3
   setr
   .line 770
-  pushl $PD_28 0
+  push2 39990
+  p0
   sys   tones_play_auto
   .line 763
   pop3
@@ -7990,7 +8127,8 @@ $L_touch_object_0:
   dupw3
   setr
   .line 776
-  pushl $PD_30 0
+  push2 44107
+  p0
   sys   tones_play_auto
   .line 763
   pop3
@@ -8011,7 +8149,8 @@ $L_touch_object_1:
   dupw3
   setr
   .line 782
-  pushl $PD_29 0
+  push2 39996
+  p0
   sys   tones_play_auto
   .line 763
   pop3
@@ -8037,7 +8176,8 @@ $L_touch_object_3:
   dupw3
   setr
   .line 789
-  pushl $PD_33 0
+  push2 44135
+  p0
   sys   tones_play_auto
   .line 763
   pop3
@@ -8823,7 +8963,9 @@ $L_update_level_7:
   push  15
   setg  jump_frames_remaining 0
   .line 361
-  pushl $PD_25 0
+  p0
+  push  156
+  p0
   sys   tones_play_auto
 $L_update_level_9:
   .line 364
@@ -8893,7 +9035,8 @@ $L_update_level_15:
   cult
   bz    $L_update_level_34
   .line 383
-  pushl maps 6
+  push2 54740
+  p0
   getg  current_map 0
   pidxb 17 12
   getpn 6
@@ -8982,7 +9125,8 @@ $L_update_level_19:
   push4 3232130662
   setg4 vy 0
   .line 396
-  pushl $PD_27 0
+  push2 39960
+  p0
   sys   tones_play_auto
   .line 393
   jmp   $L_update_level_33
@@ -8997,7 +9141,8 @@ $L_update_level_20:
   p64
   setg4 vx 0
   .line 401
-  pushl $PD_27 0
+  push2 39960
+  p0
   sys   tones_play_auto
   .line 398
   jmp   $L_update_level_33
@@ -9011,7 +9156,8 @@ $L_update_level_21:
   push4 3227936358
   setg4 vx 0
   .line 406
-  pushl $PD_27 0
+  push2 39960
+  p0
   sys   tones_play_auto
   .line 403
   jmp   $L_update_level_33
@@ -9822,7 +9968,8 @@ $L_update_map_objects_1:
   push  15
   setg  jump_frames_remaining 0
   .line 649
-  pushl $PD_26 0
+  push2 39948
+  p0
   sys   tones_play_auto
 $L_update_map_objects_22:
   .line 560
@@ -10182,7 +10329,8 @@ $L_update_score_tally_0:
   and
   bnz   $L_update_score_tally_1
   .line 228
-  pushl $PD_106 0
+  push2 8524
+  p0
   sys   tones_play
 $L_update_score_tally_1:
   pop
@@ -10224,7 +10372,8 @@ $L_update_score_tally_3:
   and
   bnz   $L_update_score_tally_4
   .line 239
-  pushl $PD_107 0
+  push2 8524
+  p0
   sys   tones_play
 $L_update_score_tally_4:
   pop

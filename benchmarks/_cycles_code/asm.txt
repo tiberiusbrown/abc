@@ -387,7 +387,9 @@ $L_bench_math_6:
   .line 23
   getl4 5
   getl4 18
-  pushl $PD_0 0
+  p0
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -660,7 +662,9 @@ $L_bench_math_14:
   .line 41
   getl4 5
   getl4 18
-  pushl $PD_1 0
+  p0
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -922,7 +926,9 @@ $L_bench_math_22:
   .line 59
   getl4 5
   getl4 18
-  pushl $PD_2 0
+  push  106
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -1173,7 +1179,9 @@ $L_bench_math_30:
   .line 77
   getl4 5
   getl4 18
-  pushl $PD_3 0
+  push  106
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -1413,7 +1421,9 @@ $L_bench_math_38:
   .line 95
   getl4 5
   getl4 18
-  pushl $PD_4 0
+  push  123
+  p2
+  p0
   push  10
   p00
   sys   debug_printf
@@ -1642,7 +1652,9 @@ $L_bench_math_46:
   .line 113
   getl4 5
   getl4 18
-  pushl $PD_5 0
+  push  123
+  p2
+  p0
   push  10
   p00
   sys   debug_printf
@@ -1860,7 +1872,9 @@ $L_bench_math_54:
   .line 131
   getl4 5
   getl4 18
-  pushl $PD_6 0
+  push  142
+  p3
+  p0
   push  10
   p00
   sys   debug_printf
@@ -2067,7 +2081,9 @@ $L_bench_math_62:
   .line 149
   getl4 5
   getl4 18
-  pushl $PD_7 0
+  push  142
+  p3
+  p0
   push  10
   p00
   sys   debug_printf
@@ -2263,7 +2279,9 @@ $L_bench_math_70:
   .line 167
   getl4 5
   getl4 18
-  pushl $PD_8 0
+  push  52
+  p4
+  p0
   push  15
   p00
   sys   debug_printf
@@ -2448,7 +2466,9 @@ $L_bench_math_78:
   .line 185
   getl4 5
   getl4 18
-  pushl $PD_9 0
+  push  52
+  p4
+  p0
   push  15
   p00
   sys   debug_printf
@@ -2622,7 +2642,9 @@ $L_bench_math_86:
   .line 203
   getl4 5
   getl4 18
-  pushl $PD_10 0
+  push  10
+  p1
+  p0
   push  15
   p00
   sys   debug_printf
@@ -2785,7 +2807,9 @@ $L_bench_math_94:
   .line 221
   getl4 5
   getl4 18
-  pushl $PD_11 0
+  push  10
+  p1
+  p0
   push  15
   p00
   sys   debug_printf
@@ -2937,7 +2961,9 @@ $L_bench_math_102:
   .line 239
   getl4 5
   getl4 18
-  pushl $PD_12 0
+  push  25
+  p1
+  p0
   push  17
   p00
   sys   debug_printf
@@ -3078,7 +3104,9 @@ $L_bench_math_110:
   .line 257
   getl4 5
   getl4 18
-  pushl $PD_13 0
+  push  25
+  p1
+  p0
   push  17
   p00
   sys   debug_printf
@@ -3201,7 +3229,9 @@ $L_bench_math_109:
 $L_bench_math_114:
   .line 272
   getl4 9
-  pushl $PD_14 0
+  push  42
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -3297,7 +3327,9 @@ $L_bench_math_114:
 $L_bench_math_118:
   .line 285
   getl4 9
-  pushl $PD_15 0
+  push  52
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -3382,7 +3414,9 @@ $L_bench_math_118:
 $L_bench_math_122:
   .line 298
   getl4 9
-  pushl $PD_16 0
+  push  62
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -3456,7 +3490,9 @@ $L_bench_math_122:
 $L_bench_math_126:
   .line 311
   getl4 9
-  pushl $PD_17 0
+  push  72
+  p1
+  p0
   push  11
   p00
   sys   debug_printf
@@ -3519,7 +3555,9 @@ $L_bench_math_126:
 $L_bench_math_130:
   .line 324
   getl4 9
-  pushl $PD_18 0
+  push  83
+  p1
+  p0
   push  12
   p00
   sys   debug_printf
@@ -3571,7 +3609,9 @@ $L_bench_math_130:
 $L_bench_math_134:
   .line 337
   getl4 9
-  pushl $PD_19 0
+  push  95
+  p1
+  p0
   push  11
   p00
   sys   debug_printf
@@ -3612,7 +3652,9 @@ $L_bench_math_134:
 $L_bench_math_138:
   .line 350
   getl4 9
-  pushl $PD_20 0
+  push  116
+  p1
+  p0
   push  12
   p00
   sys   debug_printf
@@ -3643,7 +3685,9 @@ $L_bench_math_138:
 main:
   .file main.abc
   .line 5
-  pushl $PD_21 0
+  p128
+  p1
+  p0
   push  19
   p00
   sys   debug_printf
@@ -3652,7 +3696,9 @@ main:
   .line 7
   sys   debug_break
   .line 9
-  pushl $PD_22 0
+  push  147
+  p1
+  p0
   push  11
   p00
   sys   debug_printf
@@ -3664,7 +3710,9 @@ main:
   .line 12
   sys   debug_break
   .line 14
-  pushl $PD_23 0
+  push  158
+  p1
+  p0
   push  19
   p00
   sys   debug_printf
@@ -3676,7 +3724,9 @@ main:
   .line 17
   sys   debug_break
   .line 19
-  pushl $PD_24 0
+  push  177
+  p1
+  p0
   push  11
   p00
   sys   debug_printf
@@ -3687,7 +3737,9 @@ main:
   .line 22
   sys   debug_break
   .line 24
-  pushl $PD_25 0
+  push  188
+  p1
+  p0
   push  19
   p00
   sys   debug_printf
@@ -3698,7 +3750,9 @@ main:
   .line 27
   sys   debug_break
   .line 29
-  pushl $PD_26 0
+  push  207
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -3710,7 +3764,9 @@ main:
   .line 32
   sys   debug_break
   .line 34
-  pushl $PD_27 0
+  push  217
+  p1
+  p0
   push  10
   p00
   sys   debug_printf
@@ -3725,7 +3781,9 @@ main:
   pz16
   pz16
   .line 42
-  pushl $PD_28 0
+  push  227
+  p1
+  p0
   push  21
   p00
   sys   debug_printf
@@ -3733,7 +3791,9 @@ main:
   sys   debug_break
   .line 44
   p0000
-  pushl $PD_29 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3743,7 +3803,9 @@ main:
   .line 45
   sys   debug_break
   .line 47
-  pushl $PD_30 0
+  push  251
+  p1
+  p0
   push  23
   p00
   sys   debug_printf
@@ -3752,7 +3814,9 @@ main:
   .line 49
   push  100
   p000
-  pushl $PD_31 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3762,7 +3826,9 @@ main:
   .line 50
   sys   debug_break
   .line 52
-  pushl $PD_32 0
+  push  18
+  p2
+  p0
   push  25
   p00
   sys   debug_printf
@@ -3772,7 +3838,9 @@ main:
   p16
   push  39
   p00
-  pushl $PD_33 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3782,7 +3850,9 @@ main:
   .line 55
   sys   debug_break
   .line 57
-  pushl $PD_34 0
+  push  43
+  p2
+  p0
   push  27
   p00
   sys   debug_printf
@@ -3792,7 +3862,9 @@ main:
   p64
   push2 3906
   p0
-  pushl $PD_35 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3802,7 +3874,9 @@ main:
   .line 60
   sys   debug_break
   .line 62
-  pushl $PD_36 0
+  push  70
+  p2
+  p0
   push  29
   p00
   sys   debug_printf
@@ -3812,7 +3886,9 @@ main:
   p0
   push2 62945
   p5
-  pushl $PD_37 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3822,7 +3898,9 @@ main:
   .line 65
   sys   debug_break
   .line 67
-  pushl $PD_38 0
+  push  99
+  p2
+  p0
   push  24
   p00
   sys   debug_printf
@@ -3830,7 +3908,9 @@ main:
   sys   debug_break
   .line 69
   push4 4294967196
-  pushl $PD_39 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3840,7 +3920,9 @@ main:
   .line 70
   sys   debug_break
   .line 72
-  pushl $PD_40 0
+  push  133
+  p2
+  p0
   push  26
   p00
   sys   debug_printf
@@ -3848,7 +3930,9 @@ main:
   sys   debug_break
   .line 74
   push4 4294957296
-  pushl $PD_41 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3858,7 +3942,9 @@ main:
   .line 75
   sys   debug_break
   .line 77
-  pushl $PD_42 0
+  push  159
+  p2
+  p0
   push  28
   p00
   sys   debug_printf
@@ -3866,7 +3952,9 @@ main:
   sys   debug_break
   .line 79
   push4 4293967296
-  pushl $PD_43 0
+  push  248
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3876,7 +3964,9 @@ main:
   .line 80
   sys   debug_break
   .line 82
-  pushl $PD_44 0
+  push  187
+  p2
+  p0
   push  30
   p00
   sys   debug_printf
@@ -3884,8 +3974,9 @@ main:
   sys   debug_break
   .line 84
   p0
-  push3 16386591
-  pushl $PD_45 0
+  push4 4177136159
+  p1
+  p0
   p3
   p00
   refl  42
@@ -3895,7 +3986,9 @@ main:
   .line 85
   sys   debug_break
   .line 87
-  pushl $PD_46 0
+  push  217
+  p2
+  p0
   push  21
   p00
   sys   debug_printf
@@ -3903,7 +3996,9 @@ main:
   sys   debug_break
   .line 89
   p0000
-  pushl $PD_47 0
+  push  238
+  p2
+  p0
   p3
   p00
   refl  42
@@ -3913,7 +4008,9 @@ main:
   .line 90
   sys   debug_break
   .line 92
-  pushl $PD_48 0
+  push  241
+  p2
+  p0
   push  23
   p00
   sys   debug_printf
@@ -3922,7 +4019,9 @@ main:
   .line 94
   push  100
   p000
-  pushl $PD_49 0
+  push  238
+  p2
+  p0
   p3
   p00
   refl  42
@@ -3932,7 +4031,9 @@ main:
   .line 95
   sys   debug_break
   .line 97
-  pushl $PD_50 0
+  p8
+  p3
+  p0
   push  25
   p00
   sys   debug_printf
@@ -3942,7 +4043,9 @@ main:
   p16
   push  39
   p00
-  pushl $PD_51 0
+  push  238
+  p2
+  p0
   p3
   p00
   refl  42
@@ -3952,7 +4055,9 @@ main:
   .line 100
   sys   debug_break
   .line 102
-  pushl $PD_52 0
+  push  33
+  p3
+  p0
   push  27
   p00
   sys   debug_printf
@@ -3962,7 +4067,9 @@ main:
   p64
   push2 3906
   p0
-  pushl $PD_53 0
+  push  238
+  p2
+  p0
   p3
   p00
   refl  42
@@ -3972,7 +4079,9 @@ main:
   .line 105
   sys   debug_break
   .line 107
-  pushl $PD_54 0
+  push  60
+  p3
+  p0
   push  29
   p00
   sys   debug_printf
@@ -3982,7 +4091,9 @@ main:
   p0
   push2 62945
   p5
-  pushl $PD_55 0
+  push  238
+  p2
+  p0
   p3
   p00
   refl  42
@@ -4014,7 +4125,9 @@ main:
   bnz   $L_main_6
   popn  41
   .line 142
-  pushl $PD_60 0
+  push  152
+  p3
+  p0
   p32
   p00
   sys   debug_printf
@@ -4026,7 +4139,9 @@ main:
   .line 145
   sys   debug_break
   .line 147
-  pushl $PD_61 0
+  push  184
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4042,7 +4157,9 @@ main:
   .line 150
   sys   debug_break
   .line 152
-  pushl $PD_62 0
+  push  215
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4059,7 +4176,9 @@ main:
   .line 155
   sys   debug_break
   .line 157
-  pushl $PD_63 0
+  push  246
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4067,43 +4186,13 @@ main:
   sys   debug_break
   .line 159
   p000
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_23
-  pop3
-  .line 160
-  sys   debug_break
-  .line 162
-  pushl $PD_64 0
-  push  31
-  p00
-  sys   debug_printf
-  .line 163
-  sys   debug_break
-  .line 164
-  p0000
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  jmp   $L_main_21
 $L_main_2:
   .line 120
   getl4 9
-  pushl $PD_56 0
+  push  89
+  p3
+  p0
   push  25
   p00
   sys   debug_printf
@@ -4111,7 +4200,9 @@ $L_main_2:
   sys   debug_break
   .line 122
   getl4 9
-  pushl $PD_57 0
+  push  114
+  p3
+  p0
   p3
   p00
   refl  51
@@ -4145,7 +4236,9 @@ $L_main_2:
   bnz   $L_main_6
   popn  41
   .line 142
-  pushl $PD_60 0
+  push  152
+  p3
+  p0
   p32
   p00
   sys   debug_printf
@@ -4157,7 +4250,9 @@ $L_main_2:
   .line 145
   sys   debug_break
   .line 147
-  pushl $PD_61 0
+  push  184
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4173,7 +4268,9 @@ $L_main_2:
   .line 150
   sys   debug_break
   .line 152
-  pushl $PD_62 0
+  push  215
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4190,7 +4287,9 @@ $L_main_2:
   .line 155
   sys   debug_break
   .line 157
-  pushl $PD_63 0
+  push  246
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4198,43 +4297,13 @@ $L_main_2:
   sys   debug_break
   .line 159
   p000
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_23
-  pop3
-  .line 160
-  sys   debug_break
-  .line 162
-  pushl $PD_64 0
-  push  31
-  p00
-  sys   debug_printf
-  .line 163
-  sys   debug_break
-  .line 164
-  p0000
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  jmp   $L_main_21
 $L_main_6:
   .line 132
   getl4 9
-  pushl $PD_58 0
+  push  117
+  p3
+  p0
   push  25
   p00
   sys   debug_printf
@@ -4242,7 +4311,9 @@ $L_main_6:
   sys   debug_break
   .line 134
   getl4 9
-  pushl $PD_59 0
+  p0
+  p1
+  p0
   p3
   p00
   refl  51
@@ -4265,7 +4336,9 @@ $L_main_6:
   bnz   $L_main_6
   popn  41
   .line 142
-  pushl $PD_60 0
+  push  152
+  p3
+  p0
   p32
   p00
   sys   debug_printf
@@ -4277,7 +4350,9 @@ $L_main_6:
   .line 145
   sys   debug_break
   .line 147
-  pushl $PD_61 0
+  push  184
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4293,7 +4368,9 @@ $L_main_6:
   .line 150
   sys   debug_break
   .line 152
-  pushl $PD_62 0
+  push  215
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4310,7 +4387,9 @@ $L_main_6:
   .line 155
   sys   debug_break
   .line 157
-  pushl $PD_63 0
+  push  246
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4318,39 +4397,7 @@ $L_main_6:
   sys   debug_break
   .line 159
   p000
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_23
-  pop3
-  .line 160
-  sys   debug_break
-  .line 162
-  pushl $PD_64 0
-  push  31
-  p00
-  sys   debug_printf
-  .line 163
-  sys   debug_break
-  .line 164
-  p0000
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  jmp   $L_main_21
 $L_main_11:
   .line 144
   dup
@@ -4360,7 +4407,9 @@ $L_main_11:
   .line 145
   sys   debug_break
   .line 147
-  pushl $PD_61 0
+  push  184
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4376,7 +4425,9 @@ $L_main_11:
   .line 150
   sys   debug_break
   .line 152
-  pushl $PD_62 0
+  push  215
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4393,7 +4444,9 @@ $L_main_11:
   .line 155
   sys   debug_break
   .line 157
-  pushl $PD_63 0
+  push  246
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4401,39 +4454,7 @@ $L_main_11:
   sys   debug_break
   .line 159
   p000
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_23
-  pop3
-  .line 160
-  sys   debug_break
-  .line 162
-  pushl $PD_64 0
-  push  31
-  p00
-  sys   debug_printf
-  .line 163
-  sys   debug_break
-  .line 164
-  p0000
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  jmp   $L_main_21
 $L_main_15:
   .line 149
   inc
@@ -4445,7 +4466,9 @@ $L_main_15:
   .line 150
   sys   debug_break
   .line 152
-  pushl $PD_62 0
+  push  215
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4462,7 +4485,9 @@ $L_main_15:
   .line 155
   sys   debug_break
   .line 157
-  pushl $PD_63 0
+  push  246
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4470,39 +4495,7 @@ $L_main_15:
   sys   debug_break
   .line 159
   p000
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_23
-  pop3
-  .line 160
-  sys   debug_break
-  .line 162
-  pushl $PD_64 0
-  push  31
-  p00
-  sys   debug_printf
-  .line 163
-  sys   debug_break
-  .line 164
-  p0000
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  jmp   $L_main_21
 $L_main_19:
   .line 154
   dupw
@@ -4518,7 +4511,9 @@ $L_main_19:
   .line 155
   sys   debug_break
   .line 157
-  pushl $PD_63 0
+  push  246
+  p3
+  p0
   push  31
   p00
   sys   debug_printf
@@ -4526,47 +4521,15 @@ $L_main_19:
   sys   debug_break
   .line 159
   p000
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_23
-  pop3
-  .line 160
-  sys   debug_break
-  .line 162
-  pushl $PD_64 0
-  push  31
-  p00
-  sys   debug_printf
-  .line 163
-  sys   debug_break
-  .line 164
-  p0000
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_27
-  pop4
-  .line 165
-  sys   debug_break
-  .line 167
-  call  bench_math
-  .line 169
-  p0
-  sys   assert
-  .line 3
-  ret
+  jmp   $L_main_21
 $L_main_23:
-  .line 159
   p3
   getln 3
   p1
   add3b
   p3
   setln 3
+$L_main_21:
   p3
   getln 3
   push  10
@@ -4577,7 +4540,9 @@ $L_main_23:
   .line 160
   sys   debug_break
   .line 162
-  pushl $PD_64 0
+  push  21
+  p4
+  p0
   push  31
   p00
   sys   debug_printf

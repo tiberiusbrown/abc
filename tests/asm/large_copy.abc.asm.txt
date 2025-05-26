@@ -27,7 +27,9 @@ c:
 $globinit:
   .file <internal>.abc
   .line 20
-  pushl c 0
+  p0
+  p1
+  p0
   push  44
   p1
   p0
@@ -102,7 +104,9 @@ main:
   not
   sys   assert
   .line 39
-  pushl c 0
+  p0
+  p1
+  p0
   push  44
   p1
   p0
@@ -136,7 +140,9 @@ main:
   setg  b 299
   .line 49
   pushg b 0
-  pushl c 0
+  p0
+  p1
+  p0
   push  44
   p1
   p0
@@ -186,7 +192,9 @@ main:
   p1
   sys   assert
   .line 59
-  pushl c 0
+  p0
+  p1
+  p0
   push  100
   p00
   refl  106
@@ -200,7 +208,9 @@ main:
   not
   sys   assert
   .line 61
-  pushl c 200
+  push  200
+  p1
+  p0
   push  100
   p00
   refl  106
@@ -216,7 +226,9 @@ main:
   popn  255
   .line 66
   pop
-  pushl c 0
+  p0
+  p1
+  p0
   push  100
   p00
   refl  106

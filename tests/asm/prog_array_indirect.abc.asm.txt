@@ -30,7 +30,9 @@ main:
   .line 25
   sys   debug_break
   .line 27
-  pushl foop 1
+  push  14
+  p1
+  p0
   getpn 6
   p000
   upidx 2
@@ -41,7 +43,9 @@ main:
   not
   sys   assert
   .line 28
-  pushl foop 1
+  push  14
+  p1
+  p0
   getpn 6
   p1
   p00
@@ -53,7 +57,9 @@ main:
   not
   sys   assert
   .line 29
-  pushl foop 1
+  push  14
+  p1
+  p0
   getpn 6
   p2
   p00
@@ -66,7 +72,9 @@ main:
   not
   sys   assert
   .line 30
-  pushl foop 1
+  push  14
+  p1
+  p0
   getpn 6
   p3
   p00
@@ -79,7 +87,9 @@ main:
   not
   sys   assert
   .line 32
-  pushl foo 1
+  push  9
+  p1
+  p0
   getpn 4
   p00
   uaidx 2
@@ -91,7 +101,9 @@ main:
   not
   sys   assert
   .line 33
-  pushl foo 1
+  push  9
+  p1
+  p0
   getpn 4
   p1
   p0
@@ -104,7 +116,9 @@ main:
   not
   sys   assert
   .line 34
-  pushl foo 1
+  push  9
+  p1
+  p0
   getpn 4
   p2
   p0
@@ -116,7 +130,9 @@ main:
   not
   sys   assert
   .line 35
-  pushl foo 1
+  push  9
+  p1
+  p0
   getpn 4
   p3
   p0

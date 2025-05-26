@@ -541,6 +541,7 @@ struct compiler_func_t
 
 struct compiler_progdata_t
 {
+    uint32_t offset; // computed after compilation
     std::vector<uint8_t> data;
     std::vector<std::pair<size_t, std::string>> relocs_prog;
     std::vector<std::pair<size_t, std::string>> relocs_glob;
@@ -625,6 +626,7 @@ struct compiler_t
 
     bool enable_inlining = false;
     bool enable_jmp_to_ret = true;
+    bool enable_bake_pushl = true;
     size_t switch_min_ranges_for_jump_table = 16;
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);

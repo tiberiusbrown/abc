@@ -32,7 +32,14 @@ main:
   p1
   sys   assert
   .line 23
+  p2
   p1
+  p0
+  getpn 2
+  p2
+  sub2b
+  bool2
+  not
   sys   assert
   .line 24
   p0
@@ -84,7 +91,9 @@ main:
   jmp   $L_main_15
 $L_main_2:
   .line 25
-  pushl pe 4
+  p4
+  p1
+  p0
   dup4
   pidxb 1 12
   getp

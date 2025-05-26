@@ -1101,43 +1101,117 @@ main:
   sys   assert
   .line 34
   p1
+  p1
+  p0
+  getp
+  p64
+  sub
+  not
   sys   assert
   .line 35
-  p1
+  p6
+  p5
+  p0
+  getp
+  p32
+  sub
+  not
   sys   assert
   .line 36
-  p1
+  push2 2315
+  p0
+  getp
+  p16
+  sub
+  not
   sys   assert
   .line 37
-  p1
+  p16
+  push  13
+  p0
+  getp
+  p8
+  sub
+  not
   sys   assert
   .line 38
-  p1
+  push2 4373
+  p0
+  getp
+  p4
+  sub
+  not
   sys   assert
   .line 39
-  p1
+  push2 8474
+  p0
+  getp
+  p2
+  sub
+  not
   sys   assert
   .line 41
+  p3
   p1
+  p0
+  getpn 2
+  p1
+  sub2b
+  bool2
+  not
   sys   assert
   .line 42
-  p1
+  p8
+  p5
+  p0
+  getpn 2
+  p4
+  sub2b
+  bool2
+  not
   sys   assert
   .line 43
-  p1
+  push2 2317
+  p0
+  getpn 2
+  p16
+  sub2b
+  bool2
+  not
   sys   assert
   .line 44
-  p1
+  push2 3346
+  p0
+  getpn 2
+  p64
+  sub2b
+  bool2
+  not
   sys   assert
   .line 45
+  push2 4375
+  p0
+  getpn 2
+  p0
   p1
+  sub2
+  bool2
+  not
   sys   assert
   .line 46
-  p1
+  push2 8476
+  p0
+  getpn 2
+  p0
+  p4
+  sub2
+  bool2
+  not
   sys   assert
   .line 48
+  p00
+  p1
   p0
-  pushl $PD_0 0
   call  get_w
   p0
   p128
@@ -1147,7 +1221,9 @@ main:
   sys   assert
   .line 49
   p0
-  pushl $PD_1 0
+  p5
+  p5
+  p0
   call  get_w
   p64
   sub
@@ -1155,7 +1231,8 @@ main:
   sys   assert
   .line 50
   p0
-  pushl $PD_2 0
+  push2 2314
+  p0
   call  get_w
   p32
   sub
@@ -1163,7 +1240,8 @@ main:
   sys   assert
   .line 51
   p0
-  pushl $PD_3 0
+  push2 3343
+  p0
   call  get_w
   p16
   sub
@@ -1171,7 +1249,8 @@ main:
   sys   assert
   .line 52
   p0
-  pushl $PD_4 0
+  push2 4372
+  p0
   call  get_w
   p8
   sub
@@ -1179,15 +1258,17 @@ main:
   sys   assert
   .line 53
   p0
-  pushl $PD_5 0
+  push2 8473
+  p0
   call  get_w
   p4
   sub
   not
   sys   assert
   .line 55
+  p00
+  p1
   p0
-  pushl $PD_0 0
   call  get_h
   p64
   sub
@@ -1195,7 +1276,9 @@ main:
   sys   assert
   .line 56
   p0
-  pushl $PD_1 0
+  p5
+  p5
+  p0
   call  get_h
   p32
   sub
@@ -1203,7 +1286,8 @@ main:
   sys   assert
   .line 57
   p0
-  pushl $PD_2 0
+  push2 2314
+  p0
   call  get_h
   p16
   sub
@@ -1211,7 +1295,8 @@ main:
   sys   assert
   .line 58
   p0
-  pushl $PD_3 0
+  push2 3343
+  p0
   call  get_h
   p8
   sub
@@ -1219,7 +1304,8 @@ main:
   sys   assert
   .line 59
   p0
-  pushl $PD_4 0
+  push2 4372
+  p0
   call  get_h
   p4
   sub
@@ -1227,15 +1313,17 @@ main:
   sys   assert
   .line 60
   p0
-  pushl $PD_5 0
+  push2 8473
+  p0
   call  get_h
   p2
   sub
   not
   sys   assert
   .line 62
-  p00
-  pushl $PD_0 0
+  p000
+  p1
+  p0
   call  get_len
   p1
   sub2b
@@ -1244,7 +1332,9 @@ main:
   sys   assert
   .line 63
   p00
-  pushl $PD_1 0
+  p5
+  p5
+  p0
   call  get_len
   p4
   sub2b
@@ -1253,7 +1343,8 @@ main:
   sys   assert
   .line 64
   p00
-  pushl $PD_2 0
+  push2 2314
+  p0
   call  get_len
   p16
   sub2b
@@ -1262,7 +1353,8 @@ main:
   sys   assert
   .line 65
   p00
-  pushl $PD_3 0
+  push2 3343
+  p0
   call  get_len
   p64
   sub2b
@@ -1271,7 +1363,8 @@ main:
   sys   assert
   .line 66
   p00
-  pushl $PD_4 0
+  push2 4372
+  p0
   call  get_len
   p0
   p1
@@ -1281,7 +1374,8 @@ main:
   sys   assert
   .line 67
   p00
-  pushl $PD_5 0
+  push2 8473
+  p0
   call  get_len
   p0
   p4
