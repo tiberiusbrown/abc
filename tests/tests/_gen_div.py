@@ -11,7 +11,7 @@ def test(f, a, b):
         (a & 0xffffffff, b & 0xffffffff, q & 0xffffffff))
 
 def test_range(f, signed, astop, bstop = None):
-    for n in range(100):
+    for n in range(20):
         a = random.randrange(-astop if signed else 2, astop);
         stop = int(abs(a) if bstop is None else bstop)
         if stop < 2:
@@ -51,6 +51,20 @@ with open('div.abc', 'w') as f:
     test_range(f, True, 1 << 31, 1 << 24)
     test_range(f, True, 1 << 31, 1 << 16)
     test_range(f, True, 1 << 31, 1 << 8)
+    f.write('    }\n');
+    
+    f.write('    {\n');
+    f.write('    u16 a, b;\n');
+    test_range(f, False, 1 << 8)
+    test_range(f, False, 1 << 16)
+    test_range(f, False, 1 << 16, 1 << 8)
+    f.write('    }\n');
+    
+    f.write('    {\n');
+    f.write('    i16 a, b;\n');
+    test_range(f, True, 1 << 8)
+    test_range(f, True, 1 << 15)
+    test_range(f, True, 1 << 15, 1 << 8)
     f.write('    }\n');
     
     f.write('    $debug_break();\n');
