@@ -29,8 +29,7 @@ $globinit:
   .line 20
   p0
   p1
-  p0
-  push  44
+  push2 11264
   dupw2
   pushg a 0
   push2 300
@@ -91,8 +90,7 @@ main:
   sys   assert
   .line 37
   getg  b 299
-  p0
-  push  200
+  push2 51200
   sub2b
   bool2
   not
@@ -100,8 +98,7 @@ main:
   .line 39
   p0
   p1
-  p0
-  push  44
+  push2 11264
   dupw2
   pushg b 0
   push2 300
@@ -134,8 +131,7 @@ main:
   pushg b 0
   p0
   p1
-  p0
-  push  44
+  push2 11264
   dupw2
   dupw7
   push2 300
@@ -182,8 +178,7 @@ main:
   .line 59
   p0
   p1
-  p0
-  push  100
+  push2 25600
   p00
   refl  106
   push2 100
@@ -211,8 +206,7 @@ main:
   pop
   p0
   p1
-  p0
-  push  100
+  push2 25600
   p00
   refl  106
   push2 100

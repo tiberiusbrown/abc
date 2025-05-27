@@ -1125,8 +1125,7 @@ main:
   not
   sys   assert
   .line 37
-  p16
-  push2 13
+  push3 3344
   getp
   p8
   sub
@@ -1222,32 +1221,28 @@ main:
   not
   sys   assert
   .line 50
-  p0
-  push3 2314
+  push4 592384
   call  get_w
   p32
   sub
   not
   sys   assert
   .line 51
-  p0
-  push3 3343
+  push4 855808
   call  get_w
   p16
   sub
   not
   sys   assert
   .line 52
-  p0
-  push3 4372
+  push4 1119232
   call  get_w
   p8
   sub
   not
   sys   assert
   .line 53
-  p0
-  push3 8473
+  push4 2169088
   call  get_w
   p4
   sub
@@ -1273,32 +1268,28 @@ main:
   not
   sys   assert
   .line 57
-  p0
-  push3 2314
+  push4 592384
   call  get_h
   p16
   sub
   not
   sys   assert
   .line 58
-  p0
-  push3 3343
+  push4 855808
   call  get_h
   p8
   sub
   not
   sys   assert
   .line 59
-  p0
-  push3 4372
+  push4 1119232
   call  get_h
   p4
   sub
   not
   sys   assert
   .line 60
-  p0
-  push3 8473
+  push4 2169088
   call  get_h
   p2
   sub

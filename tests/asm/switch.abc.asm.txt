@@ -816,8 +816,7 @@ $L_main_74:
   getl4 5
   .line 205
   getl4 4
-  p128
-  push3 1562
+  push4 400000
   cult4
   bnz   $L_main_79
   push4 450000
@@ -849,8 +848,7 @@ $L_main_77:
   bool4
   bz    $L_main_81
   getl4 4
-  p128
-  push3 1562
+  push4 400000
   cult4
   bnz   $L_main_82
   push4 450000
@@ -859,8 +857,7 @@ $L_main_77:
   bz    $L_main_81
 $L_main_82:
   getl4 4
-  p16
-  push3 664
+  push4 170000
   sub4
   bool4
   .line 210
@@ -885,8 +882,7 @@ $L_main_80:
   push4 380000
   cult4
   bnz   $L_main_85
-  p128
-  push3 1562
+  push4 400000
   getl4 8
   cult4
   bz    $L_main_84
@@ -897,8 +893,7 @@ $L_main_85:
   bool4
   bz    $L_main_84
   getl4 4
-  p16
-  push3 664
+  push4 170000
   sub4
   bool4
   .line 217

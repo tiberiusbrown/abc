@@ -366,8 +366,7 @@ main:
   not
   sys   assert
   .line 28
-  p5
-  push  69
+  push2 17669
   p00
   setl4 8
   push2 2067
@@ -383,8 +382,7 @@ main:
   not
   sys   assert
   .line 29
-  p8
-  push  165
+  push2 42248
   p00
   setl4 8
   push2 19820
@@ -496,8 +494,7 @@ main:
   not
   sys   assert
   .line 36
-  p6
-  push  241
+  push2 61702
   p00
   setl4 8
   push2 33299
@@ -757,8 +754,7 @@ main:
   .line 53
   push4 2975324
   setl4 8
-  p16
-  push3 4451
+  push4 1139472
   setl4 4
   p8
   getln 8
@@ -980,8 +976,7 @@ main:
   not
   sys   assert
   .line 69
-  p4
-  push3 4960669
+  push4 1269931268
   setl4 8
   push4 590646064
   setl4 4
@@ -1081,8 +1076,7 @@ main:
   .line 76
   push4 1618428296
   setl4 8
-  p3
-  push3 5506212
+  push4 1409590275
   setl4 4
   p8
   getln 8
@@ -1167,8 +1161,7 @@ main:
   push4 4174413474
   setl4 8
   p3
-  p5
-  push2 10148
+  push3 2597893
   setl4 4
   p8
   getln 8
@@ -1222,8 +1215,7 @@ main:
   not
   sys   assert
   .line 86
-  p128
-  push  184
+  push2 47232
   p00
   setl4 8
   push  19
@@ -1271,8 +1263,7 @@ main:
   not
   sys   assert
   .line 89
-  p2
-  push  229
+  push2 58626
   p00
   setl4 8
   push  74
@@ -1634,8 +1625,7 @@ main:
   not
   sys   assert
   .line 112
-  p1
-  push3 62426
+  push4 15981057
   setl4 8
   push2 38307
   p00
@@ -2251,11 +2241,9 @@ main:
   not
   sys   assert
   .line 154
-  p6
-  push3 14044758
+  push4 3595458054
   setl4 8
-  p7
-  push3 38503
+  push4 9856775
   setl4 4
   p8
   getln 8
@@ -2436,8 +2424,7 @@ main:
   not
   sys   assert
   .line 167
-  p64
-  push3 10542963
+  push4 2698998592
   setl4 8
   push2 31324
   p00
@@ -2453,8 +2440,7 @@ main:
   .line 168
   push4 675128005
   setl4 8
-  p1
-  push  72
+  push2 18433
   p00
   setl4 4
   p8
@@ -2526,8 +2512,7 @@ main:
   .line 173
   push4 4278668071
   setl4 8
-  p0
-  push  238
+  push2 60928
   p00
   setl4 4
   p8
@@ -2684,8 +2669,7 @@ main:
   not
   sys   assert
   .line 184
-  p128
-  push3 15369330
+  push4 3934548608
   setl4 8
   push2 9177
   p00
@@ -3365,8 +3349,7 @@ main:
   not
   sys   assert
   .line 230
-  p4
-  push2 65412
+  push3 16745476
   dup
   setl4 8
   push2 14674
@@ -3886,8 +3869,7 @@ main:
   .line 263
   push4 1536703
   setl4 8
-  p1
-  push3 5665
+  push4 1450241
   setl4 4
   p8
   getln 8
@@ -3957,8 +3939,7 @@ main:
   not
   sys   assert
   .line 268
-  p7
-  push3 6135
+  push4 1570567
   setl4 8
   push4 1478422
   setl4 4
@@ -4001,11 +3982,9 @@ main:
   not
   sys   assert
   .line 271
-  p128
-  push3 5876710
+  push4 1504437888
   setl4 8
-  p6
-  push3 3855158
+  push4 986920454
   setl4 4
   p8
   getln 8
@@ -4019,8 +3998,7 @@ main:
   .line 272
   push4 2693127186
   setl4 8
-  p16
-  push3 1617351
+  push4 414041872
   setl4 4
   p8
   getln 8
@@ -4295,8 +4273,7 @@ main:
   not
   sys   assert
   .line 291
-  p16
-  push2 65289
+  push3 16714000
   dup
   setl4 8
   push  40
@@ -4645,11 +4622,9 @@ main:
   not
   sys   assert
   .line 312
-  p0
-  push3 16728521
+  push4 4282501376
   setl4 8
-  p1
-  push  54
+  push2 13825
   p00
   setl4 4
   p8
@@ -4724,8 +4699,7 @@ main:
   .line 317
   push4 3448115
   setl4 8
-  p8
-  push2 65376
+  push3 16736264
   dup
   setl4 4
   p8
@@ -4852,8 +4826,7 @@ main:
   p8
   getln 8
   div4
-  p0
-  push2 65525
+  push3 16774400
   dup
   sub4
   bool4
@@ -5468,8 +5441,7 @@ main:
   .line 367
   push4 619687480
   setl4 8
-  p5
-  push3 60798
+  push4 15564293
   setl4 4
   p8
   getln 8
@@ -5903,8 +5875,7 @@ main:
   p8
   getln 8
   div4
-  p2
-  push3 49565
+  push4 12688642
   sub4
   bool4
   not
@@ -5941,8 +5912,7 @@ main:
   .line 399
   push4 1749255233
   setl4 8
-  p8
-  push  255
+  push2 65288
   dup
   dup
   setl4 4
@@ -6021,8 +5991,7 @@ main:
   p8
   getln 8
   div4
-  p64
-  push3 278701
+  push4 71347520
   sub4
   bool4
   not
@@ -6056,8 +6025,7 @@ main:
   not
   sys   assert
   .line 407
-  p128
-  push3 15553828
+  push4 3981780096
   setl4 8
   push  142
   p000
@@ -6409,8 +6377,7 @@ main:
   not
   sys   assert
   .line 432
-  p3
-  push  42
+  push2 10755
   setl2 4
   push2 8566
   setl2 2
@@ -6444,8 +6411,7 @@ main:
   .line 434
   push2 32131
   setl2 4
-  p4
-  push  112
+  push2 28676
   setl2 2
   dupw3
   p00
@@ -6461,8 +6427,7 @@ main:
   .line 435
   push2 43604
   setl2 4
-  p64
-  push  12
+  push2 3136
   setl2 2
   dupw3
   p00
@@ -6494,8 +6459,7 @@ main:
   .line 437
   push2 19726
   setl2 4
-  p32
-  push  27
+  push2 6944
   setl2 2
   dupw3
   p00
@@ -6509,8 +6473,7 @@ main:
   not
   sys   assert
   .line 438
-  p7
-  push  97
+  push2 24839
   setl2 4
   push2 4347
   setl2 2
@@ -6734,8 +6697,7 @@ main:
   not
   sys   assert
   .line 452
-  p4
-  push  249
+  push2 63748
   setl2 4
   push2 156
   setl2 2
@@ -6976,8 +6938,7 @@ main:
   not
   sys   assert
   .line 467
-  p32
-  push  251
+  push2 64288
   setl2 4
   push2 205
   setl2 2
@@ -7404,8 +7365,7 @@ main:
   not
   sys   assert
   .line 496
-  p7
-  push  142
+  push2 36359
   setl2 4
   push2 11852
   setl2 2
@@ -7789,8 +7749,7 @@ main:
   .line 519
   push2 28670
   setl2 4
-  p7
-  push  255
+  push2 65287
   setl2 2
   dupw3
   sext2
@@ -7805,8 +7764,7 @@ main:
   not
   sys   assert
   .line 520
-  p128
-  push  11
+  push2 2944
   setl2 4
   push2 187
   setl2 2
@@ -7950,8 +7908,7 @@ main:
   not
   sys   assert
   .line 529
-  p64
-  push  141
+  push2 36160
   setl2 4
   push2 65473
   setl2 2

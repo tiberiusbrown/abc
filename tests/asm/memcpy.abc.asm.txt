@@ -116,8 +116,7 @@ main:
   push4 45875800
   .line 31
   p32
-  p3
-  push3 66436
+  push4 17007619
   .line 33
   sys   assert
   .line 34

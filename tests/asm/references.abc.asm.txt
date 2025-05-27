@@ -69,8 +69,7 @@ $L_main_2:
   aixb1 4
   setr
   .line 25
-  p0
-  push  66
+  push2 16896
   pushg a2 0
   dup5
   aidxb 2 4
@@ -104,8 +103,7 @@ $L_main_2:
   sys   assert
   .line 31
   getg2 a2 4
-  p0
-  push  66
+  push2 16896
   sub2
   bool2
   not
@@ -157,12 +155,10 @@ $L_main_2:
   sys   assert
   .line 42
   getl4 6
-  p0
-  push  255
+  push2 65280
   dupw
   and4
-  p0
-  push3 13238458
+  push4 3389045248
   sub4
   bool4
   not
@@ -170,12 +166,10 @@ $L_main_2:
   .line 43
   dupw
   getrn 4
-  p0
-  push  255
+  push2 65280
   dupw
   and4
-  p0
-  push3 13238458
+  push4 3389045248
   sub4
   bool4
   not

@@ -1810,7 +1810,7 @@ void compiler_t::push_compression(
             uint8_t i3 = (uint8_t)d[3].imm;
             compiler_instr_t const* p = d;
             bool found = false;
-            while(b + 2 <= p && p + 252 > d)
+            while(b + 4 <= p && p + 252 > d)
             {
                 if( p[-4].imm == i0 && p[-3].imm == i1 &&
                     p[-2].imm == i2 && p[-1].imm == i3)
@@ -1912,6 +1912,38 @@ void compiler_t::push_compression(
                 pi.push_back(instr(*d, instr_t(I_DUP + uintptr_t(d - p))));
                 d += 1;
                 continue;
+            }
+        }
+
+        if(!pi.empty() && n <= 3)
+        {
+            auto& prev = pi.back();
+            switch(prev.instr)
+            {
+            case I_P0:
+            case I_P1:
+            case I_P2:
+            case I_P3:
+            case I_P4:
+            case I_P5:
+            case I_P6:
+            case I_P7:
+            case I_P8:
+            case I_P16:
+            case I_P32:
+            case I_P64:
+            case I_P128:
+            {
+                static uint8_t const C[] =
+                {
+                    0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128
+                };
+                prev.imm = C[prev.instr - I_P0] + (((d++)->imm & 0xff) << 8);
+                prev.instr = I_PUSH2;
+                continue;
+            }
+            default:
+                break;
             }
         }
 

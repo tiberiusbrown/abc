@@ -987,8 +987,7 @@ $L_main_10:
   .line 115
   p3
   getgn a3 0
-  p0
-  push  9
+  push2 2304
   lsl4
   pop
   p0
@@ -1001,8 +1000,7 @@ $L_main_10:
   .line 116
   p3
   getgn a3 0
-  p0
-  push  10
+  push2 2560
   lsl4
   pop
   p0
@@ -1015,8 +1013,7 @@ $L_main_10:
   .line 117
   p3
   getgn a3 0
-  p0
-  push  11
+  push2 2816
   lsl4
   pop
   p0
@@ -1029,8 +1026,7 @@ $L_main_10:
   .line 118
   p3
   getgn a3 0
-  p0
-  push  12
+  push2 3072
   lsl4
   pop
   p0
@@ -1043,8 +1039,7 @@ $L_main_10:
   .line 119
   p3
   getgn a3 0
-  p0
-  push  13
+  push2 3328
   lsl4
   pop
   p0
@@ -1057,8 +1052,7 @@ $L_main_10:
   .line 120
   p3
   getgn a3 0
-  p0
-  push  14
+  push2 3584
   lsl4
   pop
   p0
@@ -1071,8 +1065,7 @@ $L_main_10:
   .line 121
   p3
   getgn a3 0
-  p0
-  push  15
+  push2 3840
   lsl4
   pop
   p0
@@ -1098,8 +1091,7 @@ $L_main_10:
   .line 123
   p3
   getgn a3 0
-  p0
-  push  17
+  push2 4352
   lsl4
   pop
   p00
@@ -1111,8 +1103,7 @@ $L_main_10:
   .line 124
   p3
   getgn a3 0
-  p0
-  push  18
+  push2 4608
   lsl4
   pop
   p00
@@ -1124,8 +1115,7 @@ $L_main_10:
   .line 125
   p3
   getgn a3 0
-  p0
-  push  19
+  push2 4864
   lsl4
   pop
   p00
@@ -1137,8 +1127,7 @@ $L_main_10:
   .line 126
   p3
   getgn a3 0
-  p0
-  push  20
+  push2 5120
   lsl4
   pop
   p00
@@ -1150,8 +1139,7 @@ $L_main_10:
   .line 127
   p3
   getgn a3 0
-  p0
-  push  21
+  push2 5376
   lsl4
   pop
   p00
@@ -1163,8 +1151,7 @@ $L_main_10:
   .line 128
   p3
   getgn a3 0
-  p0
-  push  22
+  push2 5632
   lsl4
   pop
   p00
@@ -1176,8 +1163,7 @@ $L_main_10:
   .line 129
   p3
   getgn a3 0
-  p0
-  push  23
+  push2 5888
   lsl4
   pop
   p00
@@ -1189,8 +1175,7 @@ $L_main_10:
   .line 130
   p3
   getgn a3 0
-  p0
-  push  24
+  push2 6144
   lsl4
   pop
   bool3
@@ -1903,8 +1888,7 @@ $L_main_10:
   .line 207
   p3
   getgn a3 0
-  p0
-  push  9
+  push2 2304
   lsr4
   pop
   p0
@@ -1917,8 +1901,7 @@ $L_main_10:
   .line 208
   p3
   getgn a3 0
-  p0
-  push  10
+  push2 2560
   lsr4
   pop
   p0
@@ -1931,8 +1914,7 @@ $L_main_10:
   .line 209
   p3
   getgn a3 0
-  p0
-  push  11
+  push2 2816
   lsr4
   pop
   p0
@@ -1945,8 +1927,7 @@ $L_main_10:
   .line 210
   p3
   getgn a3 0
-  p0
-  push  12
+  push2 3072
   lsr4
   pop
   p0
@@ -1959,8 +1940,7 @@ $L_main_10:
   .line 211
   p3
   getgn a3 0
-  p0
-  push  13
+  push2 3328
   lsr4
   pop
   p0
@@ -1973,8 +1953,7 @@ $L_main_10:
   .line 212
   p3
   getgn a3 0
-  p0
-  push  14
+  push2 3584
   lsr4
   pop
   p0
@@ -1987,8 +1966,7 @@ $L_main_10:
   .line 213
   p3
   getgn a3 0
-  p0
-  push  15
+  push2 3840
   lsr4
   pop
   p0
@@ -2014,8 +1992,7 @@ $L_main_10:
   .line 215
   p3
   getgn a3 0
-  p0
-  push  17
+  push2 4352
   lsr4
   pop
   p64
@@ -2027,8 +2004,7 @@ $L_main_10:
   .line 216
   p3
   getgn a3 0
-  p0
-  push  18
+  push2 4608
   lsr4
   pop
   p32
@@ -2040,8 +2016,7 @@ $L_main_10:
   .line 217
   p3
   getgn a3 0
-  p0
-  push  19
+  push2 4864
   lsr4
   pop
   p16
@@ -2053,8 +2028,7 @@ $L_main_10:
   .line 218
   p3
   getgn a3 0
-  p0
-  push  20
+  push2 5120
   lsr4
   pop
   p8
@@ -2066,8 +2040,7 @@ $L_main_10:
   .line 219
   p3
   getgn a3 0
-  p0
-  push  21
+  push2 5376
   lsr4
   pop
   p4
@@ -2079,8 +2052,7 @@ $L_main_10:
   .line 220
   p3
   getgn a3 0
-  p0
-  push  22
+  push2 5632
   lsr4
   pop
   p2
@@ -2092,8 +2064,7 @@ $L_main_10:
   .line 221
   p3
   getgn a3 0
-  p0
-  push  23
+  push2 5888
   lsr4
   pop
   p1
@@ -2105,8 +2076,7 @@ $L_main_10:
   .line 222
   p3
   getgn a3 0
-  p0
-  push  24
+  push2 6144
   lsr4
   pop
   bool3
@@ -2544,8 +2514,7 @@ $L_main_10:
   asr2
   sext
   p0
-  p128
-  push  255
+  push2 65408
   sub3
   bool3
   not
@@ -2554,8 +2523,7 @@ $L_main_10:
   dupw
   p1
   asr2
-  p0
-  push  192
+  push2 49152
   sub2
   bool2
   not
@@ -2564,8 +2532,7 @@ $L_main_10:
   dupw
   p2
   asr2
-  p0
-  push  224
+  push2 57344
   sub2
   bool2
   not
@@ -2574,8 +2541,7 @@ $L_main_10:
   dupw
   p3
   asr2
-  p0
-  push  240
+  push2 61440
   sub2
   bool2
   not
@@ -2584,8 +2550,7 @@ $L_main_10:
   dupw
   p4
   asr2
-  p0
-  push  248
+  push2 63488
   sub2
   bool2
   not
@@ -2594,8 +2559,7 @@ $L_main_10:
   dupw
   p5
   asr2
-  p0
-  push  252
+  push2 64512
   sub2
   bool2
   not
@@ -2604,8 +2568,7 @@ $L_main_10:
   dupw
   p6
   asr2
-  p0
-  push  254
+  push2 65024
   sub2
   bool2
   not
@@ -2614,8 +2577,7 @@ $L_main_10:
   dupw
   p7
   asr2
-  p0
-  push  255
+  push2 65280
   sub2
   bool2
   not
@@ -2706,14 +2668,12 @@ $L_main_10:
   p128
   .line 290
   p00
-  p128
-  push2 255
+  push3 65408
   asr4
   pop
   sext
   p00
-  p128
-  push  255
+  push2 65408
   sub4
   bool4
   not
@@ -2817,8 +2777,7 @@ $L_main_10:
   asr4
   pop
   p0
-  p128
-  push  255
+  push2 65408
   sub3
   bool3
   not
@@ -2830,8 +2789,7 @@ $L_main_10:
   push  9
   asr4
   pop
-  p0
-  push2 65472
+  push3 16760832
   sub3
   bool3
   not
@@ -2843,8 +2801,7 @@ $L_main_10:
   push  10
   asr4
   pop
-  p0
-  push2 65504
+  push3 16769024
   sub3
   bool3
   not
@@ -2856,8 +2813,7 @@ $L_main_10:
   push  11
   asr4
   pop
-  p0
-  push2 65520
+  push3 16773120
   sub3
   bool3
   not
@@ -2869,8 +2825,7 @@ $L_main_10:
   push  12
   asr4
   pop
-  p0
-  push2 65528
+  push3 16775168
   sub3
   bool3
   not
@@ -2882,8 +2837,7 @@ $L_main_10:
   push  13
   asr4
   pop
-  p0
-  push2 65532
+  push3 16776192
   sub3
   bool3
   not
@@ -2895,8 +2849,7 @@ $L_main_10:
   push  14
   asr4
   pop
-  p0
-  push2 65534
+  push3 16776704
   sub3
   bool3
   not
@@ -2908,8 +2861,7 @@ $L_main_10:
   push  15
   asr4
   pop
-  p0
-  push  255
+  push2 65280
   dup
   sub3
   bool3
@@ -2922,8 +2874,7 @@ $L_main_10:
   p16
   asr4
   pop
-  p128
-  push  255
+  push2 65408
   dup
   sub3
   bool3
@@ -3123,8 +3074,7 @@ $L_main_10:
   p8
   asr4
   p00
-  p128
-  push  255
+  push2 65408
   sub4
   bool4
   not
@@ -3205,8 +3155,7 @@ $L_main_10:
   p16
   asr4
   p0
-  p128
-  push  255
+  push2 65408
   dup
   sub4
   bool4
@@ -3216,8 +3165,7 @@ $L_main_10:
   getl4 4
   push  17
   asr4
-  p0
-  push2 65472
+  push3 16760832
   dup
   sub4
   bool4
@@ -3227,8 +3175,7 @@ $L_main_10:
   getl4 4
   push  18
   asr4
-  p0
-  push2 65504
+  push3 16769024
   dup
   sub4
   bool4
@@ -3238,8 +3185,7 @@ $L_main_10:
   getl4 4
   push  19
   asr4
-  p0
-  push2 65520
+  push3 16773120
   dup
   sub4
   bool4
@@ -3249,8 +3195,7 @@ $L_main_10:
   getl4 4
   push  20
   asr4
-  p0
-  push2 65528
+  push3 16775168
   dup
   sub4
   bool4
@@ -3260,8 +3205,7 @@ $L_main_10:
   getl4 4
   push  21
   asr4
-  p0
-  push2 65532
+  push3 16776192
   dup
   sub4
   bool4
@@ -3271,8 +3215,7 @@ $L_main_10:
   getl4 4
   push  22
   asr4
-  p0
-  push2 65534
+  push3 16776704
   dup
   sub4
   bool4
@@ -3282,8 +3225,7 @@ $L_main_10:
   getl4 4
   push  23
   asr4
-  p0
-  push  255
+  push2 65280
   dup
   dup
   sub4
@@ -3294,8 +3236,7 @@ $L_main_10:
   getl4 4
   push  24
   asr4
-  p128
-  push  255
+  push2 65408
   dup
   dup
   sub4

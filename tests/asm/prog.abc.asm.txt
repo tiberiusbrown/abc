@@ -201,27 +201,23 @@ $L_main_2:
   sys   assert
   .line 57
   p1
-  p0
-  push  40
+  push2 10240
   dupw2
   getpn 2
   setr2
   .line 58
   p2
-  p0
-  push3 298
+  push4 76288
   getpn 2
   setr2
   .line 59
   p3
-  p0
-  push3 300
+  push4 76800
   getpn 2
   setr2
   .line 60
   p4
-  p0
-  push3 302
+  push4 77312
   getpn 2
   setr2
   .line 62

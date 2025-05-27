@@ -14,9 +14,9 @@ main:
   .line 10
   p1
   .line 11
-  p0
+  push2 10752
   .line 14
-  push2 42
+  sext
   .line 15
   dup3
   bz    $L_main_2

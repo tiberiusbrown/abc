@@ -461,32 +461,28 @@ test_u16:
   sys   assert
   .line 106
   dupw3
-  p0
-  push3 4500
+  push4 1152000
   sub3
   bool3
   not
   sys   assert
   .line 107
   dupw3
-  p0
-  push3 4500
+  push4 1152000
   sub3
   bool3
   not
   sys   assert
   .line 109
   dupw3
-  p0
-  push3 4500
+  push4 1152000
   sub3
   bool3
   not
   sys   assert
   .line 110
   dupw3
-  p0
-  push3 4500
+  push4 1152000
   sub3
   bool3
   not
@@ -514,8 +510,7 @@ test_u24:
   getln 13
   p0
   add4
-  p64
-  push3 2031
+  push4 520000
   sub4
   bool4
   not
@@ -567,8 +562,7 @@ test_u24:
   getln 7
   p0
   mul4
-  p64
-  push3 191406
+  push4 49000000
   sub4
   bool4
   not
@@ -628,8 +622,7 @@ test_u24:
   .line 128
   p3
   getln 9
-  p0
-  push  11
+  push2 2816
   lsr4
   pop3
   push  219
@@ -802,8 +795,7 @@ test_u32:
   getl4 8
   getl4 16
   add4
-  p0
-  push3 203125
+  push4 52000000
   sub4
   bool4
   not
@@ -812,8 +804,7 @@ test_u32:
   p8
   getln 12
   sub4
-  p128
-  push3 148437
+  push4 38000000
   sub4
   bool4
   not
@@ -822,8 +813,7 @@ test_u32:
   getl4 8
   getl4 16
   sub4
-  p128
-  push3 16628778
+  push4 4256967296
   sub4
   bool4
   not
@@ -832,8 +822,7 @@ test_u32:
   getl4 12
   getl4 8
   mul4
-  p0
-  push3 5606363
+  push4 1435228928
   sub4
   bool4
   not
@@ -842,8 +831,7 @@ test_u32:
   p8
   getln 8
   mul4
-  p0
-  push3 2363409
+  push4 605032704
   sub4
   bool4
   not
@@ -881,8 +869,7 @@ test_u32:
   getl4 12
   p1
   lsl4
-  p128
-  push3 351562
+  push4 90000000
   sub4
   bool4
   not
@@ -907,8 +894,7 @@ test_u32:
   sys   assert
   .line 171
   getl4 12
-  p64
-  push3 175781
+  push4 45000000
   sub4
   bool4
   not
@@ -1001,40 +987,35 @@ test_u32:
   sys   assert
   .line 185
   getl4 12
-  p64
-  push3 175781
+  push4 45000000
   sub4
   bool4
   not
   sys   assert
   .line 187
   getl4 12
-  p64
-  push3 175781
+  push4 45000000
   sub4
   bool4
   not
   sys   assert
   .line 188
   getl4 12
-  p64
-  push3 175781
+  push4 45000000
   sub4
   bool4
   not
   sys   assert
   .line 190
   getl4 12
-  p64
-  push3 175781
+  push4 45000000
   sub4
   bool4
   not
   sys   assert
   .line 191
   getl4 12
-  p64
-  push3 175781
+  push4 45000000
   sub4
   bool4
   not
@@ -1213,32 +1194,28 @@ test_u8:
   sys   assert
   .line 31
   dup2
-  p0
-  push  45
+  push2 11520
   sub2b
   bool2
   not
   sys   assert
   .line 32
   dup2
-  p0
-  push  45
+  push2 11520
   sub2b
   bool2
   not
   sys   assert
   .line 34
   dup2
-  p0
-  push  45
+  push2 11520
   sub2b
   bool2
   not
   sys   assert
   .line 35
   dup2
-  p0
-  push  45
+  push2 11520
   sub2b
   bool2
   not

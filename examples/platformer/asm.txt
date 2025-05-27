@@ -4154,8 +4154,7 @@ $L_mob_solid_3:
   dec
   .line 200
   dup
-  p0
-  push2 240
+  push3 61440
   cslt2
   bnz   $L_mob_solid_4
   p0
@@ -4187,8 +4186,7 @@ $L_mob_solid_5:
 $L_mob_solid_7:
   .line 203
   dup
-  p0
-  push2 176
+  push3 45056
   cslt2
   bnz   $L_mob_solid_9
   dup
@@ -4341,15 +4339,13 @@ $L_process_map_tile_0:
   sext2
   i2f
   p00
-  p32
-  push  65
+  push2 16672
   fadd
   setg4 py 0
   .line 113
   getg4 px 0
   p00
-  p128
-  push  66
+  push2 17024
   fsub
   p000
   push  65
@@ -5038,8 +5034,7 @@ render_credits:
   .line 44
   p00
   push4 33589653
-  p0
-  push2 13
+  push3 3328
   sys   draw_sprite
   .line 45
   p3
@@ -5074,14 +5069,12 @@ $L_render_game_over_6:
   dec
   .line 94
   dup
-  p0
-  push2 240
+  push3 61440
   cslt2
   bz    $L_render_game_over_8
   .line 95
   dup
-  p0
-  push3 8615
+  push4 2205440
   dup8
   p0
   p16
@@ -5135,8 +5128,7 @@ $L_render_game_over_8:
   mul2b
   add2
   push4 134242732
-  p0
-  push2 76
+  push3 19456
   sys   draw_sprite
   .line 104
   push2 12
@@ -5146,8 +5138,7 @@ $L_render_game_over_8:
   mul2b
   add2
   push4 251683244
-  p0
-  push2 27
+  push3 6912
   sys   draw_sprite
   .line 105
   dup
@@ -5163,8 +5154,7 @@ $L_render_game_over_8:
   mul2b
   add2
   push4 671113644
-  p0
-  push2 13
+  push3 3328
   sys   draw_sprite
   .line 107
   dup
@@ -5180,8 +5170,7 @@ $L_render_game_over_8:
   mul2b
   add2
   push4 671113644
-  p0
-  push2 38
+  push3 9728
   sys   draw_sprite
   .line 109
   dup
@@ -5197,8 +5186,7 @@ $L_render_game_over_8:
   mul2b
   add2
   push4 671113644
-  p0
-  push2 74
+  push3 18944
   sys   draw_sprite
   .line 111
   push2 11
@@ -5208,15 +5196,13 @@ $L_render_game_over_8:
   mul2b
   add2
   push4 352346540
-  p0
-  push2 58
+  push3 14848
   sys   draw_sprite
   .line 112
   p64
   p0
   push4 654336428
-  p0
-  push2 56
+  push3 14336
   sys   draw_sprite
   pop
   .line 88
@@ -5246,8 +5232,7 @@ render_intro:
   push4 251704682
   p00
   p7
-  p0
-  push2 25
+  push3 6400
   sys   draw_text_P
   .line 310
   push3 44214
@@ -5311,8 +5296,7 @@ $L_render_intro_0:
   push4 268481936
   p00
   p7
-  p0
-  push2 24
+  push3 6144
   sys   draw_text_P
   .line 322
   jmp   $L_render_intro_2
@@ -5321,8 +5305,7 @@ $L_render_intro_1:
   push4 167818656
   p00
   p7
-  p0
-  push2 37
+  push3 9472
   sys   draw_text_P
 $L_render_intro_2:
   .line 327
@@ -5528,8 +5511,7 @@ $L_render_intro_8:
   and
   add2b
   push4 620787121
-  p0
-  push2 56
+  push3 14336
   sys   draw_sprite
   .line 371
   push3 44214
@@ -5555,8 +5537,7 @@ $L_render_intro_8:
   push4 117487075
   p00
   p64
-  p0
-  push2 44
+  push3 11264
   sys   draw_text_P
 $L_render_intro_9:
   .line 302
@@ -5666,8 +5647,7 @@ render_level:
   bnz   $L_render_level_2
   .line 409
   dupw5
-  p128
-  push  255
+  push2 65408
   cslt2
   bnz   $L_render_level_0
   .line 410
@@ -5715,8 +5695,7 @@ $L_render_level_0:
 $L_render_level_2:
   .line 417
   dupw5
-  p128
-  push  255
+  push2 65408
   cslt2
   bnz   $L_render_level_3
   .line 418
@@ -5791,14 +5770,12 @@ $L_render_level_12:
   dec
   .line 432
   dup
-  p0
-  push2 240
+  push3 61440
   cslt2
   bz    $L_render_level_15
   .line 434
   dup
-  p0
-  push2 176
+  push3 45056
   cslt2
   bnz   $L_render_level_14
   .line 435
@@ -5813,8 +5790,7 @@ $L_render_level_12:
 $L_render_level_14:
   .line 436
   dup
-  p0
-  push3 8615
+  push4 2205440
   getl  19
   p0
   p16
@@ -5914,9 +5890,8 @@ $L_render_level_24:
 $L_render_level_26:
   .line 468
   dup
-  p0
+  push4 6401024
   .line 467
-  push3 25004
   dupw8
   p3
   add2b
@@ -6006,15 +5981,13 @@ $L_render_level_32:
   i2f
   fsub
   p00
-  p32
-  push  65
+  push2 16672
   fsub
   f2i
   pop2
   .line 492
   dup7
-  p0
-  push3 30129
+  push4 7713024
   dupw6
   getl4 13
   sys   round
@@ -6035,8 +6008,7 @@ $L_render_level_36:
   p000
   push2 119
   getl  10
-  p0
-  push  9
+  push2 2304
   mul2b
   sub2
   sys   draw_sprite
@@ -6060,11 +6032,9 @@ $L_render_level_40:
   not
   p0
   push4 134252859
-  p0
-  push2 119
+  push3 30464
   getl  10
-  p0
-  push  9
+  push2 2304
   mul2b
   sub2
   sys   draw_sprite
@@ -6102,8 +6072,7 @@ $L_render_level_38:
   sys   draw_textf
   .line 504
   getg2 level_frames_remaining 0
-  p0
-  push  49
+  push2 12544
   add3b
   pop
   p00
@@ -6113,8 +6082,7 @@ $L_render_level_38:
   push4 50378218
   p00
   p5
-  p0
-  push2 58
+  push3 14848
   sys   draw_textf
   .line 507
   getg  level_start_frames 0
@@ -6152,8 +6120,7 @@ $L_render_level_38:
   .line 519
   dupw
   getg  level_start_frames 0
-  p0
-  push  78
+  push2 19968
   sub2b
   push  10
   mul2b
@@ -6208,22 +6175,19 @@ render_level_select:
   push4 67155437
   p00
   p5
-  p0
-  push2 10
+  push3 2560
   sys   draw_text_P
   .line 173
   push4 167818695
   p00
   p5
-  p0
-  push2 60
+  push3 15360
   sys   draw_text_P
   .line 174
   push4 151041469
   p00
   p5
-  p0
-  push2 97
+  push3 24832
   sys   draw_text_P
   .line 176
   p0
@@ -6271,24 +6235,21 @@ $L_render_level_select_4:
   bnz   $L_render_level_select_7
   .line 188
   getg  frame_count 0
-  p0
-  push  50
+  push2 12800
   sub2b
   p2
   asr2
   setl2 3
   .line 189
   dup
-  p0
-  push  48
+  push2 12288
   sub2b
   dupw4
   cslt2
   bz    $L_render_level_select_7
   .line 190
   dup
-  p0
-  push  48
+  push2 12288
   sub2b
   setl2 3
 $L_render_level_select_7:
@@ -6298,15 +6259,13 @@ $L_render_level_select_7:
   pidxb 17 12
   getpn 6
   getl  10
-  p0
-  push2 10
+  push3 2560
   getl2 13
   sub2
   sys   draw_text_P
   .line 193
   p0
-  p6
-  push  10
+  push2 2566
   dup7
   p0
   p5
@@ -6329,8 +6288,7 @@ $L_render_level_select_8:
   pidxb 17 12
   getpn 6
   dup7
-  p0
-  push2 10
+  push3 2560
   sys   draw_text_P
   .line 199
   dup2
@@ -6347,8 +6305,7 @@ $L_render_level_select_8:
 $L_render_level_select_9:
   .line 201
   p0
-  p6
-  push  71
+  push2 18182
   dup4
   p0
   p5
@@ -6371,8 +6328,7 @@ $L_render_level_select_9:
   push4 50378105
   p00
   getl  11
-  p0
-  push2 67
+  push3 17152
   sys   draw_textf
   .line 203
   jmp   $L_render_level_select_11
@@ -6382,8 +6338,7 @@ $L_render_level_select_10:
   push3 65571
   p00
   dup7
-  p0
-  push2 75
+  push3 19200
   sys   draw_text_P
 $L_render_level_select_11:
   .line 208
@@ -6429,8 +6384,7 @@ $L_render_level_select_11:
   refl  11
   push2 10
   getl  18
-  p0
-  push2 124
+  push3 31744
   getl  9
   sub2b
   sys   draw_text
@@ -6443,8 +6397,7 @@ $L_render_level_select_12:
   push3 65571
   p00
   dup7
-  p0
-  push2 110
+  push3 28160
   sys   draw_text_P
 $L_render_level_select_13:
   pop2
@@ -6736,8 +6689,7 @@ render_menu:
   .line 282
   p00
   push4 33589653
-  p0
-  push2 13
+  push3 3328
   sys   draw_sprite_selfmask
   .line 283
   getg  menu_sprite 0
@@ -6830,8 +6782,7 @@ $L_render_menu_3:
   push4 268465585
   p0
   getg  menui 0
-  p0
-  push  11
+  push2 2816
   mul2b
   add2
   push2 14
@@ -6859,8 +6810,7 @@ render_pause:
   push4 184598136
   p00
   p8
-  p0
-  push2 68
+  push3 17408
   sys   draw_text_P
   .line 59
   push4 33603203
@@ -6895,8 +6845,7 @@ $L_render_pause_0:
   push4 100712072
   p00
   p8
-  p0
-  push2 80
+  push3 20480
   sys   draw_text_P
   .line 65
   push4 100709928
@@ -7026,14 +6975,12 @@ $L_render_victory_6:
   dec
   .line 137
   dup
-  p0
-  push2 240
+  push3 61440
   cslt2
   bz    $L_render_victory_8
   .line 138
   dup
-  p0
-  push3 8615
+  push4 2205440
   dup8
   p0
   p16
@@ -7282,8 +7229,7 @@ $L_resolve_player_collision_3:
 $L_resolve_player_collision_19:
   .line 524
   p00
-  p128
-  push  65
+  push2 16768
   getg4 px 0
   push4 1088212173
   fadd
@@ -7411,8 +7357,7 @@ $L_resolve_player_collision_12:
 $L_resolve_player_collision_21:
   .line 548
   p00
-  p128
-  push  65
+  push2 16768
   getg4 py 0
   push4 1086115021
   fadd
@@ -7536,8 +7481,7 @@ $L_solid_3:
   dec
   .line 754
   dup
-  p0
-  push2 240
+  push3 61440
   cslt2
   bnz   $L_solid_4
   p0
@@ -7577,8 +7521,7 @@ $L_solid_6:
 $L_solid_8:
   .line 759
   dup
-  p0
-  push2 176
+  push3 45056
   cslt2
   bnz   $L_solid_10
   dup
@@ -7984,8 +7927,7 @@ update_camera_position:
   .line 656
   getg4 px 0
   p00
-  p128
-  push  66
+  push2 17024
   fsub
   .line 657
   getg  map_width 0
@@ -8158,8 +8100,7 @@ $L_update_camera_position_11:
   getg4 camx 0
   fsub
   p0
-  p64
-  push2 17436
+  push3 4463680
   fmul
   .line 689
   getg4 dcamx 0
@@ -8308,8 +8249,7 @@ $L_update_credits_0:
   dupw2
   setr
   getr
-  p0
-  push  140
+  push2 35840
   sub2b
   bool2
   bnz   $L_update_credits_2
@@ -8391,8 +8331,7 @@ $L_update_level_0:
   bz    $L_update_level_1
   .line 337
   p00
-  p128
-  push  62
+  push2 16000
   setl4 4
 $L_update_level_1:
   .line 339
@@ -8407,8 +8346,7 @@ $L_update_level_1:
   .line 342
   getg4 vx 0
   p00
-  p128
-  push  192
+  push2 49280
   cflt
   bz    $L_update_level_3
   getl4 12
@@ -8468,8 +8406,7 @@ $L_update_level_7:
   push  15
   setg  jump_frames_remaining 0
   .line 361
-  p0
-  push2 156
+  push3 39936
   sys   tones_play_auto
 $L_update_level_9:
   .line 364
@@ -8573,8 +8510,7 @@ $L_update_level_15:
   getg4 vy 0
   fsub
   p00
-  p128
-  push  62
+  push2 16000
   fmul
   fadd
   setg4 vy 0
@@ -8593,8 +8529,7 @@ $L_update_level_17:
   getg4 vx 0
   fsub
   p00
-  p128
-  push  62
+  push2 16000
   fmul
   fadd
   setg4 vx 0
@@ -8613,8 +8548,7 @@ $L_update_level_18:
   getg4 vx 0
   fsub
   p00
-  p128
-  push  62
+  push2 16000
   fmul
   fadd
   setg4 vx 0
@@ -8686,8 +8620,7 @@ $L_update_level_22:
   getg  keys 0
   p0
   dup3
-  p0
-  push  156
+  push2 39936
   sub2b
   cult2
   bnz   $L_update_level_33
@@ -8789,13 +8722,11 @@ $L_update_level_38:
   .line 457
   getg4 vx 0
   p00
-  p128
-  push  192
+  push2 49280
   cflt
   bz    $L_update_level_45
   p00
-  p128
-  push  192
+  push2 49280
   setg4 vx 0
   .line 459
   getg4 vy 0
@@ -8821,13 +8752,11 @@ $L_update_level_39:
   .line 457
   getg4 vx 0
   p00
-  p128
-  push  192
+  push2 49280
   cflt
   bz    $L_update_level_45
   p00
-  p128
-  push  192
+  push2 49280
   setg4 vx 0
   .line 459
   getg4 vy 0
@@ -8855,13 +8784,11 @@ $L_update_level_44:
   .line 457
   getg4 vx 0
   p00
-  p128
-  push  192
+  push2 49280
   cflt
   bz    $L_update_level_45
   p00
-  p128
-  push  192
+  push2 49280
   setg4 vx 0
   .line 459
   getg4 vy 0
