@@ -1,40 +1,6 @@
 .global __udivmodhi4
 
-#if 0
-
-#define NL r24
-#define NH r25
-#define DL r22
-#define DH r23
-#define QL r26
-#define QH r27
-#define RL r30
-#define RH r31
-#define N  r21
-
-__udivmodhi4:
-
-    clr  QL
-    clr  QH
-
-    cp   NL, DL
-    cpc  NH, DL
-    brlo __udivmodhi4_zero
-
-    ldi  N, 16
-    
-
-
-
-    
-    com  RL
-    com  RH
-    movw r24, RL
-__udivmodhi4_zero:
-    movw r22, QL
-    ret
-
-#else
+#if 1
 
 #define NA r24
 #define NB r25

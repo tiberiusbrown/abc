@@ -164,6 +164,46 @@ void main()
     for(u32 i = 0; i < 10; ++i) { $assert(1); }
     $debug_break();
     
+    {
+    u32 a, b, q;
+    a = 0x000000f9; b = 0x000000c8; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x000070d5; b = 0x00000ef5; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x0001eaf8; b = 0x00002e69; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0xe935b872; b = 0xce97b5be; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x0000950e; b = 0x00000009; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x00abeb97; b = 0x0000b16f; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x00157cfb; b = 0x0000001a; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0xc4381838; b = 0x005ac967; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x3c9f90cb; b = 0x00000477; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x07e36d62; b = 0x000000fd; $debug_printf("udiv4 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    }
+    {
+    i32 a, b, q;
+    a = 0xffffff10; b = 0xffffffc1; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x0000efde; b = 0x00004b6e; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x00daac51; b = 0xff716309; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x975e9941; b = 0x4e00a4f1; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0xffff7528; b = 0xffffff0e; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x00f26efe; b = 0xffffffd2; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0xff421c9d; b = 0x000000dd; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x2cd51e66; b = 0xff2f1188; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x0e725d57; b = 0x000035af; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0xdaf0f3e0; b = 0xffffffff; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    }
+    {
+    u16 a, b, q;
+    a = 0x000000a9; b = 0x00000034; $debug_printf("udiv2 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x00007413; b = 0x00007033; $debug_printf("udiv2 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x000087ba; b = 0x000000ab; $debug_printf("udiv2 : %u / %u\n", a, b); $debug_break(); q = a / b; $debug_break();
+    }
+    {
+    i16 a, b, q;
+    a = 0xffffff13; b = 0x00000017; $debug_printf("div2  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0xffffa424; b = 0xffffa59e; $debug_printf("div2  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    a = 0x00002ac1; b = 0xffffff93; $debug_printf("div2  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
+    }
+
+    
     bench_math();
 
     $assert(0);

@@ -138,9 +138,43 @@ $PD_64:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
+$PD_65:
+$PD_66:
+$PD_67:
+$PD_68:
+$PD_69:
+$PD_70:
+$PD_71:
+$PD_72:
+$PD_73:
+$PD_74:
+  .b f 75 64 69 76 34 20 3a 20 25 75 30 20 2f 20 25 75
+  .b 1 30 0a
+$PD_75:
+$PD_76:
+$PD_77:
+$PD_78:
+$PD_79:
+$PD_80:
+$PD_81:
+$PD_82:
+$PD_83:
+$PD_84:
+  .b f 64 69 76 34 20 20 3a 20 25 64 30 20 2f 20 25 64
+  .b 1 30 0a
 $PD_8:
 $PD_9:
   .b e 24 6d 6f 64 28 25 66 38 2c 20 25 66 38 29 0a
+$PD_85:
+$PD_86:
+$PD_87:
+  .b f 75 64 69 76 32 20 3a 20 25 75 30 20 2f 20 25 75
+  .b 1 30 0a
+$PD_88:
+$PD_89:
+$PD_90:
+  .b f 64 69 76 32 20 20 3a 20 25 64 30 20 2f 20 25 64
+  .b 1 30 0a
 
 $globinit:
   .file <internal>.abc
@@ -611,7 +645,7 @@ $L_bench_math_70:
   .line 167
   getl4 5
   getl4 18
-  push  117
+  push  153
   p4
   p0
   push  15
@@ -667,7 +701,7 @@ $L_bench_math_78:
   .line 185
   getl4 5
   getl4 18
-  push  117
+  push  153
   p4
   p0
   push  15
@@ -1807,9 +1841,580 @@ $L_main_26:
   pop4
   .line 165
   sys   debug_break
-  .line 167
-  call  bench_math
+  .line 168
+  p0000
+  pz8
   .line 169
+  push  249
+  p000
+  setl4 12
+  push  200
+  p000
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 170
+  push2 28885
+  p00
+  setl4 12
+  push2 3829
+  p00
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 171
+  push2 60152
+  p1
+  p0
+  setl4 12
+  push2 11881
+  p00
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 172
+  push4 3912611954
+  setl4 12
+  push4 3466048958
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 173
+  push2 38158
+  p00
+  setl4 12
+  push  9
+  p000
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 174
+  push3 11266967
+  p0
+  setl4 12
+  push2 45423
+  p00
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 175
+  push3 1408251
+  p0
+  setl4 12
+  push  26
+  p000
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 176
+  push4 3292010552
+  setl4 12
+  push3 5949799
+  p0
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 177
+  push4 1017090251
+  setl4 12
+  push  119
+  p4
+  p00
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  .line 178
+  push3 14904674
+  p7
+  setl4 12
+  push  253
+  p000
+  setl4 8
+  getl4 8
+  getl4 16
+  push  117
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  udiv4
+  setl4 4
+  sys   debug_break
+  popn  12
+  .line 181
+  p0000
+  pz8
+  .line 182
+  p16
+  push3 16777215
+  setl4 12
+  push4 4294967233
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 183
+  push2 61406
+  p00
+  setl4 12
+  push2 19310
+  p00
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 184
+  push3 14330961
+  p0
+  setl4 12
+  push4 4285621001
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 185
+  push4 2539559233
+  setl4 12
+  push2 42225
+  p0
+  push  78
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 186
+  push4 4294931752
+  setl4 12
+  push4 4294967054
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 187
+  push3 15888126
+  p0
+  setl4 12
+  push4 4294967250
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 188
+  push4 4282522781
+  setl4 12
+  push  221
+  p000
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 189
+  push4 752164454
+  setl4 12
+  push4 4281274760
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 190
+  push4 242376023
+  setl4 12
+  push2 13743
+  p00
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  .line 191
+  push4 3673224160
+  setl4 12
+  push4 4294967295
+  setl4 8
+  getl4 8
+  getl4 16
+  push  135
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  p8
+  getln 12
+  div4
+  setl4 4
+  sys   debug_break
+  popn  12
+  .line 194
+  p00
+  p0000
+  .line 195
+  push  169
+  p0
+  setl2 6
+  push  52
+  p0
+  setl2 4
+  dupw3
+  p00
+  getl2 10
+  p00
+  push  168
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  dupw5
+  p00
+  dupw7
+  p00
+  udiv4
+  pop2
+  setl2 2
+  sys   debug_break
+  .line 196
+  push2 29715
+  setl2 6
+  push2 28723
+  setl2 4
+  dupw3
+  p00
+  getl2 10
+  p00
+  push  168
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  dupw5
+  p00
+  dupw7
+  p00
+  udiv4
+  pop2
+  setl2 2
+  sys   debug_break
+  .line 197
+  push2 34746
+  setl2 6
+  push  171
+  p0
+  setl2 4
+  dupw3
+  p00
+  getl2 10
+  p00
+  push  168
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  dupw5
+  p00
+  dupw7
+  p00
+  udiv4
+  pop2
+  setl2 2
+  sys   debug_break
+  popn  6
+  .line 200
+  p00
+  p0000
+  .line 201
+  push2 65299
+  setl2 6
+  push  23
+  p0
+  setl2 4
+  dupw3
+  sext2
+  getl2 10
+  sext2
+  push  186
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  dupw5
+  sext2
+  dupw7
+  sext2
+  div4
+  pop2
+  setl2 2
+  sys   debug_break
+  .line 202
+  push2 42020
+  setl2 6
+  push2 42398
+  setl2 4
+  dupw3
+  sext2
+  getl2 10
+  sext2
+  push  186
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  dupw5
+  sext2
+  dupw7
+  sext2
+  div4
+  pop2
+  setl2 2
+  sys   debug_break
+  .line 203
+  push2 10945
+  setl2 6
+  push2 65427
+  setl2 4
+  dupw3
+  sext2
+  getl2 10
+  sext2
+  push  186
+  p4
+  p0
+  push  18
+  p00
+  sys   debug_printf
+  sys   debug_break
+  dupw5
+  sext2
+  dupw7
+  sext2
+  div4
+  pop2
+  setl2 2
+  sys   debug_break
+  popn  6
+  .line 207
+  call  bench_math
+  .line 209
   p0
   sys   assert
   .line 3
