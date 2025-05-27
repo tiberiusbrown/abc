@@ -33,6 +33,8 @@ typedef enum
     ABC_RESULT_ERROR,      /* halt: a runtime error occurred */
 } abc_result_t;
 
+typedef struct abc_interp_t abc_interp_t;
+
 /********************************************************************
 * Host platform interface.                                          *
 ********************************************************************/
@@ -42,25 +44,38 @@ typedef struct abc_host_t
     * The following must not be NULL.                               *
     ****************************************************************/
     
+    /* Access a single byte in the compiled bytecode. */
     uint8_t (*prog)         (void* user, uint32_t addr);
     
     /****************************************************************
     * The following may be NULL, but games may break. *
     ****************************************************************/
 
+    /* Get a bitmask of which buttons are pressed (ABC_BUTTON_*). */
     uint8_t (*buttons)      (void* user);
+
+    /* Get the number of milliseconds elapsed since start. */
     uint32_t(*millis)       (void* user);
+
+    /* Push a single character to some debug output stream. */
     void    (*debug_putc)   (void* user, char c);
+
+    /* Generate some entropy for seeding a PRNG. */
     uint32_t(*rand_seed)    (void* user);
+
+    /* Store interp->saved into persistent memory. */
+    void    (*save)         (void* user, abc_interp_t const* interp);
     
     void* user;
     
 } abc_host_t;
 
 /********************************************************************
-* Interpreter state: zero-initialize to reset interpreter.          *
+* Interpreter state. To initialize:                                 *
+*     1. Clear to all-zero (e.g., with memset).                     *
+*     2. If save exists, copy to 'saved' and set 'has_save' to 1.   *
 ********************************************************************/
-typedef struct abc_interp_t
+struct abc_interp_t
 {
     
     /* The host can use this for rendering: 128x64 8-bit pixels. */
@@ -113,7 +128,7 @@ typedef struct abc_interp_t
     int8_t   batch_dx;
     int8_t   batch_dy;
     
-} abc_interp_t;
+};
 
 /*
 Execute a single instruction.

@@ -1612,6 +1612,7 @@ static abc_result_t sys_save(abc_interp_t* interp, abc_host_t const* h)
     {
         memcpy(interp->saved, interp->globals, n);
         interp->has_save = 1;
+        if(h->save) h->save(h->user, interp);
     }
     return ABC_RESULT_NORMAL;
 }
