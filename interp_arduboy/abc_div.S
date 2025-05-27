@@ -115,14 +115,11 @@ __udivmodhi4:
 #define RC r30
 #define RD r31
 
-#define CNT r0
+#define CNT r1
 
 .global __udivmodsi4
 
 __udivmodsi4:
-    
-    ldi  RA, 32
-    mov  CNT, RA
 
     clr  RC
     clr  RD
@@ -137,11 +134,11 @@ __udivmodsi4:
     movw r20, RC
     ret
 
-    ; test for u16/u16 division
-    cp   NC, r1
-    cpc  ND, r1
-    cpc  DC, r1
-    cpc  DD, r1
+    ; test for u16/u16 division (use __udivmodhi4)
+    cp   NC, RC
+    cpc  ND, RC
+    cpc  DC, RC
+    cpc  DD, RC
     brne 1f
     movw r24, NA
     movw r22, DA
@@ -153,7 +150,67 @@ __udivmodsi4:
     ret
 1:
 
+    ; test if quotient bits is at least 16
+    ; and use alternate code path if so
+    cp   RC, NA
+    cpc  RC, NB
+    cpc  DA, NC
+    cpc  DB, ND
+    cpc  DC, RC
+    cpc  DD, RC
+    brsh 1f
+    ldi  RA, 32
+    mov  CNT, RA
     movw RA, RC
+    rjmp __udivmodsi4_alt
+1:
+    movw RA, RC
+
+    ; compute quotient bit count
+    clr  CNT
+    inc  CNT
+    sbrc DD, 7
+    rjmp __udivmodsi4_loop
+1:  inc  CNT
+    lsl  DA
+    rol  DB
+    rol  DC
+    rol  DD
+    brmi __udivmodsi4_loop
+    cp   DA, NA
+    cpc  DB, NB
+    cpc  DC, NC
+    cpc  DD, ND
+    brlo 1b
+
+    ; compute quotient
+__udivmodsi4_loop:
+    lsl  RA
+    rol  RB
+    rol  RC
+    rol  RD
+    cp   NA, DA
+    cpc  NB, DB
+    cpc  NC, DC
+    cpc  ND, DD
+    brlo 1f
+    sub  NA, DA
+    sbc  NB, DB
+    sbc  NC, DC
+    sbc  ND, DD
+    ori  RA, 1
+1:  lsr  DD
+    ror  DC
+    ror  DB
+    ror  DA
+    dec  CNT
+    brne __udivmodsi4_loop
+
+    movw r18, RA
+    movw r20, RC
+    ret
+
+__udivmodsi4_alt:
 
     lsl  NA
     rol  NB
@@ -192,8 +249,8 @@ __udivmodsi4:
     movw r20, NC
     movw r22, RA
     movw r24, RC
-
     ret
+
 
 #undef NA
 #undef NB
