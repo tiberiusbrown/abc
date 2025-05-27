@@ -4083,9 +4083,8 @@ mob_solid:
   cslt2
   bz    $L_mob_solid_0
   .line 181
+  popn  6
   p1
-  setl  6
-  popn  5
   ret
 $L_mob_solid_0:
   .line 184
@@ -4094,9 +4093,8 @@ $L_mob_solid_0:
   cslt2
   bz    $L_mob_solid_1
   .line 185
+  popn  6
   p0
-  setl  6
-  popn  5
   ret
 $L_mob_solid_1:
   .line 187
@@ -4118,9 +4116,8 @@ $L_mob_solid_1:
   cslt2
   bnz   $L_mob_solid_2
   .line 193
+  popn  7
   p1
-  setl  7
-  popn  6
   ret
 $L_mob_solid_2:
   .line 196
@@ -4130,9 +4127,8 @@ $L_mob_solid_2:
   cslt2
   bnz   $L_mob_solid_3
   .line 197
+  popn  7
   p0
-  setl  7
-  popn  6
   ret
 $L_mob_solid_3:
   .line 198
@@ -4157,9 +4153,8 @@ $L_mob_solid_3:
   push3 61440
   cslt2
   bnz   $L_mob_solid_4
+  popn  8
   p0
-  setl  8
-  popn  7
   ret
 $L_mob_solid_4:
   .line 201
@@ -4167,9 +4162,8 @@ $L_mob_solid_4:
   p64
   cult
   bz    $L_mob_solid_5
+  popn  8
   p1
-  setl  8
-  popn  7
   ret
 $L_mob_solid_5:
   .line 202
@@ -4179,9 +4173,8 @@ $L_mob_solid_5:
   push  96
   cult
   bz    $L_mob_solid_7
+  popn  8
   p1
-  setl  8
-  popn  7
   ret
 $L_mob_solid_7:
   .line 203
@@ -4195,15 +4188,13 @@ $L_mob_solid_7:
   p8
   cult
   bnz   $L_mob_solid_9
+  popn  8
   p1
-  setl  8
-  popn  7
   ret
 $L_mob_solid_9:
   .line 204
+  popn  8
   p0
-  setl  8
-  popn  7
   ret
 
 new_game:
@@ -7415,9 +7406,8 @@ solid:
   cslt2
   bz    $L_solid_0
   .line 736
+  popn  20
   p1
-  setl  20
-  popn  19
   ret
 $L_solid_0:
   .line 739
@@ -7426,9 +7416,8 @@ $L_solid_0:
   cslt2
   bz    $L_solid_1
   .line 740
+  popn  20
   p0
-  setl  20
-  popn  19
   ret
 $L_solid_1:
   .line 742
@@ -7450,9 +7439,8 @@ $L_solid_1:
   cslt2
   bnz   $L_solid_2
   .line 748
+  popn  21
   p1
-  setl  21
-  popn  20
   ret
 $L_solid_2:
   .line 751
@@ -7462,9 +7450,8 @@ $L_solid_2:
   cslt2
   bnz   $L_solid_3
   .line 752
+  popn  21
   p0
-  setl  21
-  popn  20
   ret
 $L_solid_3:
   .line 753
@@ -7484,9 +7471,8 @@ $L_solid_3:
   push3 61440
   cslt2
   bnz   $L_solid_4
+  popn  22
   p0
-  setl  22
-  popn  21
   ret
 $L_solid_4:
   .line 755
@@ -7502,9 +7488,8 @@ $L_solid_5:
   p64
   cult
   bz    $L_solid_6
+  popn  22
   p1
-  setl  22
-  popn  21
   ret
 $L_solid_6:
   .line 758
@@ -7514,9 +7499,8 @@ $L_solid_6:
   push  96
   cult
   bz    $L_solid_8
+  popn  22
   p1
-  setl  22
-  popn  21
   ret
 $L_solid_8:
   .line 759
@@ -7530,15 +7514,13 @@ $L_solid_8:
   p8
   cult
   bnz   $L_solid_10
+  popn  22
   p1
-  setl  22
-  popn  21
   ret
 $L_solid_10:
   .line 760
+  popn  22
   p0
-  setl  22
-  popn  21
   ret
 
 touch_object:

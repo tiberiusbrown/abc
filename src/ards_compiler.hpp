@@ -757,6 +757,7 @@ private:
     bool peephole_bzp(compiler_func_t& f);
     bool peephole_redundant_bzp(compiler_func_t& f);
     bool peephole_compress_pop(compiler_func_t& f);
+    bool peephole_push_setl_popn(compiler_func_t& f);
     bool peephole_remove_inaccessible_code(compiler_func_t& f);
     bool peephole_jmp_to_ret(compiler_func_t& f);
 

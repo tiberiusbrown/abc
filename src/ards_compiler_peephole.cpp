@@ -81,6 +81,8 @@ bool compiler_t::peephole(compiler_func_t& f)
         t = true;
     while(peephole_compress_pop(f))
         t = true;
+    while(peephole_push_setl_popn(f))
+        t = true;
     if(!t)
     {
         while(peephole_compress_push_sequence(f))
@@ -1648,6 +1650,32 @@ bool compiler_t::peephole_redundant_bzp(compiler_func_t& f)
                 i0.label = label;
                 t = true;
             }
+        }
+    }
+    clear_removed_instrs(f.instrs);
+    return t;
+}
+
+bool compiler_t::peephole_push_setl_popn(compiler_func_t& f)
+{
+    bool t = false;
+
+    for(size_t i = 0; i + 2 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+        auto& i2 = f.instrs[i + 2];
+
+        // replace PUSH M; SETL N+1; POPN N; with POPN N+1; PUSH M;
+        if(i0.instr == I_PUSH && i1.instr == I_SETL &&
+            (i2.instr == I_POPN && i2.imm + 1 == i1.imm))
+        {
+            i0.instr = I_POPN;
+            i1.instr = I_PUSH;
+            i2.instr = I_REMOVE;
+            std::swap(i0.imm, i1.imm);
+            t = true;
+            continue;
         }
     }
     clear_removed_instrs(f.instrs);
