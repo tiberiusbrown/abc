@@ -144,8 +144,7 @@ main:
   p7
   p0
   p8
-  p0
-  p8
+  dupw
   setln 8
   .line 33
   dupw7
@@ -218,9 +217,8 @@ main:
   p1
   sys   assert
   .line 44
-  push  42
-  p0
-  push4 1966145036
+  push4 4262199338
+  push2 30000
   p00
   call  f
   .line 46

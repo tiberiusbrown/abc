@@ -159,13 +159,10 @@ $L_main_2:
   getl4 6
   p0
   push  255
-  p0
-  push  255
+  dupw
   and4
   p0
-  push  186
-  p0
-  push  202
+  push3 13238458
   sub4
   bool4
   not
@@ -175,13 +172,10 @@ $L_main_2:
   getrn 4
   p0
   push  255
-  p0
-  push  255
+  dupw
   and4
   p0
-  push  186
-  p0
-  push  202
+  push3 13238458
   sub4
   bool4
   not
@@ -223,12 +217,10 @@ $L_main_2:
   p3
   getgn a3 3
   p0
-  push3 1048560
-  p0
+  push4 1048560
   and4
   pop
-  push2 13392
-  p2
+  push3 144464
   sub3
   bool3
   not
@@ -237,12 +229,10 @@ $L_main_2:
   dupw
   getrn 3
   p0
-  push3 1048560
-  p0
+  push4 1048560
   and4
   pop
-  push2 13392
-  p2
+  push3 144464
   sub3
   bool3
   not

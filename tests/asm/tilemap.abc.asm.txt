@@ -33,7 +33,7 @@ main:
   sys   assert
   .line 20
   p1
-  p1
+  dup
   p0
   getpn 2
   p8
@@ -65,8 +65,7 @@ main:
   p0
   .line 31
   p3
-  p1
-  p0
+  dupw2
   getpn 2
   p16
   sub2b
@@ -121,8 +120,7 @@ main:
   p4
   p0
   p3
-  p0
-  p3
+  dupw
   getln 7
   sys   tilemap_get
   push  211
@@ -145,8 +143,7 @@ main:
   p8
   p0
   p3
-  p0
-  p3
+  dupw
   getln 7
   sys   tilemap_get
   bool2

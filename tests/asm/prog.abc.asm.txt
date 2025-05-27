@@ -75,18 +75,12 @@ $globinit:
   p6
   setgn ra2 0
   .line 26
-  push  12
-  p1
-  p0
-  p4
+  push4 67109132
   p00
   p6
   setgn ra3 0
   .line 27
-  push  24
-  p1
-  p0
-  p4
+  push4 67109144
   p00
   p6
   setgn ra4 0
@@ -148,16 +142,14 @@ $L_main_2:
   not
   sys   assert
   .line 48
-  push  12
-  p1
-  p0
+  push3 268
   dup5
   pidxb 3 4
   getpn 3
   p0
   dup5
-  p0
   p0000
+  dup
   p16
   p0
   mul4
@@ -166,15 +158,13 @@ $L_main_2:
   not
   sys   assert
   .line 49
-  push  24
-  p1
-  p0
+  push3 280
   dup5
   pidxb 4 4
   getpn 4
   dup5
-  p00
   p0000
+  p00
   p16
   mul4
   sub4
@@ -213,32 +203,25 @@ $L_main_2:
   p1
   p0
   push  40
-  p1
-  p0
+  dupw2
   getpn 2
   setr2
   .line 58
   p2
   p0
-  push  42
-  p1
-  p0
+  push3 298
   getpn 2
   setr2
   .line 59
   p3
   p0
-  push  44
-  p1
-  p0
+  push3 300
   getpn 2
   setr2
   .line 60
   p4
   p0
-  push  46
-  p1
-  p0
+  push3 302
   getpn 2
   setr2
   .line 62

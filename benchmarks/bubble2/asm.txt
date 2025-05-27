@@ -38,7 +38,7 @@ $L_main_6:
   p0
   .line 14
   p1
-  p1
+  dup
   dup4
   cult
   bz    $L_main_7

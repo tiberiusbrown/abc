@@ -763,6 +763,12 @@ private:
     bool peephole_remove_inaccessible_code(compiler_func_t& f);
     bool peephole_jmp_to_ret(compiler_func_t& f);
 
+    bool peephole_compress_push_sequence(compiler_func_t& f);
+    static void push_compression(
+        std::vector< compiler_instr_t>& pi,
+        compiler_instr_t const* b,
+        compiler_instr_t const* d, size_t n);
+
     void tail_call_optimization();
 
     static void clear_removed_instrs(std::vector<compiler_instr_t>& instrs);

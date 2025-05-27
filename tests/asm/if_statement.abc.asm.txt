@@ -70,8 +70,8 @@ $L_main_7:
 $L_main_8:
   .line 51
   p1
-  p1
-  p1
+  dup
+  dup
   call  test_logical_and
   .line 52
   p00
@@ -87,8 +87,8 @@ $L_main_8:
   call  test_logical_and
   .line 56
   p1
-  p1
-  p1
+  dup
+  dup
   call  test_logical_or
   .line 57
   p1
@@ -97,7 +97,7 @@ $L_main_8:
   call  test_logical_or
   .line 58
   p1
-  p1
+  dup
   p0
   call  test_logical_or
   .line 59
@@ -106,7 +106,7 @@ $L_main_8:
   .line 66
   p1
   .line 67
-  p1
+  dup
   bnzp  $L_main_9
   p0
   call  dont_call_me

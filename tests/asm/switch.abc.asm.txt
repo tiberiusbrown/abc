@@ -12,11 +12,8 @@ main:
   .line 3
   sys   debug_break
   .line 6
-  push  42
-  .line 7
-  p0
+  push3 65578
   .line 9
-  p1
   setl  1
   .line 11
   dup
@@ -520,8 +517,7 @@ $L_main_46:
   sys   assert
   pop2
   .line 132
-  push2 26784
-  p6
+  push3 420000
   p000
   .line 135
   setl  1
@@ -529,17 +525,13 @@ $L_main_46:
   getl4 5
   .line 138
   getl4 4
-  push2 16784
-  p6
-  p0
+  push4 410000
   sub4
   bool4
   bz    $L_main_51
   .line 139
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   bz    $L_main_52
@@ -577,25 +569,19 @@ $L_main_50:
   getl4 5
   .line 147
   getl4 4
-  push2 16784
-  p6
-  p0
+  push4 410000
   sub4
   bool4
   bz    $L_main_55
   .line 148
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   bz    $L_main_56
   .line 149
   getl4 4
-  push2 36784
-  p6
-  p0
+  push4 430000
   sub4
   bool4
   bz    $L_main_57
@@ -645,16 +631,12 @@ $L_main_54:
   getl4 5
   .line 157
   getl4 4
-  push2 16784
-  p6
-  p0
+  push4 410000
   sub4
   bool4
   bz    $L_main_60
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   .line 155
@@ -682,23 +664,17 @@ $L_main_59:
   getl4 5
   .line 166
   getl4 4
-  push2 16784
-  p6
-  p0
+  push4 410000
   sub4
   bool4
   bz    $L_main_63
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   bz    $L_main_63
   getl4 4
-  push2 36784
-  p6
-  p0
+  push4 430000
   sub4
   bool4
   .line 164
@@ -726,16 +702,12 @@ $L_main_62:
   getl4 5
   .line 175
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   bz    $L_main_66
   getl4 4
-  push2 36784
-  p6
-  p0
+  push4 430000
   sub4
   bool4
   .line 173
@@ -763,14 +735,10 @@ $L_main_65:
   getl4 5
   .line 184
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   cult4
   bnz   $L_main_70
-  push2 36784
-  p6
-  p0
+  push4 430000
   getl4 8
   cult4
   bz    $L_main_69
@@ -794,14 +762,10 @@ $L_main_68:
   getl4 5
   .line 191
   getl4 4
-  push2 16784
-  p6
-  p0
+  push4 410000
   cult4
   bnz   $L_main_73
-  push2 26784
-  p6
-  p0
+  push4 420000
   getl4 8
   cult4
   bz    $L_main_72
@@ -825,14 +789,10 @@ $L_main_71:
   getl4 5
   .line 198
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   cult4
   bnz   $L_main_76
-  push2 26784
-  p6
-  p0
+  push4 420000
   getl4 8
   cult4
   bz    $L_main_75
@@ -857,14 +817,10 @@ $L_main_74:
   .line 205
   getl4 4
   p128
-  push  26
-  p6
-  p0
+  push3 1562
   cult4
   bnz   $L_main_79
-  push2 56784
-  p6
-  p0
+  push4 450000
   getl4 8
   cult4
   bz    $L_main_78
@@ -888,31 +844,23 @@ $L_main_77:
   getl4 5
   .line 212
   getl4 4
-  push2 52320
-  p5
-  p0
+  push4 380000
   sub4
   bool4
   bz    $L_main_81
   getl4 4
   p128
-  push  26
-  p6
-  p0
+  push3 1562
   cult4
   bnz   $L_main_82
-  push2 56784
-  p6
-  p0
+  push4 450000
   getl4 8
   cult4
   bz    $L_main_81
 $L_main_82:
   getl4 4
   p16
-  push  152
-  p2
-  p0
+  push3 664
   sub4
   bool4
   .line 210
@@ -934,31 +882,23 @@ $L_main_80:
   getl4 5
   .line 219
   getl4 4
-  push2 52320
-  p5
-  p0
+  push4 380000
   cult4
   bnz   $L_main_85
   p128
-  push  26
-  p6
-  p0
+  push3 1562
   getl4 8
   cult4
   bz    $L_main_84
 $L_main_85:
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   bz    $L_main_84
   getl4 4
   p16
-  push  152
-  p2
-  p0
+  push3 664
   sub4
   bool4
   .line 217
@@ -980,9 +920,7 @@ $L_main_83:
   getl4 5
   .line 227
   getl4 4
-  push2 16784
-  p6
-  p0
+  push4 410000
   sub4
   bool4
   bz    $L_main_88
@@ -1005,9 +943,7 @@ $L_main_88:
   getl4 5
   .line 234
   getl4 4
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   .line 232
@@ -1016,9 +952,7 @@ $L_main_88:
   p1
   setl  5
   getl4 9
-  push2 26784
-  p6
-  p0
+  push4 420000
   sub4
   bool4
   bz    $L_main_89

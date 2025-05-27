@@ -27,8 +27,7 @@ $L_main_2:
   add2b
   setl2 2
   dupw
-  push  132
-  p3
+  push2 900
   cult2
   bnz   $L_main_2
   pop2
@@ -48,8 +47,7 @@ $L_main_6:
   dup3
   mul2b
   dupw
-  push  132
-  p3
+  push2 900
   cult2
   bz    $L_main_8
 $L_main_10:
@@ -65,8 +63,7 @@ $L_main_10:
   add2b
   setl2 2
   dupw
-  push  132
-  p3
+  push2 900
   cult2
   bnz   $L_main_10
 $L_main_8:

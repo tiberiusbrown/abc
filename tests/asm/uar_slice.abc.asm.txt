@@ -16,17 +16,16 @@ main:
   .line 3
   sys   debug_break
   .line 5
-  push4 1819043144
+  push3 7103816
+  dup
   push  111
-  p0
   p0000
+  dup
   .line 6
   refl  10
-  push  10
-  p0
+  push3 65546
   .line 7
-  p1
-  p1
+  dup
   p0
   p3
   p00

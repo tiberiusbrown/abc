@@ -16,10 +16,7 @@ foop:
 $globinit:
   .file <internal>.abc
   .line 13
-  push  232
-  p3
-  push  208
-  p7
+  push4 131073000
   push4 262147000
   p8
   setgn data1 0
@@ -30,9 +27,7 @@ main:
   .line 25
   sys   debug_break
   .line 27
-  push  14
-  p1
-  p0
+  push3 270
   getpn 6
   p000
   upidx 2
@@ -43,9 +38,7 @@ main:
   not
   sys   assert
   .line 28
-  push  14
-  p1
-  p0
+  push3 270
   getpn 6
   p1
   p00
@@ -57,68 +50,54 @@ main:
   not
   sys   assert
   .line 29
-  push  14
-  p1
-  p0
+  push3 270
   getpn 6
   p2
   p00
   upidx 2
   getpn 2
-  push  44
-  p1
+  push2 300
   sub2
   bool2
   not
   sys   assert
   .line 30
-  push  14
-  p1
-  p0
+  push3 270
   getpn 6
   p3
   p00
   upidx 2
   getpn 2
-  push  144
-  p1
+  push2 400
   sub2
   bool2
   not
   sys   assert
   .line 32
-  push  9
-  p1
-  p0
+  push3 265
   getpn 4
   p00
   uaidx 2
   getr2
-  push  232
-  p3
+  push2 1000
   sub2
   bool2
   not
   sys   assert
   .line 33
-  push  9
-  p1
-  p0
+  push3 265
   getpn 4
   p1
   p0
   uaidx 2
   getr2
-  push  208
-  p7
+  push2 2000
   sub2
   bool2
   not
   sys   assert
   .line 34
-  push  9
-  p1
-  p0
+  push3 265
   getpn 4
   p2
   p0
@@ -130,9 +109,7 @@ main:
   not
   sys   assert
   .line 35
-  push  9
-  p1
-  p0
+  push3 265
   getpn 4
   p3
   p0

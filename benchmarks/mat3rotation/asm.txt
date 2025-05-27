@@ -13,12 +13,11 @@ main:
   .line 38
   sys   debug_break
   .line 40
+  pz16
+  pz16
   p0000
-  pz16
-  pz16
   push4 1061813223
-  push3 9563013
-  p64
+  push4 1083304837
   push4 1067282596
   call  rot
   push  36
@@ -31,9 +30,9 @@ main:
 rot:
   .file mat3rotation.abc
   .line 8
+  pz16
+  pz16
   p0000
-  pz16
-  pz16
   .line 10
   getl4 40
   sys   sin

@@ -65,8 +65,6 @@ __udivmodhi4_loop:
 
 __udivmodhi4_alt:
 
-
-
     lsl  NA
     rol  NB
 

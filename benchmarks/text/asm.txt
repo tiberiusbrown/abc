@@ -191,29 +191,22 @@ main:
   sys   set_text_font
   .line 6
   sys   millis
-  push  232
-  p3
+  push2 1000
   p00
   udiv4
-  push2 2791
-  p0
-  push  20
+  push4 335547111
   p00
   p8
   p000
   sys   draw_textf
   .line 7
-  push2 2811
-  p0
-  push  43
+  push4 721423099
   p00
   push  17
   p000
   sys   draw_text_P
   .line 8
-  push2 2854
-  p0
-  push  43
+  push4 721423142
   p00
   push  44
   p000

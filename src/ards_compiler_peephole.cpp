@@ -43,7 +43,6 @@ void compiler_t::optimize()
                 return;
             while(peephole_reduce(f))
                 ;
-            clear_removed_instrs(f.instrs);
         }
         repeat |= remove_unreferenced_labels();
         repeat |= merge_adjacent_labels();
@@ -60,7 +59,6 @@ void compiler_t::optimize()
                 ;
             while(peephole(f))
                 ;
-            clear_removed_instrs(f.instrs);
         }
         repeat |= remove_unreferenced_labels();
         repeat |= merge_adjacent_labels();
@@ -85,12 +83,14 @@ bool compiler_t::peephole(compiler_func_t& f)
         t = true;
     if(!t)
     {
-        while(peephole_compress_push(f))
+        while(peephole_compress_push_sequence(f))
             t = true;
-        while(peephole_compress_pushes_pushn(f))
-            t = true;
-        while(peephole_compress_duplicate_pushes(f))
-            t = true;
+        //while(peephole_compress_push(f))
+        //    t = true;
+        //while(peephole_compress_pushes_pushn(f))
+        //    t = true;
+        //while(peephole_compress_duplicate_pushes(f))
+        //    t = true;
     }
 
     t |= peephole_remove_inaccessible_code(f);
@@ -311,7 +311,6 @@ bool compiler_t::inline_or_remove_functions()
 bool compiler_t::peephole_reduce(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
@@ -1112,14 +1111,13 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         }
 
     }
-
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_linc(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i + 2 < f.instrs.size(); ++i)
     {
@@ -1149,14 +1147,13 @@ bool compiler_t::peephole_linc(compiler_func_t& f)
             continue;
         }
     }
-
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_dup_sext(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1208,14 +1205,13 @@ bool compiler_t::peephole_dup_sext(compiler_func_t& f)
             continue;
         }
     }
-
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1584,13 +1580,13 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             }
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_bzp(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i + 2 < f.instrs.size(); ++i)
     {
@@ -1609,13 +1605,13 @@ bool compiler_t::peephole_bzp(compiler_func_t& f)
             continue;
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_redundant_bzp(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1660,13 +1656,13 @@ bool compiler_t::peephole_redundant_bzp(compiler_func_t& f)
             }
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_compress_pop(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1710,13 +1706,225 @@ bool compiler_t::peephole_compress_pop(compiler_func_t& f)
             continue;
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
+}
+
+bool compiler_t::peephole_compress_push_sequence(compiler_func_t& f)
+{
+    bool t = false;
+
+    std::vector< compiler_instr_t> pi;
+
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        size_t n = 0;
+        for(size_t j = i; j < f.instrs.size() && f.instrs[j].instr == I_PUSH; ++j, ++n)
+            f.instrs[j].instr = I_REMOVE;
+        if(n == 0)
+            continue;
+        pi.clear();
+
+        push_compression(pi, f.instrs.data() + i, f.instrs.data() + i, n);
+
+        if(pi.size() > n)
+        {
+            f.instrs.insert(
+                f.instrs.begin() + i + n,
+                size_t(pi.size() - n),
+                {});
+        }
+
+        for(size_t j = 0; j < pi.size(); ++j)
+            f.instrs[i + j] = pi[j];
+        i += std::max(n, pi.size());
+    }
+    clear_removed_instrs(f.instrs);
+    return t;
+}
+
+static compiler_instr_t instr(compiler_instr_t i, instr_t ii, uint32_t imm = 0)
+{
+    i.instr = ii;
+    i.imm = imm;
+    return i;
+}
+
+void compiler_t::push_compression(
+    std::vector<compiler_instr_t>& pi,
+    compiler_instr_t const* b,
+    compiler_instr_t const* d, size_t n)
+{
+    compiler_instr_t const* dend = d + n;
+    while(d < dend)
+    {
+        n = (dend - d);
+
+        // sequence of all zeros
+        size_t nz = 0;
+        for(; nz < n && d[nz].imm == 0; ++nz)
+            ;
+
+        // PZ16
+        if(nz >= 16)
+        {
+            pi.push_back(instr(*d, I_PZ16));
+            d += 16;
+            continue;
+        }
+        // PZ8
+        if(nz >= 8)
+        {
+            pi.push_back(instr(*d, I_PZ8));
+            d += 8;
+            continue;
+        }
+        // P0000
+        if(nz >= 4)
+        {
+            pi.push_back(instr(*d, I_P0000));
+            d += 4;
+            continue;
+        }
+        // P000
+        if(nz >= 3)
+        {
+            pi.push_back(instr(*d, I_P000));
+            d += 3;
+            continue;
+        }
+        // P00
+        if(nz >= 2)
+        {
+            pi.push_back(instr(*d, I_P00));
+            d += 2;
+            continue;
+        }
+
+        // GETL4
+        if(n >= 4)
+        {
+            uint8_t i0 = (uint8_t)d[0].imm;
+            uint8_t i1 = (uint8_t)d[1].imm;
+            uint8_t i2 = (uint8_t)d[2].imm;
+            uint8_t i3 = (uint8_t)d[3].imm;
+            compiler_instr_t const* p = d;
+            bool found = false;
+            while(b + 2 <= p && p + 252 > d)
+            {
+                if( p[-4].imm == i0 && p[-3].imm == i1 &&
+                    p[-2].imm == i2 && p[-1].imm == i3)
+                {
+                    found = true;
+                    break;
+                }
+                --p;
+            }
+            if(found)
+            {
+                pi.push_back(instr(*d, I_GETL4, (uint32_t)(uintptr_t)(d - p) + 4));
+                d += 4;
+                continue;
+            }
+        }
+
+        // DUPWn
+        if(n >= 2)
+        {
+            uint8_t i0 = (uint8_t)d[0].imm;
+            uint8_t i1 = (uint8_t)d[1].imm;
+            compiler_instr_t const* p = d;
+            while(b + 2 <= p && p + 8 > d)
+            {
+                if(p[-2].imm == i0 && p[-1].imm == i1)
+                    break;
+                --p;
+            }
+            if(b + 2 <= p && p + 8 > d)
+            {
+                pi.push_back(instr(*d, instr_t(I_DUPW + uintptr_t(d - p))));
+                d += 2;
+                continue;
+            }
+        }
+
+        // DUP
+        if(b < d && d[-1].imm == d[0].imm)
+        {
+            pi.push_back(instr(*d++, I_DUP));
+            continue;
+        }
+
+        // normal PUSH: try to combine with previous PUSH/PUSH2/PUSH3
+        if(!pi.empty())
+        {
+            auto& prev = pi.back();
+            switch(prev.instr)
+            {
+            case I_PUSH:
+                prev.instr = I_PUSH2;
+                prev.imm += (((d++)->imm & 0xff) << 8);
+                continue;
+            case I_PUSH2:
+                prev.instr = I_PUSH3;
+                prev.imm += (((d++)->imm & 0xff) << 16);
+                continue;
+            case I_PUSH3:
+                prev.instr = I_PUSH4;
+                prev.imm += (((d++)->imm & 0xff) << 24);
+                continue;
+            default:
+                break;
+            }
+        }
+
+        switch(d->imm)
+        {
+        case 0:   pi.push_back(instr(*d, I_P0  )); ++d; continue;
+        case 1:   pi.push_back(instr(*d, I_P1  )); ++d; continue;
+        case 2:   pi.push_back(instr(*d, I_P2  )); ++d; continue;
+        case 3:   pi.push_back(instr(*d, I_P3  )); ++d; continue;
+        case 4:   pi.push_back(instr(*d, I_P4  )); ++d; continue;
+        case 5:   pi.push_back(instr(*d, I_P5  )); ++d; continue;
+        case 6:   pi.push_back(instr(*d, I_P6  )); ++d; continue;
+        case 7:   pi.push_back(instr(*d, I_P7  )); ++d; continue;
+        case 8:   pi.push_back(instr(*d, I_P8  )); ++d; continue;
+        case 16:  pi.push_back(instr(*d, I_P16 )); ++d; continue;
+        case 32:  pi.push_back(instr(*d, I_P32 )); ++d; continue;
+        case 64:  pi.push_back(instr(*d, I_P64 )); ++d; continue;
+        case 128: pi.push_back(instr(*d, I_P128)); ++d; continue;
+        default:
+            break;
+        }
+
+        // DUPn
+        {
+            uint8_t i0 = (uint8_t)d[0].imm;
+            compiler_instr_t const* p = d;
+            while(b + 1 <= p && p + 8 > d)
+            {
+                if(p[-1].imm == i0)
+                    break;
+                --p;
+            }
+            if(b + 1 <= p && p + 8 > d)
+            {
+                pi.push_back(instr(*d, instr_t(I_DUP + uintptr_t(d - p))));
+                d += 1;
+                continue;
+            }
+        }
+
+        // normal PUSH
+        pi.push_back(instr(*d, I_PUSH, d->imm));
+        ++d;
+
+    }
 }
 
 bool compiler_t::peephole_compress_push(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1805,13 +2013,13 @@ bool compiler_t::peephole_compress_push(compiler_func_t& f)
             }
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_compress_pushes_pushn(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
@@ -1842,13 +2050,13 @@ bool compiler_t::peephole_compress_pushes_pushn(compiler_func_t& f)
 
         t = true;
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_compress_duplicate_pushes(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1868,13 +2076,13 @@ bool compiler_t::peephole_compress_duplicate_pushes(compiler_func_t& f)
             if(t) continue;
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_remove_inaccessible_code(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1891,13 +2099,13 @@ bool compiler_t::peephole_remove_inaccessible_code(compiler_func_t& f)
             }
         }
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 
 bool compiler_t::peephole_jmp_to_ret(compiler_func_t& f)
 {
     bool t = false;
-    clear_removed_instrs(f.instrs);
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -1939,6 +2147,7 @@ bool compiler_t::peephole_jmp_to_ret(compiler_func_t& f)
 
         t = true;
     }
+    clear_removed_instrs(f.instrs);
     return t;
 }
 

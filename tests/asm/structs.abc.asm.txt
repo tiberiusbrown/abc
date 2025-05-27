@@ -126,12 +126,10 @@ $L_main_11:
   bnz   $L_main_10
   pop
   .line 41
-  push  42
-  p0
+  push2 42
   setg2 enemies 32
   .line 42
-  push  65
-  p0
+  push2 65
   setg2 enemies 34
   .line 43
   push  88
@@ -226,8 +224,8 @@ $L_main_21:
   p4
   p0
   p5
-  p000
   pz8
+  p000
   p16
   setgn enemies 32
   .line 62

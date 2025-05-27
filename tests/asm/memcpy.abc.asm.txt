@@ -93,13 +93,9 @@ main:
   not
   sys   assert
   .line 23
-  push  42
-  p0
-  .line 24
-  push  244
-  p1
+  push4 32768042
   .line 26
-  p1
+  dup
   sys   assert
   .line 27
   refl  4
@@ -117,22 +113,16 @@ main:
   not
   sys   assert
   .line 30
-  push  88
-  p2
-  push  188
-  p2
+  push4 45875800
   .line 31
   p32
   p3
-  push  132
-  p3
+  push3 66436
   .line 33
-  p1
   sys   assert
   .line 34
   dupw5
-  push  188
-  p2
+  push2 700
   sub2
   bool2
   not
@@ -155,8 +145,7 @@ main:
   sys   assert
   .line 37
   dupw5
-  push  132
-  p3
+  push2 900
   sub2
   bool2
   not

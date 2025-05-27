@@ -21,15 +21,14 @@ main:
   p1
   sys   assert
   .line 19
-  push  11
-  p0
+  push3 65547
   .line 20
-  p1
   sys   assert
   .line 22
-  p0
-  p0000
   pz16
+  p0000
+  .line 23
+  dup
 $L_main_2:
   .line 24
   dup
@@ -44,8 +43,7 @@ $L_main_2:
   inc
   dup
   p0
-  push  10
-  p0
+  push2 10
   cslt2
   bnz   $L_main_2
   popn  23
@@ -65,8 +63,7 @@ $L_main_6:
   inc
   dup
   p0
-  push  30
-  p0
+  push2 30
   cslt2
   bnz   $L_main_6
   pop

@@ -31,19 +31,15 @@ $globinit:
   p1
   p0
   push  44
-  p1
-  p0
+  dupw2
   pushg a 0
-  push  44
-  p1
+  push2 300
   sys   memcpy_P
   .line 21
   pushg a 0
-  push  44
-  p1
+  push2 300
   pushg b 0
-  push  44
-  p1
+  push2 300
   sys   memcpy
   ret
 
@@ -83,11 +79,9 @@ main:
   setg  a 299
   .line 34
   pushg a 0
-  push  44
-  p1
+  push2 300
   pushg b 0
-  push  44
-  p1
+  push2 300
   sys   memcpy
   .line 36
   getg  b 0
@@ -108,11 +102,9 @@ main:
   p1
   p0
   push  44
-  p1
-  p0
+  dupw2
   pushg b 0
-  push  44
-  p1
+  push2 300
   sys   memcpy_P
   .line 41
   getg  b 0
@@ -144,17 +136,13 @@ main:
   p1
   p0
   push  44
-  p1
-  p0
+  dupw2
   dupw7
-  push  44
-  p1
+  push2 300
   sys   memcpy_P
-  push  44
-  p1
+  push2 300
   pushg a 0
-  push  44
-  p1
+  push2 300
   sys   memcpy
   .line 51
   getg  a 0
@@ -181,13 +169,13 @@ main:
   not
   sys   assert
   .line 57
+  pz16
+  pz16
+  pz16
+  pz16
+  pz16
+  pz16
   p0000
-  pz16
-  pz16
-  pz16
-  pz16
-  pz16
-  pz16
   .line 58
   p1
   sys   assert
@@ -198,8 +186,7 @@ main:
   push  100
   p00
   refl  106
-  push  100
-  p0
+  push2 100
   sys   memcpy_P
   .line 60
   getl  100
@@ -208,14 +195,10 @@ main:
   not
   sys   assert
   .line 61
-  push  200
-  p1
-  p0
-  push  100
+  push4 1677722056
   p00
   refl  106
-  push  100
-  p0
+  push2 100
   sys   memcpy_P
   .line 62
   dup
@@ -232,8 +215,7 @@ main:
   push  100
   p00
   refl  106
-  push  100
-  p0
+  push2 100
   sys   memcpy_P
   .line 67
   getl  100

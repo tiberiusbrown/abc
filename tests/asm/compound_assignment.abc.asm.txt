@@ -222,11 +222,10 @@ main:
   sys   assert
   pop4
   .line 48
-  push  100
-  p0
+  push2 100
   .line 49
-  push  100
-  p000
+  dupw
+  p00
   p3
   p000
   div4
@@ -268,11 +267,10 @@ main:
   sys   assert
   pop4
   .line 57
-  push  98
-  p0
+  push2 98
   .line 58
-  push  98
-  p000
+  dupw
+  p00
   push  11
   p000
   mod4
@@ -314,11 +312,9 @@ main:
   sys   assert
   pop4
   .line 66
-  push  98
-  p0
+  push2 98
   .line 67
-  push  98
-  p0
+  dupw
   p2
   asr2
   setl2 2
@@ -355,8 +351,9 @@ main:
   sys   assert
   pop4
   .line 75
-  push4 4288610206
+  push2 65438
   .line 76
+  dupw
   p2
   asr2
   setl2 2
@@ -396,8 +393,7 @@ main:
   p2
   p0
   .line 85
-  p2
-  p0
+  dupw
   p2
   lsl2
   setl2 2

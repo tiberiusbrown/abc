@@ -12,17 +12,25 @@ main:
   .line 3
   sys   debug_break
   .line 5
-  push4 1430537284
+  push  68
+  dup
+  dup
   .line 6
-  push4 2576962901
+  push  85
+  dup
+  dup
   .line 8
   push  153
+  dup
+  dup
   p3
   setln 6
   .line 9
   p3
   getln 6
-  push3 10066329
+  push  153
+  dup
+  dup
   sub3
   bool3
   not

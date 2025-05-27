@@ -38,8 +38,7 @@ $L_main_3:
   add2b
   setl2 2
   dupw
-  push  10
-  p0
+  push2 10
   cslt2
   bnz   $L_main_2
   pop2
@@ -78,8 +77,7 @@ $L_main_11:
   add2b
   setl2 2
   dupw
-  push  200
-  p0
+  push2 200
   cslt2
   bnz   $L_main_7
   pop2
@@ -101,8 +99,7 @@ $L_main_13:
   add2b
   setl2 2
   dupw
-  push  10
-  p0
+  push2 10
   cslt2
   bnz   $L_main_11
   pop2
@@ -112,8 +109,7 @@ $L_main_13:
   add2b
   setl2 2
   dupw
-  push  200
-  p0
+  push2 200
   cslt2
   bnz   $L_main_7
   pop2

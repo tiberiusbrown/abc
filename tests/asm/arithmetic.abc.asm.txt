@@ -22,17 +22,25 @@ main:
   .line 203
   call  test_u32
   .line 206
-  push4 1430537284
+  push  68
+  dup
+  dup
   .line 207
-  push4 2576962901
+  push  85
+  dup
+  dup
   .line 209
   push  153
+  dup
+  dup
   p3
   setln 6
   .line 210
   p3
   getln 6
-  push3 10066329
+  push  153
+  dup
+  dup
   sub3
   bool3
   not
@@ -46,11 +54,8 @@ main:
 test_i8:
   .file arithmetic.abc
   .line 40
-  push  45
-  .line 41
-  p7
+  push3 67373
   .line 42
-  p1
   sys   assert
   .line 43
   dup
@@ -91,8 +96,7 @@ test_i8:
   dup3
   sext
   mul2
-  push  59
-  p1
+  push2 315
   sub2
   bool2
   not
@@ -258,9 +262,7 @@ test_i8:
 test_u16:
   .file arithmetic.abc
   .line 77
-  push3 12325268
-  .line 78
-  p2
+  push4 45879700
   .line 79
   p1
   sys   assert
@@ -270,8 +272,7 @@ test_u16:
   dupw6
   p0
   add3
-  push2 5200
-  p0
+  push3 5200
   sub3
   bool3
   not
@@ -282,8 +283,7 @@ test_u16:
   dupw4
   p0
   sub3
-  push2 3800
-  p0
+  push3 3800
   sub3
   bool3
   not
@@ -305,10 +305,7 @@ test_u16:
   dupw5
   p00
   mul4
-  push  176
-  p16
-  push  48
-  p0
+  push4 3150000
   sub4
   bool4
   not
@@ -331,8 +328,7 @@ test_u16:
   dupw5
   p00
   umod4
-  push  44
-  p1
+  push2 300
   p00
   sub4
   bool4
@@ -351,8 +347,7 @@ test_u16:
   dupw3
   p1
   lsr2
-  push  202
-  p8
+  push2 2250
   sub2
   bool2
   not
@@ -467,8 +462,7 @@ test_u16:
   .line 106
   dupw3
   p0
-  push2 4500
-  p0
+  push3 4500
   sub3
   bool3
   not
@@ -476,8 +470,7 @@ test_u16:
   .line 107
   dupw3
   p0
-  push2 4500
-  p0
+  push3 4500
   sub3
   bool3
   not
@@ -485,8 +478,7 @@ test_u16:
   .line 109
   dupw3
   p0
-  push2 4500
-  p0
+  push3 4500
   sub3
   bool3
   not
@@ -494,8 +486,7 @@ test_u16:
   .line 110
   dupw3
   p0
-  push2 4500
-  p0
+  push3 4500
   sub3
   bool3
   not
@@ -507,14 +498,10 @@ test_u16:
 test_u24:
   .file arithmetic.abc
   .line 115
-  push2 56784
-  p6
+  push4 1879498192
   .line 116
-  push2 4464
-  p1
+  push4 45875473
   .line 117
-  push  188
-  p2
   p0
   .line 118
   p1
@@ -528,9 +515,7 @@ test_u24:
   p0
   add4
   p64
-  push  239
-  p7
-  p0
+  push3 2031
   sub4
   bool4
   not
@@ -543,9 +528,7 @@ test_u24:
   getln 10
   p0
   sub4
-  push2 52320
-  p5
-  p0
+  push4 380000
   sub4
   bool4
   not
@@ -585,8 +568,7 @@ test_u24:
   p0
   mul4
   p64
-  push2 60334
-  p2
+  push3 191406
   sub4
   bool4
   not
@@ -638,8 +620,7 @@ test_u24:
   p1
   lsr4
   pop
-  push2 28392
-  p3
+  push3 225000
   sub3
   bool3
   not
@@ -658,8 +639,7 @@ test_u24:
   .line 130
   p3
   getln 9
-  push2 56784
-  p6
+  push3 450000
   sub3
   bool3
   not
@@ -674,8 +654,7 @@ test_u24:
   dupw4
   setrn 3
   getrn 3
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -683,8 +662,7 @@ test_u24:
   .line 132
   p3
   getln 9
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -692,8 +670,7 @@ test_u24:
   .line 134
   p3
   getln 9
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -701,8 +678,7 @@ test_u24:
   .line 135
   refl  9
   pdec3
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -710,8 +686,7 @@ test_u24:
   .line 136
   p3
   getln 9
-  push2 56782
-  p6
+  push3 449998
   sub3
   bool3
   not
@@ -719,8 +694,7 @@ test_u24:
   .line 138
   p3
   getln 9
-  push2 56782
-  p6
+  push3 449998
   sub3
   bool3
   not
@@ -734,8 +708,7 @@ test_u24:
   dupw4
   setrn 3
   getrn 3
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -743,8 +716,7 @@ test_u24:
   .line 140
   p3
   getln 9
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -752,8 +724,7 @@ test_u24:
   .line 142
   p3
   getln 9
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -761,8 +732,7 @@ test_u24:
   .line 143
   refl  9
   pinc3
-  push2 56783
-  p6
+  push3 449999
   sub3
   bool3
   not
@@ -770,8 +740,7 @@ test_u24:
   .line 144
   p3
   getln 9
-  push2 56784
-  p6
+  push3 450000
   sub3
   bool3
   not
@@ -780,9 +749,7 @@ test_u24:
   p3
   getln 9
   p0
-  push2 56784
-  p6
-  p0
+  push4 450000
   sub4
   bool4
   not
@@ -791,9 +758,7 @@ test_u24:
   p3
   getln 9
   p0
-  push2 56784
-  p6
-  p0
+  push4 450000
   sub4
   bool4
   not
@@ -802,9 +767,7 @@ test_u24:
   p3
   getln 9
   p0
-  push2 56784
-  p6
-  p0
+  push4 450000
   sub4
   bool4
   not
@@ -813,9 +776,7 @@ test_u24:
   p3
   getln 9
   p0
-  push2 56784
-  p6
-  p0
+  push4 450000
   sub4
   bool4
   not
@@ -828,13 +789,10 @@ test_u32:
   .file arithmetic.abc
   .line 155
   p64
-  push2 44709
-  p2
+  push4 3221401253
   .line 156
-  push3 7000000
-  p0
+  push4 3154143951
   .line 157
-  push  188
   p2
   p00
   .line 158
@@ -845,8 +803,7 @@ test_u32:
   getl4 16
   add4
   p0
-  push2 6517
-  p3
+  push3 203125
   sub4
   bool4
   not
@@ -856,8 +813,7 @@ test_u32:
   getln 12
   sub4
   p128
-  push2 17365
-  p2
+  push3 148437
   sub4
   bool4
   not
@@ -887,9 +843,7 @@ test_u32:
   getln 8
   mul4
   p0
-  push  17
-  p16
-  push  36
+  push3 2363409
   sub4
   bool4
   not
@@ -918,8 +872,7 @@ test_u32:
   p8
   getln 12
   umod4
-  push3 3000000
-  p0
+  push4 3000000
   sub4
   bool4
   not
@@ -929,8 +882,7 @@ test_u32:
   p1
   lsl4
   p128
-  push2 23882
-  p5
+  push3 351562
   sub4
   bool4
   not
@@ -939,8 +891,7 @@ test_u32:
   getl4 12
   p1
   lsr4
-  push3 5722784
-  p1
+  push4 22500000
   sub4
   bool4
   not
@@ -957,8 +908,7 @@ test_u32:
   .line 171
   getl4 12
   p64
-  push2 44709
-  p2
+  push3 175781
   sub4
   bool4
   not
@@ -972,24 +922,21 @@ test_u32:
   dupw5
   setrn 4
   getrn 4
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
   sys   assert
   .line 173
   getl4 12
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
   sys   assert
   .line 175
   getl4 12
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
@@ -997,24 +944,21 @@ test_u32:
   .line 176
   refl  12
   pdec4
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
   sys   assert
   .line 177
   getl4 12
-  push3 11445566
-  p2
+  push4 44999998
   sub4
   bool4
   not
   sys   assert
   .line 179
   getl4 12
-  push3 11445566
-  p2
+  push4 44999998
   sub4
   bool4
   not
@@ -1028,24 +972,21 @@ test_u32:
   dupw5
   setrn 4
   getrn 4
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
   sys   assert
   .line 181
   getl4 12
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
   sys   assert
   .line 183
   getl4 12
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
@@ -1053,8 +994,7 @@ test_u32:
   .line 184
   refl  12
   pinc4
-  push3 11445567
-  p2
+  push4 44999999
   sub4
   bool4
   not
@@ -1062,8 +1002,7 @@ test_u32:
   .line 185
   getl4 12
   p64
-  push2 44709
-  p2
+  push3 175781
   sub4
   bool4
   not
@@ -1071,8 +1010,7 @@ test_u32:
   .line 187
   getl4 12
   p64
-  push2 44709
-  p2
+  push3 175781
   sub4
   bool4
   not
@@ -1080,8 +1018,7 @@ test_u32:
   .line 188
   getl4 12
   p64
-  push2 44709
-  p2
+  push3 175781
   sub4
   bool4
   not
@@ -1089,8 +1026,7 @@ test_u32:
   .line 190
   getl4 12
   p64
-  push2 44709
-  p2
+  push3 175781
   sub4
   bool4
   not
@@ -1098,8 +1034,7 @@ test_u32:
   .line 191
   getl4 12
   p64
-  push2 44709
-  p2
+  push3 175781
   sub4
   bool4
   not
@@ -1111,11 +1046,8 @@ test_u32:
 test_u8:
   .file arithmetic.abc
   .line 3
-  push  45
-  .line 4
-  p7
+  push3 67373
   .line 5
-  p1
   sys   assert
   .line 6
   dup
@@ -1152,8 +1084,7 @@ test_u8:
   p0
   dup3
   mul2b
-  push  59
-  p1
+  push2 315
   sub2
   bool2
   not

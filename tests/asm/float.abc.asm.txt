@@ -269,8 +269,7 @@ main:
   getg4 y 0
   fsub
   p00
-  push  96
-  p64
+  push2 16480
   cfeq
   sys   assert
   .line 56
@@ -337,15 +336,13 @@ main:
   .line 65
   getg4 x 0
   p00
-  push  96
-  p64
+  push2 16480
   cfeq
   sys   assert
   .line 67
   getg4 x 0
   p00
-  push  96
-  p64
+  push2 16480
   cfeq
   sys   assert
   .line 68

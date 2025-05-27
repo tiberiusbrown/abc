@@ -20,7 +20,7 @@ $L_main_6:
   .line 12
   dup3
   p8
-  p8
+  dup
   dup5
   p8
   mul

@@ -39,9 +39,9 @@ main:
 sum:
   .file ref_to_uar.abc
   .line 3
-  p00
-  .line 4
   p0000
+  .line 4
+  p00
   dupw7
   cult2
   bz    $L_sum_0

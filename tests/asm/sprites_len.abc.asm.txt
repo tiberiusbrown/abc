@@ -1101,7 +1101,7 @@ main:
   sys   assert
   .line 34
   p1
-  p1
+  dup
   p0
   getp
   p64
@@ -1118,8 +1118,7 @@ main:
   not
   sys   assert
   .line 36
-  push2 2315
-  p0
+  push3 2315
   getp
   p16
   sub
@@ -1127,24 +1126,21 @@ main:
   sys   assert
   .line 37
   p16
-  push  13
-  p0
+  push2 13
   getp
   p8
   sub
   not
   sys   assert
   .line 38
-  push2 4373
-  p0
+  push3 4373
   getp
   p4
   sub
   not
   sys   assert
   .line 39
-  push2 8474
-  p0
+  push3 8474
   getp
   p2
   sub
@@ -1171,8 +1167,7 @@ main:
   not
   sys   assert
   .line 43
-  push2 2317
-  p0
+  push3 2317
   getpn 2
   p16
   sub2b
@@ -1180,8 +1175,7 @@ main:
   not
   sys   assert
   .line 44
-  push2 3346
-  p0
+  push3 3346
   getpn 2
   p64
   sub2b
@@ -1189,8 +1183,7 @@ main:
   not
   sys   assert
   .line 45
-  push2 4375
-  p0
+  push3 4375
   getpn 2
   p0
   p1
@@ -1199,8 +1192,7 @@ main:
   not
   sys   assert
   .line 46
-  push2 8476
-  p0
+  push3 8476
   getpn 2
   p0
   p4
@@ -1222,7 +1214,7 @@ main:
   .line 49
   p0
   p5
-  p5
+  dup
   p0
   call  get_w
   p64
@@ -1231,8 +1223,7 @@ main:
   sys   assert
   .line 50
   p0
-  push2 2314
-  p0
+  push3 2314
   call  get_w
   p32
   sub
@@ -1240,8 +1231,7 @@ main:
   sys   assert
   .line 51
   p0
-  push2 3343
-  p0
+  push3 3343
   call  get_w
   p16
   sub
@@ -1249,8 +1239,7 @@ main:
   sys   assert
   .line 52
   p0
-  push2 4372
-  p0
+  push3 4372
   call  get_w
   p8
   sub
@@ -1258,8 +1247,7 @@ main:
   sys   assert
   .line 53
   p0
-  push2 8473
-  p0
+  push3 8473
   call  get_w
   p4
   sub
@@ -1277,7 +1265,7 @@ main:
   .line 56
   p0
   p5
-  p5
+  dup
   p0
   call  get_h
   p32
@@ -1286,8 +1274,7 @@ main:
   sys   assert
   .line 57
   p0
-  push2 2314
-  p0
+  push3 2314
   call  get_h
   p16
   sub
@@ -1295,8 +1282,7 @@ main:
   sys   assert
   .line 58
   p0
-  push2 3343
-  p0
+  push3 3343
   call  get_h
   p8
   sub
@@ -1304,8 +1290,7 @@ main:
   sys   assert
   .line 59
   p0
-  push2 4372
-  p0
+  push3 4372
   call  get_h
   p4
   sub
@@ -1313,8 +1298,7 @@ main:
   sys   assert
   .line 60
   p0
-  push2 8473
-  p0
+  push3 8473
   call  get_h
   p2
   sub
@@ -1333,7 +1317,7 @@ main:
   .line 63
   p00
   p5
-  p5
+  dup
   p0
   call  get_len
   p4
@@ -1343,8 +1327,7 @@ main:
   sys   assert
   .line 64
   p00
-  push2 2314
-  p0
+  push3 2314
   call  get_len
   p16
   sub2b
@@ -1353,8 +1336,7 @@ main:
   sys   assert
   .line 65
   p00
-  push2 3343
-  p0
+  push3 3343
   call  get_len
   p64
   sub2b
@@ -1363,8 +1345,7 @@ main:
   sys   assert
   .line 66
   p00
-  push2 4372
-  p0
+  push3 4372
   call  get_len
   p0
   p1
@@ -1374,8 +1355,7 @@ main:
   sys   assert
   .line 67
   p00
-  push2 8473
-  p0
+  push3 8473
   call  get_len
   p0
   p4
