@@ -150,6 +150,47 @@ void test_u24()
     $assert(a * 1 == 450000);
 }
 
+void test_u32()
+{
+    u32 a = 45000000;
+    u32 b = 7000000;
+    u32 c = 700;
+    $assert(a + b == 52000000);
+    $assert(b + a == 52000000);
+    $assert(a - b == 38000000);
+    $assert(b - a == -38000000);
+    $assert(a * c == 31500000000);
+    $assert(b * c == 4900000000);
+    $assert(a / b == 6);
+    $assert(a / c == 64285);
+    $assert(a % b == 3000000);
+    $assert(a << 1 == 90000000);
+    $assert(a >> 1 == 22500000);
+    $assert(u8(a >> 18) == u8(171));
+    
+    $assert(a == 45000000);
+    $assert(--a == 44999999);
+    $assert(a == 44999999);
+    
+    $assert(a == 44999999);
+    $assert(a-- == 44999999);
+    $assert(a == 44999998);
+    
+    $assert(a == 44999998);
+    $assert(++a == 44999999);
+    $assert(a == 44999999);
+    
+    $assert(a == 44999999);
+    $assert(a++ == 44999999);
+    $assert(a == 45000000);
+    
+    $assert(0 + a == 45000000);
+    $assert(a + 0 == 45000000);
+    
+    $assert(1 * a == 45000000);
+    $assert(a * 1 == 45000000);
+}
+
 
 void main()
 {
@@ -159,6 +200,7 @@ void main()
     test_i8();
     test_u16();
     test_u24();
+    test_u32();
     
     {
         u24 x = 0x444444;

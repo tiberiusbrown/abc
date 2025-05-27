@@ -9,25 +9,27 @@ $globinit:
 
 main:
   .file arithmetic.abc
-  .line 156
+  .line 197
   sys   debug_break
-  .line 158
+  .line 199
   call  test_u8
-  .line 159
+  .line 200
   call  test_i8
-  .line 160
+  .line 201
   call  test_u16
-  .line 161
+  .line 202
   call  test_u24
-  .line 164
+  .line 203
+  call  test_u32
+  .line 206
   push4 1430537284
-  .line 165
+  .line 207
   push4 2576962901
-  .line 167
+  .line 209
   push  153
   p3
   setln 6
-  .line 168
+  .line 210
   p3
   getln 6
   push3 10066329
@@ -36,9 +38,9 @@ main:
   not
   sys   assert
   popn  6
-  .line 171
+  .line 213
   sys   debug_break
-  .line 154
+  .line 195
   ret
 
 test_i8:
@@ -820,6 +822,290 @@ test_u24:
   sys   assert
   .line 113
   popn  9
+  ret
+
+test_u32:
+  .file arithmetic.abc
+  .line 155
+  p64
+  push2 44709
+  p2
+  .line 156
+  push3 7000000
+  p0
+  .line 157
+  push  188
+  p2
+  p00
+  .line 158
+  p1
+  sys   assert
+  .line 159
+  getl4 8
+  getl4 16
+  add4
+  p0
+  push2 6517
+  p3
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 160
+  p8
+  getln 12
+  sub4
+  p128
+  push2 17365
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 161
+  getl4 8
+  getl4 16
+  sub4
+  p128
+  push3 16628778
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 162
+  getl4 12
+  getl4 8
+  mul4
+  p0
+  push3 5606363
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 163
+  p8
+  getln 8
+  mul4
+  p0
+  push  17
+  p16
+  push  36
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 164
+  p8
+  getln 12
+  udiv4
+  p6
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 165
+  getl4 12
+  getl4 8
+  udiv4
+  push2 64285
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 166
+  p8
+  getln 12
+  umod4
+  push3 3000000
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 167
+  getl4 12
+  p1
+  lsl4
+  p128
+  push2 23882
+  p5
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 168
+  getl4 12
+  p1
+  lsr4
+  push3 5722784
+  p1
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 169
+  getl4 12
+  push  18
+  lsr4
+  pop3
+  push  171
+  sub
+  not
+  sys   assert
+  .line 171
+  getl4 12
+  p64
+  push2 44709
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 172
+  refl  12
+  getl4 14
+  p1
+  p000
+  sub4
+  dupw5
+  setrn 4
+  getrn 4
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 173
+  getl4 12
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 175
+  getl4 12
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 176
+  refl  12
+  pdec4
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 177
+  getl4 12
+  push3 11445566
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 179
+  getl4 12
+  push3 11445566
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 180
+  refl  12
+  getl4 14
+  p1
+  p000
+  add4
+  dupw5
+  setrn 4
+  getrn 4
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 181
+  getl4 12
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 183
+  getl4 12
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 184
+  refl  12
+  pinc4
+  push3 11445567
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 185
+  getl4 12
+  p64
+  push2 44709
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 187
+  getl4 12
+  p64
+  push2 44709
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 188
+  getl4 12
+  p64
+  push2 44709
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 190
+  getl4 12
+  p64
+  push2 44709
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 191
+  getl4 12
+  p64
+  push2 44709
+  p2
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 153
+  popn  12
   ret
 
 test_u8:

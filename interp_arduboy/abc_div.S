@@ -46,10 +46,10 @@ __udivmodhi4_zero:
 
 __udivmodhi4:
 
+    ldi  CNT, 8
+
     clr  RA
     clr  RB
-
-    ldi  CNT, 8
 
     lsl  NA
     rol  NB
@@ -124,20 +124,36 @@ __udivmodsi4:
     ldi  RA, 32
     mov  CNT, RA
 
-    clr  RA
-    clr  RB
     clr  RC
     clr  RD
 
+    ; test for N < D (result is 0 r N)
     cp   NA, DA
     cpc  NB, DB
     cpc  NC, DC
     cpc  ND, DD
-    brsh 1f
-    movw r18, RA
-    movw r20, RA
+    brsh .+6
+    movw r18, RC
+    movw r20, RC
+    ret
+
+    ; test for u16/u16 division
+    cp   NC, r1
+    cpc  ND, r1
+    cpc  DC, r1
+    cpc  DD, r1
+    brne 1f
+    movw r24, NA
+    movw r22, DA
+    call __udivmodhi4
+    movw r18, r22
+    movw r20, RC
+    movw r22, r24
+    movw r24, RC
     ret
 1:
+
+    movw RA, RC
 
     lsl  NA
     rol  NB
