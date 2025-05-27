@@ -3715,7 +3715,7 @@ void abc_audio(
     if(!samples)
         return;
 
-    if(interp == 0 || num_samples == 0)
+    if(interp == 0 || !interp->audio_enabled || num_samples == 0)
     {
         memset(samples, 0, sizeof(int16_t) * num_samples);
         return;
