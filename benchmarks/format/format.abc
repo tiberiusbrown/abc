@@ -1,0 +1,10 @@
+void main()
+{
+    char[16] buf;
+
+    $debug_break();
+    
+    $format(buf, "%u", 1234567890u);
+    
+    $debug_break();
+}

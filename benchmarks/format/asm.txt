@@ -1,0 +1,36 @@
+.shades 2
+.saved 0
+
+$PD_0:
+  .b 2 25 75 30
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file format.abc
+  .line 3
+  pz16
+  .line 5
+  sys   debug_break
+  .line 7
+  push  210
+  p2
+  push2 18838
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  26
+  p16
+  p0
+  sys   format
+  .line 9
+  sys   debug_break
+  .line 1
+  popn  16
+  ret
+

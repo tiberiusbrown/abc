@@ -199,14 +199,15 @@ main:
   p0
   push  20
   p00
-  p0000
+  p8
+  p000
   sys   draw_textf
   .line 7
   push2 2811
   p0
   push  43
   p00
-  push  9
+  push  17
   p000
   sys   draw_text_P
   .line 8
@@ -214,7 +215,7 @@ main:
   p0
   push  43
   p00
-  push  36
+  push  44
   p000
   sys   draw_text_P
   .line 10

@@ -12,10 +12,60 @@
 
 __udivmodhi4:
 
-    ldi  CNT, 8
 
     clr  RA
     clr  RB
+
+    ; test for N < D (result is 0 r N)
+    cp   NA, DA
+    cpc  NB, DB
+    brsh .+4
+    movw r22, RA
+    ret
+
+    ; test if quotient bits is at least 8
+    ; and use alternate code path if so
+    cp   RA, NA
+    cpc  DA, NB
+    cpc  DB, RA
+    brsh 1f
+    ldi  CNT, 8
+    rjmp __udivmodhi4_alt
+1:
+
+    ; compute quotient bit count
+    ldi  CNT, 1
+    sbrc DB, 7
+    rjmp __udivmodhi4_loop
+1:  inc  CNT
+    lsl  DA
+    rol  DB
+    brmi __udivmodhi4_loop
+    cp   DA, NA
+    cpc  DB, NB
+    brlo 1b
+
+    ; compute quotient
+__udivmodhi4_loop:
+    lsl  RA
+    rol  RB
+    cp   NA, DA
+    cpc  NB, DB
+    brlo 1f
+    sub  NA, DA
+    sbc  NB, DB
+    ori  RA, 1
+1:  lsr  DB
+    ror  DA
+    dec  CNT
+    brne __udivmodhi4_loop
+
+    movw r22, RA
+    ret
+
+__udivmodhi4_alt:
+
+
 
     lsl  NA
     rol  NB

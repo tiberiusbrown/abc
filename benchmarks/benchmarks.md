@@ -531,6 +531,59 @@ void main()
 </table>
 </details>
 
+<details><summary>format: 0.39x slowdown (2.59x speedup)</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 14057</td><td>Cycles: 5418</td></tr>
+<tr>
+<td>
+
+```c
+#include <Arduboy2.h>
+#include <stdio.h>
+
+Arduboy2 a;
+
+void setup()
+{
+    a.boot();
+}
+
+void loop()
+{
+    char buf[16];
+    
+    asm volatile("break\n");
+
+    snprintf(buf, sizeof(buf), PSTR("%u"), 1234567890u);
+
+    asm volatile("break\n");
+}
+
+```
+
+</td>
+<td>
+
+```c
+void main()
+{
+    char[16] buf;
+
+    $debug_break();
+    
+    $format(buf, "%u", 1234567890u);
+    
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
 <details><summary>sieve: 52.91x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
@@ -598,10 +651,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.31x slowdown (3.21x speedup)</summary>
+<details><summary>text: 0.31x slowdown (3.20x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 64667</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 64837</td></tr>
 <tr>
 <td>
 
@@ -642,9 +695,9 @@ void main()
     $debug_break();
     
     $set_text_font(FONT_ADAFRUIT);
-    $draw_textf(0, 0, "Running: %u seconds", $millis() / 1000);
-    $draw_text_P(0, 9, "the quick brown fox\njumps over the lazy\ndog");
-    $draw_text_P(0, 36, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
+    $draw_textf(0, 8, "Running: %u seconds", $millis() / 1000);
+    $draw_text_P(0, 17, "the quick brown fox\njumps over the lazy\ndog");
+    $draw_text_P(0, 44, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
     
     $debug_break();
 }
