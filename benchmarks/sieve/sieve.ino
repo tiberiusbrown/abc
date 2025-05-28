@@ -12,14 +12,17 @@ int main()
 {
     debug_break();
     
-    for(u16 i = 0; i < N; ++i)
-        A[i] = true;
     for(u8 i = 2; i < SQRT_N; ++i)
     {
-        if(A[i])
+        if(!A[i])
             for(u16 j = i * i; j < N; j += i)
-                A[j] = false;
+                A[j] = true;
     }
     
     debug_break();
+    
+    for(u16 i = 0; i < N; ++i)
+    {
+        volatile bool t = A[i];
+    }
 }

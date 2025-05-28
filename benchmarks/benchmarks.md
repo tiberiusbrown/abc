@@ -584,10 +584,10 @@ void main()
 </table>
 </details>
 
-<details><summary>sieve: 52.81x slowdown</summary>
+<details><summary>sieve: 44.87x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 20499</td><td>Cycles: 1082521</td></tr>
+<tr><td>Cycles: 14198</td><td>Cycles: 637065</td></tr>
 <tr>
 <td>
 
@@ -606,16 +606,19 @@ int main()
 {
     debug_break();
     
-    for(u16 i = 0; i < N; ++i)
-        A[i] = true;
     for(u8 i = 2; i < SQRT_N; ++i)
     {
-        if(A[i])
+        if(!A[i])
             for(u16 j = i * i; j < N; j += i)
-                A[j] = false;
+                A[j] = true;
     }
     
     debug_break();
+    
+    for(u16 i = 0; i < N; ++i)
+    {
+        volatile bool t = A[i];
+    }
 }
 
 ```
@@ -632,13 +635,11 @@ void main()
 {
     $debug_break();
     
-    for(u16 i = 0; i < N; ++i)
-        A[i] = true;
     for(u8 i = 2; i < SQRT_N; ++i)
     {
-        if(A[i])
+        if(!A[i])
             for(u16 j = i * i; j < N; j += i)
-                A[j] = false;
+                A[j] = true;
     }
 
     $debug_break();

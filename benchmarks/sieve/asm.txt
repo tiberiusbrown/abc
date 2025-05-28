@@ -13,35 +13,16 @@ main:
   .line 7
   sys   debug_break
   .line 9
-  p00
-$L_main_2:
-  .line 10
-  p1
-  pushg A 0
-  dupw4
-  aidx  1 900
-  setr
-  .line 9
-  dupw
-  p1
-  add2b
-  setl2 2
-  dupw
-  push2 900
-  cult2
-  bnz   $L_main_2
-  pop2
-  .line 11
   p2
-$L_main_6:
-  .line 13
+$L_main_2:
+  .line 11
   pushg A 0
   dup3
   p0
   aidx  1 900
   getr
-  bz    $L_main_12
-  .line 14
+  bnz   $L_main_8
+  .line 12
   dup
   p0
   dup3
@@ -49,15 +30,15 @@ $L_main_6:
   dupw
   push2 900
   cult2
-  bz    $L_main_8
-$L_main_10:
-  .line 15
-  p0
+  bz    $L_main_4
+$L_main_6:
+  .line 13
+  p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
-  .line 14
+  .line 12
   dupw
   dup5
   add2b
@@ -65,18 +46,18 @@ $L_main_10:
   dupw
   push2 900
   cult2
-  bnz   $L_main_10
-$L_main_8:
+  bnz   $L_main_6
+$L_main_4:
   pop2
-$L_main_12:
-  .line 11
+$L_main_8:
+  .line 9
   inc
   dup
   push  30
   cult
-  bnz   $L_main_6
+  bnz   $L_main_2
   pop
-  .line 18
+  .line 16
   sys   debug_break
   .line 5
   ret
