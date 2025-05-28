@@ -393,17 +393,17 @@ void update_level()
                 else if(t == TILE_SPRING)
                 {
                     vy = -PLAYER_SPRING_VEL;
-                    $tones_play_auto(SOUND_SPRING);
+                    $tones_play_primary(SOUND_SPRING);
                 }
                 else if(t == TILE_SPRING_R)
                 {
                     vx = PLAYER_SPRING_VEL_H;
-                    $tones_play_auto(SOUND_SPRING);
+                    $tones_play_primary(SOUND_SPRING);
                 }
                 else if(t == TILE_SPRING_L)
                 {
                     vx = -PLAYER_SPRING_VEL_H;
-                    $tones_play_auto(SOUND_SPRING);
+                    $tones_play_primary(SOUND_SPRING);
                 }
                 else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
                 {
@@ -767,7 +767,7 @@ void touch_object(map_object_t& obj)
     {
         score += SCORE_COIN;
         obj.type = OBJ_NONE;
-        $tones_play_auto(SOUND_COIN);
+        $tones_play_primary(SOUND_COIN);
     }
     else if(type == OBJ_KEY)
     {
