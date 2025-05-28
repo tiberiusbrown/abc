@@ -3,18 +3,23 @@
 
 $PD_0:
 $PD_1:
+$PD_10:
+$PD_14:
 $PD_2:
 $PD_4:
 $PD_7:
 $PD_9:
   .b 0 48
-$PD_10:
+$PD_15:
 $PD_3:
 $PD_8:
   .b 3 65 6c 6c 6f
 $PD_5:
+$PD_11:
   .b 2 6f 70 70
 $PD_6:
+$PD_12:
+$PD_13:
   .b 4 48 6f 70 70 6f
 
 $globinit:
@@ -154,8 +159,7 @@ $L_main_2:
   p0000
   dup
   .line 43
-  pushl $PD_1 0
-  getpn 4
+  getl4 10
   p0000
   p00
   .line 44
@@ -169,8 +173,9 @@ $L_main_2:
   sys   assert
   popn  20
   .line 48
-  pushl $PD_2 0
-  getpn 5
+  push3 7103816
+  dup
+  push  111
   p0000
   dup
   .line 49
@@ -220,8 +225,9 @@ $L_main_2:
   sys   assert
   popn  10
   .line 56
-  pushl $PD_7 0
-  getpn 5
+  push3 7103816
+  dup
+  push  111
   p0000
   dup
   .line 57
@@ -241,6 +247,65 @@ $L_main_2:
   pop2
   p3
   p0
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 59
+  p0
+  p1
+  p0
+  p5
+  p00
+  refl  20
+  push2 10
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 60
+  p0
+  p1
+  p0
+  p5
+  p00
+  getl4 10
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 61
+  p5
+  p1
+  p0
+  p3
+  p00
+  getl4 10
+  p1
+  p0
+  p4
+  p0
+  aslc  1
+  pop2
+  p3
+  p0
+  sys   strcpy_P
+  pop4
+  .line 62
+  p8
+  p1
+  p0
+  p5
+  p00
+  getl4 10
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 63
+  p8
+  p1
+  p0
+  p5
+  p00
+  refl  20
+  push2 10
   sys   strcmp_P
   not
   sys   assert

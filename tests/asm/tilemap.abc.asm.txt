@@ -22,24 +22,10 @@ main:
   .line 15
   sys   debug_break
   .line 19
-  p3
   p1
-  p0
-  getpn 2
-  p16
-  sub2b
-  bool2
-  not
   sys   assert
   .line 20
   p1
-  dup
-  p0
-  getpn 2
-  p8
-  sub2b
-  bool2
-  not
   sys   assert
   .line 21
   p1

@@ -53,6 +53,10 @@ void main()
     $assert(b[0] == 7);
     $assert(b[299] == 101);
     
+    a = {};
+    $assert(a[0] == 0);
+    $assert(a[299] == 0);
+    
     {
         u8[100] d;
         $assert(d[0] == 0);

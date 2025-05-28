@@ -89,6 +89,81 @@ void compiler_t::progdata_zero(
         pd.data.push_back(0);
 }
 
+bool compiler_t::progdata_encode_prim(
+        ast_node_t const& n, compiler_type_t const& t, std::vector<uint8_t>& data)
+{
+    assert(t.type == compiler_type_t::PRIM);
+    uint64_t x;
+    if(n.type == AST::INT_CONST)
+        x = (uint64_t)n.value;
+    else if(n.type == AST::FLOAT_CONST)
+    {
+        float f = (float)n.fvalue;
+        union { float f; uint32_t x; } u;
+        u.f = f;
+        x = u.x;
+    }
+    else return false;
+    for(size_t i = 0; i < t.prim_size; ++i)
+    {
+        data.push_back((uint8_t)x);
+        x >>= 8;
+    }
+    return true;
+}
+
+bool compiler_t::progdata_expr_valid_memcpy(
+        ast_node_t const& n, compiler_type_t const& t, std::vector<uint8_t>& data)
+{
+    switch(t.type)
+    {
+    case compiler_type_t::PRIM:
+        return progdata_encode_prim(n, t, data);
+    case compiler_type_t::ARRAY:
+    {
+        assert(t.children.size() == 1);
+        size_t num_elems = t.prim_size / t.children[0].prim_size;
+        if(n.type != AST::COMPOUND_LITERAL)
+            return false;
+        if(n.children.size() > num_elems)
+            return false;
+        for(auto const& child : n.children)
+            if(!progdata_expr_valid_memcpy(child, t.children[0], data))
+                return false;
+        size_t rem_bytes = num_elems - n.children.size();
+        rem_bytes *= t.children[0].prim_size;
+        for(size_t i = 0; i < rem_bytes; ++i)
+            data.push_back(0);
+        return true;
+    }
+    case compiler_type_t::STRUCT:
+    {
+        if(n.type != AST::COMPOUND_LITERAL)
+            return false;
+        if(n.children.size() > t.children.size())
+            return false;
+        for(size_t i = 0; i < n.children.size(); ++i)
+        {
+            auto const& child = n.children[i];
+            auto const& tt = t.children[i];
+            if(!progdata_expr_valid_memcpy(child, tt, data))
+                return false;
+        }
+        for(size_t i = n.children.size(); i < t.children.size(); ++i)
+        {
+            if(t.is_any_ref() || t.has_child_ref())
+                return false;
+            for(size_t j = 0; j < t.children[i].prim_size; ++j)
+                data.push_back(0);
+        }
+        return true;
+    }
+    default:
+        break;
+    }
+    return false;
+}
+
 void compiler_t::progdata_expr(
     ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pd)
 {
@@ -154,22 +229,8 @@ void compiler_t::progdata_expr(
     }
     case compiler_type_t::PRIM:
     {
-        uint64_t x;
-        if(n.type == AST::INT_CONST)
-            x = (uint64_t)n.value;
-        else if(n.type == AST::FLOAT_CONST)
-        {
-            float f = (float)n.fvalue;
-            union { float f; uint32_t x; } u;
-            u.f = f;
-            x = u.x;
-        }
-        else goto error;
-        for(size_t i = 0; i < t.prim_size; ++i)
-        {
-            pd.data.push_back((uint8_t)x);
-            x >>= 8;
-        }
+        if(!progdata_encode_prim(n, t, pd.data))
+            goto error;
         break;
     }
     case compiler_type_t::REF:

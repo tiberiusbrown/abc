@@ -93,21 +93,9 @@ main:
   sys   assert
   .line 6
   p1
-  dup
-  p0
-  getp
-  push  101
-  sub
-  not
   sys   assert
   .line 7
-  p6
   p1
-  p0
-  getp
-  p32
-  sub
-  not
   sys   assert
   .line 9
   push4 67109148

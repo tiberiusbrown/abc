@@ -711,6 +711,10 @@ private:
     void add_custom_progdata(std::string const& label, std::vector<uint8_t>& data);
     void try_merge_progdata(
         std::string const& label, compiler_progdata_t& pdata);
+    bool progdata_encode_prim(
+        ast_node_t const& n, compiler_type_t const& t, std::vector<uint8_t>& data);
+    bool progdata_expr_valid_memcpy(
+        ast_node_t const& n, compiler_type_t const& t, std::vector<uint8_t>& data);
     void progdata_expr(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
     void progdata_zero(ast_node_t const& n, compiler_type_t const& t, compiler_progdata_t& pdata);
 
@@ -751,6 +755,7 @@ private:
     void optimize();
     bool peephole(compiler_func_t& f);
     bool peephole_reduce(compiler_func_t& f);
+    bool peephole_reduce_bake_pushl(compiler_func_t& f);
     bool peephole_pre_push_compress(compiler_func_t& f);
     bool peephole_linc(compiler_func_t& f);
     bool peephole_dup_sext(compiler_func_t& f);

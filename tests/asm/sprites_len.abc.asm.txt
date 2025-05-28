@@ -1101,103 +1101,39 @@ main:
   sys   assert
   .line 34
   p1
-  dup
-  p0
-  getp
-  p64
-  sub
-  not
   sys   assert
   .line 35
-  p6
-  p5
-  p0
-  getp
-  p32
-  sub
-  not
+  p1
   sys   assert
   .line 36
-  push3 2315
-  getp
-  p16
-  sub
-  not
+  p1
   sys   assert
   .line 37
-  push3 3344
-  getp
-  p8
-  sub
-  not
+  p1
   sys   assert
   .line 38
-  push3 4373
-  getp
-  p4
-  sub
-  not
+  p1
   sys   assert
   .line 39
-  push3 8474
-  getp
-  p2
-  sub
-  not
+  p1
   sys   assert
   .line 41
-  p3
   p1
-  p0
-  getpn 2
-  p1
-  sub2b
-  bool2
-  not
   sys   assert
   .line 42
-  p8
-  p5
-  p0
-  getpn 2
-  p4
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 43
-  push3 2317
-  getpn 2
-  p16
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 44
-  push3 3346
-  getpn 2
-  p64
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 45
-  push3 4375
-  getpn 2
-  p0
   p1
-  sub2
-  bool2
-  not
   sys   assert
   .line 46
-  push3 8476
-  getpn 2
-  p0
-  p4
-  sub2
-  bool2
-  not
+  p1
   sys   assert
   .line 48
   p00
@@ -1354,7 +1290,7 @@ main:
   bool2
   not
   sys   assert
-  .line 70
+  .line 69
   sys   debug_break
   .line 23
   ret

@@ -543,22 +543,66 @@ void compiler_t::codegen_expr(
             a.children[1];
         auto const& src_type = src_node.comp_type;
 
-        // optimize assignment as call to memcpy
+        // optimize assignment as call to memcpy, memcpy_P, or memset
         if(type_noref.is_copyable() &&
-            src_type.is_any_ref() &&
-            src_type.children[0].is_copyable() &&
             type_noref.prim_size >= MIN_MEMCPY_SIZE)
         {
-            bool prog = src_type.children[0].is_prog;
+            bool prog = true;
+            bool srcref = false;
+            bool use_memset = false;
+            std::vector<uint8_t> pd;
+            std::string pd_label;
+
+            if(src_type.is_any_ref() &&
+                src_type.children[0].is_copyable())
+            {
+                prog = src_type.children[0].is_prog;
+                srcref = true;
+            }
+            else if(!progdata_expr_valid_memcpy(
+                a.children[1], a.children[0].comp_type.without_ref(), pd) ||
+                pd.empty() || pd.size() != type_noref.prim_size)
+            {
+                goto no_memcpy_optimization;
+            }
             
             if(non_root)
                 codegen_expr(f, frame, a.children[0], true);
 
-            codegen_expr(f, frame, src_node, false);
-            codegen_convert(
-                f, frame, src_node,
-                prog ? TYPE_BYTE_PROG_AREF : TYPE_BYTE_AREF,
-                src_type);
+            if(srcref)
+            {
+                codegen_expr(f, frame, src_node, false);
+                codegen_convert(
+                    f, frame, src_node,
+                    prog ? TYPE_BYTE_PROG_AREF : TYPE_BYTE_AREF,
+                    src_type);
+            }
+            else
+            {
+                use_memset = true;
+                for(auto b : pd)
+                    if(b != pd[0])
+                    {
+                        use_memset = false;
+                        break;
+                    }
+                if(use_memset)
+                {
+                    f.instrs.push_back({ I_PUSH, a.children[1].line(), pd[0] });
+                    frame.size += 1;
+                }
+                else
+                {
+                    auto n = pd.size();
+                    pd_label = progdata_label();
+                    add_custom_progdata(pd_label, pd);
+                    f.instrs.push_back({ I_PUSHL, a.children[1].line(), 0, 0, pd_label });
+                    f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(n >> 0) });
+                    f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(n >> 8) });
+                    f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(n >> 16) });
+                    frame.size += 6;
+                }
+            }
 
             if(non_root)
             {
@@ -581,11 +625,13 @@ void compiler_t::codegen_expr(
                     a.children[0].comp_type);
             }
 
-            f.instrs.push_back({ I_SYS, a.line(), prog ? SYS_MEMCPY_P : SYS_MEMCPY });
-            frame.size -= 4;
-            frame.size -= (prog ? 6 : 4);
+            f.instrs.push_back({ I_SYS, a.line(),
+                use_memset ? SYS_MEMSET : prog ? SYS_MEMCPY_P : SYS_MEMCPY });
+            frame.size -= 4; // dst aref
+            frame.size -= (use_memset ? 1 : prog ? 6 : 4); // val or src aref
             return;
         }
+no_memcpy_optimization:
 
         size_t ref_offset = frame.size;
         if(non_root)

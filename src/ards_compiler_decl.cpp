@@ -239,7 +239,6 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             {
                 // pop return value of strcpy
                 f.instrs.push_back({ I_POPN, n.line(), 4 });
-
             }
             return;
         }

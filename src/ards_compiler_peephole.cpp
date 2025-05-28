@@ -43,6 +43,8 @@ void compiler_t::optimize()
                 return;
             while(peephole_reduce(f))
                 ;
+            while(peephole_reduce_bake_pushl(f))
+                ;
         }
         repeat |= remove_unreferenced_labels();
         repeat |= merge_adjacent_labels();
@@ -306,6 +308,38 @@ bool compiler_t::inline_or_remove_functions()
     return t;
 }
 
+
+bool compiler_t::peephole_reduce_bake_pushl(compiler_func_t& f)
+{
+    bool t = false;
+    if(!enable_bake_pushl)
+        return false;
+    for(size_t i = 0; i < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i];
+
+        // bake progdata labels as PUSH's
+        if(i0.instr == I_PUSHL)
+        {
+            if(auto it = progdata.find(i0.label); it != progdata.end())
+            {
+                auto offset = it->second.offset + i0.imm;
+                i0.instr = I_PUSH;
+                i0.imm = uint8_t(offset >> 0);
+                std::string empty;
+                i0.label.swap(empty);
+                f.instrs.insert(f.instrs.begin() + i, 2, i0);
+                f.instrs[i + 1].imm = uint8_t(offset >> 8);
+                f.instrs[i + 2].imm = uint8_t(offset >> 16);
+                t = true;
+                continue;
+            }
+        }
+    }
+    clear_removed_instrs(f.instrs);
+    return t;
+}
+
 bool compiler_t::peephole_reduce(compiler_func_t& f)
 {
     bool t = false;
@@ -390,60 +424,57 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
-        if(enable_bake_pushl)
+        // replace PUSHL <LABEL>; GETPN <N> with a bunch of pushes
+        if(i0.instr == I_PUSHL && i1.instr == I_GETPN && i1.imm <= 16)
         {
-            // replace PUSHL <LABEL>; GETPN <N> with a bunch of pushes
-            if(i0.instr == I_PUSHL && i1.instr == I_GETPN && i1.imm <= 16)
+            // locate label
+            auto offset = i0.imm;
+            auto n = i1.imm;
+            auto it = progdata.find(i0.label);
+            if(it == progdata.end())
+                continue;
+            offset += it->second.offset;
+            uint8_t const* d = nullptr;
+            for(auto const& [k, v] : progdata)
             {
-                // locate label
-                auto offset = i0.imm;
-                auto n = i1.imm;
-                auto it = progdata.find(i0.label);
-                if(it == progdata.end())
+                if(offset < v.offset)
                     continue;
-                auto const& d = it->second.data;
-                if(offset + n > d.size())
+                uint32_t off = offset - v.offset;
+                if(size_t(off + n) > v.data.size())
                     continue;
                 bool valid = true;
-                for(auto const& p : it->second.relocs_glob)
-                    if(p.first >= offset && p.first < offset + n)
+                for(auto const& p : v.relocs_glob)
+                    if(p.first >= off && p.first < off + n)
                         valid = false;
-                for(auto const& p : it->second.relocs_prog)
-                    if(p.first >= offset && p.first < offset + n)
+                for(auto const& p : v.relocs_prog)
+                    if(p.first >= off && p.first < off + n)
                         valid = false;
                 if(!valid)
-                    continue;
-
-                i0.instr = I_REMOVE;
-                i1.instr = I_REMOVE;
-
-                f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH, i0.line });
-
-                // i0, i1 invalidated now
-
-                for(size_t j = 0; j < n; ++j)
-                    f.instrs[i + j].imm = d[offset + j];
-                t = true;
-                continue;
+                    break;
+                d = v.data.data() + off;
+                break;
             }
-        }
+            if(!d) continue;
 
-        // bake progdata labels as PUSH's
-        if(i0.instr == I_PUSHL)
-        {
-            if(auto it = progdata.find(i0.label); it != progdata.end())
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+
+            auto line = i0.line;
+            auto file = i0.file;
+            f.instrs.insert(f.instrs.begin() + i, n, i0);
+
+            // i0, i1 invalidated now
+
+            for(size_t j = 0; j < n; ++j)
             {
-                auto offset = it->second.offset + i0.imm;
-                i0.instr = I_PUSH;
-                i0.imm = uint8_t(offset >> 0);
-                std::string empty;
-                i0.label.swap(empty);
-                f.instrs.insert(f.instrs.begin() + i, 2, i0);
-                f.instrs[i + 1].imm = uint8_t(offset >> 8);
-                f.instrs[i + 2].imm = uint8_t(offset >> 16);
-                t = true;
-                continue;
+                auto& ti = f.instrs[i + j];
+                ti.instr = I_PUSH;
+                ti.line = line;
+                ti.imm = d[j];
+                ti.file = file;
             }
+            t = true;
+            continue;
         }
 
         // replace GETPN <N>; POPN M with GETPN <N-1>
@@ -1198,6 +1229,7 @@ bool compiler_t::peephole_dup_sext(compiler_func_t& f)
         }
     }
     clear_removed_instrs(f.instrs);
+
     return t;
 }
 

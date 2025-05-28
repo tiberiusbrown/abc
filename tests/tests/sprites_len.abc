@@ -66,6 +66,5 @@ void main()
     $assert(get_len(s8 ) == 256);
     $assert(get_len(s4 ) == 1024);
     
-    
     $debug_break();
 }
