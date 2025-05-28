@@ -3508,7 +3508,7 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
         interp->buttons_curr = 0;
         interp->current_plane = 0;
         interp->cmd_ptr = 0;
-        interp->batch_ptr == UINT16_MAX;
+        interp->batch_ptr = UINT16_MAX;
         interp->text_font = 0xffffffff;
         interp->text_color = 1;
         interp->frame_dur = 50;
