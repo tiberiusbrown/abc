@@ -210,8 +210,7 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
                 // allocate space on stack
                 // use pop instr to move stack pointer (optimizes to popn)
                 uint8_t num_pops = uint8_t(-(int)v->type.without_ref().prim_size);
-                for(uint8_t i = 0; i < num_pops; ++i)
-                    f.instrs.push_back({ I_POP, n.line() });
+                f.instrs.push_back({ I_POPN, n.line(), uint8_t(num_pops) });
                 frame.scopes.back().size += v->type.prim_size;
                 frame.size += v->type.prim_size;
             }
@@ -239,8 +238,8 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             if(is_string)
             {
                 // pop return value of strcpy
-                for(int i = 0; i < 4; ++i)
-                    f.instrs.push_back({ I_POP, n.line() });
+                f.instrs.push_back({ I_POPN, n.line(), 4 });
+
             }
             return;
         }
@@ -297,8 +296,7 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             type_annotate(n.children[1], frame);
             codegen_expr(f, frame, n.children[1], true);
             codegen_store(f, frame, n.children[1]);
-            for(size_t i = 0; i < frame.size; ++i)
-                f.instrs.push_back({ I_POP, n.line() });
+            f.instrs.push_back({ I_POPN, n.line(), uint8_t(frame.size) });
             frame.pop();
         }
     }

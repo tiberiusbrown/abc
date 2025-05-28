@@ -40,7 +40,7 @@ $L_main_6:
   p0
   aidx  1 900
   getr
-  bz    $L_main_7
+  bz    $L_main_12
   .line 14
   dup
   p0
@@ -68,7 +68,7 @@ $L_main_10:
   bnz   $L_main_10
 $L_main_8:
   pop2
-$L_main_7:
+$L_main_12:
   .line 11
   inc
   dup

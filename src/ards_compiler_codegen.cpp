@@ -120,9 +120,7 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
 
     // pop remaining func args
     assert(frame.size < 256);
-    for(size_t i = 0; i < frame.size; ++i)
-        f.instrs.push_back({ I_POP, n.line() });
-
+    f.instrs.push_back({ I_POPN, n.line(), uint8_t(frame.size) });
     f.instrs.push_back({ I_RET, n.line() });
 }
 
@@ -327,8 +325,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         assert(!break_stack.empty());
         size_t n = frame.size - break_stack.back().second;
-        for(size_t i = 0; i < n; ++i)
-            f.instrs.push_back({ I_POP, a.line() });
+        f.instrs.push_back({ I_POPN, a.line(), (uint8_t)n });
         f.instrs.push_back({ I_JMP, a.line(), 0, 0, break_stack.back().first });
         break;
     }
@@ -341,8 +338,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         assert(!continue_stack.empty());
         size_t n = frame.size - continue_stack.back().second;
-        for(size_t i = 0; i < n; ++i)
-            f.instrs.push_back({ I_POP, a.line()});
+        f.instrs.push_back({ I_POPN, a.line(), uint8_t(n) });
         f.instrs.push_back({ I_JMP, a.line(), 0, 0, continue_stack.back().first });
         break;
     }
@@ -360,8 +356,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                 if((line = it->line) != 0)
                     break;
             assert(line != 0);
-            for(size_t i = 0; i < frame.scopes.back().size; ++i)
-                f.instrs.push_back({ I_POP, line });
+            f.instrs.push_back({ I_POPN, line, uint8_t(frame.scopes.back().size) });
         }
         frame.pop();
         (void)block_prev_size;
@@ -382,8 +377,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
         assert(frame.size < 256);
-        for(size_t i = expr_prev_size; i < frame.size; ++i)
-            f.instrs.push_back({ I_POP, a.line() });
+        f.instrs.push_back({ I_POPN, a.line(), uint8_t(frame.size - expr_prev_size) });
         frame.size = expr_prev_size;
         break;
     }
@@ -656,8 +650,7 @@ void compiler_t::codegen_switch(
 pop_expr:
     if(!is_jump_table)
     {
-        for(size_t i = 0; i < expr_type.prim_size; ++i)
-            f.instrs.push_back({ I_POP, a.line() });
+        f.instrs.push_back({ I_POPN, a.line(), uint8_t(expr_type.prim_size) });
         frame.size -= expr_type.prim_size;
     }
 }
@@ -852,8 +845,7 @@ void compiler_t::codegen_convert(
     {
         size_t num = from.prim_size - to.prim_size;
         frame.size -= num;
-        for(size_t i = 0; i < num; ++i)
-            f.instrs.push_back({ I_POP, n.line() });
+        f.instrs.push_back({ I_POPN, n.line(), uint8_t(num) });
     }
     if(to.prim_size > from.prim_size)
     {

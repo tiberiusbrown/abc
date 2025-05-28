@@ -201,9 +201,8 @@ main:
   sub
   not
   sys   assert
-  popn  255
+  popn  0
   .line 66
-  pop
   p0
   p1
   push2 25600

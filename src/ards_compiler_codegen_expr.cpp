@@ -228,8 +228,7 @@ void compiler_t::codegen_expr(
         // if the root op, pop the ref
         if(!non_root)
         {
-            f.instrs.push_back({ I_POP, a.line() });
-            f.instrs.push_back({ I_POP, a.line() });
+            f.instrs.push_back({ I_POPN, a.line(), 2 });
             frame.size -= 2;
         }
         return;
@@ -968,10 +967,7 @@ void compiler_t::codegen_expr(
         // pop length if simple reference
         if(a.comp_type.without_ref().is_array())
         {
-            f.instrs.push_back({ I_POP, a.line() });
-            f.instrs.push_back({ I_POP, a.line() });
-            if(prog)
-                f.instrs.push_back({ I_POP, a.line() });
+            f.instrs.push_back({ I_POPN, a.line(), uint8_t(prog ? 3 : 2) });
             frame.size -= (prog ? 3 : 2);
         }
     

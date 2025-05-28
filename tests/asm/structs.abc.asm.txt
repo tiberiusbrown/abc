@@ -108,7 +108,7 @@ $L_main_10:
   not
   sys   assert
   .line 35
-  jmp   $L_main_11
+  jmp   $L_main_13
 $L_main_12:
   .line 38
   pushg e 4
@@ -117,7 +117,7 @@ $L_main_12:
   getr
   not
   sys   assert
-$L_main_11:
+$L_main_13:
   .line 33
   inc
   dup
@@ -161,7 +161,7 @@ $L_main_20:
   not
   sys   assert
   .line 48
-  jmp   $L_main_21
+  jmp   $L_main_24
 $L_main_23:
   .line 51
   pushg enemies 4
@@ -172,7 +172,7 @@ $L_main_23:
   getr
   not
   sys   assert
-$L_main_21:
+$L_main_24:
   .line 46
   inc
   dup

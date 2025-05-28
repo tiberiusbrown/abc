@@ -79,6 +79,8 @@ bool compiler_t::peephole(compiler_func_t& f)
         t = true;
     while(peephole_redundant_bzp(f))
         t = true;
+    while(peephole_combine_pop(f))
+        t = true;
     while(peephole_compress_pop(f))
         t = true;
     while(peephole_push_setl_popn(f))
@@ -311,6 +313,14 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
         auto& i0 = f.instrs[i + 0];
+
+        if(i0.instr == I_POPN && i0.imm == 0)
+        {
+            i0.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         auto& i1 = f.instrs[i + 1];
 
         // replace PUSH N; DUP with PUSH N; PUSH N
@@ -364,24 +374,6 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             i1.label = std::move(i0.label);
             i0.label.clear();
             std::swap(i0.imm, i1.imm);
-            t = true;
-            continue;
-        }
-
-        // replace GETPN <N>; POP with GETPN <N-1>
-        if(i0.instr == I_GETPN && i1.instr == I_POP)
-        {
-            assert(i0.imm > 0);
-            if(i0.imm == 1)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_REMOVE;
-            }
-            else
-            {
-                i0.imm -= 1;
-                i1.instr = I_REMOVE;
-            }
             t = true;
             continue;
         }
@@ -442,20 +434,30 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             }
         }
 
-        // replace GETPN <N>; POP with GETPN <N-1>
-        if(i0.instr == I_GETPN && i0.imm > 1 && i1.instr == I_POP)
+        // replace GETPN <N>; POPN M with GETPN <N-1>
+        if(i0.instr == I_GETPN && i0.imm > 1 && i1.instr == I_POPN && i1.imm >= 1)
         {
-            i0.imm -= 1;
-            i1.instr = I_REMOVE;
+            auto n = std::min(i0.imm, i1.imm);
+            i0.imm -= n;
+            i1.imm -= n;
+            if(i0.imm == 0)
+            {
+                // pop prog addr
+                i0.instr = I_POPN;
+                i0.imm = 3;
+            }
+            if(i1.imm == 0)
+                i1.instr = I_REMOVE;
             t = true;
             continue;
         }
 
         // remove PUSH N; POP
-        if(i0.instr == I_PUSH && i1.instr == I_POP)
+        if(i0.instr == I_PUSH && i1.instr == I_POPN && i1.imm >= 1)
         {
             i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
+            if(--i1.imm == 0)
+                i1.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -621,35 +623,47 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             }
         }
 
+        // remove REFG N; POPN 2
+        if(i0.instr == I_PUSHG &&
+            i1.instr == I_POPN && i1.imm == 2)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
 
         // replace PUSH <N>; GETLN <M>; POP with PUSH <N-1>; GETLN <M>
         // replace PUSH <N>; GETGN <M>; POP with PUSH <N-1>; GETGN <M>
-        if(i0.instr == I_PUSH && i2.instr == I_POP &&
+        if(i0.instr == I_PUSH && i2.instr == I_POPN && i2.instr >= 1 &&
             (i1.instr == I_GETLN || i1.instr == I_GETGN))
         {
             assert(i0.imm > 0);
+            if(--i2.imm == 0)
+                i2.instr = I_REMOVE;
             if(i0.imm == 1)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_REMOVE;
-                i2.instr = I_REMOVE;
             }
             else
             {
                 i0.imm -= 1;
-                i2.instr = I_REMOVE;
             }
             t = true;
             continue;
         }
 
         // replace PUSH <M>; GETLN <N>; POP with PUSH <M-1>; GETLN <N>
-        if(i0.instr == I_PUSH && i1.instr == I_GETLN && i1.imm > 1 && i2.instr == I_POP)
+        if(i0.instr == I_PUSH && i1.instr == I_GETLN && i1.imm > 1 &&
+            i2.instr == I_POPN && i2.imm >= 1)
         {
             i0.imm -= 1;
-            i2.instr = I_REMOVE;
+            if(--i2.imm == 0)
+                i2.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -713,18 +727,6 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
                 t = true;
                 continue;
             }
-        }
-
-        // remove REFG N; POP; POP
-        if(i0.instr == I_PUSHG &&
-            i1.instr == I_POP &&
-            i2.instr == I_POP)
-        {
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-            i2.instr = I_REMOVE;
-            t = true;
-            continue;
         }
 
         if(i + 3 >= f.instrs.size()) continue;
@@ -796,47 +798,6 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
-        // replace:
-        //    PUSH <N>
-        //    GETLN <N>
-        //    PUSH <N>
-        //    SETLN <M>
-        //    POP (N times)
-        // with:
-        //    PUSH <N>
-        //    SETLN <M-N>
-
-        if(i0.instr == I_PUSH && i1.instr == I_GETLN &&
-            i2.instr == I_PUSH && i3.instr == I_SETLN &&
-            i0.imm == i1.imm && i0.imm == i2.imm && i3.imm > i0.imm)
-        {
-            auto n = i0.imm;
-
-            if(i + 4 + n >= f.instrs.size()) continue;
-
-            bool valid = true;
-            for(size_t j = i + 4; j < i + 4 + n; ++j)
-            {
-                if(f.instrs[j].instr != I_POP)
-                {
-                    valid = false;
-                    break;
-                }
-            }
-            if(!valid)
-                continue;
-
-            i0.instr = I_REMOVE;
-            i1.instr = I_REMOVE;
-            i3.imm -= n;
-
-            for(size_t j = i + 4; j < i + 4 + n; ++j)
-                f.instrs[j].instr = I_REMOVE;
-
-            t = true;
-            continue;
-        }
-
         // replace REFG N; PUSH A0; PUSH A1; ADD2 with REFG N+A
         if(i0.instr == I_PUSHG &&
             i1.instr == I_PUSH && i2.instr == I_PUSH &&
@@ -852,6 +813,29 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         if(i + 4 >= f.instrs.size()) continue;
         auto& i4 = f.instrs[i + 4];
+
+        // replace:
+        //    PUSH <N>
+        //    GETLN <N>
+        //    PUSH <N>
+        //    SETLN <M>
+        //    POPN N
+        // with:
+        //    PUSH <N>
+        //    SETLN <M-N>
+        if(i0.instr == I_PUSH && i1.instr == I_GETLN &&
+            i2.instr == I_PUSH && i3.instr == I_SETLN &&
+            i4.instr == I_POPN &&
+            i0.imm == i1.imm && i0.imm == i2.imm && i0.imm == i4.imm &&
+            i3.imm > i0.imm)
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i3.imm -= i0.imm;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // convert PUSHL <LABEL>; PUSH ..; PUSH ..; PUSH ...; ADD3 to PUSHL LABEL+..
         if(i0.instr == I_PUSHL &&
@@ -1590,13 +1574,14 @@ bool compiler_t::peephole_bzp(compiler_func_t& f)
         auto& i1 = f.instrs[i + 1];
         auto& i2 = f.instrs[i + 2];
 
-        // replace DUP; B[N]Z; POP with B[N]ZP
-        if(i0.instr == I_DUP && i2.instr == I_POP && (
+        // replace DUP; B[N]Z; POPN 1 with B[N]ZP
+        if(i0.instr == I_DUP && i2.instr == I_POPN && i2.imm >= 1 && (
             i1.instr == I_BZ || i1.instr == I_BNZ))
         {
             i0.instr = I_REMOVE;
             i1.instr = (i1.instr == I_BZ ? I_BZP : I_BNZP);
-            i2.instr = I_REMOVE;
+            if(--i2.imm == 0)
+                i2.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -1682,6 +1667,28 @@ bool compiler_t::peephole_push_setl_popn(compiler_func_t& f)
     return t;
 }
 
+bool compiler_t::peephole_combine_pop(compiler_func_t& f)
+{
+    bool t = false;
+
+    for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
+    {
+        auto& i0 = f.instrs[i + 0];
+        auto& i1 = f.instrs[i + 1];
+
+        // replace POPN M; POPN N with POPN M+N
+        if(i0.instr == I_POPN && i1.instr == I_POPN)
+        {
+            i0.imm = uint8_t(i0.imm + i1.imm);
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+    }
+    clear_removed_instrs(f.instrs);
+    return t;
+}
+
 bool compiler_t::peephole_compress_pop(compiler_func_t& f)
 {
     bool t = false;
@@ -1689,43 +1696,14 @@ bool compiler_t::peephole_compress_pop(compiler_func_t& f)
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
         auto& i0 = f.instrs[i + 0];
-        if(i + 1 >= f.instrs.size()) continue;
-        auto& i1 = f.instrs[i + 1];
-
-        // replace POP; POP with POP2
-        if(i0.instr == I_POP && i1.instr == I_POP)
+        if(i0.instr != I_POPN) continue;
+        switch(i0.imm)
         {
-            size_t j;
-            for(j = i + 2; j < f.instrs.size(); ++j)
-            {
-                if(f.instrs[j].instr != I_POP)
-                    break;
-            }
-            j -= i;
-            if(j > 4)
-            {
-                if(j > 255) j = 255;
-                i0.instr = I_POPN;
-                i0.imm = (uint8_t)j;
-                for(size_t k = i + 1; k < i + j; ++k)
-                    f.instrs[k].instr = I_REMOVE;
-                t = true;
-                continue;
-            }
-            i0.instr = I_POP2;
-            i1.instr = I_REMOVE;
-            if(i + 2 < f.instrs.size() && f.instrs[i + 2].instr == I_POP)
-            {
-                f.instrs[i + 2].instr = I_REMOVE;
-                i0.instr = I_POP3;
-                if(i + 3 < f.instrs.size() && f.instrs[i + 3].instr == I_POP)
-                {
-                    f.instrs[i + 3].instr = I_REMOVE;
-                    i0.instr = I_POP4;
-                }
-            }
-            t = true;
-            continue;
+        case 1: i0.instr = I_POP;  t = true; break;
+        case 2: i0.instr = I_POP2; t = true; break;
+        case 3: i0.instr = I_POP3; t = true; break;
+        case 4: i0.instr = I_POP4; t = true; break;
+        default: break;
         }
     }
     clear_removed_instrs(f.instrs);

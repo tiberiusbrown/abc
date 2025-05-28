@@ -1944,13 +1944,13 @@ I_PIDX:
 I_UAIDX:
     ld   r20, -Y
     ld   r19, -Y
-    ld   r18, -Y
+    ldi  r17, 2
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
     sei
+    ld   r18, -Y
     mov  r21, r9
-    ldi  r17, 2
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
@@ -3833,6 +3833,7 @@ I_CALL:
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
+    out  %[sreg], r10
     ldi  r16, 3
     add  r16, r6
     mov  r6, r0
@@ -3842,7 +3843,7 @@ I_CALL:
     st   X+, r7
     st   X+, r8
     rjmp .+0
-    rjmp .+0
+    cli
     out  %[spdr], r2
     in   r7, %[spdr]
     out  %[sreg], r10
