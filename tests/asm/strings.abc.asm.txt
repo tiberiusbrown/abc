@@ -548,7 +548,6 @@ main:
   sys   strcmp_P
   not
   sys   assert
-  popn  0
   .line 81
   push4 721420669
   p00

@@ -13,7 +13,7 @@ $globinit:
 f:
   .file prog_struct_copy.abc
   .line 15
-  popn  224
+  alloc 32
   p3
   getln 35
   p32

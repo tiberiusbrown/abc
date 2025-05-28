@@ -353,6 +353,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_POPN);
             push_imm(read_imm(f, error), 1);
         }
+        else if(t == "alloc")
+        {
+            push_instr(I_ALLOC);
+            push_imm(read_imm(f, error), 1);
+        }
         else if(t == "getl")
         {
             push_instr(I_GETL);

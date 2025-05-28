@@ -13,9 +13,7 @@ main:
   .line 38
   sys   debug_break
   .line 40
-  pz16
-  pz16
-  p0000
+  alloc 36
   push4 1061813223
   push4 1083304837
   push4 1067282596

@@ -189,6 +189,7 @@ enum instr_t : uint8_t
     I_POP3,  // a b c |
     I_POP4,  // a b c d |
     I_POPN,  // pop imm8 bytes
+    I_ALLOC, // push imm8 bytes of undefined data
 
     // array reference (RAM)
     I_AIXB1, // ref i | (ref+i*1) with bounds checking with imm (8-bit)

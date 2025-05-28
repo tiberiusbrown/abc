@@ -201,7 +201,6 @@ main:
   sub
   not
   sys   assert
-  popn  0
   .line 66
   p0
   p1

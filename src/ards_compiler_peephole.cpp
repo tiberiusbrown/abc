@@ -314,7 +314,7 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
     {
         auto& i0 = f.instrs[i + 0];
 
-        if(i0.instr == I_POPN && i0.imm == 0)
+        if((i0.instr == I_POPN || i0.instr == I_ALLOC) && i0.imm == 0)
         {
             i0.instr = I_REMOVE;
             t = true;
@@ -322,6 +322,16 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         }
 
         auto& i1 = f.instrs[i + 1];
+
+        // combine POPN N; ALLOC M;
+        if(i0.instr == I_POPN && i1.instr == I_ALLOC && i0.imm >= 1)
+        {
+            auto n = std::min(i0.imm, i1.imm);
+            if((i0.imm -= n) == 0) i0.instr = I_REMOVE;
+            if((i1.imm -= n) == 0) i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // replace PUSH N; DUP with PUSH N; PUSH N
         // (allows future optimizations)

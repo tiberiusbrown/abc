@@ -178,6 +178,7 @@ enum
     I_POP3,
     I_POP4,
     I_POPN,
+    I_ALLOC,
     I_AIXB1,
     I_AIDXB,
     I_AIDX,
@@ -3562,6 +3563,7 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_POP3:  interp->sp -= 3; return ABC_RESULT_NORMAL;
     case I_POP4:  interp->sp -= 4; return ABC_RESULT_NORMAL;
     case I_POPN:  interp->sp -= imm8(interp, h); return ABC_RESULT_NORMAL;
+    case I_ALLOC: return push_zn(interp, imm8(interp, h));
     case I_AIXB1: return aixb1(interp, h);
     case I_AIDXB: return aidxb(interp, h);
     case I_AIDX:  return aidx(interp, h);

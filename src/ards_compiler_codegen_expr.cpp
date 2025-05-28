@@ -402,8 +402,16 @@ void compiler_t::codegen_expr(
         {
             // reserve space for return value
             frame.size += func.decl.return_type.prim_size;
-            for(size_t i = 0; i < func.decl.return_type.prim_size; ++i)
-                f.instrs.push_back({ I_PUSH, a.line(), 0 });
+            auto n = (uint8_t)func.decl.return_type.prim_size;
+            if(n > 8)
+            {
+                f.instrs.push_back({ I_ALLOC, a.line(), n });
+            }
+            else
+            {
+                for(size_t i = 0; i < func.decl.return_type.prim_size; ++i)
+                    f.instrs.push_back({ I_PUSH, a.line(), 0 });
+            }
         }
 
         assert(a.children[1].type == AST::FUNC_ARGS);

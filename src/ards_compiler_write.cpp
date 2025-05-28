@@ -108,6 +108,7 @@ void compiler_t::write_instr(
     case I_POP3:  f << "pop3"; break;
     case I_POP4:  f << "pop4"; break;
     case I_POPN:  f << "popn  " << instr.imm; break;
+    case I_ALLOC: f << "alloc " << instr.imm; break;
 
     case I_AIXB1: f << "aixb1 " << instr.imm; break;
     case I_AIDXB: f << "aidxb " << instr.imm << " " << instr.imm2; break;

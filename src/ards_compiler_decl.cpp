@@ -209,8 +209,8 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             {
                 // allocate space on stack
                 // use pop instr to move stack pointer (optimizes to popn)
-                uint8_t num_pops = uint8_t(-(int)v->type.without_ref().prim_size);
-                f.instrs.push_back({ I_POPN, n.line(), uint8_t(num_pops) });
+                uint8_t alloc = uint8_t(v->type.without_ref().prim_size);
+                f.instrs.push_back({ I_ALLOC, n.line(), alloc });
                 frame.scopes.back().size += v->type.prim_size;
                 frame.size += v->type.prim_size;
             }

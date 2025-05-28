@@ -1744,10 +1744,32 @@ I_POPN:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    sub  r28, r0
+    cp   r28, r0
+    brsh 1f
+    ldi  r24, 5
+    call vm_error
+1:  sub  r28, r0
     ld   r9, Y
+    rjmp .+0
+    dispatch_reverse
+
+I_ALLOC:
     lpm
     rjmp .+0
+    in   r10, %[sreg]
+    cli
+    out  %[spdr], r2
+    in   r0, %[spdr]
+    out  %[sreg], r10
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
+    add  r28, r0
+    brcc 1f
+    ldi  r24, 5
+    call vm_error
+1:  ld   r9, Y
+    lpm
     dispatch_reverse
 
 I_AIXB1:
