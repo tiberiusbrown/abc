@@ -7541,7 +7541,7 @@ touch_object:
   setr
   .line 770
   push3 39990
-  sys   tones_play_auto
+  sys   tones_play_primary
   .line 763
   pop3
   ret
@@ -8547,7 +8547,7 @@ $L_update_level_19:
   setg4 vy 0
   .line 396
   push3 39960
-  sys   tones_play_auto
+  sys   tones_play_primary
   .line 393
   jmp   $L_update_level_25
 $L_update_level_20:
@@ -8564,7 +8564,7 @@ $L_update_level_20:
   setg4 vx 0
   .line 401
   push3 39960
-  sys   tones_play_auto
+  sys   tones_play_primary
   .line 398
   jmp   $L_update_level_25
 $L_update_level_21:
@@ -8581,7 +8581,7 @@ $L_update_level_21:
   setg4 vx 0
   .line 406
   push3 39960
-  sys   tones_play_auto
+  sys   tones_play_primary
   .line 403
   jmp   $L_update_level_25
 $L_update_level_22:

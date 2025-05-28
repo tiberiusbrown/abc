@@ -656,9 +656,10 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
                 i1.instr = I_REMOVE;
                 auto n = i0.imm;
                 auto off = i1.imm;
-                f.instrs.insert(f.instrs.begin() + i, n, { I_PUSH, i1.line });
+                f.instrs.insert(f.instrs.begin() + i, n, i1);
                 for(size_t j = 0; j < n; ++j)
                 {
+                    f.instrs[i + j].instr = I_PUSH;
                     f.instrs[i + j].imm = f.instrs[i + j - off].imm;
                 }
                 t = true;
@@ -1674,7 +1675,7 @@ bool compiler_t::peephole_redundant_bzp(compiler_func_t& f)
             {
                 auto label = new_label(f);
                 f.instrs.insert(f.instrs.begin() + j + 1, compiler_instr_t{
-                    I_NOP, f.instrs[j].line, 0, 0, label, true });
+                    I_NOP, f.instrs[j].line, 0, 0, label, true, f.instrs[j].file });
                 i0.instr = (i0.instr == I_BZP ? I_BZ : I_BNZ);
                 i0.label = label;
                 t = true;
