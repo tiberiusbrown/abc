@@ -99,7 +99,7 @@ struct abc_interp_t
     uint8_t  audio_tones[3];
     uint8_t  audio_ticks[3];
     uint8_t  music_active;
-    uint8_t  audio_enabled;
+    uint8_t  audio_disabled;
     
     /* Call stack pointer */
     uint8_t  csp;

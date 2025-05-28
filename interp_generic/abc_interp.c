@@ -2159,12 +2159,12 @@ static abc_result_t sys_set_frame_rate(abc_interp_t* interp)
 
 static abc_result_t sys_audio_enabled(abc_interp_t* interp)
 {
-    return push(interp, interp->audio_enabled != 0 ? 1 : 0);
+    return push(interp, interp->audio_disabled == 0 ? 1 : 0);
 }
 
 static abc_result_t sys_audio_toggle(abc_interp_t* interp)
 {
-    interp->audio_enabled = !interp->audio_enabled;
+    interp->audio_disabled = !interp->audio_disabled;
     return ABC_RESULT_NORMAL;
 }
 
@@ -3164,7 +3164,7 @@ static void advance_audio_channel(abc_interp_t* interp, abc_host_t const* host, 
 static abc_result_t sys_music_play(abc_interp_t* interp, abc_host_t const* host)
 {
     uint32_t song = pop24(interp);
-    if(!interp->audio_enabled)
+    if(interp->audio_disabled)
         return ABC_RESULT_NORMAL;
     uint32_t offset = prog24(host, song);
     song += 3;
@@ -3194,6 +3194,8 @@ static abc_result_t sys_music_playing(abc_interp_t* interp)
 static abc_result_t sys_tones_play(abc_interp_t* interp, abc_host_t const* host)
 {
     uint32_t t = pop24(interp);
+    if(interp->audio_disabled)
+        return ABC_RESULT_NORMAL;
     interp->audio_addrs[2] = t;
     advance_audio_channel(interp, host, 2);
     return ABC_RESULT_NORMAL;
@@ -3202,6 +3204,8 @@ static abc_result_t sys_tones_play(abc_interp_t* interp, abc_host_t const* host)
 static abc_result_t sys_tones_play_primary(abc_interp_t* interp, abc_host_t const* host)
 {
     uint32_t t = pop24(interp);
+    if(interp->audio_disabled)
+        return ABC_RESULT_NORMAL;
     if(interp->music_active)
     {
         interp->music_active = false;
@@ -3216,6 +3220,8 @@ static abc_result_t sys_tones_play_auto(abc_interp_t* interp, abc_host_t const* 
 {
     uint32_t t = pop24(interp);
     uint8_t i = interp->audio_addrs[2] == 0 || interp->audio_addrs[0] != 0 ? 2 : 0;
+    if(interp->audio_disabled)
+        return ABC_RESULT_NORMAL;
     interp->audio_addrs[i] = t;
     advance_audio_channel(interp, host, i);
     return ABC_RESULT_NORMAL;
@@ -3485,9 +3491,24 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     if(interp->pc == 0)
     {
         /* interpreter was reset: initialize state */
-        memset(interp, 0, sizeof(abc_interp_t));
+        memset(interp->globals, 0, sizeof(interp->globals));
+        memset(interp->display_buffer, 0, sizeof(interp->display_buffer));
+        memset(interp->display, 0, sizeof(interp->display));
+        interp->sp = 0;
+        interp->csp = 0;
         interp->pc = 20;
-        interp->audio_enabled = 1;
+        interp->audio_ns_rem = 0;
+        interp->music_active = 0;
+        memset(interp->audio_phase, 0, sizeof(interp->audio_phase));
+        memset(interp->audio_addrs, 0, sizeof(interp->audio_addrs));
+        memset(interp->audio_tones, 0, sizeof(interp->audio_tones));
+        memset(interp->audio_ticks, 0, sizeof(interp->audio_ticks));
+        interp->waiting_for_frame = 0;
+        interp->buttons_prev = 0;
+        interp->buttons_curr = 0;
+        interp->current_plane = 0;
+        interp->cmd_ptr = 0;
+        interp->batch_ptr == UINT16_MAX;
         interp->text_font = 0xffffffff;
         interp->text_color = 1;
         interp->frame_dur = 50;
@@ -3732,7 +3753,7 @@ void abc_audio(
     if(!samples)
         return;
 
-    if(interp == 0 || !interp->audio_enabled || num_samples == 0)
+    if(interp == 0 || interp->audio_disabled || num_samples == 0)
     {
         memset(samples, 0, sizeof(int16_t) * num_samples);
         return;
