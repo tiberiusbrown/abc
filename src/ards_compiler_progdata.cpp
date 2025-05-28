@@ -154,9 +154,17 @@ void compiler_t::progdata_expr(
     }
     case compiler_type_t::PRIM:
     {
-        if(n.type != AST::INT_CONST)
-            goto error;
-        uint64_t x = (uint64_t)n.value;
+        uint64_t x;
+        if(n.type == AST::INT_CONST)
+            x = (uint64_t)n.value;
+        else if(n.type == AST::FLOAT_CONST)
+        {
+            float f = (float)n.fvalue;
+            union { float f; uint32_t x; } u;
+            u.f = f;
+            x = u.x;
+        }
+        else goto error;
         for(size_t i = 0; i < t.prim_size; ++i)
         {
             pd.data.push_back((uint8_t)x);

@@ -59,6 +59,7 @@ enum
     SYS_ANY_PRESSED,
     SYS_NOT_PRESSED,
     SYS_MILLIS,
+    SYS_MEMSET,
     SYS_MEMCPY,
     SYS_MEMCPY_P,
     SYS_STRLEN,
@@ -1402,6 +1403,18 @@ static abc_result_t sys_assert(abc_interp_t* interp)
 {
     if(pop8(interp) == 0)
         return ABC_RESULT_ERROR;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_memset(abc_interp_t* interp)
+{
+    uint16_t n0 = pop16(interp);
+    uint16_t b0 = pop16(interp);
+    uint8_t val = pop8(interp);
+    uint8_t* p0 = refptr(interp, b0);
+    if(!p0) return ABC_RESULT_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    memset(p0, val, n0);
     return ABC_RESULT_NORMAL;
 }
 
@@ -3399,6 +3412,7 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_ANY_PRESSED:          return sys_any_pressed(interp, h);
     case SYS_NOT_PRESSED:          return sys_not_pressed(interp, h);
     case SYS_MILLIS:               return sys_millis(interp, h);
+    case SYS_MEMSET:               return sys_memset(interp);
     case SYS_MEMCPY:               return sys_memcpy(interp);
     case SYS_MEMCPY_P:             return sys_memcpy_P(interp, h);
     case SYS_STRLEN:               return sys_strlen(interp);

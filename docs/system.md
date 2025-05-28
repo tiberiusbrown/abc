@@ -61,6 +61,7 @@ bool  $just_released(u8 button);
 bool  $load();
 void  $memcpy(byte[]& dst, byte[]& src);
 void  $memcpy(byte[]& dst, byte[] prog& src);
+void  $memset(byte[]& dst, u8 val);
 u32   $millis();
 float $mod(float x, float y);
 void  $music_play(music song);

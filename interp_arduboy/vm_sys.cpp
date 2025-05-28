@@ -1747,6 +1747,19 @@ static void sys_strcpy_P()
     seek_to_pc();
 }
 
+static void sys_memset()
+{
+    auto ptr = vm_pop_begin();
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
+    uint16_t b0 = vm_pop<uint16_t>(ptr);
+    uint8_t val = vm_pop<uint8_t>(ptr);
+    vm_pop_end(ptr);
+    memset(
+        reinterpret_cast<void*>(b0),
+        val,
+        n0);
+}
+
 static void sys_memcpy()
 {
     auto ptr = vm_pop_begin();
@@ -2851,6 +2864,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_any_pressed,
     sys_not_pressed,
     sys_millis,
+    sys_memset,
     sys_memcpy,
     sys_memcpy_P,
     sys_strlen,
