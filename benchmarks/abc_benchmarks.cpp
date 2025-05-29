@@ -222,6 +222,18 @@ int abc_benchmarks()
 #endif
 
 #if 1
+    if(compile(PLATFORMER_DIR "/../basic/main.abc"  ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../circle/main.abc" ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../font/main.abc"   ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../gray/main.abc"   ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../midi/main.abc"   ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../pong/main.abc"   ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../snake/main.abc"  ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../sprite/main.abc" ).empty()) return 1;
+    if(compile(PLATFORMER_DIR "/../tilemap/main.abc").empty()) return 1;
+#endif
+
+#if 1
     fout = fopen(PLATFORMER_DIR "/benchmark.txt", "w");
     if(!fout) return 1;
     {

@@ -1101,14 +1101,8 @@ main:
   .line 46
   p1
   sys   assert
-  .line 48
-  p00
-  p1
-  p0
   .line 10
   p128
-  setl  4
-  pop3
   .line 48
   p0
   p128
@@ -1116,199 +1110,122 @@ main:
   bool2
   not
   sys   assert
-  .line 49
-  p0
-  p5
-  dup
-  p0
   .line 10
   p64
-  setl  4
-  pop3
   .line 49
   p64
   sub
   not
   sys   assert
-  .line 50
-  p0
-  push4 536873226
   .line 10
-  setl  4
-  pop3
+  p32
   .line 50
   p32
   sub
   not
   sys   assert
-  .line 51
-  p0
-  push4 268438799
   .line 10
-  setl  4
-  pop3
+  p16
   .line 51
   p16
   sub
   not
   sys   assert
-  .line 52
-  p0
-  push4 134222100
   .line 10
-  setl  4
-  pop3
+  p8
   .line 52
   p8
   sub
   not
   sys   assert
-  .line 53
-  p0
-  push4 67117337
   .line 10
-  setl  4
-  pop3
+  p4
   .line 53
   p4
   sub
   not
   sys   assert
-  .line 55
-  p00
-  p1
-  p0
   .line 15
   p64
-  setl  4
-  pop3
   .line 55
   p64
   sub
   not
   sys   assert
-  .line 56
-  p0
-  p5
-  dup
-  p0
   .line 15
   p32
-  setl  4
-  pop3
   .line 56
   p32
   sub
   not
   sys   assert
-  .line 57
-  p0
-  push4 268437770
   .line 15
-  setl  4
-  pop3
+  p16
   .line 57
   p16
   sub
   not
   sys   assert
-  .line 58
-  p0
-  push4 134221071
   .line 15
-  setl  4
-  pop3
+  p8
   .line 58
   p8
   sub
   not
   sys   assert
-  .line 59
-  p0
-  push4 67113236
   .line 15
-  setl  4
-  pop3
+  p4
   .line 59
   p4
   sub
   not
   sys   assert
-  .line 60
-  p0
-  push4 33562905
   .line 15
-  setl  4
-  pop3
+  p2
   .line 60
   p2
   sub
   not
   sys   assert
-  .line 62
-  p000
-  p1
-  dupw
   .line 20
+  p1
   p0
-  setl2 5
-  pop3
   .line 62
   p1
   sub2b
   bool2
   not
   sys   assert
-  .line 63
-  p00
-  p5
-  dup
-  p0
   .line 20
   p4
   p0
-  setl2 5
-  pop3
   .line 63
   p4
   sub2b
   bool2
   not
   sys   assert
-  .line 64
-  p00
-  push4 268437770
   .line 20
+  p16
   p0
-  setl2 5
-  pop3
   .line 64
   p16
   sub2b
   bool2
   not
   sys   assert
-  .line 65
-  p00
-  push4 1073745167
   .line 20
+  p64
   p0
-  setl2 5
-  pop3
   .line 65
   p64
   sub2b
   bool2
   not
   sys   assert
-  .line 66
-  p00
-  push2 4372
-  p00
   .line 20
+  p0
   p1
-  setl2 5
-  pop3
   .line 66
   p0
   p1
@@ -1316,14 +1233,9 @@ main:
   bool2
   not
   sys   assert
-  .line 67
-  p00
-  push2 8473
-  p00
   .line 20
+  p0
   p4
-  setl2 5
-  pop3
   .line 67
   p0
   p4

@@ -346,6 +346,41 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
+
+        // replace:
+        //     PUSH <M times>
+        //     PUSH <N times>
+        //     PUSH N
+        //     SETLN M
+        //     POPN <M-N times>
+        // with:
+        //     PUSH <N times>
+        {
+            size_t num_pushes = 0;
+            for(size_t j = i; j + 2 < f.instrs.size(); ++j, ++num_pushes)
+                if(f.instrs[j].instr != I_PUSH) break;
+            if(num_pushes >= 3)
+            {
+                auto& isetln = f.instrs[i + num_pushes];
+                size_t m = isetln.imm;
+                auto& in = f.instrs[i + num_pushes - 1];
+                size_t n = in.imm;
+                auto& ipopn = f.instrs[i + num_pushes + 1];
+                if(isetln.instr == I_SETLN && m >= n && num_pushes >= m + n + 1 &&
+                    ipopn.instr == I_POPN && ipopn.imm == m - n)
+                {
+                    size_t istart = i + num_pushes - m - n - 1;
+                    for(size_t j = 0; j < m; ++j)
+                        f.instrs[istart + j].instr = I_REMOVE;
+                    in.instr = I_REMOVE;
+                    isetln.instr = I_REMOVE;
+                    ipopn.instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
+            }
+        }
+
         // replace the GETLN with PUSHs in:
         //     PUSH <N times>; PUSH <K>; GETLN M;  (M+K <= N)
         {

@@ -11,28 +11,9 @@ main:
   .file loops.abc
   .line 3
   sys   debug_break
-  .line 5
-  p0000
   .line 10
-  p00
-  setl2 4
-  pop2
-  .line 8
-  p1
+  p3
   p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
-  .line 8
-  p2
-  p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
   .line 8
   p4
   p0
