@@ -1,2 +1,2 @@
 Platformer benchmark...
-    166737
+    166618

@@ -785,19 +785,19 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         //     POPN N
         //     PUSH N
         //     GETGN/GETLN M
-        //if(i0.instr == I_PUSH &&
-        //    (i1.instr == I_GETGN || i1.instr == I_GETLN) &&
-        //    i2.instr == I_PUSH && i3.instr == I_SETLN &&
-        //    i0.imm == i2.imm && i0.imm == i3.imm)
-        //{
-        //    i2 = i1;
-        //    i1.instr = I_PUSH;
-        //    i1.imm = i0.imm;
-        //    i0.instr = I_POPN;
-        //    i3.instr = I_REMOVE;
-        //    t = true;
-        //    continue;
-        //}
+        if(i0.instr == I_PUSH &&
+            (i1.instr == I_GETGN || i1.instr == I_GETLN) &&
+            i2.instr == I_PUSH && i3.instr == I_SETLN &&
+            i0.imm == i2.imm && i0.imm == i3.imm)
+        {
+            i2 = i1;
+            i1.instr = I_PUSH;
+            i1.imm = i0.imm;
+            i0.instr = I_POPN;
+            i3.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // combine consecutive GETLNs to adjacant stack locations
         if(i0.instr == I_PUSH && i1.instr == I_GETLN &&

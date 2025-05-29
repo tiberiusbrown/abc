@@ -11990,8 +11990,8 @@ $L_render_level_50:
   jmp   $L_render_level_54
 $L_render_level_52:
   .line 461
+  pop
   dup2
-  setl  1
   .line 462
   getg  death_frames 0
   bnz   $L_render_level_54
@@ -15247,8 +15247,8 @@ update_score_tally:
   cult2
   bz    $L_update_score_tally_0
   .line 224
+  pop
   getg  score 0
-  setl  1
 $L_update_score_tally_0:
   .line 225
   getg2 score 0
@@ -15288,8 +15288,8 @@ $L_update_score_tally_2:
   cult2
   bz    $L_update_score_tally_3
   .line 235
+  pop
   getg  level_frames_remaining 0
-  setl  1
 $L_update_score_tally_3:
   .line 236
   getg2 level_frames_remaining 0
