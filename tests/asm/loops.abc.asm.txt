@@ -13,34 +13,72 @@ main:
   sys   debug_break
   .line 5
   p0000
-$L_main_2:
-  .line 8
-  dupw
-  .line 9
-  dupw3
-  p3
-  sub2b
-  bool2
-  bnz   $L_main_4
-  pop2
-  jmp   $L_main_3
-$L_main_4:
   .line 10
-  dupw5
-  dupw3
-  add2
-  setl2 6
+  p00
+  setl2 4
   pop2
-$L_main_3:
-  .line 6
-  dupw
+  .line 8
   p1
-  add2b
-  setl2 2
-  dupw
-  push2 10
-  cslt2
-  bnz   $L_main_2
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  p2
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  p4
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  p5
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  p6
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  p7
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  p8
+  p0
+  .line 10
+  getl4 4
+  add2
+  setl2 4
+  pop2
+  .line 8
+  push2 9
+  .line 10
+  getl4 4
+  add2
+  setl2 4
   pop2
   .line 13
   dupw
@@ -51,25 +89,43 @@ $L_main_3:
   sys   assert
   .line 17
   p00
-$L_main_7:
+$L_main_18:
   .line 19
   p00
   setl2 4
-  .line 20
-  p00
-$L_main_11:
   .line 22
-  dupw
+  p00
+  .line 24
+  dupw5
   dupw3
-  mul2
-  .line 23
-  dupw3
-  p4
-  sub2b
-  bool2
-  bnz   $L_main_13
+  add2
+  setl2 6
   pop2
-  .line 20
+  .line 22
+  p1
+  p0
+  .line 24
+  dupw5
+  dupw3
+  add2
+  setl2 6
+  pop2
+  .line 22
+  p4
+  p0
+  .line 24
+  dupw5
+  dupw3
+  add2
+  setl2 6
+  pop2
+  .line 22
+  push2 9
+  .line 24
+  dupw5
+  dupw3
+  add2
+  setl2 6
   pop2
   .line 17
   dupw
@@ -79,30 +135,13 @@ $L_main_11:
   dupw
   push2 200
   cslt2
-  bnz   $L_main_7
+  bnz   $L_main_18
   pop2
   .line 28
   sys   debug_break
   .line 1
   pop2
   ret
-$L_main_13:
-  .line 24
-  dupw7
-  dupw3
-  add2
-  setl2 8
-  pop2
-  .line 20
-  dupw
-  p1
-  add2b
-  setl2 2
-  dupw
-  push2 10
-  cslt2
-  bnz   $L_main_11
-  pop2
   .line 17
   dupw
   p1
@@ -111,7 +150,7 @@ $L_main_13:
   dupw
   push2 200
   cslt2
-  bnz   $L_main_7
+  bnz   $L_main_18
   pop2
   .line 28
   sys   debug_break

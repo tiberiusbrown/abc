@@ -167,6 +167,7 @@ add_library(ards_compiler STATIC
     src/ards_compiler_tones.cpp
     src/ards_compiler_transforms.cpp
     src/ards_compiler_type.cpp
+    src/ards_compiler_unroll.cpp
     src/ards_compiler_write.cpp
     src/ards_error.hpp
     src/ards_sysfuncs.cpp

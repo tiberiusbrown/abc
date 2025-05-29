@@ -240,7 +240,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     */
     p["for_stmt"] = [](peg::SemanticValues const& v) {
-        ast_node_t a{ v.line_info(), AST::BLOCK, v.token() };
+        ast_node_t a{ v.line_info(), AST::BLOCK_FOR_STMT, v.token() };
         auto A = std::any_cast<ast_node_t>(v[0]);
         auto B = std::any_cast<ast_node_t>(v[1]);
         auto C = std::any_cast<ast_node_t>(v[2]);

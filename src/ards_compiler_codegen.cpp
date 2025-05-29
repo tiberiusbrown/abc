@@ -120,7 +120,8 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
 
     // pop remaining func args
     assert(frame.size < 256);
-    f.instrs.push_back({ I_POPN, n.line(), uint8_t(frame.size) });
+    if(frame.size != 0)
+        f.instrs.push_back({ I_POPN, n.line(), uint8_t(frame.size) });
     f.instrs.push_back({ I_RET, n.line() });
 }
 
@@ -325,7 +326,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         assert(!break_stack.empty());
         size_t n = frame.size - break_stack.back().second;
-        f.instrs.push_back({ I_POPN, a.line(), (uint8_t)n });
+        if(n != 0)
+            f.instrs.push_back({ I_POPN, a.line(), (uint8_t)n });
         f.instrs.push_back({ I_JMP, a.line(), 0, 0, break_stack.back().first });
         break;
     }
@@ -338,16 +340,31 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         assert(!continue_stack.empty());
         size_t n = frame.size - continue_stack.back().second;
-        f.instrs.push_back({ I_POPN, a.line(), uint8_t(n) });
+        if(n != 0)
+            f.instrs.push_back({ I_POPN, a.line(), uint8_t(n) });
         f.instrs.push_back({ I_JMP, a.line(), 0, 0, continue_stack.back().first });
         break;
     }
     case AST::BLOCK:
+    case AST::BLOCK_FOR_STMT:
     {
         size_t block_prev_size = frame.size;
         frame.push();
+        size_t prev_instrs = f.instrs.size();
         for(auto& child : a.children)
             codegen(f, frame, child);
+        size_t loop_instrs = f.instrs.size() - prev_instrs;
+        unroll_info_t u;
+        if(a.type == AST::BLOCK_FOR_STMT &&
+            can_unroll_for_loop(a, u) &&
+            loop_instrs * u.num <= for_unroll_max_instrs)
+        {
+            // unroll for loop
+            f.instrs.resize(prev_instrs);
+            frame.pop();
+            unroll_for_loop(a, u, f, frame);
+            break;
+        }
         // don't need to pop locals after final return statement
         if(&a != &f.block)
         {
@@ -356,7 +373,8 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
                 if((line = it->line) != 0)
                     break;
             assert(line != 0);
-            f.instrs.push_back({ I_POPN, line, uint8_t(frame.scopes.back().size) });
+            if(frame.scopes.back().size != 0)
+                f.instrs.push_back({ I_POPN, line, uint8_t(frame.scopes.back().size) });
         }
         frame.pop();
         (void)block_prev_size;
@@ -377,7 +395,9 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
         assert(frame.size < 256);
-        f.instrs.push_back({ I_POPN, a.line(), uint8_t(frame.size - expr_prev_size) });
+        size_t n = frame.size - expr_prev_size;
+        if(n != 0)
+            f.instrs.push_back({ I_POPN, a.line(), uint8_t(n) });
         frame.size = expr_prev_size;
         break;
     }
@@ -650,7 +670,8 @@ void compiler_t::codegen_switch(
 pop_expr:
     if(!is_jump_table)
     {
-        f.instrs.push_back({ I_POPN, a.line(), uint8_t(expr_type.prim_size) });
+        if(expr_type.prim_size != 0)
+            f.instrs.push_back({ I_POPN, a.line(), uint8_t(expr_type.prim_size) });
         frame.size -= expr_type.prim_size;
     }
 }
@@ -845,7 +866,8 @@ void compiler_t::codegen_convert(
     {
         size_t num = from.prim_size - to.prim_size;
         frame.size -= num;
-        f.instrs.push_back({ I_POPN, n.line(), uint8_t(num) });
+        if(num != 0)
+            f.instrs.push_back({ I_POPN, n.line(), uint8_t(num) });
     }
     if(to.prim_size > from.prim_size)
     {

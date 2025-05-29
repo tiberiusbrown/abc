@@ -34,20 +34,26 @@ main:
   .line 6
   pz8
   p000
-$L_main_2:
   .line 8
-  dup
-  refl  12
-  dup4
-  aixb1 10
-  setr
-  .line 7
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_main_2
-  pop
+  setl  10
+  p1
+  setl  9
+  p2
+  setl  8
+  p3
+  setl  7
+  p4
+  setl  6
+  p5
+  setl  5
+  p6
+  setl  4
+  p7
+  setl  3
+  p8
+  setl  2
+  push  9
+  setl  1
   .line 11
   refl  9
   p3

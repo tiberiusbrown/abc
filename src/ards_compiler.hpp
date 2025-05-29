@@ -41,6 +41,7 @@ enum class AST
     DIRECTIVE, // children are keyword and string literal
     IMPORT_STMT,  // child is path string literal
     BLOCK,        // children are child statements
+    BLOCK_FOR_STMT, // same as BLOCK
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
     STRUCT_STMT,  // children are ident and decl_stmt*
@@ -628,6 +629,8 @@ struct compiler_t
     bool enable_jmp_to_ret = true;
     bool enable_bake_pushl = true;
     size_t switch_min_ranges_for_jump_table = 16;
+    size_t for_unroll_max_instrs = 1024; // max total instrs in unrolled loop
+    size_t for_unroll_max_iters = 64;
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
 
@@ -668,6 +671,7 @@ private:
     void type_reduce_recurse(ast_node_t& a, size_t size);
     void type_annotate(ast_node_t& n, compiler_frame_t const& frame, size_t size = 4);
 
+    int64_t truncate_value(compiler_type_t const& t, int64_t x);
     void transform_left_assoc_infix(ast_node_t& n);
     void transform_array_len(ast_node_t& n);
     void transform_constexprs(ast_node_t& n, compiler_frame_t const& frame);
@@ -705,6 +709,19 @@ private:
     void codegen_dereference(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
+    
+    // returns 0 if can't unroll
+    struct unroll_info_t
+    {
+        std::string var_name;
+        int64_t init;
+        int64_t incr;
+        uint32_t num;
+    };
+    bool can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u);
+    void unroll_for_loop(
+        ast_node_t const& n, unroll_info_t const& u,
+        compiler_func_t& f, compiler_frame_t& frame);
 
     std::string progdata_label();
     void add_progdata(std::string const& label, compiler_type_t const& t, ast_node_t const& n);

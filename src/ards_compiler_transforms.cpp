@@ -6,6 +6,36 @@
 namespace ards
 {
 
+int64_t compiler_t::truncate_value(compiler_type_t const& t, int64_t x)
+{
+    assert(t.prim_size >= 1);
+    assert(t.prim_size <= 4);
+    constexpr uint64_t SIGNS[4] =
+    {
+        0x0000000000000080ull,
+        0x0000000000008000ull,
+        0x0000000000800000ull,
+        0x0000000080000000ull,
+    };
+    constexpr uint64_t MASKS[4] =
+    {
+        0xffffffffffffff00ull,
+        0xffffffffffff0000ull,
+        0xffffffffff000000ull,
+        0xffffffff00000000ull,
+    };
+
+    uint64_t sign = SIGNS[t.prim_size - 1];
+    uint64_t mask = MASKS[t.prim_size - 1];
+    if(t.is_bool)
+        x = uint64_t(x != 0);
+    if(t.is_signed && ((uint64_t)x & sign))
+        x = int64_t(uint64_t(x) | mask);
+    else
+        x = int64_t(uint64_t(x) & ~mask);
+    return x;
+}
+
 void compiler_t::transform_array_len(ast_node_t& n)
 {
     if(!errs.empty()) return;

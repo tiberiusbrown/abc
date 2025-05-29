@@ -59,6 +59,8 @@ static void insert_aref(ast_node_t& a, compiler_type_t const& t)
 
 void ast_node_t::insert_cast(compiler_type_t const& t)
 {
+    if(comp_type == t)
+        return;
     auto ta = std::move(*this);
     *this = { ta.line_info, AST::OP_CAST };
     parent = ta.parent;
@@ -539,7 +541,8 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             auto const& t = (*arg_types)[i];
             if(is_format &&
                 i == f.decl.arg_types.size() - 1 &&
-                c.type != AST::STRING_LITERAL)
+                c.type != AST::STRING_LITERAL &&
+                !(c.type == AST::OP_AREF && c.children[0].type == AST::STRING_LITERAL))
             {
                 errs.push_back({
                     "Format string must be a string literal",

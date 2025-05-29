@@ -3,141 +3,354 @@
 
 $PD_0:
 $PD_1:
-$PD_59:
-  .b 9 25 66 38 20 2b 20 25 66 38 0a
 $PD_10:
 $PD_11:
-  .b e 24 70 6f 77 28 25 66 38 2c 20 25 66 38 29 0a
 $PD_12:
 $PD_13:
-  .b f 24 61 74 61 6e 32 28 25 66 38 2c 20 25 66 38 29
-  .b 0 0a
 $PD_14:
-  .b 9 24 73 69 6e 28 25 66 38 29 0a
 $PD_15:
-  .b 9 24 63 6f 73 28 25 66 38 29 0a
 $PD_16:
-  .b 9 24 74 61 6e 28 25 66 38 29 0a
 $PD_17:
-  .b a 24 73 71 72 74 28 25 66 38 29 0a
-$PD_18:
-  .b b 24 66 6c 6f 6f 72 28 25 66 38 29 0a
-$PD_19:
-  .b a 24 63 65 69 6c 28 25 66 38 29 0a
 $PD_2:
+$PD_261:
+$PD_263:
+$PD_265:
+$PD_267:
+$PD_269:
+$PD_271:
+$PD_273:
+$PD_275:
+$PD_277:
+$PD_279:
+$PD_281:
 $PD_3:
-  .b 9 25 66 38 20 2d 20 25 66 38 0a
-$PD_20:
-  .b b 24 72 6f 75 6e 64 28 25 66 38 29 0a
-$PD_21:
-  .b f 6e 6f 74 68 69 6e 67 20 28 62 61 73 65 6c 69 6e
-  .b 2 65 29 0a
-$PD_22:
-  .b a 24 61 73 73 65 72 74 28 31 29 0a
-$PD_23:
-  .b f 24 73 65 74 5f 66 72 61 6d 65 5f 72 61 74 65 28
-  .b 2 30 29 0a
-$PD_24:
-  .b a 24 64 69 73 70 6c 61 79 28 29 0a
-$PD_25:
-  .b f 24 64 69 73 70 6c 61 79 5f 6e 6f 63 6c 65 61 72
-  .b 2 28 29 0a
-$PD_26:
-  .b 9 24 72 61 6e 64 6f 6d 28 29 0a
-$PD_27:
-  .b 9 24 6d 69 6c 6c 69 73 28 29 0a
-$PD_28:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 4 2c 20 30 29 0a
-$PD_29:
-$PD_31:
-$PD_33:
-$PD_35:
-$PD_37:
-$PD_39:
-$PD_41:
-$PD_43:
-$PD_45:
-  .b 2 25 64 30
-$PD_30:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 6 2c 20 31 30 30 29 0a
-$PD_32:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 8 2c 20 31 30 30 30 30 29 0a
-$PD_34:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b a 2c 20 31 30 30 30 30 30 30 29 0a
-$PD_36:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
-$PD_38:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 7 2c 20 2d 31 30 30 29 0a
 $PD_4:
 $PD_5:
-  .b 9 25 66 38 20 2a 20 25 66 38 0a
-$PD_40:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 9 2c 20 2d 31 30 30 30 30 29 0a
-$PD_42:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b b 2c 20 2d 31 30 30 30 30 30 30 29 0a
-$PD_44:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b d 2c 20 2d 31 30 30 30 30 30 30 30 30 29 0a
-$PD_46:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b 4 2c 20 30 29 0a
-$PD_47:
-$PD_49:
-$PD_51:
-$PD_53:
-$PD_55:
-  .b 2 25 75 30
-$PD_48:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b 6 2c 20 31 30 30 29 0a
-$PD_50:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b 8 2c 20 31 30 30 30 30 29 0a
-$PD_52:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b a 2c 20 31 30 30 30 30 30 30 29 0a
-$PD_54:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
-$PD_56:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 31
-  .b 8 66 22 2c 20 25 66 38 29 0a
-$PD_57:
-  .b 2 25 66 31
-$PD_58:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 38
-  .b 8 66 22 2c 20 25 66 38 29 0a
 $PD_6:
 $PD_7:
-  .b 9 25 66 38 20 2f 20 25 66 38 0a
-$PD_60:
+$PD_8:
+$PD_9:
+  .b 9 25 66 38 20 2b 20 25 66 38 0a
+$PD_108:
+$PD_109:
+$PD_110:
+$PD_111:
+$PD_112:
+$PD_113:
+$PD_114:
+$PD_115:
+$PD_116:
+$PD_117:
+$PD_118:
+$PD_119:
+$PD_120:
+$PD_121:
+$PD_122:
+$PD_123:
+$PD_124:
+$PD_125:
+  .b f 24 61 74 61 6e 32 28 25 66 38 2c 20 25 66 38 29
+  .b 0 0a
+$PD_126:
+$PD_127:
+$PD_128:
+$PD_129:
+$PD_130:
+$PD_131:
+$PD_132:
+$PD_133:
+$PD_134:
+$PD_135:
+$PD_136:
+  .b 9 24 73 69 6e 28 25 66 38 29 0a
+$PD_137:
+$PD_138:
+$PD_139:
+$PD_140:
+$PD_141:
+$PD_142:
+$PD_143:
+$PD_144:
+$PD_145:
+$PD_146:
+$PD_147:
+  .b 9 24 63 6f 73 28 25 66 38 29 0a
+$PD_148:
+$PD_149:
+$PD_150:
+$PD_151:
+$PD_152:
+$PD_153:
+$PD_154:
+$PD_155:
+$PD_156:
+$PD_157:
+$PD_158:
+  .b 9 24 74 61 6e 28 25 66 38 29 0a
+$PD_159:
+$PD_160:
+$PD_161:
+$PD_162:
+$PD_163:
+$PD_164:
+$PD_165:
+$PD_166:
+$PD_167:
+$PD_168:
+$PD_169:
+  .b a 24 73 71 72 74 28 25 66 38 29 0a
+$PD_170:
+$PD_171:
+$PD_172:
+$PD_173:
+$PD_174:
+$PD_175:
+$PD_176:
+$PD_177:
+$PD_178:
+$PD_179:
+$PD_180:
+  .b b 24 66 6c 6f 6f 72 28 25 66 38 29 0a
+$PD_18:
+$PD_19:
+$PD_20:
+$PD_21:
+$PD_22:
+$PD_23:
+$PD_24:
+$PD_25:
+$PD_26:
+$PD_27:
+$PD_28:
+$PD_29:
+$PD_30:
+$PD_31:
+$PD_32:
+$PD_33:
+$PD_34:
+$PD_35:
+  .b 9 25 66 38 20 2d 20 25 66 38 0a
+$PD_181:
+$PD_182:
+$PD_183:
+$PD_184:
+$PD_185:
+$PD_186:
+$PD_187:
+$PD_188:
+$PD_189:
+$PD_190:
+$PD_191:
+  .b a 24 63 65 69 6c 28 25 66 38 29 0a
+$PD_192:
+$PD_193:
+$PD_194:
+$PD_195:
+$PD_196:
+$PD_197:
+$PD_198:
+$PD_199:
+$PD_200:
+$PD_201:
+$PD_202:
+  .b b 24 72 6f 75 6e 64 28 25 66 38 29 0a
+$PD_203:
+  .b f 6e 6f 74 68 69 6e 67 20 28 62 61 73 65 6c 69 6e
+  .b 2 65 29 0a
+$PD_204:
+  .b a 24 61 73 73 65 72 74 28 31 29 0a
+$PD_205:
+  .b f 24 73 65 74 5f 66 72 61 6d 65 5f 72 61 74 65 28
+  .b 2 30 29 0a
+$PD_206:
+  .b a 24 64 69 73 70 6c 61 79 28 29 0a
+$PD_207:
+  .b f 24 64 69 73 70 6c 61 79 5f 6e 6f 63 6c 65 61 72
+  .b 2 28 29 0a
+$PD_208:
+  .b 9 24 72 61 6e 64 6f 6d 28 29 0a
+$PD_209:
+  .b 9 24 6d 69 6c 6c 69 73 28 29 0a
+$PD_210:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 4 2c 20 30 29 0a
+$PD_211:
+$PD_213:
+$PD_215:
+$PD_217:
+$PD_219:
+$PD_221:
+$PD_223:
+$PD_225:
+$PD_227:
+  .b 2 25 64 30
+$PD_212:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 6 2c 20 31 30 30 29 0a
+$PD_214:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 8 2c 20 31 30 30 30 30 29 0a
+$PD_216:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b a 2c 20 31 30 30 30 30 30 30 29 0a
+$PD_218:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
+$PD_220:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 7 2c 20 2d 31 30 30 29 0a
+$PD_222:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 9 2c 20 2d 31 30 30 30 30 29 0a
+$PD_224:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b b 2c 20 2d 31 30 30 30 30 30 30 29 0a
+$PD_226:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b d 2c 20 2d 31 30 30 30 30 30 30 30 30 29 0a
+$PD_228:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b 4 2c 20 30 29 0a
+$PD_229:
+$PD_231:
+$PD_233:
+$PD_235:
+$PD_237:
+  .b 2 25 75 30
+$PD_230:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b 6 2c 20 31 30 30 29 0a
+$PD_232:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b 8 2c 20 31 30 30 30 30 29 0a
+$PD_234:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b a 2c 20 31 30 30 30 30 30 30 29 0a
+$PD_236:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
+$PD_238:
+$PD_240:
+$PD_242:
+$PD_244:
+$PD_246:
+$PD_248:
+$PD_250:
+$PD_252:
+$PD_254:
+$PD_256:
+$PD_258:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 31
+  .b 8 66 22 2c 20 25 66 38 29 0a
+$PD_239:
+$PD_241:
+$PD_243:
+$PD_245:
+$PD_247:
+$PD_249:
+$PD_251:
+$PD_253:
+$PD_255:
+$PD_257:
+$PD_259:
+  .b 2 25 66 31
+$PD_260:
+$PD_262:
+$PD_264:
+$PD_266:
+$PD_268:
+$PD_270:
+$PD_272:
+$PD_274:
+$PD_276:
+$PD_278:
+$PD_280:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 38
+  .b 8 66 22 2c 20 25 66 38 29 0a
+$PD_282:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20
   .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_61:
+$PD_283:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_62:
+$PD_284:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_63:
+$PD_285:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_64:
+$PD_286:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
+$PD_287:
+$PD_288:
+$PD_289:
+$PD_290:
+$PD_291:
+$PD_292:
+$PD_293:
+$PD_294:
+$PD_295:
+$PD_296:
+  .b f 75 64 69 76 34 20 3a 20 25 75 30 20 2f 20 25 75
+  .b 1 30 0a
+$PD_297:
+$PD_298:
+$PD_299:
+$PD_300:
+$PD_301:
+$PD_302:
+$PD_303:
+$PD_304:
+$PD_305:
+$PD_306:
+  .b f 64 69 76 34 20 20 3a 20 25 64 30 20 2f 20 25 64
+  .b 1 30 0a
+$PD_307:
+$PD_308:
+$PD_309:
+  .b f 75 64 69 76 32 20 3a 20 25 75 30 20 2f 20 25 75
+  .b 1 30 0a
+$PD_310:
+$PD_311:
+$PD_312:
+  .b f 64 69 76 32 20 20 3a 20 25 64 30 20 2f 20 25 64
+  .b 1 30 0a
+$PD_36:
+$PD_37:
+$PD_38:
+$PD_39:
+$PD_40:
+$PD_41:
+$PD_42:
+$PD_43:
+$PD_44:
+$PD_45:
+$PD_46:
+$PD_47:
+$PD_48:
+$PD_49:
+$PD_50:
+$PD_51:
+$PD_52:
+$PD_53:
+  .b 9 25 66 38 20 2a 20 25 66 38 0a
+$PD_54:
+$PD_55:
+$PD_56:
+$PD_57:
+$PD_58:
+$PD_59:
+$PD_60:
+$PD_61:
+$PD_62:
+$PD_63:
+$PD_64:
 $PD_65:
 $PD_66:
 $PD_67:
@@ -145,11 +358,10 @@ $PD_68:
 $PD_69:
 $PD_70:
 $PD_71:
+  .b 9 25 66 38 20 2f 20 25 66 38 0a
 $PD_72:
 $PD_73:
 $PD_74:
-  .b f 75 64 69 76 34 20 3a 20 25 75 30 20 2f 20 25 75
-  .b 1 30 0a
 $PD_75:
 $PD_76:
 $PD_77:
@@ -160,21 +372,31 @@ $PD_81:
 $PD_82:
 $PD_83:
 $PD_84:
-  .b f 64 69 76 34 20 20 3a 20 25 64 30 20 2f 20 25 64
-  .b 1 30 0a
-$PD_8:
-$PD_9:
-  .b e 24 6d 6f 64 28 25 66 38 2c 20 25 66 38 29 0a
 $PD_85:
 $PD_86:
 $PD_87:
-  .b f 75 64 69 76 32 20 3a 20 25 75 30 20 2f 20 25 75
-  .b 1 30 0a
 $PD_88:
 $PD_89:
+  .b e 24 6d 6f 64 28 25 66 38 2c 20 25 66 38 29 0a
 $PD_90:
-  .b f 64 69 76 32 20 20 3a 20 25 64 30 20 2f 20 25 64
-  .b 1 30 0a
+$PD_100:
+$PD_101:
+$PD_102:
+$PD_103:
+$PD_104:
+$PD_105:
+$PD_106:
+$PD_107:
+$PD_91:
+$PD_92:
+$PD_93:
+$PD_94:
+$PD_95:
+$PD_96:
+$PD_97:
+$PD_98:
+$PD_99:
+  .b e 24 70 6f 77 28 25 66 38 2c 20 25 66 38 29 0a
 
 $globinit:
   .file <internal>.abc
@@ -187,17 +409,14 @@ bench_math:
   push4 925353388
   .line 17
   p0000
-  .line 18
-  dup
-$L_bench_math_2:
   .line 20
   push4 966609234
   .line 21
   p0
-$L_bench_math_6:
+$L_bench_math_17:
   .line 23
   getl4 5
-  getl4 18
+  getl4 17
   p0
   p1
   push2 2560
@@ -206,10 +425,10 @@ $L_bench_math_6:
   .line 24
   sys   debug_break
   .line 25
-  getl4 14
+  getl4 13
   getl4 9
   fadd
-  setl4 10
+  setl4 9
   .line 26
   sys   debug_break
   .line 27
@@ -222,36 +441,146 @@ $L_bench_math_6:
   dup
   p4
   cult
-  bnz   $L_bench_math_6
+  bnz   $L_bench_math_17
   pop
   .line 29
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 18
+  .line 20
+  push4 966609234
+  .line 21
+  p0
+$L_bench_math_22:
+  .line 23
+  getl4 5
+  getl4 17
+  p0
+  p1
+  push2 2560
+  p00
+  sys   debug_printf
+  .line 24
+  sys   debug_break
+  .line 25
+  getl4 13
+  getl4 9
+  fadd
+  setl4 9
+  .line 26
+  sys   debug_break
+  .line 27
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 21
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_2
-  popn  9
+  bnz   $L_bench_math_22
+  pop
+  .line 29
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 20
+  push4 966609234
+  .line 21
+  p0
+$L_bench_math_27:
+  .line 23
+  getl4 5
+  getl4 17
+  p0
+  p1
+  push2 2560
+  p00
+  sys   debug_printf
+  .line 24
+  sys   debug_break
+  .line 25
+  getl4 13
+  getl4 9
+  fadd
+  setl4 9
+  .line 26
+  sys   debug_break
+  .line 27
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 21
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_27
+  pop
+  .line 29
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 20
+  push4 966609234
+  .line 21
+  p0
+$L_bench_math_32:
+  .line 23
+  getl4 5
+  getl4 17
+  p0
+  p1
+  push2 2560
+  p00
+  sys   debug_printf
+  .line 24
+  sys   debug_break
+  .line 25
+  getl4 13
+  getl4 9
+  fadd
+  setl4 9
+  .line 26
+  sys   debug_break
+  .line 27
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 21
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_32
+  pop
+  .line 29
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 34
   push4 3072837036
   .line 35
   p0000
-  .line 36
-  dup
-$L_bench_math_10:
   .line 38
   push4 966609234
   .line 39
   p0
-$L_bench_math_14:
+$L_bench_math_51:
   .line 41
   getl4 5
-  getl4 18
+  getl4 17
   p0
   p1
   push2 2560
@@ -260,10 +589,10 @@ $L_bench_math_14:
   .line 42
   sys   debug_break
   .line 43
-  getl4 14
+  getl4 13
   getl4 9
   fadd
-  setl4 10
+  setl4 9
   .line 44
   sys   debug_break
   .line 45
@@ -276,46 +605,156 @@ $L_bench_math_14:
   dup
   p4
   cult
-  bnz   $L_bench_math_14
+  bnz   $L_bench_math_51
   pop
   .line 47
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 36
+  .line 38
+  push4 966609234
+  .line 39
+  p0
+$L_bench_math_56:
+  .line 41
+  getl4 5
+  getl4 17
+  p0
+  p1
+  push2 2560
+  p00
+  sys   debug_printf
+  .line 42
+  sys   debug_break
+  .line 43
+  getl4 13
+  getl4 9
+  fadd
+  setl4 9
+  .line 44
+  sys   debug_break
+  .line 45
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 39
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_10
-  popn  9
+  bnz   $L_bench_math_56
+  pop
+  .line 47
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 38
+  push4 966609234
+  .line 39
+  p0
+$L_bench_math_61:
+  .line 41
+  getl4 5
+  getl4 17
+  p0
+  p1
+  push2 2560
+  p00
+  sys   debug_printf
+  .line 42
+  sys   debug_break
+  .line 43
+  getl4 13
+  getl4 9
+  fadd
+  setl4 9
+  .line 44
+  sys   debug_break
+  .line 45
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 39
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_61
+  pop
+  .line 47
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 38
+  push4 966609234
+  .line 39
+  p0
+$L_bench_math_66:
+  .line 41
+  getl4 5
+  getl4 17
+  p0
+  p1
+  push2 2560
+  p00
+  sys   debug_printf
+  .line 42
+  sys   debug_break
+  .line 43
+  getl4 13
+  getl4 9
+  fadd
+  setl4 9
+  .line 44
+  sys   debug_break
+  .line 45
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 39
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_66
+  pop
+  .line 47
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 52
   push4 925353388
   .line 53
   p0000
-  .line 54
-  dup
-$L_bench_math_18:
   .line 56
   push4 966609234
   .line 57
   p0
-$L_bench_math_22:
+$L_bench_math_85:
   .line 59
   getl4 5
-  getl4 18
-  push4 167772522
+  getl4 17
+  push4 167772496
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 14
+  getl4 13
   getl4 9
   fsub
-  setl4 10
+  setl4 9
   .line 62
   sys   debug_break
   .line 63
@@ -328,46 +767,150 @@ $L_bench_math_22:
   dup
   p4
   cult
-  bnz   $L_bench_math_22
+  bnz   $L_bench_math_85
   pop
   .line 65
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 54
+  .line 56
+  push4 966609234
+  .line 57
+  p0
+$L_bench_math_90:
+  .line 59
+  getl4 5
+  getl4 17
+  push4 167772496
+  p00
+  sys   debug_printf
+  .line 60
+  sys   debug_break
+  .line 61
+  getl4 13
+  getl4 9
+  fsub
+  setl4 9
+  .line 62
+  sys   debug_break
+  .line 63
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 57
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_18
-  popn  9
+  bnz   $L_bench_math_90
+  pop
+  .line 65
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 56
+  push4 966609234
+  .line 57
+  p0
+$L_bench_math_95:
+  .line 59
+  getl4 5
+  getl4 17
+  push4 167772496
+  p00
+  sys   debug_printf
+  .line 60
+  sys   debug_break
+  .line 61
+  getl4 13
+  getl4 9
+  fsub
+  setl4 9
+  .line 62
+  sys   debug_break
+  .line 63
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 57
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_95
+  pop
+  .line 65
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 56
+  push4 966609234
+  .line 57
+  p0
+$L_bench_math_100:
+  .line 59
+  getl4 5
+  getl4 17
+  push4 167772496
+  p00
+  sys   debug_printf
+  .line 60
+  sys   debug_break
+  .line 61
+  getl4 13
+  getl4 9
+  fsub
+  setl4 9
+  .line 62
+  sys   debug_break
+  .line 63
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 57
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_100
+  pop
+  .line 65
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 70
   push4 3072837036
   .line 71
   p0000
-  .line 72
-  dup
-$L_bench_math_26:
   .line 74
   push4 966609234
   .line 75
   p0
-$L_bench_math_30:
+$L_bench_math_119:
   .line 77
   getl4 5
-  getl4 18
-  push4 167772522
+  getl4 17
+  push4 167772496
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 14
+  getl4 13
   getl4 9
   fsub
-  setl4 10
+  setl4 9
   .line 80
   sys   debug_break
   .line 81
@@ -380,46 +923,150 @@ $L_bench_math_30:
   dup
   p4
   cult
-  bnz   $L_bench_math_30
+  bnz   $L_bench_math_119
   pop
   .line 83
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 72
+  .line 74
+  push4 966609234
+  .line 75
+  p0
+$L_bench_math_124:
+  .line 77
+  getl4 5
+  getl4 17
+  push4 167772496
+  p00
+  sys   debug_printf
+  .line 78
+  sys   debug_break
+  .line 79
+  getl4 13
+  getl4 9
+  fsub
+  setl4 9
+  .line 80
+  sys   debug_break
+  .line 81
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 75
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_26
-  popn  9
+  bnz   $L_bench_math_124
+  pop
+  .line 83
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 74
+  push4 966609234
+  .line 75
+  p0
+$L_bench_math_129:
+  .line 77
+  getl4 5
+  getl4 17
+  push4 167772496
+  p00
+  sys   debug_printf
+  .line 78
+  sys   debug_break
+  .line 79
+  getl4 13
+  getl4 9
+  fsub
+  setl4 9
+  .line 80
+  sys   debug_break
+  .line 81
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 75
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_129
+  pop
+  .line 83
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 74
+  push4 966609234
+  .line 75
+  p0
+$L_bench_math_134:
+  .line 77
+  getl4 5
+  getl4 17
+  push4 167772496
+  p00
+  sys   debug_printf
+  .line 78
+  sys   debug_break
+  .line 79
+  getl4 13
+  getl4 9
+  fsub
+  setl4 9
+  .line 80
+  sys   debug_break
+  .line 81
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 75
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_134
+  pop
+  .line 83
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 88
   push4 925353388
   .line 89
   p0000
-  .line 90
-  dup
-$L_bench_math_34:
   .line 92
   push4 966609234
   .line 93
   p0
-$L_bench_math_38:
+$L_bench_math_153:
   .line 95
   getl4 5
-  getl4 18
-  push4 167772795
+  getl4 17
+  push4 167773338
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 14
+  getl4 13
   getl4 9
   fmul
-  setl4 10
+  setl4 9
   .line 98
   sys   debug_break
   .line 99
@@ -432,46 +1079,150 @@ $L_bench_math_38:
   dup
   p4
   cult
-  bnz   $L_bench_math_38
+  bnz   $L_bench_math_153
   pop
   .line 101
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 90
+  .line 92
+  push4 966609234
+  .line 93
+  p0
+$L_bench_math_158:
+  .line 95
+  getl4 5
+  getl4 17
+  push4 167773338
+  p00
+  sys   debug_printf
+  .line 96
+  sys   debug_break
+  .line 97
+  getl4 13
+  getl4 9
+  fmul
+  setl4 9
+  .line 98
+  sys   debug_break
+  .line 99
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 93
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_34
-  popn  9
+  bnz   $L_bench_math_158
+  pop
+  .line 101
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 92
+  push4 966609234
+  .line 93
+  p0
+$L_bench_math_163:
+  .line 95
+  getl4 5
+  getl4 17
+  push4 167773338
+  p00
+  sys   debug_printf
+  .line 96
+  sys   debug_break
+  .line 97
+  getl4 13
+  getl4 9
+  fmul
+  setl4 9
+  .line 98
+  sys   debug_break
+  .line 99
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 93
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_163
+  pop
+  .line 101
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 92
+  push4 966609234
+  .line 93
+  p0
+$L_bench_math_168:
+  .line 95
+  getl4 5
+  getl4 17
+  push4 167773338
+  p00
+  sys   debug_printf
+  .line 96
+  sys   debug_break
+  .line 97
+  getl4 13
+  getl4 9
+  fmul
+  setl4 9
+  .line 98
+  sys   debug_break
+  .line 99
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 93
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_168
+  pop
+  .line 101
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 106
   push4 3072837036
   .line 107
   p0000
-  .line 108
-  dup
-$L_bench_math_42:
   .line 110
   push4 966609234
   .line 111
   p0
-$L_bench_math_46:
+$L_bench_math_187:
   .line 113
   getl4 5
-  getl4 18
-  push4 167772795
+  getl4 17
+  push4 167773338
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 14
+  getl4 13
   getl4 9
   fmul
-  setl4 10
+  setl4 9
   .line 116
   sys   debug_break
   .line 117
@@ -484,46 +1235,150 @@ $L_bench_math_46:
   dup
   p4
   cult
-  bnz   $L_bench_math_46
+  bnz   $L_bench_math_187
   pop
   .line 119
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 108
+  .line 110
+  push4 966609234
+  .line 111
+  p0
+$L_bench_math_192:
+  .line 113
+  getl4 5
+  getl4 17
+  push4 167773338
+  p00
+  sys   debug_printf
+  .line 114
+  sys   debug_break
+  .line 115
+  getl4 13
+  getl4 9
+  fmul
+  setl4 9
+  .line 116
+  sys   debug_break
+  .line 117
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 111
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_42
-  popn  9
+  bnz   $L_bench_math_192
+  pop
+  .line 119
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 110
+  push4 966609234
+  .line 111
+  p0
+$L_bench_math_197:
+  .line 113
+  getl4 5
+  getl4 17
+  push4 167773338
+  p00
+  sys   debug_printf
+  .line 114
+  sys   debug_break
+  .line 115
+  getl4 13
+  getl4 9
+  fmul
+  setl4 9
+  .line 116
+  sys   debug_break
+  .line 117
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 111
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_197
+  pop
+  .line 119
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 110
+  push4 966609234
+  .line 111
+  p0
+$L_bench_math_202:
+  .line 113
+  getl4 5
+  getl4 17
+  push4 167773338
+  p00
+  sys   debug_printf
+  .line 114
+  sys   debug_break
+  .line 115
+  getl4 13
+  getl4 9
+  fmul
+  setl4 9
+  .line 116
+  sys   debug_break
+  .line 117
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 111
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_202
+  pop
+  .line 119
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 124
   push4 925353388
   .line 125
   p0000
-  .line 126
-  dup
-$L_bench_math_50:
   .line 128
   push4 966609234
   .line 129
   p0
-$L_bench_math_54:
+$L_bench_math_221:
   .line 131
   getl4 5
-  getl4 18
-  push4 167773070
+  getl4 17
+  push4 167773348
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 14
+  getl4 13
   getl4 9
   fdiv
-  setl4 10
+  setl4 9
   .line 134
   sys   debug_break
   .line 135
@@ -536,46 +1391,150 @@ $L_bench_math_54:
   dup
   p4
   cult
-  bnz   $L_bench_math_54
+  bnz   $L_bench_math_221
   pop
   .line 137
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 126
+  .line 128
+  push4 966609234
+  .line 129
+  p0
+$L_bench_math_226:
+  .line 131
+  getl4 5
+  getl4 17
+  push4 167773348
+  p00
+  sys   debug_printf
+  .line 132
+  sys   debug_break
+  .line 133
+  getl4 13
+  getl4 9
+  fdiv
+  setl4 9
+  .line 134
+  sys   debug_break
+  .line 135
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 129
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_50
-  popn  9
+  bnz   $L_bench_math_226
+  pop
+  .line 137
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 128
+  push4 966609234
+  .line 129
+  p0
+$L_bench_math_231:
+  .line 131
+  getl4 5
+  getl4 17
+  push4 167773348
+  p00
+  sys   debug_printf
+  .line 132
+  sys   debug_break
+  .line 133
+  getl4 13
+  getl4 9
+  fdiv
+  setl4 9
+  .line 134
+  sys   debug_break
+  .line 135
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 129
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_231
+  pop
+  .line 137
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 128
+  push4 966609234
+  .line 129
+  p0
+$L_bench_math_236:
+  .line 131
+  getl4 5
+  getl4 17
+  push4 167773348
+  p00
+  sys   debug_printf
+  .line 132
+  sys   debug_break
+  .line 133
+  getl4 13
+  getl4 9
+  fdiv
+  setl4 9
+  .line 134
+  sys   debug_break
+  .line 135
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 129
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_236
+  pop
+  .line 137
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 142
   push4 3072837036
   .line 143
   p0000
-  .line 144
-  dup
-$L_bench_math_58:
   .line 146
   push4 966609234
   .line 147
   p0
-$L_bench_math_62:
+$L_bench_math_255:
   .line 149
   getl4 5
-  getl4 18
-  push4 167773070
+  getl4 17
+  push4 167773348
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 14
+  getl4 13
   getl4 9
   fdiv
-  setl4 10
+  setl4 9
   .line 152
   sys   debug_break
   .line 153
@@ -588,46 +1547,150 @@ $L_bench_math_62:
   dup
   p4
   cult
-  bnz   $L_bench_math_62
+  bnz   $L_bench_math_255
   pop
   .line 155
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 144
+  .line 146
+  push4 966609234
+  .line 147
+  p0
+$L_bench_math_260:
+  .line 149
+  getl4 5
+  getl4 17
+  push4 167773348
+  p00
+  sys   debug_printf
+  .line 150
+  sys   debug_break
+  .line 151
+  getl4 13
+  getl4 9
+  fdiv
+  setl4 9
+  .line 152
+  sys   debug_break
+  .line 153
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 147
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_58
-  popn  9
+  bnz   $L_bench_math_260
+  pop
+  .line 155
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 146
+  push4 966609234
+  .line 147
+  p0
+$L_bench_math_265:
+  .line 149
+  getl4 5
+  getl4 17
+  push4 167773348
+  p00
+  sys   debug_printf
+  .line 150
+  sys   debug_break
+  .line 151
+  getl4 13
+  getl4 9
+  fdiv
+  setl4 9
+  .line 152
+  sys   debug_break
+  .line 153
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 147
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_265
+  pop
+  .line 155
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 146
+  push4 966609234
+  .line 147
+  p0
+$L_bench_math_270:
+  .line 149
+  getl4 5
+  getl4 17
+  push4 167773348
+  p00
+  sys   debug_printf
+  .line 150
+  sys   debug_break
+  .line 151
+  getl4 13
+  getl4 9
+  fdiv
+  setl4 9
+  .line 152
+  sys   debug_break
+  .line 153
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 147
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_270
+  pop
+  .line 155
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 160
   push4 925353388
   .line 161
   p0000
-  .line 162
-  dup
-$L_bench_math_66:
   .line 164
   push4 966609234
   .line 165
   p0
-$L_bench_math_70:
+$L_bench_math_289:
   .line 167
   getl4 5
-  getl4 18
-  push4 251659417
+  getl4 17
+  push4 251659438
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
   getl4 5
-  getl4 18
+  getl4 17
   sys   mod
-  setl4 10
+  setl4 9
   .line 170
   sys   debug_break
   .line 171
@@ -640,46 +1703,150 @@ $L_bench_math_70:
   dup
   p4
   cult
-  bnz   $L_bench_math_70
+  bnz   $L_bench_math_289
   pop
   .line 173
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 162
+  .line 164
+  push4 966609234
+  .line 165
+  p0
+$L_bench_math_294:
+  .line 167
+  getl4 5
+  getl4 17
+  push4 251659438
+  p00
+  sys   debug_printf
+  .line 168
+  sys   debug_break
+  .line 169
+  getl4 5
+  getl4 17
+  sys   mod
+  setl4 9
+  .line 170
+  sys   debug_break
+  .line 171
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 165
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_66
-  popn  9
+  bnz   $L_bench_math_294
+  pop
+  .line 173
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 164
+  push4 966609234
+  .line 165
+  p0
+$L_bench_math_299:
+  .line 167
+  getl4 5
+  getl4 17
+  push4 251659438
+  p00
+  sys   debug_printf
+  .line 168
+  sys   debug_break
+  .line 169
+  getl4 5
+  getl4 17
+  sys   mod
+  setl4 9
+  .line 170
+  sys   debug_break
+  .line 171
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 165
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_299
+  pop
+  .line 173
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 164
+  push4 966609234
+  .line 165
+  p0
+$L_bench_math_304:
+  .line 167
+  getl4 5
+  getl4 17
+  push4 251659438
+  p00
+  sys   debug_printf
+  .line 168
+  sys   debug_break
+  .line 169
+  getl4 5
+  getl4 17
+  sys   mod
+  setl4 9
+  .line 170
+  sys   debug_break
+  .line 171
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 165
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_304
+  pop
+  .line 173
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 178
   push4 3072837036
   .line 179
   p0000
-  .line 180
-  dup
-$L_bench_math_74:
   .line 182
   push4 966609234
   .line 183
   p0
-$L_bench_math_78:
+$L_bench_math_323:
   .line 185
   getl4 5
-  getl4 18
-  push4 251659417
+  getl4 17
+  push4 251659438
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
   getl4 5
-  getl4 18
+  getl4 17
   sys   mod
-  setl4 10
+  setl4 9
   .line 188
   sys   debug_break
   .line 189
@@ -692,46 +1859,150 @@ $L_bench_math_78:
   dup
   p4
   cult
-  bnz   $L_bench_math_78
+  bnz   $L_bench_math_323
   pop
   .line 191
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 180
+  .line 182
+  push4 966609234
+  .line 183
+  p0
+$L_bench_math_328:
+  .line 185
+  getl4 5
+  getl4 17
+  push4 251659438
+  p00
+  sys   debug_printf
+  .line 186
+  sys   debug_break
+  .line 187
+  getl4 5
+  getl4 17
+  sys   mod
+  setl4 9
+  .line 188
+  sys   debug_break
+  .line 189
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 183
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_74
-  popn  9
+  bnz   $L_bench_math_328
+  pop
+  .line 191
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 182
+  push4 966609234
+  .line 183
+  p0
+$L_bench_math_333:
+  .line 185
+  getl4 5
+  getl4 17
+  push4 251659438
+  p00
+  sys   debug_printf
+  .line 186
+  sys   debug_break
+  .line 187
+  getl4 5
+  getl4 17
+  sys   mod
+  setl4 9
+  .line 188
+  sys   debug_break
+  .line 189
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 183
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_333
+  pop
+  .line 191
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 182
+  push4 966609234
+  .line 183
+  p0
+$L_bench_math_338:
+  .line 185
+  getl4 5
+  getl4 17
+  push4 251659438
+  p00
+  sys   debug_printf
+  .line 186
+  sys   debug_break
+  .line 187
+  getl4 5
+  getl4 17
+  sys   mod
+  setl4 9
+  .line 188
+  sys   debug_break
+  .line 189
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 183
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_338
+  pop
+  .line 191
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 196
   push4 925353388
   .line 197
   p0000
-  .line 198
-  dup
-$L_bench_math_82:
   .line 200
   push4 966609234
   .line 201
   p0
-$L_bench_math_86:
+$L_bench_math_357:
   .line 203
   getl4 5
-  getl4 18
-  push4 251658506
+  getl4 17
+  push4 251659453
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
   getl4 5
-  getl4 18
+  getl4 17
   sys   pow
-  setl4 10
+  setl4 9
   .line 206
   sys   debug_break
   .line 207
@@ -744,46 +2015,150 @@ $L_bench_math_86:
   dup
   p4
   cult
-  bnz   $L_bench_math_86
+  bnz   $L_bench_math_357
   pop
   .line 209
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 198
+  .line 200
+  push4 966609234
+  .line 201
+  p0
+$L_bench_math_362:
+  .line 203
+  getl4 5
+  getl4 17
+  push4 251659453
+  p00
+  sys   debug_printf
+  .line 204
+  sys   debug_break
+  .line 205
+  getl4 5
+  getl4 17
+  sys   pow
+  setl4 9
+  .line 206
+  sys   debug_break
+  .line 207
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 201
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_82
-  popn  9
+  bnz   $L_bench_math_362
+  pop
+  .line 209
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 200
+  push4 966609234
+  .line 201
+  p0
+$L_bench_math_367:
+  .line 203
+  getl4 5
+  getl4 17
+  push4 251659453
+  p00
+  sys   debug_printf
+  .line 204
+  sys   debug_break
+  .line 205
+  getl4 5
+  getl4 17
+  sys   pow
+  setl4 9
+  .line 206
+  sys   debug_break
+  .line 207
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 201
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_367
+  pop
+  .line 209
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 200
+  push4 966609234
+  .line 201
+  p0
+$L_bench_math_372:
+  .line 203
+  getl4 5
+  getl4 17
+  push4 251659453
+  p00
+  sys   debug_printf
+  .line 204
+  sys   debug_break
+  .line 205
+  getl4 5
+  getl4 17
+  sys   pow
+  setl4 9
+  .line 206
+  sys   debug_break
+  .line 207
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 201
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_372
+  pop
+  .line 209
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 214
   push4 925353388
   .line 215
   p0000
-  .line 216
-  dup
-$L_bench_math_90:
   .line 218
   push4 3114092882
   .line 219
   p0
-$L_bench_math_94:
+$L_bench_math_391:
   .line 221
   getl4 5
-  getl4 18
-  push4 251658506
+  getl4 17
+  push4 251659453
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
   getl4 5
-  getl4 18
+  getl4 17
   sys   pow
-  setl4 10
+  setl4 9
   .line 224
   sys   debug_break
   .line 225
@@ -796,46 +2171,150 @@ $L_bench_math_94:
   dup
   p4
   cult
-  bnz   $L_bench_math_94
+  bnz   $L_bench_math_391
   pop
   .line 227
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 216
+  .line 218
+  push4 3114092882
+  .line 219
+  p0
+$L_bench_math_396:
+  .line 221
+  getl4 5
+  getl4 17
+  push4 251659453
+  p00
+  sys   debug_printf
+  .line 222
+  sys   debug_break
+  .line 223
+  getl4 5
+  getl4 17
+  sys   pow
+  setl4 9
+  .line 224
+  sys   debug_break
+  .line 225
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 219
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_90
-  popn  9
+  bnz   $L_bench_math_396
+  pop
+  .line 227
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 218
+  push4 3114092882
+  .line 219
+  p0
+$L_bench_math_401:
+  .line 221
+  getl4 5
+  getl4 17
+  push4 251659453
+  p00
+  sys   debug_printf
+  .line 222
+  sys   debug_break
+  .line 223
+  getl4 5
+  getl4 17
+  sys   pow
+  setl4 9
+  .line 224
+  sys   debug_break
+  .line 225
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 219
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_401
+  pop
+  .line 227
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 218
+  push4 3114092882
+  .line 219
+  p0
+$L_bench_math_406:
+  .line 221
+  getl4 5
+  getl4 17
+  push4 251659453
+  p00
+  sys   debug_printf
+  .line 222
+  sys   debug_break
+  .line 223
+  getl4 5
+  getl4 17
+  sys   pow
+  setl4 9
+  .line 224
+  sys   debug_break
+  .line 225
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 219
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_406
+  pop
+  .line 227
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 232
   push4 925353388
   .line 233
   p0000
-  .line 234
-  dup
-$L_bench_math_98:
   .line 236
   push4 966609234
   .line 237
   p0
-$L_bench_math_102:
+$L_bench_math_425:
   .line 239
   getl4 5
-  getl4 18
-  push4 285212953
+  getl4 17
+  push4 285212938
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
   getl4 5
-  getl4 18
+  getl4 17
   sys   atan2
-  setl4 10
+  setl4 9
   .line 242
   sys   debug_break
   .line 243
@@ -848,46 +2327,150 @@ $L_bench_math_102:
   dup
   p4
   cult
-  bnz   $L_bench_math_102
+  bnz   $L_bench_math_425
   pop
   .line 245
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 234
+  .line 236
+  push4 966609234
+  .line 237
+  p0
+$L_bench_math_430:
+  .line 239
+  getl4 5
+  getl4 17
+  push4 285212938
+  p00
+  sys   debug_printf
+  .line 240
+  sys   debug_break
+  .line 241
+  getl4 5
+  getl4 17
+  sys   atan2
+  setl4 9
+  .line 242
+  sys   debug_break
+  .line 243
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 237
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_98
-  popn  9
+  bnz   $L_bench_math_430
+  pop
+  .line 245
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 236
+  push4 966609234
+  .line 237
+  p0
+$L_bench_math_435:
+  .line 239
+  getl4 5
+  getl4 17
+  push4 285212938
+  p00
+  sys   debug_printf
+  .line 240
+  sys   debug_break
+  .line 241
+  getl4 5
+  getl4 17
+  sys   atan2
+  setl4 9
+  .line 242
+  sys   debug_break
+  .line 243
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 237
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_435
+  pop
+  .line 245
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 236
+  push4 966609234
+  .line 237
+  p0
+$L_bench_math_440:
+  .line 239
+  getl4 5
+  getl4 17
+  push4 285212938
+  p00
+  sys   debug_printf
+  .line 240
+  sys   debug_break
+  .line 241
+  getl4 5
+  getl4 17
+  sys   atan2
+  setl4 9
+  .line 242
+  sys   debug_break
+  .line 243
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 237
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_440
+  pop
+  .line 245
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 250
   push4 3072837036
   .line 251
   p0000
-  .line 252
-  dup
-$L_bench_math_106:
   .line 254
   push4 966609234
   .line 255
   p0
-$L_bench_math_110:
+$L_bench_math_459:
   .line 257
   getl4 5
-  getl4 18
-  push4 285212953
+  getl4 17
+  push4 285212938
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
   getl4 5
-  getl4 18
+  getl4 17
   sys   atan2
-  setl4 10
+  setl4 9
   .line 260
   sys   debug_break
   .line 261
@@ -900,261 +2483,1500 @@ $L_bench_math_110:
   dup
   p4
   cult
-  bnz   $L_bench_math_110
+  bnz   $L_bench_math_459
   pop
   .line 263
-  getl4 13
+  getl4 12
   push4 1152098304
   fmul
-  setl4 13
+  setl4 12
   pop4
-  .line 252
+  .line 254
+  push4 966609234
+  .line 255
+  p0
+$L_bench_math_464:
+  .line 257
+  getl4 5
+  getl4 17
+  push4 285212938
+  p00
+  sys   debug_printf
+  .line 258
+  sys   debug_break
+  .line 259
+  getl4 5
+  getl4 17
+  sys   atan2
+  setl4 9
+  .line 260
+  sys   debug_break
+  .line 261
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 255
   inc
   dup
   p4
   cult
-  bnz   $L_bench_math_106
-  popn  9
+  bnz   $L_bench_math_464
+  pop
+  .line 263
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 254
+  push4 966609234
+  .line 255
+  p0
+$L_bench_math_469:
+  .line 257
+  getl4 5
+  getl4 17
+  push4 285212938
+  p00
+  sys   debug_printf
+  .line 258
+  sys   debug_break
+  .line 259
+  getl4 5
+  getl4 17
+  sys   atan2
+  setl4 9
+  .line 260
+  sys   debug_break
+  .line 261
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 255
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_469
+  pop
+  .line 263
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 254
+  push4 966609234
+  .line 255
+  p0
+$L_bench_math_474:
+  .line 257
+  getl4 5
+  getl4 17
+  push4 285212938
+  p00
+  sys   debug_printf
+  .line 258
+  sys   debug_break
+  .line 259
+  getl4 5
+  getl4 17
+  sys   atan2
+  setl4 9
+  .line 260
+  sys   debug_break
+  .line 261
+  getl4 5
+  push4 1152098304
+  fmul
+  setl4 5
+  .line 255
+  inc
+  dup
+  p4
+  cult
+  bnz   $L_bench_math_474
+  pop
+  .line 263
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  popn  12
   .line 268
   push4 841731191
   .line 269
   p0000
-  .line 270
-  dup
-$L_bench_math_114:
   .line 272
-  getl4 9
-  push4 167772458
+  getl4 8
+  push4 167772443
   p00
   sys   debug_printf
   .line 273
   sys   debug_break
   .line 274
-  getl4 9
+  getl4 8
   sys   sin
-  setl4 5
+  setl4 4
   .line 275
   sys   debug_break
   .line 276
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 270
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_114
-  popn  9
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 272
+  getl4 8
+  push4 167772443
+  p00
+  sys   debug_printf
+  .line 273
+  sys   debug_break
+  .line 274
+  getl4 8
+  sys   sin
+  setl4 4
+  .line 275
+  sys   debug_break
+  .line 276
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 281
   push4 841731191
   .line 282
   p0000
-  .line 283
-  dup
-$L_bench_math_118:
   .line 285
-  getl4 9
-  push4 167772468
+  getl4 8
+  push4 167772453
   p00
   sys   debug_printf
   .line 286
   sys   debug_break
   .line 287
-  getl4 9
+  getl4 8
   sys   cos
-  setl4 5
+  setl4 4
   .line 288
   sys   debug_break
   .line 289
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 283
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_118
-  popn  9
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 285
+  getl4 8
+  push4 167772453
+  p00
+  sys   debug_printf
+  .line 286
+  sys   debug_break
+  .line 287
+  getl4 8
+  sys   cos
+  setl4 4
+  .line 288
+  sys   debug_break
+  .line 289
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 294
   push4 841731191
   .line 295
   p0000
-  .line 296
-  dup
-$L_bench_math_122:
   .line 298
-  getl4 9
-  push4 167772478
+  getl4 8
+  push4 167772463
   p00
   sys   debug_printf
   .line 299
   sys   debug_break
   .line 300
-  getl4 9
+  getl4 8
   sys   tan
-  setl4 5
+  setl4 4
   .line 301
   sys   debug_break
   .line 302
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 296
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_122
-  popn  9
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 298
+  getl4 8
+  push4 167772463
+  p00
+  sys   debug_printf
+  .line 299
+  sys   debug_break
+  .line 300
+  getl4 8
+  sys   tan
+  setl4 4
+  .line 301
+  sys   debug_break
+  .line 302
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 307
   push4 841731191
   .line 308
   p0000
-  .line 309
-  dup
-$L_bench_math_126:
   .line 311
-  getl4 9
-  push4 184549704
+  getl4 8
+  push4 184549689
   p00
   sys   debug_printf
   .line 312
   sys   debug_break
   .line 313
-  getl4 9
+  getl4 8
   sys   sqrt
-  setl4 5
+  setl4 4
   .line 314
   sys   debug_break
   .line 315
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 309
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_126
-  popn  9
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 311
+  getl4 8
+  push4 184549689
+  p00
+  sys   debug_printf
+  .line 312
+  sys   debug_break
+  .line 313
+  getl4 8
+  sys   sqrt
+  setl4 4
+  .line 314
+  sys   debug_break
+  .line 315
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 320
   push4 841731191
   .line 321
   p0000
-  .line 322
-  dup
-$L_bench_math_130:
   .line 324
-  getl4 9
-  push4 201326931
+  getl4 8
+  push4 201326916
   p00
   sys   debug_printf
   .line 325
   sys   debug_break
   .line 326
-  getl4 9
+  getl4 8
   sys   floor
-  setl4 5
+  setl4 4
   .line 327
   sys   debug_break
   .line 328
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 322
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_130
-  popn  9
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 324
+  getl4 8
+  push4 201326916
+  p00
+  sys   debug_printf
+  .line 325
+  sys   debug_break
+  .line 326
+  getl4 8
+  sys   floor
+  setl4 4
+  .line 327
+  sys   debug_break
+  .line 328
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 333
   push4 841731191
   .line 334
   p0000
-  .line 335
-  dup
-$L_bench_math_134:
   .line 337
-  getl4 9
-  push4 184549727
+  getl4 8
+  push4 184549722
   p00
   sys   debug_printf
   .line 338
   sys   debug_break
   .line 339
-  getl4 9
+  getl4 8
   sys   ceil
-  setl4 5
+  setl4 4
   .line 340
   sys   debug_break
   .line 341
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 335
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_134
-  popn  9
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 337
+  getl4 8
+  push4 184549722
+  p00
+  sys   debug_printf
+  .line 338
+  sys   debug_break
+  .line 339
+  getl4 8
+  sys   ceil
+  setl4 4
+  .line 340
+  sys   debug_break
+  .line 341
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 346
   push4 841731191
   .line 347
   p0000
-  .line 348
-  dup
-$L_bench_math_138:
   .line 350
-  getl4 9
-  push4 201326964
+  getl4 8
+  push4 201326949
   p00
   sys   debug_printf
   .line 351
   sys   debug_break
   .line 352
-  getl4 9
+  getl4 8
   sys   round
-  setl4 5
+  setl4 4
   .line 353
   sys   debug_break
   .line 354
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 348
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_bench_math_138
-  popn  9
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 350
+  getl4 8
+  push4 201326949
+  p00
+  sys   debug_printf
+  .line 351
+  sys   debug_break
+  .line 352
+  getl4 8
+  sys   round
+  setl4 4
+  .line 353
+  sys   debug_break
+  .line 354
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 1
   ret
 
 main:
   .file main.abc
   .line 5
-  p128
-  p1
-  push2 4864
+  push4 318767473
   p00
   sys   debug_printf
   .line 6
@@ -1162,7 +3984,7 @@ main:
   .line 7
   sys   debug_break
   .line 9
-  push4 184549779
+  push4 184549764
   p00
   sys   debug_printf
   .line 10
@@ -1173,7 +3995,7 @@ main:
   .line 12
   sys   debug_break
   .line 14
-  push4 318767518
+  push4 318767503
   p00
   sys   debug_printf
   .line 15
@@ -1184,7 +4006,7 @@ main:
   .line 17
   sys   debug_break
   .line 19
-  push4 184549809
+  push4 184549794
   p00
   sys   debug_printf
   .line 20
@@ -1194,7 +4016,7 @@ main:
   .line 22
   sys   debug_break
   .line 24
-  push4 318767548
+  push4 318767533
   p00
   sys   debug_printf
   .line 25
@@ -1204,7 +4026,7 @@ main:
   .line 27
   sys   debug_break
   .line 29
-  push4 167772623
+  push4 167772608
   p00
   sys   debug_printf
   .line 30
@@ -1215,7 +4037,7 @@ main:
   .line 32
   sys   debug_break
   .line 34
-  push4 167772633
+  push4 167772618
   p00
   sys   debug_printf
   .line 35
@@ -1229,14 +4051,14 @@ main:
   pz16
   pz16
   .line 42
-  push4 352322019
+  push4 352322004
   p00
   sys   debug_printf
   .line 43
   sys   debug_break
   .line 44
   p0000
-  push4 50332152
+  push4 50332137
   p00
   refl  42
   p32
@@ -1245,7 +4067,7 @@ main:
   .line 45
   sys   debug_break
   .line 47
-  push4 385876475
+  push4 385876460
   p00
   sys   debug_printf
   .line 48
@@ -1253,7 +4075,7 @@ main:
   .line 49
   push  100
   p000
-  push4 50332152
+  push4 50332137
   p00
   refl  42
   p32
@@ -1262,7 +4084,9 @@ main:
   .line 50
   sys   debug_break
   .line 52
-  push4 419430930
+  p3
+  p2
+  push2 6400
   p00
   sys   debug_printf
   .line 53
@@ -1271,7 +4095,7 @@ main:
   p16
   push  39
   p00
-  push4 50332152
+  push4 50332137
   p00
   refl  42
   p32
@@ -1280,14 +4104,14 @@ main:
   .line 55
   sys   debug_break
   .line 57
-  push4 452985387
+  push4 452985372
   p00
   sys   debug_printf
   .line 58
   sys   debug_break
   .line 59
   p64
-  push4 4160753474
+  push4 3909095234
   p1
   p0
   p3
@@ -1299,14 +4123,14 @@ main:
   .line 60
   sys   debug_break
   .line 62
-  push4 486539846
+  push4 486539831
   p00
   sys   debug_printf
   .line 63
   sys   debug_break
   .line 64
   p0
-  push4 4161140193
+  push4 3909481953
   p1
   p0
   p3
@@ -1318,7 +4142,7 @@ main:
   .line 65
   sys   debug_break
   .line 67
-  push4 402653795
+  push4 402653780
   p00
   sys   debug_printf
   .line 68
@@ -1327,7 +4151,7 @@ main:
   push2 65436
   dup
   dup
-  push4 50332152
+  push4 50332137
   p00
   refl  42
   p32
@@ -1336,7 +4160,7 @@ main:
   .line 70
   sys   debug_break
   .line 72
-  push4 436208261
+  push4 436208236
   p00
   sys   debug_printf
   .line 73
@@ -1344,7 +4168,7 @@ main:
   .line 74
   push3 16767216
   dup
-  push4 50332152
+  push4 50332137
   p00
   refl  42
   p32
@@ -1353,14 +4177,14 @@ main:
   .line 75
   sys   debug_break
   .line 77
-  push4 469762719
+  push4 469762694
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
   push4 4293967296
-  push4 50332152
+  push4 50332137
   p00
   refl  42
   p32
@@ -1369,14 +4193,14 @@ main:
   .line 80
   sys   debug_break
   .line 82
-  push4 503317179
+  push4 503317154
   p00
   sys   debug_printf
   .line 83
   sys   debug_break
   .line 84
   p0
-  push4 4177136159
+  push4 3925477919
   p1
   p0
   p3
@@ -1388,14 +4212,14 @@ main:
   .line 85
   sys   debug_break
   .line 87
-  push4 352322265
+  push4 352322240
   p00
   sys   debug_printf
   .line 88
   sys   debug_break
   .line 89
   p0000
-  push4 50332398
+  push4 50332373
   p00
   refl  42
   p32
@@ -1404,7 +4228,7 @@ main:
   .line 90
   sys   debug_break
   .line 92
-  push4 385876721
+  push4 385876696
   p00
   sys   debug_printf
   .line 93
@@ -1412,7 +4236,7 @@ main:
   .line 94
   push  100
   p000
-  push4 50332398
+  push4 50332373
   p00
   refl  42
   p32
@@ -1421,9 +4245,7 @@ main:
   .line 95
   sys   debug_break
   .line 97
-  p8
-  p3
-  push2 6400
+  push4 419431151
   p00
   sys   debug_printf
   .line 98
@@ -1432,7 +4254,7 @@ main:
   p16
   push  39
   p00
-  push4 50332398
+  push4 50332373
   p00
   refl  42
   p32
@@ -1441,14 +4263,16 @@ main:
   .line 100
   sys   debug_break
   .line 102
-  push4 452985633
+  p8
+  p3
+  push2 6912
   p00
   sys   debug_printf
   .line 103
   sys   debug_break
   .line 104
   p64
-  push4 3992981314
+  push4 3573550914
   p2
   p0
   p3
@@ -1460,14 +4284,14 @@ main:
   .line 105
   sys   debug_break
   .line 107
-  push4 486540092
+  push4 486540067
   p00
   sys   debug_printf
   .line 108
   sys   debug_break
   .line 109
   p0
-  push4 3993368033
+  push4 3573937633
   p2
   p0
   p3
@@ -1482,184 +4306,675 @@ main:
   push4 841731191
   .line 117
   p0000
-  .line 118
-  dup
-$L_main_2:
   .line 120
-  getl4 9
-  push4 419431257
+  getl4 8
+  p64
+  p3
+  push2 6400
   p00
   sys   debug_printf
   .line 121
   sys   debug_break
   .line 122
-  getl4 9
-  push3 882
+  getl4 8
+  push3 857
   dupw
   dup
-  refl  51
+  refl  50
   p32
   p0
   sys   format
   .line 123
   sys   debug_break
   .line 124
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 118
-  inc
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
   dup
-  push  10
-  cult
-  bnz   $L_main_2
-  popn  9
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 120
+  getl4 8
+  p64
+  p3
+  push2 6400
+  p00
+  sys   debug_printf
+  .line 121
+  sys   debug_break
+  .line 122
+  getl4 8
+  push3 857
+  dupw
+  dup
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 123
+  sys   debug_break
+  .line 124
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  8
   .line 128
   push4 841731191
   .line 129
   p0000
-  .line 130
-  dup
-$L_main_6:
   .line 132
-  getl4 9
-  push4 419431285
+  getl4 8
+  push4 419431260
   p00
   sys   debug_printf
   .line 133
   sys   debug_break
   .line 134
-  getl4 9
+  getl4 8
   p0
   p1
   p0
   p3
   p00
-  refl  51
+  refl  50
   p32
   p0
   sys   format
   .line 135
   sys   debug_break
   .line 136
-  getl4 9
+  getl4 8
   p00
   push2 16916
   fmul
-  setl4 9
-  .line 130
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_main_6
-  popn  41
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  .line 132
+  getl4 8
+  push4 419431260
+  p00
+  sys   debug_printf
+  .line 133
+  sys   debug_break
+  .line 134
+  getl4 8
+  p0
+  p1
+  p0
+  p3
+  p00
+  refl  50
+  p32
+  p0
+  sys   format
+  .line 135
+  sys   debug_break
+  .line 136
+  getl4 8
+  p00
+  push2 16916
+  fmul
+  setl4 8
+  popn  40
   .line 142
-  push4 754975640
+  push4 754975605
   p00
   sys   debug_printf
   .line 143
   sys   debug_break
   .line 144
-  push  10
-$L_main_10:
   p1
   sys   assert
-  dec
-  bnzp  $L_main_10
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
   .line 145
   sys   debug_break
   .line 147
-  push4 738198469
+  push4 738198434
   p00
   sys   debug_printf
   .line 148
   sys   debug_break
   .line 149
-  p0
-$L_main_14:
   p1
   sys   assert
-  inc
-  dup
-  push  10
-  cult
-  bnz   $L_main_14
-  pop
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
   .line 150
   sys   debug_break
   .line 152
-  push4 738198513
+  push4 738198478
   p00
   sys   debug_printf
   .line 153
   sys   debug_break
   .line 154
-  p00
-$L_main_18:
   p1
   sys   assert
-  dupw
   p1
-  add2b
-  setl2 2
-  dupw
-  push2 10
-  cult2
-  bnz   $L_main_18
-  pop2
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
   .line 155
   sys   debug_break
   .line 157
-  push4 738198557
+  push4 738198522
   p00
   sys   debug_printf
   .line 158
   sys   debug_break
   .line 159
-  p000
-$L_main_22:
   p1
   sys   assert
-  p3
-  getln 3
   p1
-  add3b
-  p3
-  setln 3
-  p3
-  getln 3
-  push  10
-  p00
-  cult3
-  bnz   $L_main_22
-  pop3
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
   .line 160
   sys   debug_break
   .line 162
-  push4 738198601
+  push4 738198566
   p00
   sys   debug_printf
   .line 163
   sys   debug_break
   .line 164
-  p0000
-$L_main_26:
   p1
   sys   assert
-  getl4 4
   p1
-  p000
-  add4
-  setl4 4
-  getl4 4
-  push  10
-  p000
-  cult4
-  bnz   $L_main_26
-  pop4
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
   .line 165
   sys   debug_break
   .line 168
@@ -1674,7 +4989,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1692,7 +5007,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1709,7 +5024,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1725,7 +5040,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1743,7 +5058,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1760,7 +5075,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1777,7 +5092,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1793,7 +5108,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1810,7 +5125,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1827,7 +5142,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991029
+  push4 301990994
   p00
   sys   debug_printf
   sys   debug_break
@@ -1851,7 +5166,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1869,7 +5184,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1885,7 +5200,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1901,7 +5216,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1920,7 +5235,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1938,7 +5253,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1955,7 +5270,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1971,7 +5286,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -1988,7 +5303,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -2006,7 +5321,7 @@ $L_main_26:
   setl4 8
   getl4 8
   getl4 16
-  push4 301991047
+  push4 301991012
   p00
   sys   debug_printf
   sys   debug_break
@@ -2028,7 +5343,7 @@ $L_main_26:
   p00
   getl2 10
   p00
-  push4 301991080
+  push4 301991030
   p00
   sys   debug_printf
   sys   debug_break
@@ -2049,7 +5364,7 @@ $L_main_26:
   p00
   getl2 10
   p00
-  push4 301991080
+  push4 301991030
   p00
   sys   debug_printf
   sys   debug_break
@@ -2070,7 +5385,7 @@ $L_main_26:
   p00
   getl2 10
   p00
-  push4 301991080
+  push4 301991030
   p00
   sys   debug_printf
   sys   debug_break
@@ -2095,7 +5410,7 @@ $L_main_26:
   sext2
   getl2 10
   sext2
-  push4 301991098
+  push4 301991048
   p00
   sys   debug_printf
   sys   debug_break
@@ -2116,7 +5431,7 @@ $L_main_26:
   sext2
   getl2 10
   sext2
-  push4 301991098
+  push4 301991048
   p00
   sys   debug_printf
   sys   debug_break
@@ -2137,7 +5452,7 @@ $L_main_26:
   sext2
   getl2 10
   sext2
-  push4 301991098
+  push4 301991048
   p00
   sys   debug_printf
   sys   debug_break

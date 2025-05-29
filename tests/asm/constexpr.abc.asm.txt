@@ -27,27 +27,31 @@ main:
   .line 22
   pz16
   p0000
-  .line 23
-  dup
-$L_main_2:
   .line 24
-  dup
-  push2 16640
-  add2b
-  refl  23
-  dup5
-  aidxb 2 10
-  setr2
-  .line 23
-  inc
-  dup
-  push3 2560
-  cslt2
-  bnz   $L_main_2
-  popn  23
+  push2 65
+  setl2 20
+  push2 66
+  setl2 18
+  push2 67
+  setl2 16
+  push2 68
+  setl2 14
+  push2 69
+  setl2 12
+  push2 70
+  setl2 10
+  push2 71
+  setl2 8
+  push2 72
+  setl2 6
+  push2 73
+  setl2 4
+  push2 74
+  setl2 2
+  popn  22
   .line 27
   p0
-$L_main_6:
+$L_main_17:
   .line 28
   dup
   push2 10752
@@ -61,7 +65,7 @@ $L_main_6:
   dup
   push3 7680
   cslt2
-  bnz   $L_main_6
+  bnz   $L_main_17
   pop
   .line 30
   sys   debug_break

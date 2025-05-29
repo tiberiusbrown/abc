@@ -43,7 +43,10 @@ void setup()
     menu_sprite = 8;
     main_menu();
     if(!$load())
+    {
         sound_on = true;
+        update_sound();
+    }
 }
 
 void loop()

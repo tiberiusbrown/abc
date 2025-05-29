@@ -14,34 +14,238 @@ main:
   .line 6
   p00
 $L_main_2:
-  .line 9
-  p0
-$L_main_6:
   .line 12
-  dup3
+  dup2
   p8
   dup
-  dup5
+  dup4
+  p8
+  mul
+  p000
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
   p8
   mul
   p0
-  dup6
   p8
-  mul
   p0
   .line 11
   sys   draw_filled_rect
   .line 13
-  dup3
+  dup2
   not
-  setl  3
-  .line 9
-  inc
+  setl  2
+  .line 12
+  dup2
+  p8
   dup
+  dup4
+  p8
+  mul
+  p0
   p16
-  cult
-  bnz   $L_main_6
-  pop
+  p0
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 6144
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  p0
+  p32
+  p0
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 10240
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 12288
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 14336
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  p0
+  p64
+  p0
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 18432
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 20480
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 22528
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 24576
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 26624
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 28672
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
+  .line 12
+  dup2
+  p8
+  dup
+  dup4
+  p8
+  mul
+  push3 30720
+  .line 11
+  sys   draw_filled_rect
+  .line 13
+  dup2
+  not
+  setl  2
   .line 15
   dup2
   not

@@ -36,23 +36,31 @@ main:
   .line 23
   p1
   sys   assert
-  .line 24
-  p0
-$L_main_2:
   .line 25
-  push3 276
-  dup4
-  pidxb 1 12
-  getp
-  not
+  p1
   sys   assert
-  .line 24
-  inc
-  dup
-  push  12
-  cult
-  bnz   $L_main_2
-  pop
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
   .line 27
   getg2 e 0
   bool2
@@ -63,61 +71,87 @@ $L_main_2:
   bool2
   not
   sys   assert
-  .line 29
-  p0
-$L_main_6:
   .line 30
-  pushg e 4
-  dup3
-  aixb1 12
-  getr
+  getg  e 4
   not
   sys   assert
-  .line 29
-  inc
-  dup
-  push  12
-  cult
-  bnz   $L_main_6
-  pop
+  getg  e 5
+  not
+  sys   assert
+  getg  e 6
+  not
+  sys   assert
+  getg  e 7
+  not
+  sys   assert
+  getg  e 8
+  not
+  sys   assert
+  getg  e 9
+  not
+  sys   assert
+  getg  e 10
+  not
+  sys   assert
+  getg  e 11
+  not
+  sys   assert
+  getg  e 12
+  not
+  sys   assert
+  getg  e 13
+  not
+  sys   assert
+  getg  e 14
+  not
+  sys   assert
+  getg  e 15
+  not
+  sys   assert
   .line 32
   push  42
   setg  e 8
-  .line 33
-  p0
-$L_main_10:
-  .line 35
-  dup
-  p4
-  sub
-  bnz   $L_main_12
+  .line 38
+  getg  e 4
+  not
+  sys   assert
+  getg  e 5
+  not
+  sys   assert
+  getg  e 6
+  not
+  sys   assert
+  getg  e 7
+  not
+  sys   assert
   .line 36
-  pushg e 4
-  dup3
-  aixb1 12
-  getr
+  getg  e 8
   push  42
   sub
   not
   sys   assert
-  .line 35
-  jmp   $L_main_13
-$L_main_12:
   .line 38
-  pushg e 4
-  dup3
-  aixb1 12
-  getr
+  getg  e 9
   not
   sys   assert
-$L_main_13:
-  .line 33
-  inc
-  dup
-  push  12
-  cult
-  bnz   $L_main_10
-  pop
+  getg  e 10
+  not
+  sys   assert
+  getg  e 11
+  not
+  sys   assert
+  getg  e 12
+  not
+  sys   assert
+  getg  e 13
+  not
+  sys   assert
+  getg  e 14
+  not
+  sys   assert
+  getg  e 15
+  not
+  sys   assert
   .line 41
   push2 42
   setg2 enemies 32
@@ -129,56 +163,381 @@ $L_main_13:
   setg  enemies 39
   .line 44
   p0
-$L_main_16:
-  .line 46
-  p0
-$L_main_20:
+$L_main_55:
   .line 48
-  dup2
+  dup
   p2
   sub
-  bnz   $L_main_23
-  dup
-  p3
-  sub
-  bnz   $L_main_23
+  bnz   $L_main_67
+  p0
+  bz    $L_main_67
   .line 49
   pushg enemies 4
-  dup4
-  aidxb 16 4
   dup3
-  aixb1 12
+  aidxb 16 4
   getr
   push  88
   sub
   not
   sys   assert
   .line 48
-  jmp   $L_main_24
-$L_main_23:
+  jmp   $L_main_65
+$L_main_67:
   .line 51
   pushg enemies 4
-  dup4
-  aidxb 16 4
   dup3
-  aixb1 12
+  aidxb 16 4
   getr
   not
   sys   assert
-$L_main_24:
-  .line 46
-  inc
+$L_main_65:
+  .line 48
   dup
-  push  12
-  cult
-  bnz   $L_main_20
-  pop
+  p2
+  sub
+  bnz   $L_main_71
+  p0
+  bz    $L_main_71
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p1
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_69
+$L_main_71:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p1
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_69:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_75
+  p0
+  bz    $L_main_75
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p2
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_73
+$L_main_75:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p2
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_73:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_79
+  p1
+  bz    $L_main_79
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p3
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_77
+$L_main_79:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p3
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_77:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_83
+  p0
+  bz    $L_main_83
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p4
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_81
+$L_main_83:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p4
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_81:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_87
+  p0
+  bz    $L_main_87
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p5
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_85
+$L_main_87:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p5
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_85:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_91
+  p0
+  bz    $L_main_91
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p6
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_89
+$L_main_91:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p6
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_89:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_95
+  p0
+  bz    $L_main_95
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p7
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_93
+$L_main_95:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p7
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_93:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_99
+  p0
+  bz    $L_main_99
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p8
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_97
+$L_main_99:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  p8
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_97:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_103
+  p0
+  bz    $L_main_103
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  push  9
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_101
+$L_main_103:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  push  9
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_101:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_107
+  p0
+  bz    $L_main_107
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  push  10
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_105
+$L_main_107:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  push  10
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_105:
+  .line 48
+  dup
+  p2
+  sub
+  bnz   $L_main_111
+  p0
+  bz    $L_main_111
+  .line 49
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  push  11
+  add2b
+  getr
+  push  88
+  sub
+  not
+  sys   assert
+  .line 48
+  jmp   $L_main_56
+$L_main_111:
+  .line 51
+  pushg enemies 4
+  dup3
+  aidxb 16 4
+  push  11
+  add2b
+  getr
+  not
+  sys   assert
+$L_main_56:
   .line 44
   inc
   dup
   p4
   cult
-  bnz   $L_main_16
+  bnz   $L_main_55
   pop
   .line 54
   getg2 enemies 32
@@ -241,23 +600,40 @@ $L_main_24:
   sub
   not
   sys   assert
-  .line 65
-  p1
-$L_main_27:
   .line 66
-  pushg enemies 36
-  dup3
-  aixb1 12
-  getr
+  getg  enemies 37
   not
   sys   assert
-  .line 65
-  inc
-  dup
-  push  12
-  cult
-  bnz   $L_main_27
-  pop
+  getg  enemies 38
+  not
+  sys   assert
+  getg  enemies 39
+  not
+  sys   assert
+  getg  enemies 40
+  not
+  sys   assert
+  getg  enemies 41
+  not
+  sys   assert
+  getg  enemies 42
+  not
+  sys   assert
+  getg  enemies 43
+  not
+  sys   assert
+  getg  enemies 44
+  not
+  sys   assert
+  getg  enemies 45
+  not
+  sys   assert
+  getg  enemies 46
+  not
+  sys   assert
+  getg  enemies 47
+  not
+  sys   assert
   .line 68
   sys   debug_break
   .line 18

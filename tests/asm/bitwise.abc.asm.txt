@@ -50,58 +50,65 @@ main:
   .line 20
   push4 305419896
   setg4 m 12
-  .line 22
-  p0
-$L_main_2:
   .line 24
-  pushg m 0
-  dup3
-  aidxb 4 4
-  getrn 4
-  pop3
-  pushg a1 0
-  dup4
-  aixb1 4
-  setr
+  getg  m 0
+  setg  a1 0
   .line 25
-  pushg m 0
-  dup3
-  aidxb 4 4
-  getrn 4
-  pop2
-  pushg a2 0
-  dup5
-  aidxb 2 4
-  setr2
+  getg2 m 0
+  setg2 a2 0
   .line 26
-  pushg m 0
-  dup3
-  aidxb 4 4
-  getrn 4
-  pop
-  pushg a3 0
-  dup6
-  aidxb 3 4
-  setrn 3
+  p3
+  getgn m 0
+  p3
+  setgn a3 0
   .line 27
-  pushg m 0
-  dup3
-  aidxb 4 4
-  getrn 4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  setrn 4
-  .line 22
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_2
-  pop
+  getg4 m 0
+  setg4 a4 0
+  .line 24
+  getg  m 4
+  setg  a1 1
+  .line 25
+  getg2 m 4
+  setg2 a2 2
+  .line 26
+  p3
+  getgn m 4
+  p3
+  setgn a3 3
+  .line 27
+  getg4 m 4
+  setg4 a4 4
+  .line 24
+  getg  m 8
+  setg  a1 2
+  .line 25
+  getg2 m 8
+  setg2 a2 4
+  .line 26
+  p3
+  getgn m 8
+  p3
+  setgn a3 6
+  .line 27
+  getg4 m 8
+  setg4 a4 8
+  .line 24
+  getg  m 12
+  setg  a1 3
+  .line 25
+  getg2 m 12
+  setg2 a2 6
+  .line 26
+  p3
+  getgn m 12
+  p3
+  setgn a3 9
+  .line 27
+  getg4 m 12
+  setg4 a4 12
   .line 30
   p1
-$L_main_6:
+$L_main_11:
   .line 32
   getg  a1 0
   pushg a1 0
@@ -385,36 +392,21 @@ $L_main_6:
   dup
   p4
   cult
-  bnz   $L_main_6
+  bnz   $L_main_11
   pop
-  .line 55
-  p2
-$L_main_10:
   .line 57
   getg  a1 1
-  pushg a1 0
-  dup4
-  aixb1 4
-  getr
+  getg  a1 2
   and
-  pushg a1 0
-  dup4
-  aixb1 4
-  getr
+  getg  a1 2
   sub
   not
   sys   assert
   .line 58
   getg2 a2 2
-  pushg a2 0
-  dup5
-  aidxb 2 4
-  getr2
+  getg2 a2 4
   and2
-  pushg a2 0
-  dup5
-  aidxb 2 4
-  getr2
+  getg2 a2 4
   sub2
   bool2
   not
@@ -423,32 +415,22 @@ $L_main_10:
   p3
   getgn a3 3
   p0
-  pushg a3 0
-  dup7
-  aidxb 3 4
-  getrn 3
+  p3
+  getgn a3 6
   p0
   and4
   pop
-  pushg a3 0
-  dup6
-  aidxb 3 4
-  getrn 3
+  p3
+  getgn a3 6
   sub3
   bool3
   not
   sys   assert
   .line 60
   getg4 a4 4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
+  getg4 a4 8
   and4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
+  getg4 a4 8
   sub4
   bool4
   not
@@ -456,16 +438,9 @@ $L_main_10:
   .line 62
   getg  a1 1
   p0
-  pushg a2 0
-  dup5
-  aidxb 2 4
-  getr2
+  getg2 a2 4
   and2
-  pushg a2 0
-  dup5
-  aidxb 2 4
-  getr2
-  pop
+  getg  a2 4
   sub2b
   bool2
   not
@@ -473,18 +448,12 @@ $L_main_10:
   .line 63
   getg  a1 1
   p000
-  pushg a3 0
-  dup7
-  aidxb 3 4
-  getrn 3
+  p3
+  getgn a3 6
   p0
   and4
   pop
-  pushg a3 0
-  dup6
-  aidxb 3 4
-  getrn 3
-  pop2
+  getg  a3 6
   p00
   sub3
   bool3
@@ -493,16 +462,9 @@ $L_main_10:
   .line 64
   getg  a1 1
   p000
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
+  getg4 a4 8
   and4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
-  pop3
+  getg  a4 8
   p000
   sub4
   bool4
@@ -511,18 +473,12 @@ $L_main_10:
   .line 65
   getg2 a2 2
   p00
-  pushg a3 0
-  dup7
-  aidxb 3 4
-  getrn 3
+  p3
+  getgn a3 6
   p0
   and4
   pop
-  pushg a3 0
-  dup6
-  aidxb 3 4
-  getrn 3
-  pop
+  getg2 a3 6
   p0
   sub3
   bool3
@@ -531,16 +487,9 @@ $L_main_10:
   .line 66
   getg2 a2 2
   p00
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
+  getg4 a4 8
   and4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
-  pop2
+  getg2 a4 8
   p00
   sub4
   bool4
@@ -550,16 +499,10 @@ $L_main_10:
   p3
   getgn a3 3
   p0
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
+  getg4 a4 8
   and4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
-  pop
+  p3
+  getgn a4 8
   p0
   sub4
   bool4
@@ -567,10 +510,7 @@ $L_main_10:
   sys   assert
   .line 69
   getg  a1 1
-  pushg a1 0
-  dup4
-  aixb1 4
-  getr
+  getg  a1 2
   or
   push  255
   sub
@@ -578,10 +518,7 @@ $L_main_10:
   sys   assert
   .line 70
   getg2 a2 2
-  pushg a2 0
-  dup5
-  aidxb 2 4
-  getr2
+  getg2 a2 4
   or2
   p1
   add2b
@@ -592,10 +529,8 @@ $L_main_10:
   p3
   getgn a3 3
   p0
-  pushg a3 0
-  dup7
-  aidxb 3 4
-  getrn 3
+  p3
+  getgn a3 6
   p0
   or4
   pop
@@ -608,10 +543,7 @@ $L_main_10:
   sys   assert
   .line 72
   getg4 a4 4
-  pushg a4 0
-  dup7
-  aidxb 4 4
-  getrn 4
+  getg4 a4 8
   or4
   push  255
   dup
@@ -620,13 +552,164 @@ $L_main_10:
   bool4
   not
   sys   assert
-  .line 55
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_10
+  .line 57
+  getg  a1 1
+  getg  a1 3
+  and
+  getg  a1 3
+  sub
+  not
+  sys   assert
+  .line 58
+  getg2 a2 2
+  getg2 a2 6
+  and2
+  getg2 a2 6
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 59
+  p3
+  getgn a3 3
+  p0
+  p3
+  getgn a3 9
+  p0
+  and4
   pop
+  p3
+  getgn a3 9
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 60
+  getg4 a4 4
+  getg4 a4 12
+  and4
+  getg4 a4 12
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 62
+  getg  a1 1
+  p0
+  getg2 a2 6
+  and2
+  getg  a2 6
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 63
+  getg  a1 1
+  p000
+  p3
+  getgn a3 9
+  p0
+  and4
+  pop
+  getg  a3 9
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 64
+  getg  a1 1
+  p000
+  getg4 a4 12
+  and4
+  getg  a4 12
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 65
+  getg2 a2 2
+  p00
+  p3
+  getgn a3 9
+  p0
+  and4
+  pop
+  getg2 a3 9
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 66
+  getg2 a2 2
+  p00
+  getg4 a4 12
+  and4
+  getg2 a4 12
+  p00
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 67
+  p3
+  getgn a3 3
+  p0
+  getg4 a4 12
+  and4
+  p3
+  getgn a4 12
+  p0
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 69
+  getg  a1 1
+  getg  a1 3
+  or
+  push  255
+  sub
+  not
+  sys   assert
+  .line 70
+  getg2 a2 2
+  getg2 a2 6
+  or2
+  p1
+  add2b
+  bool2
+  not
+  sys   assert
+  .line 71
+  p3
+  getgn a3 3
+  p0
+  p3
+  getgn a3 9
+  p0
+  or4
+  pop
+  push  255
+  dup
+  dup
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 72
+  getg4 a4 4
+  getg4 a4 12
+  or4
+  push  255
+  dup
+  dupw
+  sub4
+  bool4
+  not
+  sys   assert
   .line 75
   p1
   setg  a1 0

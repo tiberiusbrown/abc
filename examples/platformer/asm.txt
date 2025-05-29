@@ -3693,34 +3693,248 @@ add_object:
   p1
   add2b
   setg2 total_objects 0
-  .line 210
-  p0
-$L_add_object_2:
   .line 212
-  pushg objects 0
-  dup3
-  aidxb 15 20
-  getr
-  bnz   $L_add_object_4
+  getg  objects 0
+  bnz   $L_add_object_6
   .line 214
   push  15
-  getln 16
-  pushg objects 0
-  getl  18
-  aidxb 15 20
-  setrn 15
+  getln 15
+  push  15
+  setgn objects 0
   .line 215
-  popn  16
+  popn  15
   ret
-$L_add_object_4:
-  .line 210
-  inc
-  dup
-  push  20
-  cult
-  bnz   $L_add_object_2
-  popn  16
+$L_add_object_6:
+  .line 212
+  getg  objects 15
+  bnz   $L_add_object_8
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 15
+  .line 215
+  popn  15
+  ret
+$L_add_object_8:
+  .line 212
+  getg  objects 30
+  bnz   $L_add_object_10
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 30
+  .line 215
+  popn  15
+  ret
+$L_add_object_10:
+  .line 212
+  getg  objects 45
+  bnz   $L_add_object_12
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 45
+  .line 215
+  popn  15
+  ret
+$L_add_object_12:
+  .line 212
+  getg  objects 60
+  bnz   $L_add_object_14
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 60
+  .line 215
+  popn  15
+  ret
+$L_add_object_14:
+  .line 212
+  getg  objects 75
+  bnz   $L_add_object_16
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 75
+  .line 215
+  popn  15
+  ret
+$L_add_object_16:
+  .line 212
+  getg  objects 90
+  bnz   $L_add_object_18
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 90
+  .line 215
+  popn  15
+  ret
+$L_add_object_18:
+  .line 212
+  getg  objects 105
+  bnz   $L_add_object_20
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 105
+  .line 215
+  popn  15
+  ret
+$L_add_object_20:
+  .line 212
+  getg  objects 120
+  bnz   $L_add_object_22
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 120
+  .line 215
+  popn  15
+  ret
+$L_add_object_22:
+  .line 212
+  getg  objects 135
+  bnz   $L_add_object_24
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 135
+  .line 215
+  popn  15
+  ret
+$L_add_object_24:
+  .line 212
+  getg  objects 150
+  bnz   $L_add_object_26
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 150
+  .line 215
+  popn  15
+  ret
+$L_add_object_26:
+  .line 212
+  getg  objects 165
+  bnz   $L_add_object_28
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 165
+  .line 215
+  popn  15
+  ret
+$L_add_object_28:
+  .line 212
+  getg  objects 180
+  bnz   $L_add_object_30
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 180
+  .line 215
+  popn  15
+  ret
+$L_add_object_30:
+  .line 212
+  getg  objects 195
+  bnz   $L_add_object_32
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 195
+  .line 215
+  popn  15
+  ret
+$L_add_object_32:
+  .line 212
+  getg  objects 210
+  bnz   $L_add_object_34
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 210
+  .line 215
+  popn  15
+  ret
+$L_add_object_34:
+  .line 212
+  getg  objects 225
+  bnz   $L_add_object_36
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 225
+  .line 215
+  popn  15
+  ret
+$L_add_object_36:
+  .line 212
+  getg  objects 240
+  bnz   $L_add_object_38
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 240
+  .line 215
+  popn  15
+  ret
+$L_add_object_38:
+  .line 212
+  getg  objects 255
+  bnz   $L_add_object_40
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 255
+  .line 215
+  popn  15
+  ret
+$L_add_object_40:
+  .line 212
+  getg  objects 270
+  bnz   $L_add_object_42
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 270
+  .line 215
+  popn  15
+  ret
+$L_add_object_42:
+  .line 212
+  getg  objects 285
+  bnz   $L_add_object_5
+  .line 214
+  push  15
+  getln 15
+  push  15
+  setgn objects 285
+  .line 215
+  popn  15
+  ret
+$L_add_object_5:
   .line 207
+  popn  15
   ret
 
 level_complete:
@@ -3903,24 +4117,107 @@ load_map:
   .line 56
   dup
   setg  map_height 0
-  .line 59
-  p0
-$L_load_map_2:
   .line 60
   pz8
   p0000
   p000
-  pushg objects 0
-  getl  18
-  aidxb 15 20
-  setrn 15
-  .line 59
-  inc
-  dup
-  push  20
-  cult
-  bnz   $L_load_map_2
-  pop
+  push  15
+  setgn objects 0
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 15
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 30
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 45
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 60
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 75
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 90
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 105
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 120
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 135
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 150
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 165
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 180
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 195
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 210
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 225
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 240
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 255
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 270
+  pz8
+  p0000
+  p000
+  push  15
+  setgn objects 285
   .line 62
   p00
   setg2 total_objects 0
@@ -3928,14 +4225,14 @@ $L_load_map_2:
   p00
   dup3
   cult
-  bz    $L_load_map_4
-$L_load_map_6:
+  bz    $L_load_map_25
+$L_load_map_27:
   .line 67
   p00
   dup5
   cult
-  bz    $L_load_map_8
-$L_load_map_10:
+  bz    $L_load_map_29
+$L_load_map_31:
   .line 69
   p6
   getln 10
@@ -3959,26 +4256,26 @@ $L_load_map_10:
   dup
   dup5
   cult
-  bnz   $L_load_map_10
-$L_load_map_8:
+  bnz   $L_load_map_31
+$L_load_map_29:
   pop
   .line 65
   inc
   dup
   dup3
   cult
-  bnz   $L_load_map_6
-$L_load_map_4:
+  bnz   $L_load_map_27
+$L_load_map_25:
   pop
   .line 74
   dup2
   p64
   sub
-  bnz   $L_load_map_13
+  bnz   $L_load_map_34
   dup
   p8
   sub
-  bnz   $L_load_map_13
+  bnz   $L_load_map_34
   .line 76
   push3 591352
   call  process_map_tile
@@ -4024,12 +4321,12 @@ $L_load_map_4:
   .line 90
   push3 3932913
   call  process_map_tile
-$L_load_map_13:
+$L_load_map_34:
   .line 93
   push2 20
   getg2 total_objects 0
   cult2
-  bz    $L_load_map_14
+  bz    $L_load_map_35
   .line 95
   getg2 total_objects 0
   p00
@@ -4039,7 +4336,7 @@ $L_load_map_13:
   .line 96
   p0
   sys   assert
-$L_load_map_14:
+$L_load_map_35:
   .line 99
   push3 44115
   sys   tones_play_primary
@@ -4800,17 +5097,17 @@ $L_process_map_tile_24:
   dup3
   push  156
   cult
-  bnz   $L_process_map_tile_26
+  bnz   $L_process_map_tile_34
   push  159
   dup4
   cult
-  bnz   $L_process_map_tile_26
+  bnz   $L_process_map_tile_34
   .line 173
   dup3
   push  156
   sub
   setg  keys_required 0
-$L_process_map_tile_26:
+$L_process_map_tile_34:
   .line 104
   pop3
   ret
@@ -5043,17 +5340,42 @@ render_game_over:
   .line 90
   p0
 $L_render_game_over_2:
-  .line 91
-  p0
-$L_render_game_over_6:
   .line 93
   push3 48854
-  dup5
-  p0
+  dup4
+  p00
   p8
-  mul2b
-  sext
+  p00
+  mul3
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_11
+  .line 95
+  dup
+  push4 2205440
   dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  p00
+  sys   draw_sprite
+$L_render_game_over_11:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p1
   add3b
   pidx  1 40
   getp
@@ -5062,29 +5384,202 @@ $L_render_game_over_6:
   dup
   push3 61440
   cslt2
-  bz    $L_render_game_over_8
+  bz    $L_render_game_over_13
   .line 95
   dup
   push4 2205440
-  dup8
+  dup7
   p0
   p16
   mul2b
   p8
   sub2b
-  getl  9
+  p16
+  p0
+  sys   draw_sprite
+$L_render_game_over_13:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p2
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_15
+  .line 95
+  dup
+  push4 2205440
+  dup7
   p0
   p16
   mul2b
-  sys   draw_sprite
-$L_render_game_over_8:
-  pop
-  .line 91
-  inc
-  dup
   p8
-  cult
-  bnz   $L_render_game_over_6
+  sub2b
+  p32
+  p0
+  sys   draw_sprite
+$L_render_game_over_15:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p3
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_17
+  .line 95
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 48
+  sys   draw_sprite
+$L_render_game_over_17:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p4
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_19
+  .line 95
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  p64
+  p0
+  sys   draw_sprite
+$L_render_game_over_19:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p5
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_21
+  .line 95
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 80
+  sys   draw_sprite
+$L_render_game_over_21:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p6
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_23
+  .line 95
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 96
+  sys   draw_sprite
+$L_render_game_over_23:
+  pop
+  .line 93
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p7
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 94
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_game_over_25
+  .line 95
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 112
+  sys   draw_sprite
+$L_render_game_over_25:
   pop
   .line 90
   inc
@@ -5273,7 +5768,7 @@ render_intro:
   sys   draw_text
   popn  11
   .line 306
-  jmp   $L_render_intro_3
+  jmp   $L_render_intro_4
 $L_render_intro_0:
   .line 321
   push3 35430
@@ -5303,7 +5798,7 @@ $L_render_intro_2:
   p3
   getgn total_score 0
   bool3
-  bz    $L_render_intro_3
+  bz    $L_render_intro_4
   .line 329
   push3 44214
   sys   set_text_font
@@ -5362,14 +5857,14 @@ $L_render_intro_2:
   sub2
   sys   draw_text
   popn  11
-$L_render_intro_3:
+$L_render_intro_4:
   .line 341
   getg  state 0
   dec
-  bnz   $L_render_intro_7
+  bnz   $L_render_intro_8
   getg2 level_frames_remaining 0
   bool2
-  bz    $L_render_intro_7
+  bz    $L_render_intro_8
   .line 344
   push3 44214
   sys   set_text_font
@@ -5441,7 +5936,7 @@ $L_render_intro_3:
 $L_render_intro_6:
   .line 358
   getg  was_high_score 0
-  bz    $L_render_intro_7
+  bz    $L_render_intro_8
   .line 360
   push4 151041460
   p00
@@ -5491,7 +5986,7 @@ $L_render_intro_6:
   sub2
   sys   draw_text
   popn  13
-$L_render_intro_7:
+$L_render_intro_8:
   .line 370
   p7
   p0
@@ -5750,25 +6245,19 @@ $L_render_level_8:
   pslc  1
   pop3
   getpn 9
-  .line 429
-  p0
-$L_render_level_12:
   .line 431
-  refl  10
-  dup3
-  aixb1 9
-  getr
+  getl  9
   dec
   .line 432
   dup
   push3 61440
   cslt2
-  bz    $L_render_level_15
+  bz    $L_render_level_19
   .line 434
   dup
   push3 45056
   cslt2
-  bnz   $L_render_level_14
+  bnz   $L_render_level_18
   .line 435
   dup
   getg  frame_count 0
@@ -5778,33 +6267,345 @@ $L_render_level_12:
   and
   add
   setl  1
-$L_render_level_14:
+$L_render_level_18:
   .line 436
   dup
   push4 2205440
-  getl  19
+  getl  18
   p0
   p16
   mul2b
-  getl  29
+  getl  28
   sext
   add2
-  getl  9
+  getl  29
+  sext
+  sys   draw_sprite
+$L_render_level_19:
+  pop
+  .line 431
+  dup8
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_22
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_21
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_21:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
   p0
   p16
   mul2b
-  getl  32
+  getl  28
+  sext
+  add2
+  p16
+  p0
+  getl  31
   sext
   add2
   sys   draw_sprite
-$L_render_level_15:
+$L_render_level_22:
   pop
-  .line 429
-  inc
+  .line 431
+  dup7
+  dec
+  .line 432
   dup
-  push  9
-  cult
-  bnz   $L_render_level_12
+  push3 61440
+  cslt2
+  bz    $L_render_level_25
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_24
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_24:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  p32
+  p0
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_25:
+  pop
+  .line 431
+  dup6
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_28
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_27
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_27:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  push2 48
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_28:
+  pop
+  .line 431
+  dup5
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_31
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_30
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_30:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  p64
+  p0
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_31:
+  pop
+  .line 431
+  dup4
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_34
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_33
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_33:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  push2 80
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_34:
+  pop
+  .line 431
+  dup3
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_37
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_36
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_36:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  push2 96
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_37:
+  pop
+  .line 431
+  dup2
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_40
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_39
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_39:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  push2 112
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_40:
+  pop
+  .line 431
+  dup
+  dec
+  .line 432
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_level_43
+  .line 434
+  dup
+  push3 45056
+  cslt2
+  bnz   $L_render_level_42
+  .line 435
+  dup
+  getg  frame_count 0
+  p2
+  lsl
+  push  48
+  and
+  add
+  setl  1
+$L_render_level_42:
+  .line 436
+  dup
+  push4 2205440
+  getl  18
+  p0
+  p16
+  mul2b
+  getl  28
+  sext
+  add2
+  p128
+  p0
+  getl  31
+  sext
+  add2
+  sys   draw_sprite
+$L_render_level_43:
   popn  12
   .line 425
   inc
@@ -5815,7 +6616,7 @@ $L_render_level_15:
   popn  12
   .line 444
   p0
-$L_render_level_18:
+$L_render_level_46:
   .line 446
   pushg objects 0
   dup3
@@ -5824,23 +6625,23 @@ $L_render_level_18:
   dupw
   getr
   .line 448
-  bnzp  $L_render_level_20
+  bnzp  $L_render_level_48
   .line 449
   pop2
-  jmp   $L_render_level_19
-$L_render_level_20:
+  jmp   $L_render_level_47
+$L_render_level_48:
   .line 451
   p0
   .line 452
   dup2
   p8
   cult
-  bnz   $L_render_level_24
+  bnz   $L_render_level_52
   dupw3
   push  10
   add2b
   getr
-  bz    $L_render_level_24
+  bz    $L_render_level_52
   .line 454
   dupw3
   push  10
@@ -5848,25 +6649,25 @@ $L_render_level_20:
   getr
   p4
   and
-  bz    $L_render_level_22
+  bz    $L_render_level_50
   .line 455
   pop4
-  jmp   $L_render_level_19
-$L_render_level_22:
+  jmp   $L_render_level_47
+$L_render_level_50:
   .line 457
   dup2
   p64
   add
   setl  1
   .line 452
-  jmp   $L_render_level_25
-$L_render_level_24:
+  jmp   $L_render_level_54
+$L_render_level_52:
   .line 461
   dup2
   setl  1
   .line 462
   getg  death_frames 0
-  bnz   $L_render_level_25
+  bnz   $L_render_level_54
   .line 463
   dup
   getg  frame_count 0
@@ -5878,7 +6679,7 @@ $L_render_level_24:
   and
   add
   setl  1
-$L_render_level_25:
+$L_render_level_54:
   .line 468
   dup
   push4 6401024
@@ -5898,39 +6699,39 @@ $L_render_level_25:
   .line 466
   sys   draw_sprite
   pop4
-$L_render_level_19:
+$L_render_level_47:
   .line 444
   inc
   dup
   push  20
   cult
-  bnz   $L_render_level_18
+  bnz   $L_render_level_46
   pop
   .line 473
   getg  invincibility_frames 0
-  bz    $L_render_level_45
+  bz    $L_render_level_77
   getg  frame_count 0
   p4
   and
-  bnz   $L_render_level_33
-$L_render_level_45:
+  bnz   $L_render_level_61
+$L_render_level_77:
   .line 475
   p0
   .line 476
   getg  player_facing_right 0
-  bz    $L_render_level_28
+  bz    $L_render_level_56
   .line 477
   dup
   p7
   add
   setl  1
-$L_render_level_28:
+$L_render_level_56:
   .line 478
   getg  player_on_ground 0
-  bz    $L_render_level_30
+  bz    $L_render_level_58
   .line 480
   getg  player_moving 0
-  bz    $L_render_level_29
+  bz    $L_render_level_57
   .line 481
   dup
   getg  frame_count 0
@@ -5940,23 +6741,23 @@ $L_render_level_28:
   and
   add
   setl  1
-$L_render_level_29:
+$L_render_level_57:
   .line 478
-  jmp   $L_render_level_31
-$L_render_level_30:
+  jmp   $L_render_level_59
+$L_render_level_58:
   .line 485
   dup
   p4
   add
   setl  1
-$L_render_level_31:
+$L_render_level_59:
   .line 487
   getg  death_frames 0
-  bz    $L_render_level_32
+  bz    $L_render_level_60
   .line 488
   p5
   setl  1
-$L_render_level_32:
+$L_render_level_60:
   .line 490
   getg4 px 0
   getg4 camx 0
@@ -5986,36 +6787,38 @@ $L_render_level_32:
   pop2
   sys   draw_sprite
   popn  7
-$L_render_level_33:
-  .line 496
-  p0
-$L_render_level_36:
+$L_render_level_61:
   .line 497
-  dup
+  p0
   getg  hearts 0
   cult
   p0
   push2 35176
   p000
   push2 119
-  getl  10
-  push2 2304
-  mul2b
-  sub2
   sys   draw_sprite
-  .line 496
-  inc
-  dup
-  p3
+  p1
+  getg  hearts 0
   cult
-  bnz   $L_render_level_36
-  pop
+  p0
+  push2 35176
+  p000
+  push2 110
+  sys   draw_sprite
+  p2
+  getg  hearts 0
+  cult
+  p0
+  push2 35176
+  p000
+  push2 101
+  sys   draw_sprite
   .line 498
   p00
   getg  keys_required 0
   cult
-  bz    $L_render_level_38
-$L_render_level_40:
+  bz    $L_render_level_70
+$L_render_level_72:
   .line 499
   dup
   getg  keys 0
@@ -6034,8 +6837,8 @@ $L_render_level_40:
   dup
   getg  keys_required 0
   cult
-  bnz   $L_render_level_40
-$L_render_level_38:
+  bnz   $L_render_level_72
+$L_render_level_70:
   pop
   .line 500
   p0
@@ -6077,7 +6880,7 @@ $L_render_level_38:
   sys   draw_textf
   .line 507
   getg  level_start_frames 0
-  bz    $L_render_level_44
+  bz    $L_render_level_76
   .line 509
   push3 35430
   sys   set_text_font
@@ -6107,7 +6910,7 @@ $L_render_level_38:
   getg  level_start_frames 0
   push  78
   cult
-  bnz   $L_render_level_42
+  bnz   $L_render_level_74
   .line 519
   dupw
   getg  level_start_frames 0
@@ -6117,12 +6920,12 @@ $L_render_level_38:
   mul2b
   add2
   setl2 2
-$L_render_level_42:
+$L_render_level_74:
   .line 520
   push  12
   getg  level_start_frames 0
   cult
-  bnz   $L_render_level_43
+  bnz   $L_render_level_75
   .line 521
   dupw
   push2 12
@@ -6132,7 +6935,7 @@ $L_render_level_42:
   mul2b
   sub2
   setl2 2
-$L_render_level_43:
+$L_render_level_75:
   .line 522
   p0
   push4 1540109
@@ -6147,7 +6950,7 @@ $L_render_level_43:
   add2
   sys   draw_text_P
   popn  11
-$L_render_level_44:
+$L_render_level_76:
   .line 383
   pop4
   ret
@@ -6219,11 +7022,11 @@ $L_render_level_select_4:
   push  48
   dup2
   cult
-  bz    $L_render_level_select_6
+  bz    $L_render_level_select_7
   getg  frame_count 0
   push  50
   cult
-  bnz   $L_render_level_select_6
+  bnz   $L_render_level_select_7
   .line 188
   getg  frame_count 0
   push2 12800
@@ -6237,13 +7040,13 @@ $L_render_level_select_4:
   sub2b
   dupw4
   cslt2
-  bz    $L_render_level_select_6
+  bz    $L_render_level_select_7
   .line 190
   dup
   push2 12288
   sub2b
   setl2 3
-$L_render_level_select_6:
+$L_render_level_select_7:
   .line 192
   push3 54734
   dup8
@@ -6455,70 +7258,300 @@ $L_render_level_select_0:
   .line 234
   p0000
   .line 235
-  p000
-$L_render_level_select_16:
+  p00
   .line 238
-  pushg map_high_scores 0
-  dup3
-  aidxb 2 12
-  getr2
+  getg2 map_high_scores 0
   bool2
-  bz    $L_render_level_select_18
+  bz    $L_render_level_select_24
   .line 239
   p3
-  getln 7
-  pushg map_high_scores 0
-  dup6
-  aidxb 2 12
-  getr2
+  getln 6
+  getg2 map_high_scores 0
   p0
   add3
   p3
-  setln 7
-  .line 238
-  jmp   $L_render_level_select_19
-$L_render_level_select_18:
-  .line 241
-  p0
-  setl  9
-$L_render_level_select_19:
+  setln 6
   .line 242
-  pushg map_best_times 0
-  dup3
-  aidxb 2 12
-  getr2
+  getg2 map_best_times 0
   bool2
-  bz    $L_render_level_select_20
+  bz    $L_render_level_select_26
   .line 243
   p3
-  getln 4
-  pushg map_best_times 0
-  dup6
-  aidxb 2 12
-  getr2
+  getln 3
+  getg2 map_best_times 0
   p0
   add3
   p3
-  setln 4
-  .line 242
-  jmp   $L_render_level_select_21
-$L_render_level_select_20:
-  .line 245
+  setln 3
+  .line 238
+  getg2 map_high_scores 2
+  bool2
+  bz    $L_render_level_select_29
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 2
   p0
-  setl  8
-$L_render_level_select_21:
-  .line 236
-  inc
-  dup
-  push  12
-  cult
-  bnz   $L_render_level_select_16
-  pop
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 2
+  bool2
+  bz    $L_render_level_select_31
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 2
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 4
+  bool2
+  bz    $L_render_level_select_34
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 4
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 4
+  bool2
+  bz    $L_render_level_select_36
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 4
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
   .line 248
   p3
   getgn high_score 0
   bool3
-  bz    $L_render_level_select_22
+  bz    $L_render_level_select_83
   .line 249
   p3
   getgn high_score 0
@@ -6529,7 +7562,7 @@ $L_render_level_select_21:
   sys   draw_textf
   .line 253
   dup8
-  bz    $L_render_level_select_24
+  bz    $L_render_level_select_85
   .line 254
   p3
   getln 6
@@ -6539,8 +7572,4040 @@ $L_render_level_select_21:
   push4 4259898
   sys   draw_textf
   .line 253
-  jmp   $L_render_level_select_25
-$L_render_level_select_22:
+  jmp   $L_render_level_select_86
+$L_render_level_select_24:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 0
+  bool2
+  bz    $L_render_level_select_26
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 0
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 2
+  bool2
+  bz    $L_render_level_select_29
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 2
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 2
+  bool2
+  bz    $L_render_level_select_31
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 2
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 4
+  bool2
+  bz    $L_render_level_select_34
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 4
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 4
+  bool2
+  bz    $L_render_level_select_36
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 4
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_26:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 2
+  bool2
+  bz    $L_render_level_select_29
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 2
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 2
+  bool2
+  bz    $L_render_level_select_31
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 2
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 4
+  bool2
+  bz    $L_render_level_select_34
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 4
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 4
+  bool2
+  bz    $L_render_level_select_36
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 4
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_29:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 2
+  bool2
+  bz    $L_render_level_select_31
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 2
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 4
+  bool2
+  bz    $L_render_level_select_34
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 4
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 4
+  bool2
+  bz    $L_render_level_select_36
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 4
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_31:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 4
+  bool2
+  bz    $L_render_level_select_34
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 4
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 4
+  bool2
+  bz    $L_render_level_select_36
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 4
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_34:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 4
+  bool2
+  bz    $L_render_level_select_36
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 4
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_36:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 6
+  bool2
+  bz    $L_render_level_select_39
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 6
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_39:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 6
+  bool2
+  bz    $L_render_level_select_41
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 6
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_41:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 8
+  bool2
+  bz    $L_render_level_select_44
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 8
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_44:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 8
+  bool2
+  bz    $L_render_level_select_46
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 8
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_46:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 10
+  bool2
+  bz    $L_render_level_select_49
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 10
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_49:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 10
+  bool2
+  bz    $L_render_level_select_51
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 10
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_51:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 12
+  bool2
+  bz    $L_render_level_select_54
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 12
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_54:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 12
+  bool2
+  bz    $L_render_level_select_56
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 12
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_56:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 14
+  bool2
+  bz    $L_render_level_select_59
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 14
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_59:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 14
+  bool2
+  bz    $L_render_level_select_61
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 14
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_61:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 16
+  bool2
+  bz    $L_render_level_select_64
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 16
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_64:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 16
+  bool2
+  bz    $L_render_level_select_66
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 16
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_66:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 18
+  bool2
+  bz    $L_render_level_select_69
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 18
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_69:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 18
+  bool2
+  bz    $L_render_level_select_71
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 18
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_71:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 20
+  bool2
+  bz    $L_render_level_select_74
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 20
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_74:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 20
+  bool2
+  bz    $L_render_level_select_76
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 20
+  p0
+  add3
+  p3
+  setln 3
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_76:
+  .line 245
+  p0
+  setl  7
+  .line 238
+  getg2 map_high_scores 22
+  bool2
+  bz    $L_render_level_select_79
+  .line 239
+  p3
+  getln 6
+  getg2 map_high_scores 22
+  p0
+  add3
+  p3
+  setln 6
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_79:
+  .line 241
+  p0
+  setl  8
+  .line 242
+  getg2 map_best_times 22
+  bool2
+  bz    $L_render_level_select_81
+  .line 243
+  p3
+  getln 3
+  getg2 map_best_times 22
+  p0
+  add3
+  p3
+  setln 3
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_81:
+  .line 245
+  p0
+  setl  7
+  .line 248
+  p3
+  getgn high_score 0
+  bool3
+  bz    $L_render_level_select_83
+  .line 249
+  p3
+  getgn high_score 0
+  p0
+  push4 50378087
+  p00
+  push4 4259891
+  sys   draw_textf
+  .line 253
+  dup8
+  bz    $L_render_level_select_85
+  .line 254
+  p3
+  getln 6
+  p0
+  push4 50378087
+  p00
+  push4 4259898
+  sys   draw_textf
+  .line 253
+  jmp   $L_render_level_select_86
+$L_render_level_select_83:
   .line 251
   p0
   push3 65571
@@ -6549,7 +11614,7 @@ $L_render_level_select_22:
   sys   draw_text_P
   .line 253
   dup8
-  bz    $L_render_level_select_24
+  bz    $L_render_level_select_85
   .line 254
   p3
   getln 6
@@ -6559,20 +11624,20 @@ $L_render_level_select_22:
   push4 4259898
   sys   draw_textf
   .line 253
-  jmp   $L_render_level_select_25
-$L_render_level_select_24:
+  jmp   $L_render_level_select_86
+$L_render_level_select_85:
   .line 256
   p0
   push3 65571
   p00
   push4 4915258
   sys   draw_text_P
-$L_render_level_select_25:
+$L_render_level_select_86:
   .line 258
   p3
   getgn best_time 0
   bool3
-  bz    $L_render_level_select_26
+  bz    $L_render_level_select_87
   .line 260
   pz8
   p00
@@ -6611,18 +11676,18 @@ $L_render_level_select_25:
   sys   draw_text
   popn  11
   .line 258
-  jmp   $L_render_level_select_27
-$L_render_level_select_26:
+  jmp   $L_render_level_select_88
+$L_render_level_select_87:
   .line 266
   p0
   push3 65571
   p00
   push4 7209011
   sys   draw_text_P
-$L_render_level_select_27:
+$L_render_level_select_88:
   .line 268
   dup7
-  bz    $L_render_level_select_28
+  bz    $L_render_level_select_89
   .line 270
   pz8
   p00
@@ -6662,7 +11727,7 @@ $L_render_level_select_27:
   popn  19
   .line 168
   ret
-$L_render_level_select_28:
+$L_render_level_select_89:
   .line 276
   p0
   push3 65571
@@ -6947,17 +12012,42 @@ render_victory:
   .line 133
   p0
 $L_render_victory_2:
-  .line 134
-  p0
-$L_render_victory_6:
   .line 136
   push3 48854
-  dup5
-  p0
+  dup4
+  p00
   p8
-  mul2b
-  sext
+  p00
+  mul3
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_11
+  .line 138
+  dup
+  push4 2205440
   dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  p00
+  sys   draw_sprite
+$L_render_victory_11:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p1
   add3b
   pidx  1 40
   getp
@@ -6966,29 +12056,202 @@ $L_render_victory_6:
   dup
   push3 61440
   cslt2
-  bz    $L_render_victory_8
+  bz    $L_render_victory_13
   .line 138
   dup
   push4 2205440
-  dup8
+  dup7
   p0
   p16
   mul2b
   p8
   sub2b
-  getl  9
+  p16
+  p0
+  sys   draw_sprite
+$L_render_victory_13:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p2
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_15
+  .line 138
+  dup
+  push4 2205440
+  dup7
   p0
   p16
   mul2b
-  sys   draw_sprite
-$L_render_victory_8:
-  pop
-  .line 134
-  inc
-  dup
   p8
-  cult
-  bnz   $L_render_victory_6
+  sub2b
+  p32
+  p0
+  sys   draw_sprite
+$L_render_victory_15:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p3
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_17
+  .line 138
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 48
+  sys   draw_sprite
+$L_render_victory_17:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p4
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_19
+  .line 138
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  p64
+  p0
+  sys   draw_sprite
+$L_render_victory_19:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p5
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_21
+  .line 138
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 80
+  sys   draw_sprite
+$L_render_victory_21:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p6
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_23
+  .line 138
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 96
+  sys   draw_sprite
+$L_render_victory_23:
+  pop
+  .line 136
+  push3 48854
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p7
+  add3b
+  pidx  1 40
+  getp
+  dec
+  .line 137
+  dup
+  push3 61440
+  cslt2
+  bz    $L_render_victory_25
+  .line 138
+  dup
+  push4 2205440
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  push2 112
+  sys   draw_sprite
+$L_render_victory_25:
   pop
   .line 133
   inc
@@ -7069,16 +12332,16 @@ $L_render_victory_8:
   sys   set_text_font
   .line 157
   getg  was_high_score 0
-  bz    $L_render_victory_9
+  bz    $L_render_victory_26
   .line 158
   push4 251666735
   p00
   push4 851997
   sys   draw_text_P
-$L_render_victory_9:
+$L_render_victory_26:
   .line 159
   getg  was_best_time 0
-  bz    $L_render_victory_10
+  bz    $L_render_victory_27
   .line 160
   push4 234889534
   p00
@@ -7086,7 +12349,7 @@ $L_render_victory_9:
   dupw4
   p0
   sys   draw_text_P
-$L_render_victory_10:
+$L_render_victory_27:
   .line 163
   getg  frame_count 0
   p3
@@ -7179,13 +12442,13 @@ $L_resolve_player_collision_18:
 $L_resolve_player_collision_2:
   pop4
   .line 510
-  jmp   $L_resolve_player_collision_7
+  jmp   $L_resolve_player_collision_8
 $L_resolve_player_collision_3:
   .line 520
   p0000
   getg4 vx 0
   cslt4
-  bz    $L_resolve_player_collision_7
+  bz    $L_resolve_player_collision_8
   .line 521
   p00
   getg4 py 0
@@ -7214,7 +12477,7 @@ $L_resolve_player_collision_3:
   getln 16
   call  solid
   .line 520
-  bz    $L_resolve_player_collision_7
+  bz    $L_resolve_player_collision_8
 $L_resolve_player_collision_19:
   .line 524
   p00
@@ -7237,7 +12500,7 @@ $L_resolve_player_collision_19:
   setg4 px 0
 $L_resolve_player_collision_6:
   pop4
-$L_resolve_player_collision_7:
+$L_resolve_player_collision_8:
   .line 530
   getg4 vy 0
   p0000
@@ -7311,7 +12574,7 @@ $L_resolve_player_collision_12:
   p0000
   getg4 vy 0
   cslt4
-  bz    $L_resolve_player_collision_16
+  bz    $L_resolve_player_collision_17
   .line 545
   p0
   p1
@@ -7342,7 +12605,7 @@ $L_resolve_player_collision_12:
   getln 16
   call  solid
   .line 544
-  bz    $L_resolve_player_collision_16
+  bz    $L_resolve_player_collision_17
 $L_resolve_player_collision_21:
   .line 548
   p00
@@ -7370,7 +12633,7 @@ $L_resolve_player_collision_21:
   setg  player_on_ground 0
 $L_resolve_player_collision_15:
   pop4
-$L_resolve_player_collision_16:
+$L_resolve_player_collision_17:
   .line 505
   popn  6
   ret
@@ -7617,11 +12880,11 @@ $L_touch_object_4:
   dup
   p8
   cult
-  bnz   $L_touch_object_11
+  bnz   $L_touch_object_18
   push  12
   dup2
   cult
-  bnz   $L_touch_object_11
+  bnz   $L_touch_object_18
   .line 793
   dupw2
   push  10
@@ -7673,7 +12936,7 @@ $L_touch_object_8:
 $L_touch_object_9:
   .line 800
   getg  mob_jumped 0
-  bnz   $L_touch_object_11
+  bnz   $L_touch_object_18
   .line 802
   p1
   setg  mob_jumped 0
@@ -7706,7 +12969,7 @@ $L_touch_object_10:
   push2 1000
   add2
   setg2 score 0
-$L_touch_object_11:
+$L_touch_object_18:
   .line 763
   pop3
   ret
@@ -7965,7 +13228,7 @@ update_camera_position:
   fsub
   setl4 20
   .line 669
-  jmp   $L_update_camera_position_4
+  jmp   $L_update_camera_position_5
 $L_update_camera_position_0:
   .line 665
   getl4 12
@@ -7990,7 +13253,7 @@ $L_update_camera_position_0:
   fsub
   setl4 20
   .line 669
-  jmp   $L_update_camera_position_4
+  jmp   $L_update_camera_position_5
 $L_update_camera_position_2:
   .line 671
   getl4 4
@@ -8005,12 +13268,12 @@ $L_update_camera_position_2:
   fadd
   setl4 20
   .line 671
-  jmp   $L_update_camera_position_4
+  jmp   $L_update_camera_position_5
 $L_update_camera_position_3:
   .line 674
   getg4 camy 0
   setl4 20
-$L_update_camera_position_4:
+$L_update_camera_position_5:
   pop4
   .line 677
   p128
@@ -8171,7 +13434,7 @@ $L_update_confirm_4:
   .line 46
   getg  pause_menui 0
   dec
-  bnz   $L_update_confirm_6
+  bnz   $L_update_confirm_7
   .line 48
   getg  save_exists 0
   bz    $L_update_confirm_5
@@ -8183,7 +13446,7 @@ $L_update_confirm_4:
 $L_update_confirm_5:
   .line 53
   call  main_menu
-$L_update_confirm_6:
+$L_update_confirm_7:
   .line 61
   getg  frame_count 0
   dec
@@ -8194,14 +13457,14 @@ $L_update_confirm_8:
   .line 56
   p4
   sys   just_pressed
-  bz    $L_update_confirm_9
+  bz    $L_update_confirm_12
   .line 58
   p3
   setg  pause_menui 0
   .line 59
   p3
   setg  state 0
-$L_update_confirm_9:
+$L_update_confirm_12:
   .line 61
   getg  frame_count 0
   dec
@@ -8278,10 +13541,10 @@ $L_update_intro_3:
   .line 279
   p4
   sys   just_pressed
-  bz    $L_update_intro_4
+  bz    $L_update_intro_5
   .line 280
   call  main_menu
-$L_update_intro_4:
+$L_update_intro_5:
   .line 270
   ret
 
@@ -8397,11 +13660,11 @@ $L_update_level_9:
   p0
   setg  jump_frames_remaining 0
   .line 364
-  jmp   $L_update_level_13
+  jmp   $L_update_level_15
 $L_update_level_10:
   .line 366
   getg  jump_frames_remaining 0
-  bz    $L_update_level_13
+  bz    $L_update_level_15
   .line 368
   getg  jump_frames_remaining 0
   dec
@@ -8422,14 +13685,14 @@ $L_update_level_60:
   push2 49171
   setg4 vy 0
   .line 369
-  jmp   $L_update_level_13
+  jmp   $L_update_level_15
 $L_update_level_12:
   .line 372
   push  51
   dup
   push2 49139
   setg4 vy 0
-$L_update_level_13:
+$L_update_level_15:
   .line 377
   getg4 px 0
   sys   floor
@@ -8475,7 +13738,7 @@ $L_update_level_13:
   getp
   .line 384
   dup
-  bz    $L_update_level_25
+  bz    $L_update_level_33
   .line 386
   dec
   .line 387
@@ -8495,7 +13758,7 @@ $L_update_level_13:
   fadd
   setg4 vy 0
   .line 387
-  jmp   $L_update_level_25
+  jmp   $L_update_level_33
 $L_update_level_17:
   .line 389
   dup
@@ -8514,7 +13777,7 @@ $L_update_level_17:
   fadd
   setg4 vx 0
   .line 389
-  jmp   $L_update_level_25
+  jmp   $L_update_level_33
 $L_update_level_18:
   .line 391
   dup
@@ -8533,7 +13796,7 @@ $L_update_level_18:
   fadd
   setg4 vx 0
   .line 391
-  jmp   $L_update_level_25
+  jmp   $L_update_level_33
 $L_update_level_19:
   .line 393
   dup
@@ -8549,7 +13812,7 @@ $L_update_level_19:
   push3 39960
   sys   tones_play_primary
   .line 393
-  jmp   $L_update_level_25
+  jmp   $L_update_level_33
 $L_update_level_20:
   .line 398
   dup
@@ -8566,7 +13829,7 @@ $L_update_level_20:
   push3 39960
   sys   tones_play_primary
   .line 398
-  jmp   $L_update_level_25
+  jmp   $L_update_level_33
 $L_update_level_21:
   .line 403
   dup
@@ -8583,33 +13846,33 @@ $L_update_level_21:
   push3 39960
   sys   tones_play_primary
   .line 403
-  jmp   $L_update_level_25
+  jmp   $L_update_level_33
 $L_update_level_22:
   .line 408
   dup
   push  156
   cult
-  bnz   $L_update_level_25
+  bnz   $L_update_level_33
   push  159
   dup2
   cult
-  bnz   $L_update_level_25
+  bnz   $L_update_level_33
   .line 410
   getg  player_on_ground 0
-  bz    $L_update_level_25
+  bz    $L_update_level_33
   getg  keys 0
   p0
   dup3
   push2 39936
   sub2b
   cult2
-  bnz   $L_update_level_25
+  bnz   $L_update_level_33
   .line 412
   call  level_complete
   .line 413
   popn  13
   ret
-$L_update_level_25:
+$L_update_level_33:
   pop
 $L_update_level_34:
   pop4
@@ -8651,7 +13914,7 @@ $L_update_level_36:
   setg4 vy 0
   .line 433
   getg  death_frames 0
-  bz    $L_update_level_41
+  bz    $L_update_level_44
   .line 435
   p0000
   setl4 8
@@ -8719,7 +13982,7 @@ $L_update_level_38:
   push  192
   dup
   setg4 vy 0
-  jmp   $L_update_level_49
+  jmp   $L_update_level_50
 $L_update_level_39:
   .line 450
   push  70
@@ -8749,18 +14012,18 @@ $L_update_level_39:
   push  192
   dup
   setg4 vy 0
-  jmp   $L_update_level_49
+  jmp   $L_update_level_50
 $L_update_level_40:
   .line 452
   getg  death_frames 0
   push  70
   sub
-  bnz   $L_update_level_41
+  bnz   $L_update_level_44
   .line 453
   p00
   push2 49232
   setg4 vy 0
-$L_update_level_41:
+$L_update_level_44:
   .line 457
   getg4 vx 0
   p00
@@ -8781,7 +14044,7 @@ $L_update_level_41:
   push  192
   dup
   setg4 vy 0
-  jmp   $L_update_level_49
+  jmp   $L_update_level_50
 $L_update_level_45:
   .line 458
   p00
@@ -8789,12 +14052,12 @@ $L_update_level_45:
   p64
   getg4 vx 0
   cflt
-  bz    $L_update_level_46
+  bz    $L_update_level_47
   p00
   p128
   p64
   setg4 vx 0
-$L_update_level_46:
+$L_update_level_47:
   .line 459
   getg4 vy 0
   p00
@@ -8806,18 +14069,18 @@ $L_update_level_46:
   push  192
   dup
   setg4 vy 0
-  jmp   $L_update_level_49
+  jmp   $L_update_level_50
 $L_update_level_48:
   .line 460
   p00
   push2 16576
   getg4 vy 0
   cflt
-  bz    $L_update_level_49
+  bz    $L_update_level_50
   p00
   push2 16576
   setg4 vy 0
-$L_update_level_49:
+$L_update_level_50:
   .line 463
   getg4 px 0
   getg4 vx 0
@@ -8867,7 +14130,7 @@ $L_update_level_52:
 $L_update_level_53:
   .line 476
   getg  death_frames 0
-  bnz   $L_update_level_54
+  bnz   $L_update_level_55
   .line 478
   call  resolve_player_collision
   .line 479
@@ -8883,10 +14146,10 @@ $L_update_level_53:
   setr2
   getr2
   bool2
-  bnz   $L_update_level_54
+  bnz   $L_update_level_55
   .line 484
   call  player_death
-$L_update_level_54:
+$L_update_level_55:
   .line 488
   getg  invincibility_frames 0
   bz    $L_update_level_56
@@ -9023,12 +14286,12 @@ $L_update_level_select_5:
   push  12
   p00
   cslt3
-  bz    $L_update_level_select_6
+  bz    $L_update_level_select_7
   .line 143
   getg  levelseli 0
   inc
   setg  levelseli 0
-$L_update_level_select_6:
+$L_update_level_select_7:
   .line 144
   p0
   setg  frame_count 0
@@ -9043,7 +14306,7 @@ $L_update_level_select_8:
   .line 148
   p8
   sys   just_pressed
-  bz    $L_update_level_select_10
+  bz    $L_update_level_select_13
   .line 150
   call  new_game
   .line 151
@@ -9060,7 +14323,7 @@ $L_update_level_select_8:
   .line 154
   p1
   setg  state 0
-$L_update_level_select_10:
+$L_update_level_select_13:
   .line 122
   ret
 
@@ -9111,11 +14374,11 @@ $L_update_map_objects_4:
   dup
   p8
   cult
-  bnz   $L_update_map_objects_17
+  bnz   $L_update_map_objects_19
   getg  frame_count 0
   p1
   and
-  bz    $L_update_map_objects_17
+  bz    $L_update_map_objects_19
   .line 576
   dupw2
   push  10
@@ -9192,7 +14455,7 @@ $L_update_map_objects_8:
   setr2
   pop2
   .line 582
-  jmp   $L_update_map_objects_17
+  jmp   $L_update_map_objects_19
 $L_update_map_objects_9:
   .line 597
   dupw4
@@ -9227,13 +14490,13 @@ $L_update_map_objects_10:
   setr2
   pop2
   .line 582
-  jmp   $L_update_map_objects_17
+  jmp   $L_update_map_objects_19
 $L_update_map_objects_12:
   .line 607
   dup
   push  12
   sub
-  bnz   $L_update_map_objects_17
+  bnz   $L_update_map_objects_19
   .line 609
   dupw2
   p3
@@ -9307,7 +14570,7 @@ $L_update_map_objects_16:
   add2b
   setr2
   pop2
-$L_update_map_objects_17:
+$L_update_map_objects_19:
   .line 635
   dupw2
   p1
@@ -9431,7 +14694,7 @@ $L_update_menu_2:
   .line 174
   p8
   sys   just_pressed
-  bz    $L_update_menu_8
+  bz    $L_update_menu_12
   .line 176
   getg  menui 0
   bnz   $L_update_menu_5
@@ -9447,7 +14710,7 @@ $L_update_menu_2:
   p1
   setg  state 0
   .line 176
-  jmp   $L_update_menu_8
+  jmp   $L_update_menu_12
 $L_update_menu_3:
   .line 183
   getg  saved_current_map 0
@@ -9475,7 +14738,7 @@ $L_update_menu_3:
   p1
   setg  state 0
   .line 176
-  jmp   $L_update_menu_8
+  jmp   $L_update_menu_12
 $L_update_menu_5:
   .line 192
   getg  menui 0
@@ -9494,7 +14757,7 @@ $L_update_menu_5:
   p8
   setg  state 0
   .line 192
-  jmp   $L_update_menu_8
+  jmp   $L_update_menu_12
 $L_update_menu_6:
   .line 199
   getg  menui 0
@@ -9508,13 +14771,13 @@ $L_update_menu_6:
   .line 202
   call  update_sound
   .line 199
-  jmp   $L_update_menu_8
+  jmp   $L_update_menu_12
 $L_update_menu_7:
   .line 204
   getg  menui 0
   p3
   sub
-  bnz   $L_update_menu_8
+  bnz   $L_update_menu_12
   .line 206
   p0
   setg  frame_count 0
@@ -9524,7 +14787,7 @@ $L_update_menu_7:
   .line 208
   push  10
   setg  state 0
-$L_update_menu_8:
+$L_update_menu_12:
   .line 211
   p128
   sys   just_pressed
@@ -9620,11 +14883,11 @@ $L_update_pause_4:
   dec
   bnz   $L_update_pause_5
   .line 82
-  sys   audio_toggle
-  .line 83
   getg  sound_on 0
   not
   setg  sound_on 0
+  .line 83
+  call  update_sound
   .line 107
   getg  frame_count 0
   dec
@@ -9650,7 +14913,7 @@ $L_update_pause_6:
   getg  pause_menui 0
   p3
   sub
-  bnz   $L_update_pause_8
+  bnz   $L_update_pause_12
   .line 89
   getg  single_level 0
   bz    $L_update_pause_7
@@ -9684,7 +14947,7 @@ $L_update_pause_7:
   .line 101
   push  9
   setg  state 0
-$L_update_pause_8:
+$L_update_pause_12:
   .line 107
   getg  frame_count 0
   dec
@@ -9695,11 +14958,11 @@ $L_update_pause_13:
   .line 105
   p4
   sys   just_pressed
-  bz    $L_update_pause_14
+  bz    $L_update_pause_17
   .line 106
   p2
   setg  state 0
-$L_update_pause_14:
+$L_update_pause_17:
   .line 107
   getg  frame_count 0
   dec
@@ -9748,13 +15011,13 @@ $L_update_score_tally_0:
 $L_update_score_tally_1:
   pop
   .line 219
-  jmp   $L_update_score_tally_5
+  jmp   $L_update_score_tally_6
 $L_update_score_tally_2:
   .line 230
   p00
   getg2 level_frames_remaining 0
   cult2
-  bz    $L_update_score_tally_5
+  bz    $L_update_score_tally_6
   .line 233
   push  117
   .line 234
@@ -9788,7 +15051,7 @@ $L_update_score_tally_3:
   sys   tones_play
 $L_update_score_tally_4:
   pop
-$L_update_score_tally_5:
+$L_update_score_tally_6:
   .line 241
   p8
   sys   just_pressed
@@ -9882,10 +15145,10 @@ $L_update_score_tally_14:
   .line 266
   p4
   sys   just_pressed
-  bz    $L_update_score_tally_15
+  bz    $L_update_score_tally_16
   .line 267
   call  main_menu
-$L_update_score_tally_15:
+$L_update_score_tally_16:
   .line 217
   ret
 
