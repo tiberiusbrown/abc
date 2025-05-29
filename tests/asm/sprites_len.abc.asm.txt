@@ -1043,40 +1043,6 @@ $globinit:
   .line 1
   ret
 
-get_h:
-  .file sprites_len.abc
-  .line 15
-  p3
-  getln 3
-  p1
-  add3b
-  getp
-  setl  4
-  pop3
-  ret
-
-get_len:
-  .file sprites_len.abc
-  .line 20
-  p3
-  getln 3
-  p3
-  add3b
-  getpn 2
-  setl2 5
-  pop3
-  ret
-
-get_w:
-  .file sprites_len.abc
-  .line 10
-  p3
-  getln 3
-  getp
-  setl  4
-  pop3
-  ret
-
 main:
   .file sprites_len.abc
   .line 25
@@ -1138,8 +1104,13 @@ main:
   .line 48
   p00
   p1
-  p0
-  call  get_w
+  p00
+  .line 10
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 48
   p0
   p128
   sub2b
@@ -1150,36 +1121,69 @@ main:
   p0
   p5
   dup
-  p0
-  call  get_w
+  dupw2
+  .line 10
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 49
   p64
   sub
   not
   sys   assert
   .line 50
-  push4 592384
-  call  get_w
+  p0
+  push2 2314
+  dupw2
+  .line 10
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 50
   p32
   sub
   not
   sys   assert
   .line 51
-  push4 855808
-  call  get_w
+  p0
+  push2 3343
+  dupw2
+  .line 10
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 51
   p16
   sub
   not
   sys   assert
   .line 52
-  push4 1119232
-  call  get_w
+  p0
+  push2 4372
+  dupw2
+  .line 10
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 52
   p8
   sub
   not
   sys   assert
   .line 53
-  push4 2169088
-  call  get_w
+  p0
+  push2 8473
+  dupw2
+  .line 10
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 53
   p4
   sub
   not
@@ -1187,8 +1191,13 @@ main:
   .line 55
   p00
   p1
-  p0
-  call  get_h
+  dupw
+  .line 15
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 55
   p64
   sub
   not
@@ -1198,35 +1207,65 @@ main:
   p5
   dup
   p0
-  call  get_h
+  .line 15
+  p6
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 56
   p32
   sub
   not
   sys   assert
   .line 57
-  push4 592384
-  call  get_h
+  p0
+  push4 184551690
+  .line 15
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 57
   p16
   sub
   not
   sys   assert
   .line 58
-  push4 855808
-  call  get_h
+  p0
+  push4 268438799
+  .line 15
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 58
   p8
   sub
   not
   sys   assert
   .line 59
-  push4 1119232
-  call  get_h
+  p0
+  push4 352325908
+  .line 15
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 59
   p4
   sub
   not
   sys   assert
   .line 60
-  push4 2169088
-  call  get_h
+  p0
+  push4 436216089
+  .line 15
+  dupw2
+  getp
+  setl  4
+  pop3
+  .line 60
   p2
   sub
   not
@@ -1235,7 +1274,13 @@ main:
   p000
   p1
   p0
-  call  get_len
+  .line 20
+  p3
+  dupw2
+  getpn 2
+  setl2 5
+  pop3
+  .line 62
   p1
   sub2b
   bool2
@@ -1246,7 +1291,13 @@ main:
   p5
   dup
   p0
-  call  get_len
+  .line 20
+  p8
+  dupw2
+  getpn 2
+  setl2 5
+  pop3
+  .line 63
   p4
   sub2b
   bool2
@@ -1254,8 +1305,13 @@ main:
   sys   assert
   .line 64
   p00
-  push3 2314
-  call  get_len
+  push4 218106122
+  .line 20
+  dupw2
+  getpn 2
+  setl2 5
+  pop3
+  .line 64
   p16
   sub2b
   bool2
@@ -1263,8 +1319,13 @@ main:
   sys   assert
   .line 65
   p00
-  push3 3343
-  call  get_len
+  push4 301993231
+  .line 20
+  dupw2
+  getpn 2
+  setl2 5
+  pop3
+  .line 65
   p64
   sub2b
   bool2
@@ -1272,8 +1333,13 @@ main:
   sys   assert
   .line 66
   p00
-  push3 4372
-  call  get_len
+  push4 385880340
+  .line 20
+  dupw2
+  getpn 2
+  setl2 5
+  pop3
+  .line 66
   p0
   p1
   sub2
@@ -1282,8 +1348,13 @@ main:
   sys   assert
   .line 67
   p00
-  push3 8473
-  call  get_len
+  push4 469770521
+  .line 20
+  dupw2
+  getpn 2
+  setl2 5
+  pop3
+  .line 67
   p0
   p4
   sub2

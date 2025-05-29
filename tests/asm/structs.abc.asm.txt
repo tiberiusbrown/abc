@@ -13,19 +13,6 @@ $globinit:
   .line 1
   ret
 
-f:
-  .file structs.abc
-  .line 15
-  p2
-  p0
-  dupw3
-  p2
-  add2b
-  setr2
-  .line 13
-  pop2
-  ret
-
 main:
   .file structs.abc
   .line 20
@@ -555,7 +542,15 @@ $L_main_56:
   sys   assert
   .line 57
   pushg enemies 32
-  call  f
+  .line 15
+  p2
+  p0
+  dupw3
+  p2
+  add2b
+  setr2
+  .line 13
+  pop2
   .line 58
   getg2 enemies 32
   push  42

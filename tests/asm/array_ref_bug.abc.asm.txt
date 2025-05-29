@@ -13,20 +13,15 @@ $globinit:
   setg4 a 0
   ret
 
-f:
-  .file array_ref_bug.abc
-  .line 7
-  getg4 a 0
-  setl4 4
-  ret
-
 main:
   .file array_ref_bug.abc
   .line 12
   sys   debug_break
   .line 14
   p0000
-  call  f
+  .line 7
+  getg4 a 0
+  setl4 4
   .line 15
   refl  4
   .line 17

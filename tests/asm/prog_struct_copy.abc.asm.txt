@@ -10,8 +10,14 @@ $globinit:
   .line 1
   ret
 
-f:
+main:
   .file prog_struct_copy.abc
+  .line 22
+  sys   debug_break
+  .line 24
+  p0
+  p1
+  p0
   .line 15
   alloc 32
   p3
@@ -35,17 +41,6 @@ f:
   sys   assert
   .line 13
   popn  35
-  ret
-
-main:
-  .file prog_struct_copy.abc
-  .line 22
-  sys   debug_break
-  .line 24
-  p0
-  p1
-  p0
-  call  f
   .line 26
   sys   debug_break
   .line 20

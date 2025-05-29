@@ -17,16 +17,6 @@ main:
   push4 1061813223
   push4 1083304837
   push4 1067282596
-  call  rot
-  push  36
-  setgn r 0
-  .line 42
-  sys   debug_break
-  .line 36
-  ret
-
-rot:
-  .file mat3rotation.abc
   .line 8
   pz16
   pz16
@@ -125,5 +115,11 @@ rot:
   push  36
   setln 116
   popn  80
+  .line 40
+  push  36
+  setgn r 0
+  .line 42
+  sys   debug_break
+  .line 36
   ret
 

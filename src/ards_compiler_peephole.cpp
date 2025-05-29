@@ -206,12 +206,12 @@ bool compiler_t::should_inline(std::string const& func, int ref_count)
     if(!is_inlinable(func)) return false;
     if(!funcs.count(func)) return false;
     if(ref_count == 1) return true;
-#if 1
+#if 0
     return false;
 #else
     auto const& instrs = funcs[func].instrs;
     if(instrs.size() <= 8) return true;
-    if((size_t)ref_count * instrs.size() < 128)
+    if((size_t)(ref_count - 1) * instrs.size() <= inlining_max_add_instrs)
         return true;
     return false;
 #endif
@@ -775,6 +775,29 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
+
+        // replace:
+        //     PUSH N
+        //     GETGN/GETLN M
+        //     PUSH N
+        //     SETLN N
+        // with:
+        //     POPN N
+        //     PUSH N
+        //     GETGN/GETLN M
+        //if(i0.instr == I_PUSH &&
+        //    (i1.instr == I_GETGN || i1.instr == I_GETLN) &&
+        //    i2.instr == I_PUSH && i3.instr == I_SETLN &&
+        //    i0.imm == i2.imm && i0.imm == i3.imm)
+        //{
+        //    i2 = i1;
+        //    i1.instr = I_PUSH;
+        //    i1.imm = i0.imm;
+        //    i0.instr = I_POPN;
+        //    i3.instr = I_REMOVE;
+        //    t = true;
+        //    continue;
+        //}
 
         // combine consecutive GETLNs to adjacant stack locations
         if(i0.instr == I_PUSH && i1.instr == I_GETLN &&
