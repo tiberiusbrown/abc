@@ -633,6 +633,7 @@ struct compiler_t
     size_t switch_min_ranges_for_jump_table = 16;
     size_t for_unroll_max_instrs = 1024; // max total instrs in unrolled loop
     size_t for_unroll_max_iters = 64;
+    size_t max_getpn_bake = 16; // max bytes to bake a GETPN into PUSHs
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
 

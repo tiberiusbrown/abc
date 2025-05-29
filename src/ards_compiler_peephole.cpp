@@ -346,6 +346,38 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
     for(size_t i = 0; i + 1 < f.instrs.size(); ++i)
     {
+        // replace the GETLN with PUSHs in:
+        //     PUSH <N times>; PUSH <K>; GETLN M;  (M+K <= N)
+        if(0)
+        {
+            size_t num_pushes = 0;
+            for(size_t j = i; j + 1 < f.instrs.size(); ++j, ++num_pushes)
+                if(f.instrs[j].instr != I_PUSH) break;
+            if(num_pushes >= 2)
+            {
+                auto& ig = f.instrs[i + num_pushes];
+                size_t m = ig.imm;
+                auto& in = f.instrs[i + num_pushes - 1];
+                size_t k = in.imm;
+                if(ig.instr == I_GETLN && m + k <= num_pushes && k >= 1)
+                {
+                    ig.instr = I_REMOVE;
+                    in.instr = I_REMOVE;
+                    if(k > 2)
+                        f.instrs.insert(f.instrs.begin() + num_pushes, k - 2, ig);
+                    for(size_t j = 0; j < k; ++j)
+                    {
+                        auto& idst = f.instrs[num_pushes + j - 1];
+                        auto& isrc = f.instrs[num_pushes + j - 1 - m];
+                        idst.instr = I_PUSH;
+                        idst.imm = isrc.imm;
+                    }
+                    t = true;
+                    continue;
+                }
+            }
+        }
+
         auto& i0 = f.instrs[i + 0];
 
         if((i0.instr == I_POPN || i0.instr == I_ALLOC) && i0.imm == 0)
@@ -775,6 +807,61 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
+
+        // replace PUSH; PUSH; PUSH; GETPN <N> with a bunch of pushes
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_PUSH &&
+            i3.instr == I_GETPN && i3.imm <= max_getpn_bake)
+        {
+            size_t n = i3.imm;
+            uint32_t offset = 0;
+            offset += (i0.imm << 0);
+            offset += (i1.imm << 8);
+            offset += (i2.imm << 16);
+            uint8_t const* d = nullptr;
+            for(auto const& [k, v] : progdata)
+            {
+                if(offset < v.offset)
+                    continue;
+                uint32_t off = offset - v.offset;
+                if(size_t(off + n) > v.data.size())
+                    continue;
+                bool valid = true;
+                for(auto const& p : v.relocs_glob)
+                    if(p.first >= off && p.first < off + n)
+                        valid = false;
+                for(auto const& p : v.relocs_prog)
+                    if(p.first >= off && p.first < off + n)
+                        valid = false;
+                if(!valid)
+                    break;
+                d = v.data.data() + off;
+                break;
+            }
+            if(!d) continue;
+
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+
+            auto line = i0.line;
+            auto file = i0.file;
+            if(n > 4)
+                f.instrs.insert(f.instrs.begin() + i, n - 4, i0);
+
+            // i0, i1 invalidated now
+
+            for(size_t j = 0; j < n; ++j)
+            {
+                auto& ti = f.instrs[i + j];
+                ti.instr = I_PUSH;
+                ti.line = line;
+                ti.imm = d[j];
+                ti.file = file;
+            }
+            t = true;
+            continue;
+        }
 
         // replace:
         //     PUSH N

@@ -1104,10 +1104,9 @@ main:
   .line 48
   p00
   p1
-  p00
+  p0
   .line 10
-  dupw2
-  getp
+  p128
   setl  4
   pop3
   .line 48
@@ -1121,10 +1120,9 @@ main:
   p0
   p5
   dup
-  dupw2
+  p0
   .line 10
-  dupw2
-  getp
+  p64
   setl  4
   pop3
   .line 49
@@ -1134,11 +1132,8 @@ main:
   sys   assert
   .line 50
   p0
-  push2 2314
-  dupw2
+  push4 536873226
   .line 10
-  dupw2
-  getp
   setl  4
   pop3
   .line 50
@@ -1148,11 +1143,8 @@ main:
   sys   assert
   .line 51
   p0
-  push2 3343
-  dupw2
+  push4 268438799
   .line 10
-  dupw2
-  getp
   setl  4
   pop3
   .line 51
@@ -1162,11 +1154,8 @@ main:
   sys   assert
   .line 52
   p0
-  push2 4372
-  dupw2
+  push4 134222100
   .line 10
-  dupw2
-  getp
   setl  4
   pop3
   .line 52
@@ -1176,11 +1165,8 @@ main:
   sys   assert
   .line 53
   p0
-  push2 8473
-  dupw2
+  push4 67117337
   .line 10
-  dupw2
-  getp
   setl  4
   pop3
   .line 53
@@ -1191,10 +1177,9 @@ main:
   .line 55
   p00
   p1
-  dupw
+  p0
   .line 15
-  dupw2
-  getp
+  p64
   setl  4
   pop3
   .line 55
@@ -1208,9 +1193,7 @@ main:
   dup
   p0
   .line 15
-  p6
-  dupw2
-  getp
+  p32
   setl  4
   pop3
   .line 56
@@ -1220,10 +1203,8 @@ main:
   sys   assert
   .line 57
   p0
-  push4 184551690
+  push4 268437770
   .line 15
-  dupw2
-  getp
   setl  4
   pop3
   .line 57
@@ -1233,10 +1214,8 @@ main:
   sys   assert
   .line 58
   p0
-  push4 268438799
+  push4 134221071
   .line 15
-  dupw2
-  getp
   setl  4
   pop3
   .line 58
@@ -1246,10 +1225,8 @@ main:
   sys   assert
   .line 59
   p0
-  push4 352325908
+  push4 67113236
   .line 15
-  dupw2
-  getp
   setl  4
   pop3
   .line 59
@@ -1259,10 +1236,8 @@ main:
   sys   assert
   .line 60
   p0
-  push4 436216089
+  push4 33562905
   .line 15
-  dupw2
-  getp
   setl  4
   pop3
   .line 60
@@ -1273,11 +1248,9 @@ main:
   .line 62
   p000
   p1
-  p0
+  dupw
   .line 20
-  p3
-  dupw2
-  getpn 2
+  p0
   setl2 5
   pop3
   .line 62
@@ -1292,9 +1265,8 @@ main:
   dup
   p0
   .line 20
-  p8
-  dupw2
-  getpn 2
+  p4
+  p0
   setl2 5
   pop3
   .line 63
@@ -1305,10 +1277,9 @@ main:
   sys   assert
   .line 64
   p00
-  push4 218106122
+  push4 268437770
   .line 20
-  dupw2
-  getpn 2
+  p0
   setl2 5
   pop3
   .line 64
@@ -1319,10 +1290,9 @@ main:
   sys   assert
   .line 65
   p00
-  push4 301993231
+  push4 1073745167
   .line 20
-  dupw2
-  getpn 2
+  p0
   setl2 5
   pop3
   .line 65
@@ -1333,10 +1303,10 @@ main:
   sys   assert
   .line 66
   p00
-  push4 385880340
+  push2 4372
+  p00
   .line 20
-  dupw2
-  getpn 2
+  p1
   setl2 5
   pop3
   .line 66
@@ -1348,10 +1318,10 @@ main:
   sys   assert
   .line 67
   p00
-  push4 469770521
+  push2 8473
+  p00
   .line 20
-  dupw2
-  getpn 2
+  p4
   setl2 5
   pop3
   .line 67
