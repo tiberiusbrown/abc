@@ -3028,12 +3028,320 @@ $L_main_11:
   not
   sys   assert
   .line 316
-  p000
+  p00
   p128
   .line 317
   p1
   sys   assert
   .line 318
+  p3
+  getln 3
+  p0
+  p1
+  lsr4
+  pop
+  p00
+  p64
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 319
+  p3
+  getln 3
+  p0
+  p2
+  lsr4
+  pop
+  p00
+  p32
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 320
+  p3
+  getln 3
+  p0
+  p3
+  lsr4
+  pop
+  p00
+  p16
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 321
+  p3
+  getln 3
+  p0
+  p4
+  lsr4
+  pop
+  p00
+  p8
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 322
+  p3
+  getln 3
+  p0
+  p5
+  lsr4
+  pop
+  p00
+  p4
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 323
+  p3
+  getln 3
+  p0
+  p6
+  lsr4
+  pop
+  p00
+  p2
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 324
+  p3
+  getln 3
+  p0
+  p7
+  lsr4
+  pop
+  p00
+  p1
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 325
+  p3
+  getln 3
+  p0
+  p8
+  lsr4
+  pop
+  p0
+  p128
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 326
+  p3
+  getln 3
+  push2 2304
+  lsr4
+  pop
+  p0
+  p64
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 327
+  p3
+  getln 3
+  push2 2560
+  lsr4
+  pop
+  p0
+  p32
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 328
+  p3
+  getln 3
+  push2 2816
+  lsr4
+  pop
+  p0
+  p16
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 329
+  p3
+  getln 3
+  push2 3072
+  lsr4
+  pop
+  p0
+  p8
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 330
+  p3
+  getln 3
+  push2 3328
+  lsr4
+  pop
+  p0
+  p4
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 331
+  p3
+  getln 3
+  push2 3584
+  lsr4
+  pop
+  p0
+  p2
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 332
+  p3
+  getln 3
+  push2 3840
+  lsr4
+  pop
+  p0
+  p1
+  p0
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 333
+  p3
+  getln 3
+  p0
+  p16
+  lsr4
+  pop
+  p128
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 334
+  p3
+  getln 3
+  push2 4352
+  lsr4
+  pop
+  p64
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 335
+  p3
+  getln 3
+  push2 4608
+  lsr4
+  pop
+  p32
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 336
+  p3
+  getln 3
+  push2 4864
+  lsr4
+  pop
+  p16
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 337
+  p3
+  getln 3
+  push2 5120
+  lsr4
+  pop
+  p8
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 338
+  p3
+  getln 3
+  push2 5376
+  lsr4
+  pop
+  p4
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 339
+  p3
+  getln 3
+  push2 5632
+  lsr4
+  pop
+  p2
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 340
+  p3
+  getln 3
+  push2 5888
+  lsr4
+  pop
+  p1
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 341
+  p3
+  getln 3
+  push2 6144
+  lsr4
+  pop
+  bool3
+  not
+  sys   assert
+  .line 343
+  p000
+  p128
+  .line 344
+  p1
+  sys   assert
+  .line 345
   getl4 4
   p1
   asr4
@@ -3043,7 +3351,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 319
+  .line 346
   getl4 4
   p2
   asr4
@@ -3053,7 +3361,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 320
+  .line 347
   getl4 4
   p3
   asr4
@@ -3063,7 +3371,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 321
+  .line 348
   getl4 4
   p4
   asr4
@@ -3073,7 +3381,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 322
+  .line 349
   getl4 4
   p5
   asr4
@@ -3083,7 +3391,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 323
+  .line 350
   getl4 4
   p6
   asr4
@@ -3093,7 +3401,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 324
+  .line 351
   getl4 4
   p7
   asr4
@@ -3103,7 +3411,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 325
+  .line 352
   getl4 4
   p8
   asr4
@@ -3113,7 +3421,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 326
+  .line 353
   getl4 4
   push  9
   asr4
@@ -3123,7 +3431,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 327
+  .line 354
   getl4 4
   push  10
   asr4
@@ -3133,7 +3441,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 328
+  .line 355
   getl4 4
   push  11
   asr4
@@ -3143,7 +3451,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 329
+  .line 356
   getl4 4
   push  12
   asr4
@@ -3153,7 +3461,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 330
+  .line 357
   getl4 4
   push  13
   asr4
@@ -3163,7 +3471,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 331
+  .line 358
   getl4 4
   push  14
   asr4
@@ -3173,7 +3481,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 332
+  .line 359
   getl4 4
   push  15
   asr4
@@ -3184,7 +3492,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 333
+  .line 360
   getl4 4
   p16
   asr4
@@ -3195,7 +3503,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 334
+  .line 361
   getl4 4
   push  17
   asr4
@@ -3205,7 +3513,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 335
+  .line 362
   getl4 4
   push  18
   asr4
@@ -3215,7 +3523,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 336
+  .line 363
   getl4 4
   push  19
   asr4
@@ -3225,7 +3533,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 337
+  .line 364
   getl4 4
   push  20
   asr4
@@ -3235,7 +3543,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 338
+  .line 365
   getl4 4
   push  21
   asr4
@@ -3245,7 +3553,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 339
+  .line 366
   getl4 4
   push  22
   asr4
@@ -3255,7 +3563,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 340
+  .line 367
   getl4 4
   push  23
   asr4
@@ -3266,7 +3574,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 341
+  .line 368
   getl4 4
   push  24
   asr4
@@ -3277,7 +3585,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 342
+  .line 369
   getl4 4
   push  25
   asr4
@@ -3288,7 +3596,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 343
+  .line 370
   getl4 4
   push  26
   asr4
@@ -3299,7 +3607,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 344
+  .line 371
   getl4 4
   push  27
   asr4
@@ -3310,7 +3618,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 345
+  .line 372
   getl4 4
   push  28
   asr4
@@ -3321,7 +3629,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 346
+  .line 373
   getl4 4
   push  29
   asr4
@@ -3332,7 +3640,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 347
+  .line 374
   getl4 4
   push  30
   asr4
@@ -3343,7 +3651,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 348
+  .line 375
   getl4 4
   push  31
   asr4
@@ -3354,7 +3662,7 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 349
+  .line 376
   getl4 4
   p32
   asr4
@@ -3365,9 +3673,9 @@ $L_main_11:
   bool4
   not
   sys   assert
-  .line 351
+  .line 378
   sys   debug_break
   .line 8
-  popn  10
+  popn  13
   ret
 

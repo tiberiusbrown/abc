@@ -125,6 +125,9 @@ void test_u24()
     $assert(a % b == 30000);
     $assert(a << 1 == 900000);
     $assert(a >> 1 == 225000);
+    $assert(a % 256 == 208);
+    $assert(a / 2 == 225000);
+    $assert(a / 3 == 150000);
     $assert(u8(a >> 11) == u8(219));
     
     $assert(a == 450000);

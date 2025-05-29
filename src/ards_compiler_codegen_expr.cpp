@@ -876,6 +876,23 @@ no_memcpy_optimization:
             return;
         }
 
+        // convert modulo into bitwise AND
+        if(a.data == "%" && !a.comp_type.is_float &&
+            a.comp_type.prim_size != 3 && !a.comp_type.is_signed &&
+            is_power_of_two(a.children[1]))
+        {
+            uint32_t mask = uint32_t(a.children[1].value - 1);
+            instr_t ti = I_AND;
+            if(a.comp_type.prim_size == 2) ti = I_AND2;
+            if(a.comp_type.prim_size == 4) ti = I_AND4;
+            codegen_expr(f, frame, a.children[0], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
+            for(size_t i = 0; i < a.comp_type.prim_size; ++i)
+                f.instrs.push_back({ I_PUSH, a.children[1].line(), uint8_t(mask >> (i * 8)) });
+            f.instrs.push_back({ ti, a.line() });
+            return;
+        }
+
         c0 = a.data == "*" && is_constant<1>(a.children[0]);
         c1 = is_constant<1>(a.children[1]);
 
