@@ -15,6 +15,27 @@ static bool is_constant(ast_node_t const& n)
         n.type == AST::FLOAT_CONST && n.fvalue == double(C);
 }
 
+static bool is_power_of_two(int64_t x)
+{
+    if(x <= 0) return false;
+    return ((uint32_t)x & (uint32_t)(x - 1)) == 0;
+}
+
+static bool is_power_of_two(ast_node_t const& n)
+{
+    return n.type == AST::INT_CONST && is_power_of_two(n.value);
+}
+
+static uint8_t get_pow2_shift(int64_t x)
+{
+    if(x == 0) return 0;
+    uint8_t n = 0;
+    uint32_t t = (uint32_t)x;
+    while(!(t & 1))
+        t >>= 1, ++n;
+    return n;
+}
+
 void compiler_t::resolve_format_call(
     ast_node_t const& n, compiler_func_decl_t const& decl,
     std::vector<compiler_type_t>& arg_types, std::string& fmt)
@@ -826,8 +847,37 @@ no_memcpy_optimization:
     {
         assert(a.children.size() == 2);
 
-        bool c0 = a.data == "*" && is_constant<1>(a.children[0]);
-        bool c1 = is_constant<1>(a.children[1]);
+        bool c0, c1;
+
+        c0 = is_constant<0>(a.children[0]);
+        c1 = a.data == "*" && is_constant<0>(a.children[1]);
+
+        if(c0 || c1)
+        {
+            f.instrs.push_back({ I_PUSH, a.line(), 0 });
+            frame.size += 1;
+            codegen_convert(f, frame, a, a.comp_type, TYPE_U8);
+            return;
+        }
+
+        // convert division into right shift
+        if(a.data == "/" && !a.comp_type.is_float &&
+            a.comp_type.prim_size != 3 && !a.comp_type.is_signed &&
+            is_power_of_two(a.children[1]))
+        {
+            uint8_t shift = get_pow2_shift(a.children[1].value);
+            instr_t ti = I_LSR;
+            if(a.comp_type.prim_size == 2) ti = I_LSR2;
+            if(a.comp_type.prim_size == 4) ti = I_LSR4;
+            codegen_expr(f, frame, a.children[0], false);
+            codegen_convert(f, frame, a, a.comp_type, a.children[0].comp_type);
+            f.instrs.push_back({ I_PUSH, a.children[1].line(), shift });
+            f.instrs.push_back({ ti, a.line() });
+            return;
+        }
+
+        c0 = a.data == "*" && is_constant<1>(a.children[0]);
+        c1 = is_constant<1>(a.children[1]);
 
         if(!c0 || (c0 && c1))
         {

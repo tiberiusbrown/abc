@@ -5471,9 +5471,8 @@ $L_render_37:
   push2 111
   getl  9
   p000
-  p2
-  p000
-  udiv4
+  p1
+  lsr4
   pop2
   sub2
   sys   draw_text
@@ -5547,9 +5546,8 @@ $L_render_38:
   push2 110
   getl  9
   p000
-  p2
-  p000
-  udiv4
+  p1
+  lsr4
   pop2
   sub2
   sys   draw_text
@@ -5600,9 +5598,8 @@ $L_render_40:
   push2 17
   getl  9
   p000
-  p2
-  p000
-  udiv4
+  p1
+  lsr4
   pop2
   sub2
   sys   draw_text
@@ -6069,9 +6066,8 @@ $L_render_139:
   push2 40
   getl  9
   p000
-  p2
-  p000
-  udiv4
+  p1
+  lsr4
   pop2
   sub2
   sys   draw_text
@@ -12226,9 +12222,8 @@ $L_render_level_70:
   p0
   dup3
   p000
-  p2
-  p000
-  udiv4
+  p1
+  lsr4
   pop2
   sub2
   .line 515

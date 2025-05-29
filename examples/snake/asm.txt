@@ -587,9 +587,8 @@ $L_main_42:
   p64
   dup2
   p000
-  p2
-  p000
-  udiv4
+  p1
+  lsr4
   pop3
   sub
   .line 189

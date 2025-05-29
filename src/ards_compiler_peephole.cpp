@@ -752,8 +752,33 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
+        // remove shift identities
+        if(i0.instr == I_PUSH && i0.imm == 0 && (
+            i1.instr == I_LSL || i1.instr == I_LSL2 || i1.instr == I_LSL4 ||
+            i1.instr == I_LSR || i1.instr == I_LSR2 || i1.instr == I_LSR4 ||
+            i1.instr == I_ASR || i1.instr == I_ASR2 || i1.instr == I_ASR4))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
+
+        // bake shift ops
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH && (
+            i2.instr == I_LSL || i2.instr == I_LSR || i2.instr == I_ASR))
+        {
+            if(i2.instr == I_LSL) i0.imm = uint8_t(i0.imm << i1.imm);
+            if(i2.instr == I_LSR) i0.imm = uint8_t(i0.imm >> i1.imm);
+            if(i2.instr == I_ASR) i0.imm = uint8_t((int8_t)i0.imm >> i1.imm);
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // replace BZ <L1>; JMP <L2>; <L1>: with BNZ <L2>
         // replace BNZ <L1>; JMP <L2>; <L1>: with BZ <L2>
@@ -880,6 +905,22 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
+
+        // bake shift ops
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_PUSH && (
+            i3.instr == I_LSL2 || i3.instr == I_LSR2 || i3.instr == I_ASR2))
+        {
+            uint16_t imm = i0.imm + (i1.imm << 8);
+            if(i3.instr == I_LSL2) imm = uint16_t(imm << i2.imm);
+            if(i3.instr == I_LSR2) imm = uint16_t(imm >> i2.imm);
+            if(i3.instr == I_ASR2) imm = uint16_t((int16_t)imm >> i2.imm);
+            i0.imm = uint8_t(imm >> 0);
+            i1.imm = uint8_t(imm >> 8);
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         // replace PUSH; PUSH; PUSH; GETPN <N> with a bunch of pushes
         if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_PUSH &&
@@ -1201,6 +1242,25 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         if(i + 5 >= f.instrs.size()) continue;
         auto& i5 = f.instrs[i + 5];
+
+        // bake shift ops
+        if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_PUSH &&
+            i3.instr == I_PUSH && i4.instr == I_PUSH && (
+            i5.instr == I_LSL4 || i5.instr == I_LSR4 || i5.instr == I_ASR4))
+        {
+            uint32_t imm = i0.imm + (i1.imm << 8) + (i2.imm << 16) + (i3.imm << 24);
+            if(i5.instr == I_LSL4) imm = uint32_t(imm << i4.imm);
+            if(i5.instr == I_LSR4) imm = uint32_t(imm >> i4.imm);
+            if(i5.instr == I_ASR4) imm = uint32_t((int32_t)imm >> i4.imm);
+            i0.imm = uint8_t(imm >> 0);
+            i1.imm = uint8_t(imm >> 8);
+            i2.imm = uint8_t(imm >> 16);
+            i3.imm = uint8_t(imm >> 24);
+            i4.instr = I_REMOVE;
+            i5.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
 
         if(i + 6 >= f.instrs.size()) continue;
         auto& i6 = f.instrs[i + 6];

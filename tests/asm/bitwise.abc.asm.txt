@@ -715,8 +715,6 @@ $L_main_11:
   setg  a1 0
   .line 76
   getg  a1 0
-  p0
-  lsl
   dec
   not
   sys   assert
@@ -788,8 +786,6 @@ $L_main_11:
   setg2 a2 0
   .line 87
   getg2 a2 0
-  p0
-  lsl2
   p1
   sub2b
   bool2
@@ -953,9 +949,6 @@ $L_main_11:
   .line 106
   p3
   getgn a3 0
-  p00
-  lsl4
-  pop
   p1
   p00
   sub3
@@ -1270,8 +1263,6 @@ $L_main_11:
   setg4 a4 0
   .line 133
   getg4 a4 0
-  p0
-  lsl4
   p1
   p000
   sub4
@@ -1616,8 +1607,6 @@ $L_main_11:
   setg  a1 0
   .line 168
   getg  a1 0
-  p0
-  lsr
   p128
   sub
   not
@@ -1689,8 +1678,6 @@ $L_main_11:
   setg2 a2 0
   .line 179
   getg2 a2 0
-  p0
-  lsr2
   p0
   p128
   sub2
@@ -1854,9 +1841,6 @@ $L_main_11:
   .line 198
   p3
   getgn a3 0
-  p00
-  lsr4
-  pop
   p00
   p128
   sub3
@@ -2171,8 +2155,6 @@ $L_main_11:
   setg4 a4 0
   .line 225
   getg4 a4 0
-  p0
-  lsr4
   p000
   p128
   sub4
@@ -2515,14 +2497,7 @@ $L_main_11:
   .line 259
   p128
   .line 260
-  dup
-  p0
-  asr
-  sext
-  p128
-  add2b
-  bool2
-  not
+  p1
   sys   assert
   .line 261
   dup
@@ -2592,15 +2567,7 @@ $L_main_11:
   p0
   p128
   .line 271
-  dupw
-  p0
-  asr2
-  sext
-  p0
-  push2 65408
-  sub3
-  bool3
-  not
+  p1
   sys   assert
   .line 272
   dupw
@@ -2750,16 +2717,7 @@ $L_main_11:
   p00
   p128
   .line 290
-  p00
-  push3 65408
-  asr4
-  pop
-  sext
-  p00
-  push2 65408
-  sub4
-  bool4
-  not
+  p1
   sys   assert
   .line 291
   p3
@@ -3073,14 +3031,7 @@ $L_main_11:
   p000
   p128
   .line 317
-  p000
-  dupw3
-  asr4
-  p000
-  p128
-  sub4
-  bool4
-  not
+  p1
   sys   assert
   .line 318
   getl4 4
