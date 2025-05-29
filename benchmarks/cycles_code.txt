@@ -40,10 +40,21 @@
    7028    $format(b, "%.8f", 35124.79687500)
    7453    $format(b, "%.8f", 1299617.50000000)
     750    for(u8  i = 10; i != 0; --i) { $assert(1); }
+    750    for(u16 i = 10; i != 0; --i) { $assert(1); }
+    750    for(u24 i = 10; i != 0; --i) { $assert(1); }
+    750    for(u32 i = 10; i != 0; --i) { $assert(1); }
+    750    for(u8  i = 10; i != 0; i--) { $assert(1); }
+    750    for(u16 i = 10; i != 0; i--) { $assert(1); }
+    750    for(u24 i = 10; i != 0; i--) { $assert(1); }
+    750    for(u32 i = 10; i != 0; i--) { $assert(1); }
     750    for(u8  i = 0; i < 10; ++i) { $assert(1); }
     750    for(u16 i = 0; i < 10; ++i) { $assert(1); }
     750    for(u24 i = 0; i < 10; ++i) { $assert(1); }
     750    for(u32 i = 0; i < 10; ++i) { $assert(1); }
+    750    for(u8  i = 0; i < 10; i++) { $assert(1); }
+    750    for(u16 i = 0; i < 10; i++) { $assert(1); }
+    750    for(u24 i = 0; i < 10; i++) { $assert(1); }
+    750    for(u32 i = 0; i < 10; i++) { $assert(1); }
     244    udiv4 : 249 / 200
     286    udiv4 : 28885 / 3829
     341    udiv4 : 125688 / 11881

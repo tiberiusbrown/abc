@@ -144,6 +144,41 @@ void main()
     for(u8  i = 10; i != 0; --i) { $assert(1); }
     $debug_break();
     
+    $debug_printf("for(u16 i = 10; i != 0; --i) { $assert(1); }\n");
+    $debug_break();
+    for(u16 i = 10; i != 0; --i) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u24 i = 10; i != 0; --i) { $assert(1); }\n");
+    $debug_break();
+    for(u24 i = 10; i != 0; --i) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u32 i = 10; i != 0; --i) { $assert(1); }\n");
+    $debug_break();
+    for(u32 i = 10; i != 0; --i) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u8  i = 10; i != 0; i--) { $assert(1); }\n");
+    $debug_break();
+    for(u8  i = 10; i != 0; i--) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u16 i = 10; i != 0; i--) { $assert(1); }\n");
+    $debug_break();
+    for(u16 i = 10; i != 0; i--) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u24 i = 10; i != 0; i--) { $assert(1); }\n");
+    $debug_break();
+    for(u24 i = 10; i != 0; i--) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u32 i = 10; i != 0; i--) { $assert(1); }\n");
+    $debug_break();
+    for(u32 i = 10; i != 0; i--) { $assert(1); }
+    $debug_break();
+    
     $debug_printf("for(u8  i = 0; i < 10; ++i) { $assert(1); }\n");
     $debug_break();
     for(u8  i = 0; i < 10; ++i) { $assert(1); }
@@ -162,6 +197,26 @@ void main()
     $debug_printf("for(u32 i = 0; i < 10; ++i) { $assert(1); }\n");
     $debug_break();
     for(u32 i = 0; i < 10; ++i) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u8  i = 0; i < 10; i++) { $assert(1); }\n");
+    $debug_break();
+    for(u8  i = 0; i < 10; i++) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u16 i = 0; i < 10; i++) { $assert(1); }\n");
+    $debug_break();
+    for(u16 i = 0; i < 10; i++) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u24 i = 0; i < 10; i++) { $assert(1); }\n");
+    $debug_break();
+    for(u24 i = 0; i < 10; i++) { $assert(1); }
+    $debug_break();
+    
+    $debug_printf("for(u32 i = 0; i < 10; i++) { $assert(1); }\n");
+    $debug_break();
+    for(u32 i = 0; i < 10; i++) { $assert(1); }
     $debug_break();
     
     {

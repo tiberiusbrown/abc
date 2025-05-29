@@ -145,6 +145,12 @@ bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
         if(expr.data == "-")
             u.incr = -u.incr;
     }
+    else if(iter.type == AST::OP_INC_POST || iter.type == AST::OP_DEC_POST)
+    {
+        auto const& nv = iter.children[0];
+        if(!is_ident(nv, u.var_name)) return false;
+        u.incr = iter.type == AST::OP_INC_POST ? 1 : -1;
+    }
     else return 0;
 
     // figure out number of iterations
