@@ -625,6 +625,7 @@ struct compiler_t
     // "Private but technically public" API
     //
 
+    bool enable_unrolling = true;
     bool enable_inlining = false;
     bool enable_jmp_to_ret = true;
     bool enable_bake_pushl = true;

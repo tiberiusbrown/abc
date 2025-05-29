@@ -663,8 +663,6 @@ void compiler_t::compile(
                 i.file = file;
         }
     }
-
-    optimize();
     
     // in case the program has calls to text functions but does not have
     // any font data, insert a call to set_text_font at the end of $globinit
@@ -711,6 +709,8 @@ void compiler_t::compile(
             }
         }
     }
+
+    optimize();
 
     write(fo);
 }

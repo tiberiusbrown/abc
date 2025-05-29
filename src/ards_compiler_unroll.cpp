@@ -87,6 +87,9 @@ bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
     assert(n.children[1].children.size() == 3);
     assert(n.children[1].children[1].type == AST::BLOCK);
 
+    if(!enable_unrolling)
+        return false;
+
     auto const& stmt_init = n.children[0];
     auto const& cond = without_cast(n.children[1].children[0]);
     //auto const& stmt_body = n.children[1].children[1];
