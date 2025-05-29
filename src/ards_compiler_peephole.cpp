@@ -348,7 +348,6 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
     {
         // replace the GETLN with PUSHs in:
         //     PUSH <N times>; PUSH <K>; GETLN M;  (M+K <= N)
-        if(0)
         {
             size_t num_pushes = 0;
             for(size_t j = i; j + 1 < f.instrs.size(); ++j, ++num_pushes)
@@ -364,11 +363,11 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
                     ig.instr = I_REMOVE;
                     in.instr = I_REMOVE;
                     if(k > 2)
-                        f.instrs.insert(f.instrs.begin() + num_pushes, k - 2, ig);
+                        f.instrs.insert(f.instrs.begin() + i + num_pushes, k - 2, ig);
                     for(size_t j = 0; j < k; ++j)
                     {
-                        auto& idst = f.instrs[num_pushes + j - 1];
-                        auto& isrc = f.instrs[num_pushes + j - 1 - m];
+                        auto& idst = f.instrs[i + num_pushes + j - 1];
+                        auto& isrc = f.instrs[i + num_pushes + j - 1 - m];
                         idst.instr = I_PUSH;
                         idst.imm = isrc.imm;
                     }
