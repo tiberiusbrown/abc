@@ -1252,7 +1252,9 @@ getg_delay_12:
 getg_delay_11:
     nop
 getg_delay_10:
-    rjmp .+0
+    nop
+getg_delay_9:
+    nop
 getg_delay_8:
     nop
 getg_delay_7:
@@ -1478,33 +1480,38 @@ I_SETG4:
     dispatch_reverse
 
 I_SETGN:
+    ; X   - global pointer
+    ; r16 - counter
     lpm
-    rjmp .+0
-    in   r10, %[sreg]
+    lpm
     cli
     out  %[spdr], r2
-    in   r26, %[spdr]
-    out  %[sreg], r10
-    ldi  r17, 2
+    in   r16, %[spdr]
+    sei
+    ldi  r17, 3
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall getg_delay_10
-    in   r27, %[spdr]
+    rcall getg_delay_9
+    cli
     out  %[spdr], r2
-    add  r26, r9
+    in   r26, %[spdr]
+    rcall getg_delay_15
+    out  %[spdr], r2
+    in   r27, %[spdr]
+    sei
+    add  r26, r16
     adc  r27, r2
-    lsr  r9
+    lsr  r16
     brcc 1f
-    ld   r0, -Y
-    st   -X, r0
-1:  ld   r0, -Y
-    st   -X, r0
-    ld   r0, -Y
-    st   -X, r0
-    dec  r9
-    brne 1b
+    st   -X, r9
     ld   r9, -Y
+1:  st   -X, r9
+    ld   r9, -Y
+    st   -X, r9
+    ld   r9, -Y
+    dec  r16
+    brne 1b
     rjmp setgn_dispatch
     .align 6
 

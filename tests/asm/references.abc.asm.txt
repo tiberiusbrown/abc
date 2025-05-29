@@ -67,8 +67,8 @@ main:
   setg2 a2 0
   .line 26
   p00
-  push2 834
-  setgn a3 0
+  push  66
+  setgn 3 a3 0
   .line 27
   p000
   push  66
@@ -81,8 +81,8 @@ main:
   setg2 a2 2
   .line 26
   p00
-  push2 834
-  setgn a3 3
+  push  66
+  setgn 3 a3 3
   .line 27
   p000
   push  66
@@ -95,8 +95,8 @@ main:
   setg2 a2 4
   .line 26
   p00
-  push2 834
-  setgn a3 6
+  push  66
+  setgn 3 a3 6
   .line 27
   p000
   push  66
@@ -109,8 +109,8 @@ main:
   setg2 a2 6
   .line 26
   p00
-  push2 834
-  setgn a3 9
+  push  66
+  setgn 3 a3 9
   .line 27
   p000
   push  66
@@ -197,8 +197,7 @@ main:
   popn  6
   .line 47
   p000
-  p3
-  setgn a3 3
+  setgn 3 a3 3
   .line 48
   pushg a3 3
   .line 49
@@ -335,13 +334,11 @@ main:
   .line 76
   p3
   p00
-  p3
-  setgn a3 3
+  setgn 3 a3 3
   .line 77
   p7
   p00
-  p3
-  setgn a3 6
+  setgn 3 a3 6
   .line 78
   pushg a3 0
   p4

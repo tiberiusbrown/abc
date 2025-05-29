@@ -18,8 +18,7 @@ $globinit:
   .line 13
   push4 131073000
   push4 262147000
-  p8
-  setgn data1 0
+  setgn 8 data1 0
   ret
 
 main:

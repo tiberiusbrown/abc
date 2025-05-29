@@ -116,8 +116,7 @@ main:
   setln 116
   popn  80
   .line 40
-  push  36
-  setgn r 0
+  setgn 36 r 0
   .line 42
   sys   debug_break
   .line 36

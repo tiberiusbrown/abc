@@ -3699,8 +3699,7 @@ add_object:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 0
+  setgn 15 objects 0
   .line 215
   popn  15
   ret
@@ -3711,8 +3710,7 @@ $L_add_object_6:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 15
+  setgn 15 objects 15
   .line 215
   popn  15
   ret
@@ -3723,8 +3721,7 @@ $L_add_object_8:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 30
+  setgn 15 objects 30
   .line 215
   popn  15
   ret
@@ -3735,8 +3732,7 @@ $L_add_object_10:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 45
+  setgn 15 objects 45
   .line 215
   popn  15
   ret
@@ -3747,8 +3743,7 @@ $L_add_object_12:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 60
+  setgn 15 objects 60
   .line 215
   popn  15
   ret
@@ -3759,8 +3754,7 @@ $L_add_object_14:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 75
+  setgn 15 objects 75
   .line 215
   popn  15
   ret
@@ -3771,8 +3765,7 @@ $L_add_object_16:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 90
+  setgn 15 objects 90
   .line 215
   popn  15
   ret
@@ -3783,8 +3776,7 @@ $L_add_object_18:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 105
+  setgn 15 objects 105
   .line 215
   popn  15
   ret
@@ -3795,8 +3787,7 @@ $L_add_object_20:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 120
+  setgn 15 objects 120
   .line 215
   popn  15
   ret
@@ -3807,8 +3798,7 @@ $L_add_object_22:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 135
+  setgn 15 objects 135
   .line 215
   popn  15
   ret
@@ -3819,8 +3809,7 @@ $L_add_object_24:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 150
+  setgn 15 objects 150
   .line 215
   popn  15
   ret
@@ -3831,8 +3820,7 @@ $L_add_object_26:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 165
+  setgn 15 objects 165
   .line 215
   popn  15
   ret
@@ -3843,8 +3831,7 @@ $L_add_object_28:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 180
+  setgn 15 objects 180
   .line 215
   popn  15
   ret
@@ -3855,8 +3842,7 @@ $L_add_object_30:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 195
+  setgn 15 objects 195
   .line 215
   popn  15
   ret
@@ -3867,8 +3853,7 @@ $L_add_object_32:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 210
+  setgn 15 objects 210
   .line 215
   popn  15
   ret
@@ -3879,8 +3864,7 @@ $L_add_object_34:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 225
+  setgn 15 objects 225
   .line 215
   popn  15
   ret
@@ -3891,8 +3875,7 @@ $L_add_object_36:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 240
+  setgn 15 objects 240
   .line 215
   popn  15
   ret
@@ -3903,8 +3886,7 @@ $L_add_object_38:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 255
+  setgn 15 objects 255
   .line 215
   popn  15
   ret
@@ -3915,8 +3897,7 @@ $L_add_object_40:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 270
+  setgn 15 objects 270
   .line 215
   popn  15
   ret
@@ -3927,8 +3908,7 @@ $L_add_object_42:
   .line 214
   push  15
   getln 15
-  push  15
-  setgn objects 285
+  setgn 15 objects 285
   .line 215
   popn  15
   ret
@@ -4006,103 +3986,83 @@ load_map:
   pz8
   p0000
   p000
-  push  15
-  setgn objects 0
+  setgn 15 objects 0
   pz8
   p0000
   p000
-  push  15
-  setgn objects 15
+  setgn 15 objects 15
   pz8
   p0000
   p000
-  push  15
-  setgn objects 30
+  setgn 15 objects 30
   pz8
   p0000
   p000
-  push  15
-  setgn objects 45
+  setgn 15 objects 45
   pz8
   p0000
   p000
-  push  15
-  setgn objects 60
+  setgn 15 objects 60
   pz8
   p0000
   p000
-  push  15
-  setgn objects 75
+  setgn 15 objects 75
   pz8
   p0000
   p000
-  push  15
-  setgn objects 90
+  setgn 15 objects 90
   pz8
   p0000
   p000
-  push  15
-  setgn objects 105
+  setgn 15 objects 105
   pz8
   p0000
   p000
-  push  15
-  setgn objects 120
+  setgn 15 objects 120
   pz8
   p0000
   p000
-  push  15
-  setgn objects 135
+  setgn 15 objects 135
   pz8
   p0000
   p000
-  push  15
-  setgn objects 150
+  setgn 15 objects 150
   pz8
   p0000
   p000
-  push  15
-  setgn objects 165
+  setgn 15 objects 165
   pz8
   p0000
   p000
-  push  15
-  setgn objects 180
+  setgn 15 objects 180
   pz8
   p0000
   p000
-  push  15
-  setgn objects 195
+  setgn 15 objects 195
   pz8
   p0000
   p000
-  push  15
-  setgn objects 210
+  setgn 15 objects 210
   pz8
   p0000
   p000
-  push  15
-  setgn objects 225
+  setgn 15 objects 225
   pz8
   p0000
   p000
-  push  15
-  setgn objects 240
+  setgn 15 objects 240
   pz8
   p0000
   p000
-  push  15
-  setgn objects 255
+  setgn 15 objects 255
   pz8
   p0000
   p000
-  push  15
-  setgn objects 270
+  setgn 15 objects 270
   pz8
   p0000
   p000
-  push  15
-  setgn objects 285
+  setgn 15 objects 285
   .line 62
   p00
   setg2 total_objects 0
@@ -12706,13 +12666,11 @@ $L_solid_15:
   .line 702
   p3
   getgn total_score 0
-  p3
-  setgn saved_total_score 0
+  setgn 3 saved_total_score 0
   .line 703
   p3
   getgn total_time 0
-  p3
-  setgn saved_total_time 0
+  setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
   dec
@@ -13260,13 +13218,11 @@ $L_update_54:
   .line 184
   p3
   getgn saved_total_score 0
-  p3
-  setgn total_score 0
+  setgn 3 total_score 0
   .line 185
   p3
   getgn saved_total_time 0
-  p3
-  setgn total_time 0
+  setgn 3 total_time 0
   .line 186
   p00
   setg2 score 0
@@ -13931,8 +13887,7 @@ $L_update_level_22:
   dupw4
   p0
   add3
-  p3
-  setgn total_time 0
+  setgn 3 total_time 0
   .line 302
   pushg map_best_times 0
   getg  current_map 0
@@ -14000,13 +13955,11 @@ $L_update_level_63:
   p3
   getln 6
   add3
-  p3
-  setgn saved_total_score 0
+  setgn 3 saved_total_score 0
   .line 316
   p3
   getgn total_time 0
-  p3
-  setgn saved_total_time 0
+  setgn 3 saved_total_time 0
   .line 317
   getg  lives 0
   setg  saved_lives 0
@@ -14776,13 +14729,11 @@ $L_update_level_115:
   .line 702
   p3
   getgn total_score 0
-  p3
-  setgn saved_total_score 0
+  setgn 3 saved_total_score 0
   .line 703
   p3
   getgn total_time 0
-  p3
-  setgn saved_total_time 0
+  setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
   dec
@@ -15098,13 +15049,11 @@ $L_update_level_85:
   .line 702
   p3
   getgn total_score 0
-  p3
-  setgn saved_total_score 0
+  setgn 3 saved_total_score 0
   .line 703
   p3
   getgn total_time 0
-  p3
-  setgn saved_total_time 0
+  setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
   dec
@@ -15155,13 +15104,11 @@ $L_update_level_56:
   .line 702
   p3
   getgn total_score 0
-  p3
-  setgn saved_total_score 0
+  setgn 3 saved_total_score 0
   .line 703
   p3
   getgn total_time 0
-  p3
-  setgn saved_total_time 0
+  setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
   dec
@@ -15229,8 +15176,7 @@ $L_update_score_tally_0:
   getgn total_score 0
   dup4
   add3b
-  p3
-  setgn total_score 0
+  setgn 3 total_score 0
   .line 227
   getg  frame_count 0
   p3
@@ -15270,8 +15216,7 @@ $L_update_score_tally_3:
   getgn total_score 0
   dup4
   add3b
-  p3
-  setgn total_score 0
+  setgn 3 total_score 0
   .line 238
   getg  frame_count 0
   p3
@@ -15293,16 +15238,14 @@ $L_update_score_tally_6:
   getg2 score 0
   p0
   add3
-  p3
-  setgn total_score 0
+  setgn 3 total_score 0
   .line 244
   p3
   getgn total_score 0
   getg2 level_frames_remaining 0
   p0
   add3
-  p3
-  setgn total_score 0
+  setgn 3 total_score 0
   .line 245
   getg  single_level 0
   bz    $L_update_score_tally_7
@@ -15347,8 +15290,7 @@ $L_update_score_tally_9:
   .line 257
   p3
   getgn total_score 0
-  p3
-  setgn high_score 0
+  setgn 3 high_score 0
 $L_update_score_tally_10:
   .line 258
   getg  was_best_time 0
@@ -15356,8 +15298,7 @@ $L_update_score_tally_10:
   .line 259
   p3
   getgn total_time 0
-  p3
-  setgn best_time 0
+  setgn 3 best_time 0
 $L_update_score_tally_11:
   .line 260
   p0

@@ -490,11 +490,10 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         // replace global derefs with SETGN
         if(i0.instr == I_PUSHG && i1.instr == I_SETRN)
         {
-            i0.instr = I_PUSH;
-            i1.instr = I_SETGN;
-            i1.label = std::move(i0.label);
-            i0.label.clear();
-            std::swap(i0.imm, i1.imm);
+            i0.instr = I_SETGN;
+            i0.imm2 = i0.imm;
+            i0.imm = i1.imm;
+            i1.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -910,7 +909,7 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_PUSH && (
             i3.instr == I_LSL2 || i3.instr == I_LSR2 || i3.instr == I_ASR2))
         {
-            uint16_t imm = i0.imm + (i1.imm << 8);
+            uint32_t imm = uint16_t(i0.imm + (i1.imm << 8));
             if(i3.instr == I_LSL2) imm = uint16_t(imm << i2.imm);
             if(i3.instr == I_LSR2) imm = uint16_t(imm >> i2.imm);
             if(i3.instr == I_ASR2) imm = uint16_t((int16_t)imm >> i2.imm);
@@ -1532,6 +1531,39 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             }
         }
 
+        if(i0.imm == 1)
+        {
+            if(i0.instr == I_SETGN)
+            {
+                i0.instr = I_SETG;
+                i0.imm = i0.imm2;
+                t = true;
+                continue;
+            }
+        }
+
+        if(i0.imm == 2)
+        {
+            if(i0.instr == I_SETGN)
+            {
+                i0.instr = I_SETG2;
+                i0.imm = i0.imm2;
+                t = true;
+                continue;
+            }
+        }
+
+        if(i0.imm == 4)
+        {
+            if(i0.instr == I_SETGN)
+            {
+                i0.instr = I_SETG4;
+                i0.imm = i0.imm2;
+                t = true;
+                continue;
+            }
+        }
+
         if(i + 1 >= f.instrs.size()) continue;
         auto& i1 = f.instrs[i + 1];
 
@@ -1667,24 +1699,17 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
-            if(i1.instr == I_SETLN)
+            else if(i1.instr == I_SETLN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_SETL;
                 t = true;
                 continue;
             }
-            if(i1.instr == I_GETGN)
+            else if(i1.instr == I_GETGN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETG;
-                t = true;
-                continue;
-            }
-            if(i1.instr == I_SETGN)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_SETG;
                 t = true;
                 continue;
             }
@@ -1700,24 +1725,17 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
-            if(i1.instr == I_SETLN)
+            else if(i1.instr == I_SETLN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_SETL2;
                 t = true;
                 continue;
             }
-            if(i1.instr == I_GETGN)
+            else if(i1.instr == I_GETGN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETG2;
-                t = true;
-                continue;
-            }
-            if(i1.instr == I_SETGN)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_SETG2;
                 t = true;
                 continue;
             }
@@ -1733,24 +1751,17 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
-            if(i1.instr == I_SETLN)
+            else if(i1.instr == I_SETLN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_SETL4;
                 t = true;
                 continue;
             }
-            if(i1.instr == I_GETGN)
+            else if(i1.instr == I_GETGN)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETG4;
-                t = true;
-                continue;
-            }
-            if(i1.instr == I_SETGN)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_SETG4;
                 t = true;
                 continue;
             }

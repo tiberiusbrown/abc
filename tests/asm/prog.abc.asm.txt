@@ -64,26 +64,22 @@ $globinit:
   p0
   p4
   p00
-  p6
-  setgn ra1 0
+  setgn 6 ra1 0
   .line 25
   p4
   p1
   p0
   p4
   p00
-  p6
-  setgn ra2 0
+  setgn 6 ra2 0
   .line 26
   push4 67109132
   p00
-  p6
-  setgn ra3 0
+  setgn 6 ra3 0
   .line 27
   push4 67109144
   p00
-  p6
-  setgn ra4 0
+  setgn 6 ra4 0
   ret
 
 main:

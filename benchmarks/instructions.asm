@@ -722,38 +722,33 @@ $L_main_start:
     sys debug_break
     
     p000
-    push 3
     sys debug_break
-    setgn gf 0
+    setgn 3 gf 0
     sys debug_break
     
     p0000
     p0
-    push 5
     sys debug_break
-    setgn gf 0
-    sys debug_break
-    
-    pz8
-    push 8
-    sys debug_break
-    setgn gf 0
+    setgn 5 gf 0
     sys debug_break
     
     pz8
-    pz8
-    push 16
     sys debug_break
-    setgn gf 0
+    setgn 8 gf 0
+    sys debug_break
+    
+    pz8
+    pz8
+    sys debug_break
+    setgn 16 gf 0
     sys debug_break
     
     pz8
     pz8
     pz8
     pz8
-    push 32
     sys debug_break
-    setgn gf 0
+    setgn 32 gf 0
     sys debug_break
     
     pushl p 0

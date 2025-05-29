@@ -306,7 +306,7 @@ int abc_benchmarks()
         "getgn VAR (3)", "getgn VAR (5)", "getgn VAR (8)", "getgn VAR (16)", "getgn VAR (32)",
         "gtgb VAR", "gtgb2 VAR", "gtgb4 VAR",
         "setg VAR", "setg2 VAR", "setg4 VAR",
-        "setgn VAR (3)", "setgn VAR (5)", "setgn VAR (8)", "setgn VAR (16)", "setgn VAR (32)",
+        "setgn 3 VAR", "setgn 5 VAR", "setgn 8 VAR", "setgn 16 VAR", "setgn 32 VAR",
         "getp",
         "getpn 2", "getpn 3", "getpn 4", "getpn 8", "getpn 16", "getpn 32",
         "pop", "pop2", "pop3", "pop4", "popn N",

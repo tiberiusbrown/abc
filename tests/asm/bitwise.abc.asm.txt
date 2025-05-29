@@ -59,8 +59,7 @@ main:
   .line 26
   p3
   getgn m 0
-  p3
-  setgn a3 0
+  setgn 3 a3 0
   .line 27
   getg4 m 0
   setg4 a4 0
@@ -73,8 +72,7 @@ main:
   .line 26
   p3
   getgn m 4
-  p3
-  setgn a3 3
+  setgn 3 a3 3
   .line 27
   getg4 m 4
   setg4 a4 4
@@ -87,8 +85,7 @@ main:
   .line 26
   p3
   getgn m 8
-  p3
-  setgn a3 6
+  setgn 3 a3 6
   .line 27
   getg4 m 8
   setg4 a4 8
@@ -101,8 +98,7 @@ main:
   .line 26
   p3
   getgn m 12
-  p3
-  setgn a3 9
+  setgn 3 a3 9
   .line 27
   getg4 m 12
   setg4 a4 12
@@ -944,8 +940,7 @@ $L_main_11:
   .line 105
   p1
   p00
-  p3
-  setgn a3 0
+  setgn 3 a3 0
   .line 106
   p3
   getgn a3 0
@@ -1836,8 +1831,7 @@ $L_main_11:
   .line 197
   p00
   p128
-  p3
-  setgn a3 0
+  setgn 3 a3 0
   .line 198
   p3
   getgn a3 0

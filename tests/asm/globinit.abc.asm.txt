@@ -26,8 +26,7 @@ $globinit:
   p0
   p4
   p0
-  p8
-  setgn c 0
+  setgn 8 c 0
   .line 7
   getg2 c 6
   getg2 c 4
@@ -38,8 +37,7 @@ $globinit:
   p00
   sub3
   pop
-  p8
-  setgn d 0
+  setgn 8 d 0
   ret
 
 main:

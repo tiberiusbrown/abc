@@ -436,6 +436,7 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == "setgn")
         {
             push_instr(I_SETGN);
+            push_imm(read_imm(f, error), 1);
             push_global(f, true);
         }
         else if(t == "getp")
