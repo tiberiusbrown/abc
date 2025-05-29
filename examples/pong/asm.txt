@@ -354,7 +354,9 @@ main:
   .line 135
   p0
   setg  ai_serving 0
-$L_main_4:
+  .file main.abc
+$L_main_2:
+  .file frame.abc
   .line 16
   p128
   sys   pressed
@@ -503,7 +505,7 @@ $L_main_17:
   setg4 vy 0
 $L_main_18:
   .line 39
-  jmp   $L_main_31
+  jmp   $L_main_29
 $L_main_19:
   .line 50
   getg  ai_serving 0
@@ -542,7 +544,7 @@ $L_main_19:
   setg4 vy 0
 $L_main_20:
   .line 50
-  jmp   $L_main_31
+  jmp   $L_main_29
 $L_main_21:
   .line 63
   getg4 bx 0
@@ -600,7 +602,7 @@ $L_main_23:
   p128
   p64
   cflt
-  bz    $L_main_27
+  bz    $L_main_26
   .line 77
   p00
   p128
@@ -610,7 +612,7 @@ $L_main_23:
   getg4 by 0
   getg4 py0 0
   cflt
-  bnz   $L_main_26
+  bnz   $L_main_25
   getg4 py0 0
   p00
   push2 16800
@@ -621,7 +623,7 @@ $L_main_23:
   fsub
   getg4 by 0
   cflt
-  bnz   $L_main_26
+  bnz   $L_main_25
   .line 3
   getg4 vx 0
   push  102
@@ -640,8 +642,8 @@ $L_main_23:
   push3 2390
   sys   tones_play
   .line 78
-  jmp   $L_main_27
-$L_main_26:
+  jmp   $L_main_26
+$L_main_25:
   .line 82
   p1
   setg  serving 0
@@ -653,13 +655,13 @@ $L_main_26:
   .line 84
   push3 2394
   sys   tones_play
-$L_main_27:
+$L_main_26:
   .line 87
   p00
   push2 17136
   getg4 bx 0
   cflt
-  bz    $L_main_31
+  bz    $L_main_29
   .line 89
   p00
   push2 17136
@@ -668,7 +670,7 @@ $L_main_27:
   getg4 by 0
   getg4 py1 0
   cflt
-  bnz   $L_main_30
+  bnz   $L_main_28
   getg4 py1 0
   p00
   push2 16800
@@ -679,7 +681,7 @@ $L_main_27:
   fsub
   getg4 by 0
   cflt
-  bnz   $L_main_30
+  bnz   $L_main_28
   .line 3
   getg4 vx 0
   push  102
@@ -698,8 +700,8 @@ $L_main_27:
   push3 2390
   sys   tones_play
   .line 90
-  jmp   $L_main_31
-$L_main_30:
+  jmp   $L_main_29
+$L_main_28:
   .line 94
   p1
   setg  ai_serving 0
@@ -714,7 +716,7 @@ $L_main_30:
   .line 97
   push3 2414
   sys   tones_play
-$L_main_31:
+$L_main_29:
   .line 106
   p3
   p1
@@ -800,5 +802,5 @@ $L_main_31:
   .line 17
   sys   display
   .line 23
-  jmp   $L_main_4
+  jmp   $L_main_2
 

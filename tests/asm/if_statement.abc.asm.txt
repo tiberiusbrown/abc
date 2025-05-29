@@ -214,27 +214,27 @@ $L_main_51:
   p1
   .line 67
   dup
-  bnzp  $L_main_34
+  bnzp  $L_main_9
   p00
   .line 17
   sys   assert
   .line 18
   p1
   setl  1
-$L_main_34:
+$L_main_9:
   .line 67
   pop2
   .line 71
   p00
   .line 72
-  bzp   $L_main_36
+  bzp   $L_main_10
   p00
   .line 17
   sys   assert
   .line 18
   p1
   setl  1
-$L_main_36:
+$L_main_10:
   .line 72
   pop2
   .line 76
@@ -244,7 +244,7 @@ $L_main_36:
   setg  gf 0
   .line 78
   dup
-  bzp   $L_main_30
+  bzp   $L_main_11
   p0
   .line 24
   p1
@@ -252,7 +252,7 @@ $L_main_36:
   .line 25
   p1
   setl  1
-$L_main_30:
+$L_main_11:
   .line 78
   pop
   .line 79
@@ -265,7 +265,7 @@ $L_main_30:
   setg  gf 0
   .line 85
   dup
-  bnzp  $L_main_32
+  bnzp  $L_main_12
   p0
   .line 24
   p1
@@ -273,7 +273,7 @@ $L_main_30:
   .line 25
   p1
   setl  1
-$L_main_32:
+$L_main_12:
   .line 85
   pop
   .line 86

@@ -910,11 +910,11 @@ $L_main_20:
   dup2
   getg  food 0
   sub
-  bnz   $L_main_37
+  bnz   $L_main_22
   dup
   getg  food 1
   sub
-  bnz   $L_main_37
+  bnz   $L_main_22
   .line 95
   getg  score 0
   inc
@@ -1048,7 +1048,7 @@ $L_main_58:
   mul2b
   .line 33
   sys   draw_sprite
-$L_main_37:
+$L_main_22:
   .line 101
   dup2
   p0

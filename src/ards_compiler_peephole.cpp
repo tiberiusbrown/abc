@@ -423,6 +423,15 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         auto& i1 = f.instrs[i + 1];
 
+        // remove JMP <LABEL>; LABEL:
+        if((i0.instr == I_JMP || i0.instr == I_BZ || i1.instr == I_BNZ) &&
+            i1.is_label && i0.label == i1.label)
+        {
+            i0.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // combine POPN N; ALLOC M; or ALLOC M; POPN N;
         if((i0.instr == I_POPN && i1.instr == I_ALLOC ||
             i0.instr == I_ALLOC && i1.instr == I_POPN) &&
@@ -1668,14 +1677,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 i1.imm = i1.imm2;
                 i1.instr = I_AIXB1;
             }
-            t = true;
-            continue;
-        }
-
-        // remove JMP <LABEL>; LABEL:
-        if(i0.instr == I_JMP && i1.is_label && i0.label == i1.label)
-        {
-            i0.instr = I_REMOVE;
             t = true;
             continue;
         }

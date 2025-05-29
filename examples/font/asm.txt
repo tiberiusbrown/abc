@@ -639,8 +639,8 @@ $globinit:
   ret
 
 main:
-$L_main_6:
   .file main.abc
+$L_main_2:
   .line 10
   pz16
   p0000
@@ -690,5 +690,5 @@ $L_main_6:
   .line 8
   popn  20
   .line 27
-  jmp   $L_main_6
+  jmp   $L_main_2
 

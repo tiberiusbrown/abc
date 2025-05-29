@@ -12996,8 +12996,7 @@ $L_update_81:
   getg  pause_menui 0
   p2
   sub
-  .line 76
-  bz    $L_update_88
+  bz    $L_update_86
   .line 87
   getg  pause_menui 0
   p3
@@ -13259,13 +13258,7 @@ $L_update_54:
   setg  single_level 0
   .line 179
   getg  save_exists 0
-  bnz   $L_update_56
-  .line 190
-  p1
-  setg  state 0
-  .line 176
-  jmp   $L_update_63
-$L_update_56:
+  bz    $L_update_57
   .line 183
   getg  saved_current_map 0
   setg  current_map 0
@@ -13288,6 +13281,7 @@ $L_update_56:
   .line 188
   getg  saved_lives 0
   setg  lives 0
+$L_update_57:
   .line 190
   p1
   setg  state 0
@@ -13523,11 +13517,6 @@ $L_update_9:
   .line 118
   p4
   sys   just_pressed
-  .file benchmark.abc
-  .line 7
-  bnz   $L_update_70
-$L_update_70:
-  .file update.abc
   .line 3
   pop
   .line 17
@@ -13540,11 +13529,6 @@ $L_update_10:
   .line 112
   p4
   sys   just_pressed
-  .file benchmark.abc
-  .line 7
-  bnz   $L_update_34
-$L_update_34:
-  .file update.abc
   .line 3
   pop
   .line 17
@@ -13557,11 +13541,6 @@ $L_update_11:
   .line 22
   p4
   sys   just_pressed
-  .file benchmark.abc
-  .line 7
-  bnz   $L_update_28
-$L_update_28:
-  .file update.abc
   .line 24
   getg  frame_count 0
   p3
@@ -13616,11 +13595,6 @@ $L_update_intro_3:
   .line 279
   p4
   sys   just_pressed
-  .file benchmark.abc
-  .line 7
-  bnz   $L_update_intro_7
-$L_update_intro_7:
-  .file update.abc
   .line 270
   ret
 
@@ -15407,11 +15381,6 @@ $L_update_score_tally_14:
   .line 266
   p4
   sys   just_pressed
-  .file benchmark.abc
-  .line 7
-  bnz   $L_update_score_tally_18
-$L_update_score_tally_18:
-  .file update.abc
   .line 217
   ret
 
