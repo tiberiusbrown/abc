@@ -75,7 +75,7 @@ std::string compiler_t::encode_tilemap_tmx(
     if(!file_loader || !file_loader(path, d))
         return "Unable to open \"" + filename + "\"";
 
-    if(!map.loadFromString(std::string(d.begin(), d.end()), current_path))
+    if(!map.loadFromString(std::string(d.begin(), d.end()), current_path + "/"))
         return "Unable to load tilemap: \"" + filename + "\"";
 
     tilemap_format_t format = TMAPF_U8;

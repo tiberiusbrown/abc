@@ -86,6 +86,11 @@ namespace tmx
         */
         static void log(const std::string& message, Type type = Type::Info, Output output = Output::Console)
         {
+#ifdef NDEBUG
+            (void)message;
+            (void)type;
+            (void)output;
+#else
             std::string outstring;
             switch (type)
             {
@@ -156,6 +161,7 @@ namespace tmx
                     log("Above message was intended for log file. Opening file probably failed.", Type::Warning, Output::Console);
                 }
             }
+#endif
         }
 
         static const std::string& bufferString(){ return stringOutput(); }

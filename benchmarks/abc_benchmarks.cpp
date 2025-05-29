@@ -81,7 +81,7 @@ static std::vector<uint8_t> compile(std::string const& fname)
     ards::compiler_t c{};
     std::ostringstream fo;
     std::filesystem::path p(fname);
-    auto path = p.parent_path().generic_string();
+    auto path = p.parent_path().lexically_normal().generic_string();
     auto name = p.stem().generic_string();
     c.suppress_githash();
     c.compile(path, name, fo);
