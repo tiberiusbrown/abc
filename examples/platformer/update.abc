@@ -79,8 +79,8 @@ void update_pause()
             state = STATE_LEVEL;
         else if(pause_menui == 1)
         {
-            $audio_toggle();
             sound_on = !sound_on;
+            update_sound();
         }
         else if(pause_menui == 2)
             main_menu();
