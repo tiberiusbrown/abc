@@ -755,6 +755,36 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
 
+        // replace BZ <L1>; JMP <L2>; <L1>: with BNZ <L2>
+        // replace BNZ <L1>; JMP <L2>; <L1>: with BZ <L2>
+        if(i0.label == i2.label && i1.instr == I_JMP && i2.is_label)
+        {
+            if(i0.instr == I_BZ)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_BNZ;
+                t = true;
+                continue;
+            }
+            else if(i0.instr == I_BNZ)
+            {
+                i0.instr = I_REMOVE;
+                i1.instr = I_BZ;
+                t = true;
+                continue;
+            }
+        }
+
+        // replace PUSH 1; AND; BOOL with PUSH 1; AND
+        if(i0.instr == I_PUSH && i0.imm == 1 &&
+            i1.instr == I_AND &&
+            i2.instr == I_BOOL)
+        {
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // replace PUSH <N>; GETLN <M>; POP with PUSH <N-1>; GETLN <M>
         // replace PUSH <N>; GETGN <M>; POP with PUSH <N-1>; GETGN <M>
         if(i0.instr == I_PUSH && i2.instr == I_POPN && i2.instr >= 1 &&
@@ -1684,16 +1714,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
         if(i + 2 >= f.instrs.size()) continue;
         auto& i2 = f.instrs[i + 2];
 
-        // replace PUSH 1; AND; BOOL with PUSH 1; AND
-        if(i0.instr == I_PUSH && i0.imm == 1 &&
-            i1.instr == I_AND &&
-            i2.instr == I_BOOL)
-        {
-            i2.instr = I_REMOVE;
-            t = true;
-            continue;
-        }
-
         // replace PUSH 0; PUSH 0; ADD3 with ADD3B
         if( i0.instr == I_PUSH && i0.imm == 0 &&
             i1.instr == I_PUSH && i1.imm == 0 &&
@@ -1728,26 +1748,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             i2.instr = I_PIDXB;
             t = true;
             continue;
-        }
-
-        // replace BZ <L1>; JMP <L2>; <L1>: with BNZ <L2>
-        // replace BNZ <L1>; JMP <L2>; <L1>: with BZ <L2>
-        if(i0.label == i2.label && i1.instr == I_JMP && i2.is_label)
-        {
-            if(i0.instr == I_BZ)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_BNZ;
-                t = true;
-                continue;
-            }
-            if(i0.instr == I_BNZ)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_BZ;
-                t = true;
-                continue;
-            }
         }
     }
     clear_removed_instrs(f.instrs);
