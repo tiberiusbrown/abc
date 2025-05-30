@@ -90,7 +90,7 @@ static bool test(std::string const& fpath, std::string const& fname)
         return false;
 #endif
 
-#if 0
+#if 1
     // test general interpreter
 
     {

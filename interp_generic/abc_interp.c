@@ -3569,7 +3569,7 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_GETL:  return getln(interp, h, 1);
     case I_GETL2: return getln(interp, h, 2);
     case I_GETL4: return getln(interp, h, 4);
-    case I_GETLN: return getln(interp, h, pop8(interp));
+    case I_GETLN: return getln(interp, h, imm8(interp, h));
     case I_SETL:  return setln(interp, h, 1);
     case I_SETL2: return setln(interp, h, 2);
     case I_SETL4: return setln(interp, h, 4);
