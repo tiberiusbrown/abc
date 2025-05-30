@@ -55,69 +55,7 @@ $L_main_3:
   dup5
   bz    $L_main_6
   p1
-  sys   assert
-  pop4
-  .line 26
-  push4 925575721
-  .line 27
-  push3 80184
-  .line 29
-  sys   assert
-  .line 30
-  dup8
-  bz    $L_main_8
-  refl  6
-  p1
-  add2b
-  getr
-  push  42
-  sub
-  not
-  sys   assert
-  .line 31
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 32
-  dup7
-  bz    $L_main_10
-  refl  6
-  p1
-  add2b
-  getr
-  push  56
-  sub
-  not
-  sys   assert
-  .line 34
-  dup8
-  bz    $L_main_12
-  getln 3 6
-  .line 35
-  dup2
-  push  42
-  sub
-  not
-  sys   assert
-  .line 36
-  getl  10
-  bz    $L_main_14
-  getln 3 9
-  setln 3 3
-  .line 37
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 38
-  refl  3
-  getl  12
-  bz    $L_main_16
-  refl  8
-  jmp   $L_main_17
+  jmp   $L_main_7
 $L_main_4:
   .line 20
   p0
@@ -129,72 +67,10 @@ $L_main_4:
   dup5
   bz    $L_main_6
   p1
-  sys   assert
-  pop4
-  .line 26
-  push4 925575721
-  .line 27
-  push3 80184
-  .line 29
-  sys   assert
-  .line 30
-  dup8
-  bz    $L_main_8
-  refl  6
-  p1
-  add2b
-  getr
-  push  42
-  sub
-  not
-  sys   assert
-  .line 31
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 32
-  dup7
-  bz    $L_main_10
-  refl  6
-  p1
-  add2b
-  getr
-  push  56
-  sub
-  not
-  sys   assert
-  .line 34
-  dup8
-  bz    $L_main_12
-  getln 3 6
-  .line 35
-  dup2
-  push  42
-  sub
-  not
-  sys   assert
-  .line 36
-  getl  10
-  bz    $L_main_14
-  getln 3 9
-  setln 3 3
-  .line 37
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 38
-  refl  3
-  getl  12
-  bz    $L_main_16
-  refl  8
-  jmp   $L_main_17
+  jmp   $L_main_7
 $L_main_6:
-  .line 22
   p1
+$L_main_7:
   sys   assert
   pop4
   .line 26
@@ -207,60 +83,10 @@ $L_main_6:
   dup8
   bz    $L_main_8
   refl  6
-  p1
-  add2b
-  getr
-  push  42
-  sub
-  not
-  sys   assert
-  .line 31
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 32
-  dup7
-  bz    $L_main_10
-  refl  6
-  p1
-  add2b
-  getr
-  push  56
-  sub
-  not
-  sys   assert
-  .line 34
-  dup8
-  bz    $L_main_12
-  getln 3 6
-  .line 35
-  dup2
-  push  42
-  sub
-  not
-  sys   assert
-  .line 36
-  getl  10
-  bz    $L_main_14
-  getln 3 9
-  setln 3 3
-  .line 37
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 38
-  refl  3
-  getl  12
-  bz    $L_main_16
-  refl  8
-  jmp   $L_main_17
+  jmp   $L_main_9
 $L_main_8:
-  .line 30
   refl  3
+$L_main_9:
   p1
   add2b
   getr
@@ -278,43 +104,10 @@ $L_main_8:
   dup7
   bz    $L_main_10
   refl  6
-  p1
-  add2b
-  getr
-  push  56
-  sub
-  not
-  sys   assert
-  .line 34
-  dup8
-  bz    $L_main_12
-  getln 3 6
-  .line 35
-  dup2
-  push  42
-  sub
-  not
-  sys   assert
-  .line 36
-  getl  10
-  bz    $L_main_14
-  getln 3 9
-  setln 3 3
-  .line 37
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 38
-  refl  3
-  getl  12
-  bz    $L_main_16
-  refl  8
-  jmp   $L_main_17
+  jmp   $L_main_11
 $L_main_10:
-  .line 32
   refl  3
+$L_main_11:
   p1
   add2b
   getr
@@ -326,32 +119,10 @@ $L_main_10:
   dup8
   bz    $L_main_12
   getln 3 6
-  .line 35
-  dup2
-  push  42
-  sub
-  not
-  sys   assert
-  .line 36
-  getl  10
-  bz    $L_main_14
-  getln 3 9
-  setln 3 3
-  .line 37
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 38
-  refl  3
-  getl  12
-  bz    $L_main_16
-  refl  8
-  jmp   $L_main_17
+  jmp   $L_main_13
 $L_main_12:
-  .line 34
   getln 3 3
+$L_main_13:
   .line 35
   dup2
   push  42
@@ -362,22 +133,10 @@ $L_main_12:
   getl  10
   bz    $L_main_14
   getln 3 9
-  setln 3 3
-  .line 37
-  dup2
-  push  56
-  sub
-  not
-  sys   assert
-  .line 38
-  refl  3
-  getl  12
-  bz    $L_main_16
-  refl  8
-  jmp   $L_main_17
+  jmp   $L_main_15
 $L_main_14:
-  .line 36
   getln 3 6
+$L_main_15:
   setln 3 3
   .line 37
   dup2

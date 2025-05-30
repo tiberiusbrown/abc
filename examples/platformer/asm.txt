@@ -4860,27 +4860,8 @@ $L_render_3:
   p00
   push4 4915236
   sys   draw_text_P
-  .line 76
-  push4 16779367
-  p00
-  push4 786456
-  getg  pause_menui 0
-  mul2b
-  add2
-  push2 66
-  sys   draw_text_P
-  .line 77
-  p3
-  p2
-  push4 1107298622
-  p0
-  sys   draw_filled_rect
-  .line 48
-  pop
-  .line 13
-  pop
-  .line 11
-  ret
+  .line 56
+  jmp   $L_render_151
 $L_render_147:
   .line 64
   push4 100712072
@@ -4901,46 +4882,15 @@ $L_render_147:
   p00
   push4 4915236
   sys   draw_text_P
-  .line 70
-  push4 151043726
-  p00
-  push4 4915248
-  sys   draw_text_P
-  .line 71
-  getg  single_level 0
-  bz    $L_render_150
-  .line 72
-  push4 117489303
-  p00
-  push4 4915260
-  sys   draw_text_P
-  .line 76
-  push4 16779367
-  p00
-  push4 786456
-  getg  pause_menui 0
-  mul2b
-  add2
-  push2 66
-  sys   draw_text_P
-  .line 77
-  p3
-  p2
-  push4 1107298622
-  p0
-  sys   draw_filled_rect
-  .line 48
-  pop
-  .line 13
-  pop
-  .line 11
-  ret
+  .line 66
+  jmp   $L_render_149
 $L_render_148:
   .line 69
   push4 167818832
   p00
   push4 4915236
   sys   draw_text_P
+$L_render_149:
   .line 70
   push4 151043726
   p00
@@ -4954,33 +4904,15 @@ $L_render_148:
   p00
   push4 4915260
   sys   draw_text_P
-  .line 76
-  push4 16779367
-  p00
-  push4 786456
-  getg  pause_menui 0
-  mul2b
-  add2
-  push2 66
-  sys   draw_text_P
-  .line 77
-  p3
-  p2
-  push4 1107298622
-  p0
-  sys   draw_filled_rect
-  .line 48
-  pop
-  .line 13
-  pop
-  .line 11
-  ret
+  .line 71
+  jmp   $L_render_151
 $L_render_150:
   .line 74
   push4 134266526
   p00
   push4 4915260
   sys   draw_text_P
+$L_render_151:
   .line 76
   push4 16779367
   p00
@@ -5035,27 +4967,8 @@ $L_render_4:
   p00
   push4 4915236
   sys   draw_text_P
-  .line 76
-  push4 16779367
-  p00
-  push4 786456
-  getg  pause_menui 0
-  mul2b
-  add2
-  push2 66
-  sys   draw_text_P
-  .line 77
-  p3
-  p2
-  push4 1107298622
-  p0
-  sys   draw_filled_rect
-  .line 48
-  pop
-  .line 13
-  pop
-  .line 11
-  ret
+  .line 56
+  jmp   $L_render_158
 $L_render_154:
   .line 64
   push4 100712072
@@ -5076,46 +4989,15 @@ $L_render_154:
   p00
   push4 4915236
   sys   draw_text_P
-  .line 70
-  push4 151043726
-  p00
-  push4 4915248
-  sys   draw_text_P
-  .line 71
-  getg  single_level 0
-  bz    $L_render_157
-  .line 72
-  push4 117489303
-  p00
-  push4 4915260
-  sys   draw_text_P
-  .line 76
-  push4 16779367
-  p00
-  push4 786456
-  getg  pause_menui 0
-  mul2b
-  add2
-  push2 66
-  sys   draw_text_P
-  .line 77
-  p3
-  p2
-  push4 1107298622
-  p0
-  sys   draw_filled_rect
-  .line 48
-  pop
-  .line 13
-  pop
-  .line 11
-  ret
+  .line 66
+  jmp   $L_render_156
 $L_render_155:
   .line 69
   push4 167818832
   p00
   push4 4915236
   sys   draw_text_P
+$L_render_156:
   .line 70
   push4 151043726
   p00
@@ -5129,33 +5011,15 @@ $L_render_155:
   p00
   push4 4915260
   sys   draw_text_P
-  .line 76
-  push4 16779367
-  p00
-  push4 786456
-  getg  pause_menui 0
-  mul2b
-  add2
-  push2 66
-  sys   draw_text_P
-  .line 77
-  p3
-  p2
-  push4 1107298622
-  p0
-  sys   draw_filled_rect
-  .line 48
-  pop
-  .line 13
-  pop
-  .line 11
-  ret
+  .line 71
+  jmp   $L_render_158
 $L_render_157:
   .line 74
   push4 134266526
   p00
   push4 4915260
   sys   draw_text_P
+$L_render_158:
   .line 76
   push4 16779367
   p00
@@ -5542,27 +5406,15 @@ $L_render_6:
   p00
   push4 2162717
   sys   draw_text_P
-  .line 293
-  push4 201373243
-  p00
-  push4 2162728
-  sys   draw_text_P
-  .line 294
-  getg  sound_on 0
-  bz    $L_render_120
-  .line 295
-  push4 151041607
-  p00
-  push4 2162739
-  sys   draw_text_P
-  .line 294
-  jmp   $L_render_121
+  .line 289
+  jmp   $L_render_119
 $L_render_118:
   .line 292
   push4 134264371
   p00
   push4 2162717
   sys   draw_text_P
+$L_render_119:
   .line 293
   push4 201373243
   p00
@@ -6282,242 +6134,13 @@ $L_render_59:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 0
-  bool2
-  bz    $L_render_62
-  .line 243
-  getln 3 3
-  getg2 map_best_times 0
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 2
-  bool2
-  bz    $L_render_64
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 2
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 2
-  bool2
-  bz    $L_render_66
-  .line 243
-  getln 3 3
-  getg2 map_best_times 2
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 4
-  bool2
-  bz    $L_render_68
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 4
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 4
-  bool2
-  bz    $L_render_70
-  .line 243
-  getln 3 3
-  getg2 map_best_times 4
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_72
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_61
 $L_render_60:
   .line 241
   p0
   setl  8
+$L_render_61:
   .line 242
   getg2 map_best_times 0
   bool2
@@ -6528,232 +6151,13 @@ $L_render_60:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 2
-  bool2
-  bz    $L_render_64
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 2
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 2
-  bool2
-  bz    $L_render_66
-  .line 243
-  getln 3 3
-  getg2 map_best_times 2
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 4
-  bool2
-  bz    $L_render_68
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 4
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 4
-  bool2
-  bz    $L_render_70
-  .line 243
-  getln 3 3
-  getg2 map_best_times 4
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_72
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_63
 $L_render_62:
   .line 245
   p0
   setl  7
+$L_render_63:
   .line 238
   getg2 map_high_scores 2
   bool2
@@ -6764,222 +6168,13 @@ $L_render_62:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 2
-  bool2
-  bz    $L_render_66
-  .line 243
-  getln 3 3
-  getg2 map_best_times 2
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 4
-  bool2
-  bz    $L_render_68
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 4
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 4
-  bool2
-  bz    $L_render_70
-  .line 243
-  getln 3 3
-  getg2 map_best_times 4
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_72
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_65
 $L_render_64:
   .line 241
   p0
   setl  8
+$L_render_65:
   .line 242
   getg2 map_best_times 2
   bool2
@@ -6990,212 +6185,13 @@ $L_render_64:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 4
-  bool2
-  bz    $L_render_68
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 4
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 4
-  bool2
-  bz    $L_render_70
-  .line 243
-  getln 3 3
-  getg2 map_best_times 4
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_72
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_67
 $L_render_66:
   .line 245
   p0
   setl  7
+$L_render_67:
   .line 238
   getg2 map_high_scores 4
   bool2
@@ -7206,202 +6202,13 @@ $L_render_66:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 4
-  bool2
-  bz    $L_render_70
-  .line 243
-  getln 3 3
-  getg2 map_best_times 4
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_72
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_69
 $L_render_68:
   .line 241
   p0
   setl  8
+$L_render_69:
   .line 242
   getg2 map_best_times 4
   bool2
@@ -7412,192 +6219,13 @@ $L_render_68:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_72
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_71
 $L_render_70:
   .line 245
   p0
   setl  7
+$L_render_71:
   .line 238
   getg2 map_high_scores 6
   bool2
@@ -7608,182 +6236,13 @@ $L_render_70:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_74
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_73
 $L_render_72:
   .line 241
   p0
   setl  8
+$L_render_73:
   .line 242
   getg2 map_best_times 6
   bool2
@@ -7794,172 +6253,13 @@ $L_render_72:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_76
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_75
 $L_render_74:
   .line 245
   p0
   setl  7
+$L_render_75:
   .line 238
   getg2 map_high_scores 8
   bool2
@@ -7970,162 +6270,13 @@ $L_render_74:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_78
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_77
 $L_render_76:
   .line 241
   p0
   setl  8
+$L_render_77:
   .line 242
   getg2 map_best_times 8
   bool2
@@ -8136,152 +6287,13 @@ $L_render_76:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_80
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_79
 $L_render_78:
   .line 245
   p0
   setl  7
+$L_render_79:
   .line 238
   getg2 map_high_scores 10
   bool2
@@ -8292,142 +6304,13 @@ $L_render_78:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_82
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_81
 $L_render_80:
   .line 241
   p0
   setl  8
+$L_render_81:
   .line 242
   getg2 map_best_times 10
   bool2
@@ -8438,132 +6321,13 @@ $L_render_80:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_84
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_83
 $L_render_82:
   .line 245
   p0
   setl  7
+$L_render_83:
   .line 238
   getg2 map_high_scores 12
   bool2
@@ -8574,122 +6338,13 @@ $L_render_82:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_86
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_85
 $L_render_84:
   .line 241
   p0
   setl  8
+$L_render_85:
   .line 242
   getg2 map_best_times 12
   bool2
@@ -8700,112 +6355,13 @@ $L_render_84:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_88
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_87
 $L_render_86:
   .line 245
   p0
   setl  7
+$L_render_87:
   .line 238
   getg2 map_high_scores 14
   bool2
@@ -8816,102 +6372,13 @@ $L_render_86:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_90
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_89
 $L_render_88:
   .line 241
   p0
   setl  8
+$L_render_89:
   .line 242
   getg2 map_best_times 14
   bool2
@@ -8922,92 +6389,13 @@ $L_render_88:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_92
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_91
 $L_render_90:
   .line 245
   p0
   setl  7
+$L_render_91:
   .line 238
   getg2 map_high_scores 16
   bool2
@@ -9018,82 +6406,13 @@ $L_render_90:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_94
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_93
 $L_render_92:
   .line 241
   p0
   setl  8
+$L_render_93:
   .line 242
   getg2 map_best_times 16
   bool2
@@ -9104,72 +6423,13 @@ $L_render_92:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_96
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_95
 $L_render_94:
   .line 245
   p0
   setl  7
+$L_render_95:
   .line 238
   getg2 map_high_scores 18
   bool2
@@ -9180,62 +6440,13 @@ $L_render_94:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_98
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_97
 $L_render_96:
   .line 241
   p0
   setl  8
+$L_render_97:
   .line 242
   getg2 map_best_times 18
   bool2
@@ -9246,52 +6457,13 @@ $L_render_96:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_100
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_99
 $L_render_98:
   .line 245
   p0
   setl  7
+$L_render_99:
   .line 238
   getg2 map_high_scores 20
   bool2
@@ -9302,42 +6474,13 @@ $L_render_98:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_102
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
   .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_101
 $L_render_100:
   .line 241
   p0
   setl  8
+$L_render_101:
   .line 242
   getg2 map_best_times 20
   bool2
@@ -9348,32 +6491,13 @@ $L_render_100:
   p0
   add3
   setln 3 3
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_104
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
   .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  jmp   $L_render_103
 $L_render_102:
   .line 245
   p0
   setl  7
+$L_render_103:
   .line 238
   getg2 map_high_scores 22
   bool2
@@ -9384,22 +6508,13 @@ $L_render_102:
   p0
   add3
   setln 3 6
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_106
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_107
+  .line 238
+  jmp   $L_render_105
 $L_render_104:
   .line 241
   p0
   setl  8
+$L_render_105:
   .line 242
   getg2 map_best_times 22
   bool2
@@ -9428,18 +6543,8 @@ $L_render_107:
   p00
   push4 4259891
   sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  getln 3 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 248
+  jmp   $L_render_109
 $L_render_108:
   .line 251
   p0
@@ -9447,6 +6552,7 @@ $L_render_108:
   p00
   push4 4915251
   sys   draw_text_P
+$L_render_109:
   .line 253
   dup8
   bz    $L_render_110
@@ -10133,17 +7239,8 @@ render_level:
   dupw6
   getl2 13
   sys   draw_sprite
-  .line 413
-  p1
-  p0
-  getln 3 11
-  dupw6
-  getl2 13
-  p128
-  add2b
-  sys   draw_sprite
-  .line 407
-  jmp   $L_render_level_5
+  .line 409
+  jmp   $L_render_level_1
 $L_render_level_0:
   .line 412
   p00
@@ -10154,6 +7251,7 @@ $L_render_level_0:
   p1
   add2
   sys   draw_sprite
+$L_render_level_1:
   .line 413
   p1
   p0
@@ -12746,27 +9844,8 @@ $L_update_level_38:
   .line 448
   popn  8
   ret
-  .line 457
-  getg4 vx 0
-  p00
-  push2 49280
-  cflt
-  bz    $L_update_level_45
-  p00
-  push2 49280
-  setg4 vx 0
-  .line 459
-  getg4 vy 0
-  p00
-  push  192
-  dup
-  cflt
-  bz    $L_update_level_48
-  p00
-  push  192
-  dup
-  setg4 vy 0
-  jmp   $L_update_level_50
+  .line 438
+  jmp   $L_update_level_44
 $L_update_level_39:
   .line 450
   push  70
@@ -12776,27 +9855,8 @@ $L_update_level_39:
   .line 451
   p0000
   setg4 vy 0
-  .line 457
-  getg4 vx 0
-  p00
-  push2 49280
-  cflt
-  bz    $L_update_level_45
-  p00
-  push2 49280
-  setg4 vx 0
-  .line 459
-  getg4 vy 0
-  p00
-  push  192
-  dup
-  cflt
-  bz    $L_update_level_48
-  p00
-  push  192
-  dup
-  setg4 vy 0
-  jmp   $L_update_level_50
+  .line 450
+  jmp   $L_update_level_44
 $L_update_level_40:
   .line 452
   getg  death_frames 0
@@ -12817,18 +9877,7 @@ $L_update_level_44:
   p00
   push2 49280
   setg4 vx 0
-  .line 459
-  getg4 vy 0
-  p00
-  push  192
-  dup
-  cflt
-  bz    $L_update_level_48
-  p00
-  push  192
-  dup
-  setg4 vy 0
-  jmp   $L_update_level_50
+  jmp   $L_update_level_47
 $L_update_level_45:
   .line 458
   p00
@@ -13542,24 +10591,8 @@ $L_update_level_129:
   push  65
   fadd
   setl4 12
-  .line 668
-  getl4 16
-  getg4 camy 0
-  fsub
-  .line 669
-  p00
-  push2 16608
-  getl4 8
-  cflt
-  bz    $L_update_level_77
-  .line 670
-  getl4 20
-  p00
-  push2 16608
-  fsub
-  setl4 20
-  .line 669
-  jmp   $L_update_level_79
+  .line 662
+  jmp   $L_update_level_76
 $L_update_level_75:
   .line 665
   getl4 12
@@ -13567,6 +10600,7 @@ $L_update_level_75:
   push  65
   fsub
   setl4 12
+$L_update_level_76:
   .line 668
   getl4 16
   getg4 camy 0

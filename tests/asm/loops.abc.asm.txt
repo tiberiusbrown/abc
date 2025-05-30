@@ -14,6 +14,9 @@ main:
   .line 10
   p3
   p0
+  .line 9
+  jmp   $L_main_9
+$L_main_9:
   .line 8
   p4
   p0
@@ -108,21 +111,9 @@ $L_main_18:
   add2
   setl2 6
   pop2
-  .line 17
-  dupw
-  p1
-  add2b
-  setl2 2
-  dupw
-  push2 200
-  cslt2
-  bnz   $L_main_18
-  pop2
-  .line 28
-  sys   debug_break
-  .line 1
-  pop2
-  ret
+  .line 23
+  jmp   $L_main_19
+$L_main_19:
   .line 17
   dupw
   p1

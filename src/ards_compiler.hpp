@@ -629,6 +629,7 @@ struct compiler_t
     bool enable_inlining = true;
     bool enable_jmp_to_ret = true;
     bool enable_bake_pushl = true;
+    size_t max_jump_to_ret_instrs = 8;
     size_t inlining_max_add_instrs = 256;
     size_t switch_min_ranges_for_jump_table = 16;
     size_t for_unroll_max_instrs = 1024; // max total instrs in unrolled loop

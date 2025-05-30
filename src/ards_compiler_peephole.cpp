@@ -2186,7 +2186,7 @@ bool compiler_t::peephole_jmp_to_ret(compiler_func_t& f)
         for(size_t j = labeli + 1; j < f.instrs.size(); ++j)
         {
             auto& j0 = f.instrs[j];
-            if(n >= 16 || j == i || j0.is_label ||
+            if(n >= max_jump_to_ret_instrs || j == i || j0.is_label ||
                 0)
                 //j0.instr == I_BZ || j0.instr == I_BNZ ||
                 //j0.instr == I_BZP || j0.instr == I_BNZP)
