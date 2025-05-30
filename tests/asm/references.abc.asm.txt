@@ -49,8 +49,7 @@ main:
   not
   sys   assert
   .line 19
-  p3
-  getgn a3 6
+  getgn 3 a3 6
   bool3
   not
   sys   assert
@@ -129,8 +128,7 @@ main:
   not
   sys   assert
   .line 32
-  p3
-  getgn a3 6
+  getgn 3 a3 6
   p00
   push  66
   sub3
@@ -201,8 +199,7 @@ main:
   .line 48
   pushg a3 3
   .line 49
-  p3
-  getgn a3 3
+  getgn 3 a3 3
   bool3
   not
   sys   assert
@@ -211,8 +208,7 @@ main:
   dupw4
   setrn 3
   .line 51
-  p3
-  getgn a3 3
+  getgn 3 a3 3
   push3 1193046
   sub3
   bool3
@@ -227,8 +223,7 @@ main:
   not
   sys   assert
   .line 53
-  p3
-  getgn a3 3
+  getgn 3 a3 3
   p0
   push4 1048560
   and4

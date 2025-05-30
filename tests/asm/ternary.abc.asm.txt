@@ -94,8 +94,7 @@ $L_main_3:
   .line 34
   dup8
   bz    $L_main_12
-  p3
-  getln 6
+  getln 3 6
   .line 35
   dup2
   push  42
@@ -105,8 +104,7 @@ $L_main_3:
   .line 36
   getl  10
   bz    $L_main_14
-  p3
-  getln 9
+  getln 3 9
   setln 3 3
   .line 37
   dup2
@@ -170,8 +168,7 @@ $L_main_4:
   .line 34
   dup8
   bz    $L_main_12
-  p3
-  getln 6
+  getln 3 6
   .line 35
   dup2
   push  42
@@ -181,8 +178,7 @@ $L_main_4:
   .line 36
   getl  10
   bz    $L_main_14
-  p3
-  getln 9
+  getln 3 9
   setln 3 3
   .line 37
   dup2
@@ -238,8 +234,7 @@ $L_main_6:
   .line 34
   dup8
   bz    $L_main_12
-  p3
-  getln 6
+  getln 3 6
   .line 35
   dup2
   push  42
@@ -249,8 +244,7 @@ $L_main_6:
   .line 36
   getl  10
   bz    $L_main_14
-  p3
-  getln 9
+  getln 3 9
   setln 3 3
   .line 37
   dup2
@@ -294,8 +288,7 @@ $L_main_8:
   .line 34
   dup8
   bz    $L_main_12
-  p3
-  getln 6
+  getln 3 6
   .line 35
   dup2
   push  42
@@ -305,8 +298,7 @@ $L_main_8:
   .line 36
   getl  10
   bz    $L_main_14
-  p3
-  getln 9
+  getln 3 9
   setln 3 3
   .line 37
   dup2
@@ -333,8 +325,7 @@ $L_main_10:
   .line 34
   dup8
   bz    $L_main_12
-  p3
-  getln 6
+  getln 3 6
   .line 35
   dup2
   push  42
@@ -344,8 +335,7 @@ $L_main_10:
   .line 36
   getl  10
   bz    $L_main_14
-  p3
-  getln 9
+  getln 3 9
   setln 3 3
   .line 37
   dup2
@@ -361,8 +351,7 @@ $L_main_10:
   jmp   $L_main_17
 $L_main_12:
   .line 34
-  p3
-  getln 3
+  getln 3 3
   .line 35
   dup2
   push  42
@@ -372,8 +361,7 @@ $L_main_12:
   .line 36
   getl  10
   bz    $L_main_14
-  p3
-  getln 9
+  getln 3 9
   setln 3 3
   .line 37
   dup2
@@ -389,8 +377,7 @@ $L_main_12:
   jmp   $L_main_17
 $L_main_14:
   .line 36
-  p3
-  getln 6
+  getln 3 6
   setln 3 3
   .line 37
   dup2
@@ -426,12 +413,10 @@ $L_main_17:
   .line 41
   getl  11
   bz    $L_main_18
-  p3
-  getln 9
+  getln 3 9
   jmp   $L_main_19
 $L_main_18:
-  p3
-  getln 6
+  getln 3 6
 $L_main_19:
   .line 42
   dup3
@@ -454,12 +439,10 @@ $L_main_19:
   .line 45
   getl  13
   bz    $L_main_20
-  p3
-  getln 12
+  getln 3 12
   jmp   $L_main_21
 $L_main_20:
-  p3
-  getln 9
+  getln 3 9
 $L_main_21:
   setln 3 3
   .line 46

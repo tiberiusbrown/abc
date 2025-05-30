@@ -161,9 +161,9 @@ enum instr_t : uint8_t
     I_SETLN, // pop, then store to stack[top - imm2] (imm bytes)
 
     I_GETG,  // push globals[imm]
-    I_GETG2, // push globals[imm]
-    I_GETG4, // push globals[imm]
-    I_GETGN, // pop N then same as GETG but push N bytes
+    I_GETG2, // push globals[imm] (2 bytes)
+    I_GETG4, // push globals[imm] (4 bytes)
+    I_GETGN, // push globals[imm2] (imm bytes)
 
     // like GETG* but with imm8 (only first 256 bytes addressable)
     I_GTGB,
@@ -173,7 +173,7 @@ enum instr_t : uint8_t
     I_SETG,  // pop, then store to globals[imm]
     I_SETG2, // pop, then store to globals[imm] (2 bytes)
     I_SETG4, // pop, then store to globals[imm] (4 bytes)
-    I_SETGN, // pop/store imm8 bytes to globals[imm2.16]
+    I_SETGN, // pop, then store to globals[imm2] (imm bytes)
 
     I_GETP,  // pop addr24 then push 1 byte from prog address
     I_GETPN, // pop addr24 then push imm8 bytes from prog address

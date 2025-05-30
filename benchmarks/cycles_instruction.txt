@@ -46,11 +46,11 @@
    34   getl N
    34   getl2 N
    37   getl4 N
-   38   getln N (3)
-   49   getln N (5)
-   68   getln N (8)
-  112   getln N (16)
-  200   getln N (32)
+   56   getln 3
+   67   getln 5
+   86   getln 8
+  130   getln 16
+  218   getln 32
    34   setl N
    35   setl2 N
    36   setl4 N
@@ -59,25 +59,25 @@
    85   setln 8
   129   setln 16
   217   setln 32
-   51   getg VAR
-   51   getg2 VAR
-   54   getg4 VAR
-   58   getgn VAR (3)
-   69   getgn VAR (5)
-   88   getgn VAR (8)
-  132   getgn VAR (16)
-  220   getgn VAR (32)
-   34   gtgb VAR
-   34   gtgb2 VAR
-   36   gtgb4 VAR
-   51   setg VAR
-   51   setg2 VAR
-   51   setg4 VAR
-   75   setgn 3 VAR
-   86   setgn 5 VAR
-  105   setgn 8 VAR
-  149   setgn 16 VAR
-  237   setgn 32 VAR
+   51   getg
+   51   getg2
+   54   getg4
+   73   getgn 3
+   84   getgn 5
+  103   getgn 8
+  147   getgn 16
+  235   getgn 32
+   34   gtgb
+   34   gtgb2
+   36   gtgb4
+   51   setg
+   51   setg2
+   51   setg4
+   75   setgn 3
+   86   setgn 5
+  105   setgn 8
+  149   setgn 16
+  237   setgn 32
   202   getp
   224   getpn 2
   241   getpn 3

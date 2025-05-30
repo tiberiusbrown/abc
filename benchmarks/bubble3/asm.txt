@@ -69,8 +69,7 @@ $L_main_9:
   getl2 10
   setrn 3
   .line 22
-  p3
-  getln 3
+  getln 3 3
   dupw7
   setrn 3
   .line 23

@@ -53,8 +53,7 @@ $L_main_2:
   .line 10
   setl4 4
   .line 23
-  p8
-  getln 8
+  getln 8 8
   sub4
   bool4
   not

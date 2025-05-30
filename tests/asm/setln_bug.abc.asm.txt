@@ -25,8 +25,7 @@ main:
   dup
   setln 3 6
   .line 9
-  p3
-  getln 6
+  getln 3 6
   push  153
   dup
   dup

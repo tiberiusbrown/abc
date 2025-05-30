@@ -20,8 +20,7 @@ main:
   p0
   .line 15
   alloc 32
-  p3
-  getln 35
+  getln 3 35
   p32
   p00
   refl  38

@@ -1109,28 +1109,34 @@ getln_error:
     dispatch
 
 I_GETLN:
-    mov  r16, r9
-    add  r9, r28
-    brcs getln_error
-1:  movw r26, r28
-    add  r6, r4
+    lpm
+    lpm
+    cli
+    out  %[spdr], r2
+    in   r16, %[spdr]
+    sei
+    ldi  r20, 2
+    add  r6, r20
     adc  r7, r2
     adc  r8, r2
-    in   r0, %[spdr]
+    movw r26, r28
+    inc  r26
+    rcall getg_delay_8
+    in   r17, %[spdr]
     out  %[spdr], r2
-    sub  r26, r0
+    sub  r26, r17
     lsr  r16
-    brcc 2f
-    ld   r0, X+
-    st   Y+, r0
-2:  ld   r0, X+
-    st   Y+, r0
+    brcc 1f
+    st   Y+, r9
+    ld   r9, X+
+1:  st   Y+, r9
     ld   r9, X+
     st   Y+, r9
+    ld   r9, X+
     dec  r16
-    brne 2b
-    dec  r28
-    dispatch
+    brne 1b
+    rjmp getln_dispatch
+    .align 6
 
 I_SETL:
     lpm
@@ -1188,6 +1194,7 @@ I_SETL4:
     st   X+, r19
     ld   r9, -Y
     nop
+getln_dispatch:
     read_byte
 setln_dispatch_part2:
     mul  r0, r3
@@ -1329,32 +1336,38 @@ getgn_error:
     .align 6
 
 I_GETGN:
-    mov  r18, r9
-    dec r9
-    add  r9, r28
-    brcs getgn_error
+    ; X   - global pointer
+    ; r16 - counter
     lpm
-    in   r26, %[spdr]
+    lpm
+    cli
     out  %[spdr], r2
-    ldi  r20, 2
-    add  r6, r20
+    in   r16, %[spdr]
+    sei
+    ldi  r17, 3
+    add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall getg_delay_12
+    rcall getg_delay_9
+    cli
+    out  %[spdr], r2
+    in   r26, %[spdr]
+    sei
+    rcall getg_delay_14
     in   r27, %[spdr]
     out  %[spdr], r2
-    lsr  r18
+    lsr  r16
     brcc 1f
-    ld   r0, X+
-    st   Y+, r0
-1:  ld   r0, X+
-    st   Y+, r0
-    ld   r0, X+
-    st   Y+, r0
-    dec  r18
+    st   Y+, r9
+    ld   r9, X+
+1:  st   Y+, r9
+    ld   r9, X+
+    st   Y+, r9
+    ld   r9, X+
+    dec  r16
     brne 1b
-    ld   r9, -Y
-    rjmp getg4_dispatch
+    nop
+    rjmp getgn_dispatch
     .align 6
 
 I_GTGB:
@@ -1602,6 +1615,7 @@ I_GETR:
     ld   r9, X+
     rjmp .+0
 setgn_dispatch:
+getgn_dispatch:
     dispatch_noalign
 getpn_seek_to_addr:
     fx_disable

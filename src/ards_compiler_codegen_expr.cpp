@@ -229,8 +229,7 @@ void compiler_t::codegen_expr(
         // create reference
         codegen_expr(f, frame, a.children[0], true);
         // dup the ref
-        f.instrs.push_back({ I_PUSH, a.children[0].line(), 2 });
-        f.instrs.push_back({ I_GETLN, a.children[0].line(), 2 });
+        f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, 2 });
         frame.size += 2;
 
         // perform operation
@@ -238,8 +237,7 @@ void compiler_t::codegen_expr(
         codegen_convert(f, frame, a.children[1], a.comp_type, a.children[1].comp_type);
 
         // dupe the reference again
-        f.instrs.push_back({ I_PUSH, a.children[0].line(), 2 });
-        f.instrs.push_back({ I_GETLN, a.children[0].line(), uint8_t(size + 2) });
+        f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, uint8_t(size + 2) });
         frame.size += 2;
         // assign to the reference
         f.instrs.push_back({ I_SETRN, a.line(), (uint8_t)size });
@@ -629,8 +627,10 @@ void compiler_t::codegen_expr(
             {
                 auto line = a.children[0].line();
                 auto size = a.children[0].comp_type.prim_size;
-                f.instrs.push_back({ I_PUSH, line, (uint8_t)size });
-                f.instrs.push_back({ I_GETLN, line, (uint8_t)(size + (prog ? 6 : 4)) });
+                f.instrs.push_back({
+                    I_GETLN, line,
+                    (uint8_t)size,
+                    (uint8_t)(size + (prog ? 6 : 4)) });
                 frame.size += size;
                 codegen_convert(
                     f, frame, a.children[0],
@@ -727,8 +727,7 @@ no_memcpy_optimization:
             auto line = a.children[0].line();
             auto size = a.children[0].comp_type.prim_size;
             assert(ref_offset == a.children[1].comp_type.prim_size + size);
-            f.instrs.push_back({ I_PUSH, line, (uint8_t)size });
-            f.instrs.push_back({ I_GETLN, line, (uint8_t)ref_offset });
+            f.instrs.push_back({ I_GETLN, line, (uint8_t)size, (uint8_t)ref_offset });
             frame.size += size;
         }
         else
@@ -1065,8 +1064,8 @@ no_memcpy_optimization:
         // generate stop
         if(a.type == AST::ARRAY_SLICE_LEN)
         {
-            f.instrs.push_back({ I_PUSH, a.children[2].line(), prog ? 3u : 2u });
-            f.instrs.push_back({ I_GETLN, a.children[2].line(), prog ? 3u : 2u });
+            uint8_t size = prog ? 3u : 2u;
+            f.instrs.push_back({ I_GETLN, a.children[2].line(), size, size });
             frame.size += (prog ? 3 : 2);
             codegen_expr(f, frame, a.children[2], false);
             codegen_convert(f, frame, a.children[2],
@@ -1217,8 +1216,7 @@ no_memcpy_optimization:
             }
             else
             {
-                f.instrs.push_back({ I_PUSH, r.line(), size });
-                f.instrs.push_back({ I_GETGN, r.line(), size, 0, v->name });
+                f.instrs.push_back({ I_GETGN, r.line(), size, size, v->name });
             }
             frame.size += size;
             return;
@@ -1235,8 +1233,7 @@ no_memcpy_optimization:
             }
             uint8_t size = v->var.type.children[0].is_prog ? 3 : 2;
             uint8_t offset = (uint8_t)(frame.size - v->frame_offset - size);
-            f.instrs.push_back({ I_PUSH, r.line(), size });
-            f.instrs.push_back({ I_GETLN, r.line(), offset });
+            f.instrs.push_back({ I_GETLN, r.line(), size, offset });
             frame.size += size;
             return;
         }

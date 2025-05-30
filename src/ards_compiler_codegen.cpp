@@ -600,8 +600,10 @@ void compiler_t::codegen_switch(
                 if(a_case_item.children.size() == 1)
                 {
                     // single case value
-                    f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
-                    f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                    f.instrs.push_back({
+                        I_GETLN, line,
+                        (uint32_t)expr_type.prim_size,
+                        (uint32_t)(frame.size - expr_offset) });
                     frame.size += expr_type.prim_size;
                     codegen_expr(f, frame, a_case_item.children[0], false);
                     codegen_convert(
@@ -621,8 +623,10 @@ void compiler_t::codegen_switch(
                         expr_type.prim_size - 1);
 
                     // if(val < start) goto next case item
-                    f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
-                    f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                    f.instrs.push_back({
+                        I_GETLN, line,
+                        (uint32_t)expr_type.prim_size,
+                        (uint32_t)(frame.size - expr_offset) });
                     frame.size += expr_type.prim_size;
                     codegen_expr(f, frame, a_case_item.children[0], false);
                     codegen_convert(
@@ -637,8 +641,10 @@ void compiler_t::codegen_switch(
                     codegen_convert(
                         f, frame, a_case_item.children[1],
                         expr_type, a_case_item.children[1].comp_type);
-                    f.instrs.push_back({ I_PUSH, line, (uint32_t)expr_type.prim_size });
-                    f.instrs.push_back({ I_GETLN, line, (uint32_t)(frame.size - expr_offset) });
+                    f.instrs.push_back({
+                        I_GETLN, line,
+                        (uint32_t)expr_type.prim_size,
+                        (uint32_t)(frame.size - expr_offset) });
                     frame.size += expr_type.prim_size;
                     f.instrs.push_back({ ilt, line });
                     f.instrs.push_back({ I_BZ, line, 0, 0, label });

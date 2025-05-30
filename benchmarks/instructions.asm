@@ -542,33 +542,28 @@ $L_main_start:
     sys debug_break
     pop4
     
-    push 3
     sys debug_break
-    getln 42
+    getln 3 42
     sys debug_break
     popn 3
     
-    push 5
     sys debug_break
-    getln 42
+    getln 5 42
     sys debug_break
     popn 5
     
-    push 8
     sys debug_break
-    getln 42
+    getln 8 42
     sys debug_break
     popn 8
     
-    push 16
     sys debug_break
-    getln 42
+    getln 16 42
     sys debug_break
     popn 16
     
-    push 32
     sys debug_break
-    getln 42
+    getln 32 42
     sys debug_break
     popn 32
     
@@ -656,33 +651,28 @@ $L_main_start:
     sys debug_break
     pop4
     
-    push 3
     sys debug_break
-    getgn gf 0
-    sys debug_break
-    popn 5
-    
-    push 5
-    sys debug_break
-    getgn gf 0
+    getgn 3 gf 0
     sys debug_break
     popn 5
     
-    push 8
     sys debug_break
-    getgn gf 0
+    getgn 5 gf 0
+    sys debug_break
+    popn 5
+    
+    sys debug_break
+    getgn 8 gf 0
     sys debug_break
     popn 8
     
-    push 16
     sys debug_break
-    getgn gf 0
+    getgn 16 gf 0
     sys debug_break
     popn 16
     
-    push 32
     sys debug_break
-    getgn gf 0
+    getgn 32 gf 0
     sys debug_break
     popn 32
     

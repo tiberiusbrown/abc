@@ -15,6 +15,9 @@ main:
   push3 65578
   .line 9
   setl  1
+  .line 10
+  dup2
+  pop
   .line 11
   dup
   sys   assert

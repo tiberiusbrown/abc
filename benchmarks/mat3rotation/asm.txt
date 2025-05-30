@@ -44,8 +44,7 @@ main:
   getl4 20
   fmul
   .line 17
-  p8
-  getln 24
+  getln 8 24
   fmul
   .line 19
   getl4 20
@@ -53,8 +52,7 @@ main:
   fmul
   setl4 68
   .line 20
-  p8
-  getln 20
+  getln 8 20
   fmul
   setl4 64
   .line 21
@@ -110,8 +108,7 @@ main:
   fmul
   setl4 36
   .line 31
-  push  36
-  getln 68
+  getln 36 68
   setln 36 116
   popn  80
   .line 40

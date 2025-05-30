@@ -3697,8 +3697,7 @@ add_object:
   getg  objects 0
   bnz   $L_add_object_6
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 0
   .line 215
   popn  15
@@ -3708,8 +3707,7 @@ $L_add_object_6:
   getg  objects 15
   bnz   $L_add_object_8
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 15
   .line 215
   popn  15
@@ -3719,8 +3717,7 @@ $L_add_object_8:
   getg  objects 30
   bnz   $L_add_object_10
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 30
   .line 215
   popn  15
@@ -3730,8 +3727,7 @@ $L_add_object_10:
   getg  objects 45
   bnz   $L_add_object_12
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 45
   .line 215
   popn  15
@@ -3741,8 +3737,7 @@ $L_add_object_12:
   getg  objects 60
   bnz   $L_add_object_14
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 60
   .line 215
   popn  15
@@ -3752,8 +3747,7 @@ $L_add_object_14:
   getg  objects 75
   bnz   $L_add_object_16
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 75
   .line 215
   popn  15
@@ -3763,8 +3757,7 @@ $L_add_object_16:
   getg  objects 90
   bnz   $L_add_object_18
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 90
   .line 215
   popn  15
@@ -3774,8 +3767,7 @@ $L_add_object_18:
   getg  objects 105
   bnz   $L_add_object_20
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 105
   .line 215
   popn  15
@@ -3785,8 +3777,7 @@ $L_add_object_20:
   getg  objects 120
   bnz   $L_add_object_22
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 120
   .line 215
   popn  15
@@ -3796,8 +3787,7 @@ $L_add_object_22:
   getg  objects 135
   bnz   $L_add_object_24
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 135
   .line 215
   popn  15
@@ -3807,8 +3797,7 @@ $L_add_object_24:
   getg  objects 150
   bnz   $L_add_object_26
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 150
   .line 215
   popn  15
@@ -3818,8 +3807,7 @@ $L_add_object_26:
   getg  objects 165
   bnz   $L_add_object_28
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 165
   .line 215
   popn  15
@@ -3829,8 +3817,7 @@ $L_add_object_28:
   getg  objects 180
   bnz   $L_add_object_30
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 180
   .line 215
   popn  15
@@ -3840,8 +3827,7 @@ $L_add_object_30:
   getg  objects 195
   bnz   $L_add_object_32
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 195
   .line 215
   popn  15
@@ -3851,8 +3837,7 @@ $L_add_object_32:
   getg  objects 210
   bnz   $L_add_object_34
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 210
   .line 215
   popn  15
@@ -3862,8 +3847,7 @@ $L_add_object_34:
   getg  objects 225
   bnz   $L_add_object_36
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 225
   .line 215
   popn  15
@@ -3873,8 +3857,7 @@ $L_add_object_36:
   getg  objects 240
   bnz   $L_add_object_38
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 240
   .line 215
   popn  15
@@ -3884,8 +3867,7 @@ $L_add_object_38:
   getg  objects 255
   bnz   $L_add_object_40
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 255
   .line 215
   popn  15
@@ -3895,8 +3877,7 @@ $L_add_object_40:
   getg  objects 270
   bnz   $L_add_object_42
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 270
   .line 215
   popn  15
@@ -3906,8 +3887,7 @@ $L_add_object_42:
   getg  objects 285
   bnz   $L_add_object_5
   .line 214
-  push  15
-  getln 15
+  getln 15 15
   setgn 15 objects 285
   .line 215
   popn  15
@@ -4079,8 +4059,7 @@ $L_load_map_27:
   bz    $L_load_map_29
 $L_load_map_31:
   .line 69
-  p6
-  getln 10
+  getln 6 10
   dup8
   p0
   getl  12
@@ -4247,8 +4226,7 @@ $L_mob_solid_1:
   .line 189
   getg  map_width 0
   .line 192
-  p3
-  getln 3
+  getln 3 3
   p0
   cslt2
   bnz   $L_mob_solid_2
@@ -4712,8 +4690,7 @@ $L_process_map_tile_36:
   p0
   p16
   mul2b
-  p3
-  getln 16
+  getln 3 16
   p16
   p0
   getl  20
@@ -5281,8 +5258,7 @@ $L_render_5:
   push3 38020
   sys   set_text_font
   .line 305
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   p0
   push4 50378087
   p00
@@ -5376,8 +5352,7 @@ $L_render_36:
   sys   draw_text_P
 $L_render_37:
   .line 327
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   bool3
   bz    $L_render_38
   .line 329
@@ -5398,8 +5373,7 @@ $L_render_37:
   pz8
   p00
   .line 336
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   p0
   push  50
   p000
@@ -5408,8 +5382,7 @@ $L_render_37:
   p000
   mul4
   .line 335
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   p0
   push  50
   p000
@@ -5984,8 +5957,7 @@ $L_render_139:
   push3 38020
   sys   set_text_font
   .line 148
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   p0
   push4 50378087
   p00
@@ -5995,8 +5967,7 @@ $L_render_139:
   pz8
   p00
   .line 151
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   p0
   push  50
   p000
@@ -6004,8 +5975,7 @@ $L_render_139:
   p2
   p000
   mul4
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   p0
   push  50
   p000
@@ -6383,8 +6353,7 @@ $L_render_59:
   bool2
   bz    $L_render_60
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 0
   p0
   add3
@@ -6394,8 +6363,7 @@ $L_render_59:
   bool2
   bz    $L_render_62
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 0
   p0
   add3
@@ -6405,8 +6373,7 @@ $L_render_59:
   bool2
   bz    $L_render_64
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 2
   p0
   add3
@@ -6416,8 +6383,7 @@ $L_render_59:
   bool2
   bz    $L_render_66
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 2
   p0
   add3
@@ -6427,8 +6393,7 @@ $L_render_59:
   bool2
   bz    $L_render_68
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 4
   p0
   add3
@@ -6438,8 +6403,7 @@ $L_render_59:
   bool2
   bz    $L_render_70
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 4
   p0
   add3
@@ -6449,8 +6413,7 @@ $L_render_59:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -6460,8 +6423,7 @@ $L_render_59:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -6471,8 +6433,7 @@ $L_render_59:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -6482,8 +6443,7 @@ $L_render_59:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -6493,8 +6453,7 @@ $L_render_59:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -6504,8 +6463,7 @@ $L_render_59:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -6515,8 +6473,7 @@ $L_render_59:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -6526,8 +6483,7 @@ $L_render_59:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -6537,8 +6493,7 @@ $L_render_59:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -6548,8 +6503,7 @@ $L_render_59:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -6559,8 +6513,7 @@ $L_render_59:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -6570,8 +6523,7 @@ $L_render_59:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -6581,8 +6533,7 @@ $L_render_59:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -6592,8 +6543,7 @@ $L_render_59:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -6603,8 +6553,7 @@ $L_render_59:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -6614,8 +6563,7 @@ $L_render_59:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -6625,8 +6573,7 @@ $L_render_59:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -6636,38 +6583,13 @@ $L_render_59:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_60:
   .line 241
   p0
@@ -6677,8 +6599,7 @@ $L_render_60:
   bool2
   bz    $L_render_62
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 0
   p0
   add3
@@ -6688,8 +6609,7 @@ $L_render_60:
   bool2
   bz    $L_render_64
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 2
   p0
   add3
@@ -6699,8 +6619,7 @@ $L_render_60:
   bool2
   bz    $L_render_66
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 2
   p0
   add3
@@ -6710,8 +6629,7 @@ $L_render_60:
   bool2
   bz    $L_render_68
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 4
   p0
   add3
@@ -6721,8 +6639,7 @@ $L_render_60:
   bool2
   bz    $L_render_70
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 4
   p0
   add3
@@ -6732,8 +6649,7 @@ $L_render_60:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -6743,8 +6659,7 @@ $L_render_60:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -6754,8 +6669,7 @@ $L_render_60:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -6765,8 +6679,7 @@ $L_render_60:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -6776,8 +6689,7 @@ $L_render_60:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -6787,8 +6699,7 @@ $L_render_60:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -6798,8 +6709,7 @@ $L_render_60:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -6809,8 +6719,7 @@ $L_render_60:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -6820,8 +6729,7 @@ $L_render_60:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -6831,8 +6739,7 @@ $L_render_60:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -6842,8 +6749,7 @@ $L_render_60:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -6853,8 +6759,7 @@ $L_render_60:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -6864,8 +6769,7 @@ $L_render_60:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -6875,8 +6779,7 @@ $L_render_60:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -6886,8 +6789,7 @@ $L_render_60:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -6897,8 +6799,7 @@ $L_render_60:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -6908,8 +6809,7 @@ $L_render_60:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -6919,38 +6819,13 @@ $L_render_60:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_62:
   .line 245
   p0
@@ -6960,8 +6835,7 @@ $L_render_62:
   bool2
   bz    $L_render_64
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 2
   p0
   add3
@@ -6971,8 +6845,7 @@ $L_render_62:
   bool2
   bz    $L_render_66
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 2
   p0
   add3
@@ -6982,8 +6855,7 @@ $L_render_62:
   bool2
   bz    $L_render_68
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 4
   p0
   add3
@@ -6993,8 +6865,7 @@ $L_render_62:
   bool2
   bz    $L_render_70
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 4
   p0
   add3
@@ -7004,8 +6875,7 @@ $L_render_62:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -7015,8 +6885,7 @@ $L_render_62:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -7026,8 +6895,7 @@ $L_render_62:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -7037,8 +6905,7 @@ $L_render_62:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -7048,8 +6915,7 @@ $L_render_62:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -7059,8 +6925,7 @@ $L_render_62:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -7070,8 +6935,7 @@ $L_render_62:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -7081,8 +6945,7 @@ $L_render_62:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -7092,8 +6955,7 @@ $L_render_62:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -7103,8 +6965,7 @@ $L_render_62:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -7114,8 +6975,7 @@ $L_render_62:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -7125,8 +6985,7 @@ $L_render_62:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -7136,8 +6995,7 @@ $L_render_62:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -7147,8 +7005,7 @@ $L_render_62:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -7158,8 +7015,7 @@ $L_render_62:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -7169,8 +7025,7 @@ $L_render_62:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -7180,8 +7035,7 @@ $L_render_62:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -7191,38 +7045,13 @@ $L_render_62:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_64:
   .line 241
   p0
@@ -7232,8 +7061,7 @@ $L_render_64:
   bool2
   bz    $L_render_66
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 2
   p0
   add3
@@ -7243,8 +7071,7 @@ $L_render_64:
   bool2
   bz    $L_render_68
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 4
   p0
   add3
@@ -7254,8 +7081,7 @@ $L_render_64:
   bool2
   bz    $L_render_70
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 4
   p0
   add3
@@ -7265,8 +7091,7 @@ $L_render_64:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -7276,8 +7101,7 @@ $L_render_64:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -7287,8 +7111,7 @@ $L_render_64:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -7298,8 +7121,7 @@ $L_render_64:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -7309,8 +7131,7 @@ $L_render_64:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -7320,8 +7141,7 @@ $L_render_64:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -7331,8 +7151,7 @@ $L_render_64:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -7342,8 +7161,7 @@ $L_render_64:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -7353,8 +7171,7 @@ $L_render_64:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -7364,8 +7181,7 @@ $L_render_64:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -7375,8 +7191,7 @@ $L_render_64:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -7386,8 +7201,7 @@ $L_render_64:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -7397,8 +7211,7 @@ $L_render_64:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -7408,8 +7221,7 @@ $L_render_64:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -7419,8 +7231,7 @@ $L_render_64:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -7430,8 +7241,7 @@ $L_render_64:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -7441,8 +7251,7 @@ $L_render_64:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -7452,38 +7261,13 @@ $L_render_64:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_66:
   .line 245
   p0
@@ -7493,8 +7277,7 @@ $L_render_66:
   bool2
   bz    $L_render_68
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 4
   p0
   add3
@@ -7504,8 +7287,7 @@ $L_render_66:
   bool2
   bz    $L_render_70
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 4
   p0
   add3
@@ -7515,8 +7297,7 @@ $L_render_66:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -7526,8 +7307,7 @@ $L_render_66:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -7537,8 +7317,7 @@ $L_render_66:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -7548,8 +7327,7 @@ $L_render_66:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -7559,8 +7337,7 @@ $L_render_66:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -7570,8 +7347,7 @@ $L_render_66:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -7581,8 +7357,7 @@ $L_render_66:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -7592,8 +7367,7 @@ $L_render_66:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -7603,8 +7377,7 @@ $L_render_66:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -7614,8 +7387,7 @@ $L_render_66:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -7625,8 +7397,7 @@ $L_render_66:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -7636,8 +7407,7 @@ $L_render_66:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -7647,8 +7417,7 @@ $L_render_66:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -7658,8 +7427,7 @@ $L_render_66:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -7669,8 +7437,7 @@ $L_render_66:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -7680,8 +7447,7 @@ $L_render_66:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -7691,8 +7457,7 @@ $L_render_66:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -7702,38 +7467,13 @@ $L_render_66:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_68:
   .line 241
   p0
@@ -7743,8 +7483,7 @@ $L_render_68:
   bool2
   bz    $L_render_70
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 4
   p0
   add3
@@ -7754,8 +7493,7 @@ $L_render_68:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -7765,8 +7503,7 @@ $L_render_68:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -7776,8 +7513,7 @@ $L_render_68:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -7787,8 +7523,7 @@ $L_render_68:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -7798,8 +7533,7 @@ $L_render_68:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -7809,8 +7543,7 @@ $L_render_68:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -7820,8 +7553,7 @@ $L_render_68:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -7831,8 +7563,7 @@ $L_render_68:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -7842,8 +7573,7 @@ $L_render_68:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -7853,8 +7583,7 @@ $L_render_68:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -7864,8 +7593,7 @@ $L_render_68:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -7875,8 +7603,7 @@ $L_render_68:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -7886,8 +7613,7 @@ $L_render_68:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -7897,8 +7623,7 @@ $L_render_68:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -7908,8 +7633,7 @@ $L_render_68:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -7919,8 +7643,7 @@ $L_render_68:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -7930,8 +7653,7 @@ $L_render_68:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -7941,38 +7663,13 @@ $L_render_68:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_70:
   .line 245
   p0
@@ -7982,8 +7679,7 @@ $L_render_70:
   bool2
   bz    $L_render_72
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 6
   p0
   add3
@@ -7993,8 +7689,7 @@ $L_render_70:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -8004,8 +7699,7 @@ $L_render_70:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -8015,8 +7709,7 @@ $L_render_70:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -8026,8 +7719,7 @@ $L_render_70:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -8037,8 +7729,7 @@ $L_render_70:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -8048,8 +7739,7 @@ $L_render_70:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -8059,8 +7749,7 @@ $L_render_70:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -8070,8 +7759,7 @@ $L_render_70:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -8081,8 +7769,7 @@ $L_render_70:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -8092,8 +7779,7 @@ $L_render_70:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -8103,8 +7789,7 @@ $L_render_70:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -8114,8 +7799,7 @@ $L_render_70:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -8125,8 +7809,7 @@ $L_render_70:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -8136,8 +7819,7 @@ $L_render_70:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -8147,8 +7829,7 @@ $L_render_70:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -8158,8 +7839,7 @@ $L_render_70:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -8169,38 +7849,13 @@ $L_render_70:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_72:
   .line 241
   p0
@@ -8210,8 +7865,7 @@ $L_render_72:
   bool2
   bz    $L_render_74
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 6
   p0
   add3
@@ -8221,8 +7875,7 @@ $L_render_72:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -8232,8 +7885,7 @@ $L_render_72:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -8243,8 +7895,7 @@ $L_render_72:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -8254,8 +7905,7 @@ $L_render_72:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -8265,8 +7915,7 @@ $L_render_72:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -8276,8 +7925,7 @@ $L_render_72:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -8287,8 +7935,7 @@ $L_render_72:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -8298,8 +7945,7 @@ $L_render_72:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -8309,8 +7955,7 @@ $L_render_72:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -8320,8 +7965,7 @@ $L_render_72:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -8331,8 +7975,7 @@ $L_render_72:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -8342,8 +7985,7 @@ $L_render_72:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -8353,8 +7995,7 @@ $L_render_72:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -8364,8 +8005,7 @@ $L_render_72:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -8375,8 +8015,7 @@ $L_render_72:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -8386,38 +8025,13 @@ $L_render_72:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_74:
   .line 245
   p0
@@ -8427,8 +8041,7 @@ $L_render_74:
   bool2
   bz    $L_render_76
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 8
   p0
   add3
@@ -8438,8 +8051,7 @@ $L_render_74:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -8449,8 +8061,7 @@ $L_render_74:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -8460,8 +8071,7 @@ $L_render_74:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -8471,8 +8081,7 @@ $L_render_74:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -8482,8 +8091,7 @@ $L_render_74:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -8493,8 +8101,7 @@ $L_render_74:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -8504,8 +8111,7 @@ $L_render_74:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -8515,8 +8121,7 @@ $L_render_74:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -8526,8 +8131,7 @@ $L_render_74:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -8537,8 +8141,7 @@ $L_render_74:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -8548,8 +8151,7 @@ $L_render_74:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -8559,8 +8161,7 @@ $L_render_74:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -8570,8 +8171,7 @@ $L_render_74:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -8581,8 +8181,7 @@ $L_render_74:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -8592,38 +8191,13 @@ $L_render_74:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_76:
   .line 241
   p0
@@ -8633,8 +8207,7 @@ $L_render_76:
   bool2
   bz    $L_render_78
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 8
   p0
   add3
@@ -8644,8 +8217,7 @@ $L_render_76:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -8655,8 +8227,7 @@ $L_render_76:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -8666,8 +8237,7 @@ $L_render_76:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -8677,8 +8247,7 @@ $L_render_76:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -8688,8 +8257,7 @@ $L_render_76:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -8699,8 +8267,7 @@ $L_render_76:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -8710,8 +8277,7 @@ $L_render_76:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -8721,8 +8287,7 @@ $L_render_76:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -8732,8 +8297,7 @@ $L_render_76:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -8743,8 +8307,7 @@ $L_render_76:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -8754,8 +8317,7 @@ $L_render_76:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -8765,8 +8327,7 @@ $L_render_76:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -8776,8 +8337,7 @@ $L_render_76:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -8787,38 +8347,13 @@ $L_render_76:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_78:
   .line 245
   p0
@@ -8828,8 +8363,7 @@ $L_render_78:
   bool2
   bz    $L_render_80
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 10
   p0
   add3
@@ -8839,8 +8373,7 @@ $L_render_78:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -8850,8 +8383,7 @@ $L_render_78:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -8861,8 +8393,7 @@ $L_render_78:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -8872,8 +8403,7 @@ $L_render_78:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -8883,8 +8413,7 @@ $L_render_78:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -8894,8 +8423,7 @@ $L_render_78:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -8905,8 +8433,7 @@ $L_render_78:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -8916,8 +8443,7 @@ $L_render_78:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -8927,8 +8453,7 @@ $L_render_78:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -8938,8 +8463,7 @@ $L_render_78:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -8949,8 +8473,7 @@ $L_render_78:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -8960,8 +8483,7 @@ $L_render_78:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -8971,38 +8493,13 @@ $L_render_78:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_80:
   .line 241
   p0
@@ -9012,8 +8509,7 @@ $L_render_80:
   bool2
   bz    $L_render_82
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 10
   p0
   add3
@@ -9023,8 +8519,7 @@ $L_render_80:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -9034,8 +8529,7 @@ $L_render_80:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -9045,8 +8539,7 @@ $L_render_80:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -9056,8 +8549,7 @@ $L_render_80:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -9067,8 +8559,7 @@ $L_render_80:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -9078,8 +8569,7 @@ $L_render_80:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9089,8 +8579,7 @@ $L_render_80:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9100,8 +8589,7 @@ $L_render_80:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9111,8 +8599,7 @@ $L_render_80:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9122,8 +8609,7 @@ $L_render_80:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9133,8 +8619,7 @@ $L_render_80:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9144,38 +8629,13 @@ $L_render_80:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_82:
   .line 245
   p0
@@ -9185,8 +8645,7 @@ $L_render_82:
   bool2
   bz    $L_render_84
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 12
   p0
   add3
@@ -9196,8 +8655,7 @@ $L_render_82:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -9207,8 +8665,7 @@ $L_render_82:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -9218,8 +8675,7 @@ $L_render_82:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -9229,8 +8685,7 @@ $L_render_82:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -9240,8 +8695,7 @@ $L_render_82:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9251,8 +8705,7 @@ $L_render_82:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9262,8 +8715,7 @@ $L_render_82:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9273,8 +8725,7 @@ $L_render_82:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9284,8 +8735,7 @@ $L_render_82:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9295,8 +8745,7 @@ $L_render_82:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9306,38 +8755,13 @@ $L_render_82:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_84:
   .line 241
   p0
@@ -9347,8 +8771,7 @@ $L_render_84:
   bool2
   bz    $L_render_86
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 12
   p0
   add3
@@ -9358,8 +8781,7 @@ $L_render_84:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -9369,8 +8791,7 @@ $L_render_84:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -9380,8 +8801,7 @@ $L_render_84:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -9391,8 +8811,7 @@ $L_render_84:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9402,8 +8821,7 @@ $L_render_84:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9413,8 +8831,7 @@ $L_render_84:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9424,8 +8841,7 @@ $L_render_84:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9435,8 +8851,7 @@ $L_render_84:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9446,8 +8861,7 @@ $L_render_84:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9457,38 +8871,13 @@ $L_render_84:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_86:
   .line 245
   p0
@@ -9498,8 +8887,7 @@ $L_render_86:
   bool2
   bz    $L_render_88
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 14
   p0
   add3
@@ -9509,8 +8897,7 @@ $L_render_86:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -9520,8 +8907,7 @@ $L_render_86:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -9531,8 +8917,7 @@ $L_render_86:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9542,8 +8927,7 @@ $L_render_86:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9553,8 +8937,7 @@ $L_render_86:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9564,8 +8947,7 @@ $L_render_86:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9575,8 +8957,7 @@ $L_render_86:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9586,8 +8967,7 @@ $L_render_86:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9597,38 +8977,13 @@ $L_render_86:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_88:
   .line 241
   p0
@@ -9638,8 +8993,7 @@ $L_render_88:
   bool2
   bz    $L_render_90
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 14
   p0
   add3
@@ -9649,8 +9003,7 @@ $L_render_88:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -9660,8 +9013,7 @@ $L_render_88:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9671,8 +9023,7 @@ $L_render_88:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9682,8 +9033,7 @@ $L_render_88:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9693,8 +9043,7 @@ $L_render_88:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9704,8 +9053,7 @@ $L_render_88:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9715,8 +9063,7 @@ $L_render_88:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9726,38 +9073,13 @@ $L_render_88:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_90:
   .line 245
   p0
@@ -9767,8 +9089,7 @@ $L_render_90:
   bool2
   bz    $L_render_92
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 16
   p0
   add3
@@ -9778,8 +9099,7 @@ $L_render_90:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9789,8 +9109,7 @@ $L_render_90:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9800,8 +9119,7 @@ $L_render_90:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9811,8 +9129,7 @@ $L_render_90:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9822,8 +9139,7 @@ $L_render_90:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9833,8 +9149,7 @@ $L_render_90:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9844,38 +9159,13 @@ $L_render_90:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_92:
   .line 241
   p0
@@ -9885,8 +9175,7 @@ $L_render_92:
   bool2
   bz    $L_render_94
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 16
   p0
   add3
@@ -9896,8 +9185,7 @@ $L_render_92:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -9907,8 +9195,7 @@ $L_render_92:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -9918,8 +9205,7 @@ $L_render_92:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -9929,8 +9215,7 @@ $L_render_92:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -9940,8 +9225,7 @@ $L_render_92:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -9951,38 +9235,13 @@ $L_render_92:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_94:
   .line 245
   p0
@@ -9992,8 +9251,7 @@ $L_render_94:
   bool2
   bz    $L_render_96
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 18
   p0
   add3
@@ -10003,8 +9261,7 @@ $L_render_94:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -10014,8 +9271,7 @@ $L_render_94:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -10025,8 +9281,7 @@ $L_render_94:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -10036,8 +9291,7 @@ $L_render_94:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -10047,38 +9301,13 @@ $L_render_94:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_96:
   .line 241
   p0
@@ -10088,8 +9317,7 @@ $L_render_96:
   bool2
   bz    $L_render_98
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 18
   p0
   add3
@@ -10099,8 +9327,7 @@ $L_render_96:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -10110,8 +9337,7 @@ $L_render_96:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -10121,8 +9347,7 @@ $L_render_96:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -10132,38 +9357,13 @@ $L_render_96:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_98:
   .line 245
   p0
@@ -10173,8 +9373,7 @@ $L_render_98:
   bool2
   bz    $L_render_100
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 20
   p0
   add3
@@ -10184,8 +9383,7 @@ $L_render_98:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -10195,8 +9393,7 @@ $L_render_98:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -10206,38 +9403,13 @@ $L_render_98:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_100:
   .line 241
   p0
@@ -10247,8 +9419,7 @@ $L_render_100:
   bool2
   bz    $L_render_102
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 20
   p0
   add3
@@ -10258,8 +9429,7 @@ $L_render_100:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -10269,38 +9439,13 @@ $L_render_100:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_102:
   .line 245
   p0
@@ -10310,8 +9455,7 @@ $L_render_102:
   bool2
   bz    $L_render_104
   .line 239
-  p3
-  getln 6
+  getln 3 6
   getg2 map_high_scores 22
   p0
   add3
@@ -10321,38 +9465,13 @@ $L_render_102:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_104:
   .line 241
   p0
@@ -10362,50 +9481,24 @@ $L_render_104:
   bool2
   bz    $L_render_106
   .line 243
-  p3
-  getln 3
+  getln 3 3
   getg2 map_best_times 22
   p0
   add3
   setln 3 3
-  .line 248
-  p3
-  getgn high_score 0
-  bool3
-  bz    $L_render_108
-  .line 249
-  p3
-  getgn high_score 0
-  p0
-  push4 50378087
-  p00
-  push4 4259891
-  sys   draw_textf
-  .line 253
-  dup8
-  bz    $L_render_110
-  .line 254
-  p3
-  getln 6
-  p0
-  push4 50378087
-  p00
-  push4 4259898
-  sys   draw_textf
-  .line 253
-  jmp   $L_render_111
+  .line 242
+  jmp   $L_render_107
 $L_render_106:
   .line 245
   p0
   setl  7
+$L_render_107:
   .line 248
-  p3
-  getgn high_score 0
+  getgn 3 high_score 0
   bool3
   bz    $L_render_108
   .line 249
-  p3
-  getgn high_score 0
+  getgn 3 high_score 0
   p0
   push4 50378087
   p00
@@ -10415,8 +9508,7 @@ $L_render_106:
   dup8
   bz    $L_render_110
   .line 254
-  p3
-  getln 6
+  getln 3 6
   p0
   push4 50378087
   p00
@@ -10435,8 +9527,7 @@ $L_render_108:
   dup8
   bz    $L_render_110
   .line 254
-  p3
-  getln 6
+  getln 3 6
   p0
   push4 50378087
   p00
@@ -10453,16 +9544,14 @@ $L_render_110:
   sys   draw_text_P
 $L_render_111:
   .line 258
-  p3
-  getgn best_time 0
+  getgn 3 best_time 0
   bool3
   bz    $L_render_112
   .line 260
   pz8
   p00
   .line 261
-  p3
-  getgn best_time 0
+  getgn 3 best_time 0
   p0
   push  50
   p000
@@ -10470,8 +9559,7 @@ $L_render_111:
   p2
   p000
   mul4
-  p3
-  getgn best_time 0
+  getgn 3 best_time 0
   p0
   push  50
   p000
@@ -10511,8 +9599,7 @@ $L_render_113:
   pz8
   p00
   .line 271
-  p3
-  getln 13
+  getln 3 13
   p0
   push  50
   p000
@@ -10520,8 +9607,7 @@ $L_render_113:
   p2
   p000
   mul4
-  p3
-  getln 17
+  getln 3 17
   p0
   push  50
   p000
@@ -11089,8 +10175,7 @@ render_level:
   and2
   .line 405
   p00
-  p3
-  getln 11
+  getln 3 11
   dupw6
   p64
   sub2b
@@ -11099,8 +10184,7 @@ render_level:
   .line 406
   p1
   p0
-  p3
-  getln 11
+  getln 3 11
   dupw6
   p64
   sub2b
@@ -11121,16 +10205,14 @@ render_level:
   bnz   $L_render_level_0
   .line 410
   p00
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   sys   draw_sprite
   .line 413
   p1
   p0
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   p128
@@ -11141,8 +10223,7 @@ render_level:
 $L_render_level_0:
   .line 412
   p00
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   p0
@@ -11152,8 +10233,7 @@ $L_render_level_0:
   .line 413
   p1
   p0
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   p128
@@ -11170,8 +10250,7 @@ $L_render_level_2:
   .line 418
   p2
   p0
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   sys   draw_sprite
@@ -11181,8 +10260,7 @@ $L_render_level_3:
   .line 420
   p2
   p0
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   p0
@@ -11193,8 +10271,7 @@ $L_render_level_4:
   .line 421
   p3
   p0
-  p3
-  getln 11
+  getln 3 11
   dupw6
   getl2 13
   p128
@@ -11217,12 +10294,10 @@ $L_render_level_8:
   sext
   add2
   .line 428
-  p6
-  getln 10
+  getln 6 10
   dupw7
   p0
-  p3
-  getln 3
+  getln 3 3
   push  9
   add3b
   pslc  1
@@ -11646,8 +10721,8 @@ $L_render_level_50:
   jmp   $L_render_level_54
 $L_render_level_52:
   .line 461
-  pop
   dup2
+  setl  1
   .line 462
   getg  death_frames 0
   bnz   $L_render_level_54
@@ -11873,8 +10948,7 @@ $L_render_level_70:
   pidxb 17 12
   getpn 6
   .line 511
-  p6
-  getln 6
+  getln 6 6
   sys   text_width_P
   pop
   .line 514
@@ -11924,8 +10998,7 @@ $L_render_level_75:
   dupw6
   sys   draw_filled_rect
   .line 523
-  p6
-  getln 11
+  getln 6 11
   p32
   p0
   getl4 12
@@ -11959,8 +11032,7 @@ resolve_player_collision:
   p00
   push2 16608
   fsub
-  p6
-  getln 16
+  getln 6 16
   call  solid
   bnz   $L_resolve_player_collision_18
   .line 512
@@ -11973,8 +11045,7 @@ resolve_player_collision:
   p00
   push2 16608
   fsub
-  p6
-  getln 16
+  getln 6 16
   call  solid
   .line 510
   bz    $L_resolve_player_collision_3
@@ -12022,8 +11093,7 @@ $L_resolve_player_collision_3:
   p00
   push2 16608
   fadd
-  p6
-  getln 16
+  getln 6 16
   call  solid
   bnz   $L_resolve_player_collision_19
   .line 522
@@ -12036,8 +11106,7 @@ $L_resolve_player_collision_3:
   p00
   push2 16608
   fadd
-  p6
-  getln 16
+  getln 6 16
   call  solid
   .line 520
   bz    $L_resolve_player_collision_8
@@ -12079,8 +11148,7 @@ $L_resolve_player_collision_8:
   p00
   push2 16576
   fsub
-  p6
-  getln 16
+  getln 6 16
   call  solid
   bnz   $L_resolve_player_collision_20
   .line 532
@@ -12093,8 +11161,7 @@ $L_resolve_player_collision_8:
   p00
   push2 16576
   fadd
-  p6
-  getln 16
+  getln 6 16
   call  solid
   .line 530
   bz    $L_resolve_player_collision_12
@@ -12149,8 +11216,7 @@ $L_resolve_player_collision_12:
   p00
   push2 16576
   fsub
-  p6
-  getln 16
+  getln 6 16
   call  solid
   bnz   $L_resolve_player_collision_21
   .line 546
@@ -12164,8 +11230,7 @@ $L_resolve_player_collision_12:
   p00
   push2 16576
   fadd
-  p6
-  getln 16
+  getln 6 16
   call  solid
   .line 544
   bz    $L_resolve_player_collision_17
@@ -12279,10 +11344,8 @@ $L_solid_2:
   ret
 $L_solid_3:
   .line 753
-  p6
-  getln 11
-  p3
-  getln 9
+  getln 6 11
+  getln 3 9
   mul2b
   getl2 13
   add2
@@ -12364,12 +11427,10 @@ $L_solid_15:
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
@@ -12916,12 +11977,10 @@ $L_update_54:
   getg  saved_current_map 0
   setg  current_map 0
   .line 184
-  p3
-  getgn saved_total_score 0
+  getgn 3 saved_total_score 0
   setgn 3 total_score 0
   .line 185
-  p3
-  getgn saved_total_time 0
+  getgn 3 saved_total_time 0
   setgn 3 total_time 0
   .line 186
   p00
@@ -13582,8 +12641,7 @@ $L_update_level_22:
   getg2 level_frames_remaining 0
   sub2
   .line 300
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   dupw4
   p0
   add3
@@ -13628,8 +12686,7 @@ $L_update_level_62:
   aidxb 2 12
   getr2
   p0
-  p3
-  getln 6
+  getln 3 6
   cult3
   setg  was_high_score 0
   .line 309
@@ -13650,15 +12707,12 @@ $L_update_level_63:
   inc
   setg  saved_current_map 0
   .line 315
-  p3
-  getgn total_score 0
-  p3
-  getln 6
+  getgn 3 total_score 0
+  getln 3 6
   add3
   setgn 3 saved_total_score 0
   .line 316
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 317
   getg  lives 0
@@ -14427,12 +13481,10 @@ $L_update_level_115:
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
@@ -14747,12 +13799,10 @@ $L_update_level_85:
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
@@ -14802,12 +13852,10 @@ $L_update_level_56:
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
   getg  lives 0
@@ -14872,8 +13920,7 @@ $L_update_score_tally_0:
   sub2b
   setg2 score 0
   .line 226
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   dup4
   add3b
   setgn 3 total_score 0
@@ -14912,8 +13959,7 @@ $L_update_score_tally_3:
   sub2b
   setg2 level_frames_remaining 0
   .line 237
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   dup4
   add3b
   setgn 3 total_score 0
@@ -14933,15 +13979,13 @@ $L_update_score_tally_6:
   sys   just_pressed
   bz    $L_update_score_tally_14
   .line 243
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   getg2 score 0
   p0
   add3
   setgn 3 total_score 0
   .line 244
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   getg2 level_frames_remaining 0
   p0
   add3
@@ -14965,22 +14009,17 @@ $L_update_score_tally_7:
   .line 251
   bnz   load_map
   .line 254
-  p3
-  getgn high_score 0
-  p3
-  getgn total_score 0
+  getgn 3 high_score 0
+  getgn 3 total_score 0
   cult3
   setg  was_high_score 0
   .line 255
-  p3
-  getgn best_time 0
+  getgn 3 best_time 0
   bool3
   not
   bnzp  $L_update_score_tally_9
-  p3
-  getgn total_time 0
-  p3
-  getgn best_time 0
+  getgn 3 total_time 0
+  getgn 3 best_time 0
   cult3
 $L_update_score_tally_9:
   setg  was_best_time 0
@@ -14988,16 +14027,14 @@ $L_update_score_tally_9:
   getg  was_high_score 0
   bz    $L_update_score_tally_10
   .line 257
-  p3
-  getgn total_score 0
+  getgn 3 total_score 0
   setgn 3 high_score 0
 $L_update_score_tally_10:
   .line 258
   getg  was_best_time 0
   bz    $L_update_score_tally_11
   .line 259
-  p3
-  getgn total_time 0
+  getgn 3 total_time 0
   setgn 3 best_time 0
 $L_update_score_tally_11:
   .line 260

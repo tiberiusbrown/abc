@@ -20,8 +20,7 @@ main:
   push  200
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -36,8 +35,7 @@ main:
   push  15
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p7
   p000
@@ -52,8 +50,7 @@ main:
   p1
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p3
   p000
@@ -68,8 +65,7 @@ main:
   push  207
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -84,8 +80,7 @@ main:
   push  9
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p16
   p000
@@ -100,8 +95,7 @@ main:
   push  22
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p7
   p000
@@ -116,8 +110,7 @@ main:
   push  25
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -132,8 +125,7 @@ main:
   push  31
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -148,8 +140,7 @@ main:
   p1
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -164,8 +155,7 @@ main:
   push  202
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -180,8 +170,7 @@ main:
   p3
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -196,8 +185,7 @@ main:
   push  160
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -212,8 +200,7 @@ main:
   push  79
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -228,8 +215,7 @@ main:
   push  20
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -244,8 +230,7 @@ main:
   p6
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p4
   p000
@@ -260,8 +245,7 @@ main:
   push  30
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -276,8 +260,7 @@ main:
   p4
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  54
   p000
@@ -292,8 +275,7 @@ main:
   push  125
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -308,8 +290,7 @@ main:
   p64
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p3
   p000
@@ -324,8 +305,7 @@ main:
   push  15
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -340,8 +320,7 @@ main:
   push2 729
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -356,8 +335,7 @@ main:
   push2 3013
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  11
   p000
@@ -372,8 +350,7 @@ main:
   push2 2067
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p8
   p000
@@ -388,8 +365,7 @@ main:
   push2 19820
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -404,8 +380,7 @@ main:
   push2 27859
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -420,8 +395,7 @@ main:
   push2 8732
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -436,8 +410,7 @@ main:
   push2 10740
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -452,8 +425,7 @@ main:
   push2 13110
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p4
   p000
@@ -468,8 +440,7 @@ main:
   push2 28723
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -484,8 +455,7 @@ main:
   push2 1265
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  27
   p000
@@ -500,8 +470,7 @@ main:
   push2 33299
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -516,8 +485,7 @@ main:
   push  48
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  96
   p000
@@ -532,8 +500,7 @@ main:
   push2 4712
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p4
   p000
@@ -548,8 +515,7 @@ main:
   push2 30988
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -564,8 +530,7 @@ main:
   push2 24730
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -580,8 +545,7 @@ main:
   push2 888
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  12
   p000
@@ -596,8 +560,7 @@ main:
   push2 4814
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -612,8 +575,7 @@ main:
   push2 5375
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -628,8 +590,7 @@ main:
   push2 4566
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -644,8 +605,7 @@ main:
   push2 2364
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p5
   p000
@@ -658,8 +618,7 @@ main:
   setl4 8
   push4 181525
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -672,8 +631,7 @@ main:
   setl4 8
   push4 1860408
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -686,8 +644,7 @@ main:
   setl4 8
   push4 8886610
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -700,8 +657,7 @@ main:
   setl4 8
   push4 1280910
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -714,8 +670,7 @@ main:
   setl4 8
   push4 332102
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  22
   p000
@@ -728,8 +683,7 @@ main:
   setl4 8
   push4 2321830
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p3
   p000
@@ -742,8 +696,7 @@ main:
   setl4 8
   push4 674524
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p16
   p000
@@ -756,8 +709,7 @@ main:
   setl4 8
   push4 1139472
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -770,8 +722,7 @@ main:
   setl4 8
   push4 1259436
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -784,8 +735,7 @@ main:
   setl4 8
   push4 14220196
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -798,8 +748,7 @@ main:
   setl4 8
   push4 1948263
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -812,8 +761,7 @@ main:
   setl4 8
   push4 590460
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -826,8 +774,7 @@ main:
   setl4 8
   push4 6411065
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -840,8 +787,7 @@ main:
   setl4 8
   push4 4159548
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -854,8 +800,7 @@ main:
   setl4 8
   push4 4889391
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -868,8 +813,7 @@ main:
   setl4 8
   push4 7853737
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -882,8 +826,7 @@ main:
   setl4 8
   push4 380250
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  20
   p000
@@ -896,8 +839,7 @@ main:
   setl4 8
   push4 7899387
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -910,8 +852,7 @@ main:
   setl4 8
   push4 13712757
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -924,8 +865,7 @@ main:
   setl4 8
   push4 2851647
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p3
   p000
@@ -938,8 +878,7 @@ main:
   setl4 8
   push4 1575277425
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -952,8 +891,7 @@ main:
   setl4 8
   push4 2230001268
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -966,8 +904,7 @@ main:
   setl4 8
   push4 1880646081
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -980,8 +917,7 @@ main:
   setl4 8
   push4 590646064
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -994,8 +930,7 @@ main:
   setl4 8
   push4 417507813
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1008,8 +943,7 @@ main:
   setl4 8
   push4 447025312
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1022,8 +956,7 @@ main:
   setl4 8
   push4 1651548869
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1036,8 +969,7 @@ main:
   setl4 8
   push4 504173405
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1050,8 +982,7 @@ main:
   setl4 8
   push4 442781075
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p5
   p000
@@ -1064,8 +995,7 @@ main:
   setl4 8
   push4 2083923090
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1078,8 +1008,7 @@ main:
   setl4 8
   push4 1409590275
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1092,8 +1021,7 @@ main:
   setl4 8
   push4 411056546
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -1106,8 +1034,7 @@ main:
   setl4 8
   push4 232267006
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -1120,8 +1047,7 @@ main:
   setl4 8
   push4 3007052338
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1134,8 +1060,7 @@ main:
   setl4 8
   push4 675038227
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p5
   p000
@@ -1148,8 +1073,7 @@ main:
   setl4 8
   push4 1156765093
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p2
   p000
@@ -1163,8 +1087,7 @@ main:
   p3
   push3 2597893
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p6
   p000
@@ -1177,8 +1100,7 @@ main:
   setl4 8
   push4 3609830497
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1191,8 +1113,7 @@ main:
   setl4 8
   push4 3092926124
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1205,8 +1126,7 @@ main:
   setl4 8
   push4 959217950
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p1
   p000
@@ -1221,8 +1141,7 @@ main:
   push  19
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 2485
   p00
@@ -1237,8 +1156,7 @@ main:
   push  102
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  50
   p000
@@ -1253,8 +1171,7 @@ main:
   push  13
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 1079
   p00
@@ -1269,8 +1186,7 @@ main:
   push  74
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 792
   p00
@@ -1285,8 +1201,7 @@ main:
   push  10
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 5265
   p00
@@ -1301,8 +1216,7 @@ main:
   push  130
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  110
   p000
@@ -1317,8 +1231,7 @@ main:
   push  23
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 2364
   p00
@@ -1333,8 +1246,7 @@ main:
   push  239
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  217
   p000
@@ -1349,8 +1261,7 @@ main:
   push  180
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 341
   p00
@@ -1365,8 +1276,7 @@ main:
   push  82
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 797
   p00
@@ -1381,8 +1291,7 @@ main:
   push  242
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  82
   p000
@@ -1397,8 +1306,7 @@ main:
   push  17
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 1776
   p00
@@ -1413,8 +1321,7 @@ main:
   push  66
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 580
   p00
@@ -1429,8 +1336,7 @@ main:
   push  19
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 2954
   p00
@@ -1445,8 +1351,7 @@ main:
   push  110
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 410
   p00
@@ -1461,8 +1366,7 @@ main:
   push  52
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 1196
   p00
@@ -1477,8 +1381,7 @@ main:
   push  102
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  65
   p000
@@ -1493,8 +1396,7 @@ main:
   push  181
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  70
   p000
@@ -1509,8 +1411,7 @@ main:
   push  228
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  254
   p000
@@ -1525,8 +1426,7 @@ main:
   push  129
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  233
   p000
@@ -1540,8 +1440,7 @@ main:
   push2 53644
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  73
   p000
@@ -1555,8 +1454,7 @@ main:
   push2 23676
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 565
   p00
@@ -1570,8 +1468,7 @@ main:
   push2 56275
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 277
   p00
@@ -1585,8 +1482,7 @@ main:
   push2 33754
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  101
   p000
@@ -1600,8 +1496,7 @@ main:
   push2 46034
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 324
   p00
@@ -1615,8 +1510,7 @@ main:
   push2 11449
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 617
   p00
@@ -1630,8 +1524,7 @@ main:
   push2 38307
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 417
   p00
@@ -1645,8 +1538,7 @@ main:
   push2 19778
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  172
   p000
@@ -1660,8 +1552,7 @@ main:
   push2 53272
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  18
   p000
@@ -1675,8 +1566,7 @@ main:
   push2 35019
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  168
   p000
@@ -1690,8 +1580,7 @@ main:
   push2 32741
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  78
   p000
@@ -1705,8 +1594,7 @@ main:
   push2 50681
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 300
   p00
@@ -1720,8 +1608,7 @@ main:
   push2 35982
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 443
   p00
@@ -1735,8 +1622,7 @@ main:
   push2 21874
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 362
   p00
@@ -1750,8 +1636,7 @@ main:
   push2 8581
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 271
   p00
@@ -1765,8 +1650,7 @@ main:
   push2 40928
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  19
   p000
@@ -1780,8 +1664,7 @@ main:
   push2 60644
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  45
   p000
@@ -1795,8 +1678,7 @@ main:
   push2 55204
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  44
   p000
@@ -1810,8 +1692,7 @@ main:
   push2 4572
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 2003
   p00
@@ -1825,8 +1706,7 @@ main:
   push2 21318
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 561
   p00
@@ -1840,8 +1720,7 @@ main:
   p1
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 2869303
   sub4
@@ -1854,8 +1733,7 @@ main:
   push  173
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 64804
   p00
@@ -1869,8 +1747,7 @@ main:
   push  164
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 6222
   p00
@@ -1884,8 +1761,7 @@ main:
   push  195
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 7538
   p00
@@ -1899,8 +1775,7 @@ main:
   push  38
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 349718
   sub4
@@ -1913,8 +1788,7 @@ main:
   push  56
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 274286
   sub4
@@ -1927,8 +1801,7 @@ main:
   push  111
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 6032
   p00
@@ -1942,8 +1815,7 @@ main:
   push  189
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 34747
   p00
@@ -1957,8 +1829,7 @@ main:
   push  54
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 100791
   sub4
@@ -1971,8 +1842,7 @@ main:
   push  211
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 77263
   sub4
@@ -1985,8 +1855,7 @@ main:
   push  98
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 115507
   sub4
@@ -1999,8 +1868,7 @@ main:
   push  224
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 70133
   sub4
@@ -2013,8 +1881,7 @@ main:
   push  246
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 62418
   p00
@@ -2028,8 +1895,7 @@ main:
   push  138
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 34046
   p00
@@ -2043,8 +1909,7 @@ main:
   push  236
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 44917
   p00
@@ -2058,8 +1923,7 @@ main:
   push  109
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 46873
   p00
@@ -2073,8 +1937,7 @@ main:
   push  176
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 30404
   p00
@@ -2088,8 +1951,7 @@ main:
   push  217
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 44668
   p00
@@ -2103,8 +1965,7 @@ main:
   push  215
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 11815
   p00
@@ -2118,8 +1979,7 @@ main:
   push  24
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 372342
   sub4
@@ -2131,8 +1991,7 @@ main:
   setl4 8
   push4 4367374
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 751
   p00
@@ -2145,8 +2004,7 @@ main:
   setl4 8
   push4 6882988
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  173
   p000
@@ -2159,8 +2017,7 @@ main:
   setl4 8
   push4 14391905
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  119
   p000
@@ -2173,8 +2030,7 @@ main:
   setl4 8
   push4 4642970
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 522
   p00
@@ -2189,8 +2045,7 @@ main:
   dup
   p0
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 1183
   p00
@@ -2203,8 +2058,7 @@ main:
   setl4 8
   push4 6297303
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 478
   p00
@@ -2217,8 +2071,7 @@ main:
   setl4 8
   push4 3588409
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 328
   p00
@@ -2231,8 +2084,7 @@ main:
   setl4 8
   push4 12016457
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  106
   p000
@@ -2245,8 +2097,7 @@ main:
   setl4 8
   push4 9856775
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 364
   p00
@@ -2259,8 +2110,7 @@ main:
   setl4 8
   push4 880787
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 1942
   p00
@@ -2273,8 +2123,7 @@ main:
   setl4 8
   push4 14720839
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  101
   p000
@@ -2287,8 +2136,7 @@ main:
   setl4 8
   push4 7391288
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 484
   p00
@@ -2301,8 +2149,7 @@ main:
   setl4 8
   push4 13034002
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  76
   p000
@@ -2315,8 +2162,7 @@ main:
   setl4 8
   push4 2773622
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 759
   p00
@@ -2329,8 +2175,7 @@ main:
   setl4 8
   push4 5165993
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 316
   p00
@@ -2343,8 +2188,7 @@ main:
   setl4 8
   push4 1230212
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   p8
   p000
@@ -2357,8 +2201,7 @@ main:
   setl4 8
   push4 6626845
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 311
   p00
@@ -2371,8 +2214,7 @@ main:
   setl4 8
   push4 7195922
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  178
   p000
@@ -2385,8 +2227,7 @@ main:
   setl4 8
   push4 11455421
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 315
   p00
@@ -2399,8 +2240,7 @@ main:
   setl4 8
   push4 8046150
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 441
   p00
@@ -2414,8 +2254,7 @@ main:
   push2 26248
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 30366
   p00
@@ -2429,8 +2268,7 @@ main:
   push2 31324
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 86163
   sub4
@@ -2443,8 +2281,7 @@ main:
   push2 18433
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 36626
   p00
@@ -2458,8 +2295,7 @@ main:
   push2 24218
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 104900
   sub4
@@ -2472,8 +2308,7 @@ main:
   push2 39354
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 71509
   sub4
@@ -2486,8 +2321,7 @@ main:
   push2 13505
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 110190
   sub4
@@ -2500,8 +2334,7 @@ main:
   push2 34005
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 21343
   p00
@@ -2515,8 +2348,7 @@ main:
   push2 60928
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 70224
   sub4
@@ -2529,8 +2361,7 @@ main:
   push2 29978
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 81381
   sub4
@@ -2543,8 +2374,7 @@ main:
   push2 43799
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 78819
   sub4
@@ -2557,8 +2387,7 @@ main:
   push2 43244
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 47119
   p00
@@ -2572,8 +2401,7 @@ main:
   push2 52517
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push  9
   dup
@@ -2588,8 +2416,7 @@ main:
   push2 47550
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 71864
   sub4
@@ -2602,8 +2429,7 @@ main:
   push2 43301
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 46409
   p00
@@ -2617,8 +2443,7 @@ main:
   push2 6797
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 505108
   sub4
@@ -2631,8 +2456,7 @@ main:
   push2 24028
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 4810
   p00
@@ -2646,8 +2470,7 @@ main:
   push2 52040
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 79974
   sub4
@@ -2660,8 +2483,7 @@ main:
   push2 4273
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 478261
   sub4
@@ -2674,8 +2496,7 @@ main:
   push2 9177
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 428740
   sub4
@@ -2688,8 +2509,7 @@ main:
   push2 59334
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push2 64296
   p00
@@ -2703,8 +2523,7 @@ main:
   push  151
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 25466805
   sub4
@@ -2717,8 +2536,7 @@ main:
   push  251
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 5677218
   sub4
@@ -2731,8 +2549,7 @@ main:
   push  193
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 7764024
   sub4
@@ -2745,8 +2562,7 @@ main:
   push  255
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 12681966
   sub4
@@ -2759,8 +2575,7 @@ main:
   push  77
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 16156475
   sub4
@@ -2773,8 +2588,7 @@ main:
   push  176
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 16631531
   sub4
@@ -2787,8 +2601,7 @@ main:
   push  85
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 29461865
   sub4
@@ -2801,8 +2614,7 @@ main:
   push  243
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 9948279
   sub4
@@ -2815,8 +2627,7 @@ main:
   push  76
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 53775696
   sub4
@@ -2829,8 +2640,7 @@ main:
   push  50
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 48320967
   sub4
@@ -2843,8 +2653,7 @@ main:
   push  209
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 10463310
   sub4
@@ -2857,8 +2666,7 @@ main:
   push  72
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 44713335
   sub4
@@ -2871,8 +2679,7 @@ main:
   push  137
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 2272399
   sub4
@@ -2885,8 +2692,7 @@ main:
   push  155
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 19218894
   sub4
@@ -2899,8 +2705,7 @@ main:
   push  87
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 10071009
   sub4
@@ -2913,8 +2718,7 @@ main:
   push  86
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 25483717
   sub4
@@ -2927,8 +2731,7 @@ main:
   push  83
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 47294537
   sub4
@@ -2941,8 +2744,7 @@ main:
   push  69
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 28510518
   sub4
@@ -2955,8 +2757,7 @@ main:
   push  195
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 1871202
   sub4
@@ -2969,8 +2770,7 @@ main:
   push  151
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   udiv4
   push4 14997428
   sub4
@@ -2989,8 +2789,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  14
   p000
@@ -3006,8 +2805,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65533
   dup
@@ -3024,8 +2822,7 @@ main:
   push  106
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3043,8 +2840,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  9
   p000
@@ -3060,8 +2856,7 @@ main:
   push  122
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3079,8 +2874,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p2
   p000
@@ -3097,8 +2891,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p5
   p000
@@ -3113,8 +2906,7 @@ main:
   p4
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  26
   p000
@@ -3131,8 +2923,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p6
   p000
@@ -3147,8 +2938,7 @@ main:
   p4
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p2
   p000
@@ -3164,8 +2954,7 @@ main:
   push  12
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3182,8 +2971,7 @@ main:
   push  162
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3200,8 +2988,7 @@ main:
   push  111
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3217,8 +3004,7 @@ main:
   push  61
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3235,8 +3021,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3251,8 +3036,7 @@ main:
   push  22
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  10
   p000
@@ -3268,8 +3052,7 @@ main:
   push  111
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3287,8 +3070,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3304,8 +3086,7 @@ main:
   p4
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3322,8 +3103,7 @@ main:
   push  41
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3339,8 +3119,7 @@ main:
   push2 5269
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p7
   p000
@@ -3355,8 +3134,7 @@ main:
   push2 14674
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3372,8 +3150,7 @@ main:
   push3 16731107
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3389,8 +3166,7 @@ main:
   push3 16749814
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3406,8 +3182,7 @@ main:
   push2 18775
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3422,8 +3197,7 @@ main:
   push3 16741543
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3439,8 +3213,7 @@ main:
   push3 16771443
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p8
   p000
@@ -3455,8 +3228,7 @@ main:
   push2 4423
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3472,8 +3244,7 @@ main:
   push3 16774977
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p6
   p000
@@ -3488,8 +3259,7 @@ main:
   push2 30568
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3504,8 +3274,7 @@ main:
   push3 16729339
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3520,8 +3289,7 @@ main:
   push3 16735801
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3537,8 +3305,7 @@ main:
   push2 2657
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p4
   p000
@@ -3553,8 +3320,7 @@ main:
   push3 16763236
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3570,8 +3336,7 @@ main:
   push2 26819
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p2
   p000
@@ -3586,8 +3351,7 @@ main:
   push3 16775370
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3602,8 +3366,7 @@ main:
   push2 10814
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p2
   p000
@@ -3618,8 +3381,7 @@ main:
   push3 16772586
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65530
   dup
@@ -3635,8 +3397,7 @@ main:
   push3 16762199
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3651,8 +3412,7 @@ main:
   push3 16744170
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3665,8 +3425,7 @@ main:
   setl4 8
   push4 3410017
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3680,8 +3439,7 @@ main:
   setl4 8
   push4 1135416
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65530
   dup
@@ -3695,8 +3453,7 @@ main:
   setl4 8
   push4 3427024
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3710,8 +3467,7 @@ main:
   setl4 8
   push4 4294701875
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3725,8 +3481,7 @@ main:
   setl4 8
   push4 4292465972
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65531
   dup
@@ -3740,8 +3495,7 @@ main:
   setl4 8
   push4 4291632619
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3755,8 +3509,7 @@ main:
   setl4 8
   push4 3855152
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p2
   p000
@@ -3769,8 +3522,7 @@ main:
   setl4 8
   push4 4290985937
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3784,8 +3536,7 @@ main:
   setl4 8
   push4 4292673710
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3799,8 +3550,7 @@ main:
   setl4 8
   push4 251684
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p16
   p000
@@ -3813,8 +3563,7 @@ main:
   setl4 8
   push4 4287462961
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3827,8 +3576,7 @@ main:
   setl4 8
   push4 988882
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -3842,8 +3590,7 @@ main:
   setl4 8
   push4 970278
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65532
   dup
@@ -3857,8 +3604,7 @@ main:
   setl4 8
   push4 163240
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  17
   p000
@@ -3871,8 +3617,7 @@ main:
   setl4 8
   push4 1450241
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3885,8 +3630,7 @@ main:
   setl4 8
   push4 2720015
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3900,8 +3644,7 @@ main:
   setl4 8
   push4 4289599335
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3914,8 +3657,7 @@ main:
   setl4 8
   push4 4292343608
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65532
   dup
@@ -3929,8 +3671,7 @@ main:
   setl4 8
   push4 4294778605
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  20
   p000
@@ -3943,8 +3684,7 @@ main:
   setl4 8
   push4 1478422
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -3957,8 +3697,7 @@ main:
   setl4 8
   push4 1119288808
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -3972,8 +3711,7 @@ main:
   setl4 8
   push4 313911541
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p3
   p000
@@ -3986,8 +3724,7 @@ main:
   setl4 8
   push4 986920454
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4000,8 +3737,7 @@ main:
   setl4 8
   push4 414041872
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65533
   dup
@@ -4015,8 +3751,7 @@ main:
   setl4 8
   push4 22243522
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65534
   dup
@@ -4030,8 +3765,7 @@ main:
   setl4 8
   push4 185735074
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4044,8 +3778,7 @@ main:
   setl4 8
   push4 4163202939
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65528
   dup
@@ -4059,8 +3792,7 @@ main:
   setl4 8
   push4 4136247120
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  11
   p000
@@ -4073,8 +3805,7 @@ main:
   setl4 8
   push4 1094746162
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4087,8 +3818,7 @@ main:
   setl4 8
   push4 13534190
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p7
   p000
@@ -4101,8 +3831,7 @@ main:
   setl4 8
   push4 3824760609
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65533
   dup
@@ -4116,8 +3845,7 @@ main:
   setl4 8
   push4 339559689
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p5
   p000
@@ -4130,8 +3858,7 @@ main:
   setl4 8
   push4 4177745886
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4144,8 +3871,7 @@ main:
   setl4 8
   push4 143249785
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65527
   dup
@@ -4159,8 +3885,7 @@ main:
   setl4 8
   push4 4055077083
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p5
   p000
@@ -4173,8 +3898,7 @@ main:
   setl4 8
   push4 3130931906
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4187,8 +3911,7 @@ main:
   setl4 8
   push4 598433368
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4201,8 +3924,7 @@ main:
   setl4 8
   push4 2815094633
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -4215,8 +3937,7 @@ main:
   setl4 8
   push4 3959718499
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p3
   p000
@@ -4229,8 +3950,7 @@ main:
   setl4 8
   push4 584704047
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  255
   dup
@@ -4247,8 +3967,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16776656
   dup
@@ -4263,8 +3982,7 @@ main:
   push  148
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  222
   p000
@@ -4279,8 +3997,7 @@ main:
   push  40
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16775636
   dup
@@ -4295,8 +4012,7 @@ main:
   push  68
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  129
   p000
@@ -4312,8 +4028,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p3
   p000
@@ -4328,8 +4043,7 @@ main:
   push  207
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65466
   dup
@@ -4345,8 +4059,7 @@ main:
   push  171
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 298
   p00
@@ -4361,8 +4074,7 @@ main:
   push  19
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 1192
   p00
@@ -4377,8 +4089,7 @@ main:
   push  145
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 334
   p00
@@ -4393,8 +4104,7 @@ main:
   push  249
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  10
   p000
@@ -4410,8 +4120,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16771524
   dup
@@ -4427,8 +4136,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65437
   dup
@@ -4444,8 +4152,7 @@ main:
   push  164
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65399
   dup
@@ -4462,8 +4169,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  109
   p000
@@ -4478,8 +4184,7 @@ main:
   push  106
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65493
   dup
@@ -4495,8 +4200,7 @@ main:
   push  184
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65474
   dup
@@ -4513,8 +4217,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65317
   dup
@@ -4531,8 +4234,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65319
   dup
@@ -4549,8 +4251,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 266
   p00
@@ -4565,8 +4266,7 @@ main:
   push  134
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65526
   dup
@@ -4581,8 +4281,7 @@ main:
   push2 34001
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 464
   p00
@@ -4596,8 +4295,7 @@ main:
   push2 13821
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65476
   dup
@@ -4612,8 +4310,7 @@ main:
   push2 52940
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  97
   p000
@@ -4627,8 +4324,7 @@ main:
   push2 13825
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16776315
   dup
@@ -4642,8 +4338,7 @@ main:
   push3 16759019
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 825
   p00
@@ -4657,8 +4352,7 @@ main:
   push3 16750180
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 266
   p00
@@ -4672,8 +4366,7 @@ main:
   push2 46731
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  180
   p000
@@ -4687,8 +4380,7 @@ main:
   push3 16747580
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  165
   p000
@@ -4702,8 +4394,7 @@ main:
   push3 16736264
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65452
   dup
@@ -4718,8 +4409,7 @@ main:
   push2 22506
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 711
   p00
@@ -4733,8 +4423,7 @@ main:
   push2 4463
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16775466
   dup
@@ -4748,8 +4437,7 @@ main:
   push2 58196
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  208
   p000
@@ -4763,8 +4451,7 @@ main:
   push2 17162
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  112
   p000
@@ -4778,8 +4465,7 @@ main:
   push3 16728963
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  114
   p000
@@ -4793,8 +4479,7 @@ main:
   push3 16772047
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16774760
   dup
@@ -4809,8 +4494,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294771688
   sub4
@@ -4823,8 +4507,7 @@ main:
   push2 4364
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16774400
   dup
@@ -4838,8 +4521,7 @@ main:
   push2 6340
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16776223
   dup
@@ -4853,8 +4535,7 @@ main:
   push2 37766
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65350
   dup
@@ -4869,8 +4550,7 @@ main:
   push3 16764393
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  168
   p000
@@ -4885,8 +4565,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 178653
   sub4
@@ -4899,8 +4578,7 @@ main:
   push  167
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 37217
   p00
@@ -4914,8 +4592,7 @@ main:
   push  98
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294797367
   sub4
@@ -4929,8 +4606,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 145879
   sub4
@@ -4944,8 +4620,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 279
   dup
@@ -4960,8 +4635,7 @@ main:
   push  194
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 39148
   p00
@@ -4976,8 +4650,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 3723
   p00
@@ -4991,8 +4664,7 @@ main:
   push  176
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 62668
   p00
@@ -5006,8 +4678,7 @@ main:
   push  175
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 94639
   sub4
@@ -5021,8 +4692,7 @@ main:
   dup
   dupw
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4289487825
   sub4
@@ -5035,8 +4705,7 @@ main:
   push  56
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 281412
   sub4
@@ -5050,8 +4719,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16715763
   dup
@@ -5065,8 +4733,7 @@ main:
   push  43
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294608638
   sub4
@@ -5079,8 +4746,7 @@ main:
   push  207
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16736178
   dup
@@ -5094,8 +4760,7 @@ main:
   push  148
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16774895
   dup
@@ -5110,8 +4775,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294697005
   sub4
@@ -5124,8 +4788,7 @@ main:
   push  185
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294891881
   sub4
@@ -5139,8 +4802,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294900361
   sub4
@@ -5154,8 +4816,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294819822
   sub4
@@ -5169,8 +4830,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 27984
   p00
@@ -5183,8 +4843,7 @@ main:
   setl4 8
   push4 4289635098
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65359
   dup
@@ -5198,8 +4857,7 @@ main:
   setl4 8
   push4 4286713627
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  62
   p000
@@ -5212,8 +4870,7 @@ main:
   setl4 8
   push4 6380978
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   p1
   p000
@@ -5226,8 +4883,7 @@ main:
   setl4 8
   push4 1655541
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  21
   p000
@@ -5240,8 +4896,7 @@ main:
   setl4 8
   push4 15517505
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65411
   dup
@@ -5255,8 +4910,7 @@ main:
   setl4 8
   push4 4290443309
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65295
   dup
@@ -5270,8 +4924,7 @@ main:
   setl4 8
   push4 4282336369
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65495
   dup
@@ -5285,8 +4938,7 @@ main:
   setl4 8
   push4 4294524031
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16773409
   dup
@@ -5299,8 +4951,7 @@ main:
   setl4 8
   push4 4289938563
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  46
   p000
@@ -5313,8 +4964,7 @@ main:
   setl4 8
   push4 11236124
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65446
   dup
@@ -5328,8 +4978,7 @@ main:
   setl4 8
   push4 2827476
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 598
   p00
@@ -5342,8 +4991,7 @@ main:
   setl4 8
   push4 4289090795
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 352
   p00
@@ -5356,8 +5004,7 @@ main:
   setl4 8
   push4 11340691
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  147
   p000
@@ -5370,8 +5017,7 @@ main:
   setl4 8
   push4 10624381
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  41
   p000
@@ -5384,8 +5030,7 @@ main:
   setl4 8
   push4 4290449445
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16776793
   dup
@@ -5398,8 +5043,7 @@ main:
   setl4 8
   push4 5450143
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65462
   dup
@@ -5413,8 +5057,7 @@ main:
   setl4 8
   push4 4284916508
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65521
   dup
@@ -5428,8 +5071,7 @@ main:
   setl4 8
   push4 4559611
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65439
   dup
@@ -5443,8 +5085,7 @@ main:
   setl4 8
   push4 15564293
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  39
   p000
@@ -5457,8 +5098,7 @@ main:
   setl4 8
   push4 13466031
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 65401
   dup
@@ -5473,8 +5113,7 @@ main:
   push2 26988
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 60741
   p00
@@ -5488,8 +5127,7 @@ main:
   push3 16739969
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16764511
   dup
@@ -5503,8 +5141,7 @@ main:
   push3 16722557
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16773167
   dup
@@ -5518,8 +5155,7 @@ main:
   push2 15841
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 86842
   sub4
@@ -5532,8 +5168,7 @@ main:
   push2 22913
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 22685
   p00
@@ -5547,8 +5182,7 @@ main:
   push3 16775588
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 758429
   sub4
@@ -5561,8 +5195,7 @@ main:
   push2 13046
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 143438
   sub4
@@ -5575,8 +5208,7 @@ main:
   push3 16733734
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 47726
   p00
@@ -5590,8 +5222,7 @@ main:
   push2 47494
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 10028
   p00
@@ -5605,8 +5236,7 @@ main:
   push2 53926
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16738831
   dup
@@ -5620,8 +5250,7 @@ main:
   push3 16732312
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 39447
   p00
@@ -5635,8 +5264,7 @@ main:
   push2 36242
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16757625
   dup
@@ -5650,8 +5278,7 @@ main:
   push3 16745562
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 54947
   p00
@@ -5665,8 +5292,7 @@ main:
   push2 28396
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16721805
   dup
@@ -5680,8 +5306,7 @@ main:
   push3 16727859
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 32550
   p00
@@ -5695,8 +5320,7 @@ main:
   push2 23520
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16714862
   dup
@@ -5710,8 +5334,7 @@ main:
   push2 28854
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 37356
   p00
@@ -5725,8 +5348,7 @@ main:
   push2 44688
   p00
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push2 32562
   p00
@@ -5740,8 +5362,7 @@ main:
   push3 16762006
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294850232
   sub4
@@ -5754,8 +5375,7 @@ main:
   push3 16771779
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push3 16744266
   dup
@@ -5770,8 +5390,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4283904823
   sub4
@@ -5784,8 +5403,7 @@ main:
   push  255
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 2105639
   sub4
@@ -5798,8 +5416,7 @@ main:
   push  132
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 5049170
   sub4
@@ -5812,8 +5429,7 @@ main:
   push  56
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 5807047
   sub4
@@ -5826,8 +5442,7 @@ main:
   push  9
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 33392274
   sub4
@@ -5841,8 +5456,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 12571213
   sub4
@@ -5855,8 +5469,7 @@ main:
   push  62
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push  196
   dup
@@ -5872,8 +5485,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 12688642
   sub4
@@ -5886,8 +5498,7 @@ main:
   push  11
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4277575154
   sub4
@@ -5901,8 +5512,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 1677646
   sub4
@@ -5916,8 +5526,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4287913848
   sub4
@@ -5931,8 +5540,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4294419645
   sub4
@@ -5946,8 +5554,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4287080714
   sub4
@@ -5960,8 +5567,7 @@ main:
   push  137
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4288141025
   sub4
@@ -5974,8 +5580,7 @@ main:
   push  200
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4293156081
   sub4
@@ -5988,8 +5593,7 @@ main:
   p7
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 71347520
   sub4
@@ -6002,8 +5606,7 @@ main:
   push  156
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4289882399
   sub4
@@ -6016,8 +5619,7 @@ main:
   push  117
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4499855
   sub4
@@ -6030,8 +5632,7 @@ main:
   push  142
   p000
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 4292761753
   sub4
@@ -6045,8 +5646,7 @@ main:
   dup
   dup
   setl4 4
-  p8
-  getln 8
+  getln 8 8
   div4
   push4 11290610
   sub4

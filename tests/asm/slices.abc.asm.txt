@@ -140,8 +140,7 @@ main:
   sys   assert
   pop2
   .line 34
-  p3
-  getln 9
+  getln 3 9
   .line 35
   getl  11
   p2

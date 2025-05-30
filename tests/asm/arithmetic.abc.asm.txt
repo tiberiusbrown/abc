@@ -649,11 +649,9 @@ main:
   p1
   sys   assert
   .line 119
-  p3
-  getln 6
+  getln 3 6
   p0
-  p3
-  getln 13
+  getln 3 13
   p0
   add4
   push4 520000
@@ -662,11 +660,9 @@ main:
   not
   sys   assert
   .line 120
-  p3
-  getln 9
+  getln 3 9
   p0
-  p3
-  getln 10
+  getln 3 10
   p0
   sub4
   push4 380000
@@ -675,11 +671,9 @@ main:
   not
   sys   assert
   .line 121
-  p3
-  getln 6
+  getln 3 6
   p0
-  p3
-  getln 13
+  getln 3 13
   p0
   sub4
   push4 4294587296
@@ -688,11 +682,9 @@ main:
   not
   sys   assert
   .line 122
-  p3
-  getln 9
+  getln 3 9
   p0
-  p3
-  getln 7
+  getln 3 7
   p0
   mul4
   push4 315000000
@@ -701,11 +693,9 @@ main:
   not
   sys   assert
   .line 123
-  p3
-  getln 6
+  getln 3 6
   p0
-  p3
-  getln 7
+  getln 3 7
   p0
   mul4
   push4 49000000
@@ -714,11 +704,9 @@ main:
   not
   sys   assert
   .line 124
-  p3
-  getln 9
+  getln 3 9
   p0
-  p3
-  getln 10
+  getln 3 10
   p0
   udiv4
   p6
@@ -728,11 +716,9 @@ main:
   not
   sys   assert
   .line 125
-  p3
-  getln 9
+  getln 3 9
   p0
-  p3
-  getln 10
+  getln 3 10
   p0
   umod4
   push2 30000
@@ -742,8 +728,7 @@ main:
   not
   sys   assert
   .line 126
-  p3
-  getln 9
+  getln 3 9
   p0
   p1
   lsl4
@@ -754,8 +739,7 @@ main:
   not
   sys   assert
   .line 127
-  p3
-  getln 9
+  getln 3 9
   p0
   p1
   lsr4
@@ -766,8 +750,7 @@ main:
   not
   sys   assert
   .line 128
-  p3
-  getln 9
+  getln 3 9
   p0
   push  255
   p000
@@ -779,8 +762,7 @@ main:
   not
   sys   assert
   .line 129
-  p3
-  getln 9
+  getln 3 9
   p0
   p1
   lsr4
@@ -790,8 +772,7 @@ main:
   not
   sys   assert
   .line 130
-  p3
-  getln 9
+  getln 3 9
   p0
   p3
   p000
@@ -802,8 +783,7 @@ main:
   not
   sys   assert
   .line 131
-  p3
-  getln 9
+  getln 3 9
   push2 2816
   lsr4
   pop3
@@ -812,8 +792,7 @@ main:
   not
   sys   assert
   .line 133
-  p3
-  getln 9
+  getln 3 9
   push3 450000
   sub3
   bool3
@@ -821,8 +800,7 @@ main:
   sys   assert
   .line 134
   refl  9
-  p3
-  getln 11
+  getln 3 11
   p1
   p00
   sub3
@@ -835,16 +813,14 @@ main:
   not
   sys   assert
   .line 135
-  p3
-  getln 9
+  getln 3 9
   push3 449999
   sub3
   bool3
   not
   sys   assert
   .line 137
-  p3
-  getln 9
+  getln 3 9
   push3 449999
   sub3
   bool3
@@ -859,16 +835,14 @@ main:
   not
   sys   assert
   .line 139
-  p3
-  getln 9
+  getln 3 9
   push3 449998
   sub3
   bool3
   not
   sys   assert
   .line 141
-  p3
-  getln 9
+  getln 3 9
   push3 449998
   sub3
   bool3
@@ -876,8 +850,7 @@ main:
   sys   assert
   .line 142
   refl  9
-  p3
-  getln 11
+  getln 3 11
   p1
   add3b
   dupw4
@@ -889,16 +862,14 @@ main:
   not
   sys   assert
   .line 143
-  p3
-  getln 9
+  getln 3 9
   push3 449999
   sub3
   bool3
   not
   sys   assert
   .line 145
-  p3
-  getln 9
+  getln 3 9
   push3 449999
   sub3
   bool3
@@ -913,16 +884,14 @@ main:
   not
   sys   assert
   .line 147
-  p3
-  getln 9
+  getln 3 9
   push3 450000
   sub3
   bool3
   not
   sys   assert
   .line 149
-  p3
-  getln 9
+  getln 3 9
   p0
   push4 450000
   sub4
@@ -930,8 +899,7 @@ main:
   not
   sys   assert
   .line 150
-  p3
-  getln 9
+  getln 3 9
   p0
   push4 450000
   sub4
@@ -939,8 +907,7 @@ main:
   not
   sys   assert
   .line 152
-  p3
-  getln 9
+  getln 3 9
   p0
   push4 450000
   sub4
@@ -948,8 +915,7 @@ main:
   not
   sys   assert
   .line 153
-  p3
-  getln 9
+  getln 3 9
   p0
   push4 450000
   sub4
@@ -979,8 +945,7 @@ main:
   not
   sys   assert
   .line 163
-  p8
-  getln 12
+  getln 8 12
   sub4
   push4 38000000
   sub4
@@ -1006,8 +971,7 @@ main:
   not
   sys   assert
   .line 166
-  p8
-  getln 8
+  getln 8 8
   mul4
   push4 605032704
   sub4
@@ -1015,8 +979,7 @@ main:
   not
   sys   assert
   .line 167
-  p8
-  getln 12
+  getln 8 12
   udiv4
   p6
   p000
@@ -1035,8 +998,7 @@ main:
   not
   sys   assert
   .line 169
-  p8
-  getln 12
+  getln 8 12
   umod4
   push4 3000000
   sub4
@@ -1214,8 +1176,7 @@ main:
   dup
   setln 3 6
   .line 213
-  p3
-  getln 6
+  getln 3 6
   push  153
   dup
   dup

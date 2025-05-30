@@ -81,7 +81,7 @@ void compiler_t::write_instr(
     case I_GETL:  f << "getl  " << instr.imm; break;
     case I_GETL2: f << "getl2 " << instr.imm; break;
     case I_GETL4: f << "getl4 " << instr.imm; break;
-    case I_GETLN: f << "getln " << instr.imm; break;
+    case I_GETLN: f << "getln " << instr.imm << " " << instr.imm2; break;
     case I_SETL:  f << "setl  " << instr.imm; break;
     case I_SETL2: f << "setl2 " << instr.imm; break;
     case I_SETL4: f << "setl4 " << instr.imm; break;
@@ -89,7 +89,7 @@ void compiler_t::write_instr(
     case I_GETG:  f << "getg  " << instr.label << " " << instr.imm; break;
     case I_GETG2: f << "getg2 " << instr.label << " " << instr.imm; break;
     case I_GETG4: f << "getg4 " << instr.label << " " << instr.imm; break;
-    case I_GETGN: f << "getgn " << instr.label << " " << instr.imm; break;
+    case I_GETGN: f << "getgn " << instr.imm << " " << instr.label << " " << instr.imm2; break;
     case I_GTGB:  assert(false); break;
     case I_SETG:  f << "setg  " << instr.label << " " << instr.imm; break;
     case I_SETG2: f << "setg2 " << instr.label << " " << instr.imm; break;

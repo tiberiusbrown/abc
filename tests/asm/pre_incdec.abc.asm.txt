@@ -146,8 +146,7 @@ main:
   p00
   mul3
   .line 37
-  p3
-  getln 6
+  getln 3 6
   p3
   p00
   sub3
@@ -155,8 +154,7 @@ main:
   not
   sys   assert
   .line 38
-  p3
-  getln 3
+  getln 3 3
   p6
   p00
   sub3
@@ -242,8 +240,7 @@ main:
   p00
   mul3
   .line 65
-  p3
-  getln 6
+  getln 3 6
   p1
   p00
   sub3
@@ -251,8 +248,7 @@ main:
   not
   sys   assert
   .line 66
-  p3
-  getln 3
+  getln 3 3
   p6
   p00
   sub3
