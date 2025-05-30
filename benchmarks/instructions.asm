@@ -2318,6 +2318,18 @@ $L_main_2:
     nop
 $L_main_3:
     sys debug_break
+
+    push 1
+    sys debug_break
+    bz2 $L_main_20
+    sys debug_break
+
+    push 0
+    sys debug_break
+    bz2 $L_main_20
+    nop
+$L_main_20:
+    sys debug_break
     
     push 0
     sys debug_break

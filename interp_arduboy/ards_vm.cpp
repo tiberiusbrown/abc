@@ -3678,6 +3678,39 @@ I_BZ1:
     rjmp bz1_dispatch
     .align 6
 
+I_BZ2:
+    ldi  r16, 2
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
+    cp   r9, r2
+    brne 1f
+    cli
+    out  %[spdr], r2
+    in   r16, %[spdr]
+    sei
+    ldi  r18, 3
+    ld   r9, -Y
+    ldi  r19, 0xff
+    rcall branch_delay_10
+    in   r17, %[spdr]
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    sbrs r17, 7
+    ldi  r19, 0x00
+    add  r6, r16
+    adc  r7, r17
+    adc  r8, r19
+    rjmp jump_to_pc_delayed2
+1:  out  %[spdr], r2
+    ld   r9, -Y
+    rcall branch_delay_14
+    out  %[spdr], r2
+    rcall branch_delay_11
+    rjmp bz1_dispatch
+    .align 6
+
 I_BNZ:
     mov  r1, r9
     ldi  r18, 3

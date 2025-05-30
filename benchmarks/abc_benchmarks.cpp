@@ -373,6 +373,7 @@ int abc_benchmarks()
         "u2f (3)", "u2f (340000000)",
         "bz (not taken)", "bz (taken)",
         "bz1 (not taken)", "bz1 (taken)",
+        "bz2 (not taken)", "bz2 (taken)",
         "bnz (not taken)", "bnz (taken)",
         "bnz1 (not taken)", "bnz1 (taken)",
         "bnz2 (not taken)", "bnz2 (taken)",
