@@ -46,11 +46,11 @@
    34   getl N
    34   getl2 N
    37   getl4 N
-   56   getln 3
-   67   getln 5
-   86   getln 8
-  130   getln 16
-  218   getln 32
+   55   getln 3
+   66   getln 5
+   85   getln 8
+  129   getln 16
+  217   getln 32
    34   setl N
    35   setl2 N
    36   setl4 N

@@ -180,10 +180,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble3: 28.66x slowdown</summary>
+<details><summary>bubble3: 28.63x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 71002</td><td>Cycles: 2034764</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 2032748</td></tr>
 <tr>
 <td>
 
@@ -363,7 +363,7 @@ void main()
 <details><summary>mat3rotation: 1.24x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 13138</td><td>Cycles: 16336</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 16333</td></tr>
 <tr>
 <td>
 

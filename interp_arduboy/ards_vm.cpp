@@ -1115,15 +1115,17 @@ I_GETLN:
     out  %[spdr], r2
     in   r16, %[spdr]
     sei
-    ldi  r20, 2
+    ldi  r20, 3
     add  r6, r20
     adc  r7, r2
     adc  r8, r2
     movw r26, r28
     inc  r26
-    rcall getg_delay_8
-    in   r17, %[spdr]
+    rcall getg_delay_7
+    cli
     out  %[spdr], r2
+    in   r17, %[spdr]
+    sei
     sub  r26, r17
     lsr  r16
     brcc 1f
@@ -1135,7 +1137,12 @@ I_GETLN:
     ld   r9, X+
     dec  r16
     brne 1b
-    rjmp getln_dispatch
+
+    ; custom dispatch
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    nop
+    rjmp getln_dispatch_part2
     .align 6
 
 I_SETL:
@@ -1194,9 +1201,9 @@ I_SETL4:
     st   X+, r19
     ld   r9, -Y
     nop
-getln_dispatch:
     read_byte
 setln_dispatch_part2:
+getln_dispatch_part2:
     mul  r0, r3
     movw r30, r0
     add  r31, r5
