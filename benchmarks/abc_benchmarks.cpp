@@ -375,6 +375,7 @@ int abc_benchmarks()
         "bz1 (not taken)", "bz1 (taken)",
         "bnz (not taken)", "bnz (taken)",
         "bnz1 (not taken)", "bnz1 (taken)",
+        "bnz2 (not taken)", "bnz2 (taken)",
         "bzp (not taken)", "bzp (taken)",
         "bzp1 (not taken)", "bzp1 (taken)",
         "bnzp (not taken)", "bnzp (taken)",

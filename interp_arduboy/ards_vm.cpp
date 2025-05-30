@@ -3615,7 +3615,9 @@ branch_delay_13:
 branch_delay_12:
     nop
 branch_delay_11:
-    rjmp .+0
+    nop
+branch_delay_10:
+    nop
 branch_delay_9:
     rjmp .+0
 branch_delay_7:
@@ -3670,9 +3672,10 @@ I_BZ1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc_delayed2
-1:  ld   r9, -Y
+1:  nop
     out  %[spdr], r2
-    rcall branch_delay_11
+    ld   r9, -Y
+    rcall branch_delay_9
     rjmp bz1_dispatch
     .align 6
 
@@ -3711,7 +3714,7 @@ I_BNZ1:
     cp   r9, r2
     breq 1f
     ldi  r18, 3
-    mov  r16, r9
+    nop
     in   r0, %[spdr]
     fx_disable
     fx_enable
@@ -3724,7 +3727,41 @@ I_BNZ1:
     adc  r7, r1
     adc  r8, r1
     rjmp jump_to_pc_delayed2
-1:  ld   r9, -Y
+1:  nop
+    out  %[spdr], r2
+    ld   r9, -Y
+    rcall branch_delay_9
+    rjmp bz1_dispatch
+    .align 6
+
+I_BNZ2:
+    ldi  r16, 2
+    add  r6, r16
+    adc  r7, r2
+    adc  r8, r2
+    cp   r9, r2
+    breq 1f
+    cli
+    out  %[spdr], r2
+    in   r16, %[spdr]
+    sei
+    ldi  r18, 3
+    ld   r9, -Y
+    rcall branch_delay_11
+    in   r17, %[spdr]
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    mov  r1, r17
+    lsl  r1
+    sbc  r1, r1
+    add  r6, r16
+    adc  r7, r17
+    adc  r8, r1
+    rjmp jump_to_pc_delayed2
+1:  out  %[spdr], r2
+    ld   r9, -Y
+    rcall branch_delay_14
     out  %[spdr], r2
     rcall branch_delay_11
     rjmp bz1_dispatch

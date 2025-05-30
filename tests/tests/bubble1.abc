@@ -1,0 +1,36 @@
+i8[64] A;
+
+void main()
+{
+    $debug_break();
+    
+    for(u8 i = 0; i < len(A); ++i)
+        A[i] = len(A) - i;
+
+    for(u8 i = 0; i < len(A) - 1; ++i)
+        $assert(A[i] > A[i + 1]);
+
+    u8 n = len(A);
+    while(n > 1)
+    {
+        u8 n2 = 0;
+        for(u8 i = 1; i < n; ++i)
+        {
+            i8& a = A[u8(i - 1)];
+            i8& b = A[i];
+            if(a > b)
+            {
+                i8 t = a;
+                a = b;
+                b = t;
+                n2 = i;
+            }
+        }
+        n = n2;
+    }
+    
+    for(u8 i = 0; i < len(A) - 1; ++i)
+        $assert(A[i] < A[i + 1]);
+
+    $debug_break();
+}

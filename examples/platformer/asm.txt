@@ -4345,9 +4345,8 @@ $L_process_map_tile_4:
   .line 120
   p0000
   setg4 dcamx 0
-  popn  8
+  popn  11
   .line 103
-  pop3
   ret
 $L_process_map_tile_5:
   .line 122
@@ -4624,9 +4623,8 @@ $L_process_map_tile_36:
   p0
   getl4 19
   call  add_object
-  popn  11
+  popn  14
   .line 103
-  pop3
   ret
 $L_process_map_tile_22:
   .line 160
@@ -6659,9 +6657,7 @@ $L_render_113:
   getl  9
   sub2b
   sys   draw_text
-  popn  19
-  .line 13
-  pop
+  popn  20
   .line 11
   ret
 $L_render_114:
@@ -6671,9 +6667,7 @@ $L_render_114:
   p00
   push4 7209018
   sys   draw_text_P
-  popn  8
-  .line 13
-  pop
+  popn  9
   .line 11
   ret
 $L_render_9:

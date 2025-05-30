@@ -318,7 +318,7 @@ enum instr_t : uint8_t
     //I_BZ2,  // imm16 rel offset
     I_BNZ,    // pop, branch if nonzero to imm3
     I_BNZ1,   // imm8 rel offset
-    //I_BNZ2, // imm16 rel offset
+    I_BNZ2,   // imm16 rel offset
     I_BZP,    // 
     I_BZP1,   // 
     //I_BZP2, // (same as dup; b[n]z; pop)

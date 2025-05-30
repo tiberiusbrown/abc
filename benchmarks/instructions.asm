@@ -2340,6 +2340,18 @@ $L_main_5:
     nop
 $L_main_6:
     sys debug_break
+
+    push 0
+    sys debug_break
+    bnz2 $L_main_19
+    sys debug_break
+
+    push 1
+    sys debug_break
+    bnz2 $L_main_19
+    nop
+$L_main_19:
+    sys debug_break
     
     push 1
     sys debug_break

@@ -276,6 +276,7 @@ enum
     I_BZ1,
     I_BNZ,
     I_BNZ1,
+    I_BNZ2,
     I_BZP,
     I_BZP1,
     I_BNZP,
@@ -1342,6 +1343,14 @@ static abc_result_t bnz(abc_interp_t* interp, abc_host_t const* h)
 static abc_result_t bnz1(abc_interp_t* interp, abc_host_t const* h)
 {
     int8_t offset = (int8_t)imm8(interp, h);
+    if(pop8(interp) != 0)
+        interp->pc += offset;
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t bnz2(abc_interp_t* interp, abc_host_t const* h)
+{
+    int16_t offset = (int16_t)imm16(interp, h);
     if(pop8(interp) != 0)
         interp->pc += offset;
     return ABC_RESULT_NORMAL;
@@ -3697,6 +3706,7 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_BZ1:   return bz1(interp, h);
     case I_BNZ:   return bnz(interp, h);
     case I_BNZ1:  return bnz1(interp, h);
+    case I_BNZ2:  return bnz2(interp, h);
     case I_BZP:   return bzp(interp, h);
     case I_BZP1:  return bzp1(interp, h);
     case I_BNZP:  return bnzp(interp, h);

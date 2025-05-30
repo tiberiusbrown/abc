@@ -559,6 +559,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_BNZ1);
             push_label(f, false, 1);
         }
+        else if(t == "bnz2")
+        {
+            push_instr(I_BNZ2);
+            push_label(f, false, 2);
+        }
         else if(t == "bzp")
         {
             push_instr(I_BZP);
@@ -755,7 +760,7 @@ void assembler_t::relax_jumps()
             label.size = 1;
         }
         else if(abs_offset < 32764 && (
-            n.instr == I_JMP || n.instr == I_CALL))
+            n.instr == I_JMP || n.instr == I_CALL || n.instr == I_BNZ))
         {
             n.instr = instr_t(n.instr + 2);
             label.size = 2;
