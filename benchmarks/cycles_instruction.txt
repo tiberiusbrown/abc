@@ -291,24 +291,24 @@
    68   bz (not taken)
   144   bz (taken)
    34   bz1 (not taken)
-  113   bz1 (taken)
+  112   bz1 (taken)
    68   bnz (not taken)
   144   bnz (taken)
    34   bnz1 (not taken)
-  113   bnz1 (taken)
+  112   bnz1 (taken)
    51   bnz2 (not taken)
-  128   bnz2 (taken)
+  127   bnz2 (taken)
    68   bzp (not taken)
   144   bzp (taken)
    34   bzp1 (not taken)
-  111   bzp1 (taken)
+  110   bzp1 (taken)
    68   bnzp (not taken)
   144   bnzp (taken)
    34   bnzp1 (not taken)
-  111   bnzp1 (taken)
+  110   bnzp1 (taken)
   144   jmp
-  111   jmp1
-  128   jmp2
+  110   jmp1
+  127   jmp2
   144   call
   121   call1
   127   call2

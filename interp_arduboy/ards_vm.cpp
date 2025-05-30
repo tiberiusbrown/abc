@@ -3659,18 +3659,17 @@ I_BZ1:
     cp   r9, r2
     brne 1f
     ldi  r18, 3
-    mov  r16, r9
+    ldi  r19, 0xff
     in   r0, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
     ld   r9, -Y
-    mov  r1, r0
-    lsl  r1
-    sbc  r1, r1
+    sbrs r0, 7
+    ldi  r19, 0x00
     add  r6, r0
-    adc  r7, r1
-    adc  r8, r1
+    adc  r7, r19
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
 1:  nop
     out  %[spdr], r2
@@ -3714,18 +3713,17 @@ I_BNZ1:
     cp   r9, r2
     breq 1f
     ldi  r18, 3
-    nop
+    ldi  r19, 0xff
     in   r0, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
     ld   r9, -Y
-    mov  r1, r0
-    lsl  r1
-    sbc  r1, r1
+    sbrs r0, 7
+    ldi  r19, 0x00
     add  r6, r0
-    adc  r7, r1
-    adc  r8, r1
+    adc  r7, r19
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
 1:  nop
     out  %[spdr], r2
@@ -3747,17 +3745,17 @@ I_BNZ2:
     sei
     ldi  r18, 3
     ld   r9, -Y
-    rcall branch_delay_11
+    ldi  r19, 0xff
+    rcall branch_delay_10
     in   r17, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
-    mov  r1, r17
-    lsl  r1
-    sbc  r1, r1
+    sbrs r17, 7
+    ldi  r19, 0x00
     add  r6, r16
     adc  r7, r17
-    adc  r8, r1
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
 1:  out  %[spdr], r2
     ld   r9, -Y
@@ -3802,17 +3800,16 @@ I_BZP1:
     ldi  r18, 3
     cp   r9, r2
     brne 1f
-    nop
+    ldi  r19, 0xff
     in   r0, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
-    mov  r1, r0
-    lsl  r1
-    sbc  r1, r1
+    sbrs r0, 7
+    ldi  r19, 0x00
     add  r6, r0
-    adc  r7, r1
-    adc  r8, r1
+    adc  r7, r19
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
 1:  out  %[spdr], r2
     ld   r9, -Y
@@ -3855,17 +3852,16 @@ I_BNZP1:
     ldi  r18, 3
     cp   r9, r2
     breq 1f
-    nop
+    ldi  r19, 0xff
     in   r0, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
-    mov  r1, r0
-    lsl  r1
-    sbc  r1, r1
+    sbrs r0, 7
+    ldi  r19, 0x00
     add  r6, r0
-    adc  r7, r1
-    adc  r8, r1
+    adc  r7, r19
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
 1:  out  %[spdr], r2
     ld   r9, -Y
@@ -3897,18 +3893,18 @@ I_JMP1:
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
-    lpm
+    rjmp .+0
+    ldi  r19, 0xff
     ldi  r18, 3
     in   r0, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
-    mov  r1, r0
-    lsl  r1
-    sbc  r1, r1
+    sbrs r0, 7
+    ldi  r19, 0x00
     add  r6, r0
-    adc  r7, r1
-    adc  r8, r1
+    adc  r7, r19
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
     .align 6
 
@@ -3917,7 +3913,7 @@ I_JMP2:
     add  r6, r18
     adc  r7, r2
     adc  r8, r2
-    nop
+    ldi  r19, 0xff
     ldi  r18, 3
     cli
     out  %[spdr], r2
@@ -3928,12 +3924,11 @@ I_JMP2:
     fx_disable
     fx_enable
     out  %[spdr], r18
-    mov  r1, r25
-    lsl  r1
-    sbc  r1, r1
+    sbrs r25, 7
+    ldi  r19, 0x00
     add  r6, r24
     adc  r7, r25
-    adc  r8, r1
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
 call_error:
     ldi  r24, 6
