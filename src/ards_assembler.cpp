@@ -604,6 +604,11 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_CALL1);
             push_label(f, false, 1);
         }
+        else if(t == "call2")
+        {
+            push_instr(I_CALL2);
+            push_label(f, false, 2);
+        }
         else if(t == "sys")
         {
             auto i = read_sys(f, error) * 2;
@@ -749,7 +754,8 @@ void assembler_t::relax_jumps()
             n.instr = instr_t(n.instr + 1);
             label.size = 1;
         }
-        else if(n.instr == I_JMP && abs_offset < 32764)
+        else if(abs_offset < 32764 && (
+            n.instr == I_JMP || n.instr == I_CALL))
         {
             n.instr = instr_t(n.instr + 2);
             label.size = 2;

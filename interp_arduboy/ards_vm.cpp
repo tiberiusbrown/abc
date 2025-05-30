@@ -3973,9 +3973,42 @@ I_CALL1:
     adc  r8, r1
     rjmp jump_to_pc_delayed2
 call1_error:
+call2_error:
 icall_error:
     ldi  r24, 6
     call call_vm_error
+    .align 6
+
+I_CALL2:
+    lds  r26, %[vm_csp]
+    cpi  r26, %[MAX_CALLS] * 3 - 3
+    brsh call2_error
+    ldi  r27, 0x06
+    cli
+    out  %[spdr], r2
+    in   r16, %[spdr]
+    sei
+    ldi  r18, 2
+    add  r6, r18
+    adc  r7, r2
+    adc  r8, r2
+    st   X+, r6
+    st   X+, r7
+    st   X+, r8
+    sts  %[vm_csp], r26
+    ldi  r18, 3
+    nop
+    in   r17, %[spdr]
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    mov  r1, r17
+    lsl  r1
+    sbc  r1, r1
+    add  r6, r16
+    adc  r7, r17
+    adc  r8, r1
+    rjmp jump_to_pc_delayed2
     .align 6
 
 I_ICALL:

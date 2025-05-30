@@ -286,6 +286,7 @@ enum
     I_IJMP,
     I_CALL,
     I_CALL1,
+    I_CALL2,
     I_ICALL,
     I_RET,
     I_SYS,
@@ -3723,6 +3724,11 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_CALL1:
     {
         int8_t t = (int8_t)imm8(interp, h);
+        return call(interp, interp->pc + t);
+    }
+    case I_CALL2:
+    {
+        int16_t t = (int16_t)imm16(interp, h);
         return call(interp, interp->pc + t);
     }
     case I_ICALL: return call(interp, pop24(interp));

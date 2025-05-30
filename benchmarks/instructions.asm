@@ -2415,6 +2415,9 @@ $L_main_12:
     ret
 $L_main_13:
     
+    sys debug_break
+    call2 $L_main_12
+    
     pushl call_long 0
     sys debug_break
     icall
