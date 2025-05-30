@@ -5,16 +5,50 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <numeric>
 #include <strstream>
 #include <sstream>
 
 #include <imgui.h>
 #include <imgui_internal.h>
 
+#include <stb_image_write.h>
+
 #include "font_icons.hpp"
 
 static std::unique_ptr<texture_t> display_texture;
 bool player_active;
+static bool gif_recording = false;
+
+static std::vector<uint8_t> screenshot_png;
+
+static void take_screenshot()
+{
+    std::vector<uint8_t> idata;
+    idata.resize(128 * 64 * 3);
+    for(int i = 0, n = 0; i < 64; ++i)
+        for(int j = 0; j < 128; ++j, ++n)
+        {
+            idata[n * 3 + 0] = idata[n * 3 + 1] = idata[n * 3 + 2] =
+                arduboy->display.filtered_pixels[n];
+        }
+
+    screenshot_png.clear();
+    stbi_write_png_to_func(
+        [](void* ctx, void* data, int size)
+        {
+            (void)ctx;
+            screenshot_png.reserve(screenshot_png.size() + size);
+            for(int i = 0; i < size; ++i)
+                screenshot_png.push_back(((uint8_t*)data)[i]);
+        },
+        nullptr, 128, 64, 3, idata.data(), 128 * 3);
+}
+
+static void toggle_gif()
+{
+    gif_recording = !gif_recording;
+}
 
 void player_run()
 {
@@ -51,6 +85,8 @@ void player_run()
     arduboy->paused = false;
     arduboy->profiler_enabled = true;
     player_active = true;
+    if(gif_recording)
+        toggle_gif();
 }
 
 void player_window_contents(uint64_t dt)
@@ -139,12 +175,22 @@ void player_window_contents(uint64_t dt)
         SetCursorPosX(GetCursorPosX() + offset);
         if(player_active && arduboy->cpu.decoded)
         {
+            ImVec2 a = GetCursorScreenPos();
             Image(
                 display_texture->imgui_id(),
                 size,
                 { 0, 0 }, { 1, 1 },
                 { 1, 1, 1, 1 },
                 COLOR);
+            if(gif_recording)
+            {
+                auto* d = GetWindowDrawList();
+                d->AddRectFilled(
+                    { a.x +  5.f * z, a.y +  5.f * z },
+                    { a.x + 15.f * z, a.y + 15.f * z },
+                    IM_COL32(255, 0, 0, 128)
+                );
+            }
         }
         else
         {
@@ -166,7 +212,7 @@ void player_window_contents(uint64_t dt)
         BeginDisabled();
 
     ImVec2 button_size = {
-        150.f * pixel_ratio,
+        200.f * pixel_ratio,
         30.f * pixel_ratio
     };
     SetCursorPosX((GetWindowSize().x - button_size.x) * 0.5f);
@@ -177,6 +223,8 @@ void player_window_contents(uint64_t dt)
             arduboy->reset();
             arduboy->paused = true;
             player_active = false;
+            if(gif_recording)
+                toggle_gif();
         }
     }
     else
@@ -185,9 +233,40 @@ void player_window_contents(uint64_t dt)
             player_run();
     }
 
+    if(0 && player_active)
+    {
+        SetCursorPosX((GetWindowSize().x - button_size.x) * 0.5f);
+        if(Button(ICON_FA_IMAGE " Take Screenshot (F2)", button_size) ||
+            ImGui::IsKeyPressed(ImGuiKey_F2))
+            take_screenshot();
+        SetCursorPosX((GetWindowSize().x - button_size.x) * 0.5f);
+        if(!gif_recording && (
+            Button(ICON_FA_IMAGES " Record GIF (F3)", button_size) ||
+            ImGui::IsKeyPressed(ImGuiKey_F3)))
+            toggle_gif();
+        else if(gif_recording && (
+            Button(ICON_FA_STOP_CIRCLE " Stop Recording (F3)", button_size) ||
+            ImGui::IsKeyPressed(ImGuiKey_F3)))
+            toggle_gif();
+    }
+    
+
     if(player_active)
     {
         Separator();
+
+        float fps = 0.f;
+        if(arduboy->prev_frame_cycles != 0)
+        {
+            static std::array<float, 16> fps_queue{};
+            static size_t fps_i = 0;
+            fps = 16e6f / float(arduboy->prev_frame_cycles);
+            fps_queue[fps_i] = fps;
+            fps_i = (fps_i + 1) % fps_queue.size();
+            fps = std::accumulate(fps_queue.begin(), fps_queue.end(), 0.f) * (1.f / fps_queue.size());
+        }
+        ImGui::Text("FPS:       %d", int(fps + 0.5f));
+
         float usage = 0.f;
         size_t i;
         constexpr size_t n = 16;
