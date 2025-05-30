@@ -56,8 +56,7 @@ void load_map()
     map_height = h;
 
     // reset map objects
-    for(u8 i = 0; i < MAX_OBJECTS; ++i)
-        objects[i] = { 0, 0, OBJ_NONE };
+    objects = {};
 
     total_objects = 0;
 

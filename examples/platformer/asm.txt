@@ -3688,212 +3688,212 @@ $globinit:
 
 add_object:
   .file map.abc
-  .line 209
+  .line 208
   getg2 total_objects 0
   p1
   add2b
   setg2 total_objects 0
-  .line 212
+  .line 211
   getg  objects 0
   bnz   $L_add_object_6
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 0
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_6:
-  .line 212
+  .line 211
   getg  objects 15
   bnz   $L_add_object_8
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 15
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_8:
-  .line 212
+  .line 211
   getg  objects 30
   bnz   $L_add_object_10
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 30
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_10:
-  .line 212
+  .line 211
   getg  objects 45
   bnz   $L_add_object_12
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 45
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_12:
-  .line 212
+  .line 211
   getg  objects 60
   bnz   $L_add_object_14
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 60
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_14:
-  .line 212
+  .line 211
   getg  objects 75
   bnz   $L_add_object_16
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 75
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_16:
-  .line 212
+  .line 211
   getg  objects 90
   bnz   $L_add_object_18
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 90
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_18:
-  .line 212
+  .line 211
   getg  objects 105
   bnz   $L_add_object_20
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 105
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_20:
-  .line 212
+  .line 211
   getg  objects 120
   bnz   $L_add_object_22
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 120
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_22:
-  .line 212
+  .line 211
   getg  objects 135
   bnz   $L_add_object_24
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 135
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_24:
-  .line 212
+  .line 211
   getg  objects 150
   bnz   $L_add_object_26
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 150
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_26:
-  .line 212
+  .line 211
   getg  objects 165
   bnz   $L_add_object_28
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 165
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_28:
-  .line 212
+  .line 211
   getg  objects 180
   bnz   $L_add_object_30
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 180
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_30:
-  .line 212
+  .line 211
   getg  objects 195
   bnz   $L_add_object_32
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 195
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_32:
-  .line 212
+  .line 211
   getg  objects 210
   bnz   $L_add_object_34
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 210
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_34:
-  .line 212
+  .line 211
   getg  objects 225
   bnz   $L_add_object_36
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 225
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_36:
-  .line 212
+  .line 211
   getg  objects 240
   bnz   $L_add_object_38
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 240
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_38:
-  .line 212
+  .line 211
   getg  objects 255
   bnz   $L_add_object_40
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 255
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_40:
-  .line 212
+  .line 211
   getg  objects 270
   bnz   $L_add_object_42
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 270
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_42:
-  .line 212
+  .line 211
   getg  objects 285
   bnz   $L_add_object_5
-  .line 214
+  .line 213
   getln 15 15
   setgn 15 objects 285
-  .line 215
+  .line 214
   popn  15
   ret
 $L_add_object_5:
-  .line 207
+  .line 206
   popn  15
   ret
 
@@ -3962,103 +3962,27 @@ load_map:
   .line 56
   dup
   setg  map_height 0
-  .line 60
-  pz8
-  p0000
-  p000
-  setgn 15 objects 0
-  pz8
-  p0000
-  p000
-  setgn 15 objects 15
-  pz8
-  p0000
-  p000
-  setgn 15 objects 30
-  pz8
-  p0000
-  p000
-  setgn 15 objects 45
-  pz8
-  p0000
-  p000
-  setgn 15 objects 60
-  pz8
-  p0000
-  p000
-  setgn 15 objects 75
-  pz8
-  p0000
-  p000
-  setgn 15 objects 90
-  pz8
-  p0000
-  p000
-  setgn 15 objects 105
-  pz8
-  p0000
-  p000
-  setgn 15 objects 120
-  pz8
-  p0000
-  p000
-  setgn 15 objects 135
-  pz8
-  p0000
-  p000
-  setgn 15 objects 150
-  pz8
-  p0000
-  p000
-  setgn 15 objects 165
-  pz8
-  p0000
-  p000
-  setgn 15 objects 180
-  pz8
-  p0000
-  p000
-  setgn 15 objects 195
-  pz8
-  p0000
-  p000
-  setgn 15 objects 210
-  pz8
-  p0000
-  p000
-  setgn 15 objects 225
-  pz8
-  p0000
-  p000
-  setgn 15 objects 240
-  pz8
-  p0000
-  p000
-  setgn 15 objects 255
-  pz8
-  p0000
-  p000
-  setgn 15 objects 270
-  pz8
-  p0000
-  p000
-  setgn 15 objects 285
-  .line 62
+  .line 59
+  p0
+  pushg objects 0
+  push2 300
+  sys   memset
+  .line 61
   p00
   setg2 total_objects 0
-  .line 65
+  .line 64
   p00
   dup3
   cult
-  bz    $L_load_map_25
-$L_load_map_27:
-  .line 67
+  bz    $L_load_map_0
+$L_load_map_2:
+  .line 66
   p00
   dup5
   cult
-  bz    $L_load_map_29
-$L_load_map_31:
-  .line 69
+  bz    $L_load_map_4
+$L_load_map_6:
+  .line 68
   getln 6 10
   dup8
   p0
@@ -4070,98 +3994,98 @@ $L_load_map_31:
   upidx 1
   getp
   dec
-  .line 70
+  .line 69
   dup
   dupw3
   call  process_map_tile
   pop
-  .line 67
+  .line 66
   inc
   dup
   dup5
   cult
-  bnz   $L_load_map_31
-$L_load_map_29:
+  bnz   $L_load_map_6
+$L_load_map_4:
   pop
-  .line 65
+  .line 64
   inc
   dup
   dup3
   cult
-  bnz   $L_load_map_27
-$L_load_map_25:
+  bnz   $L_load_map_2
+$L_load_map_0:
   pop
-  .line 74
+  .line 73
   dup2
   p64
   sub
-  bnz   $L_load_map_34
+  bnz   $L_load_map_9
   dup
   p8
   sub
-  bnz   $L_load_map_34
-  .line 76
+  bnz   $L_load_map_9
+  .line 75
   push3 591352
   call  process_map_tile
-  .line 77
+  .line 76
   push3 918513
   call  process_map_tile
-  .line 78
+  .line 77
   push3 919288
   call  process_map_tile
-  .line 79
+  .line 78
   push3 1246968
   call  process_map_tile
-  .line 80
+  .line 79
   push3 1705720
   call  process_map_tile
-  .line 81
+  .line 80
   push3 1705201
   call  process_map_tile
-  .line 82
+  .line 81
   push3 1836792
   call  process_map_tile
-  .line 83
+  .line 82
   push3 1180145
   call  process_map_tile
-  .line 84
+  .line 83
   push3 1966582
   call  process_map_tile
-  .line 85
+  .line 84
   push3 1377265
   call  process_map_tile
-  .line 86
+  .line 85
   push3 2361082
   call  process_map_tile
-  .line 87
+  .line 86
   push3 2884600
   call  process_map_tile
-  .line 88
+  .line 87
   push3 3408371
   call  process_map_tile
-  .line 89
+  .line 88
   push3 3409657
   call  process_map_tile
-  .line 90
+  .line 89
   push3 3932913
   call  process_map_tile
-$L_load_map_34:
-  .line 93
+$L_load_map_9:
+  .line 92
   push2 20
   getg2 total_objects 0
   cult2
-  bz    $L_load_map_35
-  .line 95
+  bz    $L_load_map_10
+  .line 94
   getg2 total_objects 0
   p00
   push4 218148009
   p00
   sys   debug_printf
-  .line 96
+  .line 95
   p0
   sys   assert
-$L_load_map_35:
-  .line 99
+$L_load_map_10:
+  .line 98
   push3 44115
   sys   tones_play_primary
   .line 35
@@ -4193,60 +4117,60 @@ $L_main_2:
 
 mob_solid:
   .file map.abc
-  .line 180
+  .line 179
   dupw
   p00
   cslt2
   bz    $L_mob_solid_0
-  .line 181
+  .line 180
   popn  6
   p1
   ret
 $L_mob_solid_0:
-  .line 184
+  .line 183
   dupw3
   p00
   cslt2
   bz    $L_mob_solid_1
-  .line 185
+  .line 184
   popn  6
   p0
   ret
 $L_mob_solid_1:
-  .line 187
+  .line 186
   dupw
   p4
   asr2
   setl2 2
-  .line 188
+  .line 187
   dupw3
   p4
   asr2
   setl2 4
-  .line 189
+  .line 188
   getg  map_width 0
-  .line 192
+  .line 191
   getln 3 3
   p0
   cslt2
   bnz   $L_mob_solid_2
-  .line 193
+  .line 192
   popn  7
   p1
   ret
 $L_mob_solid_2:
-  .line 196
+  .line 195
   dupw4
   getg  map_height 0
   p0
   cslt2
   bnz   $L_mob_solid_3
-  .line 197
+  .line 196
   popn  7
   p0
   ret
 $L_mob_solid_3:
-  .line 198
+  .line 197
   push3 54740
   getg  current_map 0
   pidxb 17 12
@@ -4261,9 +4185,9 @@ $L_mob_solid_3:
   add3
   upidx 1
   getp
-  .line 199
+  .line 198
   dec
-  .line 200
+  .line 199
   dup
   push3 61440
   cslt2
@@ -4272,7 +4196,7 @@ $L_mob_solid_3:
   p0
   ret
 $L_mob_solid_4:
-  .line 201
+  .line 200
   dup
   p64
   cult
@@ -4281,7 +4205,7 @@ $L_mob_solid_4:
   p1
   ret
 $L_mob_solid_5:
-  .line 202
+  .line 201
   dup7
   bz    $L_mob_solid_7
   dup
@@ -4292,7 +4216,7 @@ $L_mob_solid_5:
   p1
   ret
 $L_mob_solid_7:
-  .line 203
+  .line 202
   dup
   push3 45056
   cslt2
@@ -4307,14 +4231,14 @@ $L_mob_solid_7:
   p1
   ret
 $L_mob_solid_9:
-  .line 204
+  .line 203
   popn  8
   p0
   ret
 
 process_map_tile:
   .file map.abc
-  .line 106
+  .line 105
   dup3
   push  156
   cult
@@ -4322,12 +4246,12 @@ process_map_tile:
   pop3
   ret
 $L_process_map_tile_0:
-  .line 108
+  .line 107
   dup3
   push  240
   sub
   bnz   $L_process_map_tile_5
-  .line 111
+  .line 110
   dup
   p0
   p16
@@ -4338,7 +4262,7 @@ $L_process_map_tile_0:
   push  65
   fadd
   setg4 px 0
-  .line 112
+  .line 111
   dup2
   p0
   p16
@@ -4349,7 +4273,7 @@ $L_process_map_tile_0:
   push2 16672
   fadd
   setg4 py 0
-  .line 113
+  .line 112
   getg4 px 0
   p00
   push2 17024
@@ -4358,13 +4282,13 @@ $L_process_map_tile_0:
   push  65
   fadd
   setg4 camx 0
-  .line 114
+  .line 113
   getg4 py 0
   p00
   push2 16864
   fsub
   setg4 camy 0
-  .line 115
+  .line 114
   getg  map_width 0
   p0
   p16
@@ -4375,7 +4299,7 @@ $L_process_map_tile_0:
   sub3
   sext
   i2f
-  .line 116
+  .line 115
   getg  map_height 0
   p0
   p16
@@ -4386,7 +4310,7 @@ $L_process_map_tile_0:
   sub3
   sext
   i2f
-  .line 117
+  .line 116
   getg4 camx 0
   p0000
   cslt4
@@ -4394,7 +4318,7 @@ $L_process_map_tile_0:
   p0000
   setg4 camx 0
 $L_process_map_tile_1:
-  .line 118
+  .line 117
   getg4 camy 0
   p0000
   cslt4
@@ -4402,7 +4326,7 @@ $L_process_map_tile_1:
   p0000
   setg4 camy 0
 $L_process_map_tile_2:
-  .line 119
+  .line 118
   getl4 8
   getg4 camx 0
   cflt
@@ -4410,7 +4334,7 @@ $L_process_map_tile_2:
   getl4 8
   setg4 camx 0
 $L_process_map_tile_3:
-  .line 120
+  .line 119
   getl4 4
   getg4 camy 0
   cflt
@@ -4418,20 +4342,20 @@ $L_process_map_tile_3:
   getl4 4
   setg4 camy 0
 $L_process_map_tile_4:
-  .line 121
+  .line 120
   p0000
   setg4 dcamx 0
   popn  8
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_5:
-  .line 123
+  .line 122
   dup3
   push  241
   sub
   bnz   $L_process_map_tile_6
-  .line 125
+  .line 124
   p1
   dup2
   p0
@@ -4448,16 +4372,16 @@ $L_process_map_tile_5:
   p0000
   p00
   call  add_object
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_6:
-  .line 127
+  .line 126
   dup3
   push  243
   sub
   bnz   $L_process_map_tile_7
-  .line 129
+  .line 128
   p3
   dup2
   p0
@@ -4474,16 +4398,16 @@ $L_process_map_tile_6:
   p0000
   p00
   call  add_object
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_7:
-  .line 131
+  .line 130
   dup3
   push  242
   sub
   bnz   $L_process_map_tile_8
-  .line 133
+  .line 132
   p2
   dup2
   p0
@@ -4499,16 +4423,16 @@ $L_process_map_tile_7:
   p0000
   p00
   call  add_object
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_8:
-  .line 135
+  .line 134
   dup3
   push  246
   sub
   bnz   $L_process_map_tile_9
-  .line 137
+  .line 136
   p6
   dup2
   p0
@@ -4524,11 +4448,11 @@ $L_process_map_tile_8:
   p0000
   p00
   call  add_object
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_9:
-  .line 139
+  .line 138
   dup3
   push  248
   cult
@@ -4537,29 +4461,29 @@ $L_process_map_tile_9:
   dup4
   cult
   bnz   $L_process_map_tile_22
-  .line 141
+  .line 140
   p3
-  .line 142
+  .line 141
   p5
-  .line 143
+  .line 142
   dup5
   push  250
   sub
   bnz   $L_process_map_tile_11
-  .line 145
+  .line 144
   p2
   setl  2
-  .line 146
+  .line 145
   p3
   setl  1
 $L_process_map_tile_11:
-  .line 148
+  .line 147
   p16
   dup3
   p2
   mul
   sub
-  .line 149
+  .line 148
   dup4
   p0
   p16
@@ -4568,7 +4492,7 @@ $L_process_map_tile_11:
   add2b
   p1
   sub2b
-  .line 150
+  .line 149
   dup6
   p0
   p16
@@ -4579,21 +4503,21 @@ $L_process_map_tile_11:
   add2b
   p1
   add2b
-  .line 151
+  .line 150
   getl  9
   p0
   p16
   mul2b
   p8
   add2b
-  .line 152
+  .line 151
   getl  11
   p0
   p16
   mul2b
   p16
   add2b
-  .line 153
+  .line 152
   p00
   dupw5
   getl2 12
@@ -4606,12 +4530,12 @@ $L_process_map_tile_11:
   call  mob_solid
   bz    $L_process_map_tile_35
 $L_process_map_tile_15:
-  .line 154
+  .line 153
   dupw7
   p16
   sub2b
   setl2 8
-  .line 153
+  .line 152
   p00
   dupw5
   getl2 12
@@ -4624,7 +4548,7 @@ $L_process_map_tile_15:
   call  mob_solid
   bnz   $L_process_map_tile_15
 $L_process_map_tile_35:
-  .line 155
+  .line 154
   dupw7
   push2 18
   getl  15
@@ -4634,7 +4558,7 @@ $L_process_map_tile_35:
   sub2
   add2
   setl2 8
-  .line 156
+  .line 155
   p00
   dupw5
   getl2 10
@@ -4647,12 +4571,12 @@ $L_process_map_tile_35:
   call  mob_solid
   bz    $L_process_map_tile_36
 $L_process_map_tile_20:
-  .line 157
+  .line 156
   dupw5
   p16
   add2b
   setl2 6
-  .line 156
+  .line 155
   p00
   dupw5
   getl2 10
@@ -4665,7 +4589,7 @@ $L_process_map_tile_20:
   call  mob_solid
   bnz   $L_process_map_tile_20
 $L_process_map_tile_36:
-  .line 158
+  .line 157
   dupw5
   push2 34
   getl  15
@@ -4675,7 +4599,7 @@ $L_process_map_tile_36:
   sub2
   sub2
   setl2 6
-  .line 159
+  .line 158
   getl  14
   p00
   push  240
@@ -4701,16 +4625,16 @@ $L_process_map_tile_36:
   getl4 19
   call  add_object
   popn  11
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_22:
-  .line 161
+  .line 160
   dup3
   push  251
   sub
   bnz   $L_process_map_tile_23
-  .line 163
+  .line 162
   dup
   push  37
   mul
@@ -4722,7 +4646,7 @@ $L_process_map_tile_22:
   and
   p3
   mul
-  .line 164
+  .line 163
   push  11
   dup3
   p0
@@ -4754,16 +4678,16 @@ $L_process_map_tile_22:
   pop
   call  add_object
   pop
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_23:
-  .line 166
+  .line 165
   dup3
   push  252
   sub
   bnz   $L_process_map_tile_24
-  .line 168
+  .line 167
   dup
   push  37
   mul
@@ -4775,7 +4699,7 @@ $L_process_map_tile_23:
   and
   p3
   mul
-  .line 169
+  .line 168
   push  12
   dup3
   p0
@@ -4807,11 +4731,11 @@ $L_process_map_tile_23:
   pop
   call  add_object
   pop
-  .line 104
+  .line 103
   pop3
   ret
 $L_process_map_tile_24:
-  .line 171
+  .line 170
   dup3
   push  156
   cult
@@ -4820,13 +4744,13 @@ $L_process_map_tile_24:
   dup4
   cult
   bnz   $L_process_map_tile_34
-  .line 173
+  .line 172
   dup3
   push  156
   sub
   setg  keys_required 0
 $L_process_map_tile_34:
-  .line 104
+  .line 103
   pop3
   ret
 
