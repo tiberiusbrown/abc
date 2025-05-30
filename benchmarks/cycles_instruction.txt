@@ -305,7 +305,8 @@
    34   bnzp1 (not taken)
   111   bnzp1 (taken)
   144   jmp
-  112   jmp1
+  111   jmp1
+  128   jmp2
   144   call
   121   call1
   118   icall

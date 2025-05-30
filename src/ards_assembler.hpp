@@ -50,6 +50,9 @@ struct assembler_t
     int num_shades() const { return shades; }
 
     std::vector<uint8_t> const& data() { return linked_data; }
+
+    bool enable_relaxing = true;
+
 private:
     std::vector<uint8_t> linked_data;
 
@@ -135,9 +138,9 @@ private:
         nodes.push_back({ byte_count, LINE, I_NOP, 0, line });
     }
 
-    void push_label(std::istream& f, bool has_offset = false);
+    void push_label(std::istream& f, bool has_offset = false, uint16_t size = 3);
 
-    void push_global(std::istream& f, bool has_offset = false);
+    void push_global(std::istream& f, bool has_offset = false, uint16_t size = 2);
 
 };
     

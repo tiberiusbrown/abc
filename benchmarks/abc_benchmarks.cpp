@@ -261,6 +261,7 @@ int abc_benchmarks()
     if(!fout) return 1;
     {
         ards::assembler_t a{};
+        a.enable_relaxing = false;
         {
             std::ifstream fi(BENCHMARKS_DIR "/instructions.asm");
             auto e = a.assemble(fi);
@@ -378,7 +379,7 @@ int abc_benchmarks()
         "bzp1 (not taken)", "bzp1 (taken)",
         "bnzp (not taken)", "bnzp (taken)",
         "bnzp1 (not taken)", "bnzp1 (taken)",
-        "jmp", "jmp1",
+        "jmp", "jmp1", "jmp2",
         "call", "call1", "icall", "ret",
         "$get_pixel",
         "$draw_pixel",

@@ -282,6 +282,7 @@ enum
     I_BNZP1,
     I_JMP,
     I_JMP1,
+    I_JMP2,
     I_IJMP,
     I_CALL,
     I_CALL1,
@@ -3708,6 +3709,12 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_JMP1:
     {
         int8_t t = (int8_t)imm8(interp, h);
+        interp->pc += t;
+        return ABC_RESULT_NORMAL;
+    }
+    case I_JMP2:
+    {
+        int16_t t = (int16_t)imm16(interp, h);
         interp->pc += t;
         return ABC_RESULT_NORMAL;
     }

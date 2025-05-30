@@ -96,26 +96,26 @@ void assembler_t::push_instr(instr_t i)
     byte_count += 1;
 }
 
-void assembler_t::push_label(std::istream& f, bool has_offset)
+void assembler_t::push_label(std::istream& f, bool has_offset, uint16_t size)
 {
     std::string label = read_label(f, error);
     if(!error.msg.empty()) return;
-    uint32_t offset = 0;
+    uint32_t offset = size == 3 && !has_offset ? 0 : 3 - size;
     if(has_offset)
         f >> offset;
-    nodes.push_back({ byte_count, LABEL, I_NOP, (uint16_t)3, offset, label });
-    byte_count += 3;
+    nodes.push_back({ byte_count, LABEL, I_NOP, size, offset, label });
+    byte_count += size;
 }
 
-void assembler_t::push_global(std::istream& f, bool has_offset)
+void assembler_t::push_global(std::istream& f, bool has_offset, uint16_t size)
 {
     std::string label = read_label(f, error);
     if(!error.msg.empty()) return;
     uint32_t offset = 0;
     if(has_offset)
         f >> offset;
-    nodes.push_back({ byte_count, GLOBAL, I_NOP, (uint16_t)2, offset, label });
-    byte_count += 2;
+    nodes.push_back({ byte_count, GLOBAL, I_NOP, size, offset, label });
+    byte_count += size;
 }
 
 static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
@@ -415,6 +415,21 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_GETG4);
             push_global(f, true);
         }
+        else if(t == "gtgb")
+        {
+            push_instr(I_GTGB);
+            push_global(f, true, 1);
+        }
+        else if(t == "gtgb2")
+        {
+            push_instr(I_GTGB2);
+            push_global(f, true, 1);
+        }
+        else if(t == "gtgb4")
+        {
+            push_instr(I_GTGB4);
+            push_global(f, true, 1);
+        }
         else if(t == "getgn")
         {
             push_instr(I_GETGN);
@@ -529,30 +544,65 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_BZ);
             push_label(f);
         }
+        else if(t == "bz1")
+        {
+            push_instr(I_BZ1);
+            push_label(f, false, 1);
+        }
         else if(t == "bnz")
         {
             push_instr(I_BNZ);
             push_label(f);
+        }
+        else if(t == "bnz1")
+        {
+            push_instr(I_BNZ1);
+            push_label(f, false, 1);
         }
         else if(t == "bzp")
         {
             push_instr(I_BZP);
             push_label(f);
         }
+        else if(t == "bzp1")
+        {
+            push_instr(I_BZP1);
+            push_label(f, false, 1);
+        }
         else if(t == "bnzp")
         {
             push_instr(I_BNZP);
             push_label(f);
+        }
+        else if(t == "bnzp1")
+        {
+            push_instr(I_BNZP1);
+            push_label(f, false, 1);
         }
         else if(t == "jmp")
         {
             push_instr(I_JMP);
             push_label(f);
         }
+        else if(t == "jmp1")
+        {
+            push_instr(I_JMP1);
+            push_label(f, false, 1);
+        }
+        else if(t == "jmp2")
+        {
+            push_instr(I_JMP2);
+            push_label(f, false, 2);
+        }
         else if(t == "call")
         {
             push_instr(I_CALL);
             push_label(f);
+        }
+        else if(t == "call1")
+        {
+            push_instr(I_CALL1);
+            push_label(f, false, 1);
         }
         else if(t == "sys")
         {
@@ -699,9 +749,14 @@ void assembler_t::relax_jumps()
             n.instr = instr_t(n.instr + 1);
             label.size = 1;
         }
+        else if(n.instr == I_JMP && abs_offset < 32764)
+        {
+            n.instr = instr_t(n.instr + 2);
+            label.size = 2;
+        }
 
         int bytes_shortened = 3 - label.size;
-        if(bytes_shortened)
+        if(bytes_shortened > 0)
         {
             for(size_t j = i + 1; j < nodes.size(); ++j)
                 nodes[j].offset -= bytes_shortened;
@@ -713,7 +768,8 @@ error_t assembler_t::link()
 {
     linked_data.clear();
 
-    relax_jumps();
+    if(enable_relaxing)
+        relax_jumps();
 
     if(globals_bytes > max_globals_bytes())
     {
@@ -858,7 +914,7 @@ error_t assembler_t::link()
                 if(n.size < 3)
                 {
                     offset -= n.offset;
-                    offset -= (n.size + 2);
+                    offset -= 3;
                 }
                 offset += n.imm;
                 if(n.size >= 1) linked_data.push_back(uint8_t(offset >> 0));

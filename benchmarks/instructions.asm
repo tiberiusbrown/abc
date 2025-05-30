@@ -677,17 +677,17 @@ $L_main_start:
     popn 32
     
     sys debug_break
-    getg g 0
+    gtgb g 0
     sys debug_break
     pop
     
     sys debug_break
-    getg2 g 0
+    gtgb2 g 0
     sys debug_break
     pop2
     
     sys debug_break
-    getg4 g 0
+    gtgb4 g 0
     sys debug_break
     pop4
     
@@ -2309,12 +2309,13 @@ $L_main_2:
 
     push 1
     sys debug_break
-    bz $L_main_3
+    bz1 $L_main_3
     sys debug_break
 
     push 0
     sys debug_break
-    bz $L_main_3
+    bz1 $L_main_3
+    nop
 $L_main_3:
     sys debug_break
     
@@ -2330,12 +2331,12 @@ $L_main_5:
 
     push 0
     sys debug_break
-    bnz $L_main_6
+    bnz1 $L_main_6
     sys debug_break
 
     push 1
     sys debug_break
-    bnz $L_main_6
+    bnz1 $L_main_6
     nop
 $L_main_6:
     sys debug_break
@@ -2352,12 +2353,13 @@ $L_main_8:
     
     push 1
     sys debug_break
-    bzp $L_main_14
+    bzp1 $L_main_14
     sys debug_break
     
     push 0
     sys debug_break
-    bzp $L_main_14
+    bzp1 $L_main_14
+    nop
 $L_main_14:
     sys debug_break
     pop
@@ -2374,12 +2376,13 @@ $L_main_16:
     
     push 0
     sys debug_break
-    bnzp $L_main_17
+    bnzp1 $L_main_17
     sys debug_break
     
     push 1
     sys debug_break
-    bnzp $L_main_17
+    bnzp1 $L_main_17
+    nop
 $L_main_17:
     sys debug_break
     pop
@@ -2389,15 +2392,22 @@ $L_main_17:
 $L_main_11:
 
     sys debug_break
-    jmp $L_main_9
+    jmp1 $L_main_9
+    nop
 $L_main_9:
+    sys debug_break
+
+    sys debug_break
+    jmp2 $L_main_18
+    nop
+$L_main_18:
     sys debug_break
     
     sys debug_break
     call call_long
     
     sys debug_break
-    call $L_main_12
+    call1 $L_main_12
     jmp $L_main_13
     
 $L_main_12:

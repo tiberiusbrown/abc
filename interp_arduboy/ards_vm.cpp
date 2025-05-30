@@ -3857,19 +3857,45 @@ I_JMP:
     .align 6
 
 I_JMP1:
-    lpm
+    add  r6, r4
+    adc  r7, r2
+    adc  r8, r2
     lpm
     ldi  r18, 3
     in   r0, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
-    inc  r0
     mov  r1, r0
     lsl  r1
     sbc  r1, r1
     add  r6, r0
     adc  r7, r1
+    adc  r8, r1
+    rjmp jump_to_pc_delayed2
+    .align 6
+
+I_JMP2:
+    ldi  r18, 2
+    add  r6, r18
+    adc  r7, r2
+    adc  r8, r2
+    nop
+    ldi  r18, 3
+    cli
+    out  %[spdr], r2
+    in   r24, %[spdr]
+    sei
+    rcall branch_delay_14
+    in   r25, %[spdr]
+    fx_disable
+    fx_enable
+    out  %[spdr], r18
+    mov  r1, r25
+    lsl  r1
+    sbc  r1, r1
+    add  r6, r24
+    adc  r7, r25
     adc  r8, r1
     rjmp jump_to_pc_delayed2
 call_error:
