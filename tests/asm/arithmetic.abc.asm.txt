@@ -1212,8 +1212,7 @@ main:
   push  153
   dup
   dup
-  p3
-  setln 6
+  setln 3 6
   .line 213
   p3
   getln 6

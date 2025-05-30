@@ -87,8 +87,7 @@ void compiler_t::codegen_store_return(
 {
     compiler_lvalue_t t{};
     auto const& type = f.decl.return_type;
-    f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)type.prim_size });
-    f.instrs.push_back({ I_SETLN, a.line(), (uint8_t)frame.size });
+    f.instrs.push_back({ I_SETLN, a.line(), (uint8_t)type.prim_size, (uint8_t)frame.size });
     frame.size -= type.prim_size;
 }
 

@@ -158,7 +158,7 @@ enum instr_t : uint8_t
     I_SETL,  // pop, then store to stack[top - imm]
     I_SETL2, // pop, then store to stack[top - imm] (2 bytes)
     I_SETL4, // pop, then store to stack[top - imm] (4 bytes)
-    I_SETLN, // pop N then same as SETL but pop/store N bytes
+    I_SETLN, // pop, then store to stack[top - imm2] (imm bytes)
 
     I_GETG,  // push globals[imm]
     I_GETG2, // push globals[imm]

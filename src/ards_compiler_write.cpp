@@ -85,7 +85,7 @@ void compiler_t::write_instr(
     case I_SETL:  f << "setl  " << instr.imm; break;
     case I_SETL2: f << "setl2 " << instr.imm; break;
     case I_SETL4: f << "setl4 " << instr.imm; break;
-    case I_SETLN: f << "setln " << instr.imm; break;
+    case I_SETLN: f << "setln " << instr.imm << " " << instr.imm2; break;
     case I_GETG:  f << "getg  " << instr.label << " " << instr.imm; break;
     case I_GETG2: f << "getg2 " << instr.label << " " << instr.imm; break;
     case I_GETG4: f << "getg4 " << instr.label << " " << instr.imm; break;

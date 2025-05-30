@@ -52,8 +52,8 @@ main:
   p7
   p0
   p8
-  dupw
-  setln 8
+  p0
+  setln 8 8
   .line 33
   dupw7
   p5
@@ -91,8 +91,7 @@ main:
   p0
   p4
   p0
-  p8
-  setln 8
+  setln 8 8
   .line 38
   dupw7
   p1

@@ -599,26 +599,23 @@ $L_main_start:
     
     p000
     p000
-    push 3
     sys debug_break
-    setln 3
+    setln 3 3
     sys debug_break
     popn 3
     
     p0000
     p0000
     p00
-    push 5
     sys debug_break
-    setln 5
+    setln 5 5
     sys debug_break
     popn 5
     
     pz8
     pz8
-    push 8
     sys debug_break
-    setln 8
+    setln 8 8
     sys debug_break
     popn 8
     
@@ -626,9 +623,8 @@ $L_main_start:
     pz8
     pz8
     pz8
-    push 16
     sys debug_break
-    setln 16
+    setln 16 16
     sys debug_break
     popn 16
     
@@ -640,9 +636,8 @@ $L_main_start:
     pz8
     pz8
     pz8
-    push 32
     sys debug_break
-    setln 32
+    setln 32 32
     sys debug_break
     popn 32
     

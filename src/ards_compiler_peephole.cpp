@@ -350,8 +350,7 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         // replace:
         //     PUSH <M times>
         //     PUSH <N times>
-        //     PUSH N
-        //     SETLN M
+        //     SETLN N M
         //     POPN <M-N times>
         // with:
         //     PUSH <N times>
@@ -362,17 +361,15 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             if(num_pushes >= 3)
             {
                 auto& isetln = f.instrs[i + num_pushes];
-                size_t m = isetln.imm;
-                auto& in = f.instrs[i + num_pushes - 1];
-                size_t n = in.imm;
+                size_t m = isetln.imm2;
+                size_t n = isetln.imm;
                 auto& ipopn = f.instrs[i + num_pushes + 1];
-                if(isetln.instr == I_SETLN && m >= n && num_pushes >= m + n + 1 &&
+                if(isetln.instr == I_SETLN && m >= n && num_pushes >= m + n &&
                     ipopn.instr == I_POPN && ipopn.imm == m - n)
                 {
-                    size_t istart = i + num_pushes - m - n - 1;
+                    size_t istart = i + num_pushes - m - n;
                     for(size_t j = 0; j < m; ++j)
                         f.instrs[istart + j].instr = I_REMOVE;
-                    in.instr = I_REMOVE;
                     isetln.instr = I_REMOVE;
                     ipopn.instr = I_REMOVE;
                     t = true;
@@ -467,10 +464,9 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         // replace local derefs with SETLN
         if(i0.instr == I_REFL && i1.instr == I_SETRN)
         {
-            i0.instr = I_PUSH;
+            i0.instr = I_REMOVE;
             i1.instr = I_SETLN;
-            std::swap(i0.imm, i1.imm);
-            i1.imm -= i0.imm;
+            i1.imm2 = i0.imm - i1.imm;
             t = true;
             continue;
         }
@@ -902,6 +898,27 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             }
         }
 
+        // replace:
+        //     PUSH N
+        //     GETGN/GETLN M
+        //     SETLN N N
+        // with:
+        //     POPN N
+        //     PUSH N
+        //     GETGN/GETLN M
+        if(i0.instr == I_PUSH &&
+            (i1.instr == I_GETGN || i1.instr == I_GETLN) &&
+            i2.instr == I_SETLN &&
+            i0.imm == i2.imm && i0.imm == i2.imm2)
+        {
+            i2 = i1;
+            i1.instr = I_PUSH;
+            i1.imm = i0.imm;
+            i0.instr = I_POPN;
+            t = true;
+            continue;
+        }
+
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
 
@@ -972,29 +989,6 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
                 ti.imm = d[j];
                 ti.file = file;
             }
-            t = true;
-            continue;
-        }
-
-        // replace:
-        //     PUSH N
-        //     GETGN/GETLN M
-        //     PUSH N
-        //     SETLN N
-        // with:
-        //     POPN N
-        //     PUSH N
-        //     GETGN/GETLN M
-        if(i0.instr == I_PUSH &&
-            (i1.instr == I_GETGN || i1.instr == I_GETLN) &&
-            i2.instr == I_PUSH && i3.instr == I_SETLN &&
-            i0.imm == i2.imm && i0.imm == i3.imm)
-        {
-            i2 = i1;
-            i1.instr = I_PUSH;
-            i1.imm = i0.imm;
-            i0.instr = I_POPN;
-            i3.instr = I_REMOVE;
             t = true;
             continue;
         }
@@ -1078,31 +1072,28 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
-        if(i + 4 >= f.instrs.size()) continue;
-        auto& i4 = f.instrs[i + 4];
-
         // replace:
-        //    PUSH <N>
-        //    GETLN <N>
-        //    PUSH <N>
-        //    SETLN <M>
+        //    PUSH N
+        //    GETLN N
+        //    SETLN N M
         //    POPN N
         // with:
-        //    PUSH <N>
-        //    SETLN <M-N>
+        //    SETLN N M-N
         if(i0.instr == I_PUSH && i1.instr == I_GETLN &&
-            i2.instr == I_PUSH && i3.instr == I_SETLN &&
-            i4.instr == I_POPN &&
-            i0.imm == i1.imm && i0.imm == i2.imm && i0.imm == i4.imm &&
-            i3.imm > i0.imm)
+            i2.instr == I_SETLN && i3.instr == I_POPN &&
+            i0.imm == i1.imm && i0.imm == i2.imm && i0.imm == i3.imm &&
+            i2.imm2 > i0.imm)
         {
             i0.instr = I_REMOVE;
             i1.instr = I_REMOVE;
-            i3.imm -= i0.imm;
-            i4.instr = I_REMOVE;
+            i2.imm2 -= i0.imm;
+            i3.instr = I_REMOVE;
             t = true;
             continue;
         }
+
+        if(i + 4 >= f.instrs.size()) continue;
+        auto& i4 = f.instrs[i + 4];
 
         // convert PUSHL <LABEL>; PUSH ..; PUSH ..; PUSH ...; ADD3 to PUSHL LABEL+..
         if(i0.instr == I_PUSHL &&
@@ -1540,6 +1531,13 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
+            else if(i0.instr == I_SETLN)
+            {
+                i0.instr = I_SETL;
+                i0.imm = i0.imm2;
+                t = true;
+                continue;
+            }
         }
 
         if(i0.imm == 2)
@@ -1551,6 +1549,13 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
+            else if(i0.instr == I_SETLN)
+            {
+                i0.instr = I_SETL2;
+                i0.imm = i0.imm2;
+                t = true;
+                continue;
+            }
         }
 
         if(i0.imm == 4)
@@ -1558,6 +1563,13 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             if(i0.instr == I_SETGN)
             {
                 i0.instr = I_SETG4;
+                i0.imm = i0.imm2;
+                t = true;
+                continue;
+            }
+            else if(i0.instr == I_SETLN)
+            {
+                i0.instr = I_SETL4;
                 i0.imm = i0.imm2;
                 t = true;
                 continue;
@@ -1699,13 +1711,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
-            else if(i1.instr == I_SETLN)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_SETL;
-                t = true;
-                continue;
-            }
             else if(i1.instr == I_GETGN)
             {
                 i0.instr = I_REMOVE;
@@ -1725,13 +1730,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
-            else if(i1.instr == I_SETLN)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_SETL2;
-                t = true;
-                continue;
-            }
             else if(i1.instr == I_GETGN)
             {
                 i0.instr = I_REMOVE;
@@ -1748,13 +1746,6 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             {
                 i0.instr = I_REMOVE;
                 i1.instr = I_GETL4;
-                t = true;
-                continue;
-            }
-            else if(i1.instr == I_SETLN)
-            {
-                i0.instr = I_REMOVE;
-                i1.instr = I_SETL4;
                 t = true;
                 continue;
             }

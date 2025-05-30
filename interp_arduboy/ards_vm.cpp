@@ -1188,32 +1188,47 @@ I_SETL4:
     st   X+, r19
     ld   r9, -Y
     nop
-setln_dispatch:
-    dispatch
- 
-I_SETLN:
-    mov  r16, r9
-    subi r16, 2
-    movw r26, r28
-    ld   r17, -Y
-    ld   r18, -Y
     read_byte
-    sub  r26, r0
-    st   -X, r17
-    st   -X, r18
+setln_dispatch_part2:
+    mul  r0, r3
+    movw r30, r0
+    add  r31, r5
+    ijmp
+    .align 6
+
+I_SETLN:
+    lpm
+    lpm
+    cli
+    out  %[spdr], r2
+    in   r16, %[spdr]
+    sei
+    ldi  r20, 3
+    add  r6, r20
+    adc  r7, r2
+    adc  r8, r2
+    movw r26, r28
+    inc  r26
+    rcall getg_delay_9
+    in   r17, %[spdr]
+    out  %[spdr], r2
+    sub  r26, r17
     lsr  r16
     brcc 1f
-    ld   r0, -Y
-    st   -X, r0
-    breq 2f
-1:  ld   r0, -Y
-    st   -X, r0
-    ld   r0, -Y
-    st   -X, r0
+    st   -X, r9
+    ld   r9, -Y
+1:  st   -X, r9
+    ld   r9, -Y
+    st   -X, r9
+    ld   r9, -Y
     dec  r16
     brne 1b
-2:  ld   r9, -Y
-    rjmp setln_dispatch
+
+    ; custom dispatch
+    in   r0, %[spdr]
+    out  %[spdr], r2
+    nop
+    rjmp setln_dispatch_part2
     .align 6
 
 I_GETG:

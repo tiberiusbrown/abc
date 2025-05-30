@@ -54,11 +54,11 @@
    34   setl N
    35   setl2 N
    36   setl4 N
-   40   setln N (3)
-   49   setln N (5)
-   67   setln N (8)
-  111   setln N (16)
-  199   setln N (32)
+   55   setln 3
+   66   setln 5
+   85   setln 8
+  129   setln 16
+  217   setln 32
    51   getg VAR
    51   getg2 VAR
    54   getg4 VAR

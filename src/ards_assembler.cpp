@@ -397,6 +397,7 @@ error_t assembler_t::assemble(std::istream& f)
         {
             push_instr(I_SETLN);
             push_imm(read_imm(f, error), 1);
+            push_imm(read_imm(f, error), 1);
         }
         else if(t == "getg")
         {

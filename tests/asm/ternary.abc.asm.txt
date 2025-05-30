@@ -107,8 +107,7 @@ $L_main_3:
   bz    $L_main_14
   p3
   getln 9
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -184,8 +183,7 @@ $L_main_4:
   bz    $L_main_14
   p3
   getln 9
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -253,8 +251,7 @@ $L_main_6:
   bz    $L_main_14
   p3
   getln 9
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -310,8 +307,7 @@ $L_main_8:
   bz    $L_main_14
   p3
   getln 9
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -350,8 +346,7 @@ $L_main_10:
   bz    $L_main_14
   p3
   getln 9
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -379,8 +374,7 @@ $L_main_12:
   bz    $L_main_14
   p3
   getln 9
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -397,8 +391,7 @@ $L_main_14:
   .line 36
   p3
   getln 6
-  p3
-  setln 3
+  setln 3 3
   .line 37
   dup2
   push  56
@@ -468,8 +461,7 @@ $L_main_20:
   p3
   getln 9
 $L_main_21:
-  p3
-  setln 3
+  setln 3 3
   .line 46
   dup3
   push  55

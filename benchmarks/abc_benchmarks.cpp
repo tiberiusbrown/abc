@@ -301,7 +301,7 @@ int abc_benchmarks()
         "getl N", "getl2 N", "getl4 N",
         "getln N (3)", "getln N (5)", "getln N (8)", "getln N (16)", "getln N (32)",
         "setl N", "setl2 N", "setl4 N",
-        "setln N (3)", "setln N (5)", "setln N (8)", "setln N (16)", "setln N (32)",
+        "setln 3", "setln 5", "setln 8", "setln 16", "setln 32",
         "getg VAR", "getg2 VAR", "getg4 VAR",
         "getgn VAR (3)", "getgn VAR (5)", "getgn VAR (8)", "getgn VAR (16)", "getgn VAR (32)",
         "gtgb VAR", "gtgb2 VAR", "gtgb4 VAR",
