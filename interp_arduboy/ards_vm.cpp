@@ -2011,6 +2011,7 @@ I_UAIDX:
     ld   r19, -Y
     ldi  r17, 2
     cli
+    nop
     out  %[spdr], r2
     in   r16, %[spdr]
     sei
@@ -4049,6 +4050,7 @@ I_CALL2:
     cpi  r26, %[MAX_CALLS] * 3 - 3
     brsh call2_error
     ldi  r27, 0x06
+    nop
     cli
     out  %[spdr], r2
     in   r16, %[spdr]

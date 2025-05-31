@@ -111,7 +111,7 @@
    95   aidx
    52   pidxb
   123   pidx
-   52   uaidx
+   53   uaidx
    83   upidx
    62   aslc
    86   pslc
@@ -313,7 +313,7 @@
   127   jmp2
   144   call
   121   call1
-  127   call2
+  128   call2
   118   icall
   109   ret
    95   $get_pixel
