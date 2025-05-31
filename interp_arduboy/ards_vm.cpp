@@ -2010,20 +2010,18 @@ I_UAIDX:
     ld   r20, -Y
     ld   r19, -Y
     ldi  r17, 2
+    add  r6, r17
     cli
-    nop
     out  %[spdr], r2
     in   r16, %[spdr]
     sei
-    ld   r18, -Y
-    mov  r21, r9
-    add  r6, r17
     adc  r7, r2
     adc  r8, r2
+    ld   r18, -Y
     cp   r20, r18
-    cpc  r21, r19
+    cpc  r9, r19
     brsh pidxb_error
-    ; A1 A0 : r21 r20
+    ; A1 A0 : r9  r20
     ; B1 B0 : r17 r16
     ; C1 C0 : r23 r22
     ;
@@ -2036,21 +2034,20 @@ I_UAIDX:
     ; ========
     ;    C1 C0
     ;
-1:  mul  r16, r20
+    mul  r16, r20
+    movw r22, r0
     ld   r25, -Y
     ld   r24, -Y
-    out  %[spdr], r2
     in   r17, %[spdr]
-    movw r22, r0
+    out  %[spdr], r2
     add  r22, r24
     adc  r23, r25
-    mul  r16, r21
+    mul  r16, r9
     add  r23, r0
     mul  r17, r20
     add  r23, r0
     st   Y+, r22
     mov  r9, r23
-    nop
     rjmp uaidx_dispatch
     .align 6
 
@@ -2262,14 +2259,16 @@ I_INC:
     lpm
 dec_dispatch:
 refgb_dispatch:
+uaidx_dispatch:
     dispatch_reverse
+    ; TODO: space here
 
 I_DEC:
     dec r9
     nop
     rjmp dec_dispatch
-    ; TODO: SPACE HERE
     .align 6
+    ; TODO: space here
 
 I_LINC:
     rjmp .+0
@@ -2300,7 +2299,6 @@ I_PINC:
 slc_dispatch:
 pidxb_dispatch:
 refl_dispatch:
-uaidx_dispatch:
     dispatch
     ; TODO: SPACE HERE
 
@@ -2316,6 +2314,7 @@ I_PINC2:
     st   -X, r17
     st   -X, r16
     dispatch
+    ; TODO: space here
 
 I_PINC3:
     cpi  r28, 254
@@ -2499,6 +2498,7 @@ I_ADD:
     add  r9, r14
     nop
     dispatch_noalign_reverse
+    ; TODO: space here
 
 sys_pow:
     ld   r25, -Y
@@ -2528,6 +2528,7 @@ I_ADD2:
     adc  r9, r15
     st   Y+, r10
     dispatch
+    ; TODO: space here
 
 I_ADD3:
     ld   r11, -Y
@@ -2541,6 +2542,7 @@ I_ADD3:
     st   Y+, r10
     st   Y+, r11
     dispatch
+    ; TODO: space here
 
 I_ADD4:
     ld   r12, -Y
@@ -2575,6 +2577,7 @@ I_SUB2:
     st   Y+, r14
     mov  r9, r15
     dispatch
+    ; TODO: space here
 
 I_SUB3:
     ld   r11, -Y
@@ -2589,6 +2592,7 @@ I_SUB3:
     st   Y+, r15
     mov  r9, r16
     dispatch
+    ; TODO: space here
 
 I_SUB4:
     ld   r12, -Y
@@ -2616,6 +2620,7 @@ I_ADD2B:
     st   Y+, r14
     mov  r9, r15
     dispatch
+    ; TODO: space here
 
 I_ADD3B:
     ld   r16, -Y
@@ -2628,6 +2633,7 @@ I_ADD3B:
     st   Y+, r15
     mov  r9, r16
     dispatch
+    ; TODO: space here
 
 I_SUB2B:
     ld   r15, -Y
@@ -2637,6 +2643,7 @@ I_SUB2B:
     st   Y+, r14
     mov  r9, r15
     dispatch
+    ; TODO: space here
 
 I_MUL2B:
     ;
@@ -2656,6 +2663,14 @@ I_MUL2B:
     add  r19, r0
     st   Y+, r18
     mov  r9, r19
+    dispatch_noalign
+mul4_part2:
+    mul  r14, r9 ; A0*B3
+    add  r21, r0
+    st   Y+, r18
+    st   Y+, r19
+    st   Y+, r20
+    mov  r9, r21
     dispatch
 
 I_MUL:
@@ -2728,8 +2743,55 @@ I_MUL3:
     dispatch
 
 I_MUL4:
-    jmp  instr_mul4
-    ; TODO: SPACE HERE
+    ;   
+    ;    A3 A2 A1 A0
+    ;    B3 B2 B1 B0
+    ;    ===========
+    ;          A0*B0
+    ;       A1*B0
+    ;       A0*B1
+    ;    A2*B0
+    ;    A1*B1
+    ;    A0*B2
+    ; A3*B0
+    ; A2*B1
+    ; A1*B2
+    ; A0*B3
+    ;    ===========
+    ;    C3 C2 C1 C0
+    ;   
+    ld   r12, -Y
+    ld   r11, -Y
+    ld   r10, -Y
+    ld   r17, -Y
+    ld   r16, -Y
+    ld   r15, -Y
+    ld   r14, -Y
+    mul  r14, r10 ; A0*B0
+    movw r18, r0
+    mul  r16, r10 ; A2*B0
+    movw r20, r0
+    mul  r15, r10 ; A1*B0
+    add  r19, r0
+    adc  r20, r1
+    adc  r21, r2
+    mul  r14, r11 ; A0*B1
+    add  r19, r0
+    adc  r20, r1
+    adc  r21, r2
+    mul  r15, r11 ; A1*B1
+    add  r20, r0
+    adc  r21, r1
+    mul  r14, r12 ; A0*B2
+    add  r20, r0
+    adc  r21, r1
+    mul  r17, r10 ; A3*B0
+    add  r21, r0
+    mul  r16, r11 ; A2*B1
+    add  r21, r0
+    mul  r15, r12 ; A1*B2
+    add  r21, r0
+    rjmp mul4_part2
     .align 6
 
 I_UDIV2:
@@ -4182,64 +4244,6 @@ I_SYS:
 ; helper methods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-instr_mul4:
-    ;   
-    ;    A3 A2 A1 A0
-    ;    B3 B2 B1 B0
-    ;    ===========
-    ;          A0*B0
-    ;       A1*B0
-    ;       A0*B1
-    ;    A2*B0
-    ;    A1*B1
-    ;    A0*B2
-    ; A3*B0
-    ; A2*B1
-    ; A1*B2
-    ; A0*B3
-    ;    ===========
-    ;    C3 C2 C1 C0
-    ;   
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    mul  r14, r10 ; A0*B0
-    movw r18, r0
-    mul  r16, r10 ; A2*B0
-    movw r20, r0
-    mul  r15, r10 ; A1*B0
-    add  r19, r0
-    adc  r20, r1
-    adc  r21, r2
-    mul  r14, r11 ; A0*B1
-    add  r19, r0
-    adc  r20, r1
-    adc  r21, r2
-    mul  r15, r11 ; A1*B1
-    add  r20, r0
-    adc  r21, r1
-    mul  r14, r12 ; A0*B2
-    add  r20, r0
-    adc  r21, r1
-    mul  r17, r10 ; A3*B0
-    add  r21, r0
-    mul  r16, r11 ; A2*B1
-    add  r21, r0
-    mul  r15, r12 ; A1*B2
-    add  r21, r0
-    mul  r14, r9 ; A0*B3
-    add  r21, r0
-    st   Y+, r18
-    st   Y+, r19
-    st   Y+, r20
-    mov  r9, r21
-seek_dispatch:
-    dispatch_noalign
-
 pidx_part2:
     
     ; compute prog ref + index * elem_size
@@ -4278,6 +4282,7 @@ pidx_part2:
     st   Y+, r13
     st   Y+, r14
     mov  r9, r15
+seek_dispatch:
     dispatch_noalign
 
 upidx_delay_12:

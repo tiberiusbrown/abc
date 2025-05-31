@@ -111,7 +111,7 @@
    95   aidx
    52   pidxb
   123   pidx
-   53   uaidx
+   52   uaidx
    83   upidx
    62   aslc
    86   pslc
@@ -147,7 +147,7 @@
    18   mul
    29   mul2
    45   mul3
-   71   mul4
+   70   mul4
   210   udiv2 (30000 / 7)
   114   udiv2 (30000 / 7000)
   677   udiv4 (300000000 / 7)
