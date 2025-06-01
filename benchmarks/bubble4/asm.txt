@@ -12,7 +12,7 @@ main:
   .file bubble4.abc
   .line 5
   p0
-$L_main_2:
+$L_main_1:
   .line 6
   p64
   p0
@@ -28,13 +28,13 @@ $L_main_2:
   dup
   p64
   cult
-  bnz   $L_main_2
+  bnz   $L_main_1
   pop
   .line 8
   sys   debug_break
   .line 10
   p64
-$L_main_6:
+$L_main_4:
   .line 13
   p0
   .line 14
@@ -42,8 +42,8 @@ $L_main_6:
   dup
   dup4
   cult
-  bz    $L_main_7
-$L_main_9:
+  bz    $L_main_5
+$L_main_6:
   .line 16
   pushg A 0
   dup3
@@ -59,7 +59,7 @@ $L_main_9:
   dupw7
   getrn 4
   cslt4
-  bz    $L_main_11
+  bz    $L_main_8
   .line 20
   dupw3
   getrn 4
@@ -76,15 +76,15 @@ $L_main_9:
   getl  9
   setl  10
   pop4
-$L_main_11:
+$L_main_8:
   pop4
   .line 14
   inc
   dup
   dup4
   cult
-  bnz   $L_main_9
-$L_main_7:
+  bnz   $L_main_6
+$L_main_5:
   pop
   .line 26
   setl  1
@@ -92,7 +92,7 @@ $L_main_7:
   p1
   dup2
   cult
-  bnz   $L_main_6
+  bnz   $L_main_4
   .line 29
   sys   debug_break
   .line 3

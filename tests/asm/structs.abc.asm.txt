@@ -150,14 +150,14 @@ main:
   setg  enemies 39
   .line 44
   p0
-$L_main_55:
+$L_main_51:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_67
+  bnz   $L_main_62
   p0
-  bz    $L_main_67
+  bz    $L_main_62
   .line 49
   pushg enemies 4
   dup3
@@ -168,8 +168,8 @@ $L_main_55:
   not
   sys   assert
   .line 48
-  jmp   $L_main_65
-$L_main_67:
+  jmp   $L_main_60
+$L_main_62:
   .line 51
   pushg enemies 4
   dup3
@@ -177,14 +177,14 @@ $L_main_67:
   getr
   not
   sys   assert
-$L_main_65:
+$L_main_60:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_71
+  bnz   $L_main_66
   p0
-  bz    $L_main_71
+  bz    $L_main_66
   .line 49
   pushg enemies 4
   dup3
@@ -197,8 +197,8 @@ $L_main_65:
   not
   sys   assert
   .line 48
-  jmp   $L_main_69
-$L_main_71:
+  jmp   $L_main_64
+$L_main_66:
   .line 51
   pushg enemies 4
   dup3
@@ -208,14 +208,14 @@ $L_main_71:
   getr
   not
   sys   assert
-$L_main_69:
+$L_main_64:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_75
+  bnz   $L_main_70
   p0
-  bz    $L_main_75
+  bz    $L_main_70
   .line 49
   pushg enemies 4
   dup3
@@ -228,8 +228,8 @@ $L_main_69:
   not
   sys   assert
   .line 48
-  jmp   $L_main_73
-$L_main_75:
+  jmp   $L_main_68
+$L_main_70:
   .line 51
   pushg enemies 4
   dup3
@@ -239,14 +239,14 @@ $L_main_75:
   getr
   not
   sys   assert
-$L_main_73:
+$L_main_68:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_79
+  bnz   $L_main_74
   p1
-  bz    $L_main_79
+  bz    $L_main_74
   .line 49
   pushg enemies 4
   dup3
@@ -259,8 +259,8 @@ $L_main_73:
   not
   sys   assert
   .line 48
-  jmp   $L_main_77
-$L_main_79:
+  jmp   $L_main_72
+$L_main_74:
   .line 51
   pushg enemies 4
   dup3
@@ -270,14 +270,14 @@ $L_main_79:
   getr
   not
   sys   assert
-$L_main_77:
+$L_main_72:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_83
+  bnz   $L_main_78
   p0
-  bz    $L_main_83
+  bz    $L_main_78
   .line 49
   pushg enemies 4
   dup3
@@ -290,8 +290,8 @@ $L_main_77:
   not
   sys   assert
   .line 48
-  jmp   $L_main_81
-$L_main_83:
+  jmp   $L_main_76
+$L_main_78:
   .line 51
   pushg enemies 4
   dup3
@@ -301,14 +301,14 @@ $L_main_83:
   getr
   not
   sys   assert
-$L_main_81:
+$L_main_76:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_87
+  bnz   $L_main_82
   p0
-  bz    $L_main_87
+  bz    $L_main_82
   .line 49
   pushg enemies 4
   dup3
@@ -321,8 +321,8 @@ $L_main_81:
   not
   sys   assert
   .line 48
-  jmp   $L_main_85
-$L_main_87:
+  jmp   $L_main_80
+$L_main_82:
   .line 51
   pushg enemies 4
   dup3
@@ -332,14 +332,14 @@ $L_main_87:
   getr
   not
   sys   assert
-$L_main_85:
+$L_main_80:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_91
+  bnz   $L_main_86
   p0
-  bz    $L_main_91
+  bz    $L_main_86
   .line 49
   pushg enemies 4
   dup3
@@ -352,8 +352,8 @@ $L_main_85:
   not
   sys   assert
   .line 48
-  jmp   $L_main_89
-$L_main_91:
+  jmp   $L_main_84
+$L_main_86:
   .line 51
   pushg enemies 4
   dup3
@@ -363,14 +363,14 @@ $L_main_91:
   getr
   not
   sys   assert
-$L_main_89:
+$L_main_84:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_95
+  bnz   $L_main_90
   p0
-  bz    $L_main_95
+  bz    $L_main_90
   .line 49
   pushg enemies 4
   dup3
@@ -383,8 +383,8 @@ $L_main_89:
   not
   sys   assert
   .line 48
-  jmp   $L_main_93
-$L_main_95:
+  jmp   $L_main_88
+$L_main_90:
   .line 51
   pushg enemies 4
   dup3
@@ -394,14 +394,14 @@ $L_main_95:
   getr
   not
   sys   assert
-$L_main_93:
+$L_main_88:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_99
+  bnz   $L_main_94
   p0
-  bz    $L_main_99
+  bz    $L_main_94
   .line 49
   pushg enemies 4
   dup3
@@ -414,8 +414,8 @@ $L_main_93:
   not
   sys   assert
   .line 48
-  jmp   $L_main_97
-$L_main_99:
+  jmp   $L_main_92
+$L_main_94:
   .line 51
   pushg enemies 4
   dup3
@@ -425,14 +425,14 @@ $L_main_99:
   getr
   not
   sys   assert
-$L_main_97:
+$L_main_92:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_103
+  bnz   $L_main_98
   p0
-  bz    $L_main_103
+  bz    $L_main_98
   .line 49
   pushg enemies 4
   dup3
@@ -445,8 +445,8 @@ $L_main_97:
   not
   sys   assert
   .line 48
-  jmp   $L_main_101
-$L_main_103:
+  jmp   $L_main_96
+$L_main_98:
   .line 51
   pushg enemies 4
   dup3
@@ -456,14 +456,14 @@ $L_main_103:
   getr
   not
   sys   assert
-$L_main_101:
+$L_main_96:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_107
+  bnz   $L_main_102
   p0
-  bz    $L_main_107
+  bz    $L_main_102
   .line 49
   pushg enemies 4
   dup3
@@ -476,8 +476,8 @@ $L_main_101:
   not
   sys   assert
   .line 48
-  jmp   $L_main_105
-$L_main_107:
+  jmp   $L_main_100
+$L_main_102:
   .line 51
   pushg enemies 4
   dup3
@@ -487,14 +487,14 @@ $L_main_107:
   getr
   not
   sys   assert
-$L_main_105:
+$L_main_100:
   .line 48
   dup
   p2
   sub
-  bnz   $L_main_111
+  bnz   $L_main_106
   p0
-  bz    $L_main_111
+  bz    $L_main_106
   .line 49
   pushg enemies 4
   dup3
@@ -507,8 +507,8 @@ $L_main_105:
   not
   sys   assert
   .line 48
-  jmp   $L_main_56
-$L_main_111:
+  jmp   $L_main_52
+$L_main_106:
   .line 51
   pushg enemies 4
   dup3
@@ -518,13 +518,13 @@ $L_main_111:
   getr
   not
   sys   assert
-$L_main_56:
+$L_main_52:
   .line 44
   inc
   dup
   p4
   cult
-  bnz   $L_main_55
+  bnz   $L_main_51
   pop
   .line 54
   getg2 enemies 32

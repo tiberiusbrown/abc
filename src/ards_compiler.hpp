@@ -41,7 +41,6 @@ enum class AST
     DIRECTIVE, // children are keyword and string literal
     IMPORT_STMT,  // child is path string literal
     BLOCK,        // children are child statements
-    BLOCK_FOR_STMT, // same as BLOCK
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
     STRUCT_STMT,  // children are ident and decl_stmt*
@@ -53,7 +52,8 @@ enum class AST
     DECL_ITEM,    // children are ident [, expr]
     FUNC_STMT,    // children are type, ident, block, args
     IF_STMT,      // children are expr, stmt, stmt (for else)
-    WHILE_STMT,   // children are expr and stmt [and stmt if for loop]
+    FOR_STMT,     // children are expr, body stmt, init stmt, iter stmt
+    WHILE_STMT,   // children are expr and stmt
     DO_WHILE_STMT,// children are expr and stmt
     RETURN_STMT,  // child is expr if it exists
     BREAK_STMT,   // no children
@@ -514,6 +514,18 @@ struct ast_node_t
         }
         return t;
     }
+
+    size_t count(size_t max = SIZE_MAX) const
+    {
+        size_t n = 0;
+        for(auto const& child : children)
+        {
+            n += child.count(max);
+            if(n >= max)
+                return max;
+        }
+        return n;
+    }
 };
 
 struct compiler_lvalue_t
@@ -632,8 +644,9 @@ struct compiler_t
     size_t max_jump_to_ret_instrs = 8;
     size_t inlining_max_add_instrs = 256;
     size_t switch_min_ranges_for_jump_table = 16;
-    size_t for_unroll_max_instrs = 1024; // max total instrs in unrolled loop
-    size_t for_unroll_max_iters = 64;
+    size_t unroll_max_instrs = 1024; // max total instrs in unrolled loop
+    size_t unroll_sized_max_iters = 64;
+    size_t unroll_unsized_max_iters = 8;
     size_t max_getpn_bake = 16; // max bytes to bake a GETPN into PUSHs
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
@@ -723,8 +736,11 @@ private:
         uint32_t num;
     };
     bool can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u);
-    void unroll_for_loop(
+    void unroll_loop_sized(
         ast_node_t const& n, unroll_info_t const& u,
+        compiler_func_t& f, compiler_frame_t& frame);
+    void unroll_loop_unsized(
+        ast_node_t& n, size_t num_iters, size_t instr_begin, size_t instr_end,
         compiler_func_t& f, compiler_frame_t& frame);
 
     std::string progdata_label();

@@ -13,6 +13,12 @@
 
 #define DEFAULT_SEED 0xdeadbeef
 
+#ifndef NDEBUG
+#define RETURN_ERROR do { assert(0); return ABC_RESULT_ERROR; } while(0)
+#else
+#define RETURN_ERROR return ABC_RESULT_ERROR
+#endif
+
 enum
 {
     SHADES_CMD_END,
@@ -436,14 +442,14 @@ static uint32_t imm24(abc_interp_t* interp, abc_host_t const* h)
 
 static abc_result_t push(abc_interp_t* interp, uint8_t x)
 {
-    if(!space(interp, 1)) return ABC_RESULT_ERROR;
+    if(!space(interp, 1)) RETURN_ERROR;
     interp->stack[interp->sp++] = x;
     return ABC_RESULT_NORMAL;
 }
 
 static abc_result_t push16(abc_interp_t* interp, uint16_t x)
 {
-    if(!space(interp, 2)) return ABC_RESULT_ERROR;
+    if(!space(interp, 2)) RETURN_ERROR;
     (void)push(interp, (uint8_t)(x >> 0));
     (void)push(interp, (uint8_t)(x >> 8));
     return ABC_RESULT_NORMAL;
@@ -451,7 +457,7 @@ static abc_result_t push16(abc_interp_t* interp, uint16_t x)
 
 static abc_result_t push24(abc_interp_t* interp, uint32_t x)
 {
-    if(!space(interp, 3)) return ABC_RESULT_ERROR;
+    if(!space(interp, 3)) RETURN_ERROR;
     (void)push(interp, (uint8_t)(x >> 0));
     (void)push(interp, (uint8_t)(x >> 8));
     (void)push(interp, (uint8_t)(x >> 16));
@@ -460,7 +466,7 @@ static abc_result_t push24(abc_interp_t* interp, uint32_t x)
 
 static abc_result_t push32(abc_interp_t* interp, uint32_t x)
 {
-    if(!space(interp, 4)) return ABC_RESULT_ERROR;
+    if(!space(interp, 4)) RETURN_ERROR;
     (void)push(interp, (uint8_t)(x >> 0));
     (void)push(interp, (uint8_t)(x >> 8));
     (void)push(interp, (uint8_t)(x >> 16));
@@ -521,7 +527,7 @@ static float popf(abc_interp_t* interp)
 
 static abc_result_t pushn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 {
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, h->prog(h->user, interp->pc++));
     return ABC_RESULT_NORMAL;
@@ -529,7 +535,7 @@ static abc_result_t pushn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 
 static abc_result_t push_zn(abc_interp_t* interp, uint8_t n)
 {
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, 0);
     return ABC_RESULT_NORMAL;
@@ -547,7 +553,7 @@ static uint8_t head(abc_interp_t* interp)
 
 static abc_result_t dupw(abc_interp_t* interp, uint8_t n)
 {
-    if(!space(interp, 2)) return ABC_RESULT_ERROR;
+    if(!space(interp, 2)) RETURN_ERROR;
     (void)push(interp, headn(interp, n + 1));
     (void)push(interp, headn(interp, n + 1));
     return ABC_RESULT_NORMAL;
@@ -555,7 +561,7 @@ static abc_result_t dupw(abc_interp_t* interp, uint8_t n)
 
 static abc_result_t getln(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 {
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     uint8_t t = imm8(interp, h);
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, headn(interp, t));
@@ -575,7 +581,7 @@ static abc_result_t setln(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 
 static abc_result_t sextn(abc_interp_t* interp, uint8_t n)
 {
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     uint8_t t = head(interp) & 0x80 ? 0xff : 0x00;
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, t);
@@ -584,7 +590,7 @@ static abc_result_t sextn(abc_interp_t* interp, uint8_t n)
 
 static abc_result_t getgn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 {
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     uint16_t t = imm16(interp, h);
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, interp->globals[(t + i - 0x200) & 1023]);
@@ -593,7 +599,7 @@ static abc_result_t getgn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 
 static abc_result_t gtgbn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 {
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     uint16_t t = imm8(interp, h);
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, interp->globals[(t + i) & 1023]);
@@ -724,7 +730,7 @@ static abc_result_t udiv2(abc_interp_t* interp)
 {
     uint16_t b = pop16(interp);
     uint16_t a = pop16(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push16(interp, a / b);
 }
 
@@ -732,7 +738,7 @@ static abc_result_t udiv4(abc_interp_t* interp)
 {
     uint32_t b = pop32(interp);
     uint32_t a = pop32(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push32(interp, a / b);
 }
 
@@ -740,7 +746,7 @@ static abc_result_t div2(abc_interp_t* interp)
 {
     uint16_t b = (int16_t)pop16(interp);
     uint16_t a = (int16_t)pop16(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push16(interp, (uint16_t)(a / b));
 }
 
@@ -748,7 +754,7 @@ static abc_result_t div4(abc_interp_t* interp)
 {
     int32_t b = (int32_t)pop32(interp);
     int32_t a = (int32_t)pop32(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push32(interp, (uint32_t)(a / b));
 }
 
@@ -756,7 +762,7 @@ static abc_result_t umod2(abc_interp_t* interp)
 {
     uint16_t b = pop16(interp);
     uint16_t a = pop16(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push16(interp, a % b);
 }
 
@@ -764,7 +770,7 @@ static abc_result_t umod4(abc_interp_t* interp)
 {
     uint32_t b = pop32(interp);
     uint32_t a = pop32(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push32(interp, a % b);
 }
 
@@ -772,7 +778,7 @@ static abc_result_t mod2(abc_interp_t* interp)
 {
     uint16_t b = (int16_t)pop16(interp);
     uint16_t a = (int16_t)pop16(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push16(interp, (uint16_t)(a % b));
 }
 
@@ -780,7 +786,7 @@ static abc_result_t mod4(abc_interp_t* interp)
 {
     int32_t b = (int32_t)pop32(interp);
     int32_t a = (int32_t)pop32(interp);
-    if(b == 0) return ABC_RESULT_ERROR;
+    if(b == 0) RETURN_ERROR;
     return push32(interp, (uint32_t)(a % b));
 }
 
@@ -976,7 +982,7 @@ static abc_result_t logical_bool4(abc_interp_t* interp)
 static abc_result_t getpn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 {
     uint32_t t = pop24(interp);
-    if(!space(interp, n)) return ABC_RESULT_ERROR;
+    if(!space(interp, n)) RETURN_ERROR;
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, h->prog(h->user, t + i));
     return ABC_RESULT_NORMAL;
@@ -1001,7 +1007,7 @@ static abc_result_t getrn(abc_interp_t* interp, uint8_t n)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr || !space(interp, n)) return ABC_RESULT_ERROR;
+    if(!ptr || !space(interp, n)) RETURN_ERROR;
     for(uint8_t i = 0; i < n; ++i)
         (void)push(interp, ptr[i]);
     return ABC_RESULT_NORMAL;
@@ -1011,7 +1017,7 @@ static abc_result_t setrn(abc_interp_t* interp, uint8_t n)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr) return ABC_RESULT_ERROR;
+    if(!ptr) RETURN_ERROR;
     for(uint8_t i = 0; i < n; ++i)
         ptr[n - 1 - i] = pop8(interp);
     return ABC_RESULT_NORMAL;
@@ -1021,7 +1027,7 @@ static abc_result_t pinc(abc_interp_t* interp, int8_t offset)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr || !space(interp, 3)) return ABC_RESULT_ERROR;
+    if(!ptr || !space(interp, 3)) RETURN_ERROR;
     uint8_t x = 0;
     x = (x << 8) + ptr[0];
     uint8_t y = x + offset;
@@ -1034,7 +1040,7 @@ static abc_result_t pinc2(abc_interp_t* interp, int8_t offset)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr || !space(interp, 4)) return ABC_RESULT_ERROR;
+    if(!ptr || !space(interp, 4)) RETURN_ERROR;
     uint16_t x = 0;
     x = (x << 8) + ptr[1];
     x = (x << 8) + ptr[0];
@@ -1049,7 +1055,7 @@ static abc_result_t pinc3(abc_interp_t* interp, int8_t offset)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr || !space(interp, 5)) return ABC_RESULT_ERROR;
+    if(!ptr || !space(interp, 5)) RETURN_ERROR;
     uint32_t x = 0;
     x = (x << 8) + ptr[2];
     x = (x << 8) + ptr[1];
@@ -1066,7 +1072,7 @@ static abc_result_t pinc4(abc_interp_t* interp, int8_t offset)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr || !space(interp, 6)) return ABC_RESULT_ERROR;
+    if(!ptr || !space(interp, 6)) RETURN_ERROR;
     uint32_t x = 0;
     x = (x << 8) + ptr[3];
     x = (x << 8) + ptr[2];
@@ -1085,7 +1091,7 @@ static abc_result_t pincf(abc_interp_t* interp, float offset)
 {
     uint16_t t = pop16(interp);
     uint8_t* ptr = refptr(interp, t);
-    if(!ptr || !space(interp, 6)) return ABC_RESULT_ERROR;
+    if(!ptr || !space(interp, 6)) RETURN_ERROR;
     union { float f; uint32_t x; } u, uinc;
     u.x = 0;
     u.x = (u.x << 8) + ptr[3];
@@ -1228,7 +1234,7 @@ static abc_result_t aixb1(abc_interp_t* interp, abc_host_t const* h)
 {
     uint8_t n = imm8(interp, h);
     uint8_t i = pop8(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint16_t p = pop16(interp);
     return push16(interp, p + i);
 }
@@ -1238,7 +1244,7 @@ static abc_result_t aidxb(abc_interp_t* interp, abc_host_t const* h)
     uint8_t b = imm8(interp, h);
     uint8_t n = imm8(interp, h);
     uint8_t i = pop8(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint16_t p = pop16(interp);
     return push16(interp, p + i * b);
 }
@@ -1248,7 +1254,7 @@ static abc_result_t aidx(abc_interp_t* interp, abc_host_t const* h)
     uint16_t b = imm16(interp, h);
     uint16_t n = imm16(interp, h);
     uint16_t i = pop16(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint16_t p = pop16(interp);
     return push16(interp, p + i * b);
 }
@@ -1258,7 +1264,7 @@ static abc_result_t pidxb(abc_interp_t* interp, abc_host_t const* h)
     uint8_t b = imm8(interp, h);
     uint8_t n = imm8(interp, h);
     uint8_t i = pop8(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint32_t p = pop24(interp);
     return push24(interp, p + i * b);
 }
@@ -1268,7 +1274,7 @@ static abc_result_t pidx(abc_interp_t* interp, abc_host_t const* h)
     uint16_t b = imm16(interp, h);
     uint32_t n = imm24(interp, h);
     uint32_t i = pop24(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint32_t p = pop24(interp);
     return push24(interp, p + i * b);
 }
@@ -1278,7 +1284,7 @@ static abc_result_t uaidx(abc_interp_t* interp, abc_host_t const* h)
     uint16_t b = imm16(interp, h);
     uint16_t i = pop16(interp);
     uint16_t n = pop16(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint16_t p = pop16(interp);
     return push16(interp, p + i * b);
 }
@@ -1288,7 +1294,7 @@ static abc_result_t upidx(abc_interp_t* interp, abc_host_t const* h)
     uint16_t b = imm16(interp, h);
     uint32_t i = pop24(interp);
     uint32_t n = pop24(interp);
-    if(i >= n) return ABC_RESULT_ERROR;
+    if(i >= n) RETURN_ERROR;
     uint32_t p = pop24(interp);
     return push24(interp, p + i * b);
 }
@@ -1300,7 +1306,7 @@ static abc_result_t aslc(abc_interp_t* interp, abc_host_t const* h)
     uint16_t n = pop16(interp);
     uint16_t p = pop16(interp);
     uint16_t b = imm16(interp, h);
-    if(start >= n || stop > n) return ABC_RESULT_ERROR;
+    if(start >= n || stop > n) RETURN_ERROR;
     push16(interp, p + start * b);
     return push16(interp, stop - start);
 }
@@ -1312,7 +1318,7 @@ static abc_result_t pslc(abc_interp_t* interp, abc_host_t const* h)
     uint32_t n = pop24(interp);
     uint32_t p = pop24(interp);
     uint16_t b = imm16(interp, h);
-    if(start >= n || stop > n) return ABC_RESULT_ERROR;
+    if(start >= n || stop > n) RETURN_ERROR;
     push24(interp, p + start * b);
     return push24(interp, stop - start);
 }
@@ -1406,7 +1412,7 @@ static abc_result_t linc(abc_interp_t* interp, uint8_t n, int8_t x)
 static abc_result_t call(abc_interp_t* interp, uint32_t addr)
 {
     if(interp->csp >= sizeof(interp->call_stack) / sizeof(interp->call_stack[0]))
-        return ABC_RESULT_ERROR;
+        RETURN_ERROR;
     interp->call_stack[interp->csp++] = interp->pc;
     interp->pc = addr;
     return ABC_RESULT_NORMAL;
@@ -1414,7 +1420,7 @@ static abc_result_t call(abc_interp_t* interp, uint32_t addr)
 
 static abc_result_t ret(abc_interp_t* interp)
 {
-    if(interp->csp == 0) return ABC_RESULT_ERROR;
+    if(interp->csp == 0) RETURN_ERROR;
     interp->pc = interp->call_stack[--interp->csp];
     return ABC_RESULT_NORMAL;
 }
@@ -1422,7 +1428,7 @@ static abc_result_t ret(abc_interp_t* interp)
 static abc_result_t sys_assert(abc_interp_t* interp)
 {
     if(pop8(interp) == 0)
-        return ABC_RESULT_ERROR;
+        RETURN_ERROR;
     return ABC_RESULT_NORMAL;
 }
 
@@ -1432,8 +1438,8 @@ static abc_result_t sys_memset(abc_interp_t* interp)
     uint16_t b0 = pop16(interp);
     uint8_t val = pop8(interp);
     uint8_t* p0 = refptr(interp, b0);
-    if(!p0) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(!p0) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
     memset(p0, val, n0);
     return ABC_RESULT_NORMAL;
 }
@@ -1446,9 +1452,9 @@ static abc_result_t sys_memcpy(abc_interp_t* interp)
     uint16_t b1 = pop16(interp);
     uint8_t* p0 = refptr(interp, b0);
     uint8_t* p1 = refptr(interp, b1);
-    if(n0 != n1 || !p0 || !p1) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b1 + n1 - 1)) return ABC_RESULT_ERROR;
+    if(n0 != n1 || !p0 || !p1) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
+    if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
     memcpy(p0, p1, n0);
     return ABC_RESULT_NORMAL;
 }
@@ -1460,8 +1466,8 @@ static abc_result_t sys_memcpy_P(abc_interp_t* interp, abc_host_t const* h)
     uint32_t n1 = pop24(interp);
     uint32_t b1 = pop24(interp);
     uint8_t* p0 = refptr(interp, b0);
-    if(n0 != n1 || !p0) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(n0 != n1 || !p0) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
     for(uint16_t n = 0; n < n0; ++n)
         p0[n] = h->prog(h->user, b1 + n);
     return ABC_RESULT_NORMAL;
@@ -1475,9 +1481,9 @@ static abc_result_t sys_strcmp(abc_interp_t* interp)
     uint16_t b1 = pop16(interp);
     uint8_t* p0 = refptr(interp, b0);
     uint8_t* p1 = refptr(interp, b1);
-    if(!p0 || !p1) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b1 + n1 - 1)) return ABC_RESULT_ERROR;
+    if(!p0 || !p1) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
+    if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
     uint8_t c0, c1;
     for(;;)
     {
@@ -1498,8 +1504,8 @@ static abc_result_t sys_strcmp_P(abc_interp_t* interp, abc_host_t const* h)
     uint32_t n1 = pop24(interp);
     uint32_t b1 = pop24(interp);
     uint8_t* p0 = refptr(interp, b0);
-    if(!p0) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(!p0) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
     uint8_t c0, c1;
     for(;;)
     {
@@ -1542,9 +1548,9 @@ static abc_result_t sys_strcpy(abc_interp_t* interp)
     uint8_t* p1 = refptr(interp, b1);
     uint16_t nr = n0;
     uint16_t br = b0;
-    if(!p0 || !p1) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b1 + n1 - 1)) return ABC_RESULT_ERROR;
+    if(!p0 || !p1) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
+    if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
     if(n0 != 0)
     {
         for(;;)
@@ -1570,8 +1576,8 @@ static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
     uint8_t* p0 = refptr(interp, b0);
     uint16_t nr = n0;
     uint16_t br = b0;
-    if(!p0) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) return ABC_RESULT_ERROR;
+    if(!p0) RETURN_ERROR;
+    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
     if(n0 != 0)
     {
         for(;;)
@@ -1593,8 +1599,8 @@ static abc_result_t sys_strlen(abc_interp_t* interp)
     uint16_t n = pop16(interp);
     uint16_t b = pop16(interp);
     uint8_t* p = refptr(interp, b);
-    if(!p) return ABC_RESULT_ERROR;
-    if(!refptr(interp, b + n - 1)) return ABC_RESULT_ERROR;
+    if(!p) RETURN_ERROR;
+    if(!refptr(interp, b + n - 1)) RETURN_ERROR;
     uint16_t t = 0;
     if(n != 0)
     {
@@ -1850,7 +1856,7 @@ static abc_result_t sys_format(abc_interp_t* interp, abc_host_t const* h)
     uint16_t b = pop16(interp);
     format_user_buffer u;
     u.p = (char*)refptr(interp, b);
-    if(!u.p || !refptr(interp, b + n - 1)) return ABC_RESULT_ERROR;
+    if(!u.p || !refptr(interp, b + n - 1)) RETURN_ERROR;
     u.n = n;
     format_exec(interp, h, format_exec_to_buffer, &u);
     if(u.n != 0)
@@ -2137,7 +2143,7 @@ static abc_result_t sys_display(abc_interp_t* interp, abc_host_t const* h)
     else
     {
         if(!shades_display(interp, h))
-            return ABC_RESULT_ERROR;
+            RETURN_ERROR;
     }
     return wait_for_frame_timing(interp, h);
 }
@@ -2149,7 +2155,7 @@ static abc_result_t sys_display_noclear(abc_interp_t* interp, abc_host_t const* 
     else
     {
         if(!shades_display(interp, h))
-            return ABC_RESULT_ERROR;
+            RETURN_ERROR;
     }
     return wait_for_frame_timing(interp, h);
 }
@@ -2457,7 +2463,7 @@ static abc_result_t sys_draw_sprite_selfmask(abc_interp_t* interp, abc_host_t co
     uint8_t masked = prog8(h, image + 2);
     uint16_t num = prog16(h, image + 3);
 
-    if(frame >= num) return ABC_RESULT_ERROR;
+    if(frame >= num) RETURN_ERROR;
 
     image += 5;
     uint8_t pages = (ih + 7) >> 3;
@@ -2558,7 +2564,7 @@ static abc_result_t sys_draw_sprite(abc_interp_t* interp, abc_host_t const* h)
     uint8_t masked = prog8(h, image + 2);
     uint16_t num = prog16(h, image + 3);
 
-    if(frame >= num) return ABC_RESULT_ERROR;
+    if(frame >= num) RETURN_ERROR;
 
     if(interp->shades == 2)
     {
@@ -2597,7 +2603,7 @@ static abc_result_t sys_draw_tilemap(abc_interp_t* interp, abc_host_t const* h)
     tm += 5;
 
     if(format != 1 && format != 2)
-        return ABC_RESULT_ERROR;
+        RETURN_ERROR;
 
     uint32_t r = 0, c = 0;
     if(y < 0)
@@ -2624,7 +2630,7 @@ static abc_result_t sys_draw_tilemap(abc_interp_t* interp, abc_host_t const* h)
                 continue;
             frame -= 1;
             if(frame >= num)
-                return ABC_RESULT_ERROR;
+                RETURN_ERROR;
             if(interp->shades == 2)
             {
                 uint32_t pages = (sh + 7) >> 3;
@@ -2911,7 +2917,7 @@ static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
     int16_t y = (int16_t)pop16(interp);
     uint16_t tn = pop16(interp);
     uint16_t tb = pop16(interp);
-    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    if(interp->text_font >= 0xff000000) RETURN_ERROR;
     uint8_t line_height = font_get_line_height(interp, host);
     int16_t bx = x;
 
@@ -2922,7 +2928,7 @@ static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
     while(tn != 0)
     {
         uint8_t* ptr = refptr(interp, tb++);
-        if(!ptr) return ABC_RESULT_ERROR;
+        if(!ptr) RETURN_ERROR;
         c = *ptr;
         if(c == '\0') break;
         --tn;
@@ -2952,7 +2958,7 @@ static abc_result_t sys_draw_text_P(abc_interp_t* interp, abc_host_t const* host
     int16_t y = (int16_t)pop16(interp);
     uint32_t tn = pop24(interp);
     uint32_t tb = pop24(interp);
-    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    if(interp->text_font >= 0xff000000) RETURN_ERROR;
     uint8_t line_height = font_get_line_height(interp, host);
     int16_t bx = x;
 
@@ -3053,14 +3059,14 @@ static abc_result_t sys_text_width(abc_interp_t* interp, abc_host_t const* host)
 {
     uint16_t tn = pop16(interp);
     uint16_t tb = pop16(interp);
-    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    if(interp->text_font >= 0xff000000) RETURN_ERROR;
     char c;
     uint16_t wmax = 0;
     uint16_t w = 0;
     while(tn != 0)
     {
         uint8_t* ptr = refptr(interp, tb++);
-        if(!ptr) return ABC_RESULT_ERROR;
+        if(!ptr) RETURN_ERROR;
         c = *ptr;
         if(c == '\0') break;
         --tn;
@@ -3080,7 +3086,7 @@ static abc_result_t sys_text_width_P(abc_interp_t* interp, abc_host_t const* hos
 {
     uint32_t tn = pop24(interp);
     uint32_t tb = pop24(interp);
-    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    if(interp->text_font >= 0xff000000) RETURN_ERROR;
     char c;
     uint16_t wmax = 0;
     uint16_t w = 0;
@@ -3106,18 +3112,18 @@ static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
     uint16_t tn = pop16(interp);
     uint16_t tb = pop16(interp);
     uint8_t w = pop8(interp);
-    if(interp->text_font >= 0xff000000) return ABC_RESULT_ERROR;
+    if(interp->text_font >= 0xff000000) RETURN_ERROR;
     char c;
     uint8_t cw = 0; // current width
     char* p = (char*)refptr(interp, tb);
-    if(!p) return ABC_RESULT_ERROR;
+    if(!p) RETURN_ERROR;
     char* tp = p;   // pointer after last word break
     uint8_t tw = 0; // width at last word break
     uint16_t ttn = tn;   // tn at last word break
     while((c = *p) != '\0' && tn != 0)
     {
         p = (char*)refptr(interp, ++tb);
-        if(!p) return ABC_RESULT_ERROR;
+        if(!p) RETURN_ERROR;
         --tn;
         cw += font_get_x_advance(interp, host, c);
         if(c == '\n')
@@ -3482,14 +3488,14 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_TILEMAP_GET:          return sys_tilemap_get(interp, h);
     default:
         assert(0);
-        return ABC_RESULT_ERROR;
+        RETURN_ERROR;
     }
 }
 
 abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
 {
     if(!interp || !h || !h->prog)
-        return ABC_RESULT_ERROR;
+        RETURN_ERROR;
 
     if(interp->waiting_for_frame)
     {
@@ -3756,7 +3762,7 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_SYS:   return sys(interp, h);
     default:
         assert(0);
-        return ABC_RESULT_ERROR;
+        RETURN_ERROR;
     }
 }
 

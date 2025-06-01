@@ -13,7 +13,7 @@ main:
   .line 17
   push  40
   sys   set_frame_rate
-$L_main_2:
+$L_main_1:
   .line 5
   getg  r 0
   inc
@@ -39,5 +39,5 @@ $L_main_2:
   .line 3
   pop4
   .line 18
-  jmp   $L_main_2
+  jmp   $L_main_1
 

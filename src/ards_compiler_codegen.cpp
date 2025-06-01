@@ -266,41 +266,63 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         break;
     }
     case AST::WHILE_STMT:
+    case AST::FOR_STMT:
     {
-        assert(a.children.size() == 2 || a.children.size() == 3);
+        size_t prev_instrs = f.instrs.size();
+        bool is_for = (a.type == AST::FOR_STMT);
+        if(is_for)
+            codegen(f, frame, a.children[2]);
         type_annotate(a.children[0], frame);
         if(a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
             break;
-        bool is_for = (a.children.size() == 3);
         bool nocond = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
         std::string end = new_label(f);
-        std::string cond = new_label(f);
+
         if(!nocond)
         {
-#if 0
-            // jump to condition
-            f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, cond });
-#else
             // duplicate codegen for condition
             codegen_expr(f, frame, a.children[0], false);
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
             f.instrs.push_back({ I_BZ, a.children[0].line(), 0, 0, end });
             frame.size -= 1;
-#endif
         }
         std::string start = codegen_label(f);
         std::string cont = is_for ? new_label(f) : start;
+
         break_stack.push_back({ end, frame.size });
         continue_stack.push_back({ cont, frame.size });
         codegen(f, frame, a.children[1]);
         if(is_for)
         {
             codegen_label(f, cont);
-            codegen(f, frame, a.children[2]);
+            codegen(f, frame, a.children[3]);
         }
         break_stack.pop_back();
         continue_stack.pop_back();
-        codegen_label(f, cond);
+
+        size_t body_instrs = f.instrs.size() - prev_instrs;
+        unroll_info_t u;
+        bool unroll_sized =
+            is_for && can_unroll_for_loop(a, u) &&
+            u.num * body_instrs <= unroll_max_instrs &&
+            u.num <= unroll_sized_max_iters;
+        size_t unroll_unsized = body_instrs == 0 ? 0 :
+            std::min(unroll_unsized_max_iters, unroll_max_instrs / body_instrs);
+        if(unroll_sized)
+        {
+            f.instrs.resize(prev_instrs);
+            if(is_for) { frame.pop(); frame.push(); }
+            unroll_loop_sized(a, u, f, frame);
+            break;
+        }
+        //if(unroll_unsized > 1)
+        //{
+        //    f.instrs.resize(prev_instrs);
+        //    if(is_for) { frame.pop(); frame.push(); }
+        //    unroll_loop_unsized(a, unroll_unsized, f, frame);
+        //    break;
+        //}
+
         if(!nocond)
         {
             codegen_expr(f, frame, a.children[0], false);
@@ -345,25 +367,11 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         break;
     }
     case AST::BLOCK:
-    case AST::BLOCK_FOR_STMT:
     {
         size_t block_prev_size = frame.size;
         frame.push();
-        size_t prev_instrs = f.instrs.size();
         for(auto& child : a.children)
             codegen(f, frame, child);
-        size_t loop_instrs = f.instrs.size() - prev_instrs;
-        unroll_info_t u;
-        if(a.type == AST::BLOCK_FOR_STMT &&
-            can_unroll_for_loop(a, u) &&
-            loop_instrs * u.num <= for_unroll_max_instrs)
-        {
-            // unroll for loop
-            f.instrs.resize(prev_instrs);
-            frame.pop();
-            unroll_for_loop(a, u, f, frame);
-            break;
-        }
         // don't need to pop locals after final return statement
         if(&a != &f.block)
         {
@@ -416,7 +424,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         return;
     }
     (void)prev_size;
-    if(a.type != AST::DECL_STMT && errs.empty())
+    if(a.type != AST::DECL_STMT && a.type != AST::FOR_STMT && errs.empty())
         assert(frame.size == prev_size);
 }
 

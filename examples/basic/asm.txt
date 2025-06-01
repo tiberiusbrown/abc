@@ -348,11 +348,11 @@ main:
   .line 56
   push3 507
   sys   set_text_font
-$L_main_2:
+$L_main_1:
   .line 28
   p8
   sys   just_pressed
-  bz    $L_main_4
+  bz    $L_main_3
   .line 30
   push3 389
   sys   tones_play_auto
@@ -361,15 +361,15 @@ $L_main_2:
   p1
   add2b
   setg2 coins 0
-$L_main_4:
+$L_main_3:
   .line 34
   p4
   sys   just_pressed
-  bz    $L_main_5
+  bz    $L_main_4
   .line 35
   push3 277
   sys   tones_play_primary
-$L_main_5:
+$L_main_4:
   .line 38
   push4 1157628299
   p00
@@ -399,39 +399,39 @@ $L_main_5:
   .line 44
   p128
   sys   pressed
-  bz    $L_main_6
+  bz    $L_main_5
   getg2 y 0
   p1
   sub2b
   setg2 y 0
-$L_main_6:
+$L_main_5:
   .line 45
   p16
   sys   pressed
-  bz    $L_main_7
+  bz    $L_main_6
   getg2 y 0
   p1
   add2b
   setg2 y 0
-$L_main_7:
+$L_main_6:
   .line 46
   p32
+  sys   pressed
+  bz    $L_main_7
+  getg2 x 0
+  p1
+  sub2b
+  setg2 x 0
+$L_main_7:
+  .line 47
+  p64
   sys   pressed
   bz    $L_main_8
   getg2 x 0
   p1
-  sub2b
-  setg2 x 0
-$L_main_8:
-  .line 47
-  p64
-  sys   pressed
-  bz    $L_main_9
-  getg2 x 0
-  p1
   add2b
   setg2 x 0
-$L_main_9:
+$L_main_8:
   .line 48
   p000
   p1
@@ -442,5 +442,5 @@ $L_main_9:
   .line 50
   sys   display
   .line 57
-  jmp   $L_main_2
+  jmp   $L_main_1
 

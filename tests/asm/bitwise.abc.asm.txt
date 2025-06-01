@@ -99,7 +99,7 @@ main:
   setg4 a4 12
   .line 30
   p1
-$L_main_11:
+$L_main_9:
   .line 32
   getg  a1 0
   pushg a1 0
@@ -379,7 +379,7 @@ $L_main_11:
   dup
   p4
   cult
-  bnz   $L_main_11
+  bnz   $L_main_9
   pop
   .line 57
   getg  a1 1

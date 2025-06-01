@@ -61,6 +61,10 @@ void compiler_t::optimize()
                 ;
             while(peephole(f))
                 ;
+            while(peephole_reduce(f))
+                ;
+            while(peephole(f))
+                ;
         }
         repeat |= remove_unreferenced_labels();
         repeat |= merge_adjacent_labels();
@@ -408,6 +412,15 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         }
 
         auto& i0 = f.instrs[i + 0];
+
+        switch(i0.instr)
+        {
+        case I_POP : i0.instr = I_POPN; i0.imm = 1; t = true; continue;
+        case I_POP2: i0.instr = I_POPN; i0.imm = 2; t = true; continue;
+        case I_POP3: i0.instr = I_POPN; i0.imm = 3; t = true; continue;
+        case I_POP4: i0.instr = I_POPN; i0.imm = 4; t = true; continue;
+        default: break;
+        }
 
         if((i0.instr == I_POPN || i0.instr == I_ALLOC) && i0.imm == 0)
         {

@@ -12818,7 +12818,7 @@ main:
   .line 10
   push  60
   sys   set_frame_rate
-$L_main_2:
+$L_main_1:
   .line 14
   p0
   p1
@@ -12832,41 +12832,41 @@ $L_main_2:
   .line 16
   p32
   sys   pressed
-  bz    $L_main_3
+  bz    $L_main_2
   getg2 x 0
   p1
   add2b
   setg2 x 0
-$L_main_3:
+$L_main_2:
   .line 17
   p64
   sys   pressed
-  bz    $L_main_4
+  bz    $L_main_3
   getg2 x 0
   p1
   sub2b
   setg2 x 0
-$L_main_4:
+$L_main_3:
   .line 18
   p128
+  sys   pressed
+  bz    $L_main_4
+  getg2 y 0
+  p1
+  add2b
+  setg2 y 0
+$L_main_4:
+  .line 19
+  p16
   sys   pressed
   bz    $L_main_5
   getg2 y 0
   p1
-  add2b
-  setg2 y 0
-$L_main_5:
-  .line 19
-  p16
-  sys   pressed
-  bz    $L_main_6
-  getg2 y 0
-  p1
   sub2b
   setg2 y 0
-$L_main_6:
+$L_main_5:
   .line 21
   sys   display
   .line 12
-  jmp   $L_main_2
+  jmp   $L_main_1
 

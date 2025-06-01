@@ -29,12 +29,70 @@ static bool test_cond(ast_node_t const& cond, int64_t condval, int64_t x)
     return false;
 }
 
-void compiler_t::unroll_for_loop(
+void compiler_t::unroll_loop_unsized(
+        ast_node_t& n, size_t num_iters, size_t instr_begin, size_t instr_end,
+        compiler_func_t& f, compiler_frame_t& frame)
+{
+    bool is_for = (n.type == AST::FOR_STMT);
+    bool nocond = (n.children[0].type == AST::INT_CONST && n.children[0].value != 0);
+
+    if(is_for)
+    {
+        codegen(f, frame, n.children[2]);
+    }
+    
+    std::string start = codegen_label(f);
+    std::string end = new_label(f);
+    
+    for(size_t i = 0; i < num_iters; ++i)
+    {
+        std::string cont = is_for ? new_label(f) : start;
+
+        break_stack.push_back({ end, frame.size });
+        continue_stack.push_back({ cont, frame.size });
+
+        ast_node_t node_copy;
+        node_copy = n.children[1];
+        codegen(f, frame, node_copy);
+        if(is_for) 
+        {
+            codegen_label(f, cont);
+            node_copy = n.children[3];
+            codegen(f, frame, node_copy);
+        }
+
+        break_stack.pop_back();
+        continue_stack.pop_back();
+
+        if(!nocond)
+        {
+            codegen_expr(f, frame, n.children[0], false);
+            // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
+            codegen_convert(f, frame, n, TYPE_BOOL, n.children[0].comp_type);
+            if(i + 1 >= num_iters)
+                f.instrs.push_back({ I_BNZ, n.children[0].line(), 0, 0, start });
+            else
+                f.instrs.push_back({ I_BZ, n.children[0].line(), 0, 0, end });
+            frame.size -= 1;
+        }
+    }
+
+    if(nocond)
+    {
+        f.instrs.push_back({ I_JMP, n.children[0].line(), 0, 0, start });
+    }
+
+    codegen_label(f, end);
+}
+
+void compiler_t::unroll_loop_sized(
     ast_node_t const& n, unroll_info_t const& u,
     compiler_func_t& f, compiler_frame_t& frame)
 {
-    auto const& stmt_init = n.children[0];
-    auto const& stmt_body = n.children[1].children[1];
+    // only for-loops supported right now
+    assert(n.type == AST::FOR_STMT);
+    auto const& stmt_init = n.children[2];
+    auto const& stmt_body = n.children[1];
     auto type = resolve_type(stmt_init.children[0]);
     int64_t x = u.init;
     std::string label_break = new_label(f);
@@ -42,7 +100,7 @@ void compiler_t::unroll_for_loop(
     break_stack.push_back({ label_break, frame.size });
     for(uint32_t iter = 0; iter < u.num; ++iter)
     {
-        assert(iter < for_unroll_max_iters);
+        assert(iter < unroll_sized_max_iters);
 
         label_continue = new_label(f);
         continue_stack.push_back({ label_continue, frame.size });
@@ -81,19 +139,15 @@ void compiler_t::unroll_for_loop(
 bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
 {
     // analyze init statement, increment, and condition
-    assert(n.type == AST::BLOCK_FOR_STMT);
-    assert(n.children.size() == 2);
-    assert(n.children[1].type == AST::WHILE_STMT);
-    assert(n.children[1].children.size() == 3);
-    assert(n.children[1].children[1].type == AST::BLOCK);
+    assert(n.type == AST::FOR_STMT);
+    assert(n.children.size() == 4);
 
     if(!enable_unrolling)
         return false;
 
-    auto const& stmt_init = n.children[0];
-    auto const& cond = without_cast(n.children[1].children[0]);
-    //auto const& stmt_body = n.children[1].children[1];
-    auto const& stmt_iter = n.children[1].children[2];
+    auto const& stmt_init = n.children[2];
+    auto const& cond = without_cast(n.children[0]);
+    auto const& stmt_iter = n.children[3];
 
     auto type = resolve_type(stmt_init.children[0]);
 
@@ -166,7 +220,7 @@ bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
     int64_t condval = without_cast(cond.children[1]).value;
     if(!test_cond(cond, condval, x)) // no iterations
         return true;
-    for(size_t i = 1; i <= for_unroll_max_iters; ++i)
+    for(size_t i = 1; i <= unroll_sized_max_iters; ++i)
     {
         x += u.incr;
         x = truncate_value(type, x);

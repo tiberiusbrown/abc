@@ -17,7 +17,7 @@ main:
   sys   debug_break
   .line 27
   p0
-$L_main_21:
+$L_main_18:
   .line 30
   p000
   p1
@@ -33,31 +33,31 @@ $L_main_21:
   dup
   p8
   cult
-  bnz   $L_main_21
+  bnz   $L_main_18
+  pop
+  p0
+$L_main_22:
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bnz   $L_main_22
   pop
   p0
 $L_main_26:
-  .line 30
-  p000
-  p1
-  p0
-  p16
-  p0
-  dup8
-  p16
-  mul
-  p0
-  .line 29
-  sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bnz   $L_main_26
-  pop
-  p0
-$L_main_31:
   .line 30
   p000
   p1
@@ -75,10 +75,10 @@ $L_main_31:
   dup
   p8
   cult
-  bnz   $L_main_31
+  bnz   $L_main_26
   pop
   p0
-$L_main_36:
+$L_main_30:
   .line 30
   p000
   p1
@@ -94,7 +94,7 @@ $L_main_36:
   dup
   p8
   cult
-  bnz   $L_main_36
+  bnz   $L_main_30
   pop
   .line 34
   sys   debug_break

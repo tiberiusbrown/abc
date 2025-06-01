@@ -486,15 +486,15 @@ main:
   .line 163
   p8
   sys   just_pressed
-  bz    $L_main_40
+  bz    $L_main_38
   .line 165
   sys   init_random_seed
   .line 166
-  jmp   $L_main_44
-$L_main_40:
+  jmp   $L_main_41
+$L_main_38:
   .line 169
   dup
-  bnz   $L_main_41
+  bnz   $L_main_39
   .line 171
   p1
   setl  1
@@ -514,7 +514,7 @@ $L_main_40:
   sys   random_range
   pop3
   setl  2
-$L_main_41:
+$L_main_39:
   .line 175
   p3
   dup2
@@ -542,11 +542,11 @@ $L_main_41:
   setr
   getr
   cult
-  bz    $L_main_42
+  bz    $L_main_40
   .line 178
   p0
   setl  1
-$L_main_42:
+$L_main_40:
   .line 180
   p0
   p7
@@ -614,10 +614,10 @@ $L_main_42:
   .line 163
   p8
   sys   just_pressed
-  bz    $L_main_40
+  bz    $L_main_38
   .line 165
   sys   init_random_seed
-$L_main_44:
+$L_main_41:
   .line 158
   pop3
   .line 63
@@ -638,8 +638,8 @@ $L_main_44:
   getg2 snake_tail 0
   sub2
   bool2
-  bz    $L_main_32
-$L_main_29:
+  bz    $L_main_30
+$L_main_28:
   .line 68
   pushg snake 0
   dupw3
@@ -673,8 +673,8 @@ $L_main_29:
   getg2 snake_tail 0
   sub2
   bool2
-  bnz   $L_main_29
-$L_main_32:
+  bnz   $L_main_28
+$L_main_30:
   pop2
   .line 71
   p0
@@ -728,7 +728,7 @@ $L_main_32:
   push3 40960
   cslt2
   bz    $L_main_0
-$L_main_2:
+$L_main_1:
   .line 126
   pushg dead 0
   p1
@@ -739,7 +739,7 @@ $L_main_2:
   sys   memcpy
   .line 128
   getg  dead 0
-  bz    $L_main_4
+  bz    $L_main_3
   .line 130
   pushg snake 0
   getg2 snake_head 0
@@ -782,49 +782,49 @@ $L_main_2:
   setg  dead 0
   pop2
   .line 128
-  jmp   $L_main_13
-$L_main_4:
+  jmp   $L_main_12
+$L_main_3:
   .line 137
   getg  dir 0
   dec
-  bz    $L_main_6
+  bz    $L_main_5
   p64
   sys   pressed
-  bz    $L_main_6
+  bz    $L_main_5
   p0
   setg  ndir 0
-$L_main_6:
+$L_main_5:
   .line 138
   getg  dir 0
-  bz    $L_main_8
+  bz    $L_main_7
   p32
   sys   pressed
-  bz    $L_main_8
+  bz    $L_main_7
   p1
   setg  ndir 0
-$L_main_8:
+$L_main_7:
   .line 139
   getg  dir 0
   p3
   sub
-  bz    $L_main_10
+  bz    $L_main_9
   p16
   sys   pressed
-  bz    $L_main_10
+  bz    $L_main_9
   p2
   setg  ndir 0
-$L_main_10:
+$L_main_9:
   .line 140
   getg  dir 0
   p2
   sub
-  bz    $L_main_12
+  bz    $L_main_11
   p128
   sys   pressed
-  bz    $L_main_12
+  bz    $L_main_11
   p3
   setg  ndir 0
-$L_main_12:
+$L_main_11:
   .line 142
   pushg frame 0
   getg  frame 0
@@ -834,7 +834,7 @@ $L_main_12:
   getr
   p3
   and
-  bnz   $L_main_13
+  bnz   $L_main_12
   .line 144
   p0
   getg  growth 0
@@ -848,17 +848,17 @@ $L_main_12:
   pushg snake_head 0
   pdec2
   bool2
-  bnz   $L_main_16
+  bnz   $L_main_15
   .line 85
   push2 447
   setg2 snake_head 0
-$L_main_16:
+$L_main_15:
   .line 87
   getg  ndir 0
   setg  dir 0
   .line 88
   getg  dir 0
-  bnz   $L_main_17
+  bnz   $L_main_16
   refl  2
   dupw
   getr
@@ -866,11 +866,11 @@ $L_main_16:
   dupw2
   setr
   pop2
-$L_main_17:
+$L_main_16:
   .line 89
   getg  dir 0
   dec
-  bnz   $L_main_18
+  bnz   $L_main_17
   refl  2
   dupw
   getr
@@ -878,42 +878,42 @@ $L_main_17:
   dupw2
   setr
   pop2
-$L_main_18:
+$L_main_17:
   .line 90
   getg  dir 0
   p2
+  sub
+  bnz   $L_main_18
+  refl  1
+  dupw
+  getr
+  inc
+  dupw2
+  setr
+  pop2
+$L_main_18:
+  .line 91
+  getg  dir 0
+  p3
   sub
   bnz   $L_main_19
   refl  1
   dupw
   getr
-  inc
-  dupw2
-  setr
-  pop2
-$L_main_19:
-  .line 91
-  getg  dir 0
-  p3
-  sub
-  bnz   $L_main_20
-  refl  1
-  dupw
-  getr
   dec
   dupw2
   setr
   pop2
-$L_main_20:
+$L_main_19:
   .line 93
   dup2
   getg  food 0
   sub
-  bnz   $L_main_22
+  bnz   $L_main_21
   dup
   getg  food 1
   sub
-  bnz   $L_main_22
+  bnz   $L_main_21
   .line 95
   getg  score 0
   inc
@@ -927,7 +927,7 @@ $L_main_20:
   p0000
   .line 47
   dup
-$L_main_47:
+$L_main_44:
   .line 49
   push  31
   p0000
@@ -952,19 +952,19 @@ $L_main_47:
   p4
   mul
   sys   get_pixel
-  bnz   $L_main_48
+  bnz   $L_main_45
   .line 52
   dupw2
   setl2 5
   pop3
-  jmp   $L_main_58
-$L_main_48:
+  jmp   $L_main_52
+$L_main_45:
   .line 47
   inc
   dup
   push  50
   cult
-  bnz   $L_main_47
+  bnz   $L_main_44
   pop
   .line 54
   p0
@@ -972,16 +972,16 @@ $L_main_48:
   dup
   push  14
   cult
-  bz    $L_main_57
-$L_main_51:
+  bz    $L_main_51
+$L_main_47:
   .line 55
   p0
   setl  2
   dup2
   p32
   cult
-  bz    $L_main_55
-$L_main_52:
+  bz    $L_main_50
+$L_main_48:
   .line 56
   dup
   p4
@@ -992,11 +992,11 @@ $L_main_52:
   p4
   mul
   sys   get_pixel
-  bnz   $L_main_53
+  bnz   $L_main_49
   .line 57
   setl2 2
-  jmp   $L_main_58
-$L_main_53:
+  jmp   $L_main_52
+$L_main_49:
   .line 55
   refl  2
   dupw
@@ -1008,8 +1008,8 @@ $L_main_53:
   dup2
   p32
   cult
-  bnz   $L_main_52
-$L_main_55:
+  bnz   $L_main_48
+$L_main_50:
   .line 54
   refl  1
   dupw
@@ -1021,13 +1021,13 @@ $L_main_55:
   dup
   push  14
   cult
-  bnz   $L_main_51
-$L_main_57:
+  bnz   $L_main_47
+$L_main_51:
   .line 58
   p00
   setl2 4
   pop2
-$L_main_58:
+$L_main_52:
   .line 97
   setg2 food 0
   .line 41
@@ -1047,24 +1047,24 @@ $L_main_58:
   mul2b
   .line 33
   sys   draw_sprite
-$L_main_22:
+$L_main_21:
   .line 101
   dup2
   p0
   cslt
-  bnz   $L_main_62
+  bnz   $L_main_56
   dup2
   p32
   cult
-  bz    $L_main_62
+  bz    $L_main_56
   dup
   p0
   cslt
-  bnz   $L_main_62
+  bnz   $L_main_56
   dup
   push  14
   cult
-  bz    $L_main_62
+  bz    $L_main_56
   .line 102
   dup
   p4
@@ -1076,8 +1076,8 @@ $L_main_22:
   mul
   sys   get_pixel
   .line 101
-  bz    $L_main_24
-$L_main_62:
+  bz    $L_main_23
+$L_main_56:
   .line 104
   p1
   setg  dead 0
@@ -1085,13 +1085,13 @@ $L_main_62:
   getg  high_score 0
   getg  score 0
   cult
-  bz    $L_main_24
+  bz    $L_main_23
   .line 107
   getg  score 0
   setg  high_score 0
   .line 108
   sys   save
-$L_main_24:
+$L_main_23:
   .line 111
   dupw
   pushg snake 0
@@ -1115,16 +1115,16 @@ $L_main_24:
   sys   draw_filled_rect
   .line 115
   dup3
-  bnz   $L_main_26
+  bnz   $L_main_25
   .line 117
   pushg snake_tail 0
   pdec2
   bool2
-  bnz   $L_main_25
+  bnz   $L_main_24
   .line 118
   push2 447
   setg2 snake_tail 0
-$L_main_25:
+$L_main_24:
   .line 119
   pushg snake 0
   getg2 snake_tail 0
@@ -1146,19 +1146,19 @@ $L_main_25:
   p4
   mul2b
   sys   draw_filled_rect
-$L_main_26:
+$L_main_25:
   .line 81
   pop3
   .line 145
   p0
   getg  growth 0
   cult
-  bz    $L_main_13
+  bz    $L_main_12
   .line 146
   getg  growth 0
   dec
   setg  growth 0
-$L_main_13:
+$L_main_12:
   .line 150
   p0
   p8
@@ -1190,7 +1190,7 @@ $L_main_13:
   getg  dead 0
   push3 40960
   cslt2
-  bnz   $L_main_2
+  bnz   $L_main_1
 $L_main_0:
   .line 196
   ret

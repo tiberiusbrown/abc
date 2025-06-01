@@ -1753,10 +1753,10 @@ $L_main_7:
 $L_main_8:
   .line 43
   getg  use_array 0
-  bz    $L_main_34
+  bz    $L_main_32
   .line 45
   p0
-$L_main_11:
+$L_main_10:
   .line 47
   alloc 16
   push3 26626
@@ -2051,11 +2051,11 @@ $L_main_11:
   dup
   p8
   cult
-  bnz   $L_main_11
+  bnz   $L_main_10
   pop
   .line 43
-  jmp   $L_main_35
-$L_main_34:
+  jmp   $L_main_33
+$L_main_32:
   .line 57
   p0
   p1
@@ -2064,7 +2064,7 @@ $L_main_34:
   getg2 oy 0
   getg2 ox 0
   sys   draw_tilemap
-$L_main_35:
+$L_main_33:
   .line 60
   p0
   push4 217367

@@ -14,9 +14,6 @@ main:
   .line 10
   p3
   p0
-  .line 9
-  jmp   $L_main_9
-$L_main_9:
   .line 8
   p4
   p0
@@ -73,7 +70,7 @@ $L_main_9:
   sys   assert
   .line 17
   p00
-$L_main_18:
+$L_main_16:
   .line 19
   p00
   setl2 4
@@ -111,9 +108,6 @@ $L_main_18:
   add2
   setl2 6
   pop2
-  .line 23
-  jmp   $L_main_19
-$L_main_19:
   .line 17
   dupw
   p1
@@ -122,7 +116,7 @@ $L_main_19:
   dupw
   push2 200
   cslt2
-  bnz   $L_main_18
+  bnz   $L_main_16
   pop2
   .line 28
   sys   debug_break

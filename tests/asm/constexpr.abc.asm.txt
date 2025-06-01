@@ -49,24 +49,68 @@ main:
   push2 74
   setl2 2
   popn  22
-  .line 27
-  p0
-$L_main_17:
   .line 28
-  dup
-  push2 10752
-  add2b
-  pushg a 0
-  dup5
-  aidxb 2 30
-  setr2
-  .line 27
-  inc
-  dup
-  push3 7680
-  cslt2
-  bnz   $L_main_17
-  pop
+  push2 42
+  setg2 a 0
+  push2 43
+  setg2 a 2
+  push2 44
+  setg2 a 4
+  push2 45
+  setg2 a 6
+  push2 46
+  setg2 a 8
+  push2 47
+  setg2 a 10
+  push2 48
+  setg2 a 12
+  push2 49
+  setg2 a 14
+  push2 50
+  setg2 a 16
+  push2 51
+  setg2 a 18
+  push2 52
+  setg2 a 20
+  push2 53
+  setg2 a 22
+  push2 54
+  setg2 a 24
+  push2 55
+  setg2 a 26
+  push2 56
+  setg2 a 28
+  push2 57
+  setg2 a 30
+  push2 58
+  setg2 a 32
+  push2 59
+  setg2 a 34
+  push2 60
+  setg2 a 36
+  push2 61
+  setg2 a 38
+  push2 62
+  setg2 a 40
+  push2 63
+  setg2 a 42
+  p64
+  p0
+  setg2 a 44
+  push2 65
+  setg2 a 46
+  push2 66
+  setg2 a 48
+  push2 67
+  setg2 a 50
+  push2 68
+  setg2 a 52
+  push2 69
+  setg2 a 54
+  push2 70
+  setg2 a 56
+  push2 71
+  setg2 a 58
   .line 30
   sys   debug_break
   .line 10

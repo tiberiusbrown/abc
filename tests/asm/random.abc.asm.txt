@@ -19,7 +19,7 @@ main:
   sys   set_random_seed
   .line 19
   p0
-$L_main_2:
+$L_main_1:
   .line 21
   sys   random
   .line 22
@@ -64,7 +64,7 @@ $L_main_2:
   dup
   push  100
   cult
-  bnz   $L_main_2
+  bnz   $L_main_1
   pop
   .line 26
   sys   debug_break

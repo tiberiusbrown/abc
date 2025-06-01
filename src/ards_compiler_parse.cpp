@@ -94,7 +94,7 @@ stmt                <- compound_stmt /
                        expr_stmt
 if_stmt             <- 'if' '(' expr ')' stmt ('else' stmt)?
 while_stmt          <- 'while' '(' expr ')' stmt
-do_while_stmt       <- 'do' stmt 'while' '(' expr ')'
+do_while_stmt       <- 'do' stmt 'while' '(' expr ')' ';'
 for_stmt            <- 'for' '(' for_init_stmt expr ';' expr ')' stmt
 for_init_stmt       <- decl_stmt / expr_stmt
 expr_stmt           <- ';' / expr ';'
@@ -219,39 +219,26 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
 
     /*
     * 
-    At the AST level, for statements are transformed:
+    for-loop statements:
 
         for(A; B; C)
             D;
 
-    is transformed into a while loop with two statements (body and iterator adv)
-
-        {
-            A;
-            while(B)
-            {
-                D;
-                C;
-            }
-        }
-
-        the "value" of the while AST node is set to 1 to indicate a for loop
-        for label stack purposes
+    arranged as children: BLOCK(FOR_STMT(B, BLOCK(D), A, C))
 
     */
     p["for_stmt"] = [](peg::SemanticValues const& v) {
-        ast_node_t a{ v.line_info(), AST::BLOCK_FOR_STMT, v.token() };
+        ast_node_t a{ v.line_info(), AST::BLOCK, v.token() };
+        ast_node_t b{ v.line_info(), AST::FOR_STMT, v.token() };
         auto A = std::any_cast<ast_node_t>(v[0]);
         auto B = std::any_cast<ast_node_t>(v[1]);
         auto C = std::any_cast<ast_node_t>(v[2]);
         auto D = std::any_cast<ast_node_t>(v[3]);
-        a.children.emplace_back(std::move(A));
-        a.children.push_back({ v.line_info(), AST::WHILE_STMT, v.token() });
-        auto& w = a.children.back();
-        w.children.emplace_back(std::move(B));
-        w.children.push_back({ D.line_info, AST::BLOCK, D.data });
-        w.children.back().children.emplace_back(std::move(D));
-        w.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
+        b.children.emplace_back(std::move(B));
+        b.children.push_back({ D.line_info, AST::BLOCK, D.data, { D } });
+        b.children.emplace_back(std::move(A));
+        b.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
+        a.children.emplace_back(std::move(b));
         return a;
     };
     p["for_init_stmt"] = [](peg::SemanticValues const& v) {
@@ -269,7 +256,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["float_literal"] = [](peg::SemanticValues const& v) {
         double x = 0;
         std::string t(v.token());
-        sscanf(t.c_str(), "%lf", &x);
+        (void)sscanf(t.c_str(), "%lf", &x);
         //std::from_chars(
         //    v.token().data(), v.token().data() + v.token().size(),
         //    x, std::chars_format::general);
