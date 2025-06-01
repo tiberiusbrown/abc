@@ -237,48 +237,22 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         }
         break;
     }
-    case AST::DO_WHILE_STMT:
-    {
-        assert(a.children.size() == 2);
-        type_annotate(a.children[0], frame);
-        bool always_true = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
-        bool always_false = (a.children[0].type == AST::INT_CONST && a.children[0].value == 0);
-        std::string start = codegen_label(f);
-        std::string end = new_label(f);
-        break_stack.push_back({ end, frame.size });
-        continue_stack.push_back({ start, frame.size });
-        codegen(f, frame, a.children[1]);
-        break_stack.pop_back();
-        continue_stack.pop_back();
-        if(always_true)
-        {
-            f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
-        }
-        else if(!always_false)
-        {
-            codegen_expr(f, frame, a.children[0], false);
-            // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
-            codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
-            f.instrs.push_back({ I_BNZ, a.children[0].line(), 0, 0, start });
-            frame.size -= 1;
-        }
-        codegen_label(f, end);
-        break;
-    }
     case AST::WHILE_STMT:
     case AST::FOR_STMT:
+    case AST::DO_WHILE_STMT:
     {
         size_t prev_instrs = f.instrs.size();
         bool is_for = (a.type == AST::FOR_STMT);
+        bool is_do_while = (a.type == AST::DO_WHILE_STMT);
         if(is_for)
             codegen(f, frame, a.children[2]);
         type_annotate(a.children[0], frame);
-        if(a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
+        if(!is_do_while && a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
             break;
         bool nocond = (a.children[0].type == AST::INT_CONST && a.children[0].value != 0);
         std::string end = new_label(f);
 
-        if(!nocond)
+        if(!is_do_while && !nocond)
         {
             // duplicate codegen for condition
             codegen_expr(f, frame, a.children[0], false);
@@ -302,26 +276,15 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
 
         size_t body_instrs = f.instrs.size() - prev_instrs;
         unroll_info_t u;
-        bool unroll_sized =
-            is_for && can_unroll_for_loop(a, u) &&
-            u.num * body_instrs <= unroll_max_instrs &&
-            u.num <= unroll_sized_max_iters;
-        size_t unroll_unsized = body_instrs == 0 ? 0 :
-            std::min(unroll_unsized_max_iters, unroll_max_instrs / body_instrs);
-        if(unroll_sized)
+        if(is_for && can_unroll_for_loop(a, u) &&
+            u.num * body_instrs <= unroll_sized_max_instrs &&
+            u.num <= unroll_sized_max_iters)
         {
             f.instrs.resize(prev_instrs);
             if(is_for) { frame.pop(); frame.push(); }
             unroll_loop_sized(a, u, f, frame);
             break;
         }
-        //if(unroll_unsized > 1)
-        //{
-        //    f.instrs.resize(prev_instrs);
-        //    if(is_for) { frame.pop(); frame.push(); }
-        //    unroll_loop_unsized(a, unroll_unsized, f, frame);
-        //    break;
-        //}
 
         if(!nocond)
         {

@@ -644,9 +644,8 @@ struct compiler_t
     size_t max_jump_to_ret_instrs = 8;
     size_t inlining_max_add_instrs = 256;
     size_t switch_min_ranges_for_jump_table = 16;
-    size_t unroll_max_instrs = 1024; // max total instrs in unrolled loop
+    size_t unroll_sized_max_instrs = 1024; // max total instrs in unrolled loop
     size_t unroll_sized_max_iters = 64;
-    size_t unroll_unsized_max_iters = 8;
     size_t max_getpn_bake = 16; // max bytes to bake a GETPN into PUSHs
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
@@ -738,9 +737,6 @@ private:
     bool can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u);
     void unroll_loop_sized(
         ast_node_t const& n, unroll_info_t const& u,
-        compiler_func_t& f, compiler_frame_t& frame);
-    void unroll_loop_unsized(
-        ast_node_t& n, size_t num_iters, size_t instr_begin, size_t instr_end,
         compiler_func_t& f, compiler_frame_t& frame);
 
     std::string progdata_label();

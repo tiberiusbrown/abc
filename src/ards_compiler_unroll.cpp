@@ -29,62 +29,6 @@ static bool test_cond(ast_node_t const& cond, int64_t condval, int64_t x)
     return false;
 }
 
-void compiler_t::unroll_loop_unsized(
-        ast_node_t& n, size_t num_iters, size_t instr_begin, size_t instr_end,
-        compiler_func_t& f, compiler_frame_t& frame)
-{
-    bool is_for = (n.type == AST::FOR_STMT);
-    bool nocond = (n.children[0].type == AST::INT_CONST && n.children[0].value != 0);
-
-    if(is_for)
-    {
-        codegen(f, frame, n.children[2]);
-    }
-    
-    std::string start = codegen_label(f);
-    std::string end = new_label(f);
-    
-    for(size_t i = 0; i < num_iters; ++i)
-    {
-        std::string cont = is_for ? new_label(f) : start;
-
-        break_stack.push_back({ end, frame.size });
-        continue_stack.push_back({ cont, frame.size });
-
-        ast_node_t node_copy;
-        node_copy = n.children[1];
-        codegen(f, frame, node_copy);
-        if(is_for) 
-        {
-            codegen_label(f, cont);
-            node_copy = n.children[3];
-            codegen(f, frame, node_copy);
-        }
-
-        break_stack.pop_back();
-        continue_stack.pop_back();
-
-        if(!nocond)
-        {
-            codegen_expr(f, frame, n.children[0], false);
-            // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
-            codegen_convert(f, frame, n, TYPE_BOOL, n.children[0].comp_type);
-            if(i + 1 >= num_iters)
-                f.instrs.push_back({ I_BNZ, n.children[0].line(), 0, 0, start });
-            else
-                f.instrs.push_back({ I_BZ, n.children[0].line(), 0, 0, end });
-            frame.size -= 1;
-        }
-    }
-
-    if(nocond)
-    {
-        f.instrs.push_back({ I_JMP, n.children[0].line(), 0, 0, start });
-    }
-
-    codegen_label(f, end);
-}
-
 void compiler_t::unroll_loop_sized(
     ast_node_t const& n, unroll_info_t const& u,
     compiler_func_t& f, compiler_frame_t& frame)
