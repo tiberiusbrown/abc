@@ -665,6 +665,8 @@ private:
 
     bool check_identifier(ast_node_t const& n);
 
+    int instr_stack_mod(compiler_instr_t const& i);
+
     std::string resolve_label_ref(
         compiler_frame_t const& frame, ast_node_t const& n, compiler_type_t const& t);
 

@@ -151,26 +151,28 @@ target_link_libraries(abc_interpreter_sokol abc_interp)
 add_library(ards_compiler STATIC
     .editorconfig
     interp_arduboy/abc_instr.hpp
-    src/ards_assembler.cpp
-    src/ards_assembler.hpp
-    src/ards_compiler.cpp
-    src/ards_compiler.hpp
-    src/ards_compiler_codegen.cpp
-    src/ards_compiler_codegen_expr.cpp
-    src/ards_compiler_decl.cpp
-    src/ards_compiler_font.cpp
-    src/ards_compiler_parse.cpp
-    src/ards_compiler_peephole.cpp
-    src/ards_compiler_progdata.cpp
-    src/ards_compiler_sprites.cpp
-    src/ards_compiler_tilemap.cpp
-    src/ards_compiler_tones.cpp
-    src/ards_compiler_transforms.cpp
-    src/ards_compiler_type.cpp
-    src/ards_compiler_unroll.cpp
-    src/ards_compiler_write.cpp
-    src/ards_error.hpp
-    src/ards_sysfuncs.cpp
+    src/abc_assembler.cpp
+    src/abc_assembler.hpp
+    src/abc_compiler.cpp
+    src/abc_compiler.hpp
+    src/abc_compiler_codegen.cpp
+    src/abc_compiler_codegen_expr.cpp
+    src/abc_compiler_decl.cpp
+    src/abc_compiler_font.cpp
+    src/abc_compiler_optimize.cpp
+    src/abc_compiler_optimize_stack.cpp
+    src/abc_compiler_parse.cpp
+    src/abc_compiler_progdata.cpp
+    src/abc_compiler_sprites.cpp
+    src/abc_compiler_tilemap.cpp
+    src/abc_compiler_tones.cpp
+    src/abc_compiler_transforms.cpp
+    src/abc_compiler_type.cpp
+    src/abc_compiler_unroll.cpp
+    src/abc_compiler_write.cpp
+    src/abc_error.hpp
+    src/abc_frame_sizes.cpp
+    src/abc_sysfuncs.cpp
     deps/peglib/peglib.h
     )
 target_include_directories(ards_compiler PUBLIC
