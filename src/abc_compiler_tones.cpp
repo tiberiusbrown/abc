@@ -1,6 +1,6 @@
 #define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
 
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -13,7 +13,7 @@
 
 #include <MidiFile.h>
 
-namespace ards
+namespace abc
 {
 
 // Quantization is 4 ms

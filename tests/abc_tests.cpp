@@ -1,8 +1,8 @@
 #define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
 
 #include <absim.hpp>
-#include <ards_assembler.hpp>
-#include <ards_compiler.hpp>
+#include <abc_assembler.hpp>
+#include <abc_compiler.hpp>
 #include <vm_hex_arduboyfx.hpp>
 
 #include <abc_interp.h>
@@ -28,7 +28,7 @@ static bool test(std::string const& fpath, std::string const& fname)
     std::string name = fname.substr(0, fname.size() - 4);
 
     {
-        ards::compiler_t c{};
+        abc::compiler_t c{};
         c.suppress_githash();
         std::ostringstream fo;
         c.compile(fpath, name, fo);
@@ -42,7 +42,7 @@ static bool test(std::string const& fpath, std::string const& fname)
     }
 
     {
-        ards::assembler_t a{};
+        abc::assembler_t a{};
         std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
         auto e = a.assemble(ss);
         assert(e.msg.empty());

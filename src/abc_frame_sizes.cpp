@@ -1,6 +1,6 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
-namespace ards
+namespace abc
 {
 
 int compiler_t::instr_stack_mod(compiler_instr_t const& i)
@@ -8,9 +8,8 @@ int compiler_t::instr_stack_mod(compiler_instr_t const& i)
     switch(i.instr)
     {
     case I_SETGN:
-        return -i.imm - 1;
     case I_POPN:
-        return -i.imm;
+        return -(int)i.imm;
 
     case I_GETLN:
         return i.imm - 1;

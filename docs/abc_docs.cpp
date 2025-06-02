@@ -1,5 +1,5 @@
-#include <ards_assembler.hpp>
-#include <ards_compiler.hpp>
+#include <abc_assembler.hpp>
+#include <abc_compiler.hpp>
 
 #include <algorithm>
 #include <map>
@@ -67,24 +67,24 @@ static void draw_str(
 static void print_sysfunc_decl(
     FILE* f,
     std::string const& k,
-    ards::sysfunc_t v,
-    ards::compiler_func_decl_t const& decl)
+    abc::sysfunc_t v,
+    abc::compiler_func_decl_t const& decl)
 {
-    fprintf(f, "%-5s $%s(", ards::type_name(decl.return_type).c_str(), k.c_str());
+    fprintf(f, "%-5s $%s(", abc::type_name(decl.return_type).c_str(), k.c_str());
     for(size_t i = 0; i < decl.arg_types.size(); ++i)
     {
         if(i != 0) fprintf(f, ", ");
-        fprintf(f, "%s %s", ards::type_name(decl.arg_types[i]).c_str(), decl.arg_names[i].c_str());
+        fprintf(f, "%s %s", abc::type_name(decl.arg_types[i]).c_str(), decl.arg_names[i].c_str());
     }
-    if(ards::sysfunc_is_format(v))
+    if(abc::sysfunc_is_format(v))
         fprintf(f, ", ...");
     fprintf(f, ");\n");
 }
 
 int abc_docs()
 {
-    std::map<std::string, ards::sysfunc_t> const sys_names(
-        ards::sys_names.begin(), ards::sys_names.end());
+    std::map<std::string, abc::sysfunc_t> const sys_names(
+        abc::sys_names.begin(), abc::sys_names.end());
 
     FILE* f;
     
@@ -92,9 +92,9 @@ int abc_docs()
     if(!f) return 1;
 
     fprintf(f, "# Predefined Constants\n\n```c\n");
-    for(auto const& c : ards::builtin_constexprs)
+    for(auto const& c : abc::builtin_constexprs)
     {
-        fprintf(f, "%s %s;\n", ards::type_name(c.type).c_str(), c.name.c_str());
+        fprintf(f, "%s %s;\n", abc::type_name(c.type).c_str(), c.name.c_str());
     }
     fprintf(f, "```\n\n");
 
@@ -102,20 +102,20 @@ int abc_docs()
     for(auto const& [k, v] : sys_names)
     {
         bool skip = false;
-        for(auto const& [k2, v2] : ards::sys_overloads)
+        for(auto const& [k2, v2] : abc::sys_overloads)
             for(auto const& v3 : v2)
                 if(v3 == k) skip = true;
         if(skip) continue;
-        auto it = ards::sysfunc_decls.find(v);
-        if(it == ards::sysfunc_decls.end()) continue;
+        auto it = abc::sysfunc_decls.find(v);
+        if(it == abc::sysfunc_decls.end()) continue;
         auto const& decl = it->second.decl;
         print_sysfunc_decl(f, k, v, decl);
-        if(auto it2 = ards::sys_overloads.find(k); it2 != ards::sys_overloads.end())
+        if(auto it2 = abc::sys_overloads.find(k); it2 != abc::sys_overloads.end())
         {
             for(auto const& ov : it2->second)
             {
-                auto jt = ards::sys_names.find(ov);
-                auto kt = ards::sysfunc_decls.find(jt->second);
+                auto jt = abc::sys_names.find(ov);
+                auto kt = abc::sysfunc_decls.find(jt->second);
                 print_sysfunc_decl(f, k, jt->second, kt->second.decl);
             }
         }

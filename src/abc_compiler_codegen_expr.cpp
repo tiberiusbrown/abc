@@ -1,8 +1,8 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <assert.h>
 
-namespace ards
+namespace abc
 {
 
 template<int32_t C>

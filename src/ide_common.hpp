@@ -9,7 +9,7 @@
 
 #include <absim.hpp>
 #include <TextEditor.h>
-#include <ards_error.hpp>
+#include <abc_error.hpp>
 
 constexpr float DEFAULT_FONT_SIZE = 16.f;
 
@@ -59,7 +59,7 @@ struct cached_file_t
 struct project_t
 {
     cached_file_t root;
-    std::map<std::string, std::vector<ards::error_t>> errors;
+    std::map<std::string, std::vector<abc::error_t>> errors;
     std::vector<uint8_t> binary;
     std::unordered_map<std::string, std::string> arduboy_directives;
 

@@ -1,8 +1,8 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <algorithm>
 
-namespace ards
+namespace abc
 {
 
 void compiler_t::optimize()

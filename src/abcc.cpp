@@ -1,4 +1,4 @@
-#include <ards_compiler.hpp>
+#include <abc_compiler.hpp>
 
 #include <iostream>
 #include <fstream>
@@ -141,8 +141,8 @@ int main(int argc, char** argv)
 
     psrc = std::filesystem::current_path() / psrc;
 
-    ards::compiler_t c;
-    ards::assembler_t a;
+    abc::compiler_t c;
+    abc::assembler_t a;
 
 #if PROFILING
     auto ta = clock();

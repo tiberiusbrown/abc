@@ -836,7 +836,7 @@ static void ShowDemoWindowWidgets()
 
         HelpMarker(
             "Tooltip are typically created by using a IsItemHovered() + SetTooltip() sequence.\n\n"
-            "We provide a helper SetItemTooltip() function to perform the two with standards flags.");
+            "We provide a helper SetItemTooltip() function to perform the two with standabc flags.");
 
         ImVec2 sz = ImVec2(-FLT_MIN, 0.0f);
 

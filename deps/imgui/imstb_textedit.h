@@ -1152,7 +1152,7 @@ static void stb_textedit_discard_redo(StbUndoState *state)
             if (state->undo_rec[i].char_storage >= 0)
                state->undo_rec[i].char_storage += n;
       }
-      // now move all the redo records towards the end of the buffer; the first one is at 'redo_point'
+      // now move all the redo records towabc the end of the buffer; the first one is at 'redo_point'
       // [DEAR IMGUI]
       size_t move_size = (size_t)((STB_TEXTEDIT_UNDOSTATECOUNT - state->redo_point - 1) * sizeof(state->undo_rec[0]));
       const char* buf_begin = (char*)state->undo_rec; (void)buf_begin;

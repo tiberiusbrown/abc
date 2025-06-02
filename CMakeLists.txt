@@ -148,7 +148,7 @@ add_executable(abc_interpreter_sokol ${EXE_TYPE}
     )
 target_link_libraries(abc_interpreter_sokol abc_interp)
 
-add_library(ards_compiler STATIC
+add_library(abc_compiler STATIC
     .editorconfig
     interp_arduboy/abc_instr.hpp
     src/abc_assembler.cpp
@@ -175,22 +175,22 @@ add_library(ards_compiler STATIC
     src/abc_sysfuncs.cpp
     deps/peglib/peglib.h
     )
-target_include_directories(ards_compiler PUBLIC
+target_include_directories(abc_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src"
     "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
-target_include_directories(ards_compiler PRIVATE "${GENHEADER_DIR}")
-target_include_directories(ards_compiler PRIVATE deps/midifile/include)
-target_link_libraries(ards_compiler PRIVATE fmt midifile tmxlite)
+target_include_directories(abc_compiler PRIVATE "${GENHEADER_DIR}")
+target_include_directories(abc_compiler PRIVATE deps/midifile/include)
+target_link_libraries(abc_compiler PRIVATE fmt midifile tmxlite)
 
 add_executable(abcc
     src/abcc.cpp
     src/ide_export_arduboy.cpp
     )
-target_link_libraries(abcc ards_compiler ardenslib)
+target_link_libraries(abcc abc_compiler ardenslib)
 target_include_directories(abcc PRIVATE
     "${GENHEADER_DIR}"
     deps/argparse/include
@@ -204,9 +204,9 @@ set(GENFONTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/fonts")
 if(NOT EMSCRIPTEN)
     add_executable(convert_font
         src/convert_font.cpp
-        src/ards_compiler.hpp
-        src/ards_compiler_font.cpp
-        src/ards_compiler_sprites.cpp
+        src/abc_compiler.hpp
+        src/abc_compiler_font.cpp
+        src/abc_compiler_sprites.cpp
         )
     target_include_directories(convert_font PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/src"
@@ -243,7 +243,7 @@ if(NOT EMSCRIPTEN)
             DEPENDS convert_font "${F}"
             COMMENT "Generating font data for ${FBU}"
             )
-        target_sources(ards_compiler PRIVATE "${GENFONTS_DIR}/${FB}.hpp")
+        target_sources(abc_compiler PRIVATE "${GENFONTS_DIR}/${FB}.hpp")
         file(APPEND "${ABC_FONT_MASTER}" "    { \"${FBU}\", ${FN}, ${FBU}, sizeof(${FBU}) },\n")
     endforeach()
     file(APPEND "${ABC_FONT_MASTER}" "};\n")
@@ -276,7 +276,7 @@ add_executable(abc ${EXE_TYPE}
     ${SOKOL_SOURCES}
     ${TEXTEDIT_SOURCES}
     )
-target_link_libraries(abc PRIVATE ardensdebuggerlib ards_compiler)
+target_link_libraries(abc PRIVATE ardensdebuggerlib abc_compiler)
 if(WIN32)
     target_link_libraries(abc PRIVATE d3d11)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
@@ -301,7 +301,7 @@ add_executable(abc_integration
     tests/abc_tests.cpp
     src/abc_integration.cpp
     )
-target_link_libraries(abc_integration PRIVATE ardensdebuggerlib ards_compiler abc_interp)
+target_link_libraries(abc_integration PRIVATE ardensdebuggerlib abc_compiler abc_interp)
 target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
 target_include_directories(abc_integration PRIVATE "${GENFONTS_DIR}")
 target_compile_definitions(abc_integration PRIVATE

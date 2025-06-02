@@ -1,9 +1,9 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <cassert>
 #include <cmath>
 
-namespace ards
+namespace abc
 {
 
 int64_t compiler_t::truncate_value(compiler_type_t const& t, int64_t x)

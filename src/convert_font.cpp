@@ -1,4 +1,4 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <stdio.h>
 
@@ -12,10 +12,10 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    ards::compiler_t c{};
+    abc::compiler_t c{};
     std::vector<uint8_t> data;
     std::vector<char> ttf;
-    ards::ast_node_t n{};
+    abc::ast_node_t n{};
 
     {
         int size = atoi(argv[2]);

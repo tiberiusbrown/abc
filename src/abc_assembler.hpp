@@ -7,10 +7,10 @@
 
 #include <limits.h>
 
-#include "ards_error.hpp"
+#include "abc_error.hpp"
 #include <abc_instr.hpp>
 
-namespace ards
+namespace abc
 {
 
 constexpr size_t FILE_TABLE_STRING_LENGTH = 32;

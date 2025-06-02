@@ -1,13 +1,13 @@
 #include "ide_common.hpp"
 
-#include "ards_assembler.hpp"
-#include "ards_compiler.hpp"
+#include "abc_assembler.hpp"
+#include "abc_compiler.hpp"
 
 void ide_system_reference()
 {
     using namespace ImGui;
-    static std::map<std::string, ards::sysfunc_t> const sys_names(
-        ards::sys_names.begin(), ards::sys_names.end());
+    static std::map<std::string, abc::sysfunc_t> const sys_names(
+        abc::sys_names.begin(), abc::sys_names.end());
 
 #if 0
     constexpr ImGuiTableFlags tf =
@@ -30,10 +30,10 @@ void ide_system_reference()
     PopFont();
     Separator();
     Indent(indent_width);
-    for(auto const& c : ards::builtin_constexprs)
+    for(auto const& c : abc::builtin_constexprs)
     {
         PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-        TextUnformatted(ards::type_name(c.type).c_str());
+        TextUnformatted(abc::type_name(c.type).c_str());
         PopStyleColor();
         SameLine();
         Text("%s;", c.name.c_str());
@@ -46,12 +46,12 @@ void ide_system_reference()
         TableSetupColumn("Type", cf);
         TableSetupColumn("Name", cf);
         TableHeadersRow();
-        for(auto const& c : ards::builtin_constexprs)
+        for(auto const& c : abc::builtin_constexprs)
         {
             TableNextRow();
             TableSetColumnIndex(0);
             PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-            TextUnformatted(ards::type_name(c.type).c_str());
+            TextUnformatted(abc::type_name(c.type).c_str());
             PopStyleColor();
             TableSetColumnIndex(1);
             TextUnformatted(c.name.c_str());
@@ -67,11 +67,11 @@ void ide_system_reference()
     Indent(indent_width);
     for(auto const& [k, v] : sys_names)
     {
-        auto it = ards::sysfunc_decls.find(v);
-        if(it == ards::sysfunc_decls.end()) continue;
+        auto it = abc::sysfunc_decls.find(v);
+        if(it == abc::sysfunc_decls.end()) continue;
         auto const& decl = it->second.decl;
         PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-        Text("%-4s", ards::type_name(decl.return_type).c_str());
+        Text("%-4s", abc::type_name(decl.return_type).c_str());
         PopStyleColor();
         SameLine();
         Text("$%s(", k.c_str());
@@ -85,11 +85,11 @@ void ide_system_reference()
                 SameLine();
             }
             PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-            TextUnformatted(ards::type_name(decl.arg_types[i]).c_str());
+            TextUnformatted(abc::type_name(decl.arg_types[i]).c_str());
             PopStyleColor();
             SameLine();
             TextUnformatted(decl.arg_names[i].c_str());
-            if(i + 1 == decl.arg_types.size() && ards::sysfunc_is_format(v))
+            if(i + 1 == decl.arg_types.size() && abc::sysfunc_is_format(v))
             {
                 SameLine(0.f, 0.f);
                 TextUnformatted(", ...");
@@ -108,13 +108,13 @@ void ide_system_reference()
         TableHeadersRow();
         for(auto const& [k, v] : sys_names)
         {
-            auto it = ards::sysfunc_decls.find(v);
-            if(it == ards::sysfunc_decls.end()) continue;
+            auto it = abc::sysfunc_decls.find(v);
+            if(it == abc::sysfunc_decls.end()) continue;
             auto const& decl = it->second;
             TableNextRow();
             TableSetColumnIndex(0);
             PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-            TextUnformatted(ards::type_name(decl.return_type).c_str());
+            TextUnformatted(abc::type_name(decl.return_type).c_str());
             PopStyleColor();
             TableSetColumnIndex(1);
             Text("$%s", k.c_str());
@@ -128,7 +128,7 @@ void ide_system_reference()
                     SameLine();
                 }
                 PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-                TextUnformatted(ards::type_name(decl.arg_types[i]).c_str());
+                TextUnformatted(abc::type_name(decl.arg_types[i]).c_str());
                 PopStyleColor();
                 SameLine();
                 TextUnformatted(decl.arg_names[i].c_str());

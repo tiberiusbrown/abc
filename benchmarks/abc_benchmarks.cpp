@@ -1,8 +1,8 @@
 #define _SILENCE_CXX17_STRSTREAM_DEPRECATION_WARNING
 
 #include <absim.hpp>
-#include <ards_assembler.hpp>
-#include <ards_compiler.hpp>
+#include <abc_assembler.hpp>
+#include <abc_compiler.hpp>
 
 #include <cassert>
 #include <cinttypes>
@@ -78,7 +78,7 @@ static uint64_t measure(bool abc = false)
 static std::vector<uint8_t> compile(std::string const& fname)
 {
     std::string abc_asm;
-    ards::compiler_t c{};
+    abc::compiler_t c{};
     std::ostringstream fo;
     std::filesystem::path p(fname);
     auto path = p.parent_path().lexically_normal().generic_string();
@@ -100,7 +100,7 @@ static std::vector<uint8_t> compile(std::string const& fname)
         fasm << abc_asm;
     }
 
-    ards::assembler_t a{};
+    abc::assembler_t a{};
     std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
     auto e = a.assemble(ss);
     assert(e.msg.empty());
@@ -260,7 +260,7 @@ int abc_benchmarks()
     fout = fopen(BENCHMARKS_DIR "/cycles_instruction.txt", "w");
     if(!fout) return 1;
     {
-        ards::assembler_t a{};
+        abc::assembler_t a{};
         a.enable_relaxing = false;
         {
             std::ifstream fi(BENCHMARKS_DIR "/instructions.asm");

@@ -559,7 +559,7 @@ STBTT_DEF void stbtt_GetBakedQuad(const stbtt_bakedchar *chardata, int pw, int p
 // Call GetBakedQuad with char_index = 'character - first_char', and it
 // creates the quad you need to draw and advances the current position.
 //
-// The coordinate system used assumes y increases downwards.
+// The coordinate system used assumes y increases downwabc.
 //
 // Characters will extend both above and below the current position;
 // see discussion of "BASELINE" above.
@@ -4608,7 +4608,7 @@ STBTT_DEF unsigned char * stbtt_GetGlyphSDF(const stbtt_fontinfo *info, float sc
    if (xoff  ) *xoff   = ix0;
    if (yoff  ) *yoff   = iy0;
 
-   // invert for y-downwards bitmaps
+   // invert for y-downwabc bitmaps
    scale_y = -scale_y;
 
    {

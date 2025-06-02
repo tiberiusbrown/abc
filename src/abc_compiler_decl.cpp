@@ -1,6 +1,6 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
-namespace ards
+namespace abc
 {
 
 void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n)

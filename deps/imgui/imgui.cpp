@@ -327,7 +327,7 @@ CODE
      // Application main loop
      while (true)
      {
-        // Setup low-level inputs, e.g. on Win32: calling GetKeyboardState(), or write to those fields from your Windows message handlers, etc.
+        // Setup low-level inputs, e.g. on Win32: calling GetKeyboabctate(), or write to those fields from your Windows message handlers, etc.
         // (In the examples/ app this is usually done within the ImGui_ImplXXX_NewFrame() function from one of the demo Platform Backends)
         io.DeltaTime = 1.0f/60.0f;              // set the time elapsed since the previous frame (in seconds)
         io.DisplaySize.x = 1920.0f;             // set the current display width
@@ -700,7 +700,7 @@ CODE
  - 2017/12/24 (1.53) - renamed the emblematic ShowTestWindow() function to ShowDemoWindow(). Kept redirection function (will obsolete).
  - 2017/12/21 (1.53) - ImDrawList: renamed style.AntiAliasedShapes to style.AntiAliasedFill for consistency and as a way to explicitly break code that manipulate those flag at runtime. You can now manipulate ImDrawList::Flags
  - 2017/12/21 (1.53) - ImDrawList: removed 'bool anti_aliased = true' final parameter of ImDrawList::AddPolyline() and ImDrawList::AddConvexPolyFilled(). Prefer manipulating ImDrawList::Flags if you need to toggle them during the frame.
- - 2017/12/14 (1.53) - using the ImGuiWindowFlags_NoScrollWithMouse flag on a child window forwards the mouse wheel event to the parent window, unless either ImGuiWindowFlags_NoInputs or ImGuiWindowFlags_NoScrollbar are also set.
+ - 2017/12/14 (1.53) - using the ImGuiWindowFlags_NoScrollWithMouse flag on a child window forwabc the mouse wheel event to the parent window, unless either ImGuiWindowFlags_NoInputs or ImGuiWindowFlags_NoScrollbar are also set.
  - 2017/12/13 (1.53) - renamed GetItemsLineHeightWithSpacing() to GetFrameHeightWithSpacing(). Kept redirection function (will obsolete).
  - 2017/12/13 (1.53) - obsoleted IsRootWindowFocused() in favor of using IsWindowFocused(ImGuiFocusedFlags_RootWindow). Kept redirection function (will obsolete).
                      - obsoleted IsRootWindowOrAnyChildFocused() in favor of using IsWindowFocused(ImGuiFocusedFlags_RootAndChildWindows). Kept redirection function (will obsolete).
@@ -2985,7 +2985,7 @@ static bool ImGuiListClipper_StepInternal(ImGuiListClipper* clipper)
             clipper->ItemsHeight = window->DC.PrevLineSize.y + g.Style.ItemSpacing.y; // FIXME: Technically wouldn't allow multi-line entries.
 
         IM_ASSERT(clipper->ItemsHeight > 0.0f && "Unable to calculate item height! First item hasn't moved the cursor vertically!");
-        calc_clipping = true;   // If item height had to be calculated, calculate clipping afterwards.
+        calc_clipping = true;   // If item height had to be calculated, calculate clipping afterwabc.
     }
 
     // Step 0 or 1: Calculate the actual ranges of visible elements.
@@ -11649,7 +11649,7 @@ static bool ImGui::NavScoreItem(ImGuiNavItemData* result)
             else if (dist_center == result->DistCenter)
             {
                 // Still tied! we need to be extra-careful to make sure everything gets linked properly. We consistently break ties by symbolically moving "later" items
-                // (with higher index) to the right/downwards by an infinitesimal amount since we the current "best" button already (so it must have a lower index),
+                // (with higher index) to the right/downwabc by an infinitesimal amount since we the current "best" button already (so it must have a lower index),
                 // this is fairly easy. This rule ensures that all buttons with dx==dy==0 will end up being linked in order of appearance along the x axis.
                 if (((move_dir == ImGuiDir_Up || move_dir == ImGuiDir_Down) ? dby : dbx) < 0.0f) // moving bj to the right/down decreases distance
                     new_best = true;
@@ -12838,7 +12838,7 @@ static void ImGui::NavUpdateWindowing()
 
     // Keyboard: Press and Release ALT to toggle menu layer
     // - Testing that only Alt is tested prevents Alt+Shift or AltGR from toggling menu layer.
-    // - AltGR is normally Alt+Ctrl but we can't reliably detect it (not all backends/systems/layout emit it as Alt+Ctrl). But even on keyboards without AltGR we don't want Alt+Ctrl to open menu anyway.
+    // - AltGR is normally Alt+Ctrl but we can't reliably detect it (not all backends/systems/layout emit it as Alt+Ctrl). But even on keyboabc without AltGR we don't want Alt+Ctrl to open menu anyway.
     if (nav_keyboard_active && IsKeyPressed(ImGuiMod_Alt, ImGuiKeyOwner_None))
     {
         g.NavWindowingToggleLayer = true;
@@ -18960,7 +18960,7 @@ static const char* GetClipboardTextFn_DefaultImpl(void* user_data_ctx)
     ImGuiContext& g = *(ImGuiContext*)user_data_ctx;
     if (!main_clipboard)
         PasteboardCreate(kPasteboardClipboard, &main_clipboard);
-    PasteboardSynchronize(main_clipboard);
+    Pasteboabcynchronize(main_clipboard);
 
     ItemCount item_count = 0;
     PasteboardGetItemCount(main_clipboard, &item_count);

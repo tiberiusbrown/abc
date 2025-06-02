@@ -1,4 +1,4 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <cctype>
 
@@ -12,7 +12,7 @@
 #pragma warning(pop)
 #endif
 
-namespace ards
+namespace abc
 {
 
 /*

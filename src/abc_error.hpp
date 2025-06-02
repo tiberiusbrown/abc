@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ards
+namespace abc
 {
 
 struct error_t

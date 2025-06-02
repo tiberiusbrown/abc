@@ -1,4 +1,4 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <algorithm>
 #include <filesystem>
@@ -10,7 +10,7 @@
 
 #include "fonts/all_fonts.hpp"
 
-namespace ards
+namespace abc
 {
 
 static std::string const GLOBINIT_FUNC = "$globinit";
@@ -1125,21 +1125,21 @@ void compiler_t::add_custom_label_ref(
 }
 
 
-std::string type_name(ards::compiler_type_t const& t, bool noprog)
+std::string type_name(abc::compiler_type_t const& t, bool noprog)
 {
     std::stringstream ss;
     auto tt = t.without_prog();
-    if(tt == ards::TYPE_VOID)
+    if(tt == abc::TYPE_VOID)
         ss << "void";
-    else if(tt == ards::TYPE_SPRITES)
+    else if(tt == abc::TYPE_SPRITES)
         ss << "sprites";
-    else if(tt == ards::TYPE_FONT)
+    else if(tt == abc::TYPE_FONT)
         ss << "font";
-    else if(tt == ards::TYPE_TONES)
+    else if(tt == abc::TYPE_TONES)
         ss << "tones";
-    else if(tt == ards::TYPE_MUSIC)
+    else if(tt == abc::TYPE_MUSIC)
         ss << "music";
-    else if(tt == ards::TYPE_TILEMAP)
+    else if(tt == abc::TYPE_TILEMAP)
         ss << "tilemap";
     else if(tt.is_float)
         ss << "float";
@@ -1152,8 +1152,8 @@ std::string type_name(ards::compiler_type_t const& t, bool noprog)
     }
     else if(t.is_prim())
     {
-        if(tt == ards::TYPE_BOOL) ss << "bool";
-        else if(tt == ards::TYPE_CHAR) ss << "char";
+        if(tt == abc::TYPE_BOOL) ss << "bool";
+        else if(tt == abc::TYPE_CHAR) ss << "char";
         else
         {
             ss << (t.is_signed ? "i" : "u");

@@ -6426,7 +6426,7 @@ _SOKOL_PRIVATE void _sapp_d3d11_present(bool do_not_wait) {
     if (_sapp.win32.is_win10_or_greater && do_not_wait) {
         /* this hack/workaround somewhat improves window-movement and -sizing
             responsiveness when rendering is controlled via WM_TIMER during window
-            move and resize on NVIDIA cards on Win10 with recent drivers.
+            move and resize on NVIDIA cabc on Win10 with recent drivers.
         */
         flags = DXGI_PRESENT_DO_NOT_WAIT;
     }
@@ -10207,7 +10207,7 @@ _SOKOL_PRIVATE sapp_keycode _sapp_x11_translate_key(int scancode) {
         case XK_Control_R:      return SAPP_KEYCODE_RIGHT_CONTROL;
         case XK_Meta_L:
         case XK_Alt_L:          return SAPP_KEYCODE_LEFT_ALT;
-        case XK_Mode_switch:    /* Mapped to Alt_R on many keyboards */
+        case XK_Mode_switch:    /* Mapped to Alt_R on many keyboabc */
         case XK_ISO_Level3_Shift: /* AltGr on at least some machines */
         case XK_Meta_R:
         case XK_Alt_R:          return SAPP_KEYCODE_RIGHT_ALT;

@@ -2,8 +2,8 @@
 
 #include <fstream>
 
-#include "ards_compiler.hpp"
-#include "ards_assembler.hpp"
+#include "abc_compiler.hpp"
+#include "abc_assembler.hpp"
 
 struct open_code_file_t : public open_file_t
 {
@@ -27,13 +27,13 @@ static TextEditor::LanguageDefinition const& ABC()
     abc = TextEditor::LanguageDefinition::C();
 
     abc.mKeywords.clear();
-    for(auto const& k : ards::keywords)
+    for(auto const& k : abc::keywords)
         abc.mKeywords.insert(k);
-    for(auto const& [k, v] : ards::sys_names)
+    for(auto const& [k, v] : abc::sys_names)
         abc.mKeywords.insert(k);
 
     abc.mIdentifiers.clear();
-    //for(auto const& [k, v] : ards::sys_names)
+    //for(auto const& [k, v] : abc::sys_names)
     //{
     //    TextEditor::Identifier id{};
     //    //id.mDeclaration = "System function";

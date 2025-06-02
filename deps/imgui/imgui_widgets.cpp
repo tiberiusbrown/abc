@@ -2657,7 +2657,7 @@ float ImGui::ScaleRatioFromValueT(ImGuiDataType data_type, TYPE v, TYPE v_min, T
     {
         bool flipped = v_max < v_min;
 
-        if (flipped) // Handle the case where the range is backwards
+        if (flipped) // Handle the case where the range is backwabc
             ImSwap(v_min, v_max);
 
         // Fudge min/max to avoid getting close to log(0)
@@ -2719,7 +2719,7 @@ TYPE ImGui::ScaleValueFromRatioT(ImGuiDataType data_type, float t, TYPE v_min, T
         FLOATTYPE v_min_fudged = (ImAbs((FLOATTYPE)v_min) < logarithmic_zero_epsilon) ? ((v_min < 0.0f) ? -logarithmic_zero_epsilon : logarithmic_zero_epsilon) : (FLOATTYPE)v_min;
         FLOATTYPE v_max_fudged = (ImAbs((FLOATTYPE)v_max) < logarithmic_zero_epsilon) ? ((v_max < 0.0f) ? -logarithmic_zero_epsilon : logarithmic_zero_epsilon) : (FLOATTYPE)v_max;
 
-        const bool flipped = v_max < v_min; // Check if range is "backwards"
+        const bool flipped = v_max < v_min; // Check if range is "backwabc"
         if (flipped)
             ImSwap(v_min_fudged, v_max_fudged);
 
@@ -4394,7 +4394,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         }
 
         // Process regular text input (before we check for Return because using some IME will effectively send a Return?)
-        // We ignore CTRL inputs, but need to allow ALT+CTRL as some keyboards (e.g. German) use AltGR (which _is_ Alt+Ctrl) to input certain characters.
+        // We ignore CTRL inputs, but need to allow ALT+CTRL as some keyboabc (e.g. German) use AltGR (which _is_ Alt+Ctrl) to input certain characters.
         const bool ignore_char_inputs = (io.KeyCtrl && !io.KeyAlt) || (is_osx && io.KeySuper);
         if (io.InputQueueCharacters.Size > 0)
         {

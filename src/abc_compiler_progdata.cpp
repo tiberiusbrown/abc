@@ -1,4 +1,4 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <algorithm>
 #include <sstream>
@@ -7,7 +7,7 @@
 
 #include <rapidjson/document.h>
 
-namespace ards
+namespace abc
 {
 
 std::string compiler_t::progdata_label()

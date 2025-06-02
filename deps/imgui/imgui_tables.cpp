@@ -552,7 +552,7 @@ bool    ImGui::BeginTableEx(const char* name, ImGuiID id, int columns_count, ImG
     // Handle DPI/font resize
     // This is designed to facilitate DPI changes with the assumption that e.g. style.CellPadding has been scaled as well.
     // It will also react to changing fonts with mixed results. It doesn't need to be perfect but merely provide a decent transition.
-    // FIXME-DPI: Provide consistent standards for reference size. Perhaps using g.CurrentDpiScale would be more self explanatory.
+    // FIXME-DPI: Provide consistent standabc for reference size. Perhaps using g.CurrentDpiScale would be more self explanatory.
     // This is will lead us to non-rounded WidthRequest in columns, which should work but is a poorly tested path.
     const float new_ref_scale_unit = g.FontSize; // g.Font->GetCharAdvance('A') ?
     if (table->RefScale != 0.0f && table->RefScale != new_ref_scale_unit)

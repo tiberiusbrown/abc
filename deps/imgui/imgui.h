@@ -669,7 +669,7 @@ namespace ImGui
     // - Use BeginMenuBar() on a window ImGuiWindowFlags_MenuBar to append to its menu bar.
     // - Use BeginMainMenuBar() to create a menu bar at the top of the screen and append to it.
     // - Use BeginMenu() to create a menu. You can call BeginMenu() multiple time with the same identifier to append more items to it.
-    // - Not that MenuItem() keyboardshortcuts are displayed as a convenience but _not processed_ by Dear ImGui at the moment.
+    // - Not that MenuItem() keyboabchortcuts are displayed as a convenience but _not processed_ by Dear ImGui at the moment.
     IMGUI_API bool          BeginMenuBar();                                                     // append to menu-bar of current window (requires ImGuiWindowFlags_MenuBar flag set on parent window).
     IMGUI_API void          EndMenuBar();                                                       // only call EndMenuBar() if BeginMenuBar() returns true!
     IMGUI_API bool          BeginMainMenuBar();                                                 // create and append to a full screen menu-bar.
@@ -705,7 +705,7 @@ namespace ImGui
     //    This is sometimes leading to confusing mistakes. May rework this in the future.
 
     // Popups: begin/end functions
-    //  - BeginPopup(): query popup state, if open start appending into the window. Call EndPopup() afterwards. ImGuiWindowFlags are forwarded to the window.
+    //  - BeginPopup(): query popup state, if open start appending into the window. Call EndPopup() afterwabc. ImGuiWindowFlags are forwarded to the window.
     //  - BeginPopupModal(): block every interaction behind the window, cannot be closed by user, add a dimming background, has a title bar.
     IMGUI_API bool          BeginPopup(const char* str_id, ImGuiWindowFlags flags = 0);                         // return true if the popup is open, and you can start outputting to it.
     IMGUI_API bool          BeginPopupModal(const char* name, bool* p_open = NULL, ImGuiWindowFlags flags = 0); // return true if the modal is open, and you can start outputting to it.

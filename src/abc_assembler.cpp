@@ -1,11 +1,11 @@
-#include "ards_assembler.hpp"
+#include "abc_assembler.hpp"
 
 #include <cassert>
 #include <cctype>
 #include <ctime>
 #include <sstream>
 
-namespace ards
+namespace abc
 {
 
 static bool isalpha(char c)

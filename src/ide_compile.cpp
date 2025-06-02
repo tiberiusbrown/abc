@@ -4,8 +4,8 @@
 #include <fstream>
 #include <sstream>
 
-#include <ards_assembler.hpp>
-#include <ards_compiler.hpp>
+#include <abc_assembler.hpp>
+#include <abc_compiler.hpp>
 
 inline bool ends_with(std::string const& value, std::string const& ending)
 {
@@ -15,8 +15,8 @@ inline bool ends_with(std::string const& value, std::string const& ending)
 
 bool compile_all()
 {
-    ards::compiler_t c{};
-    ards::assembler_t a{};
+    abc::compiler_t c{};
+    abc::assembler_t a{};
 
     std::vector<std::string> asms;
 

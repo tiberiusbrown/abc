@@ -10,10 +10,10 @@
 
 #include <cassert>
 
-#include "ards_assembler.hpp"
-#include "ards_error.hpp"
+#include "abc_assembler.hpp"
+#include "abc_error.hpp"
 
-namespace ards
+namespace abc
 {
 
 // minimum number of bytes before a copy operation is transformed
@@ -406,7 +406,7 @@ const compiler_type_t TYPE_BYTE_PROG_AREF = TYPE_BYTE.with_prog().with_array_ref
 compiler_type_t prim_type_for_dec(uint32_t x, bool is_signed);
 compiler_type_t prim_type_for_hex(uint32_t x, bool is_signed);
 
-std::string type_name(ards::compiler_type_t const& t, bool noprog = false);
+std::string type_name(abc::compiler_type_t const& t, bool noprog = false);
 
 struct compiler_instr_t
 {

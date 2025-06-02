@@ -660,7 +660,7 @@
         });
 
     The number of channels is configured at startup in sfetch_setup() and
-    cannot be changed afterwards.
+    cannot be changed afterwabc.
 
     Channels are completely separate from each other, and a request will
     never "hop" from one channel to another.

@@ -1,10 +1,10 @@
-#include "ards_compiler.hpp"
+#include "abc_compiler.hpp"
 
 #include <algorithm>
 #include <sstream>
 #include <assert.h>
 
-namespace ards
+namespace abc
 {
 
 compiler_local_t const* compiler_t::resolve_local(compiler_frame_t const& frame, ast_node_t const& n)
