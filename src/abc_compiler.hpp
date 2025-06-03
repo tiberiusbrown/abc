@@ -665,7 +665,10 @@ private:
 
     bool check_identifier(ast_node_t const& n);
 
+    // how the stack size is affected by an instruction
     int instr_stack_mod(compiler_instr_t const& i);
+    // how much of the stack is used by the instruction (relative to pre-execution)
+    bool instr_accesses_stack(compiler_instr_t const& i, uint32_t off);
 
     std::string resolve_label_ref(
         compiler_frame_t const& frame, ast_node_t const& n, compiler_type_t const& t);
