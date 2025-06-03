@@ -118,92 +118,90 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
         auto& i0 = instrs[i];
 
         // eliminate PUSH ... POP that's unused in between
-        if(is_stack_eliminatable(i0)) 
+        if(!is_stack_eliminatable(i0))
+            continue;
+
+        bool elim = false;
+        int n = instr_stack_mod(i0);
+        int size = n;
+        size_t j;
+        for(j = i + 1; j < instrs.size(); ++j)
         {
-            bool elim = false;
-            int n = instr_stack_mod(i0);
-            int size = n;
-            //if(size > 1) // TODO: support multibyte stuff
-            //    continue;
-            size_t j;
-            for(j = i + 1; j < instrs.size(); ++j)
+            auto const& ij = instrs[j];
+            if(is_pop(ij))
             {
-                auto const& ij = instrs[j];
-                if(is_pop(ij))
-                {
-                    bool accessed_some = false;
-                    bool accessed_all = true;
-                    for(int k = 0; k < size; ++k)
-                    {
-                        auto p = instr_accesses_stack(ij, n - k);
-                        if(p.first)
-                            accessed_some = true;
-                        else
-                            accessed_all = false;
-                    }
-                    if(accessed_all)
-                    {
-                        elim = true;
-                        break;
-                    }
-                    if(accessed_some)
-                        break;
-                }
-                if(ij.is_label)
-                    break;
-                if(is_branch_jmp_call_ret(ij))
-                    break;
-                bool accessed = false;
+                bool accessed_some = false;
+                bool accessed_all = true;
                 for(int k = 0; k < size; ++k)
                 {
                     auto p = instr_accesses_stack(ij, n - k);
                     if(p.first)
-                        accessed = true;
-                    if((int)p.second > n)
-                        accessed = true;
+                        accessed_some = true;
+                    else
+                        accessed_all = false;
                 }
-                if(accessed)
-                    break;
-                n += instr_stack_mod(ij);
-            }
-            if(elim)
-            {
-                static_assert(I_POP2 == I_POP  + 1, "");
-                static_assert(I_POP3 == I_POP2 + 1, "");
-                static_assert(I_POP4 == I_POP3 + 1, "");
-                i0.instr = I_REMOVE;
-                auto& ipop = instrs[j];
-                switch(ipop.instr)
+                if(accessed_all)
                 {
-                case I_POP:
-                    assert(size <= 1);
-                    ipop.instr = I_REMOVE;
-                    break;
-                case I_POP2:
-                    assert(size <= 2);
-                    ipop.instr = (size >= 2 ? I_REMOVE : instr_t(I_POP2 - size));
-                    break;
-                case I_POP3:
-                    assert(size <= 3);
-                    ipop.instr = (size >= 3 ? I_REMOVE : instr_t(I_POP3 - size));
-                    break;
-                case I_POP4:
-                    assert(size <= 4);
-                    ipop.instr = (size >= 4 ? I_REMOVE : instr_t(I_POP4 - size));
-                    break;
-                case I_POPN:
-                    assert(size <= ipop.imm);
-                    if((ipop.imm -= size) <= 0)
-                        ipop.instr = I_REMOVE;
-                    break;
-                default:
-                    assert(0);
+                    elim = true;
                     break;
                 }
-                t = true;
-                continue;
+                if(accessed_some)
+                    break;
             }
+            if(ij.is_label)
+                break;
+            if(is_branch_jmp_call_ret(ij))
+                break;
+            bool accessed = false;
+            for(int k = 0; k < size; ++k)
+            {
+                auto p = instr_accesses_stack(ij, n - k);
+                if(p.first)
+                    accessed = true;
+                if((int)p.second > n)
+                    accessed = true;
+            }
+            if(accessed)
+                break;
+            n += instr_stack_mod(ij);
         }
+
+        if(!elim)
+            continue;
+
+        static_assert(I_POP2 == I_POP + 1, "");
+        static_assert(I_POP3 == I_POP2 + 1, "");
+        static_assert(I_POP4 == I_POP3 + 1, "");
+        i0.instr = I_REMOVE;
+        auto& ipop = instrs[j];
+        switch(ipop.instr)
+        {
+        case I_POP:
+            assert(size <= 1);
+            ipop.instr = I_REMOVE;
+            break;
+        case I_POP2:
+            assert(size <= 2);
+            ipop.instr = (size >= 2 ? I_REMOVE : instr_t(I_POP2 - size));
+            break;
+        case I_POP3:
+            assert(size <= 3);
+            ipop.instr = (size >= 3 ? I_REMOVE : instr_t(I_POP3 - size));
+            break;
+        case I_POP4:
+            assert(size <= 4);
+            ipop.instr = (size >= 4 ? I_REMOVE : instr_t(I_POP4 - size));
+            break;
+        case I_POPN:
+            assert(size <= ipop.imm);
+            if((ipop.imm -= size) <= 0)
+                ipop.instr = I_REMOVE;
+            break;
+        default:
+            assert(0);
+            break;
+        }
+        t = true;
     }
     return t;
 }
