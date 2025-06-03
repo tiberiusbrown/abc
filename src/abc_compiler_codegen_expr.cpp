@@ -227,18 +227,33 @@ void compiler_t::codegen_expr(
             a.parent->type != AST::LIST);
 
         // create reference
+        size_t ref_instrs = f.instrs.size();
         codegen_expr(f, frame, a.children[0], true);
+        ref_instrs = f.instrs.size() - ref_instrs;
+        bool dup_ref = (ref_instrs >= 3);
+
         // dup the ref
-        f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, 2 });
-        frame.size += 2;
+        if(dup_ref)
+        {
+            f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, 2 });
+            frame.size += 2;
+        }
 
         // perform operation
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a.children[1], a.comp_type, a.children[1].comp_type);
 
-        // dupe the reference again
-        f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, uint8_t(size + 2) });
-        frame.size += 2;
+        if(dup_ref)
+        {
+            // dupe the reference again
+            f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, uint8_t(size + 2) });
+            frame.size += 2;
+        }
+        else
+        {
+            // gen the reference again
+            codegen_expr(f, frame, a.children[0], true);
+        }
         // assign to the reference
         f.instrs.push_back({ I_SETRN, a.line(), (uint8_t)size });
         frame.size -= 2;

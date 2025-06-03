@@ -743,6 +743,15 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
     case AST::OP_ASSIGN_COMPOUND:
         type_reduce_recurse(a.children[0], size);
         type_reduce_recurse(a.children[1], a.children[0].comp_type.without_ref().prim_size);
+        if(a.parent && !a.parent->comp_type.is_any_ref())
+        {
+            //if(a.type == AST::OP_ASSIGN) a.type = AST::OP_ASSIGN_DEREF;
+            if(a.type == AST::OP_ASSIGN_COMPOUND)
+            {
+                //a.type = AST::OP_ASSIGN_COMPOUND_DEREF;
+                //a.comp_type = a.comp_type.without_ref_single();
+            }
+        }
         break;
     case AST::OP_INC_POST:
     case AST::OP_DEC_POST:

@@ -87,6 +87,8 @@ enum class AST
     // right-associative assignment operators
     OP_ASSIGN,
     OP_ASSIGN_COMPOUND,
+    OP_ASSIGN_DEREF,
+    OP_ASSIGN_COMPOUND_DEREF,
 
     OP_INC_POST,
     OP_DEC_POST,

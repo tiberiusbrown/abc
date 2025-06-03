@@ -859,25 +859,15 @@ $L_main_15:
   .line 88
   getg  dir 0
   bnz   $L_main_16
-  refl  2
-  dupw
-  getr
-  inc
-  dupw2
-  setr
-  pop2
+  linc  2
 $L_main_16:
   .line 89
   getg  dir 0
   dec
   bnz   $L_main_17
-  refl  2
-  dupw
-  getr
+  dup2
   dec
-  dupw2
-  setr
-  pop2
+  setl  2
 $L_main_17:
   .line 90
   getg  dir 0
@@ -998,13 +988,7 @@ $L_main_48:
   jmp   $L_main_52
 $L_main_49:
   .line 55
-  refl  2
-  dupw
-  getr
-  inc
-  dupw2
-  setr
-  pop2
+  linc  2
   dup2
   p32
   cult

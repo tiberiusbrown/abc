@@ -19,13 +19,11 @@ main:
   pushg f 0
   .line 14
   dupw
-  dupw
   getr
   p1
   or
   dupw2
   setr
-  pop2
   .line 15
   dupw
   getr
