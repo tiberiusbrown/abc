@@ -634,6 +634,16 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
+        // replace PUSH N; LSL; with PUSH (1<<N); MUL; (N <= 7)
+        // just cause it's faster
+        if(i0.instr == I_PUSH && i0.imm <= 7 && i1.instr == I_LSL)
+        {
+            i0.imm = 1u << i0.imm;
+            i1.instr = I_MUL;
+            t = true;
+            continue;
+        }
+
         // remove PUSH N; POP
         if(i0.instr == I_PUSH && i1.instr == I_POPN && i1.imm >= 1)
         {
@@ -967,6 +977,26 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
+
+        // replace:
+        //     PUSH 0
+        //     PUSH M
+        //     PUSH 0
+        //     CSLT2/CULT2
+        // with:
+        //     PUSH M
+        //     CULT
+        if(i0.instr == I_PUSH && i0.imm == 0 &&
+            i1.instr == I_PUSH &&
+            i2.instr == I_PUSH && i2.imm == 0 &&
+            (i3.instr == I_CSLT2 || i3.instr == I_CULT2))
+        {
+            i0.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_CULT;
+            t = true;
+            continue;
+        }
 
         // bake shift ops
         if(i0.instr == I_PUSH && i1.instr == I_PUSH && i2.instr == I_PUSH && (

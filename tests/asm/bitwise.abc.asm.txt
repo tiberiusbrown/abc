@@ -689,56 +689,56 @@ $L_main_9:
   sys   assert
   .line 77
   getg  a1 0
-  p1
-  lsl
+  p2
+  mul
   p2
   sub
   not
   sys   assert
   .line 78
   getg  a1 0
-  p2
-  lsl
+  p4
+  mul
   p4
   sub
   not
   sys   assert
   .line 79
   getg  a1 0
-  p3
-  lsl
+  p8
+  mul
   p8
   sub
   not
   sys   assert
   .line 80
   getg  a1 0
-  p4
-  lsl
+  p16
+  mul
   p16
   sub
   not
   sys   assert
   .line 81
   getg  a1 0
-  p5
-  lsl
+  p32
+  mul
   p32
   sub
   not
   sys   assert
   .line 82
   getg  a1 0
-  p6
-  lsl
+  p64
+  mul
   p64
   sub
   not
   sys   assert
   .line 83
   getg  a1 0
-  p7
-  lsl
+  p128
+  mul
   p128
   sub
   not

@@ -79,8 +79,8 @@ main:
   sys   assert
   .line 12
   dup2
-  p1
-  lsl
+  p2
+  mul
   push  90
   sub
   not
@@ -279,8 +279,8 @@ main:
   sys   assert
   .line 49
   dup2
-  p1
-  lsl
+  p2
+  mul
   push  90
   sub
   not

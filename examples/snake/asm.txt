@@ -725,8 +725,8 @@ $L_main_30:
   sys   draw_sprite
   .line 203
   getg  dead 0
-  push3 40960
-  cslt2
+  push  160
+  cult
   bz    $L_main_0
 $L_main_1:
   .line 126
@@ -1188,8 +1188,8 @@ $L_main_12:
   sys   display_noclear
   .line 203
   getg  dead 0
-  push3 40960
-  cslt2
+  push  160
+  cult
   bnz   $L_main_1
 $L_main_0:
   .line 196

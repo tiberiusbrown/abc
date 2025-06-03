@@ -4189,8 +4189,8 @@ $L_mob_solid_3:
   dec
   .line 199
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bnz   $L_mob_solid_4
   popn  8
   p0
@@ -4218,8 +4218,8 @@ $L_mob_solid_5:
 $L_mob_solid_7:
   .line 202
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_mob_solid_9
   dup
   push  15
@@ -5471,8 +5471,8 @@ $L_render_122:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_123
   .line 138
   dup
@@ -5501,8 +5501,8 @@ $L_render_123:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_125
   .line 138
   dup
@@ -5532,8 +5532,8 @@ $L_render_125:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_127
   .line 138
   dup
@@ -5563,8 +5563,8 @@ $L_render_127:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_129
   .line 138
   dup
@@ -5593,8 +5593,8 @@ $L_render_129:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_131
   .line 138
   dup
@@ -5624,8 +5624,8 @@ $L_render_131:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_133
   .line 138
   dup
@@ -5654,8 +5654,8 @@ $L_render_133:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_135
   .line 138
   dup
@@ -5684,8 +5684,8 @@ $L_render_135:
   dec
   .line 137
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_137
   .line 138
   dup
@@ -6678,8 +6678,8 @@ $L_render_12:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_13
   .line 95
   dup
@@ -6708,8 +6708,8 @@ $L_render_13:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_15
   .line 95
   dup
@@ -6739,8 +6739,8 @@ $L_render_15:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_17
   .line 95
   dup
@@ -6770,8 +6770,8 @@ $L_render_17:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_19
   .line 95
   dup
@@ -6800,8 +6800,8 @@ $L_render_19:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_21
   .line 95
   dup
@@ -6831,8 +6831,8 @@ $L_render_21:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_23
   .line 95
   dup
@@ -6861,8 +6861,8 @@ $L_render_23:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_25
   .line 95
   dup
@@ -6891,8 +6891,8 @@ $L_render_25:
   dec
   .line 94
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_27
   .line 95
   dup
@@ -7312,19 +7312,19 @@ $L_render_level_7:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_17
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_16
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7350,19 +7350,19 @@ $L_render_level_17:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_20
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_19
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7391,19 +7391,19 @@ $L_render_level_20:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_23
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_22
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7432,19 +7432,19 @@ $L_render_level_23:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_26
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_25
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7472,19 +7472,19 @@ $L_render_level_26:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_29
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_28
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7513,19 +7513,19 @@ $L_render_level_29:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_32
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_31
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7553,19 +7553,19 @@ $L_render_level_32:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_35
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_34
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7593,19 +7593,19 @@ $L_render_level_35:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_38
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_37
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -7633,19 +7633,19 @@ $L_render_level_38:
   dec
   .line 432
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bz    $L_render_level_41
   .line 434
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_render_level_40
   .line 435
   dup
   getg  frame_count 0
-  p2
-  lsl
+  p4
+  mul
   push  48
   and
   add
@@ -8358,8 +8358,8 @@ $L_solid_3:
   dec
   .line 754
   dup
-  push3 61440
-  cslt2
+  push  240
+  cult
   bnz   $L_solid_4
   popn  22
   p0
@@ -8473,8 +8473,8 @@ $L_solid_6:
 $L_solid_8:
   .line 759
   dup
-  push3 45056
-  cslt2
+  push  176
+  cult
   bnz   $L_solid_10
   dup
   push  15
