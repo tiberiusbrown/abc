@@ -18,7 +18,7 @@ static bool is_pop(compiler_instr_t const& i)
     }
 }
 
-static bool is_branch_jmp_call_ret(compiler_instr_t const& i)
+static bool is_branch_jmp_call(compiler_instr_t const& i)
 {
     switch(i.instr)
     {
@@ -113,6 +113,7 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
 {
     bool t = false;
     clear_removed_instrs(instrs);
+    std::unordered_set<std::string> found_labels;
     for(size_t i = 0; i < instrs.size(); ++i)
     {
         auto& i0 = instrs[i];
@@ -125,6 +126,7 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
         int n = instr_stack_mod(i0);
         int size = n;
         size_t j;
+        found_labels.clear();
         for(j = i + 1; j < instrs.size(); ++j)
         {
             auto const& ij = instrs[j];
@@ -149,8 +151,13 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
                     break;
             }
             if(ij.is_label)
+            {
+                found_labels.insert(ij.label);
+                continue;
+            }
+            if(ij.instr == I_RET)
                 break;
-            if(is_branch_jmp_call_ret(ij))
+            if(is_branch_jmp_call(ij) && !found_labels.count(ij.label))
                 break;
             bool accessed = false;
             for(int k = 0; k < size; ++k)
@@ -193,7 +200,7 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
             ipop.instr = (size >= 4 ? I_REMOVE : instr_t(I_POP4 - size));
             break;
         case I_POPN:
-            assert(size <= ipop.imm);
+            assert(size <= (int)ipop.imm);
             if((ipop.imm -= size) <= 0)
                 ipop.instr = I_REMOVE;
             break;
