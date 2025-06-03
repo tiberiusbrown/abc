@@ -16,46 +16,12 @@ main:
   p0
   .line 38
   p1
-  .line 42
-  dup
-  bnz   $L_main_2
-  p0
-  sys   assert
-$L_main_2:
-  .line 43
-  dup
-  bnz   $L_main_4
-  .line 44
-  p0
-  sys   assert
-$L_main_4:
-  .line 46
-  dup2
-  bz    $L_main_5
-  p0
-  sys   assert
-$L_main_5:
-  .line 47
-  dup2
-  bz    $L_main_7
-  .line 48
-  p0
-  sys   assert
-$L_main_7:
-  .line 49
-  dup2
-  bz    $L_main_8
-  p0
-  sys   assert
-$L_main_8:
   .line 51
-  p1
   dup
-  dup
+  dupw
   .line 3
-  p0
+  dupw4
   .line 4
-  p1
   bz    $L_main_15
   dup3
   bz    $L_main_15

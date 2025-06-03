@@ -63,15 +63,4 @@ $L_main_3:
   .line 1
   pop
   ret
-  .line 24
-  dup
-  push  26
-  sub
-  not
-  sys   assert
-  .line 26
-  sys   debug_break
-  .line 1
-  pop
-  ret
 

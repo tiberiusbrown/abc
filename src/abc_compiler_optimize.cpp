@@ -9,7 +9,6 @@ void compiler_t::optimize()
 {
     // peephole optimizations
 
-
     for(bool repeat = true; repeat;)
     {
         repeat = false;
@@ -48,6 +47,7 @@ void compiler_t::optimize()
         }
         repeat |= remove_unreferenced_labels();
         repeat |= merge_adjacent_labels();
+        repeat |= optimize_stack();
     }
 
     for(bool repeat = true; repeat;)
@@ -68,7 +68,9 @@ void compiler_t::optimize()
         }
         repeat |= remove_unreferenced_labels();
         repeat |= merge_adjacent_labels();
+        repeat |= optimize_stack();
     }
+
 }
 
 bool compiler_t::peephole(compiler_func_t& f)
@@ -412,6 +414,19 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         }
 
         auto& i0 = f.instrs[i + 0];
+
+        // eliminate instructions between a RET/JMP and a label
+        if(i0.instr == I_RET || i0.instr == I_IJMP ||
+            i0.instr == I_JMP || i0.instr == I_JMP1 || i0.instr == I_JMP2)
+        {
+            for(size_t j = i + 1; j < f.instrs.size(); ++j)
+            {
+                if(f.instrs[j].is_label)
+                    break;
+                f.instrs[j].instr = I_REMOVE;
+                t = true;
+            }
+        }
 
         switch(i0.instr)
         {

@@ -14,24 +14,11 @@ main:
   .line 10
   p1
   .line 11
-  push2 10752
+  p0
   .line 14
-  sext
-  .line 15
-  dup3
-  bz    $L_main_2
-  push  42
-  jmp   $L_main_3
-$L_main_2:
-  push  56
-$L_main_3:
-  sext
+  push4 3670058
   .line 17
-  dupw3
-  push  42
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 18
   dupw

@@ -802,6 +802,10 @@ private:
     bool peephole_remove_inaccessible_code(compiler_func_t& f);
     bool peephole_jmp_to_ret(compiler_func_t& f);
 
+    // non-peephole stack-based optimizations
+    bool optimize_stack();
+    bool optimize_stack_func(std::vector<compiler_instr_t>& instrs);
+
     bool peephole_compress_push_sequence(compiler_func_t& f);
     static void push_compression(
         std::vector< compiler_instr_t>& pi,

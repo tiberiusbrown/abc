@@ -12,61 +12,8 @@ main:
   .line 3
   sys   debug_break
   .line 10
-  p3
-  p0
-  .line 8
-  p4
-  p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
-  .line 8
-  p5
-  p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
-  .line 8
-  p6
-  p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
-  .line 8
-  p7
-  p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
-  .line 8
-  p8
-  p0
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
-  .line 8
-  push2 9
-  .line 10
-  getl4 4
-  add2
-  setl2 4
-  pop2
+  push3 65578
   .line 13
-  dupw
-  push  42
-  sub2b
-  bool2
-  not
   sys   assert
   .line 17
   p00

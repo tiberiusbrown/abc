@@ -9825,8 +9825,6 @@ $L_update_level_38:
   .line 448
   popn  8
   ret
-  .line 438
-  jmp   $L_update_level_44
 $L_update_level_39:
   .line 450
   push  70

@@ -42,11 +42,6 @@ $L_main_2:
   .line 16
   p0
   sys   assert
-  .line 17
-  p1
-  setl  2
-  .line 14
-  jmp   $L_main_1
 $L_main_3:
   .line 17
   p1
@@ -97,11 +92,6 @@ $L_main_6:
   .line 26
   p0
   sys   assert
-  .line 27
-  p1
-  setl  2
-  .line 24
-  jmp   $L_main_5
 $L_main_7:
   .line 27
   p1
@@ -112,11 +102,8 @@ $L_main_8:
   .line 28
   p0
   sys   assert
-  .line 29
-  p0
-  sys   assert
-  jmp   $L_main_10
 $L_main_9:
+  .line 29
   p0
   sys   assert
 $L_main_10:
@@ -158,23 +145,10 @@ $L_main_12:
   .line 38
   p0
   sys   assert
-  .line 39
-  p1
-  sys   assert
-  .line 40
-  p1
-  setl  2
-  .line 36
-  jmp   $L_main_11
 $L_main_13:
   .line 39
   p1
   sys   assert
-  .line 40
-  p1
-  setl  2
-  .line 36
-  jmp   $L_main_11
 $L_main_14:
   .line 40
   p1
@@ -544,11 +518,6 @@ $L_main_51:
   .line 138
   p0
   sys   assert
-  .line 139
-  p1
-  setl  5
-  .line 136
-  jmp   $L_main_50
 $L_main_52:
   .line 139
   p1
@@ -594,23 +563,10 @@ $L_main_55:
   .line 147
   p0
   sys   assert
-  .line 148
-  p1
-  sys   assert
-  .line 149
-  p1
-  setl  5
-  .line 145
-  jmp   $L_main_54
 $L_main_56:
   .line 148
   p1
   sys   assert
-  .line 149
-  p1
-  setl  5
-  .line 145
-  jmp   $L_main_54
 $L_main_57:
   .line 149
   p1
