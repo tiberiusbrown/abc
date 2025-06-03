@@ -11,14 +11,11 @@ main:
   .file push4.abc
   .line 3
   sys   debug_break
-  .line 5
-  push4 2864434397
   .line 7
   p1
   sys   assert
   .line 9
   sys   debug_break
   .line 1
-  pop4
   ret
 

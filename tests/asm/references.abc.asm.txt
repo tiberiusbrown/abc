@@ -419,14 +419,10 @@ main:
   p8
   .line 95
   refl  2
-  p2
-  p0
-  .line 96
-  p2
   .line 97
   p1
   sys   assert
-  popn  7
+  pop4
   .line 100
   getg2 ra1 2
   p4

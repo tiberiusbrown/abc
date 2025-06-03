@@ -25,30 +25,36 @@ static uint32_t sys_stack_access(compiler_instr_t const& i)
     return n;
 }
 
-bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
+std::pair<bool, uint32_t> compiler_t::instr_accesses_stack(
+    compiler_instr_t const& i, uint32_t off)
 {
     switch(i.instr)
     {
     case I_SYS:
-        return off <= sys_stack_access(i);
+    {
+        auto n = sys_stack_access(i);
+        return { off <= n, n };
+    }
 
     case I_GETL:
-        return off == i.imm;
+        return { off == i.imm, i.imm };
     case I_GETL2:
-        return off >= i.imm && off <= i.imm + 1;
+        return { off >= i.imm && off <= i.imm + 1, i.imm + 1 };
     case I_GETL4:
-        return off >= i.imm && off <= i.imm + 3;
+        return { off >= i.imm && off <= i.imm + 3, i.imm + 3 };
     case I_GETLN:
-        return off >= i.imm2 && off <= i.imm2 + i.imm - 1;
+        return { off >= i.imm2 && off <= i.imm2 + i.imm - 1, i.imm2 + i.imm - 1 };
 
     case I_SETL:
-        return off <= 1 || off == i.imm + 1;
+        return { off <= 1 || off == i.imm + 1, i.imm + 1 };
     case I_SETL2:
-        return off <= 2 || off >= i.imm + 2 && off <= i.imm + 3;
+        return { off <= 2 || off >= i.imm + 2 && off <= i.imm + 3, i.imm + 3 };
     case I_SETL4:
-        return off <= 4 || off >= i.imm + 4 && off <= i.imm + 7;
+        return { off <= 4 || off >= i.imm + 4 && off <= i.imm + 7, i.imm + 7 };
     case I_SETLN:
-        return off <= i.imm || off >= i.imm2 + i.imm && off <= i.imm2 + i.imm * 2 - 1;
+        return {
+            off <= i.imm || off >= i.imm2 + i.imm && off <= i.imm2 + i.imm * 2 - 1,
+            i.imm2 + i.imm * 2 - 1 };
 
     case I_POP:
     case I_BZ1:
@@ -69,7 +75,7 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_INC:
     case I_DEC:
     case I_SETG:
-        return off <= 1;
+        return { off <= 1, 1 };
     case I_ADD:
     case I_SUB:
     case I_MUL:
@@ -97,7 +103,7 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_PINCF:
     case I_PDECF:
     case I_SETG2:
-        return off <= 2;
+        return { off <= 2, 2 };
     case I_POP3:
     case I_IJMP:
     case I_ICALL:
@@ -113,7 +119,7 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_GETPN:
     case I_AIXB1:
     case I_AIDXB:
-        return off <= 3;
+        return { off <= 3, 3 };
     case I_POP4:
     case I_ADD2:
     case I_SUB2:
@@ -137,11 +143,11 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_AIDX:
     case I_PIDXB:
     case I_SETG4:
-        return off <= 4;
+        return { off <= 4, 4 };
     case I_LSL4:
     case I_LSR4:
     case I_ASR4:
-        return off <= 5;
+        return { off <= 5, 5 };
     case I_ADD3:
     case I_SUB3:
     case I_MUL3:
@@ -149,7 +155,7 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_CSLT3:
     case I_UAIDX:
     case I_PIDX:
-        return off <= 6;
+        return { off <= 6, 6 };
     case I_ADD4:
     case I_SUB4:
     case I_MUL4:
@@ -169,42 +175,42 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_CULT4:
     case I_CSLT4:
     case I_ASLC:
-        return off <= 8;
+        return { off <= 8, 8 };
     case I_UPIDX:
-        return off <= 9;
+        return { off <= 9, 9 };
     case I_PSLC:
-        return off <= 12;
+        return { off <= 12, 12 };
     case I_POPN:
     case I_SETGN:
-        return off <= i.imm;
+        return { off <= i.imm, i.imm };
     case I_DUP2:
-        return off == 2;
+        return { off == 2, 2 };
     case I_DUP3:
-        return off == 3;
+        return { off == 3, 3 };
     case I_DUP4:
-        return off == 4;
+        return { off == 4, 4 };
     case I_DUP5:
-        return off == 5;
+        return { off == 5, 5 };
     case I_DUP6:
-        return off == 6;
+        return { off == 6, 6 };
     case I_DUP7:
-        return off == 7;
+        return { off == 7, 7 };
     case I_DUP8:
-        return off == 8;
+        return { off == 8, 8 };
     case I_DUPW2:
-        return off >= 2 && off <= 3;
+        return { off >= 2 && off <= 3, 3 };
     case I_DUPW3:
-        return off >= 3 && off <= 4;
+        return { off >= 3 && off <= 4, 4 };
     case I_DUPW4:
-        return off >= 4 && off <= 5;
+        return { off >= 4 && off <= 5, 5 };
     case I_DUPW5:
-        return off >= 5 && off <= 6;
+        return { off >= 5 && off <= 6, 6 };
     case I_DUPW6:
-        return off >= 6 && off <= 7;
+        return { off >= 6 && off <= 7, 7 };
     case I_DUPW7:
-        return off >= 7 && off <= 8;
+        return { off >= 7 && off <= 8, 8 };
     case I_DUPW8:
-        return off >= 8 && off <= 9;
+        return { off >= 8 && off <= 9, 9 };
     case I_NOP:
     case I_GETG:
     case I_GETG2:
@@ -237,25 +243,25 @@ bool compiler_t::instr_accesses_stack(compiler_instr_t const& i, uint32_t off)
     case I_PZ8:
     case I_PZ16:
     case I_ALLOC:
-    case I_REFL:
     case I_PUSH2:
     case I_PUSH3:
     case I_PUSH4:
     case I_PUSHG:
     case I_PUSHL:
-        return false;
+        return { false, 0 };
+    case I_REFL:
     case I_GETR:
     case I_GETR2:
     case I_GETRN:
     case I_SETR:
     case I_SETR2:
     case I_SETRN:
-        return true;
+        return { true, 256 };
     default:
         assert(0);
         break;
     }
-    return true;
+    return { true, 256 };
 }
 
 static int sys_stack_mod(compiler_instr_t const& i)
@@ -420,8 +426,10 @@ int compiler_t::instr_stack_mod(compiler_instr_t const& i)
     case I_COMP:
     case I_JMP:
     case I_JMP1:
+    case I_JMP2:
     case I_CALL:
     case I_CALL1:
+    case I_CALL2:
     case I_RET:
     case I_GETR2:
     case I_PINC2:

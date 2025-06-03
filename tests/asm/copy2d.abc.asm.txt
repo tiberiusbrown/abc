@@ -14,7 +14,6 @@ main:
   .line 14
   sys   debug_break
   .line 16
-  p00
   p1
   dup
   p2
@@ -60,6 +59,6 @@ main:
   .line 25
   sys   debug_break
   .line 12
-  popn  12
+  popn  10
   ret
 

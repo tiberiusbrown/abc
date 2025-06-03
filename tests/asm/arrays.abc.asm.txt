@@ -124,8 +124,7 @@ main:
   p1
   sys   assert
   .line 44
-  push4 4262199338
-  push2 30000
+  push4 1966145036
   p00
   .line 3
   p1
@@ -153,9 +152,8 @@ main:
   p1
   sys   assert
   .line 1
-  popn  8
+  popn  6
   .line 46
-  p1
   p0
   p2
   p0
@@ -215,7 +213,7 @@ main:
   p1
   sys   assert
   .line 10
-  popn  12
+  popn  11
   .line 48
   sys   debug_break
   .line 23

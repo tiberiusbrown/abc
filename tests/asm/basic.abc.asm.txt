@@ -11,10 +11,6 @@ main:
   .file basic.abc
   .line 3
   sys   debug_break
-  .line 5
-  p1
-  .line 6
-  p0
   .line 7
   p1
   sys   assert
@@ -105,6 +101,5 @@ main:
   .line 43
   sys   debug_break
   .line 1
-  pop2
   ret
 
