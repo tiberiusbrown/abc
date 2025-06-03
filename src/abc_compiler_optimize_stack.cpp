@@ -92,19 +92,17 @@ static bool is_stack_eliminatable(compiler_instr_t const& i)
     case I_PUSHL:
     case I_REFGB:
     case I_REFL:
-    //case I_GTGB:
-    //case I_GTGB2:
-    //case I_GTGB4:
-    //case I_GETG:
-    //case I_GETG2:
-    //case I_GETG4:
-    //case I_GETGN:
-    //case I_GETL:
-    //case I_GETL2:
-    //case I_GETL4:
-    //case I_GETLN:
-    //case I_GETP:
-    //case I_GETPN:
+    case I_GTGB:
+    case I_GTGB2:
+    case I_GTGB4:
+    case I_GETG:
+    case I_GETG2:
+    case I_GETG4:
+    case I_GETGN:
+    case I_GETL:
+    case I_GETL2:
+    case I_GETL4:
+    case I_GETLN:
         return true;
     default:
         return false;
@@ -125,8 +123,8 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
             bool elim = false;
             int n = instr_stack_mod(i0);
             int size = n;
-            if(size > 1) // TODO: support multibyte stuff
-                continue;
+            //if(size > 1) // TODO: support multibyte stuff
+            //    continue;
             size_t j;
             for(j = i + 1; j < instrs.size(); ++j)
             {
@@ -170,16 +168,37 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
             }
             if(elim)
             {
+                static_assert(I_POP2 == I_POP  + 1, "");
+                static_assert(I_POP3 == I_POP2 + 1, "");
+                static_assert(I_POP4 == I_POP3 + 1, "");
                 i0.instr = I_REMOVE;
                 auto& ipop = instrs[j];
                 switch(ipop.instr)
                 {
-                case I_POP:  ipop.instr = I_REMOVE; break;
-                case I_POP2: ipop.instr = I_POP; break;
-                case I_POP3: ipop.instr = I_POP2; break;
-                case I_POP4: ipop.instr = I_POP3; break;
-                case I_POPN: if(--ipop.imm == 0) ipop.instr = I_REMOVE; break;
-                default: assert(0); break;
+                case I_POP:
+                    assert(size <= 1);
+                    ipop.instr = I_REMOVE;
+                    break;
+                case I_POP2:
+                    assert(size <= 2);
+                    ipop.instr = (size >= 2 ? I_REMOVE : instr_t(I_POP2 - size));
+                    break;
+                case I_POP3:
+                    assert(size <= 3);
+                    ipop.instr = (size >= 3 ? I_REMOVE : instr_t(I_POP3 - size));
+                    break;
+                case I_POP4:
+                    assert(size <= 4);
+                    ipop.instr = (size >= 4 ? I_REMOVE : instr_t(I_POP4 - size));
+                    break;
+                case I_POPN:
+                    assert(size <= ipop.imm);
+                    if((ipop.imm -= size) <= 0)
+                        ipop.instr = I_REMOVE;
+                    break;
+                default:
+                    assert(0);
+                    break;
                 }
                 t = true;
                 continue;

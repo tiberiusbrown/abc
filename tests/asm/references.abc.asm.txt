@@ -414,15 +414,9 @@ main:
   not
   sys   assert
   pop4
-  .line 94
-  p7
-  p8
-  .line 95
-  refl  2
   .line 97
   p1
   sys   assert
-  pop4
   .line 100
   getg2 ra1 2
   p4
