@@ -159,6 +159,7 @@ add_library(abc_compiler STATIC
     src/abc_compiler_codegen_expr.cpp
     src/abc_compiler_decl.cpp
     src/abc_compiler_font.cpp
+    src/abc_compiler_instr_info.cpp
     src/abc_compiler_optimize.cpp
     src/abc_compiler_optimize_stack.cpp
     src/abc_compiler_parse.cpp
@@ -171,7 +172,6 @@ add_library(abc_compiler STATIC
     src/abc_compiler_unroll.cpp
     src/abc_compiler_write.cpp
     src/abc_error.hpp
-    src/abc_frame_sizes.cpp
     src/abc_sysfuncs.cpp
     deps/peglib/peglib.h
     )
@@ -244,6 +244,7 @@ if(NOT EMSCRIPTEN)
             COMMENT "Generating font data for ${FBU}"
             )
         target_sources(abc_compiler PRIVATE "${GENFONTS_DIR}/${FB}.hpp")
+        source_group("Fonts" FILES "${GENFONTS_DIR}/${FB}.hpp")
         file(APPEND "${ABC_FONT_MASTER}" "    { \"${FBU}\", ${FN}, ${FBU}, sizeof(${FBU}) },\n")
     endforeach()
     file(APPEND "${ABC_FONT_MASTER}" "};\n")

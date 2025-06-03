@@ -529,7 +529,18 @@ void compiler_t::codegen_expr(
         frame.size = prev_size;
 
         if(func.is_sys)
+        {
             f.instrs.push_back({ I_SYS, a.line(), func.sys });
+
+            // record additional stack size from varargs in imm2 for format calls
+            if(is_format)
+            {
+                size_t n = 0;
+                for(auto const& t : format_types)
+                    n += t.prim_size;
+                f.instrs.back().imm2 = (uint32_t)n;
+            }
+        }
         else
             f.instrs.push_back({ I_CALL, a.line(), 0, 0, std::string(a.children[0].data) });
 

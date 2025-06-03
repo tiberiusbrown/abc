@@ -3,8 +3,11 @@
 namespace abc
 {
 
-static int sys_stack_mod(sysfunc_t sys)
+static int sys_stack_mod(compiler_instr_t const& i)
 {
+    auto sys = (sysfunc_t)i.imm;
+    int n = 0;
+
     auto it = sysfunc_decls.find(sys);
     if(it == sysfunc_decls.end())
     {
@@ -13,10 +16,14 @@ static int sys_stack_mod(sysfunc_t sys)
     }
 
     auto const& decl = it->second.decl;
-    int n = 0;
     n += (int)decl.return_type.prim_size;
-    for(auto const& arg : decl.arg_types)
-        n -= (int)arg.prim_size;
+    if(sysfunc_is_format(sys))
+        n -= (int)i.imm2;
+    else
+    {
+        for(auto const& arg : decl.arg_types)
+            n -= (int)arg.prim_size;
+    }
     return n;
 }
 
@@ -25,7 +32,7 @@ int compiler_t::instr_stack_mod(compiler_instr_t const& i)
     switch(i.instr)
     {
     case I_SYS:
-        return sys_stack_mod((sysfunc_t)i.imm);
+        return sys_stack_mod(i);
 
     case I_SETRN:
         return -(int)i.imm - 2;

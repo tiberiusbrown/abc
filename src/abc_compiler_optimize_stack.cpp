@@ -13,7 +13,6 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
         int32_t pn = n;
         n += instr_stack_mod(instrs[i]);
     }
-    //assert(n == 0);
     return t;
 }
 
