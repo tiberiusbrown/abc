@@ -7453,37 +7453,32 @@ $L_render_level_56:
   p5
   setl  1
 $L_render_level_57:
-  .line 490
-  getg4 px 0
-  getg4 camx 0
-  fsub
-  p000
-  push  65
-  fsub
-  .line 491
+  .line 493
+  dup
+  push4 7713024
+  .line 492
   getg4 py 0
   sys   round
-  getl2 11
-  sext2
-  i2f
-  fsub
-  p00
-  push2 16672
-  fsub
   f2i
   pop2
-  .line 492
-  dup7
-  push4 7713024
-  dupw6
-  getl4 13
+  getl2 10
+  sub2
+  push  10
+  sub2b
+  .line 491
+  getg4 px 0
   sys   round
+  getg4 camx 0
+  fsub
   f2i
   pop2
+  p8
+  sub2b
+  .line 490
   sys   draw_sprite
-  popn  7
+  pop
 $L_render_level_58:
-  .line 497
+  .line 498
   p0
   getg  hearts 0
   cult
@@ -7508,13 +7503,13 @@ $L_render_level_58:
   p000
   push2 101
   sys   draw_sprite
-  .line 498
+  .line 499
   p00
   getg  keys_required 0
   cult
   bz    $L_render_level_66
 $L_render_level_67:
-  .line 499
+  .line 500
   dup
   getg  keys 0
   cult
@@ -7527,7 +7522,7 @@ $L_render_level_67:
   mul2b
   sub2
   sys   draw_sprite
-  .line 498
+  .line 499
   inc
   dup
   getg  keys_required 0
@@ -7535,23 +7530,23 @@ $L_render_level_67:
   bnz   $L_render_level_67
 $L_render_level_66:
   pop
-  .line 500
+  .line 501
   p0
   p6
   push  20
   p0000
   sys   draw_filled_rect
-  .line 501
+  .line 502
   p0
   p6
   push  13
   p00
   push2 57
   sys   draw_filled_rect
-  .line 502
+  .line 503
   push3 44214
   sys   set_text_font
-  .line 503
+  .line 504
   getg2 score 0
   p00
   push4 50378105
@@ -7559,7 +7554,7 @@ $L_render_level_66:
   p5
   p000
   sys   draw_textf
-  .line 504
+  .line 505
   getg2 level_frames_remaining 0
   push2 12544
   add3b
@@ -7573,22 +7568,22 @@ $L_render_level_66:
   p5
   push3 14848
   sys   draw_textf
-  .line 507
+  .line 508
   getg  level_start_frames 0
   bz    $L_render_level_71
-  .line 509
+  .line 510
   push3 35430
   sys   set_text_font
-  .line 510
+  .line 511
   push3 54734
   getg  current_map 0
   pidxb 17 12
   getpn 6
-  .line 511
+  .line 512
   getln 6 6
   sys   text_width_P
   pop
-  .line 514
+  .line 515
   p64
   p0
   dup3
@@ -7597,14 +7592,14 @@ $L_render_level_66:
   lsr4
   pop2
   sub2
-  .line 515
+  .line 516
   p00
-  .line 518
+  .line 519
   getg  level_start_frames 0
   push  78
   cult
   bnz   $L_render_level_69
-  .line 519
+  .line 520
   dupw
   getg  level_start_frames 0
   push2 19968
@@ -7614,12 +7609,12 @@ $L_render_level_66:
   add2
   setl2 2
 $L_render_level_69:
-  .line 520
+  .line 521
   push  12
   getg  level_start_frames 0
   cult
   bnz   $L_render_level_70
-  .line 521
+  .line 522
   dupw
   push2 12
   getg  level_start_frames 0
@@ -7629,12 +7624,12 @@ $L_render_level_69:
   sub2
   setl2 2
 $L_render_level_70:
-  .line 522
+  .line 523
   p0
   push4 1540109
   dupw6
   sys   draw_filled_rect
-  .line 523
+  .line 524
   getln 6 11
   p32
   p0

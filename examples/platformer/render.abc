@@ -487,9 +487,10 @@ void render_level()
         if(death_frames != 0)
             index = 5;
 
-        float x = px - camx - PXOFF;
-        i16 y = $round(py) - icamy - i16(PYOFF);
-        $draw_sprite($round(x), y, PLAYER, index);
+        $draw_sprite(
+            i16($round(px) - camx) - i16(PXOFF),
+            i16($round(py)) - icamy - i16(PYOFF),
+            PLAYER, index);
     }
    
     // render HUD elements
