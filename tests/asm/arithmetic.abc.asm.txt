@@ -9,7 +9,7 @@ $globinit:
 
 main:
   .file arithmetic.abc
-  .line 200
+  .line 202
   sys   debug_break
   .line 3
   push3 67373
@@ -93,22 +93,34 @@ main:
   sub
   not
   sys   assert
+  .line 14
+  dup2
+  p000
+  push  45
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
   .line 15
+  dup
+  p000
+  p7
+  p000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 17
   dup2
   push  45
   sub
   not
   sys   assert
-  .line 16
+  .line 18
   dup2
   dec
   setl  2
-  dup2
-  push  44
-  sub
-  not
-  sys   assert
-  .line 17
   dup2
   push  44
   sub
@@ -120,16 +132,16 @@ main:
   sub
   not
   sys   assert
-  .line 20
-  refl  2
-  pdec
+  .line 21
+  dup2
   push  44
   sub
   not
   sys   assert
-  .line 21
-  dup2
-  push  43
+  .line 22
+  refl  2
+  pdec
+  push  44
   sub
   not
   sys   assert
@@ -139,14 +151,14 @@ main:
   sub
   not
   sys   assert
-  .line 24
-  linc  2
+  .line 25
   dup2
-  push  44
+  push  43
   sub
   not
   sys   assert
-  .line 25
+  .line 26
+  linc  2
   dup2
   push  44
   sub
@@ -158,27 +170,26 @@ main:
   sub
   not
   sys   assert
-  .line 28
+  .line 29
+  dup2
+  push  44
+  sub
+  not
+  sys   assert
+  .line 30
   refl  2
   pinc
   push  44
   sub
   not
   sys   assert
-  .line 29
+  .line 31
   dup2
   push  45
   sub
   not
   sys   assert
-  .line 31
-  dup2
-  push2 11520
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 32
+  .line 33
   dup2
   push2 11520
   sub2b
@@ -192,7 +203,14 @@ main:
   bool2
   not
   sys   assert
-  .line 35
+  .line 36
+  dup2
+  push2 11520
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 37
   dup2
   push2 11520
   sub2b
@@ -201,11 +219,11 @@ main:
   sys   assert
   .line 1
   pop2
-  .line 40
-  push3 67373
   .line 42
+  push3 67373
+  .line 44
   sys   assert
-  .line 43
+  .line 45
   dup
   sext
   dup4
@@ -216,7 +234,7 @@ main:
   bool2
   not
   sys   assert
-  .line 44
+  .line 46
   dup2
   sext
   dup3
@@ -227,7 +245,7 @@ main:
   bool2
   not
   sys   assert
-  .line 45
+  .line 47
   dup
   sext
   dup4
@@ -238,7 +256,7 @@ main:
   bool2
   not
   sys   assert
-  .line 46
+  .line 48
   dup2
   sext
   dup3
@@ -249,7 +267,7 @@ main:
   bool2
   not
   sys   assert
-  .line 47
+  .line 49
   dup2
   sext
   dup3
@@ -260,7 +278,7 @@ main:
   bool2
   not
   sys   assert
-  .line 48
+  .line 50
   dup2
   sext
   dup3
@@ -271,7 +289,7 @@ main:
   bool2
   not
   sys   assert
-  .line 49
+  .line 51
   dup2
   p2
   mul
@@ -279,7 +297,7 @@ main:
   sub
   not
   sys   assert
-  .line 50
+  .line 52
   dup2
   p1
   asr
@@ -287,22 +305,16 @@ main:
   sub
   not
   sys   assert
-  .line 52
+  .line 54
   dup2
   push  45
   sub
   not
   sys   assert
-  .line 53
+  .line 55
   dup2
   dec
   setl  2
-  dup2
-  push  44
-  sub
-  not
-  sys   assert
-  .line 54
   dup2
   push  44
   sub
@@ -314,16 +326,16 @@ main:
   sub
   not
   sys   assert
-  .line 57
-  refl  2
-  pdec
+  .line 58
+  dup2
   push  44
   sub
   not
   sys   assert
-  .line 58
-  dup2
-  push  43
+  .line 59
+  refl  2
+  pdec
+  push  44
   sub
   not
   sys   assert
@@ -333,14 +345,14 @@ main:
   sub
   not
   sys   assert
-  .line 61
-  linc  2
+  .line 62
   dup2
-  push  44
+  push  43
   sub
   not
   sys   assert
-  .line 62
+  .line 63
+  linc  2
   dup2
   push  44
   sub
@@ -352,28 +364,26 @@ main:
   sub
   not
   sys   assert
-  .line 65
+  .line 66
+  dup2
+  push  44
+  sub
+  not
+  sys   assert
+  .line 67
   refl  2
   pinc
   push  44
   sub
   not
   sys   assert
-  .line 66
+  .line 68
   dup2
   push  45
   sub
   not
   sys   assert
-  .line 68
-  dup2
-  sext
-  push  45
-  sub2b
-  bool2
-  not
-  sys   assert
-  .line 69
+  .line 70
   dup2
   sext
   push  45
@@ -389,7 +399,7 @@ main:
   bool2
   not
   sys   assert
-  .line 72
+  .line 73
   dup2
   sext
   push  45
@@ -397,14 +407,22 @@ main:
   bool2
   not
   sys   assert
-  .line 38
+  .line 74
+  dup2
+  sext
+  push  45
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 40
   pop2
-  .line 77
-  push4 45879700
   .line 79
+  push4 45879700
+  .line 81
   p1
   sys   assert
-  .line 80
+  .line 82
   dupw
   p0
   dupw6
@@ -415,7 +433,7 @@ main:
   bool3
   not
   sys   assert
-  .line 81
+  .line 83
   dupw3
   p0
   dupw4
@@ -426,7 +444,7 @@ main:
   bool3
   not
   sys   assert
-  .line 82
+  .line 84
   dupw
   p0
   dupw6
@@ -437,7 +455,7 @@ main:
   bool3
   not
   sys   assert
-  .line 83
+  .line 85
   dupw3
   p00
   dupw5
@@ -448,7 +466,7 @@ main:
   bool4
   not
   sys   assert
-  .line 84
+  .line 86
   dupw3
   p00
   dupw5
@@ -460,7 +478,7 @@ main:
   bool4
   not
   sys   assert
-  .line 85
+  .line 87
   dupw3
   p00
   dupw5
@@ -472,7 +490,7 @@ main:
   bool4
   not
   sys   assert
-  .line 86
+  .line 88
   dupw3
   p1
   lsl2
@@ -481,7 +499,7 @@ main:
   bool2
   not
   sys   assert
-  .line 87
+  .line 89
   dupw3
   p1
   lsr2
@@ -490,7 +508,7 @@ main:
   bool2
   not
   sys   assert
-  .line 88
+  .line 90
   dupw3
   push  11
   lsr2
@@ -499,25 +517,18 @@ main:
   sub
   not
   sys   assert
-  .line 90
+  .line 92
   dupw3
   push2 4500
   sub2
   bool2
   not
   sys   assert
-  .line 91
+  .line 93
   dupw3
   p1
   sub2b
   setl2 4
-  dupw3
-  push2 4499
-  sub2
-  bool2
-  not
-  sys   assert
-  .line 92
   dupw3
   push2 4499
   sub2
@@ -531,17 +542,17 @@ main:
   bool2
   not
   sys   assert
-  .line 95
-  refl  4
-  pdec2
+  .line 96
+  dupw3
   push2 4499
   sub2
   bool2
   not
   sys   assert
-  .line 96
-  dupw3
-  push2 4498
+  .line 97
+  refl  4
+  pdec2
+  push2 4499
   sub2
   bool2
   not
@@ -553,18 +564,18 @@ main:
   bool2
   not
   sys   assert
-  .line 99
+  .line 100
   dupw3
-  p1
-  add2b
-  setl2 4
-  dupw3
-  push2 4499
+  push2 4498
   sub2
   bool2
   not
   sys   assert
-  .line 100
+  .line 101
+  dupw3
+  p1
+  add2b
+  setl2 4
   dupw3
   push2 4499
   sub2
@@ -578,7 +589,14 @@ main:
   bool2
   not
   sys   assert
-  .line 103
+  .line 104
+  dupw3
+  push2 4499
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 105
   refl  4
   pinc2
   push2 4499
@@ -586,21 +604,14 @@ main:
   bool2
   not
   sys   assert
-  .line 104
+  .line 106
   dupw3
   push2 4500
   sub2
   bool2
   not
   sys   assert
-  .line 106
-  dupw3
-  push4 1152000
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 107
+  .line 108
   dupw3
   push4 1152000
   sub3
@@ -614,25 +625,32 @@ main:
   bool3
   not
   sys   assert
-  .line 110
+  .line 111
   dupw3
   push4 1152000
   sub3
   bool3
   not
   sys   assert
-  .line 75
+  .line 112
+  dupw3
+  push4 1152000
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 77
   pop4
-  .line 115
-  push4 1879498192
-  .line 116
-  push4 45875473
   .line 117
-  p0
+  push4 1879498192
   .line 118
+  push4 45875473
+  .line 119
+  p0
+  .line 120
   p1
   sys   assert
-  .line 119
+  .line 121
   getln 3 6
   p0
   getln 3 13
@@ -643,7 +661,7 @@ main:
   bool4
   not
   sys   assert
-  .line 120
+  .line 122
   getln 3 9
   p0
   getln 3 10
@@ -654,7 +672,7 @@ main:
   bool4
   not
   sys   assert
-  .line 121
+  .line 123
   getln 3 6
   p0
   getln 3 13
@@ -665,7 +683,7 @@ main:
   bool4
   not
   sys   assert
-  .line 122
+  .line 124
   getln 3 9
   p0
   getln 3 7
@@ -676,7 +694,7 @@ main:
   bool4
   not
   sys   assert
-  .line 123
+  .line 125
   getln 3 6
   p0
   getln 3 7
@@ -687,7 +705,7 @@ main:
   bool4
   not
   sys   assert
-  .line 124
+  .line 126
   getln 3 9
   p0
   getln 3 10
@@ -699,7 +717,7 @@ main:
   bool4
   not
   sys   assert
-  .line 125
+  .line 127
   getln 3 9
   p0
   getln 3 10
@@ -711,7 +729,7 @@ main:
   bool4
   not
   sys   assert
-  .line 126
+  .line 128
   getln 3 9
   p0
   p1
@@ -722,7 +740,7 @@ main:
   bool3
   not
   sys   assert
-  .line 127
+  .line 129
   getln 3 9
   p0
   p1
@@ -733,7 +751,7 @@ main:
   bool3
   not
   sys   assert
-  .line 128
+  .line 130
   getln 3 9
   p0
   push  255
@@ -745,7 +763,7 @@ main:
   bool4
   not
   sys   assert
-  .line 129
+  .line 131
   getln 3 9
   p0
   p1
@@ -755,7 +773,7 @@ main:
   bool4
   not
   sys   assert
-  .line 130
+  .line 132
   getln 3 9
   p0
   p3
@@ -766,7 +784,7 @@ main:
   bool4
   not
   sys   assert
-  .line 131
+  .line 133
   getln 3 9
   push2 2816
   lsr4
@@ -775,26 +793,19 @@ main:
   sub
   not
   sys   assert
-  .line 133
+  .line 135
   getln 3 9
   push3 450000
   sub3
   bool3
   not
   sys   assert
-  .line 134
+  .line 136
   getln 3 9
   p1
   p00
   sub3
   setln 3 9
-  getln 3 9
-  push3 449999
-  sub3
-  bool3
-  not
-  sys   assert
-  .line 135
   getln 3 9
   push3 449999
   sub3
@@ -808,17 +819,17 @@ main:
   bool3
   not
   sys   assert
-  .line 138
-  refl  9
-  pdec3
+  .line 139
+  getln 3 9
   push3 449999
   sub3
   bool3
   not
   sys   assert
-  .line 139
-  getln 3 9
-  push3 449998
+  .line 140
+  refl  9
+  pdec3
+  push3 449999
   sub3
   bool3
   not
@@ -830,18 +841,18 @@ main:
   bool3
   not
   sys   assert
-  .line 142
+  .line 143
   getln 3 9
-  p1
-  add3b
-  setln 3 9
-  getln 3 9
-  push3 449999
+  push3 449998
   sub3
   bool3
   not
   sys   assert
-  .line 143
+  .line 144
+  getln 3 9
+  p1
+  add3b
+  setln 3 9
   getln 3 9
   push3 449999
   sub3
@@ -855,7 +866,14 @@ main:
   bool3
   not
   sys   assert
-  .line 146
+  .line 147
+  getln 3 9
+  push3 449999
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 148
   refl  9
   pinc3
   push3 449999
@@ -863,22 +881,14 @@ main:
   bool3
   not
   sys   assert
-  .line 147
+  .line 149
   getln 3 9
   push3 450000
   sub3
   bool3
   not
   sys   assert
-  .line 149
-  getln 3 9
-  p0
-  push4 450000
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 150
+  .line 151
   getln 3 9
   p0
   push4 450000
@@ -894,7 +904,7 @@ main:
   bool4
   not
   sys   assert
-  .line 153
+  .line 154
   getln 3 9
   p0
   push4 450000
@@ -902,20 +912,28 @@ main:
   bool4
   not
   sys   assert
-  .line 113
+  .line 155
+  getln 3 9
+  p0
+  push4 450000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 115
   popn  9
-  .line 158
+  .line 160
   p64
   push4 3221401253
-  .line 159
+  .line 161
   push4 3154143951
-  .line 160
+  .line 162
   p2
   p00
-  .line 161
+  .line 163
   p1
   sys   assert
-  .line 162
+  .line 164
   getl4 8
   getl4 16
   add4
@@ -924,7 +942,7 @@ main:
   bool4
   not
   sys   assert
-  .line 163
+  .line 165
   getln 8 12
   sub4
   push4 38000000
@@ -932,7 +950,7 @@ main:
   bool4
   not
   sys   assert
-  .line 164
+  .line 166
   getl4 8
   getl4 16
   sub4
@@ -941,7 +959,7 @@ main:
   bool4
   not
   sys   assert
-  .line 165
+  .line 167
   getl4 12
   getl4 8
   mul4
@@ -950,7 +968,7 @@ main:
   bool4
   not
   sys   assert
-  .line 166
+  .line 168
   getln 8 8
   mul4
   push4 605032704
@@ -958,7 +976,7 @@ main:
   bool4
   not
   sys   assert
-  .line 167
+  .line 169
   getln 8 12
   udiv4
   p6
@@ -967,7 +985,7 @@ main:
   bool4
   not
   sys   assert
-  .line 168
+  .line 170
   getl4 12
   getl4 8
   udiv4
@@ -977,7 +995,7 @@ main:
   bool4
   not
   sys   assert
-  .line 169
+  .line 171
   getln 8 12
   umod4
   push4 3000000
@@ -985,7 +1003,7 @@ main:
   bool4
   not
   sys   assert
-  .line 170
+  .line 172
   getl4 12
   p1
   lsl4
@@ -994,7 +1012,7 @@ main:
   bool4
   not
   sys   assert
-  .line 171
+  .line 173
   getl4 12
   p1
   lsr4
@@ -1003,7 +1021,7 @@ main:
   bool4
   not
   sys   assert
-  .line 172
+  .line 174
   getl4 12
   push  18
   lsr4
@@ -1012,26 +1030,19 @@ main:
   sub
   not
   sys   assert
-  .line 174
+  .line 176
   getl4 12
   push4 45000000
   sub4
   bool4
   not
   sys   assert
-  .line 175
+  .line 177
   getl4 12
   p1
   p000
   sub4
   setl4 12
-  getl4 12
-  push4 44999999
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 176
   getl4 12
   push4 44999999
   sub4
@@ -1045,17 +1056,17 @@ main:
   bool4
   not
   sys   assert
-  .line 179
-  refl  12
-  pdec4
+  .line 180
+  getl4 12
   push4 44999999
   sub4
   bool4
   not
   sys   assert
-  .line 180
-  getl4 12
-  push4 44999998
+  .line 181
+  refl  12
+  pdec4
+  push4 44999999
   sub4
   bool4
   not
@@ -1067,19 +1078,19 @@ main:
   bool4
   not
   sys   assert
-  .line 183
+  .line 184
+  getl4 12
+  push4 44999998
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 185
   getl4 12
   p1
   p000
   add4
   setl4 12
-  getl4 12
-  push4 44999999
-  sub4
-  bool4
-  not
-  sys   assert
-  .line 184
   getl4 12
   push4 44999999
   sub4
@@ -1093,17 +1104,17 @@ main:
   bool4
   not
   sys   assert
-  .line 187
-  refl  12
-  pinc4
+  .line 188
+  getl4 12
   push4 44999999
   sub4
   bool4
   not
   sys   assert
-  .line 188
-  getl4 12
-  push4 45000000
+  .line 189
+  refl  12
+  pinc4
+  push4 44999999
   sub4
   bool4
   not
@@ -1115,7 +1126,7 @@ main:
   bool4
   not
   sys   assert
-  .line 191
+  .line 192
   getl4 12
   push4 45000000
   sub4
@@ -1129,20 +1140,27 @@ main:
   bool4
   not
   sys   assert
-  .line 194
+  .line 195
   getl4 12
   push4 45000000
   sub4
   bool4
   not
   sys   assert
-  .line 156
+  .line 196
+  getl4 12
+  push4 45000000
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 158
   popn  12
-  .line 213
+  .line 215
   p1
   sys   assert
-  .line 216
+  .line 218
   sys   debug_break
-  .line 198
+  .line 200
   ret
 

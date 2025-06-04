@@ -11,6 +11,8 @@ void test_u8()
     $assert(a % b == 3);
     $assert(a << 1 == 90);
     $assert(a >> 1 == 22);
+    $assert(a / 1 == 45);
+    $assert(b / 1 == 7);
     
     $assert(a == 45);
     $assert(--a == 44);

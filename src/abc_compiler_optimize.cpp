@@ -981,6 +981,17 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
+        // remove PUSH 1; PUSH 0; UDIV2/DIV2
+        if(i0.instr == I_PUSH && i0.imm == 1 && i1.instr == I_PUSH && i1.imm == 0 &&
+            (i2.instr == I_UDIV2 || i2.instr == I_DIV2))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         if(i + 3 >= f.instrs.size()) continue;
         auto& i3 = f.instrs[i + 3];
 
@@ -1154,6 +1165,22 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i + 4 >= f.instrs.size()) continue;
         auto& i4 = f.instrs[i + 4];
 
+        // remove PUSH 1; PUSH 0; PUSH 0; PUSH 0; UDIV4/DIV4
+        if(i0.instr == I_PUSH && i0.imm == 1 &&
+            i1.instr == I_PUSH && i1.imm == 0 &&
+            i2.instr == I_PUSH && i2.imm == 0 &&
+            i3.instr == I_PUSH && i3.imm == 0 &&
+            (i4.instr == I_UDIV4 || i4.instr == I_DIV4))
+        {
+            i0.instr = I_REMOVE;
+            i1.instr = I_REMOVE;
+            i2.instr = I_REMOVE;
+            i3.instr = I_REMOVE;
+            i4.instr = I_REMOVE;
+            t = true;
+            continue;
+        }
+
         // convert PUSHL <LABEL>; PUSH ..; PUSH ..; PUSH ...; ADD3 to PUSHL LABEL+..
         if(i0.instr == I_PUSHL &&
             i1.instr == I_PUSH &&
@@ -1252,6 +1279,30 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             case I_AND2: imm0 &= imm1; break;
             case I_OR2:  imm0 |= imm1; break;
             case I_XOR2: imm0 ^= imm1; break;
+            case I_UDIV2:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 /= imm1;
+                break;
+            case I_DIV2:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 = uint16_t(int16_t(imm0) / int16_t(imm1));
+                break;
+            case I_UMOD2:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 %= imm1;
+                break;
+            case I_MOD2:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 = uint16_t(int16_t(imm0) % int16_t(imm1));
+                break;
             case I_CULT2:
                 imm0 = imm0 < imm1 ? 1 : 0;
                 i1.instr = I_REMOVE;
@@ -1396,6 +1447,30 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             case I_ADD4: imm0 += imm1; break;
             case I_SUB4: imm0 -= imm1; break;
             case I_MUL4: imm0 *= imm1; break;
+            case I_UDIV4:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 /= imm1;
+                break;
+            case I_DIV4:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 = uint32_t(int32_t(imm0) / int32_t(imm1));
+                break;
+            case I_UMOD4:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 %= imm1;
+                break;
+            case I_MOD4:
+                if(imm1 == 0)
+                    tt = false;
+                else
+                    imm0 = uint32_t(int32_t(imm0) % int32_t(imm1));
+                break;
             case I_CULT4:
                 imm0 = imm0 < imm1 ? 1 : 0;
                 i1.instr = I_REMOVE;

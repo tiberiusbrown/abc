@@ -176,22 +176,9 @@ main:
   not
   sys   assert
   pop4
-  .line 48
-  push2 100
   .line 49
-  dupw
-  p00
-  p3
-  p000
-  div4
-  pop2
-  setl2 2
+  push3 65569
   .line 50
-  dupw
-  push  33
-  sub2b
-  bool2
-  not
   sys   assert
   .line 51
   dupw
@@ -219,22 +206,9 @@ main:
   not
   sys   assert
   pop4
-  .line 57
-  push2 98
   .line 58
-  dupw
-  p00
-  push  11
-  p000
-  mod4
-  pop2
-  setl2 2
+  push3 65546
   .line 59
-  dupw
-  push  10
-  sub2b
-  bool2
-  not
   sys   assert
   .line 60
   dupw
