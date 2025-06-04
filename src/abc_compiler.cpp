@@ -130,8 +130,14 @@ bool compiler_t::convertable(compiler_type_t const& dst, compiler_type_t const& 
     auto const& rsrc = src.without_ref();
     if(rdst.is_struct() && rsrc.is_struct())
         return rdst.struct_name == rsrc.struct_name;
-    if(dst.is_array_ref() && src.is_ref() && rsrc.is_array())
-        return dst.children[0] == rsrc.children[0];
+    if(dst.is_array_ref() && src.is_ref())
+    {
+        if(rsrc.is_array())
+            return dst.children[0] == rsrc.children[0];
+        if(rsrc.without_prog() == dst)
+            return true;
+        return rsrc == dst;
+    }
     if(dst.is_ref())
         return dst == src;
     return dst == rsrc;
