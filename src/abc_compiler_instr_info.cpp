@@ -217,6 +217,10 @@ std::pair<bool, uint32_t> compiler_t::instr_accesses_stack(
     case I_GETG2:
     case I_GETG4:
     case I_GETGN:
+    case I_GTGB:
+    case I_GTGB2:
+    case I_GTGB4:
+    case I_REFGB:
     case I_RET:
     case I_JMP:
     case I_JMP1:
@@ -425,6 +429,8 @@ int compiler_t::instr_stack_mod(compiler_instr_t const& i)
     case I_NOT:
     case I_BOOL:
     case I_COMP:
+    case I_COMP2:
+    case I_COMP4:
     case I_JMP:
     case I_JMP1:
     case I_JMP2:

@@ -337,6 +337,8 @@ enum instr_t : uint8_t
 
     I_SYS,   // call sysfunc (imm8)
 
+    NUM_INSTRS,
+
     //
     // pseudo-instructions just for compiler optimizations
     //
