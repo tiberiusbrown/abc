@@ -37,6 +37,7 @@ std::pair<bool, uint32_t> compiler_t::instr_accesses_stack(
     }
 
     case I_GETL:
+    case I_LINC:
         return { off == i.imm, i.imm };
     case I_GETL2:
         return { off >= i.imm && off <= i.imm + 1, i.imm + 1 };
@@ -48,13 +49,13 @@ std::pair<bool, uint32_t> compiler_t::instr_accesses_stack(
     case I_SETL:
         return { off <= 1 || off == i.imm + 1, i.imm + 1 };
     case I_SETL2:
-        return { off <= 2 || off >= i.imm + 2 && off <= i.imm + 3, i.imm + 3 };
+        return { off <= 2 || off >= i.imm + 1 && off <= i.imm + 2, i.imm + 2 };
     case I_SETL4:
-        return { off <= 4 || off >= i.imm + 4 && off <= i.imm + 7, i.imm + 7 };
+        return { off <= 4 || off >= i.imm + 1 && off <= i.imm + 4, i.imm + 4 };
     case I_SETLN:
         return {
-            off <= i.imm || off >= i.imm2 + i.imm && off <= i.imm2 + i.imm * 2 - 1,
-            i.imm2 + i.imm * 2 - 1 };
+            off <= i.imm || off >= i.imm2 + 1 && off <= i.imm2 + i.imm,
+            i.imm2 + i.imm };
 
     case I_POP:
     case I_BZ1:

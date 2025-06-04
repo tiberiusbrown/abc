@@ -20,8 +20,6 @@ main:
   .line 15
   p1
   sys   assert
-  .line 19
-  p0
   .line 20
   p1
   sys   assert
@@ -49,7 +47,7 @@ main:
   setl2 4
   push2 74
   setl2 2
-  popn  21
+  popn  20
   .line 28
   push2 42
   setg2 a 0
