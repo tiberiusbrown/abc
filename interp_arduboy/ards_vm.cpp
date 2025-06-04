@@ -2801,17 +2801,18 @@ I_UDIV2:
     ld   r24, -Y
     cp   r22, r2
     cpc  r23, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
+    breq 1f
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-1:  call __udivmodhi4
+    call __udivmodhi4
     st   Y+, r22
     mov  r9, r23
 udiv4_dispatch:
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 3
+    call call_vm_error
+    .align 6
 
 I_UDIV4:
     mov   r21, r9
@@ -2826,10 +2827,8 @@ I_UDIV4:
     cpc  r19, r2
     cpc  r20, r2
     cpc  r21, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
-1:  movw r16, r28
+    breq 1f
+    movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -2840,6 +2839,8 @@ I_UDIV4:
     st   Y+, r20
     mov  r9, r21
     rjmp udiv4_dispatch
+1:  ldi  r24, 3
+    call call_vm_error
     .align 6
 
 I_DIV2:
@@ -2849,17 +2850,18 @@ I_DIV2:
     ld   r24, -Y
     cp   r22, r2
     cpc  r23, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
+    breq 1f
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-1:  call __divmodhi4
+    call __divmodhi4
     st   Y+, r22
     mov  r9, r23
 div4_dispatch:
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 3
+    call call_vm_error
+    .align 6
 
 I_DIV4:
     mov  r21, r9
@@ -2874,10 +2876,8 @@ I_DIV4:
     cpc  r19, r2
     cpc  r20, r2
     cpc  r21, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
-1:  movw r16, r28
+    breq 1f
+    movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -2888,6 +2888,8 @@ I_DIV4:
     st   Y+, r20
     mov  r9, r21
     rjmp div4_dispatch
+1:  ldi  r24, 3
+    call call_vm_error
     .align 6
 
 I_UMOD2:
@@ -2897,17 +2899,18 @@ I_UMOD2:
     ld   r24, -Y
     cp   r22, r2
     cpc  r23, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
+    breq 1f
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-1:  call __udivmodhi4
+    call __udivmodhi4
     st   Y+, r24
     mov  r9, r25
 umod4_dispatch:
-    dispatch
+    dispatch_noalign
+1:  ldi  r24, 3
+    call call_vm_error
+    .align 6
 
 I_UMOD4:
     mov  r21, r9
@@ -2922,10 +2925,8 @@ I_UMOD4:
     cpc  r19, r2
     cpc  r20, r2
     cpc  r21, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
-1:  movw r16, r28
+    breq 1f
+    movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -2936,6 +2937,8 @@ I_UMOD4:
     st   Y+, r24
     mov  r9, r25
     rjmp umod4_dispatch
+1:  ldi  r24, 3
+    call call_vm_error
     .align 6
 
 I_MOD2:
@@ -2945,17 +2948,18 @@ I_MOD2:
     ld   r24, -Y
     cp   r22, r2
     cpc  r23, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
+    breq 1f
     ; dividend / remainder: r24:r25
     ; divisor  / quotient:  r22:r23
     ; clobbers:             r21, r26:r27
-1:  call __divmodhi4
+    call __divmodhi4
     st   Y+, r24
     mov  r9, r25
 mod4_dispatch:
-    dispatch
+    dispatch_noalign
+    ldi  r24, 3
+    call call_vm_error
+    .align 6
 
 I_MOD4:
     mov  r21, r9
@@ -2970,10 +2974,8 @@ I_MOD4:
     cpc  r19, r2
     cpc  r20, r2
     cpc  r21, r2
-    brne 1f
-    ldi  r24, 3
-    call call_vm_error
-1:  movw r16, r28
+    breq 1f
+    movw r16, r28
     ; dividend / remainder: r22:r25
     ; divisor  / quotient:  r18:r21
     ; clobbers:             r21, r26:r31
@@ -2984,6 +2986,8 @@ I_MOD4:
     st   Y+, r24
     mov  r9, r25
     rjmp mod4_dispatch
+1:  ldi  r24, 3
+    call call_vm_error
     .align 6
 
 I_LSL:
