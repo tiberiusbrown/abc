@@ -6980,12 +6980,11 @@ $L_render_level_16:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
   getl  29
   sext
   sys   draw_sprite
@@ -7018,17 +7017,15 @@ $L_render_level_19:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
   p16
-  p0
-  getl  31
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_20:
   pop
@@ -7059,17 +7056,15 @@ $L_render_level_22:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
   p32
-  p0
-  getl  31
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_23:
   pop
@@ -7100,16 +7095,15 @@ $L_render_level_25:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
-  push2 48
-  getl  31
+  push  48
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_26:
   pop
@@ -7140,17 +7134,15 @@ $L_render_level_28:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
   p64
-  p0
-  getl  31
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_29:
   pop
@@ -7181,16 +7173,15 @@ $L_render_level_31:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
-  push2 80
-  getl  31
+  push  80
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_32:
   pop
@@ -7221,16 +7212,15 @@ $L_render_level_34:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
-  push2 96
-  getl  31
+  push  96
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_35:
   pop
@@ -7261,16 +7251,15 @@ $L_render_level_37:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
-  push2 112
-  getl  31
+  push  112
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_38:
   pop
@@ -7301,17 +7290,15 @@ $L_render_level_40:
   dup
   push4 2205440
   getl  18
-  p0
   p16
-  mul2b
-  getl  28
+  mul
+  getl  27
+  add
   sext
-  add2
   p128
-  p0
-  getl  31
+  getl  30
+  add
   sext
-  add2
   sys   draw_sprite
 $L_render_level_41:
   popn  12
