@@ -295,14 +295,12 @@ main:
   cfeq
   sys   assert
   .line 60
-  pushg x 0
   getg4 x 0
   p00
   push2 16256
   fadd
-  dupw5
-  setrn 4
-  getrn 4
+  setg4 x 0
+  getg4 x 0
   p00
   p32
   p64
@@ -343,14 +341,12 @@ main:
   cfeq
   sys   assert
   .line 68
-  pushg x 0
   getg4 x 0
   p00
   push2 16256
   fsub
-  dupw5
-  setrn 4
-  getrn 4
+  setg4 x 0
+  getg4 x 0
   p00
   p32
   p64

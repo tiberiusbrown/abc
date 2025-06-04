@@ -128,14 +128,14 @@ main:
   p0
   setg  b 299
   .line 49
-  pushg b 0
   p0
   p1
   push2 11264
   dupw2
-  dupw7
+  pushg b 0
   push2 300
   sys   memcpy_P
+  pushg b 0
   push2 300
   pushg a 0
   push2 300

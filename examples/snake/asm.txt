@@ -535,12 +535,8 @@ $L_main_39:
   sys   draw_filled_circle
   .line 177
   push  50
-  refl  2
-  dup4
-  inc
-  dupw2
-  setr
-  getr
+  linc  2
+  dup2
   cult
   bz    $L_main_40
   .line 178
@@ -826,12 +822,10 @@ $L_main_9:
   setg  ndir 0
 $L_main_11:
   .line 142
-  pushg frame 0
   getg  frame 0
   inc
-  dupw2
-  setr
-  getr
+  setg  frame 0
+  getg  frame 0
   p3
   and
   bnz   $L_main_12

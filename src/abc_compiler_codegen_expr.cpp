@@ -253,13 +253,10 @@ void compiler_t::codegen_expr(
             a.parent &&
             a.parent->type != AST::EXPR_STMT &&
             a.parent->type != AST::LIST);
+        bool dup_ref = !is_simple_lvalue(a.children[0], frame);
 
         // create reference
-        size_t ref_instrs = f.instrs.size();
         codegen_expr(f, frame, a.children[0], true);
-        ref_instrs = f.instrs.size() - ref_instrs;
-        bool dup_ref = (ref_instrs >= 3);
-        dup_ref = !is_simple_lvalue(a.children[0], frame);
 
         // dup the ref
         if(dup_ref)
@@ -274,7 +271,7 @@ void compiler_t::codegen_expr(
 
         if(dup_ref)
         {
-            // dupe the reference again
+            // dup the reference again
             f.instrs.push_back({ I_GETLN, a.children[0].line(), 2, uint8_t(size + 2) });
             frame.size += 2;
         }
@@ -621,6 +618,7 @@ void compiler_t::codegen_expr(
             a.children[1].children[1] :
             a.children[1];
         auto const& src_type = src_node.comp_type;
+        bool dup_ref = !is_simple_lvalue(a.children[0], frame);
 
         // optimize assignment as call to memcpy, memcpy_P, or memset
         if(type_noref.is_copyable() &&
@@ -645,7 +643,7 @@ void compiler_t::codegen_expr(
                 goto no_memcpy_optimization;
             }
             
-            if(non_root)
+            if(non_root && dup_ref)
                 codegen_expr(f, frame, a.children[0], true);
 
             if(srcref)
@@ -683,7 +681,7 @@ void compiler_t::codegen_expr(
                 }
             }
 
-            if(non_root)
+            if(non_root && dup_ref)
             {
                 auto line = a.children[0].line();
                 auto size = a.children[0].comp_type.prim_size;
@@ -710,12 +708,14 @@ void compiler_t::codegen_expr(
                 use_memset ? SYS_MEMSET : prog ? SYS_MEMCPY_P : SYS_MEMCPY });
             frame.size -= 4; // dst aref
             frame.size -= (use_memset ? 1 : prog ? 6 : 4); // val or src aref
+            if(!dup_ref)
+                codegen_expr(f, frame, a.children[0], true);
             return;
         }
 no_memcpy_optimization:
 
         size_t ref_offset = frame.size;
-        if(non_root)
+        if(non_root && dup_ref)
         {
             // codegen reference now
             codegen_expr(f, frame, a.children[0], true);
@@ -781,7 +781,7 @@ no_memcpy_optimization:
         }
 
         // get reference for storing
-        if(non_root)
+        if(non_root && dup_ref)
         {
             ref_offset = frame.size - ref_offset;
             auto line = a.children[0].line();
@@ -796,6 +796,8 @@ no_memcpy_optimization:
         }
 
         codegen_store(f, frame, a.children[0]);
+        if(!dup_ref)
+            codegen_expr(f, frame, a.children[0], true);
         return;
     }
 

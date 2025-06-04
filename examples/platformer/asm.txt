@@ -4839,7 +4839,7 @@ $L_render_3:
   sys   set_text_font
   .line 56
   dup
-  bz    $L_render_144
+  bz    $L_render_102
   .line 58
   push4 184598136
   p00
@@ -4857,8 +4857,8 @@ $L_render_3:
   push4 4915236
   sys   draw_text_P
   .line 56
-  jmp   $L_render_148
-$L_render_144:
+  jmp   $L_render_106
+$L_render_102:
   .line 64
   push4 100712072
   p00
@@ -4872,21 +4872,21 @@ $L_render_144:
   sys   draw_text_P
   .line 66
   getg  sound_on 0
-  bz    $L_render_145
+  bz    $L_render_103
   .line 67
   push4 151041607
   p00
   push4 4915236
   sys   draw_text_P
   .line 66
-  jmp   $L_render_146
-$L_render_145:
+  jmp   $L_render_104
+$L_render_103:
   .line 69
   push4 167818832
   p00
   push4 4915236
   sys   draw_text_P
-$L_render_146:
+$L_render_104:
   .line 70
   push4 151043726
   p00
@@ -4894,21 +4894,21 @@ $L_render_146:
   sys   draw_text_P
   .line 71
   getg  single_level 0
-  bz    $L_render_147
+  bz    $L_render_105
   .line 72
   push4 117489303
   p00
   push4 4915260
   sys   draw_text_P
   .line 71
-  jmp   $L_render_148
-$L_render_147:
+  jmp   $L_render_106
+$L_render_105:
   .line 74
   push4 134266526
   p00
   push4 4915260
   sys   draw_text_P
-$L_render_148:
+$L_render_106:
   .line 76
   push4 16779367
   p00
@@ -4944,7 +4944,7 @@ $L_render_4:
   sys   set_text_font
   .line 56
   dup
-  bz    $L_render_151
+  bz    $L_render_109
   .line 58
   push4 184598136
   p00
@@ -4962,8 +4962,8 @@ $L_render_4:
   push4 4915236
   sys   draw_text_P
   .line 56
-  jmp   $L_render_155
-$L_render_151:
+  jmp   $L_render_113
+$L_render_109:
   .line 64
   push4 100712072
   p00
@@ -4977,21 +4977,21 @@ $L_render_151:
   sys   draw_text_P
   .line 66
   getg  sound_on 0
-  bz    $L_render_152
+  bz    $L_render_110
   .line 67
   push4 151041607
   p00
   push4 4915236
   sys   draw_text_P
   .line 66
-  jmp   $L_render_153
-$L_render_152:
+  jmp   $L_render_111
+$L_render_110:
   .line 69
   push4 167818832
   p00
   push4 4915236
   sys   draw_text_P
-$L_render_153:
+$L_render_111:
   .line 70
   push4 151043726
   p00
@@ -4999,21 +4999,21 @@ $L_render_153:
   sys   draw_text_P
   .line 71
   getg  single_level 0
-  bz    $L_render_154
+  bz    $L_render_112
   .line 72
   push4 117489303
   p00
   push4 4915260
   sys   draw_text_P
   .line 71
-  jmp   $L_render_155
-$L_render_154:
+  jmp   $L_render_113
+$L_render_112:
   .line 74
   push4 134266526
   p00
   push4 4915260
   sys   draw_text_P
-$L_render_155:
+$L_render_113:
   .line 76
   push4 16779367
   p00
@@ -5392,21 +5392,21 @@ $L_render_6:
   sys   set_text_font
   .line 289
   getg  save_exists 0
-  bz    $L_render_116
+  bz    $L_render_74
   .line 290
   push4 184596008
   p00
   push4 2162717
   sys   draw_text_P
   .line 289
-  jmp   $L_render_117
-$L_render_116:
+  jmp   $L_render_75
+$L_render_74:
   .line 292
   push4 134264371
   p00
   push4 2162717
   sys   draw_text_P
-$L_render_117:
+$L_render_75:
   .line 293
   push4 201373243
   p00
@@ -5414,21 +5414,21 @@ $L_render_117:
   sys   draw_text_P
   .line 294
   getg  sound_on 0
-  bz    $L_render_118
+  bz    $L_render_76
   .line 295
   push4 151041607
   p00
   push4 2162739
   sys   draw_text_P
   .line 294
-  jmp   $L_render_119
-$L_render_118:
+  jmp   $L_render_77
+$L_render_76:
   .line 297
   push4 167818832
   p00
   push4 2162739
   sys   draw_text_P
-$L_render_119:
+$L_render_77:
   .line 298
   push4 117487194
   p00
@@ -5458,7 +5458,7 @@ $L_render_119:
 $L_render_7:
   .line 133
   p0
-$L_render_122:
+$L_render_80:
   .line 136
   push3 48854
   dup4
@@ -5473,7 +5473,7 @@ $L_render_122:
   dup
   push  240
   cult
-  bz    $L_render_123
+  bz    $L_render_81
   .line 138
   dup
   push4 2205440
@@ -5485,7 +5485,7 @@ $L_render_122:
   sub2b
   p00
   sys   draw_sprite
-$L_render_123:
+$L_render_81:
   pop
   .line 136
   push3 48854
@@ -5503,7 +5503,7 @@ $L_render_123:
   dup
   push  240
   cult
-  bz    $L_render_125
+  bz    $L_render_83
   .line 138
   dup
   push4 2205440
@@ -5516,7 +5516,7 @@ $L_render_123:
   p16
   p0
   sys   draw_sprite
-$L_render_125:
+$L_render_83:
   pop
   .line 136
   push3 48854
@@ -5534,7 +5534,7 @@ $L_render_125:
   dup
   push  240
   cult
-  bz    $L_render_127
+  bz    $L_render_85
   .line 138
   dup
   push4 2205440
@@ -5547,7 +5547,7 @@ $L_render_125:
   p32
   p0
   sys   draw_sprite
-$L_render_127:
+$L_render_85:
   pop
   .line 136
   push3 48854
@@ -5565,7 +5565,7 @@ $L_render_127:
   dup
   push  240
   cult
-  bz    $L_render_129
+  bz    $L_render_87
   .line 138
   dup
   push4 2205440
@@ -5577,7 +5577,7 @@ $L_render_127:
   sub2b
   push2 48
   sys   draw_sprite
-$L_render_129:
+$L_render_87:
   pop
   .line 136
   push3 48854
@@ -5595,7 +5595,7 @@ $L_render_129:
   dup
   push  240
   cult
-  bz    $L_render_131
+  bz    $L_render_89
   .line 138
   dup
   push4 2205440
@@ -5608,7 +5608,7 @@ $L_render_129:
   p64
   p0
   sys   draw_sprite
-$L_render_131:
+$L_render_89:
   pop
   .line 136
   push3 48854
@@ -5626,7 +5626,7 @@ $L_render_131:
   dup
   push  240
   cult
-  bz    $L_render_133
+  bz    $L_render_91
   .line 138
   dup
   push4 2205440
@@ -5638,7 +5638,7 @@ $L_render_131:
   sub2b
   push2 80
   sys   draw_sprite
-$L_render_133:
+$L_render_91:
   pop
   .line 136
   push3 48854
@@ -5656,7 +5656,7 @@ $L_render_133:
   dup
   push  240
   cult
-  bz    $L_render_135
+  bz    $L_render_93
   .line 138
   dup
   push4 2205440
@@ -5668,7 +5668,7 @@ $L_render_133:
   sub2b
   push2 96
   sys   draw_sprite
-$L_render_135:
+$L_render_93:
   pop
   .line 136
   push3 48854
@@ -5686,7 +5686,7 @@ $L_render_135:
   dup
   push  240
   cult
-  bz    $L_render_137
+  bz    $L_render_95
   .line 138
   dup
   push4 2205440
@@ -5698,14 +5698,14 @@ $L_render_135:
   sub2b
   push2 112
   sys   draw_sprite
-$L_render_137:
+$L_render_95:
   pop
   .line 133
   inc
   dup
   p5
   cult
-  bnz   $L_render_122
+  bnz   $L_render_80
   pop
   .line 141
   push3 35430
@@ -5775,16 +5775,16 @@ $L_render_137:
   sys   set_text_font
   .line 157
   getg  was_high_score 0
-  bz    $L_render_140
+  bz    $L_render_98
   .line 158
   push4 251666735
   p00
   push4 851997
   sys   draw_text_P
-$L_render_140:
+$L_render_98:
   .line 159
   getg  was_best_time 0
-  bz    $L_render_141
+  bz    $L_render_99
   .line 160
   push4 234889534
   p00
@@ -5792,7 +5792,7 @@ $L_render_140:
   dupw4
   p0
   sys   draw_text_P
-$L_render_141:
+$L_render_99:
   .line 163
   getg  frame_count 0
   p3
@@ -6113,419 +6113,65 @@ $L_render_57:
   .line 234
   p0000
   .line 235
-  p00
-  .line 238
-  getg2 map_high_scores 0
-  bool2
-  bz    $L_render_58
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 0
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_59
+  p000
 $L_render_58:
-  .line 241
+  .line 238
+  pushg map_high_scores 0
+  dup3
+  aidxb 2 12
+  getr2
+  bool2
+  bz    $L_render_59
+  .line 239
+  getln 3 7
+  pushg map_high_scores 0
+  dup6
+  aidxb 2 12
+  getr2
   p0
-  setl  8
+  add3
+  setln 3 7
+  .line 238
+  jmp   $L_render_60
 $L_render_59:
-  .line 242
-  getg2 map_best_times 0
-  bool2
-  bz    $L_render_60
-  .line 243
-  getln 3 3
-  getg2 map_best_times 0
+  .line 241
   p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_61
+  setl  9
 $L_render_60:
-  .line 245
+  .line 242
+  pushg map_best_times 0
+  dup3
+  aidxb 2 12
+  getr2
+  bool2
+  bz    $L_render_61
+  .line 243
+  getln 3 4
+  pushg map_best_times 0
+  dup6
+  aidxb 2 12
+  getr2
   p0
-  setl  7
+  add3
+  setln 3 4
+  .line 242
+  jmp   $L_render_62
 $L_render_61:
-  .line 238
-  getg2 map_high_scores 2
-  bool2
-  bz    $L_render_62
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 2
+  .line 245
   p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_63
+  setl  8
 $L_render_62:
-  .line 241
-  p0
-  setl  8
-$L_render_63:
-  .line 242
-  getg2 map_best_times 2
-  bool2
-  bz    $L_render_64
-  .line 243
-  getln 3 3
-  getg2 map_best_times 2
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_65
-$L_render_64:
-  .line 245
-  p0
-  setl  7
-$L_render_65:
-  .line 238
-  getg2 map_high_scores 4
-  bool2
-  bz    $L_render_66
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 4
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_67
-$L_render_66:
-  .line 241
-  p0
-  setl  8
-$L_render_67:
-  .line 242
-  getg2 map_best_times 4
-  bool2
-  bz    $L_render_68
-  .line 243
-  getln 3 3
-  getg2 map_best_times 4
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_69
-$L_render_68:
-  .line 245
-  p0
-  setl  7
-$L_render_69:
-  .line 238
-  getg2 map_high_scores 6
-  bool2
-  bz    $L_render_70
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 6
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_71
-$L_render_70:
-  .line 241
-  p0
-  setl  8
-$L_render_71:
-  .line 242
-  getg2 map_best_times 6
-  bool2
-  bz    $L_render_72
-  .line 243
-  getln 3 3
-  getg2 map_best_times 6
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_73
-$L_render_72:
-  .line 245
-  p0
-  setl  7
-$L_render_73:
-  .line 238
-  getg2 map_high_scores 8
-  bool2
-  bz    $L_render_74
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 8
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_75
-$L_render_74:
-  .line 241
-  p0
-  setl  8
-$L_render_75:
-  .line 242
-  getg2 map_best_times 8
-  bool2
-  bz    $L_render_76
-  .line 243
-  getln 3 3
-  getg2 map_best_times 8
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_77
-$L_render_76:
-  .line 245
-  p0
-  setl  7
-$L_render_77:
-  .line 238
-  getg2 map_high_scores 10
-  bool2
-  bz    $L_render_78
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 10
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_79
-$L_render_78:
-  .line 241
-  p0
-  setl  8
-$L_render_79:
-  .line 242
-  getg2 map_best_times 10
-  bool2
-  bz    $L_render_80
-  .line 243
-  getln 3 3
-  getg2 map_best_times 10
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_81
-$L_render_80:
-  .line 245
-  p0
-  setl  7
-$L_render_81:
-  .line 238
-  getg2 map_high_scores 12
-  bool2
-  bz    $L_render_82
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 12
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_83
-$L_render_82:
-  .line 241
-  p0
-  setl  8
-$L_render_83:
-  .line 242
-  getg2 map_best_times 12
-  bool2
-  bz    $L_render_84
-  .line 243
-  getln 3 3
-  getg2 map_best_times 12
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_85
-$L_render_84:
-  .line 245
-  p0
-  setl  7
-$L_render_85:
-  .line 238
-  getg2 map_high_scores 14
-  bool2
-  bz    $L_render_86
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 14
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_87
-$L_render_86:
-  .line 241
-  p0
-  setl  8
-$L_render_87:
-  .line 242
-  getg2 map_best_times 14
-  bool2
-  bz    $L_render_88
-  .line 243
-  getln 3 3
-  getg2 map_best_times 14
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_89
-$L_render_88:
-  .line 245
-  p0
-  setl  7
-$L_render_89:
-  .line 238
-  getg2 map_high_scores 16
-  bool2
-  bz    $L_render_90
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 16
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_91
-$L_render_90:
-  .line 241
-  p0
-  setl  8
-$L_render_91:
-  .line 242
-  getg2 map_best_times 16
-  bool2
-  bz    $L_render_92
-  .line 243
-  getln 3 3
-  getg2 map_best_times 16
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_93
-$L_render_92:
-  .line 245
-  p0
-  setl  7
-$L_render_93:
-  .line 238
-  getg2 map_high_scores 18
-  bool2
-  bz    $L_render_94
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 18
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_95
-$L_render_94:
-  .line 241
-  p0
-  setl  8
-$L_render_95:
-  .line 242
-  getg2 map_best_times 18
-  bool2
-  bz    $L_render_96
-  .line 243
-  getln 3 3
-  getg2 map_best_times 18
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_97
-$L_render_96:
-  .line 245
-  p0
-  setl  7
-$L_render_97:
-  .line 238
-  getg2 map_high_scores 20
-  bool2
-  bz    $L_render_98
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 20
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_99
-$L_render_98:
-  .line 241
-  p0
-  setl  8
-$L_render_99:
-  .line 242
-  getg2 map_best_times 20
-  bool2
-  bz    $L_render_100
-  .line 243
-  getln 3 3
-  getg2 map_best_times 20
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_101
-$L_render_100:
-  .line 245
-  p0
-  setl  7
-$L_render_101:
-  .line 238
-  getg2 map_high_scores 22
-  bool2
-  bz    $L_render_102
-  .line 239
-  getln 3 6
-  getg2 map_high_scores 22
-  p0
-  add3
-  setln 3 6
-  .line 238
-  jmp   $L_render_103
-$L_render_102:
-  .line 241
-  p0
-  setl  8
-$L_render_103:
-  .line 242
-  getg2 map_best_times 22
-  bool2
-  bz    $L_render_104
-  .line 243
-  getln 3 3
-  getg2 map_best_times 22
-  p0
-  add3
-  setln 3 3
-  .line 242
-  jmp   $L_render_105
-$L_render_104:
-  .line 245
-  p0
-  setl  7
-$L_render_105:
+  .line 236
+  inc
+  dup
+  push  12
+  cult
+  bnz   $L_render_58
+  pop
   .line 248
   getgn 3 high_score 0
   bool3
-  bz    $L_render_106
+  bz    $L_render_64
   .line 249
   getgn 3 high_score 0
   p0
@@ -6534,18 +6180,18 @@ $L_render_105:
   push4 4259891
   sys   draw_textf
   .line 248
-  jmp   $L_render_107
-$L_render_106:
+  jmp   $L_render_65
+$L_render_64:
   .line 251
   p0
   push3 65571
   p00
   push4 4915251
   sys   draw_text_P
-$L_render_107:
+$L_render_65:
   .line 253
   dup8
-  bz    $L_render_108
+  bz    $L_render_66
   .line 254
   getln 3 6
   p0
@@ -6554,19 +6200,19 @@ $L_render_107:
   push4 4259898
   sys   draw_textf
   .line 253
-  jmp   $L_render_109
-$L_render_108:
+  jmp   $L_render_67
+$L_render_66:
   .line 256
   p0
   push3 65571
   p00
   push4 4915258
   sys   draw_text_P
-$L_render_109:
+$L_render_67:
   .line 258
   getgn 3 best_time 0
   bool3
-  bz    $L_render_110
+  bz    $L_render_68
   .line 260
   pz8
   p00
@@ -6603,18 +6249,18 @@ $L_render_109:
   sys   draw_text
   popn  11
   .line 258
-  jmp   $L_render_111
-$L_render_110:
+  jmp   $L_render_69
+$L_render_68:
   .line 266
   p0
   push3 65571
   p00
   push4 7209011
   sys   draw_text_P
-$L_render_111:
+$L_render_69:
   .line 268
   dup7
-  bz    $L_render_112
+  bz    $L_render_70
   .line 270
   pz8
   p00
@@ -6652,7 +6298,7 @@ $L_render_111:
   popn  20
   .line 11
   ret
-$L_render_112:
+$L_render_70:
   .line 276
   p0
   push3 65571
@@ -8379,12 +8025,10 @@ $L_solid_4:
   .line 716
   bnz   $L_solid_18
   .line 717
-  pushg hearts 0
   getg  hearts 0
   dec
-  dupw2
-  setr
-  getr
+  setg  hearts 0
+  getg  hearts 0
   bz    $L_solid_15
   .line 719
   push  75
@@ -8947,12 +8591,10 @@ $L_update_52:
   bz    $L_update_54
   .line 170
   push  11
-  pushg menu_sprite 0
   getg  menu_sprite 0
   inc
-  dupw2
-  setr
-  getr
+  setg  menu_sprite 0
+  getg  menu_sprite 0
   cult
   bz    $L_update_53
   .line 171
@@ -9259,12 +8901,10 @@ $L_update_11:
   p3
   and
   bnz   $L_update_31
-  pushg creditsy 0
   getg  creditsy 0
   inc
-  dupw2
-  setr
-  getr
+  setg  creditsy 0
+  getg  creditsy 0
   push2 35840
   sub2b
   bool2
@@ -9788,12 +9428,10 @@ $L_update_level_36:
   p0000
   setg4 vx 0
   .line 438
-  pushg death_frames 0
   getg  death_frames 0
   dec
-  dupw2
-  setr
-  getr
+  setg  death_frames 0
+  getg  death_frames 0
   bnz   $L_update_level_39
   .line 440
   p00
@@ -10388,12 +10026,10 @@ $L_update_level_132:
   .line 716
   bnz   $L_update_level_118
   .line 717
-  pushg hearts 0
   getg  hearts 0
   dec
-  dupw2
-  setr
-  getr
+  setg  hearts 0
+  getg  hearts 0
   bz    $L_update_level_115
   .line 719
   push  75
@@ -10713,13 +10349,11 @@ $L_update_level_85:
   .line 653
   popn  20
   .line 482
-  pushg level_frames_remaining 0
   getg2 level_frames_remaining 0
   p1
   sub2b
-  dupw3
-  setr2
-  getr2
+  setg2 level_frames_remaining 0
+  getg2 level_frames_remaining 0
   bool2
   bnz   $L_update_level_69
   .line 696

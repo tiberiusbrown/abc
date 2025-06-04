@@ -132,20 +132,16 @@ $L_main_15:
   not
   sys   assert
   .line 38
-  refl  3
-  getl  12
+  getl  10
   bz    $L_main_16
-  refl  8
+  refl  6
   jmp   $L_main_17
 $L_main_16:
-  refl  11
+  refl  9
 $L_main_17:
   getrn 3
-  dupw4
-  setrn 3
-  p1
-  add2b
-  getr
+  setln 3 3
+  dup2
   push  42
   sub
   not

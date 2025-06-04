@@ -522,13 +522,11 @@ $L_main_18:
   setg4 by 0
   .line 54
   p00
-  pushg ai_serving_wait 0
   getg2 ai_serving_wait 0
   p1
   sub2b
-  dupw3
-  setr2
-  getr2
+  setg2 ai_serving_wait 0
+  getg2 ai_serving_wait 0
   cslt2
   bnz   $L_main_19
   .line 56

@@ -26,13 +26,11 @@ main:
   not
   sys   assert
   .line 9
-  refl  2
-  dupw3
+  dupw
   p3
   add2b
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 10
@@ -149,13 +147,11 @@ main:
   not
   sys   assert
   .line 33
-  refl  2
-  dupw3
+  dupw
   p3
   sub2b
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 34
@@ -188,13 +184,11 @@ main:
   not
   sys   assert
   .line 42
-  refl  2
-  dupw3
+  dupw
   p3
   mul2b
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 43
@@ -230,16 +224,14 @@ main:
   not
   sys   assert
   .line 51
-  refl  2
-  dupw3
+  dupw
   sext2
   push  11
   p000
   div4
   pop2
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 52
@@ -275,16 +267,14 @@ main:
   not
   sys   assert
   .line 60
-  refl  2
-  dupw3
+  dupw
   sext2
   p4
   p000
   mod4
   pop2
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 61
@@ -314,13 +304,11 @@ main:
   not
   sys   assert
   .line 69
-  refl  2
-  dupw3
+  dupw
   p1
   asr2
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 70
@@ -350,13 +338,11 @@ main:
   not
   sys   assert
   .line 78
-  refl  2
-  dupw3
+  dupw
   p1
   asr2
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 79
@@ -389,13 +375,11 @@ main:
   not
   sys   assert
   .line 87
-  refl  2
-  dupw3
+  dupw
   p1
   lsl2
-  dupw3
-  setr2
-  getr2
+  setl2 2
+  dupw
   p1
   add2b
   .line 88
@@ -424,13 +408,11 @@ main:
   not
   sys   assert
   .line 96
-  refl  1
-  dup3
+  dup
   push  112
   and
-  dupw2
-  setr
-  getr
+  setl  1
+  dup
   inc
   .line 97
   dup2
@@ -456,13 +438,11 @@ main:
   not
   sys   assert
   .line 105
-  refl  1
-  dup3
+  dup
   push  22
   or
-  dupw2
-  setr
-  getr
+  setl  1
+  dup
   inc
   .line 106
   dup2
@@ -488,13 +468,11 @@ main:
   not
   sys   assert
   .line 114
-  refl  1
-  dup3
+  dup
   push  22
   xor
-  dupw2
-  setr
-  getr
+  setl  1
+  dup
   inc
   .line 115
   dup2
