@@ -116,7 +116,7 @@ static void make_prog(compiler_type_t& t)
         make_prog(child);
 }
 
-bool compiler_t::convertable(compiler_type_t const& dst, compiler_type_t const& src)
+bool compiler_t::convertible(compiler_type_t const& dst, compiler_type_t const& src)
 {
     if(dst.is_prim() && src.without_ref().is_prim())
         return true;
@@ -128,16 +128,12 @@ bool compiler_t::convertable(compiler_type_t const& dst, compiler_type_t const& 
     }
     auto const& rdst = dst.without_ref();
     auto const& rsrc = src.without_ref();
+    if(rsrc.without_prog() == dst)
+        return true;
     if(rdst.is_struct() && rsrc.is_struct())
         return rdst.struct_name == rsrc.struct_name;
-    if(dst.is_array_ref() && src.is_ref())
-    {
-        if(rsrc.is_array())
-            return dst.children[0] == rsrc.children[0];
-        if(rsrc.without_prog() == dst)
-            return true;
-        return rsrc == dst;
-    }
+    if(dst.is_array_ref() && src.is_ref() && rsrc.is_array())
+        return dst.children[0] == rsrc.children[0];
     if(dst.is_ref())
         return dst == src;
     return dst == rsrc;
@@ -370,7 +366,7 @@ bool compiler_t::check_sysfunc_overload(compiler_func_decl_t const& decl, ast_no
         return false;
     for(size_t i = 0; i < args.children.size(); ++i)
     {
-        if(!convertable(decl.arg_types[i], args.children[i].comp_type))
+        if(!convertible(decl.arg_types[i], args.children[i].comp_type))
             return false;
     }
     return true;

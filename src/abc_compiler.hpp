@@ -682,7 +682,7 @@ private:
     compiler_type_t const* resolve_member(
         ast_node_t const& a, std::string const& name, size_t* offset = nullptr);
 
-    bool convertable(compiler_type_t const& dst, compiler_type_t const& src);
+    bool convertible(compiler_type_t const& dst, compiler_type_t const& src);
     bool check_sysfunc_overload(compiler_func_decl_t const& decl, ast_node_t const& n);
     compiler_type_t resolve_type(ast_node_t const& n);
     compiler_func_t resolve_func(ast_node_t const& n);
