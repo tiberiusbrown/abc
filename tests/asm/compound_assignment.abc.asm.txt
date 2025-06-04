@@ -58,16 +58,10 @@ main:
   p3
   p0
   p4
-  p0
-  .line 16
-  refl  6
-  dupw
-  getr2
-  p1
-  add2b
   dupw3
-  setr2
-  pop2
+  .line 16
+  p0
+  setl2 6
   .line 17
   dupw7
   p1
@@ -97,14 +91,11 @@ main:
   not
   sys   assert
   .line 21
-  refl  4
-  dupw
-  getr2
+  dupw3
   p3
   add2b
+  setl2 4
   dupw3
-  setr2
-  getr2
   p1
   add2b
   .line 22

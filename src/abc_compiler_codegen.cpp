@@ -365,8 +365,9 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         type_annotate(a.children[0], frame);
         codegen_expr(f, frame, a.children[0], false);
         assert(frame.size < 256);
-        size_t n = frame.size - expr_prev_size;
-        if(n != 0)
+        int n = int(frame.size - expr_prev_size);
+        assert(n >= 0);
+        if(n >= 0)
             f.instrs.push_back({ I_POPN, a.line(), uint8_t(n) });
         frame.size = expr_prev_size;
         break;

@@ -150,7 +150,7 @@ void game_loop()
     $draw_filled_rect(0, 0, 128, 8, BLACK);
     $draw_filled_rect(0, 6, 128, 2, WHITE);
     $set_text_font(f);
-    $draw_textf(0, 0, "Score: %u", score);
+    $draw_textf(0, 5, "Score: %u", score);
     
     $display_noclear();
 }

@@ -16,13 +16,10 @@ main:
   .line 11
   sys   debug_break
   .line 13
-  pushg foo 1
-  dupw
-  getr
+  getg  foo 1
   dec
-  dupw2
-  setr
-  getr
+  setg  foo 1
+  getg  foo 1
   bnz   $L_main_0
   .line 14
   push  42

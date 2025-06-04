@@ -36,6 +36,34 @@ static uint8_t get_pow2_shift(int64_t x)
     return n;
 }
 
+bool compiler_t::is_simple_lvalue(ast_node_t const& n, compiler_frame_t const& frame)
+{
+    if(n.type == AST::IDENT)
+    {
+        if(auto const* v = resolve_global(n); v)
+        {
+            if(v->is_constexpr_ref()) return true;
+            if(v->var.type.is_any_ref()) return false;
+            return true;
+        }
+        if(auto const* v = resolve_local(frame, n); v)
+        {
+            if(v->var.type.is_any_ref()) return false;
+            return true;
+        }
+        return false;
+    }
+    if(n.type == AST::ARRAY_INDEX)
+    {
+        if(n.children[1].type != AST::INT_CONST)
+            return false;
+        return is_simple_lvalue(n.children[0], frame);
+    }
+    if(n.type == AST::STRUCT_MEMBER)
+        return is_simple_lvalue(n.children[0], frame);
+    return false;
+}
+
 void compiler_t::resolve_format_call(
     ast_node_t const& n, compiler_func_decl_t const& decl,
     std::vector<compiler_type_t>& arg_types, std::string& fmt)
@@ -231,6 +259,7 @@ void compiler_t::codegen_expr(
         codegen_expr(f, frame, a.children[0], true);
         ref_instrs = f.instrs.size() - ref_instrs;
         bool dup_ref = (ref_instrs >= 3);
+        dup_ref = !is_simple_lvalue(a.children[0], frame);
 
         // dup the ref
         if(dup_ref)
@@ -259,11 +288,16 @@ void compiler_t::codegen_expr(
         frame.size -= 2;
         frame.size -= size;
 
-        // if the root op, pop the ref
-        if(!non_root)
+        // if the root op, pop the dup'd ref
+        if(!non_root && dup_ref)
         {
             f.instrs.push_back({ I_POPN, a.line(), 2 });
             frame.size -= 2;
+        }
+        if(non_root && !dup_ref)
+        {
+            // gen the reference again
+            codegen_expr(f, frame, a.children[0], true);
         }
         return;
     }

@@ -87,8 +87,6 @@ enum class AST
     // right-associative assignment operators
     OP_ASSIGN,
     OP_ASSIGN_COMPOUND,
-    OP_ASSIGN_DEREF,
-    OP_ASSIGN_COMPOUND_DEREF,
 
     OP_INC_POST,
     OP_DEC_POST,
@@ -666,6 +664,8 @@ private:
     void compile_recurse(std::string const& path, std::string const& name);
 
     bool check_identifier(ast_node_t const& n);
+
+    bool is_simple_lvalue(ast_node_t const& n, compiler_frame_t const& frame);
 
     // how the stack size is affected by an instruction
     int instr_stack_mod(compiler_instr_t const& i);

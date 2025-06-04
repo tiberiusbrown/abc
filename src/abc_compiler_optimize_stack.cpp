@@ -112,7 +112,6 @@ static bool is_stack_eliminatable(compiler_instr_t const& i)
 bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
 {
     bool t = false;
-    clear_removed_instrs(instrs);
     std::unordered_set<std::string> found_labels;
     for(size_t i = 0; i < instrs.size(); ++i)
     {
@@ -210,6 +209,7 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
         }
         t = true;
     }
+    clear_removed_instrs(instrs);
     return t;
 }
 
