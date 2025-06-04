@@ -181,28 +181,22 @@ $L_main_51:
   .line 67
   dup
   bnzp  $L_main_9
-  p00
   .line 17
+  p0
   sys   assert
-  .line 18
-  p1
-  setl  1
 $L_main_9:
   .line 67
-  pop2
+  pop
   .line 71
   p00
   .line 72
   bzp   $L_main_10
-  p00
   .line 17
+  p0
   sys   assert
-  .line 18
-  p1
-  setl  1
 $L_main_10:
   .line 72
-  pop2
+  pop
   .line 76
   p1
   .line 77
@@ -211,16 +205,10 @@ $L_main_10:
   .line 78
   dup
   bzp   $L_main_11
-  p0
   .line 24
   p1
   setg  gf 0
-  .line 25
-  p1
-  setl  1
 $L_main_11:
-  .line 78
-  pop
   .line 79
   getg  gf 0
   sys   assert
@@ -232,16 +220,10 @@ $L_main_11:
   .line 85
   dup
   bnzp  $L_main_12
-  p0
   .line 24
   p1
   setg  gf 0
-  .line 25
-  p1
-  setl  1
 $L_main_12:
-  .line 85
-  pop
   .line 86
   getg  gf 0
   sys   assert

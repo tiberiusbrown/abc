@@ -11,31 +11,11 @@ main:
   .file setln_bug.abc
   .line 3
   sys   debug_break
-  .line 5
-  push  68
-  dup
-  dup
-  .line 6
-  push  85
-  dup
-  dup
-  .line 8
-  push  153
-  dup
-  dup
-  setln 3 6
   .line 9
-  getln 3 6
-  push  153
-  dup
-  dup
-  sub3
-  bool3
-  not
+  p1
   sys   assert
   .line 11
   sys   debug_break
   .line 1
-  popn  6
   ret
 

@@ -23,31 +23,6 @@ main:
   .line 20
   p1
   sys   assert
-  .line 22
-  pz16
-  p0000
-  .line 24
-  push2 65
-  setl2 20
-  push2 66
-  setl2 18
-  push2 67
-  setl2 16
-  push2 68
-  setl2 14
-  push2 69
-  setl2 12
-  push2 70
-  setl2 10
-  push2 71
-  setl2 8
-  push2 72
-  setl2 6
-  push2 73
-  setl2 4
-  push2 74
-  setl2 2
-  popn  20
   .line 28
   push2 42
   setg2 a 0

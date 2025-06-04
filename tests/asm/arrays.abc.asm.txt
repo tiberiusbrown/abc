@@ -11,8 +11,9 @@ main:
   .file arrays.abc
   .line 25
   sys   debug_break
+  .line 32
+  p5
   .line 27
-  p1
   p0
   p2
   p0
@@ -45,7 +46,6 @@ main:
   not
   sys   assert
   .line 32
-  p5
   p0
   p6
   p0
@@ -53,7 +53,7 @@ main:
   p0
   p8
   p0
-  setln 8 8
+  setln 7 7
   .line 33
   dupw7
   p5

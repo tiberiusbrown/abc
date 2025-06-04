@@ -129,7 +129,8 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
         for(j = i + 1; j < instrs.size(); ++j)
         {
             auto const& ij = instrs[j];
-            if(is_pop(ij))
+            if(is_pop(ij) || (
+                ij.instr == I_SETLN && int(j - i - 1) >= (int)ij.imm))
             {
                 bool accessed_some = false;
                 bool accessed_all = true;
@@ -175,33 +176,96 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
         if(!elim)
             continue;
 
+        auto& iend = instrs[j];
+
+        if(iend.instr == I_SETLN)
+        {
+            // check preceeding pushes
+            {
+                bool valid = true;
+                for(int k = 1; k <= (int)iend.imm; ++k)
+                {
+                    if(instrs[j - k].instr != I_PUSH)
+                        valid = false;
+                }
+                if(!valid)
+                    continue;
+            }
+
+            size_t setln_off = iend.imm + iend.imm2 - n;
+
+            // NOTE TO SELF:
+            // THESE MOVES NEED TO BE ROTATES
+
+            // move pushes in place of original instruction
+            {
+                assert(int(iend.imm + iend.imm2) >= n);
+                assert(iend.imm >= size);
+                size_t isrc = j - n + iend.imm2;
+                size_t idst = i + 1;
+                std::rotate(
+                    instrs.begin() + idst,
+                    instrs.begin() + isrc,
+                    instrs.begin() + isrc + size
+                );
+                //std::move(
+                //    instrs.begin() + isrc,
+                //    instrs.begin() + isrc + size,
+                //    instrs.begin() + idst);
+            }
+
+            // move orig instr to behind setln
+            std::rotate(
+                instrs.begin() + i,
+                instrs.begin() + i + 1,
+                instrs.begin() + j
+            );
+            //std::move_backward(
+            //    instrs.begin() + i,
+            //    instrs.begin() + i + 1,
+            //    instrs.begin() + j);
+
+            // split setln
+            auto& iend0 = instrs[j - 1];
+            auto& iend1 = instrs[j + 0];
+            iend0 = iend1;
+            iend0.imm = uint32_t(setln_off);
+            iend0.imm2 += (iend1.imm - iend0.imm);
+            iend1.imm -= uint32_t(setln_off + size);
+            iend1.imm2 -= uint32_t(setln_off + size);
+            if(iend0.imm == 0) iend0.instr = I_REMOVE;
+            if(iend1.imm == 0) iend1.instr = I_REMOVE;
+            t = true;
+            continue;
+            //__debugbreak();
+        }
+
         static_assert(I_POP2 == I_POP + 1, "");
         static_assert(I_POP3 == I_POP2 + 1, "");
         static_assert(I_POP4 == I_POP3 + 1, "");
         i0.instr = I_REMOVE;
-        auto& ipop = instrs[j];
-        switch(ipop.instr)
+        switch(iend.instr)
         {
         case I_POP:
             assert(size <= 1);
-            ipop.instr = I_REMOVE;
+            iend.instr = I_REMOVE;
             break;
         case I_POP2:
             assert(size <= 2);
-            ipop.instr = (size >= 2 ? I_REMOVE : instr_t(I_POP2 - size));
+            iend.instr = (size >= 2 ? I_REMOVE : instr_t(I_POP2 - size));
             break;
         case I_POP3:
             assert(size <= 3);
-            ipop.instr = (size >= 3 ? I_REMOVE : instr_t(I_POP3 - size));
+            iend.instr = (size >= 3 ? I_REMOVE : instr_t(I_POP3 - size));
             break;
         case I_POP4:
             assert(size <= 4);
-            ipop.instr = (size >= 4 ? I_REMOVE : instr_t(I_POP4 - size));
+            iend.instr = (size >= 4 ? I_REMOVE : instr_t(I_POP4 - size));
             break;
         case I_POPN:
-            assert(size <= (int)ipop.imm);
-            if((ipop.imm -= size) <= 0)
-                ipop.instr = I_REMOVE;
+            assert(size <= (int)iend.imm);
+            if((iend.imm -= size) <= 0)
+                iend.instr = I_REMOVE;
             break;
         default:
             assert(0);

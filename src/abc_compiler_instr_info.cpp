@@ -262,6 +262,9 @@ std::pair<bool, uint32_t> compiler_t::instr_accesses_stack(
     case I_SETR2:
     case I_SETRN:
         return { true, 256 };
+
+    case I_REMOVE:
+        return { false, 0 };
     default:
         assert(0);
         break;
@@ -509,6 +512,10 @@ int compiler_t::instr_stack_mod(compiler_instr_t const& i)
         return 8;
     case I_PZ16:
         return 16;
+
+    case I_REMOVE:
+        return 0;
+
     default:
         assert(0);
         return 0;

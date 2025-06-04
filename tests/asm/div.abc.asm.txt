@@ -11,16 +11,16 @@ main:
   .file div.abc
   .line 3
   sys   debug_break
-  .line 5
-  pz8
+  .line 7
+  push  114
+  p000
+  push  15
+  p000
   .line 6
   push  249
   p000
-  setl4 8
   push  200
   p000
-  setl4 4
-  getln 8 8
   udiv4
   p1
   p000
@@ -29,12 +29,6 @@ main:
   not
   sys   assert
   .line 7
-  push  114
-  p000
-  setl4 8
-  push  15
-  p000
-  setl4 4
   getln 8 8
   udiv4
   p7
@@ -2778,18 +2772,19 @@ main:
   not
   sys   assert
   popn  8
-  .line 208
-  pz8
+  .line 210
+  p7
+  p000
+  push2 65534
+  dup
+  dup
   .line 209
-  push2 65402
+  push  122
+  dupw2
   dup
+  push  247
+  dupw2
   dup
-  setl4 8
-  push2 65527
-  dup
-  dup
-  setl4 4
-  getln 8 8
   div4
   push  14
   p000
@@ -2798,13 +2793,6 @@ main:
   not
   sys   assert
   .line 210
-  p7
-  p000
-  setl4 8
-  push2 65534
-  dup
-  dup
-  setl4 4
   getln 8 8
   div4
   push2 65533
@@ -5654,17 +5642,13 @@ main:
   not
   sys   assert
   popn  8
-  .line 411
-  p0000
+  .line 413
+  push4 1704029
   .line 412
-  push2 118
-  setl2 4
-  push2 73
-  setl2 2
-  dupw3
-  p00
-  dupw5
-  p00
+  push  118
+  p000
+  push  73
+  p000
   udiv4
   p1
   p000
@@ -5673,10 +5657,6 @@ main:
   not
   sys   assert
   .line 413
-  push2 93
-  setl2 4
-  push2 26
-  setl2 2
   dupw3
   p00
   dupw5
@@ -6618,17 +6598,14 @@ main:
   not
   sys   assert
   pop4
-  .line 474
-  p0000
+  .line 476
+  push4 1900595
   .line 475
   push2 65489
-  setl2 4
-  push2 41
-  setl2 2
-  dupw3
-  sext2
-  dupw5
-  sext2
+  dup
+  dup
+  push  41
+  p000
   div4
   push  255
   dup
@@ -6638,10 +6615,6 @@ main:
   not
   sys   assert
   .line 476
-  push2 51
-  setl2 4
-  push2 29
-  setl2 2
   dupw3
   sext2
   dupw5

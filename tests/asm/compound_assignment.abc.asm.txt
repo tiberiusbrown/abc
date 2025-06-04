@@ -11,19 +11,11 @@ main:
   .file compound_assignment.abc
   .line 3
   sys   debug_break
-  .line 6
-  p2
-  p0
   .line 7
   p3
   p0
-  setl2 2
   .line 8
-  dupw
-  p3
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 9
   dupw
@@ -51,21 +43,15 @@ main:
   .line 15
   p1
   p0
-  p2
-  p0
+  .line 16
   p3
+  dupw
+  .line 15
   p0
   p4
-  dupw3
-  .line 16
   p0
-  setl2 6
   .line 17
-  dupw7
   p1
-  sub2b
-  bool2
-  not
   sys   assert
   .line 18
   dupw5
@@ -132,19 +118,11 @@ main:
   not
   sys   assert
   popn  10
-  .line 30
-  p2
-  p0
   .line 31
   p1
   p0
-  setl2 2
   .line 32
-  dupw
   p1
-  sub2b
-  bool2
-  not
   sys   assert
   .line 33
   dupw
@@ -169,19 +147,11 @@ main:
   not
   sys   assert
   pop4
-  .line 39
-  p2
-  p0
   .line 40
   p4
   p0
-  setl2 2
   .line 41
-  dupw
-  p4
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 42
   dupw
@@ -292,16 +262,9 @@ main:
   not
   sys   assert
   pop4
-  .line 66
-  push4 1572962
   .line 67
-  setl2 2
+  push3 65560
   .line 68
-  dupw
-  push  24
-  sub2b
-  bool2
-  not
   sys   assert
   .line 69
   dupw
@@ -326,16 +289,9 @@ main:
   not
   sys   assert
   pop4
-  .line 75
-  push4 4293394334
   .line 76
-  setl2 2
+  push3 131047
   .line 77
-  dupw
-  push  25
-  add2b
-  bool2
-  not
   sys   assert
   .line 78
   dupw
@@ -360,19 +316,11 @@ main:
   not
   sys   assert
   pop4
-  .line 84
-  p2
-  p0
   .line 85
   p8
   p0
-  setl2 2
   .line 86
-  dupw
-  p8
-  sub2b
-  bool2
-  not
+  p1
   sys   assert
   .line 87
   dupw
@@ -397,15 +345,9 @@ main:
   not
   sys   assert
   pop4
-  .line 93
-  push2 41122
   .line 94
-  setl  1
+  push2 416
   .line 95
-  dup
-  push  160
-  sub
-  not
   sys   assert
   .line 96
   dup
@@ -427,15 +369,9 @@ main:
   not
   sys   assert
   pop2
-  .line 102
-  push2 62114
   .line 103
-  setl  1
+  push2 498
   .line 104
-  dup
-  push  242
-  sub
-  not
   sys   assert
   .line 105
   dup
@@ -457,15 +393,9 @@ main:
   not
   sys   assert
   pop2
-  .line 111
-  push2 21154
   .line 112
-  setl  1
+  push2 338
   .line 113
-  dup
-  push  82
-  sub
-  not
   sys   assert
   .line 114
   dup

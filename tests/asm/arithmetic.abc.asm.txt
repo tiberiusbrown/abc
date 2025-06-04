@@ -1138,29 +1138,9 @@ main:
   sys   assert
   .line 156
   popn  12
-  .line 209
-  push  68
-  dup
-  dup
-  .line 210
-  push  85
-  dup
-  dup
-  .line 212
-  push  153
-  dup
-  dup
-  setln 3 6
   .line 213
-  getln 3 6
-  push  153
-  dup
-  dup
-  sub3
-  bool3
-  not
+  p1
   sys   assert
-  popn  6
   .line 216
   sys   debug_break
   .line 198

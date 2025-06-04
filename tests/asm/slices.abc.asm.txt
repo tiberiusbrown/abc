@@ -31,29 +31,16 @@ main:
   .file slices.abc
   .line 3
   sys   debug_break
-  .line 6
-  pz8
-  p000
   .line 8
-  setl  10
+  p0
   p1
-  setl  9
   p2
-  setl  8
   p3
-  setl  7
   p4
-  setl  6
   p5
-  setl  5
   p6
-  setl  4
   p7
-  setl  3
-  p8
-  setl  2
-  push  9
-  setl  1
+  push2 2312
   .line 11
   refl  9
   p3

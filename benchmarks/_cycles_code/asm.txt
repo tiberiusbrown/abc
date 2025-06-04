@@ -1770,16 +1770,14 @@ main:
   sys   assert
   .line 220
   sys   debug_break
-  .line 223
-  pz8
-  p0000
   .line 224
   push  249
   p000
-  setl4 12
   push  200
+  p0000
+  .line 223
   p000
-  setl4 8
+  .line 224
   getl4 8
   getl4 16
   push4 301991485
@@ -1935,18 +1933,17 @@ main:
   setl4 4
   sys   debug_break
   popn  12
+  .line 237
+  p16
+  push  255
+  dup
+  dup
+  push  193
+  dupw2
+  dup
   .line 236
-  pz8
   p0000
   .line 237
-  push2 65296
-  dup
-  dup
-  setl4 12
-  push2 65473
-  dup
-  dup
-  setl4 8
   getl4 8
   getl4 16
   push4 301991503
@@ -2104,18 +2101,12 @@ main:
   setl4 4
   sys   debug_break
   popn  12
-  .line 249
-  p0000
-  p00
   .line 250
-  push2 169
-  setl2 6
-  push2 52
-  setl2 4
-  dupw3
-  p00
-  getl2 10
-  p00
+  push3 3408041
+  p000
+  getl4 4
+  push  169
+  p000
   push4 301991521
   p00
   sys   debug_printf
@@ -2171,18 +2162,13 @@ main:
   setl2 2
   sys   debug_break
   popn  6
-  .line 255
-  p0000
-  p00
   .line 256
+  push3 1572627
+  p000
+  getl4 4
   push2 65299
-  setl2 6
-  push2 23
-  setl2 4
-  dupw3
-  sext2
-  getl2 10
-  sext2
+  dup
+  dup
   push4 301991539
   p00
   sys   debug_printf

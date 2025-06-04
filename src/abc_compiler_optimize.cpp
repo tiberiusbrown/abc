@@ -7,7 +7,13 @@ namespace abc
 
 void compiler_t::optimize()
 {
-    // peephole optimizations
+#ifndef NDEBUG
+    for(instr_t i = I_NOP; i < NUM_INSTRS; i = instr_t(i + 1))
+    {
+        (void)instr_stack_mod({ i });
+        (void)instr_accesses_stack({ i }, 1);
+    }
+#endif
 
     for(bool repeat = true; repeat;)
     {
