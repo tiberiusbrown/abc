@@ -1,5 +1,7 @@
 import bench_math;
 
+u8[100] prog pa = {};
+
 void main()
 {
     $debug_printf("nothing (baseline)\n");
@@ -258,6 +260,15 @@ void main()
     a = 0x00002ac1; b = 0xffffff93; $debug_printf("div2  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
     }
 
+    {
+        u8[100] a, b;
+        $debug_printf("memset(100)\n");
+        $debug_break(); $memset(a, 1); $debug_break();
+        $debug_printf("memcpy(100)\n");
+        $debug_break(); $memcpy(b, a); $debug_break();
+        $debug_printf("memcpy_P(100)\n");
+        $debug_break(); $memcpy(b, pa); $debug_break();
+    }
     
     bench_math();
 

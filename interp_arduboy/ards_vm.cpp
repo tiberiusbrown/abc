@@ -40,6 +40,7 @@ extern "C" void sys_ceil();
 extern "C" void sys_cos();
 extern "C" void sys_debug_break();
 extern "C" void sys_floor();
+extern "C" void sys_memset();
 extern "C" void sys_mod();
 extern "C" void sys_pow();
 extern "C" void sys_round();
@@ -2260,15 +2261,45 @@ I_INC:
 dec_dispatch:
 refgb_dispatch:
 uaidx_dispatch:
-    dispatch_reverse
+    dispatch_noalign_reverse
     ; TODO: space here
+    .align 6
 
 I_DEC:
     dec r9
     nop
     rjmp dec_dispatch
+
+sys_memset:
+    lds  r30, %[vm_sp]
+    ldi  r31, 0x01
+    ld   r25, -Z
+    ld   r24, -Z
+    ld   r27, -Z
+    ld   r26, -Z
+    ld   r22, -Z
+    sts  %[vm_sp], r30
+    adiw r24, 0
+    breq 4f
+    lsr  r25
+    ror  r24
+    brcc 1f
+    st   X+, r22
+1:  lsr  r25
+    ror  r24
+    brcc 3f
+    st   X+, r22
+    st   X+, r22
+    rjmp 3f
+2:  st   X+, r22
+    st   X+, r22
+    st   X+, r22
+    st   X+, r22
+3:  sbiw r24, 1
+    brcc 2b
+4:  ret
+
     .align 6
-    ; TODO: space here
 
 I_LINC:
     rjmp .+0

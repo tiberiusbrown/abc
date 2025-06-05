@@ -1747,6 +1747,9 @@ static void sys_strcpy_P()
     seek_to_pc();
 }
 
+#if 1
+extern "C" void sys_memset();
+#else
 static void sys_memset()
 {
     auto ptr = vm_pop_begin();
@@ -1759,6 +1762,7 @@ static void sys_memset()
         val,
         n0);
 }
+#endif
 
 static void sys_memcpy()
 {
