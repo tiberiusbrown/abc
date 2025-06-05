@@ -4,9 +4,53 @@ u8[512] copy;
 
 struct blah { int a, b; };
 
+struct foo_t
+{
+    u8     a;
+    u8[32] b;
+    u8     c;
+};
+
 void main()
 {
     $debug_break();
+    
+    {
+        foo_t f;
+        f.a = 42;
+        f.c = 42;
+        $assert(f.a == 42);
+        $assert(f.c == 42);
+        for(u8 i = 0; i < len(f.b); ++i)
+            $assert(f.b[i] == 0);
+
+        $memset(f.b, 3);
+        $assert(f.a == 42);
+        $assert(f.c == 42);
+        for(u8 i = 0; i < len(f.b); ++i)
+            $assert(f.b[i] == 3);
+        
+        $memset(f.b[3:20], 5);
+        $assert(f.a == 42);
+        $assert(f.c == 42);
+        for(u8 i = 0; i < 3; ++i)
+            $assert(f.b[i] == 3);
+        for(u8 i = 3; i < 20; ++i)
+            $assert(f.b[i] == 5);
+        for(u8 i = 20; i < len(f.b); ++i)
+            $assert(f.b[i] == 3);
+        
+        $memset(f.b[3], 7);
+        $assert(f.a == 42);
+        $assert(f.c == 42);
+        for(u8 i = 0; i < 3; ++i)
+            $assert(f.b[i] == 3);
+        $assert(f.b[3] == 7);
+        for(u8 i = 4; i < 20; ++i)
+            $assert(f.b[i] == 5);
+        for(u8 i = 20; i < len(f.b); ++i)
+            $assert(f.b[i] == 3);
+    }
         
     $assert(copy[0] == 0);
     $assert(copy[1] == 0);

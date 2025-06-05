@@ -43,25 +43,457 @@ $globinit:
 
 main:
   .file memcpy.abc
-  .line 9
+  .line 16
   sys   debug_break
-  .line 11
+  .line 20
+  push  42
+  .line 19
+  pz16
+  pz16
+  .line 21
+  push2 298
+  .line 22
+  sys   assert
+  .line 23
+  dup
+  push  42
+  sub
+  not
+  sys   assert
+  .line 24
+  p0
+$L_main_1:
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bnz   $L_main_1
+  pop
+  .line 27
+  p3
+  refl  34
+  p32
+  p0
+  sys   memset
+  .line 28
+  getl  34
+  push  42
+  sub
+  not
+  sys   assert
+  .line 29
+  dup
+  push  42
+  sub
+  not
+  sys   assert
+  .line 30
+  p0
+$L_main_4:
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bnz   $L_main_4
+  pop
+  .line 33
+  p5
+  refl  31
+  push2 17
+  sys   memset
+  .line 34
+  getl  34
+  push  42
+  sub
+  not
+  sys   assert
+  .line 35
+  dup
+  push  42
+  sub
+  not
+  sys   assert
+  .line 37
+  getl  33
+  p3
+  sub
+  not
+  sys   assert
+  getl  32
+  p3
+  sub
+  not
+  sys   assert
+  getl  31
+  p3
+  sub
+  not
+  sys   assert
+  .line 39
+  getl  30
+  p5
+  sub
+  not
+  sys   assert
+  getl  29
+  p5
+  sub
+  not
+  sys   assert
+  getl  28
+  p5
+  sub
+  not
+  sys   assert
+  getl  27
+  p5
+  sub
+  not
+  sys   assert
+  getl  26
+  p5
+  sub
+  not
+  sys   assert
+  getl  25
+  p5
+  sub
+  not
+  sys   assert
+  getl  24
+  p5
+  sub
+  not
+  sys   assert
+  getl  23
+  p5
+  sub
+  not
+  sys   assert
+  getl  22
+  p5
+  sub
+  not
+  sys   assert
+  getl  21
+  p5
+  sub
+  not
+  sys   assert
+  getl  20
+  p5
+  sub
+  not
+  sys   assert
+  getl  19
+  p5
+  sub
+  not
+  sys   assert
+  getl  18
+  p5
+  sub
+  not
+  sys   assert
+  getl  17
+  p5
+  sub
+  not
+  sys   assert
+  getl  16
+  p5
+  sub
+  not
+  sys   assert
+  getl  15
+  p5
+  sub
+  not
+  sys   assert
+  getl  14
+  p5
+  sub
+  not
+  sys   assert
+  .line 41
+  getl  13
+  p3
+  sub
+  not
+  sys   assert
+  getl  12
+  p3
+  sub
+  not
+  sys   assert
+  getl  11
+  p3
+  sub
+  not
+  sys   assert
+  getl  10
+  p3
+  sub
+  not
+  sys   assert
+  getl  9
+  p3
+  sub
+  not
+  sys   assert
+  dup8
+  p3
+  sub
+  not
+  sys   assert
+  dup7
+  p3
+  sub
+  not
+  sys   assert
+  dup6
+  p3
+  sub
+  not
+  sys   assert
+  dup5
+  p3
+  sub
+  not
+  sys   assert
+  dup4
+  p3
+  sub
+  not
+  sys   assert
+  dup3
+  p3
+  sub
+  not
+  sys   assert
+  dup2
+  p3
+  sub
+  not
+  sys   assert
+  .line 43
+  p7
+  refl  31
+  p1
+  p0
+  sys   memset
+  .line 44
+  getl  34
+  push  42
+  sub
+  not
+  sys   assert
+  .line 45
+  dup
+  push  42
+  sub
+  not
+  sys   assert
+  .line 47
+  getl  33
+  p3
+  sub
+  not
+  sys   assert
+  getl  32
+  p3
+  sub
+  not
+  sys   assert
+  getl  31
+  p3
+  sub
+  not
+  sys   assert
+  .line 48
+  getl  30
+  p7
+  sub
+  not
+  sys   assert
+  .line 50
+  getl  29
+  p5
+  sub
+  not
+  sys   assert
+  getl  28
+  p5
+  sub
+  not
+  sys   assert
+  getl  27
+  p5
+  sub
+  not
+  sys   assert
+  getl  26
+  p5
+  sub
+  not
+  sys   assert
+  getl  25
+  p5
+  sub
+  not
+  sys   assert
+  getl  24
+  p5
+  sub
+  not
+  sys   assert
+  getl  23
+  p5
+  sub
+  not
+  sys   assert
+  getl  22
+  p5
+  sub
+  not
+  sys   assert
+  getl  21
+  p5
+  sub
+  not
+  sys   assert
+  getl  20
+  p5
+  sub
+  not
+  sys   assert
+  getl  19
+  p5
+  sub
+  not
+  sys   assert
+  getl  18
+  p5
+  sub
+  not
+  sys   assert
+  getl  17
+  p5
+  sub
+  not
+  sys   assert
+  getl  16
+  p5
+  sub
+  not
+  sys   assert
+  getl  15
+  p5
+  sub
+  not
+  sys   assert
+  getl  14
+  p5
+  sub
+  not
+  sys   assert
+  .line 52
+  getl  13
+  p3
+  sub
+  not
+  sys   assert
+  getl  12
+  p3
+  sub
+  not
+  sys   assert
+  getl  11
+  p3
+  sub
+  not
+  sys   assert
+  getl  10
+  p3
+  sub
+  not
+  sys   assert
+  getl  9
+  p3
+  sub
+  not
+  sys   assert
+  dup8
+  p3
+  sub
+  not
+  sys   assert
+  dup7
+  p3
+  sub
+  not
+  sys   assert
+  dup6
+  p3
+  sub
+  not
+  sys   assert
+  dup5
+  p3
+  sub
+  not
+  sys   assert
+  dup4
+  p3
+  sub
+  not
+  sys   assert
+  dup3
+  p3
+  sub
+  not
+  sys   assert
+  dup2
+  p3
+  sub
+  not
+  sys   assert
+  popn  34
+  .line 55
   getg  copy 0
   not
   sys   assert
-  .line 12
+  .line 56
   getg  copy 1
   not
   sys   assert
-  .line 13
+  .line 57
   getg  copy 2
   not
   sys   assert
-  .line 14
+  .line 58
   getg  copy 3
   not
   sys   assert
-  .line 16
+  .line 60
   p0
   p1
   p00
@@ -71,33 +503,33 @@ main:
   p0
   p2
   sys   memcpy_P
-  .line 18
+  .line 62
   getg  copy 0
   dec
   not
   sys   assert
-  .line 19
+  .line 63
   getg  copy 1
   p2
   sub
   not
   sys   assert
-  .line 20
+  .line 64
   getg  copy 2
   p3
   sub
   not
   sys   assert
-  .line 21
+  .line 65
   getg  copy 3
   not
   sys   assert
-  .line 23
+  .line 67
   push4 32768042
-  .line 26
+  .line 70
   dup
   sys   assert
-  .line 27
+  .line 71
   refl  4
   p2
   p0
@@ -105,28 +537,28 @@ main:
   p2
   p0
   sys   memcpy
-  .line 28
+  .line 72
   dupw
   push  42
   sub2b
   bool2
   not
   sys   assert
-  .line 30
+  .line 74
   push4 45875800
-  .line 31
+  .line 75
   p32
   push4 17007619
-  .line 33
+  .line 77
   sys   assert
-  .line 34
+  .line 78
   dupw5
   push2 700
   sub2
   bool2
   not
   sys   assert
-  .line 35
+  .line 79
   refl  4
   p4
   p0
@@ -134,7 +566,7 @@ main:
   p4
   p0
   sys   memcpy
-  .line 36
+  .line 80
   dupw7
   p32
   p3
@@ -142,20 +574,20 @@ main:
   bool2
   not
   sys   assert
-  .line 37
+  .line 81
   dupw5
   push2 900
   sub2
   bool2
   not
   sys   assert
-  .line 39
+  .line 83
   push4 2271560481
-  .line 40
+  .line 84
   refl  4
   p4
   p0
-  .line 41
+  .line 85
   getl4 4
   p3
   p0
@@ -165,7 +597,7 @@ main:
   sub
   not
   sys   assert
-  .line 42
+  .line 86
   getl4 4
   p2
   p0
@@ -175,7 +607,7 @@ main:
   sub
   not
   sys   assert
-  .line 43
+  .line 87
   getl4 4
   p1
   p0
@@ -185,7 +617,7 @@ main:
   sub
   not
   sys   assert
-  .line 44
+  .line 88
   getl4 4
   p00
   uaidx 1
@@ -194,9 +626,9 @@ main:
   sub
   not
   sys   assert
-  .line 46
+  .line 90
   sys   debug_break
-  .line 7
+  .line 14
   popn  20
   ret
 
