@@ -4487,7 +4487,6 @@ sys_atan2:
     sts  %[vm_sp], r28
     ret
 
-
 )"
 
     :

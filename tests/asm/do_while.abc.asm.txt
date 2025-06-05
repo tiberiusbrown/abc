@@ -15,10 +15,8 @@ main:
   p0
 $L_main_1:
   .line 7
-  dup
   p3
   add
-  setl  1
   .line 8
   dup
   push  10
@@ -32,10 +30,8 @@ $L_main_1:
   sys   assert
 $L_main_3:
   .line 13
-  dup
   p7
   add
-  setl  1
   .line 14
   dup
   push  10
@@ -48,10 +44,8 @@ $L_main_3:
   not
   sys   assert
   .line 19
-  dup
   p7
   add
-  setl  1
   .line 24
   dup
   push  26

@@ -34,10 +34,8 @@ $L_main_1:
   add2
   setl2 4
   .line 4
-  dupw
   p1
   add2b
-  setl2 2
   dupw
   dupw7
   cult2

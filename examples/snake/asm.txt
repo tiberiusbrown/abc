@@ -661,10 +661,8 @@ $L_main_28:
   setr
   pop2
   .line 66
-  dupw
   p1
   add2b
-  setl2 2
   dupw
   getg2 snake_tail 0
   sub2

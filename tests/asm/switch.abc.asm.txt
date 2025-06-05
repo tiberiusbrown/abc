@@ -12,9 +12,11 @@ main:
   .line 3
   sys   debug_break
   .line 6
-  push3 65578
+  push2 298
   .line 11
   sys   assert
+  .line 13
+  p0
   .line 14
   dup2
   .line 16
@@ -47,13 +49,10 @@ $L_main_1:
   .line 14
   pop
   .line 20
-  dup
   sys   assert
   .line 22
-  p0
-  setl  1
+  push2 54784
   .line 23
-  push  214
   setl  2
   .line 24
   dup2
@@ -154,11 +153,9 @@ $L_main_11:
   .line 36
   pop
   .line 43
-  dup
   sys   assert
   .line 45
   p0
-  setl  1
   .line 46
   dup2
   .line 48
@@ -185,11 +182,9 @@ $L_main_16:
   .line 46
   pop
   .line 52
-  dup
   sys   assert
   .line 54
   p0
-  setl  1
   .line 55
   dup2
   .line 57
@@ -220,11 +215,9 @@ $L_main_19:
   .line 55
   pop
   .line 61
-  dup
   sys   assert
   .line 63
   p0
-  setl  1
   .line 64
   dup2
   .line 66
@@ -251,11 +244,9 @@ $L_main_22:
   .line 64
   pop
   .line 70
-  dup
   sys   assert
   .line 72
   p0
-  setl  1
   .line 73
   dup2
   .line 75
@@ -278,11 +269,9 @@ $L_main_25:
   .line 73
   pop
   .line 77
-  dup
   sys   assert
   .line 79
   p0
-  setl  1
   .line 80
   dup2
   .line 82
@@ -305,11 +294,9 @@ $L_main_28:
   .line 80
   pop
   .line 84
-  dup
   sys   assert
   .line 86
   p0
-  setl  1
   .line 87
   dup2
   .line 89
@@ -332,11 +319,9 @@ $L_main_31:
   .line 87
   pop
   .line 91
-  dup
   sys   assert
   .line 93
   p0
-  setl  1
   .line 94
   dup2
   .line 96
@@ -359,11 +344,9 @@ $L_main_34:
   .line 94
   pop
   .line 98
-  dup
   sys   assert
   .line 100
   p0
-  setl  1
   .line 101
   dup2
   .line 103
@@ -393,11 +376,9 @@ $L_main_37:
   .line 101
   pop
   .line 105
-  dup
   sys   assert
   .line 107
   p0
-  setl  1
   .line 108
   dup2
   .line 110
@@ -427,11 +408,9 @@ $L_main_40:
   .line 108
   pop
   .line 112
-  dup
   sys   assert
   .line 114
   p0
-  setl  1
   .line 115
   dup2
   .line 118
@@ -449,11 +428,9 @@ $L_main_45:
   .line 115
   pop
   .line 120
-  dup
   sys   assert
   .line 122
   p0
-  setl  1
   .line 123
   dup2
   .line 125
@@ -485,11 +462,13 @@ $L_main_46:
   sys   assert
   pop2
   .line 132
-  push3 420000
-  p00
-  .line 142
+  push4 420000
+  .line 139
   p1
+  .line 142
   sys   assert
+  .line 144
+  p0
   .line 145
   getl4 5
   .line 147
@@ -534,11 +513,9 @@ $L_main_54:
   .line 145
   pop4
   .line 152
-  dup
   sys   assert
   .line 154
   p0
-  setl  1
   .line 155
   getl4 5
   .line 157
@@ -567,11 +544,9 @@ $L_main_59:
   .line 155
   pop4
   .line 161
-  dup
   sys   assert
   .line 163
   p0
-  setl  1
   .line 164
   getl4 5
   .line 166
@@ -605,11 +580,9 @@ $L_main_62:
   .line 164
   pop4
   .line 170
-  dup
   sys   assert
   .line 172
   p0
-  setl  1
   .line 173
   getl4 5
   .line 175
@@ -638,11 +611,9 @@ $L_main_65:
   .line 173
   pop4
   .line 179
-  dup
   sys   assert
   .line 181
   p0
-  setl  1
   .line 182
   getl4 5
   .line 184
@@ -665,11 +636,9 @@ $L_main_68:
   .line 182
   pop4
   .line 186
-  dup
   sys   assert
   .line 188
   p0
-  setl  1
   .line 189
   getl4 5
   .line 191
@@ -692,11 +661,9 @@ $L_main_71:
   .line 189
   pop4
   .line 193
-  dup
   sys   assert
   .line 195
   p0
-  setl  1
   .line 196
   getl4 5
   .line 198
@@ -719,11 +686,9 @@ $L_main_74:
   .line 196
   pop4
   .line 200
-  dup
   sys   assert
   .line 202
   p0
-  setl  1
   .line 203
   getl4 5
   .line 205
@@ -746,11 +711,9 @@ $L_main_77:
   .line 203
   pop4
   .line 207
-  dup
   sys   assert
   .line 209
   p0
-  setl  1
   .line 210
   getl4 5
   .line 212
@@ -782,11 +745,9 @@ $L_main_80:
   .line 210
   pop4
   .line 214
-  dup
   sys   assert
   .line 216
   p0
-  setl  1
   .line 217
   getl4 5
   .line 219
@@ -818,11 +779,9 @@ $L_main_83:
   .line 217
   pop4
   .line 221
-  dup
   sys   assert
   .line 223
   p0
-  setl  1
   .line 224
   getl4 5
   .line 227
@@ -841,11 +800,9 @@ $L_main_88:
   .line 224
   pop4
   .line 229
-  dup
   sys   assert
   .line 231
   p0
-  setl  1
   .line 232
   getl4 5
   .line 234

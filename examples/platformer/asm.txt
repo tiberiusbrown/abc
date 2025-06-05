@@ -4138,10 +4138,8 @@ $L_mob_solid_0:
   ret
 $L_mob_solid_1:
   .line 186
-  dupw
   p4
   asr2
-  setl2 2
   .line 187
   dupw3
   p4
@@ -6599,11 +6597,9 @@ $L_render_27:
   push3 6912
   sys   draw_sprite
   .line 105
-  dup
   inc
   p3
   and
-  setl  1
   .line 106
   push2 10
   dup3
@@ -6615,11 +6611,9 @@ $L_render_27:
   push3 3328
   sys   draw_sprite
   .line 107
-  dup
   inc
   p3
   and
-  setl  1
   .line 108
   push2 9
   dup3
@@ -6631,11 +6625,9 @@ $L_render_27:
   push3 9728
   sys   draw_sprite
   .line 109
-  dup
   inc
   p3
   and
-  setl  1
   .line 110
   push2 9
   dup3
@@ -6967,14 +6959,12 @@ $L_render_level_7:
   cult
   bnz   $L_render_level_16
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_16:
   .line 436
   dup
@@ -7004,14 +6994,12 @@ $L_render_level_17:
   cult
   bnz   $L_render_level_19
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_19:
   .line 436
   dup
@@ -7043,14 +7031,12 @@ $L_render_level_20:
   cult
   bnz   $L_render_level_22
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_22:
   .line 436
   dup
@@ -7082,14 +7068,12 @@ $L_render_level_23:
   cult
   bnz   $L_render_level_25
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_25:
   .line 436
   dup
@@ -7121,14 +7105,12 @@ $L_render_level_26:
   cult
   bnz   $L_render_level_28
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_28:
   .line 436
   dup
@@ -7160,14 +7142,12 @@ $L_render_level_29:
   cult
   bnz   $L_render_level_31
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_31:
   .line 436
   dup
@@ -7199,14 +7179,12 @@ $L_render_level_32:
   cult
   bnz   $L_render_level_34
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_34:
   .line 436
   dup
@@ -7238,14 +7216,12 @@ $L_render_level_35:
   cult
   bnz   $L_render_level_37
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_37:
   .line 436
   dup
@@ -7277,14 +7253,12 @@ $L_render_level_38:
   cult
   bnz   $L_render_level_40
   .line 435
-  dup
   getg  frame_count 0
   p4
   mul
   push  48
   and
   add
-  setl  1
 $L_render_level_40:
   .line 436
   dup
@@ -7416,10 +7390,8 @@ $L_render_level_72:
   getg  player_facing_right 0
   bz    $L_render_level_53
   .line 477
-  dup
   p7
   add
-  setl  1
 $L_render_level_53:
   .line 478
   getg  player_on_ground 0
@@ -7428,23 +7400,19 @@ $L_render_level_53:
   getg  player_moving 0
   bz    $L_render_level_54
   .line 481
-  dup
   getg  frame_count 0
   p3
   lsr
   p3
   and
   add
-  setl  1
 $L_render_level_54:
   .line 478
   jmp   $L_render_level_56
 $L_render_level_55:
   .line 485
-  dup
   p4
   add
-  setl  1
 $L_render_level_56:
   .line 487
   getg  death_frames 0
@@ -7600,14 +7568,12 @@ $L_render_level_66:
   cult
   bnz   $L_render_level_69
   .line 520
-  dupw
   getg  level_start_frames 0
   push2 19968
   sub2b
   push  10
   mul2b
   add2
-  setl2 2
 $L_render_level_69:
   .line 521
   push  12
@@ -7615,14 +7581,12 @@ $L_render_level_69:
   cult
   bnz   $L_render_level_70
   .line 522
-  dupw
   push2 12
   getg  level_start_frames 0
   sub2b
   push  10
   mul2b
   sub2
-  setl2 2
 $L_render_level_70:
   .line 523
   p0
@@ -7946,10 +7910,8 @@ $L_solid_1:
   asr2
   setl2 4
   .line 743
-  dupw
   p4
   asr2
-  setl2 2
   .line 744
   getg  map_width 0
   .line 747
@@ -9383,10 +9345,8 @@ $L_update_level_35:
   setl4 8
 $L_update_level_36:
   .line 427
-  getl4 4
   push4 1045220557
   fadd
-  setl4 4
   .line 430
   getg4 vx 0
   getl4 12

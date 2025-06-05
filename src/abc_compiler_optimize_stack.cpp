@@ -117,6 +117,57 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
     {
         auto& i0 = instrs[i];
 
+        // remove outer pair of GETLN N N ... SETLN N N
+        // when inside doesn't modify rest of stack
+        // e.g.:
+        //     dup
+        //     p4
+        //     add
+        //     setl  1
+        // becomes:
+        //     p4
+        //     add
+        if(i >= 1 && i0.instr == I_SETLN && i0.imm == i0.imm2)
+        {
+            bool found = false;
+            size_t j = i - 1;
+            for(int n = 0; n < 32; ++n)
+            {
+                auto const& ij = instrs[j];
+                if(ij.instr == I_GETLN && ij.imm == ij.imm2)
+                {
+                    found = true;
+                    break;
+                }
+                if(j-- == 0)
+                    break;
+            }
+            if(found)
+            {
+                // check stack access in intermediate instructions
+                int n = (int)i0.imm;
+                bool valid = true;
+                for(size_t k = j + 1; k < i; ++k)
+                {
+                    auto const& ik = instrs[k];
+                    if(ik.instr == I_RET || ik.is_label || is_branch_jmp_call(ik) ||
+                        (int)instr_accesses_stack(ik, 1).second > n)
+                    {
+                        valid = false;
+                        break;
+                    }
+                    n += instr_stack_mod(ik);
+                }
+                if(valid && n == (int)i0.imm)
+                {
+                    i0.instr = I_REMOVE;
+                    instrs[j].instr = I_REMOVE;
+                    t = true;
+                    continue;
+                }
+            }
+        }
+
         // eliminate PUSH ... POP that's unused in between
         if(!is_stack_eliminatable(i0))
             continue;
@@ -200,7 +251,7 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
             // move pushes in place of original instruction
             {
                 assert(int(iend.imm + iend.imm2) >= n);
-                assert(iend.imm >= size);
+                assert((int)iend.imm >= size);
                 size_t isrc = j - n + iend.imm2;
                 size_t idst = i + 1;
                 std::rotate(

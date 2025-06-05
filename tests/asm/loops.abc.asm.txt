@@ -54,10 +54,8 @@ $L_main_16:
   setl2 6
   pop2
   .line 17
-  dupw
   p1
   add2b
-  setl2 2
   dupw
   push2 200
   cslt2

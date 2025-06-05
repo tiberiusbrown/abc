@@ -18,10 +18,8 @@ main:
   p1
   sys   assert
   .line 9
-  dupw
   p3
   add2b
-  setl2 2
   dupw
   p1
   add2b
@@ -125,10 +123,8 @@ main:
   p1
   sys   assert
   .line 33
-  dupw
   p3
   sub2b
-  setl2 2
   dupw
   p1
   add2b
@@ -154,10 +150,8 @@ main:
   p1
   sys   assert
   .line 42
-  dupw
   p3
   mul2b
-  setl2 2
   dupw
   p1
   add2b
@@ -181,13 +175,11 @@ main:
   .line 50
   sys   assert
   .line 51
-  dupw
   sext2
   push  11
   p000
   div4
   pop2
-  setl2 2
   dupw
   p1
   add2b
@@ -211,13 +203,11 @@ main:
   .line 59
   sys   assert
   .line 60
-  dupw
   sext2
   p4
   p000
   mod4
   pop2
-  setl2 2
   dupw
   p1
   add2b
@@ -241,10 +231,8 @@ main:
   .line 68
   sys   assert
   .line 69
-  dupw
   p1
   asr2
-  setl2 2
   dupw
   p1
   add2b
@@ -268,10 +256,8 @@ main:
   .line 77
   sys   assert
   .line 78
-  dupw
   p1
   asr2
-  setl2 2
   dupw
   p1
   add2b
@@ -297,10 +283,8 @@ main:
   p1
   sys   assert
   .line 87
-  dupw
   p1
   lsl2
-  setl2 2
   dupw
   p1
   add2b
@@ -324,10 +308,8 @@ main:
   .line 95
   sys   assert
   .line 96
-  dup
   push  112
   and
-  setl  1
   dup
   inc
   .line 97
@@ -348,10 +330,8 @@ main:
   .line 104
   sys   assert
   .line 105
-  dup
   push  22
   or
-  setl  1
   dup
   inc
   .line 106
@@ -372,10 +352,8 @@ main:
   .line 113
   sys   assert
   .line 114
-  dup
   push  22
   xor
-  setl  1
   dup
   inc
   .line 115
