@@ -7,6 +7,6 @@ fibonacci                 128131     2329780       18.18x
 format                     14057        5400        0.38x
 sieve                      14198      635744       44.78x
 text                      207402       64781        0.31x
-tilessprite                44482      110465        2.48x
-tilessprite16              26978       46838        1.74x
+tilessprite                44482      110337        2.48x
+tilessprite16              26978       46806        1.73x
 tilesrect                 257725       59937        0.23x

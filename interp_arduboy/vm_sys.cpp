@@ -1055,7 +1055,7 @@ static fx_read_pending_last_uint16_le()
     return t;
 }
 
-#define TILEMAP_USE_DRAW_SPRITE_HELPER 1
+#define TILEMAP_USE_DRAW_SPRITE_HELPER 0
 
 static void sys_draw_tilemap()
 {
@@ -1085,7 +1085,9 @@ static void sys_draw_tilemap()
     uint8_t sh = FX::readPendingUInt8();
     uint8_t mode = FX::readPendingUInt8();
     uint16_t num_frames = fx_read_pending_last_uint16_le();
+#if ABC_SHADES == 2
     img += 5;
+#endif
 #endif
 
     uint16_t r = 0, c = 0;

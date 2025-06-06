@@ -997,9 +997,9 @@ error_t assembler_t::link()
 
     // add file table info (offset 12)
     linked_data[12] = (uint8_t)file_table.size();
-    linked_data[13] = uint8_t(linked_data.size() >> 0);
+    linked_data[13] = uint8_t(linked_data.size() >> 16);
     linked_data[14] = uint8_t(linked_data.size() >> 8);
-    linked_data[15] = uint8_t(linked_data.size() >> 16);
+    linked_data[15] = uint8_t(linked_data.size() >> 0);
     {
         std::vector<std::string> files(file_table.size());
         for(auto const& [k, v] : file_table)
@@ -1018,9 +1018,9 @@ error_t assembler_t::link()
     }
 
     // add line table info (offset 16)
-    linked_data[16] = uint8_t(linked_data.size() >> 0);
+    linked_data[16] = uint8_t(linked_data.size() >> 16);
     linked_data[17] = uint8_t(linked_data.size() >> 8);
-    linked_data[18] = uint8_t(linked_data.size() >> 16);
+    linked_data[18] = uint8_t(linked_data.size() >> 0);
     linked_data.insert(linked_data.end(), line_table.begin(), line_table.end());
     debug_bytes += line_table.size();
 

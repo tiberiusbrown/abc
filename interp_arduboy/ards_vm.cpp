@@ -91,17 +91,10 @@ static char const* const ERRC[NUM_ERR] PROGMEM =
 static void draw_pc_line(uint24_t pc, uint8_t y)
 {
     // find and display file/line info
-    uint8_t num_files = 0;
-    uint24_t file_table = 0;
-    uint24_t line_table = 0;
     FX::seekData(12);
-    num_files = FX::readPendingUInt8();
-    file_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
-    file_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
-    file_table |= ((uint24_t)FX::readPendingUInt8()     << 16);
-    line_table |= ((uint24_t)FX::readPendingUInt8()     << 0);
-    line_table |= ((uint24_t)FX::readPendingUInt8()     << 8);
-    line_table |= ((uint24_t)FX::readPendingLastUInt8() << 16);
+    uint8_t num_files = FX::readPendingUInt8();
+    uint24_t file_table = FX::readPendingUInt24();
+    uint24_t line_table = FX::readPendingLastUInt24();
     uint8_t file = 0;
     uint16_t line = 0;
     uint24_t tpc = 0;
@@ -133,7 +126,7 @@ static void draw_pc_line(uint24_t pc, uint8_t y)
     if(file < num_files)
     {
         char fname[32];
-        FX::readDataBytes(file_table + file * 32, (uint8_t*)fname, 32);
+        ards::detail::fx_read_data_bytes(file_table + file * 32, (uint8_t*)fname, 32);
         draw_text(24, y, fname, false);
         for(uint8_t i = 0; i < 5; ++i)
         {
@@ -153,7 +146,7 @@ struct LetMeUseBootOLED : public Arduboy2Base
     static void bootOLED() { Arduboy2Base::bootOLED(); }
 };
 
-extern "C" __attribute__((used)) void vm_error(error_t e)
+extern "C" [[gnu::used]] void vm_error(error_t e)
 {
     vm.error = (uint8_t)e;
     //Arduboy2Base::clear();
@@ -192,11 +185,10 @@ extern "C" __attribute__((used)) void vm_error(error_t e)
             draw_text(1, 1, ERROR, true);
             if(e != ERR_SIG)
             {
-                FX::seekData(0x20);
-                uint8_t x = 36;
-                for(uint8_t i = 0; i < 24; ++i)
-                    x += draw_char(x, 1, (char)FX::readPendingUInt8()) + 1;
-                (void)FX::readEnd();
+                char buf[25];
+                ards::detail::fx_read_data_bytes(0x20, buf, 24);
+                buf[24] = '\0';
+                draw_text(36, 1, buf, false);
             }
             for(uint8_t* ptr = &Arduboy2Base::sBuffer[0]; ptr < &Arduboy2Base::sBuffer[128]; )
                 *ptr++ ^= 0x7f;

@@ -38,7 +38,7 @@ void setup()
                 vm_error(ards::ERR_SIG);
         }
         // read the data page from end-of-data
-        FX::readDataBytes(
+        ards::detail::fx_read_data_bytes(
             addr - 2,
             (uint8_t*)&FX::programDataPage,
             2);
