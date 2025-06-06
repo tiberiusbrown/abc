@@ -255,17 +255,17 @@ R"(
             sbi  %[fxport], %[fxbit]
             ret
         
-        ; fx_seek_data:
-        ;     ldi  r25, 3
-        ;     cbi  %[fxport], %[fxbit]
-        ;     out  %[spdr], r25
-        ;     movw  r20, r22
-        ;     mov   r22, r24
-        ;     lpm
-        ;     lpm
-        ;     rcall L%=_seek
-        ;     nop
-        ;     ret
+        fx_seek_data:
+            ldi  r25, 3
+            cbi  %[fxport], %[fxbit]
+            out  %[spdr], r25
+            movw  r20, r22
+            mov   r22, r24
+            lpm
+            lpm
+            rcall L%=_seek
+            nop
+            ret
         )"
         :
         : [pc]              "i" (&ards::vm.pc)
@@ -1055,6 +1055,8 @@ static fx_read_pending_last_uint16_le()
     return t;
 }
 
+#define TILEMAP_USE_DRAW_SPRITE_HELPER 1
+
 static void sys_draw_tilemap()
 {
     auto ptr = vm_pop_begin();
@@ -1068,16 +1070,23 @@ static void sys_draw_tilemap()
     if(x >= 128) goto end;
     if(y >=  64) goto end;
 
-    FX::seekData(tm);
-    uint8_t format = FX::readPendingUInt8();
+    fx_seek_data(tm);
+    uint8_t format = FX::readPendingUInt8() - 1;
     uint16_t nrow = fx_read_pending_uint16_le();
     uint16_t ncol = fx_read_pending_last_uint16_le();
     tm += 5;
 
     // sprite dimensions and number
-    FX::seekData(img);
+    fx_seek_data(img);
     uint8_t sw = FX::readPendingUInt8();
+#if TILEMAP_USE_DRAW_SPRITE_HELPER
     uint8_t sh = FX::readPendingLastUInt8();
+#else
+    uint8_t sh = FX::readPendingUInt8();
+    uint8_t mode = FX::readPendingUInt8();
+    uint16_t num_frames = fx_read_pending_last_uint16_le();
+    img += 5;
+#endif
 
     uint16_t r = 0, c = 0;
 #if 1
@@ -1122,38 +1131,62 @@ static void sys_draw_tilemap()
     }
 #endif
 
+    constexpr uint8_t BUF_BYTES = 16;
+
     for(; r < nrow && y < HEIGHT; ++r, y += sh)
     {
-        int16_t tx = x;
-        for(uint16_t tc = c; tc < ncol && tx < WIDTH; ++tc, tx += sw)
+        int8_t tx = (int8_t)x;
+        uint8_t buf[BUF_BYTES];
+        uint8_t i = 0;
+        for(uint16_t tc = c; tc < ncol /*&& tx < WIDTH*/; ++tc, /*tx += sw,*/ i += format + 1)
         {
             uint16_t frame;
+            if((i &= (BUF_BYTES - 1)) == 0)
             {
                 uint24_t t = mul_24_16_16(r, ncol) + tc;
-                if(format == 2)
+                if(format != 0)
                     t += t;
-                FX::seekData(tm + t);
+                t += tm;
+                ards::detail::fx_read_data_bytes(t, buf, BUF_BYTES);
             }
-            if(format == 1)
-                frame = FX::readPendingLastUInt8();
-            else
-                frame = FX::readPendingLastUInt16();
-            if(frame == 0)
-                continue;
-            frame -= 1;
+            {
+                uint8_t const* p = &buf[i];
+                asm volatile(R"(
+                        ld   %A[frame], %a[p]+
+                        cpse %[format], __zero_reg__
+                        ld   %B[frame], %a[p]
+                    1:
+                    )"
+                    : [p]      "+&e" (p)
+                    , [frame]  "=&r" (frame)
+                    : [format] "d"   (format)
+                );
+            }
+            if(frame != 0)
+            {
+                frame -= 1;
 #if ABC_SHADES == 2
-            ptr = vm_pop_begin();
-            vm_push_unsafe<uint16_t>(ptr, frame);
-            vm_push_unsafe<uint24_t>(ptr, img);
-            vm_push_unsafe<int16_t>(ptr, y);
-            vm_push_unsafe<int16_t>(ptr, tx);
-            vm_pop_end(ptr);
-            draw_sprite_helper(0);
+#if TILEMAP_USE_DRAW_SPRITE_HELPER
+                ptr = vm_pop_begin();
+                vm_push_unsafe<uint16_t>(ptr, frame);
+                vm_push_unsafe<uint24_t>(ptr, img);
+                vm_push_unsafe<int16_t>(ptr, y);
+                vm_push_unsafe<int16_t>(ptr, tx);
+                vm_pop_end(ptr);
+                draw_sprite_helper(0);
 #else
-            shades_draw_sprite(tx, y, img, frame);
-            if(ards::vm.needs_render)
-                shades_display();
+                if(frame >= num_frames)
+                    vm_error(ards::ERR_FRM);
+                SpritesABC::drawSizedFX(tx, y, sw, sh, img, mode, frame);
 #endif
+#else
+                shades_draw_sprite(tx, y, img, frame);
+                if(ards::vm.needs_render)
+                    shades_display();
+#endif
+            }
+            if(int8_t(tx += sw) < 0)
+                break;
         }
     }
 end:
@@ -1185,7 +1218,7 @@ static void sys_tilemap_get()
         if(format == 1)
             r = FX::readPendingLastUInt8();
         else
-            r = FX::readPendingLastUInt16();
+            r = fx_read_pending_last_uint16_le();
     }
 
     vm_push_unsafe<uint16_t>(ptr, r);

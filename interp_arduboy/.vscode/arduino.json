@@ -6,7 +6,7 @@
     "buildPreferences": [
         [
             "compiler.c.extra_flags",
-            "-mtiny-stack -DABC_SHADES=2"
+            "-mno-call-prologues -mtiny-stack -DABC_SHADES=2"
         ],
         [
             "compiler.cpp.extra_flags",

@@ -267,7 +267,7 @@ void shades_swap()
     wait_for_frame_timing();
 }
 
-__attribute__((noinline))
+[[gnu::noinline]]
 void shades_display()
 {
     // Push display buffer to display
@@ -524,8 +524,7 @@ void shades_display()
                         adc  %C[timg], __zero_reg__
                     )"
                     : [timg] "+&r" (timg)
-                    : [img]  "r"   (img)
-                    , [t]    "r"   (t)
+                    : [t]    "r"   (t)
                     , [f]    "r"   (f)
                     );
                 

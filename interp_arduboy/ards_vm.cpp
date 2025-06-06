@@ -397,7 +397,7 @@ sys_assert:
     cpse r0, __zero_reg__
     ret
     ldi  r24, 4
-    jmp  vm_error
+    call call_vm_error
 
 sys_debug_break:
     break
@@ -1791,7 +1791,7 @@ I_POPN:
     cp   r28, r0
     brsh 1f
     ldi  r24, 5
-    call vm_error
+    call call_vm_error
 1:  sub  r28, r0
     ld   r9, Y
     rjmp .+0
@@ -1811,7 +1811,7 @@ I_ALLOC:
     add  r28, r0
     brcc 1f
     ldi  r24, 5
-    call vm_error
+    call call_vm_error
 1:  ld   r9, Y
     lpm
     dispatch_reverse

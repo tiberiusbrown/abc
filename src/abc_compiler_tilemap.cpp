@@ -11,7 +11,7 @@ tilemap:
     u8  dtype;   // tile data type -- 1: u8, 2: u16
     u16 nrow;    // (little endian) tile row count
     u16 ncol;    // (little endian) tile column count
-    [tile data]  // (big endian if u16 format)
+    [tile data]  // (little endian if u16 format)
 */
 
 enum tilemap_format_t
@@ -57,9 +57,9 @@ std::string compiler_t::encode_tilemap_literal(
     data.push_back(uint8_t(ncol >> 8));
     for(auto const& t : tiles)
     {
+        data.push_back(uint8_t(t.value >> 0));
         if(format >= TMAPF_U16)
             data.push_back(uint8_t(t.value >> 8));
-        data.push_back(uint8_t(t.value >> 0));
     }
 
     return "";
@@ -117,9 +117,9 @@ std::string compiler_t::encode_tilemap_tmx(
         data.push_back(uint8_t(ncol >> 8));
         for(auto const& t : tiles)
         {
+            data.push_back(uint8_t(t.ID >> 0));
             if(format >= TMAPF_U16)
                 data.push_back(uint8_t(t.ID >> 8));
-            data.push_back(uint8_t(t.ID >> 0));
         }
 
         return "";
