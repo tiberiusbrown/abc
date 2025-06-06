@@ -187,7 +187,7 @@ tones_literal       <- 'tones' '{' string_literal '}' /
 tones_note          <- < [A-G0-9b#-]+ >
 tones_rtttl_item    <- < [0-9a-hpA-HP#_.]+ >
 
-tilemap_literal     <- 'tilemap' '{' string_literal '}' /
+tilemap_literal     <- 'tilemap' '{' string_literal string_literal? '}' /
                        'tilemap' '{' decimal_literal 'x' decimal_literal tilemap_data '}'
 tilemap_data        <- expr (',' expr)* ','?
 

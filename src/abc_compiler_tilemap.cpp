@@ -66,7 +66,7 @@ std::string compiler_t::encode_tilemap_literal(
 }
 
 std::string compiler_t::encode_tilemap_tmx(
-    std::vector<uint8_t>& data, std::string const& filename)
+    std::vector<uint8_t>& data, std::string const& filename, std::string const& layer_name)
 {
     tmx::Map map;
 
@@ -82,8 +82,15 @@ std::string compiler_t::encode_tilemap_tmx(
     unsigned int nrow, ncol;
     for(auto const& layer : map.getLayers())
     {
-        if(layer->getType() != tmx::Layer::Type::Tile)
+        bool match = (!layer_name.empty() && layer->getName() == layer_name);
+        if(!layer_name.empty() && !match)
             continue;
+        if(layer->getType() != tmx::Layer::Type::Tile)
+        {
+            if(match)
+                return "\"" + layer_name + "\" is not a tile layer";
+            continue;
+        }
         auto const& tile_layer = layer->getLayerAs<tmx::TileLayer>();
         if(!tile_layer.getChunks().empty())
             return "Infinite tilemaps not supported: \"" + filename + "\"";

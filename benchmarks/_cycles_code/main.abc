@@ -2,6 +2,10 @@ import bench_math;
 
 u8[100] prog pa = {};
 
+constexpr tilemap TMAP = tilemap{ "world.tmx" };
+constexpr sprites TILES = sprites{ 16x16 "tiles.png" };
+constexpr sprites TILES8 = sprites{ 8x8 "tiles.png" };
+
 void main()
 {
     $debug_printf("nothing (baseline)\n");
@@ -271,6 +275,24 @@ void main()
     }
     
     bench_math();
+    
+    $debug_printf("draw_tilemap(0, 0) [16x16]\n");
+    $debug_break(); $draw_tilemap(0, 0, TILES, TMAP); $debug_break();
+    $debug_printf("draw_tilemap(-1, 0) [16x16]\n");
+    $debug_break(); $draw_tilemap(-1, 0, TILES, TMAP); $debug_break();
+    $debug_printf("draw_tilemap(0, -1) [16x16]\n");
+    $debug_break(); $draw_tilemap(0, -1, TILES, TMAP); $debug_break();
+    $debug_printf("draw_tilemap(-1, -1) [16x16]\n");
+    $debug_break(); $draw_tilemap(-1, -1, TILES, TMAP); $debug_break();
+    
+    $debug_printf("draw_tilemap(0, 0) [8x8]\n");
+    $debug_break(); $draw_tilemap(0, 0, TILES8, TMAP); $debug_break();
+    $debug_printf("draw_tilemap(-1, 0) [8x8]\n");
+    $debug_break(); $draw_tilemap(-1, 0, TILES8, TMAP); $debug_break();
+    $debug_printf("draw_tilemap(0, -1) [8x8]\n");
+    $debug_break(); $draw_tilemap(0, -1, TILES8, TMAP); $debug_break();
+    $debug_printf("draw_tilemap(-1, -1) [8x8]\n");
+    $debug_break(); $draw_tilemap(-1, -1, TILES8, TMAP); $debug_break();
 
     $assert(0);
 }

@@ -212,7 +212,11 @@ void compiler_t::progdata_expr(
         std::string error;
         if(n.children[0].type == AST::STRING_LITERAL)
         {
-            error = encode_tilemap_tmx(pd.data, n.children[0].string_literal());
+            std::string layer_name;
+            if(n.children.size() == 2)
+                layer_name = n.children[1].string_literal();
+            error = encode_tilemap_tmx(
+                pd.data, n.children[0].string_literal(), layer_name);
         }
         else
         {

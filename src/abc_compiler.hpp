@@ -122,7 +122,7 @@ enum class AST
                 //           or w, h, path string
     FONT,       // children are pixel height and path string
     MUSIC,      // children are path string
-    TILEMAP,    // children are path string
+    TILEMAP,    // children are path string [and layer name string]
     TONES,      // children are path string
                 //           or note, dur, note, dur, ...
     TONES_RTTTL,// children are d, o, b, notes...
@@ -770,7 +770,7 @@ private:
     std::string encode_tones_midi(
         std::vector<uint8_t>& data, std::string const& filename, bool music);
     std::string encode_tilemap_tmx(
-        std::vector<uint8_t>& data, std::string const& filename);
+        std::vector<uint8_t>& data, std::string const& filename, std::string const& layer_name);
     std::string encode_tilemap_literal(
         std::vector<uint8_t>& data, ast_node_t const& n);
     void encode_sprites(std::vector<uint8_t>& data, ast_node_t const& n);

@@ -457,6 +457,7 @@ static void sys_draw_pixel()
 static void sys_get_pixel()
 {
 #if ABC_SHADES == 2
+    // TODO: optimize
     auto ptr = vm_pop_begin();
     uint8_t x = vm_pop<uint8_t>(ptr);
     uint8_t y = vm_pop<uint8_t>(ptr);
@@ -2893,7 +2894,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_audio_enabled,
     sys_audio_toggle,
     sys_audio_playing,
-    sys_audio_stop,
+    ards::Tones::stop,
 
     sys_save_exists,
     sys_save,
