@@ -26,7 +26,106 @@ $L_main_1:
   dup
   p64
   cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 5
+  inc
+  dup
+  p64
+  cult
   bnz   $L_main_1
+$L_main_0:
   pop
   .line 8
   sys   debug_break
@@ -75,6 +174,126 @@ $L_main_6:
   setl  7
   pop
 $L_main_8:
+  pop4
+  .line 14
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_5
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aixb1 64
+  .line 17
+  pushg A 0
+  dup5
+  aixb1 64
+  .line 18
+  dupw
+  getr
+  dupw4
+  getr
+  cslt
+  bz    $L_main_9
+  .line 20
+  dupw3
+  getr
+  .line 21
+  dupw2
+  getr
+  dupw5
+  setr
+  .line 22
+  dup
+  dupw3
+  setr
+  .line 23
+  dup6
+  setl  7
+  pop
+$L_main_9:
+  pop4
+  .line 14
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_5
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aixb1 64
+  .line 17
+  pushg A 0
+  dup5
+  aixb1 64
+  .line 18
+  dupw
+  getr
+  dupw4
+  getr
+  cslt
+  bz    $L_main_10
+  .line 20
+  dupw3
+  getr
+  .line 21
+  dupw2
+  getr
+  dupw5
+  setr
+  .line 22
+  dup
+  dupw3
+  setr
+  .line 23
+  dup6
+  setl  7
+  pop
+$L_main_10:
+  pop4
+  .line 14
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_5
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aixb1 64
+  .line 17
+  pushg A 0
+  dup5
+  aixb1 64
+  .line 18
+  dupw
+  getr
+  dupw4
+  getr
+  cslt
+  bz    $L_main_11
+  .line 20
+  dupw3
+  getr
+  .line 21
+  dupw2
+  getr
+  dupw5
+  setr
+  .line 22
+  dup
+  dupw3
+  setr
+  .line 23
+  dup6
+  setl  7
+  pop
+$L_main_11:
   pop4
   .line 14
   inc

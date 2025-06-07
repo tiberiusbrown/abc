@@ -46,6 +46,111 @@ $L_main_4:
   dupw
   push2 900
   cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_3
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
   bnz   $L_main_4
 $L_main_3:
   pop2
@@ -55,7 +160,154 @@ $L_main_2:
   dup
   push  30
   cult
+  bz    $L_main_0
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  aidx  1 900
+  getr
+  bnz   $L_main_10
+  .line 12
+  dup
+  p0
+  dup3
+  mul2b
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+$L_main_8:
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bz    $L_main_7
+  .line 13
+  p1
+  pushg A 0
+  dupw4
+  aidx  1 900
+  setr
+  .line 12
+  dupw
+  dup5
+  add2b
+  setl2 2
+  dupw
+  push2 900
+  cult2
+  bnz   $L_main_8
+$L_main_7:
+  pop2
+$L_main_10:
+  .line 9
+  inc
+  dup
+  push  30
+  cult
   bnz   $L_main_1
+$L_main_0:
   pop
   .line 16
   sys   debug_break

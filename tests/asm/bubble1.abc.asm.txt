@@ -28,7 +28,106 @@ $L_main_1:
   dup
   p64
   cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 8
+  p64
+  dup2
+  sub
+  pushg A 0
+  dup4
+  aixb1 64
+  setr
+  .line 7
+  inc
+  dup
+  p64
+  cult
   bnz   $L_main_1
+$L_main_0:
   pop
   .line 10
   p0
@@ -52,7 +151,148 @@ $L_main_4:
   dup
   push  63
   cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_3
+  .line 11
+  pushg A 0
+  dup3
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  pushg A 0
+  dup4
+  aixb1 64
+  getr
+  cslt
+  sys   assert
+  .line 10
+  inc
+  dup
+  push  63
+  cult
   bnz   $L_main_4
+$L_main_3:
   pop
   .line 13
   p64
@@ -105,6 +345,126 @@ $L_main_11:
   dup
   dup4
   cult
+  bz    $L_main_8
+  .line 19
+  pushg A 0
+  dup3
+  dec
+  aixb1 64
+  .line 20
+  pushg A 0
+  dup5
+  aixb1 64
+  .line 21
+  dupw
+  getr
+  dupw4
+  getr
+  cslt
+  bz    $L_main_12
+  .line 23
+  dupw3
+  getr
+  .line 24
+  dupw2
+  getr
+  dupw5
+  setr
+  .line 25
+  dup
+  dupw3
+  setr
+  .line 26
+  dup6
+  setl  7
+  pop
+$L_main_12:
+  pop4
+  .line 17
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_8
+  .line 19
+  pushg A 0
+  dup3
+  dec
+  aixb1 64
+  .line 20
+  pushg A 0
+  dup5
+  aixb1 64
+  .line 21
+  dupw
+  getr
+  dupw4
+  getr
+  cslt
+  bz    $L_main_13
+  .line 23
+  dupw3
+  getr
+  .line 24
+  dupw2
+  getr
+  dupw5
+  setr
+  .line 25
+  dup
+  dupw3
+  setr
+  .line 26
+  dup6
+  setl  7
+  pop
+$L_main_13:
+  pop4
+  .line 17
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_8
+  .line 19
+  pushg A 0
+  dup3
+  dec
+  aixb1 64
+  .line 20
+  pushg A 0
+  dup5
+  aixb1 64
+  .line 21
+  dupw
+  getr
+  dupw4
+  getr
+  cslt
+  bz    $L_main_14
+  .line 23
+  dupw3
+  getr
+  .line 24
+  dupw2
+  getr
+  dupw5
+  setr
+  .line 25
+  dup
+  dupw3
+  setr
+  .line 26
+  dup6
+  setl  7
+  pop
+$L_main_14:
+  pop4
+  .line 17
+  inc
+  dup
+  dup4
+  cult
   bnz   $L_main_9
 $L_main_8:
   pop
@@ -117,7 +477,7 @@ $L_main_8:
   bnz   $L_main_7
   .line 32
   p0
-$L_main_13:
+$L_main_16:
   .line 33
   pushg A 0
   dup3
@@ -137,7 +497,148 @@ $L_main_13:
   dup
   push  63
   cult
-  bnz   $L_main_13
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bz    $L_main_15
+  .line 33
+  pushg A 0
+  dup3
+  aixb1 64
+  getr
+  pushg A 0
+  dup4
+  p0
+  p1
+  add2b
+  aidx  1 64
+  getr
+  cslt
+  sys   assert
+  .line 32
+  inc
+  dup
+  push  63
+  cult
+  bnz   $L_main_16
+$L_main_15:
   pop
   .line 35
   sys   debug_break

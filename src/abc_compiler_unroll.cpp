@@ -94,9 +94,9 @@ static bool has_lvalue(ast_node_t const& n, std::string ident)
     return false;
 }
 
-bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
+bool compiler_t::can_unroll_for_loop_sized(ast_node_t const& n, unroll_info_t& u)
 {
-    if(!enable_unrolling)
+    if(!enable_sized_unrolling)
         return false;
 
     // analyze init statement, increment, and condition

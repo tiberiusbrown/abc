@@ -233,7 +233,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     case AST::OP_COMPOUND_ASSIGNMENT_DEREF:
     {
         assert(a.parent && a.parent->parent);
-        a.comp_type = a.parent->parent->children[0].comp_type;
+        if(a.parent->parent->type == AST::OP_ASSIGN_COMPOUND)
+            a.comp_type = a.parent->parent->children[0].comp_type;
+        assert(a.comp_type.prim_size != 0);
         break;
     }
     case AST::OP_SHIFT:

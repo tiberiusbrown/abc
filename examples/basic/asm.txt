@@ -340,19 +340,12 @@ $globinit:
   sys   set_text_font
   ret
 
-main:
+loop:
   .file main.abc
-  .line 55
-  push  50
-  sys   set_frame_rate
-  .line 56
-  push3 507
-  sys   set_text_font
-$L_main_1:
   .line 28
   p8
   sys   just_pressed
-  bz    $L_main_3
+  bz    $L_loop_0
   .line 30
   push3 389
   sys   tones_play_auto
@@ -361,15 +354,15 @@ $L_main_1:
   p1
   add2b
   setg2 coins 0
-$L_main_3:
+$L_loop_0:
   .line 34
   p4
   sys   just_pressed
-  bz    $L_main_4
+  bz    $L_loop_1
   .line 35
   push3 277
   sys   tones_play_primary
-$L_main_4:
+$L_loop_1:
   .line 38
   push4 1157628299
   p00
@@ -399,39 +392,39 @@ $L_main_4:
   .line 44
   p128
   sys   pressed
-  bz    $L_main_5
+  bz    $L_loop_2
   getg2 y 0
   p1
   sub2b
   setg2 y 0
-$L_main_5:
+$L_loop_2:
   .line 45
   p16
   sys   pressed
-  bz    $L_main_6
+  bz    $L_loop_3
   getg2 y 0
   p1
   add2b
   setg2 y 0
-$L_main_6:
+$L_loop_3:
   .line 46
   p32
   sys   pressed
-  bz    $L_main_7
+  bz    $L_loop_4
   getg2 x 0
   p1
   sub2b
   setg2 x 0
-$L_main_7:
+$L_loop_4:
   .line 47
   p64
   sys   pressed
-  bz    $L_main_8
+  bz    $L_loop_5
   getg2 x 0
   p1
   add2b
   setg2 x 0
-$L_main_8:
+$L_loop_5:
   .line 48
   p000
   p1
@@ -441,6 +434,27 @@ $L_main_8:
   sys   draw_sprite
   .line 50
   sys   display
+  .line 26
+  ret
+
+main:
+  .file main.abc
+  .line 55
+  push  50
+  sys   set_frame_rate
+  .line 56
+  push3 507
+  sys   set_text_font
+$L_main_1:
+  .line 58
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
   .line 57
   jmp   $L_main_1
 

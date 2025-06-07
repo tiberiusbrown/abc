@@ -27,7 +27,113 @@ $L_main_1:
   dup
   p64
   cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
+  bz    $L_main_0
+  .line 6
+  p64
+  p0
+  dup3
+  sub2b
+  pushg A 0
+  dup5
+  aidxb 2 64
+  setr2
+  .line 5
+  inc
+  dup
+  p64
+  cult
   bnz   $L_main_1
+$L_main_0:
   pop
   .line 8
   sys   debug_break
@@ -76,6 +182,126 @@ $L_main_6:
   setl  8
   pop2
 $L_main_8:
+  pop4
+  .line 14
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_5
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aidxb 2 64
+  .line 17
+  pushg A 0
+  dup5
+  aidxb 2 64
+  .line 18
+  dupw
+  getr2
+  dupw5
+  getr2
+  cslt2
+  bz    $L_main_9
+  .line 20
+  dupw3
+  getr2
+  .line 21
+  dupw3
+  getr2
+  dupw7
+  setr2
+  .line 22
+  dupw
+  dupw5
+  setr2
+  .line 23
+  dup7
+  setl  8
+  pop2
+$L_main_9:
+  pop4
+  .line 14
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_5
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aidxb 2 64
+  .line 17
+  pushg A 0
+  dup5
+  aidxb 2 64
+  .line 18
+  dupw
+  getr2
+  dupw5
+  getr2
+  cslt2
+  bz    $L_main_10
+  .line 20
+  dupw3
+  getr2
+  .line 21
+  dupw3
+  getr2
+  dupw7
+  setr2
+  .line 22
+  dupw
+  dupw5
+  setr2
+  .line 23
+  dup7
+  setl  8
+  pop2
+$L_main_10:
+  pop4
+  .line 14
+  inc
+  dup
+  dup4
+  cult
+  bz    $L_main_5
+  .line 16
+  pushg A 0
+  dup3
+  dec
+  aidxb 2 64
+  .line 17
+  pushg A 0
+  dup5
+  aidxb 2 64
+  .line 18
+  dupw
+  getr2
+  dupw5
+  getr2
+  cslt2
+  bz    $L_main_11
+  .line 20
+  dupw3
+  getr2
+  .line 21
+  dupw3
+  getr2
+  dupw7
+  setr2
+  .line 22
+  dupw
+  dupw5
+  setr2
+  .line 23
+  dup7
+  setl  8
+  pop2
+$L_main_11:
   pop4
   .line 14
   inc

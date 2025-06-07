@@ -124,8 +124,8 @@ int main(int argc, char** argv)
 
 #ifndef NDEBUG
     //psrc = "C:/Users/Brown/Documents/GitHub/summer_camp/src/main.abc";
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/switch.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";

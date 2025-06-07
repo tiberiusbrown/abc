@@ -279,7 +279,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
 
         size_t body_instrs = f.instrs.size() - prev_instrs;
         unroll_info_t u;
-        if(is_for && can_unroll_for_loop(a, u) &&
+        if(enable_sized_unrolling && is_for && can_unroll_for_loop_sized(a, u) &&
             u.num * body_instrs <= unroll_sized_max_instrs &&
             u.num <= unroll_sized_max_iters)
         {
@@ -289,10 +289,53 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
             break;
         }
 
+        // TODO: unrolling can defeat/prevent inlining if body contains function call
+
+        // unsized loop unroll
+        if(enable_unsized_unrolling && unroll_unsized_max_iters > 1 &&
+            body_instrs <= unroll_unsized_max_add_instrs)
+        {
+            size_t extra_instrs = body_instrs;
+            for(size_t i = 1; i < unroll_unsized_max_iters; ++i)
+            {
+                if(!nocond)
+                {
+                    codegen_expr(f, frame, a.children[0], false);
+                    codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
+                    f.instrs.push_back({ I_BZ, a.children[0].line(), 0, 0, end });
+                    frame.size -= 1;
+                }
+
+                // TODO: continue defeats unrolling
+
+                break_stack.push_back({ end, frame.size });
+                continue_stack.push_back({ cont, frame.size });
+                codegen(f, frame, a.children[1]);
+                if(is_for)
+                    codegen(f, frame, a.children[2]);
+                break_stack.pop_back();
+                continue_stack.pop_back();
+
+                extra_instrs += body_instrs;
+                if(extra_instrs > unroll_unsized_max_add_instrs)
+                    break;
+            }
+            if(!nocond)
+            {
+                codegen_expr(f, frame, a.children[0], false);
+                codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
+                f.instrs.push_back({ I_BNZ, a.children[0].line(), 0, 0, start });
+                frame.size -= 1;
+            }
+            else
+                f.instrs.push_back({ I_JMP, a.children[0].line(), 0, 0, start });
+            codegen_label(f, end);
+            break;
+        }
+
         if(!nocond)
         {
             codegen_expr(f, frame, a.children[0], false);
-            // TODO: unnecessary for a.children[0].comp_type.prim_size == 1
             codegen_convert(f, frame, a, TYPE_BOOL, a.children[0].comp_type);
             f.instrs.push_back({ I_BNZ, a.children[0].line(), 0, 0, start });
             frame.size -= 1;

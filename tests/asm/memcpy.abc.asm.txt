@@ -75,7 +75,99 @@ $L_main_1:
   dup
   p32
   cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_0
+  .line 25
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  not
+  sys   assert
+  .line 24
+  inc
+  dup
+  p32
+  cult
   bnz   $L_main_1
+$L_main_0:
   pop
   .line 27
   p3
@@ -112,7 +204,113 @@ $L_main_4:
   dup
   p32
   cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
+  bz    $L_main_3
+  .line 31
+  refl  34
+  dup3
+  aixb1 32
+  getr
+  p3
+  sub
+  not
+  sys   assert
+  .line 30
+  inc
+  dup
+  p32
+  cult
   bnz   $L_main_4
+$L_main_3:
   pop
   .line 33
   p5

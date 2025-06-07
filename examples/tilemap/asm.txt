@@ -12867,6 +12867,150 @@ $L_main_4:
 $L_main_5:
   .line 21
   sys   display
+  .line 14
+  p0
+  p1
+  p0
+  p5
+  p1
+  p2
+  getg2 y 0
+  getg2 x 0
+  sys   draw_tilemap
+  .line 16
+  p32
+  sys   pressed
+  bz    $L_main_6
+  getg2 x 0
+  p1
+  add2b
+  setg2 x 0
+$L_main_6:
+  .line 17
+  p64
+  sys   pressed
+  bz    $L_main_7
+  getg2 x 0
+  p1
+  sub2b
+  setg2 x 0
+$L_main_7:
+  .line 18
+  p128
+  sys   pressed
+  bz    $L_main_8
+  getg2 y 0
+  p1
+  add2b
+  setg2 y 0
+$L_main_8:
+  .line 19
+  p16
+  sys   pressed
+  bz    $L_main_9
+  getg2 y 0
+  p1
+  sub2b
+  setg2 y 0
+$L_main_9:
+  .line 21
+  sys   display
+  .line 14
+  p0
+  p1
+  p0
+  p5
+  p1
+  p2
+  getg2 y 0
+  getg2 x 0
+  sys   draw_tilemap
+  .line 16
+  p32
+  sys   pressed
+  bz    $L_main_10
+  getg2 x 0
+  p1
+  add2b
+  setg2 x 0
+$L_main_10:
+  .line 17
+  p64
+  sys   pressed
+  bz    $L_main_11
+  getg2 x 0
+  p1
+  sub2b
+  setg2 x 0
+$L_main_11:
+  .line 18
+  p128
+  sys   pressed
+  bz    $L_main_12
+  getg2 y 0
+  p1
+  add2b
+  setg2 y 0
+$L_main_12:
+  .line 19
+  p16
+  sys   pressed
+  bz    $L_main_13
+  getg2 y 0
+  p1
+  sub2b
+  setg2 y 0
+$L_main_13:
+  .line 21
+  sys   display
+  .line 14
+  p0
+  p1
+  p0
+  p5
+  p1
+  p2
+  getg2 y 0
+  getg2 x 0
+  sys   draw_tilemap
+  .line 16
+  p32
+  sys   pressed
+  bz    $L_main_14
+  getg2 x 0
+  p1
+  add2b
+  setg2 x 0
+$L_main_14:
+  .line 17
+  p64
+  sys   pressed
+  bz    $L_main_15
+  getg2 x 0
+  p1
+  sub2b
+  setg2 x 0
+$L_main_15:
+  .line 18
+  p128
+  sys   pressed
+  bz    $L_main_16
+  getg2 y 0
+  p1
+  add2b
+  setg2 y 0
+$L_main_16:
+  .line 19
+  p16
+  sys   pressed
+  bz    $L_main_17
+  getg2 y 0
+  p1
+  sub2b
+  setg2 y 0
+$L_main_17:
+  .line 21
+  sys   display
   .line 12
   jmp   $L_main_1
 

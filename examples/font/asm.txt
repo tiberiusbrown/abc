@@ -638,9 +638,8 @@ $globinit:
   sys   set_text_font
   ret
 
-main:
+loop:
   .file main.abc
-$L_main_1:
   .line 10
   pz16
   p0000
@@ -689,6 +688,20 @@ $L_main_1:
   sys   display
   .line 8
   popn  20
+  ret
+
+main:
+  .file main.abc
+$L_main_1:
+  .line 28
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
+  call  loop
   .line 27
   jmp   $L_main_1
 

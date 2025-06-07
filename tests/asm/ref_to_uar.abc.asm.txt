@@ -39,7 +39,113 @@ $L_main_1:
   dupw
   dupw7
   cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
+  bz    $L_main_3
+  .line 5
+  dupw3
+  getl4 10
+  dupw7
+  uaidx 2
+  getr2
+  add2
+  setl2 4
+  .line 4
+  p1
+  add2b
+  dupw
+  dupw7
+  cult2
   bnz   $L_main_1
+$L_main_3:
   pop2
   .line 6
   dupw

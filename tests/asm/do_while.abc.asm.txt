@@ -21,7 +21,64 @@ $L_main_1:
   dup
   push  10
   cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
+  bz    $L_main_0
+  .line 7
+  p3
+  add
+  .line 8
+  dup
+  push  10
+  cult
   bnz   $L_main_1
+$L_main_0:
   .line 10
   dup
   push  12
@@ -36,7 +93,64 @@ $L_main_3:
   dup
   push  10
   cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
+  bz    $L_main_2
+  .line 13
+  p7
+  add
+  .line 14
+  dup
+  push  10
+  cult
   bnz   $L_main_3
+$L_main_2:
   .line 16
   dup
   push  19

@@ -300,10 +300,12 @@ $PD_3:
   .b f 3e 2a 22 00 12 0c 12 0c 12 00 16 1e 38 38 1e 16
   .b c 00 66 66 00 4c 56 6a 32 00 02 00 02 00
 $PD_4:
+$PD_6:
   .b 8 41 42 43 20 53 4e 41 4b 45
 $PD_5:
+$PD_7:
   .b e 48 49 47 48 20 53 43 4f 52 45 3a 20 25 75 30
-$PD_6:
+$PD_8:
   .b f 03 00 fa 00 00 03 08 03 00 fa 00 00 03 08 03 00
   .b f fa 00 00 03 08 03 00 fa 00 00 03 08 03 00 fa 00
   .b f 00 03 08 03 00 fa 00 00 03 08 03 00 fa 00 00 03
@@ -471,6 +473,650 @@ $globinit:
   sys   set_text_font
   ret
 
+game_loop:
+  .file main.abc
+  .line 126
+  pushg dead 0
+  p1
+  p0
+  pushg dead 0
+  p1
+  p0
+  sys   memcpy
+  .line 128
+  getg  dead 0
+  bz    $L_game_loop_0
+  .line 130
+  pushg snake 0
+  getg2 snake_head 0
+  aidx  2 448
+  getr2
+  .line 131
+  p3
+  getg  dead 0
+  p3
+  add
+  dup3
+  sext
+  p4
+  mul2b
+  p8
+  add2b
+  dup6
+  sext
+  p4
+  mul2b
+  sys   draw_filled_circle
+  .line 132
+  p0
+  getg  dead 0
+  dup3
+  sext
+  p4
+  mul2b
+  p8
+  add2b
+  dup6
+  sext
+  p4
+  mul2b
+  sys   draw_filled_circle
+  .line 133
+  getg  dead 0
+  p3
+  add
+  setg  dead 0
+  pop2
+  .line 128
+  jmp   $L_game_loop_11
+$L_game_loop_0:
+  .line 137
+  getg  dir 0
+  dec
+  bz    $L_game_loop_2
+  p64
+  sys   pressed
+  bz    $L_game_loop_2
+  p0
+  setg  ndir 0
+$L_game_loop_2:
+  .line 138
+  getg  dir 0
+  bz    $L_game_loop_4
+  p32
+  sys   pressed
+  bz    $L_game_loop_4
+  p1
+  setg  ndir 0
+$L_game_loop_4:
+  .line 139
+  getg  dir 0
+  p3
+  sub
+  bz    $L_game_loop_6
+  p16
+  sys   pressed
+  bz    $L_game_loop_6
+  p2
+  setg  ndir 0
+$L_game_loop_6:
+  .line 140
+  getg  dir 0
+  p2
+  sub
+  bz    $L_game_loop_8
+  p128
+  sys   pressed
+  bz    $L_game_loop_8
+  p3
+  setg  ndir 0
+$L_game_loop_8:
+  .line 142
+  getg  frame 0
+  inc
+  setg  frame 0
+  getg  frame 0
+  p3
+  and
+  bnz   $L_game_loop_11
+  .line 144
+  p0
+  getg  growth 0
+  cult
+  .line 83
+  pushg snake 0
+  getg2 snake_head 0
+  aidx  2 448
+  getr2
+  .line 84
+  pushg snake_head 0
+  pdec2
+  bool2
+  bnz   $L_game_loop_13
+  .line 85
+  push2 447
+  setg2 snake_head 0
+$L_game_loop_13:
+  .line 87
+  getg  ndir 0
+  setg  dir 0
+  .line 88
+  getg  dir 0
+  bnz   $L_game_loop_14
+  linc  2
+$L_game_loop_14:
+  .line 89
+  getg  dir 0
+  dec
+  bnz   $L_game_loop_15
+  dup2
+  dec
+  setl  2
+$L_game_loop_15:
+  .line 90
+  getg  dir 0
+  p2
+  sub
+  bnz   $L_game_loop_16
+  inc
+$L_game_loop_16:
+  .line 91
+  getg  dir 0
+  p3
+  sub
+  bnz   $L_game_loop_17
+  dec
+$L_game_loop_17:
+  .line 93
+  dup2
+  getg  food 0
+  sub
+  bnz   $L_game_loop_19
+  dup
+  getg  food 1
+  sub
+  bnz   $L_game_loop_19
+  .line 95
+  getg  score 0
+  inc
+  setg  score 0
+  .line 96
+  getg  growth 0
+  p3
+  add
+  setg  growth 0
+  .line 97
+  p0000
+  .line 47
+  dup
+$L_game_loop_28:
+  .line 49
+  push  31
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  3
+  .line 50
+  push  13
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  2
+  .line 51
+  dup2
+  p4
+  mul
+  p8
+  add
+  dup4
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_29
+  .line 52
+  dupw2
+  setl2 5
+  pop3
+  jmp   $L_game_loop_44
+$L_game_loop_29:
+  .line 47
+  inc
+  dup
+  push  50
+  cult
+  bz    $L_game_loop_33
+  .line 49
+  push  31
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  3
+  .line 50
+  push  13
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  2
+  .line 51
+  dup2
+  p4
+  mul
+  p8
+  add
+  dup4
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_30
+  .line 52
+  dupw2
+  setl2 5
+  pop3
+  jmp   $L_game_loop_44
+$L_game_loop_30:
+  .line 47
+  inc
+  dup
+  push  50
+  cult
+  bz    $L_game_loop_33
+  .line 49
+  push  31
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  3
+  .line 50
+  push  13
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  2
+  .line 51
+  dup2
+  p4
+  mul
+  p8
+  add
+  dup4
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_31
+  .line 52
+  dupw2
+  setl2 5
+  pop3
+  jmp   $L_game_loop_44
+$L_game_loop_31:
+  .line 47
+  inc
+  dup
+  push  50
+  cult
+  bz    $L_game_loop_33
+  .line 49
+  push  31
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  3
+  .line 50
+  push  13
+  p0000
+  p000
+  sys   random_range
+  pop3
+  setl  2
+  .line 51
+  dup2
+  p4
+  mul
+  p8
+  add
+  dup4
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_32
+  .line 52
+  dupw2
+  setl2 5
+  pop3
+  jmp   $L_game_loop_44
+$L_game_loop_32:
+  .line 47
+  inc
+  dup
+  push  50
+  cult
+  bnz   $L_game_loop_28
+$L_game_loop_33:
+  pop
+  .line 54
+  p0
+  setl  1
+  dup
+  push  14
+  cult
+  bz    $L_game_loop_43
+$L_game_loop_34:
+  .line 55
+  p0
+  setl  2
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_42
+$L_game_loop_35:
+  .line 56
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_36
+  .line 57
+  setl2 2
+  jmp   $L_game_loop_44
+$L_game_loop_36:
+  .line 55
+  linc  2
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_42
+  .line 56
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_37
+  .line 57
+  setl2 2
+  jmp   $L_game_loop_44
+$L_game_loop_37:
+  .line 55
+  linc  2
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_42
+  .line 56
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_38
+  .line 57
+  setl2 2
+  jmp   $L_game_loop_44
+$L_game_loop_38:
+  .line 55
+  linc  2
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_42
+  .line 56
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_39
+  .line 57
+  setl2 2
+  jmp   $L_game_loop_44
+$L_game_loop_39:
+  .line 55
+  linc  2
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_42
+  .line 56
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_40
+  .line 57
+  setl2 2
+  jmp   $L_game_loop_44
+$L_game_loop_40:
+  .line 55
+  linc  2
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_42
+  .line 56
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  bnz   $L_game_loop_41
+  .line 57
+  setl2 2
+  jmp   $L_game_loop_44
+$L_game_loop_41:
+  .line 55
+  linc  2
+  dup2
+  p32
+  cult
+  bnz   $L_game_loop_35
+$L_game_loop_42:
+  .line 54
+  inc
+  dup
+  push  14
+  cult
+  bnz   $L_game_loop_34
+$L_game_loop_43:
+  .line 58
+  p00
+  setl2 4
+  pop2
+$L_game_loop_44:
+  .line 97
+  setg2 food 0
+  .line 41
+  p00
+  .line 35
+  push3 2396
+  .line 34
+  getg  food 1
+  sext
+  p4
+  mul2b
+  p8
+  add2b
+  getg  food 0
+  sext
+  p4
+  mul2b
+  .line 33
+  sys   draw_sprite
+$L_game_loop_19:
+  .line 101
+  dup2
+  p0
+  cslt
+  bnz   $L_game_loop_48
+  dup2
+  p32
+  cult
+  bz    $L_game_loop_48
+  dup
+  p0
+  cslt
+  bnz   $L_game_loop_48
+  dup
+  push  14
+  cult
+  bz    $L_game_loop_48
+  .line 102
+  dup
+  p4
+  mul
+  p8
+  add
+  dup3
+  p4
+  mul
+  sys   get_pixel
+  .line 101
+  bz    $L_game_loop_21
+$L_game_loop_48:
+  .line 104
+  p1
+  setg  dead 0
+  .line 105
+  getg  high_score 0
+  getg  score 0
+  cult
+  bz    $L_game_loop_21
+  .line 107
+  getg  score 0
+  setg  high_score 0
+  .line 108
+  sys   save
+$L_game_loop_21:
+  .line 111
+  dupw
+  pushg snake 0
+  getg2 snake_head 0
+  aidx  2 448
+  setr2
+  .line 113
+  p3
+  p4
+  dup
+  dup4
+  sext
+  p4
+  mul2b
+  p8
+  add2b
+  dup7
+  sext
+  p4
+  mul2b
+  sys   draw_filled_rect
+  .line 115
+  dup3
+  bnz   $L_game_loop_23
+  .line 117
+  pushg snake_tail 0
+  pdec2
+  bool2
+  bnz   $L_game_loop_22
+  .line 118
+  push2 447
+  setg2 snake_tail 0
+$L_game_loop_22:
+  .line 119
+  pushg snake 0
+  getg2 snake_tail 0
+  aidx  2 448
+  getr2
+  setl2 2
+  .line 120
+  p0
+  p4
+  dup
+  dup4
+  sext
+  p4
+  mul2b
+  p8
+  add2b
+  dup7
+  sext
+  p4
+  mul2b
+  sys   draw_filled_rect
+$L_game_loop_23:
+  .line 81
+  pop3
+  .line 145
+  p0
+  getg  growth 0
+  cult
+  bz    $L_game_loop_11
+  .line 146
+  getg  growth 0
+  dec
+  setg  growth 0
+$L_game_loop_11:
+  .line 150
+  p0
+  p8
+  p128
+  p0000
+  sys   draw_filled_rect
+  .line 151
+  p3
+  p2
+  p128
+  p6
+  p000
+  sys   draw_filled_rect
+  .line 152
+  p0
+  p1
+  p0
+  sys   set_text_font
+  .line 153
+  getg  score 0
+  p000
+  push4 167774569
+  p00
+  p5
+  p000
+  sys   draw_textf
+  .line 155
+  sys   display_noclear
+  .line 124
+  ret
+
 main:
   .file main.abc
   .line 198
@@ -486,15 +1132,15 @@ main:
   .line 163
   p8
   sys   just_pressed
-  bz    $L_main_38
+  bz    $L_main_11
   .line 165
   sys   init_random_seed
   .line 166
-  jmp   $L_main_41
-$L_main_38:
+  jmp   $L_main_17
+$L_main_11:
   .line 169
   dup
-  bnz   $L_main_39
+  bnz   $L_main_12
   .line 171
   p1
   setl  1
@@ -514,7 +1160,7 @@ $L_main_38:
   sys   random_range
   pop3
   setl  2
-$L_main_39:
+$L_main_12:
   .line 175
   p3
   dup2
@@ -538,11 +1184,11 @@ $L_main_39:
   linc  2
   dup2
   cult
-  bz    $L_main_40
+  bz    $L_main_13
   .line 178
   p0
   setl  1
-$L_main_40:
+$L_main_13:
   .line 180
   p0
   p7
@@ -610,10 +1256,134 @@ $L_main_40:
   .line 163
   p8
   sys   just_pressed
-  bz    $L_main_38
+  bz    $L_main_14
   .line 165
   sys   init_random_seed
-$L_main_41:
+  .line 166
+  jmp   $L_main_17
+$L_main_14:
+  .line 169
+  dup
+  bnz   $L_main_15
+  .line 171
+  p1
+  setl  1
+  .line 172
+  push  117
+  p000
+  push  10
+  p000
+  sys   random_range
+  pop3
+  setl  3
+  .line 173
+  push  53
+  p000
+  push  10
+  p000
+  sys   random_range
+  pop3
+  setl  2
+$L_main_15:
+  .line 175
+  p3
+  dup2
+  p3
+  add
+  dup4
+  p0
+  dup7
+  p0
+  sys   draw_filled_circle
+  .line 176
+  p0
+  dup2
+  dup4
+  p0
+  dup7
+  p0
+  sys   draw_filled_circle
+  .line 177
+  push  50
+  linc  2
+  dup2
+  cult
+  bz    $L_main_16
+  .line 178
+  p0
+  setl  1
+$L_main_16:
+  .line 180
+  p0
+  p7
+  push4 620763701
+  p0
+  sys   draw_filled_rect
+  .line 181
+  push3 2419
+  sys   set_text_font
+  .line 182
+  push4 150999712
+  p00
+  p32
+  push3 9728
+  sys   draw_text_P
+  .line 184
+  p0
+  p1
+  p0
+  sys   set_text_font
+  .line 185
+  pz16
+  p0000
+  .line 186
+  getg  high_score 0
+  p000
+  push4 251663017
+  p00
+  refl  30
+  push2 20
+  sys   format
+  .line 187
+  refl  20
+  push2 20
+  sys   text_width
+  pop
+  .line 188
+  p64
+  dup2
+  p000
+  p1
+  lsr4
+  pop3
+  sub
+  .line 189
+  p0
+  p7
+  dup4
+  inc
+  push2 34
+  dup6
+  p0
+  p1
+  sub2b
+  sys   draw_filled_rect
+  .line 190
+  refl  22
+  push4 2621460
+  dup7
+  p0
+  sys   draw_text
+  .line 192
+  sys   display
+  popn  22
+  .line 163
+  p8
+  sys   just_pressed
+  bz    $L_main_11
+  .line 165
+  sys   init_random_seed
+$L_main_17:
   .line 158
   pop3
   .line 63
@@ -634,8 +1404,8 @@ $L_main_41:
   getg2 snake_tail 0
   sub2
   bool2
-  bz    $L_main_30
-$L_main_28:
+  bz    $L_main_5
+$L_main_3:
   .line 68
   pushg snake 0
   dupw3
@@ -667,8 +1437,136 @@ $L_main_28:
   getg2 snake_tail 0
   sub2
   bool2
-  bnz   $L_main_28
-$L_main_30:
+  bz    $L_main_5
+  .line 68
+  pushg snake 0
+  dupw3
+  p00
+  p1
+  p000
+  sub4
+  pop2
+  aidx  2 448
+  getr2
+  pushg snake 0
+  dupw5
+  aidx  2 448
+  setr2
+  .line 69
+  pushg snake 0
+  dupw3
+  aidx  2 448
+  dupw
+  getr
+  dec
+  dupw2
+  setr
+  pop2
+  .line 66
+  p1
+  add2b
+  dupw
+  getg2 snake_tail 0
+  sub2
+  bool2
+  bz    $L_main_5
+  .line 68
+  pushg snake 0
+  dupw3
+  p00
+  p1
+  p000
+  sub4
+  pop2
+  aidx  2 448
+  getr2
+  pushg snake 0
+  dupw5
+  aidx  2 448
+  setr2
+  .line 69
+  pushg snake 0
+  dupw3
+  aidx  2 448
+  dupw
+  getr
+  dec
+  dupw2
+  setr
+  pop2
+  .line 66
+  p1
+  add2b
+  dupw
+  getg2 snake_tail 0
+  sub2
+  bool2
+  bz    $L_main_5
+  .line 68
+  pushg snake 0
+  dupw3
+  p00
+  p1
+  p000
+  sub4
+  pop2
+  aidx  2 448
+  getr2
+  pushg snake 0
+  dupw5
+  aidx  2 448
+  setr2
+  .line 69
+  pushg snake 0
+  dupw3
+  aidx  2 448
+  dupw
+  getr
+  dec
+  dupw2
+  setr
+  pop2
+  .line 66
+  p1
+  add2b
+  dupw
+  getg2 snake_tail 0
+  sub2
+  bool2
+  bz    $L_main_5
+  .line 68
+  pushg snake 0
+  dupw3
+  p00
+  p1
+  p000
+  sub4
+  pop2
+  aidx  2 448
+  getr2
+  pushg snake 0
+  dupw5
+  aidx  2 448
+  setr2
+  .line 69
+  pushg snake 0
+  dupw3
+  aidx  2 448
+  dupw
+  getr
+  dec
+  dupw2
+  setr
+  pop2
+  .line 66
+  p1
+  add2b
+  dupw
+  getg2 snake_tail 0
+  sub2
+  bool2
+  bnz   $L_main_3
+$L_main_5:
   pop2
   .line 71
   p0
@@ -723,428 +1621,57 @@ $L_main_30:
   cult
   bz    $L_main_0
 $L_main_1:
-  .line 126
-  pushg dead 0
-  p1
-  p0
-  pushg dead 0
-  p1
-  p0
-  sys   memcpy
-  .line 128
+  .line 204
+  call  game_loop
+  .line 203
   getg  dead 0
-  bz    $L_main_3
-  .line 130
-  pushg snake 0
-  getg2 snake_head 0
-  aidx  2 448
-  getr2
-  .line 131
-  p3
+  push  160
+  cult
+  bz    $L_main_0
+  .line 204
+  call  game_loop
+  .line 203
   getg  dead 0
-  p3
-  add
-  dup3
-  sext
-  p4
-  mul2b
-  p8
-  add2b
-  dup6
-  sext
-  p4
-  mul2b
-  sys   draw_filled_circle
-  .line 132
-  p0
+  push  160
+  cult
+  bz    $L_main_0
+  .line 204
+  call  game_loop
+  .line 203
   getg  dead 0
-  dup3
-  sext
-  p4
-  mul2b
-  p8
-  add2b
-  dup6
-  sext
-  p4
-  mul2b
-  sys   draw_filled_circle
-  .line 133
+  push  160
+  cult
+  bz    $L_main_0
+  .line 204
+  call  game_loop
+  .line 203
   getg  dead 0
-  p3
-  add
-  setg  dead 0
-  pop2
-  .line 128
-  jmp   $L_main_12
-$L_main_3:
-  .line 137
-  getg  dir 0
-  dec
-  bz    $L_main_5
-  p64
-  sys   pressed
-  bz    $L_main_5
-  p0
-  setg  ndir 0
-$L_main_5:
-  .line 138
-  getg  dir 0
-  bz    $L_main_7
-  p32
-  sys   pressed
-  bz    $L_main_7
-  p1
-  setg  ndir 0
-$L_main_7:
-  .line 139
-  getg  dir 0
-  p3
-  sub
-  bz    $L_main_9
-  p16
-  sys   pressed
-  bz    $L_main_9
-  p2
-  setg  ndir 0
-$L_main_9:
-  .line 140
-  getg  dir 0
-  p2
-  sub
-  bz    $L_main_11
-  p128
-  sys   pressed
-  bz    $L_main_11
-  p3
-  setg  ndir 0
-$L_main_11:
-  .line 142
-  getg  frame 0
-  inc
-  setg  frame 0
-  getg  frame 0
-  p3
-  and
-  bnz   $L_main_12
-  .line 144
-  p0
-  getg  growth 0
+  push  160
   cult
-  .line 83
-  pushg snake 0
-  getg2 snake_head 0
-  aidx  2 448
-  getr2
-  .line 84
-  pushg snake_head 0
-  pdec2
-  bool2
-  bnz   $L_main_15
-  .line 85
-  push2 447
-  setg2 snake_head 0
-$L_main_15:
-  .line 87
-  getg  ndir 0
-  setg  dir 0
-  .line 88
-  getg  dir 0
-  bnz   $L_main_16
-  linc  2
-$L_main_16:
-  .line 89
-  getg  dir 0
-  dec
-  bnz   $L_main_17
-  dup2
-  dec
-  setl  2
-$L_main_17:
-  .line 90
-  getg  dir 0
-  p2
-  sub
-  bnz   $L_main_18
-  inc
-$L_main_18:
-  .line 91
-  getg  dir 0
-  p3
-  sub
-  bnz   $L_main_19
-  dec
-$L_main_19:
-  .line 93
-  dup2
-  getg  food 0
-  sub
-  bnz   $L_main_21
-  dup
-  getg  food 1
-  sub
-  bnz   $L_main_21
-  .line 95
-  getg  score 0
-  inc
-  setg  score 0
-  .line 96
-  getg  growth 0
-  p3
-  add
-  setg  growth 0
-  .line 97
-  p0000
-  .line 47
-  dup
-$L_main_44:
-  .line 49
-  push  31
-  p0000
-  p000
-  sys   random_range
-  pop3
-  setl  3
-  .line 50
-  push  13
-  p0000
-  p000
-  sys   random_range
-  pop3
-  setl  2
-  .line 51
-  dup2
-  p4
-  mul
-  p8
-  add
-  dup4
-  p4
-  mul
-  sys   get_pixel
-  bnz   $L_main_45
-  .line 52
-  dupw2
-  setl2 5
-  pop3
-  jmp   $L_main_52
-$L_main_45:
-  .line 47
-  inc
-  dup
-  push  50
+  bz    $L_main_0
+  .line 204
+  call  game_loop
+  .line 203
+  getg  dead 0
+  push  160
   cult
-  bnz   $L_main_44
-  pop
-  .line 54
-  p0
-  setl  1
-  dup
-  push  14
+  bz    $L_main_0
+  .line 204
+  call  game_loop
+  .line 203
+  getg  dead 0
+  push  160
   cult
-  bz    $L_main_51
-$L_main_47:
-  .line 55
-  p0
-  setl  2
-  dup2
-  p32
+  bz    $L_main_0
+  .line 204
+  call  game_loop
+  .line 203
+  getg  dead 0
+  push  160
   cult
-  bz    $L_main_50
-$L_main_48:
-  .line 56
-  dup
-  p4
-  mul
-  p8
-  add
-  dup3
-  p4
-  mul
-  sys   get_pixel
-  bnz   $L_main_49
-  .line 57
-  setl2 2
-  jmp   $L_main_52
-$L_main_49:
-  .line 55
-  linc  2
-  dup2
-  p32
-  cult
-  bnz   $L_main_48
-$L_main_50:
-  .line 54
-  inc
-  dup
-  push  14
-  cult
-  bnz   $L_main_47
-$L_main_51:
-  .line 58
-  p00
-  setl2 4
-  pop2
-$L_main_52:
-  .line 97
-  setg2 food 0
-  .line 41
-  p00
-  .line 35
-  push3 2396
-  .line 34
-  getg  food 1
-  sext
-  p4
-  mul2b
-  p8
-  add2b
-  getg  food 0
-  sext
-  p4
-  mul2b
-  .line 33
-  sys   draw_sprite
-$L_main_21:
-  .line 101
-  dup2
-  p0
-  cslt
-  bnz   $L_main_56
-  dup2
-  p32
-  cult
-  bz    $L_main_56
-  dup
-  p0
-  cslt
-  bnz   $L_main_56
-  dup
-  push  14
-  cult
-  bz    $L_main_56
-  .line 102
-  dup
-  p4
-  mul
-  p8
-  add
-  dup3
-  p4
-  mul
-  sys   get_pixel
-  .line 101
-  bz    $L_main_23
-$L_main_56:
-  .line 104
-  p1
-  setg  dead 0
-  .line 105
-  getg  high_score 0
-  getg  score 0
-  cult
-  bz    $L_main_23
-  .line 107
-  getg  score 0
-  setg  high_score 0
-  .line 108
-  sys   save
-$L_main_23:
-  .line 111
-  dupw
-  pushg snake 0
-  getg2 snake_head 0
-  aidx  2 448
-  setr2
-  .line 113
-  p3
-  p4
-  dup
-  dup4
-  sext
-  p4
-  mul2b
-  p8
-  add2b
-  dup7
-  sext
-  p4
-  mul2b
-  sys   draw_filled_rect
-  .line 115
-  dup3
-  bnz   $L_main_25
-  .line 117
-  pushg snake_tail 0
-  pdec2
-  bool2
-  bnz   $L_main_24
-  .line 118
-  push2 447
-  setg2 snake_tail 0
-$L_main_24:
-  .line 119
-  pushg snake 0
-  getg2 snake_tail 0
-  aidx  2 448
-  getr2
-  setl2 2
-  .line 120
-  p0
-  p4
-  dup
-  dup4
-  sext
-  p4
-  mul2b
-  p8
-  add2b
-  dup7
-  sext
-  p4
-  mul2b
-  sys   draw_filled_rect
-$L_main_25:
-  .line 81
-  pop3
-  .line 145
-  p0
-  getg  growth 0
-  cult
-  bz    $L_main_12
-  .line 146
-  getg  growth 0
-  dec
-  setg  growth 0
-$L_main_12:
-  .line 150
-  p0
-  p8
-  p128
-  p0000
-  sys   draw_filled_rect
-  .line 151
-  p3
-  p2
-  p128
-  p6
-  p000
-  sys   draw_filled_rect
-  .line 152
-  p0
-  p1
-  p0
-  sys   set_text_font
-  .line 153
-  getg  score 0
-  p000
-  push4 167774569
-  p00
-  p5
-  p000
-  sys   draw_textf
-  .line 155
-  sys   display_noclear
+  bz    $L_main_0
+  .line 204
+  call  game_loop
   .line 203
   getg  dead 0
   push  160

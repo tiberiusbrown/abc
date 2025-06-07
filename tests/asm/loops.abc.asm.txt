@@ -59,7 +59,179 @@ $L_main_16:
   dupw
   push2 200
   cslt2
+  bz    $L_main_15
+  .line 19
+  p00
+  setl2 4
+  .line 20
+  p00
+$L_main_34:
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_36
+  pop2
+  jmp   $L_main_33
+$L_main_36:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  p1
+  add2b
+  dupw
+  push2 10
+  cslt2
+  bz    $L_main_33
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_37
+  pop2
+  jmp   $L_main_33
+$L_main_37:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  p1
+  add2b
+  dupw
+  push2 10
+  cslt2
+  bz    $L_main_33
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_38
+  pop2
+  jmp   $L_main_33
+$L_main_38:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  p1
+  add2b
+  dupw
+  push2 10
+  cslt2
+  bz    $L_main_33
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_39
+  pop2
+  jmp   $L_main_33
+$L_main_39:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  p1
+  add2b
+  dupw
+  push2 10
+  cslt2
+  bz    $L_main_33
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_40
+  pop2
+  jmp   $L_main_33
+$L_main_40:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  p1
+  add2b
+  dupw
+  push2 10
+  cslt2
+  bz    $L_main_33
+  .line 22
+  dupw
+  dupw3
+  mul2
+  .line 23
+  dupw3
+  p4
+  sub2b
+  bool2
+  bnz   $L_main_41
+  pop2
+  jmp   $L_main_33
+$L_main_41:
+  .line 24
+  dupw7
+  dupw3
+  add2
+  setl2 8
+  pop2
+  .line 20
+  p1
+  add2b
+  dupw
+  push2 10
+  cslt2
+  bnz   $L_main_34
+$L_main_33:
+  pop2
+  .line 17
+  p1
+  add2b
+  dupw
+  push2 200
+  cslt2
   bnz   $L_main_16
+$L_main_15:
   pop2
   .line 28
   sys   debug_break

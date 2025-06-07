@@ -637,7 +637,8 @@ struct compiler_t
     // "Private but technically public" API
     //
 
-    bool enable_unrolling = true;
+    bool enable_sized_unrolling = true;
+    bool enable_unsized_unrolling = true;
     bool enable_inlining = true;
     bool enable_jmp_to_ret = true;
     bool enable_bake_pushl = true;
@@ -646,6 +647,8 @@ struct compiler_t
     size_t switch_min_ranges_for_jump_table = 16;
     size_t unroll_sized_max_instrs = 1024; // max total instrs in unrolled loop
     size_t unroll_sized_max_iters = 64;
+    size_t unroll_unsized_max_add_instrs = 256;
+    size_t unroll_unsized_max_iters = 8;
     size_t max_getpn_bake = 16; // max bytes to bake a GETPN into PUSHs
 
     void add_custom_label_ref(std::string const& name, compiler_type_t const& t);
@@ -743,7 +746,7 @@ private:
         int64_t incr;
         uint32_t num;
     };
-    bool can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u);
+    bool can_unroll_for_loop_sized(ast_node_t const& n, unroll_info_t& u);
     void unroll_loop_sized(
         ast_node_t const& n, unroll_info_t const& u,
         compiler_func_t& f, compiler_frame_t& frame);

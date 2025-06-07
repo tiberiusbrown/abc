@@ -33,7 +33,120 @@ $L_main_18:
   dup
   p8
   cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_17
+  .line 30
+  p000
+  p1
+  p000
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
   bnz   $L_main_18
+$L_main_17:
   pop
   p0
 $L_main_22:
@@ -54,7 +167,134 @@ $L_main_22:
   dup
   p8
   cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
   bnz   $L_main_22
+$L_main_21:
   pop
   p0
 $L_main_26:
@@ -75,7 +315,134 @@ $L_main_26:
   dup
   p8
   cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  p0
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
   bnz   $L_main_26
+$L_main_25:
   pop
   p0
 $L_main_30:
@@ -94,7 +461,120 @@ $L_main_30:
   dup
   p8
   cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
+  bz    $L_main_29
+  .line 30
+  p000
+  p1
+  push3 12288
+  dup8
+  p16
+  mul
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 27
+  inc
+  dup
+  p8
+  cult
   bnz   $L_main_30
+$L_main_29:
   pop
   .line 34
   sys   debug_break

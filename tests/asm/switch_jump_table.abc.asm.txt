@@ -1,0 +1,1011 @@
+.shades 2
+.saved 0
+
+$PD_0:
+  .rp $L_f_1
+  .rp $L_f_2
+  .rp $L_f_3
+  .rp $L_f_4
+  .rp $L_f_5
+  .rp $L_f_6
+  .rp $L_f_7
+  .rp $L_f_8
+  .rp $L_f_9
+  .rp $L_f_10
+  .rp $L_f_11
+  .rp $L_f_12
+  .rp $L_f_13
+  .rp $L_f_14
+  .rp $L_f_15
+  .rp $L_f_16
+  .rp $L_f_17
+  .rp $L_f_18
+  .rp $L_f_19
+  .rp $L_f_20
+  .rp $L_f_21
+  .rp $L_f_22
+  .rp $L_f_23
+  .rp $L_f_24
+  .rp $L_f_25
+  .rp $L_f_26
+  .rp $L_f_27
+  .rp $L_f_28
+  .rp $L_f_29
+  .rp $L_f_30
+  .rp $L_f_31
+  .rp $L_f_32
+  .rp $L_f_33
+  .rp $L_f_34
+  .rp $L_f_35
+  .rp $L_f_36
+  .rp $L_f_37
+  .rp $L_f_38
+  .rp $L_f_39
+  .rp $L_f_40
+  .rp $L_f_41
+  .rp $L_f_42
+  .rp $L_f_43
+  .rp $L_f_44
+  .rp $L_f_45
+  .rp $L_f_46
+  .rp $L_f_47
+  .rp $L_f_48
+  .rp $L_f_49
+  .rp $L_f_50
+  .rp $L_f_51
+  .rp $L_f_52
+  .rp $L_f_53
+  .rp $L_f_54
+  .rp $L_f_55
+  .rp $L_f_56
+  .rp $L_f_57
+  .rp $L_f_58
+  .rp $L_f_59
+  .rp $L_f_60
+  .rp $L_f_61
+  .rp $L_f_62
+  .rp $L_f_63
+  .rp $L_f_64
+  .rp $L_f_65
+  .rp $L_f_66
+  .rp $L_f_67
+  .rp $L_f_68
+  .rp $L_f_69
+  .rp $L_f_70
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+  .rp $L_f_0
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+f:
+  .file switch_jump_table.abc
+  .line 3
+  dup
+  p0
+  p3
+  mul2b
+  p00
+  p1
+  p0
+  add3
+  getpn 3
+  ijmp
+$L_f_1:
+  .line 5
+  p0
+  setl  2
+  pop
+  ret
+$L_f_2:
+  .line 6
+  p0
+  setl  2
+  pop
+  ret
+$L_f_3:
+  .line 7
+  p0
+  setl  2
+  pop
+  ret
+$L_f_4:
+  .line 8
+  p0
+  setl  2
+  pop
+  ret
+$L_f_5:
+  .line 9
+  p0
+  setl  2
+  pop
+  ret
+$L_f_6:
+  .line 10
+  p0
+  setl  2
+  pop
+  ret
+$L_f_7:
+  .line 11
+  p0
+  setl  2
+  pop
+  ret
+$L_f_8:
+  .line 12
+  p0
+  setl  2
+  pop
+  ret
+$L_f_9:
+  .line 13
+  p0
+  setl  2
+  pop
+  ret
+$L_f_10:
+  .line 14
+  p0
+  setl  2
+  pop
+  ret
+$L_f_11:
+  .line 15
+  p1
+  setl  2
+  pop
+  ret
+$L_f_12:
+  .line 16
+  p1
+  setl  2
+  pop
+  ret
+$L_f_13:
+  .line 17
+  p1
+  setl  2
+  pop
+  ret
+$L_f_14:
+  .line 18
+  p1
+  setl  2
+  pop
+  ret
+$L_f_15:
+  .line 19
+  p1
+  setl  2
+  pop
+  ret
+$L_f_16:
+  .line 20
+  p1
+  setl  2
+  pop
+  ret
+$L_f_17:
+  .line 21
+  p1
+  setl  2
+  pop
+  ret
+$L_f_18:
+  .line 22
+  p1
+  setl  2
+  pop
+  ret
+$L_f_19:
+  .line 23
+  p1
+  setl  2
+  pop
+  ret
+$L_f_20:
+  .line 24
+  p1
+  setl  2
+  pop
+  ret
+$L_f_21:
+  .line 25
+  p2
+  setl  2
+  pop
+  ret
+$L_f_22:
+  .line 26
+  p2
+  setl  2
+  pop
+  ret
+$L_f_23:
+  .line 27
+  p2
+  setl  2
+  pop
+  ret
+$L_f_24:
+  .line 28
+  p2
+  setl  2
+  pop
+  ret
+$L_f_25:
+  .line 29
+  p2
+  setl  2
+  pop
+  ret
+$L_f_26:
+  .line 30
+  p2
+  setl  2
+  pop
+  ret
+$L_f_27:
+  .line 31
+  p2
+  setl  2
+  pop
+  ret
+$L_f_28:
+  .line 32
+  p2
+  setl  2
+  pop
+  ret
+$L_f_29:
+  .line 33
+  p2
+  setl  2
+  pop
+  ret
+$L_f_30:
+  .line 34
+  p2
+  setl  2
+  pop
+  ret
+$L_f_31:
+  .line 35
+  p3
+  setl  2
+  pop
+  ret
+$L_f_32:
+  .line 36
+  p3
+  setl  2
+  pop
+  ret
+$L_f_33:
+  .line 37
+  p3
+  setl  2
+  pop
+  ret
+$L_f_34:
+  .line 38
+  p3
+  setl  2
+  pop
+  ret
+$L_f_35:
+  .line 39
+  p3
+  setl  2
+  pop
+  ret
+$L_f_36:
+  .line 40
+  p3
+  setl  2
+  pop
+  ret
+$L_f_37:
+  .line 41
+  p3
+  setl  2
+  pop
+  ret
+$L_f_38:
+  .line 42
+  p3
+  setl  2
+  pop
+  ret
+$L_f_39:
+  .line 43
+  p3
+  setl  2
+  pop
+  ret
+$L_f_40:
+  .line 44
+  p3
+  setl  2
+  pop
+  ret
+$L_f_41:
+  .line 45
+  p4
+  setl  2
+  pop
+  ret
+$L_f_42:
+  .line 46
+  p4
+  setl  2
+  pop
+  ret
+$L_f_43:
+  .line 47
+  p4
+  setl  2
+  pop
+  ret
+$L_f_44:
+  .line 48
+  p4
+  setl  2
+  pop
+  ret
+$L_f_45:
+  .line 49
+  p4
+  setl  2
+  pop
+  ret
+$L_f_46:
+  .line 50
+  p4
+  setl  2
+  pop
+  ret
+$L_f_47:
+  .line 51
+  p4
+  setl  2
+  pop
+  ret
+$L_f_48:
+  .line 52
+  p4
+  setl  2
+  pop
+  ret
+$L_f_49:
+  .line 53
+  p4
+  setl  2
+  pop
+  ret
+$L_f_50:
+  .line 54
+  p4
+  setl  2
+  pop
+  ret
+$L_f_51:
+  .line 55
+  p5
+  setl  2
+  pop
+  ret
+$L_f_52:
+  .line 56
+  p5
+  setl  2
+  pop
+  ret
+$L_f_53:
+  .line 57
+  p5
+  setl  2
+  pop
+  ret
+$L_f_54:
+  .line 58
+  p5
+  setl  2
+  pop
+  ret
+$L_f_55:
+  .line 59
+  p5
+  setl  2
+  pop
+  ret
+$L_f_56:
+  .line 60
+  p5
+  setl  2
+  pop
+  ret
+$L_f_57:
+  .line 61
+  p5
+  setl  2
+  pop
+  ret
+$L_f_58:
+  .line 62
+  p5
+  setl  2
+  pop
+  ret
+$L_f_59:
+  .line 63
+  p5
+  setl  2
+  pop
+  ret
+$L_f_60:
+  .line 64
+  p5
+  setl  2
+  pop
+  ret
+$L_f_61:
+  .line 65
+  p6
+  setl  2
+  pop
+  ret
+$L_f_62:
+  .line 66
+  p6
+  setl  2
+  pop
+  ret
+$L_f_63:
+  .line 67
+  p6
+  setl  2
+  pop
+  ret
+$L_f_64:
+  .line 68
+  p6
+  setl  2
+  pop
+  ret
+$L_f_65:
+  .line 69
+  p6
+  setl  2
+  pop
+  ret
+$L_f_66:
+  .line 70
+  p6
+  setl  2
+  pop
+  ret
+$L_f_67:
+  .line 71
+  p6
+  setl  2
+  pop
+  ret
+$L_f_68:
+  .line 72
+  p6
+  setl  2
+  pop
+  ret
+$L_f_69:
+  .line 73
+  p6
+  setl  2
+  pop
+  ret
+$L_f_70:
+  .line 74
+  p6
+  setl  2
+  pop
+  ret
+$L_f_0:
+  .line 76
+  push  42
+  setl  2
+  pop
+  ret
+
+main:
+  .file switch_jump_table.abc
+  .line 81
+  sys   debug_break
+  .line 83
+  p0
+$L_main_1:
+  .line 84
+  p0
+  dup2
+  call  f
+  p0
+  dup3
+  push3 2560
+  udiv2
+  sub2
+  bool2
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bz    $L_main_0
+  .line 84
+  p0
+  dup2
+  call  f
+  p000
+  dup5
+  p000
+  push  10
+  p000
+  udiv4
+  sub4
+  bool4
+  not
+  sys   assert
+  .line 83
+  inc
+  dup
+  push  70
+  cult
+  bnz   $L_main_1
+$L_main_0:
+  pop
+  .line 85
+  push2 70
+$L_main_4:
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bz    $L_main_3
+  .line 86
+  p0
+  dup3
+  call  f
+  push  42
+  sub
+  not
+  sys   assert
+  .line 85
+  p1
+  add2b
+  dupw
+  p0
+  p1
+  cult2
+  bnz   $L_main_4
+$L_main_3:
+  pop2
+  .line 88
+  sys   debug_break
+  .line 79
+  ret
+
