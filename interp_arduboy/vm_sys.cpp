@@ -973,10 +973,33 @@ static void sys_draw_sprite()
     seek_to_pc();
 #else
     auto ptr = vm_pop_begin();
+#if 1
+    int16_t x, y;
+    uint24_t img;
+    uint16_t frame;
+    asm volatile(R"(
+            ld %B[x], -%a[ptr]
+            ld %A[x], -%a[ptr]
+            ld %B[y], -%a[ptr]
+            ld %A[y], -%a[ptr]
+            ld %C[img], -%a[ptr]
+            ld %B[img], -%a[ptr]
+            ld %A[img], -%a[ptr]
+            ld %B[frame], -%a[ptr]
+            ld %A[frame], -%a[ptr]
+        )"
+        : [x]     "=&r" (x)
+        , [y]     "=&r" (y)
+        , [img]   "=&r" (img)
+        , [frame] "=&r" (frame)
+        , [ptr]   "+&e" (ptr)
+    );
+#else
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint24_t img = vm_pop<uint24_t>(ptr);
     uint16_t frame = vm_pop<uint16_t>(ptr);
+#endif
     vm_pop_end(ptr);
     FX::readEnd();
     shades_draw_sprite(x, y, img, frame);
@@ -1029,7 +1052,7 @@ static uint24_t mul_24_16_16(uint16_t a, uint16_t b)
     return r;
 }
 
-static fx_read_pending_uint16_le()
+static uint16_t fx_read_pending_uint16_le()
 {
     uint16_t t = FX::readPendingUInt16();
     asm volatile(R"(
@@ -1042,7 +1065,7 @@ static fx_read_pending_uint16_le()
     return t;
 }
 
-static fx_read_pending_last_uint16_le()
+static uint16_t fx_read_pending_last_uint16_le()
 {
     uint16_t t = FX::readPendingLastUInt16();
     asm volatile(R"(
@@ -1060,10 +1083,33 @@ static fx_read_pending_last_uint16_le()
 static void sys_draw_tilemap()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    int16_t x,y;
+    uint24_t img, tm;
+    asm volatile(R"(
+            ld %B[x], -%a[ptr]
+            ld %A[x], -%a[ptr]
+            ld %B[y], -%a[ptr]
+            ld %A[y], -%a[ptr]
+            ld %C[img], -%a[ptr]
+            ld %B[img], -%a[ptr]
+            ld %A[img], -%a[ptr]
+            ld %C[tm], -%a[ptr]
+            ld %B[tm], -%a[ptr]
+            ld %A[tm], -%a[ptr]
+        )"
+        : [x]   "=&r" (x)
+        , [y]   "=&r" (y)
+        , [img] "=&r" (img)
+        , [tm]  "=&r" (tm)
+        , [ptr] "+&e" (ptr)
+    );
+#else
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint24_t img = vm_pop<uint24_t>(ptr);
     uint24_t tm = vm_pop<uint24_t>(ptr);
+#endif
     vm_pop_end(ptr);
     FX::readEnd();
 
@@ -1071,7 +1117,8 @@ static void sys_draw_tilemap()
     if(y >=  64) goto end;
 
     fx_seek_data(tm);
-    uint8_t format = FX::readPendingUInt8() - 1;
+    uint8_t format = FX::readPendingUInt8();
+    asm volatile("dec %0\n" : "+r" (format)); // better codegen than format -= 1;
     uint16_t nrow = fx_read_pending_uint16_le();
     uint16_t ncol = fx_read_pending_last_uint16_le();
     tm += 5;
@@ -1285,21 +1332,15 @@ void draw_char(
 
             rjmp 1f
         L%=_delay_17:
-            nop
-        L%=_delay_16:
-            nop
+            rjmp .+0
         L%=_delay_15:
             nop
         L%=_delay_14:
             nop
         L%=_delay_13:
-            nop
-        L%=_delay_12:
-            nop
+            rjmp .+0
         L%=_delay_11:
-            nop
-        L%=_delay_10:
-            nop
+            rjmp .+0
         L%=_delay_9:
             rjmp .+0
         L%=_delay_7:
@@ -1409,9 +1450,27 @@ void draw_char(
 static void sys_wrap_text()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    uint16_t tn;
+    char* p;
+    uint8_t w;
+    asm volatile(R"(
+            ld %B[tn], -%a[ptr]
+            ld %A[tn], -%a[ptr]
+            ld %B[p], -%a[ptr]
+            ld %A[p], -%a[ptr]
+            ld %[w], -%a[ptr]
+        )"
+        : [tn]  "=&r" (tn)
+        , [p]   "=&r" (p)
+        , [w]   "=&r" (w)
+        , [ptr] "+&e" (ptr)
+    );
+#else
     uint16_t tn = vm_pop<uint16_t>(ptr);
     char* p     = reinterpret_cast<char*>(vm_pop<uint16_t>(ptr));
     uint8_t  w  = vm_pop<uint8_t>(ptr);
+#endif
     vm_pop_end(ptr);
     uint24_t font = ards::vm.text_font;
     (void)FX::readEnd();
@@ -1642,7 +1701,7 @@ static void sys_strlen_P()
     if(n != 0)
     {
         (void)FX::readEnd();
-        FX::seekData(b);
+        fx_seek_data(b);
         while(FX::readPendingUInt8() != '\0')
         {
             ++t;
@@ -1686,7 +1745,7 @@ static void sys_strcmp_P()
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    FX::seekData(b1);
+    fx_seek_data(b1);
     uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
     uint8_t c0, c1;
     for(;;)
@@ -1762,7 +1821,7 @@ static void sys_strcpy_P()
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     (void)FX::readEnd();
-    FX::seekData(b1);
+    fx_seek_data(b1);
     uint16_t nr = n0;
     uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
@@ -1954,8 +2013,23 @@ static void format_exec(format_char_func f)
     uint24_t fb;
     {
         auto ptr = vm_pop_begin();
+#if 1
+        asm volatile(R"(
+                ld %C[fn], -%a[ptr]
+                ld %B[fn], -%a[ptr]
+                ld %A[fn], -%a[ptr]
+                ld %C[fb], -%a[ptr]
+                ld %B[fb], -%a[ptr]
+                ld %A[fb], -%a[ptr]
+            )"
+            : [fn]  "=&r" (fn)
+            , [fb]  "=&r" (fb)
+            , [ptr] "+&e" (ptr)
+        );
+#else
         fn = vm_pop<uint24_t>(ptr);
         fb = vm_pop<uint24_t>(ptr);
+#endif
         vm_pop_end(ptr);
     }
         
@@ -2283,7 +2357,7 @@ static void sys_save_exists()
 {
     uint16_t save_size;
     (void)FX::readEnd();
-    FX::seekData(10);
+    fx_seek_data(10);
     union
     {
         uint16_t save_size;
@@ -2323,7 +2397,7 @@ static void sys_save()
 static void sys_load()
 {
     (void)FX::readEnd();
-    FX::seekData(10);
+    fx_seek_data(10);
     union
     {
         uint16_t save_size;

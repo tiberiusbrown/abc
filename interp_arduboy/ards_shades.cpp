@@ -37,7 +37,7 @@ inline uint8_t const* cmd1_end()
 
 inline bool cmd0_room(uint8_t n)
 {
-    return cmd_ptr + n < cmd0_end();
+    return uintptr_t(cmd_ptr) < uintptr_t(cmd0_end() - n);
 }
 
 template<class T> inline uint8_t ld_inc(T*& p)
@@ -348,7 +348,7 @@ void shades_display()
             int16_t y = (int16_t)ld_inc2(p);
             uint24_t img = ld_inc3(p);
             uint16_t frame = ld_inc2(p);
-            FX::seekData(img);
+            fx_seek_data(img);
             uint8_t w = FX::readPendingUInt8();
             uint8_t h = FX::readPendingUInt8();
             uint8_t mode = FX::readPendingLastUInt8();
@@ -435,7 +435,7 @@ void shades_display()
         {
             uint24_t img = ld_inc3(p);
             uint8_t n = ld_inc(p);
-            FX::seekData(img);
+            fx_seek_data(img);
             uint8_t w = FX::readPendingUInt8();
             uint8_t h = FX::readPendingUInt8();
             uint8_t mode = FX::readPendingLastUInt8();
@@ -636,7 +636,7 @@ void shades_draw_sprite(
     if(x >= WIDTH) return;
     if(y >= HEIGHT) return;
 
-    FX::seekData(img);
+    fx_seek_data(img);
     uint8_t w = FX::readPendingUInt8();
     uint8_t h = FX::readPendingLastUInt8();
 

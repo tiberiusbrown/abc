@@ -17,9 +17,29 @@ void main()
     $assert(1);
     $debug_break();
     
+    $debug_printf("$set_frame_rate(60)\n");
+    $debug_break();
+    $set_frame_rate(60);
+    $debug_break();
+    
     $debug_printf("$set_frame_rate(0)\n");
     $debug_break();
     $set_frame_rate(0);
+    $debug_break();
+    
+    $debug_printf("$draw_pixel(3, 3, BLACK)\n");
+    $debug_break();
+    $draw_pixel(3, 3, BLACK);
+    $debug_break();
+    
+    $debug_printf("$draw_pixel(3, 3, WHITE)\n");
+    $debug_break();
+    $draw_pixel(3, 3, WHITE);
+    $debug_break();
+    
+    $debug_printf("$get_pixel(3, 3)\n");
+    $debug_break();
+    $get_pixel(3, 3);
     $debug_break();
     
     $debug_printf("$display()\n");

@@ -91,14 +91,14 @@ static char const* const ERRC[NUM_ERR] PROGMEM =
 static void draw_pc_line(uint24_t pc, uint8_t y)
 {
     // find and display file/line info
-    FX::seekData(12);
+    fx_seek_data(12);
     uint8_t num_files = FX::readPendingUInt8();
     uint24_t file_table = FX::readPendingUInt24();
     uint24_t line_table = FX::readPendingLastUInt24();
     uint8_t file = 0;
     uint16_t line = 0;
     uint24_t tpc = 0;
-    FX::seekData(line_table);
+    fx_seek_data(line_table);
     /*
     Line Table Command Encoding
     =========================================================
@@ -4553,7 +4553,7 @@ void vm_run()
     
     // read signature and refuse to run if it's not present
     {
-        FX::seekData(0);
+        fx_seek_data(0);
         uint32_t sig = FX::readPendingLastUInt32();
         if(sig != 0xABC00ABC)
             vm_error(ERR_SIG);
@@ -4567,7 +4567,7 @@ void vm_run()
     shades_init();
 #endif
     
-    FX::seekData(20);
+    fx_seek_data(20);
 
     // kick off execution
     asm volatile(R"(

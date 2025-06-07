@@ -534,7 +534,7 @@ void main()
 <details><summary>format: 0.38x slowdown (2.60x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 14057</td><td>Cycles: 5400</td></tr>
+<tr><td>Cycles: 14057</td><td>Cycles: 5397</td></tr>
 <tr>
 <td>
 
@@ -655,7 +655,7 @@ void main()
 <details><summary>text: 0.31x slowdown (3.20x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 64781</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 64778</td></tr>
 <tr>
 <td>
 

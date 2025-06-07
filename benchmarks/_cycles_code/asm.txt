@@ -9752,8 +9752,6 @@ $PD_126:
 $PD_127:
 $PD_128:
   .b 6 24 61 74 61 6e 32 28
-$PD_264:
-$PD_266:
 $PD_268:
 $PD_270:
 $PD_272:
@@ -9763,6 +9761,8 @@ $PD_278:
 $PD_280:
 $PD_282:
 $PD_284:
+$PD_286:
+$PD_288:
   .b 9 25 66 38 2c 20 25 66 38 29 0a
 $PD_129:
 $PD_130:
@@ -11393,9 +11393,10 @@ $PD_207:
   .b a 24 61 73 73 65 72 74 28 31 29 0a
 $PD_208:
   .b f 24 73 65 74 5f 66 72 61 6d 65 5f 72 61 74 65 28
-  .b 2 30 29 0a
+  .b 3 36 30 29 0a
 $PD_209:
-  .b a 24 64 69 73 70 6c 61 79 28 29 0a
+  .b f 24 73 65 74 5f 66 72 61 6d 65 5f 72 61 74 65 28
+  .b 2 30 29 0a
 $PD_21:
 $PD_22:
 $PD_23:
@@ -11416,17 +11417,26 @@ $PD_37:
 $PD_38:
   .b 9 25 66 38 20 2d 20 25 66 38 0a
 $PD_210:
+  .b f 24 64 72 61 77 5f 70 69 78 65 6c 28 33 2c 20 33
+  .b 8 2c 20 42 4c 41 43 4b 29 0a
+$PD_211:
+  .b f 24 64 72 61 77 5f 70 69 78 65 6c 28 33 2c 20 33
+  .b 8 2c 20 57 48 49 54 45 29 0a
+$PD_212:
+  .b f 24 67 65 74 5f 70 69 78 65 6c 28 33 2c 20 33 29
+  .b 0 0a
+$PD_213:
+  .b a 24 64 69 73 70 6c 61 79 28 29 0a
+$PD_214:
   .b f 24 64 69 73 70 6c 61 79 5f 6e 6f 63 6c 65 61 72
   .b 2 28 29 0a
-$PD_211:
+$PD_215:
   .b 9 24 72 61 6e 64 6f 6d 28 29 0a
-$PD_212:
+$PD_216:
   .b 9 24 6d 69 6c 6c 69 73 28 29 0a
-$PD_213:
+$PD_217:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
   .b 4 2c 20 30 29 0a
-$PD_214:
-$PD_216:
 $PD_218:
 $PD_220:
 $PD_222:
@@ -11434,54 +11444,54 @@ $PD_224:
 $PD_226:
 $PD_228:
 $PD_230:
-  .b 2 25 64 30
-$PD_215:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 6 2c 20 31 30 30 29 0a
-$PD_217:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 8 2c 20 31 30 30 30 30 29 0a
-$PD_219:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b a 2c 20 31 30 30 30 30 30 30 29 0a
-$PD_221:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
-$PD_223:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 7 2c 20 2d 31 30 30 29 0a
-$PD_225:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b 9 2c 20 2d 31 30 30 30 30 29 0a
-$PD_227:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b b 2c 20 2d 31 30 30 30 30 30 30 29 0a
-$PD_229:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
-  .b d 2c 20 2d 31 30 30 30 30 30 30 30 30 29 0a
-$PD_231:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b 4 2c 20 30 29 0a
 $PD_232:
 $PD_234:
+  .b 2 25 64 30
+$PD_219:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 6 2c 20 31 30 30 29 0a
+$PD_221:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 8 2c 20 31 30 30 30 30 29 0a
+$PD_223:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b a 2c 20 31 30 30 30 30 30 30 29 0a
+$PD_225:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
+$PD_227:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 7 2c 20 2d 31 30 30 29 0a
+$PD_229:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b 9 2c 20 2d 31 30 30 30 30 29 0a
+$PD_231:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b b 2c 20 2d 31 30 30 30 30 30 30 29 0a
+$PD_233:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22
+  .b d 2c 20 2d 31 30 30 30 30 30 30 30 30 29 0a
+$PD_235:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b 4 2c 20 30 29 0a
 $PD_236:
 $PD_238:
 $PD_240:
+$PD_242:
+$PD_244:
   .b 2 25 75 30
-$PD_233:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b 6 2c 20 31 30 30 29 0a
-$PD_235:
-  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b 8 2c 20 31 30 30 30 30 29 0a
 $PD_237:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b a 2c 20 31 30 30 30 30 30 30 29 0a
+  .b 6 2c 20 31 30 30 29 0a
 $PD_239:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
-  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
+  .b 8 2c 20 31 30 30 30 30 29 0a
 $PD_241:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b a 2c 20 31 30 30 30 30 30 30 29 0a
 $PD_243:
+  .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22
+  .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a
 $PD_245:
 $PD_247:
 $PD_249:
@@ -11491,10 +11501,10 @@ $PD_255:
 $PD_257:
 $PD_259:
 $PD_261:
+$PD_263:
+$PD_265:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 31
   .b 8 66 22 2c 20 25 66 38 29 0a
-$PD_242:
-$PD_244:
 $PD_246:
 $PD_248:
 $PD_250:
@@ -11504,9 +11514,9 @@ $PD_256:
 $PD_258:
 $PD_260:
 $PD_262:
+$PD_264:
+$PD_266:
   .b 2 25 66 31
-$PD_263:
-$PD_265:
 $PD_267:
 $PD_269:
 $PD_271:
@@ -11516,67 +11526,53 @@ $PD_277:
 $PD_279:
 $PD_281:
 $PD_283:
+$PD_285:
+$PD_287:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 38
   .b 8 66 22 2c 20 25 66 38 29 0a
-$PD_285:
-  .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
-  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_286:
-  .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
-  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_287:
-  .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
-  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
-$PD_288:
-  .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
-  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_289:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_290:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_291:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_292:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 31 30 3b 20
-  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_293:
-  .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
-  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
+  .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20
+  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_294:
-  .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
-  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
+  .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 31 30 3b 20
+  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_295:
-  .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
-  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
+  .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 31 30 3b 20
+  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_296:
-  .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
-  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
+  .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 31 30 3b 20
+  .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24
+  .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_297:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_298:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_299:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_3:
 $PD_10:
@@ -11599,70 +11595,86 @@ $PD_9:
   .b 9 25 66 38 20 2b 20 25 66 38 0a
 $PD_300:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69
-  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_301:
+  .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69
+  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_302:
+  .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69
+  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_303:
+  .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69
+  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_304:
+  .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69
+  .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61
+  .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a
 $PD_305:
 $PD_306:
 $PD_307:
 $PD_308:
 $PD_309:
 $PD_310:
-  .b f 75 64 69 76 34 20 3a 20 25 75 30 20 2f 20 25 75
-  .b 1 30 0a
 $PD_311:
 $PD_312:
 $PD_313:
 $PD_314:
+  .b f 75 64 69 76 34 20 3a 20 25 75 30 20 2f 20 25 75
+  .b 1 30 0a
 $PD_315:
 $PD_316:
 $PD_317:
 $PD_318:
 $PD_319:
 $PD_320:
-  .b f 64 69 76 34 20 20 3a 20 25 64 30 20 2f 20 25 64
-  .b 1 30 0a
 $PD_321:
 $PD_322:
 $PD_323:
-  .b f 75 64 69 76 32 20 3a 20 25 75 30 20 2f 20 25 75
-  .b 1 30 0a
 $PD_324:
+  .b f 64 69 76 34 20 20 3a 20 25 64 30 20 2f 20 25 64
+  .b 1 30 0a
 $PD_325:
 $PD_326:
+$PD_327:
+  .b f 75 64 69 76 32 20 3a 20 25 75 30 20 2f 20 25 75
+  .b 1 30 0a
+$PD_328:
+$PD_329:
+$PD_330:
   .b f 64 69 76 32 20 20 3a 20 25 64 30 20 2f 20 25 64
   .b 1 30 0a
-$PD_327:
-  .b b 6d 65 6d 73 65 74 28 31 30 30 29 0a
-$PD_328:
-  .b b 6d 65 6d 63 70 79 28 31 30 30 29 0a
-$PD_329:
-  .b d 6d 65 6d 63 70 79 5f 50 28 31 30 30 29 0a
-$PD_330:
-  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 30 2c 20
-  .b a 30 29 20 5b 31 36 78 31 36 5d 0a
 $PD_331:
-  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 2d 31 2c
-  .b b 20 30 29 20 5b 31 36 78 31 36 5d 0a
+  .b b 6d 65 6d 73 65 74 28 31 30 30 29 0a
 $PD_332:
-  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 30 2c 20
-  .b b 2d 31 29 20 5b 31 36 78 31 36 5d 0a
+  .b b 6d 65 6d 63 70 79 28 31 30 30 29 0a
 $PD_333:
-  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 2d 31 2c
-  .b c 20 2d 31 29 20 5b 31 36 78 31 36 5d 0a
+  .b d 6d 65 6d 63 70 79 5f 50 28 31 30 30 29 0a
 $PD_334:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 30 2c 20
-  .b 8 30 29 20 5b 38 78 38 5d 0a
+  .b a 30 29 20 5b 31 36 78 31 36 5d 0a
 $PD_335:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 2d 31 2c
-  .b 9 20 30 29 20 5b 38 78 38 5d 0a
+  .b b 20 30 29 20 5b 31 36 78 31 36 5d 0a
 $PD_336:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 30 2c 20
-  .b 9 2d 31 29 20 5b 38 78 38 5d 0a
+  .b b 2d 31 29 20 5b 31 36 78 31 36 5d 0a
 $PD_337:
+  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 2d 31 2c
+  .b c 20 2d 31 29 20 5b 31 36 78 31 36 5d 0a
+$PD_338:
+  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 30 2c 20
+  .b 8 30 29 20 5b 38 78 38 5d 0a
+$PD_339:
+  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 2d 31 2c
+  .b 9 20 30 29 20 5b 38 78 38 5d 0a
+$PD_340:
+  .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 30 2c 20
+  .b 9 2d 31 29 20 5b 38 78 38 5d 0a
+$PD_341:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 2d 31 2c
   .b a 20 2d 31 29 20 5b 38 78 38 5d 0a
 $PD_39:
@@ -11777,140 +11789,122 @@ main:
   .line 18
   sys   debug_break
   .line 20
-  push4 318947722
+  push4 335724938
   p00
   sys   debug_printf
   .line 21
   sys   debug_break
   .line 22
-  p0
+  push  60
   sys   set_frame_rate
   .line 23
   sys   debug_break
   .line 25
-  push4 184730013
+  push4 318947742
   p00
   sys   debug_printf
   .line 26
   sys   debug_break
   .line 27
-  sys   display
+  p0
+  sys   set_frame_rate
   .line 28
   sys   debug_break
   .line 30
-  push4 318947762
+  push4 419611067
   p00
   sys   debug_printf
   .line 31
   sys   debug_break
   .line 32
-  sys   display_noclear
+  p0
+  p3
+  dupw
+  p0
+  sys   draw_pixel
   .line 33
   sys   debug_break
   .line 35
-  push4 167952837
+  push4 419611092
   p00
   sys   debug_printf
   .line 36
   sys   debug_break
   .line 37
-  sys   random
-  pop4
+  p3
+  dup
+  p0
+  dupw
+  sys   draw_pixel
   .line 38
   sys   debug_break
   .line 40
-  push4 167952847
+  push4 285393389
   p00
   sys   debug_printf
   .line 41
   sys   debug_break
   .line 42
-  sys   millis
-  pop4
+  p3
+  dup
+  sys   get_pixel
+  pop
   .line 43
   sys   debug_break
-  .line 46
-  pz16
-  pz16
-  .line 48
-  push4 352502233
+  .line 45
+  push4 184730110
   p00
   sys   debug_printf
-  .line 49
+  .line 46
+  sys   debug_break
+  .line 47
+  sys   display
+  .line 48
   sys   debug_break
   .line 50
-  p0000
-  push4 50512366
+  push4 318947849
   p00
-  refl  42
-  p32
-  p0
-  sys   format
+  sys   debug_printf
   .line 51
   sys   debug_break
+  .line 52
+  sys   display_noclear
   .line 53
-  push4 386056689
-  p00
-  sys   debug_printf
-  .line 54
   sys   debug_break
   .line 55
-  push  100
-  p000
-  push4 50512366
+  push4 167952924
   p00
-  refl  42
-  p32
-  p0
-  sys   format
+  sys   debug_printf
   .line 56
   sys   debug_break
+  .line 57
+  sys   random
+  pop4
   .line 58
-  p8
-  push3 1639106
-  p00
-  sys   debug_printf
-  .line 59
   sys   debug_break
   .line 60
-  p16
-  push  39
-  p00
-  push4 50512366
-  p00
-  refl  42
-  p32
-  p0
-  sys   format
-  .line 61
-  sys   debug_break
-  .line 63
-  push4 453165601
+  push4 167952934
   p00
   sys   debug_printf
-  .line 64
+  .line 61
   sys   debug_break
-  .line 65
-  p64
-  push4 3992981314
-  push3 197313
-  p00
-  refl  42
-  p32
-  p0
-  sys   format
+  .line 62
+  sys   millis
+  pop4
+  .line 63
+  sys   debug_break
   .line 66
-  sys   debug_break
+  pz16
+  pz16
   .line 68
-  push4 486720060
+  push4 352502320
   p00
   sys   debug_printf
   .line 69
   sys   debug_break
   .line 70
-  p0
-  push4 3993368033
-  push3 197313
+  p0000
+  push4 50512453
   p00
   refl  42
   p32
@@ -11919,16 +11913,15 @@ main:
   .line 71
   sys   debug_break
   .line 73
-  push4 402834009
+  push4 386056776
   p00
   sys   debug_printf
   .line 74
   sys   debug_break
   .line 75
-  push2 65436
-  dup
-  dup
-  push4 50512366
+  push  100
+  p000
+  push4 50512453
   p00
   refl  42
   p32
@@ -11937,15 +11930,16 @@ main:
   .line 76
   sys   debug_break
   .line 78
-  push4 436388465
+  push4 419611231
   p00
   sys   debug_printf
   .line 79
   sys   debug_break
   .line 80
-  push3 16767216
-  dup
-  push4 50512366
+  p16
+  push  39
+  p00
+  push4 50512453
   p00
   refl  42
   p32
@@ -11954,14 +11948,15 @@ main:
   .line 81
   sys   debug_break
   .line 83
-  push4 469942923
+  push4 453165688
   p00
   sys   debug_printf
   .line 84
   sys   debug_break
   .line 85
-  push4 4293967296
-  push4 50512366
+  p64
+  push4 1157631810
+  push3 197314
   p00
   refl  42
   p32
@@ -11970,15 +11965,15 @@ main:
   .line 86
   sys   debug_break
   .line 88
-  push4 503497383
+  push4 486720147
   p00
   sys   debug_printf
   .line 89
   sys   debug_break
   .line 90
   p0
-  push4 4009363999
-  push3 197313
+  push4 1158018529
+  push3 197314
   p00
   refl  42
   p32
@@ -11987,14 +11982,16 @@ main:
   .line 91
   sys   debug_break
   .line 93
-  push4 352502469
+  push4 402834096
   p00
   sys   debug_printf
   .line 94
   sys   debug_break
   .line 95
-  p0000
-  push4 50512602
+  push2 65436
+  dup
+  dup
+  push4 50512453
   p00
   refl  42
   p32
@@ -12003,15 +12000,15 @@ main:
   .line 96
   sys   debug_break
   .line 98
-  push4 386056925
+  push4 436388552
   p00
   sys   debug_printf
   .line 99
   sys   debug_break
   .line 100
-  push  100
-  p000
-  push4 50512602
+  push3 16767216
+  dup
+  push4 50512453
   p00
   refl  42
   p32
@@ -12020,16 +12017,14 @@ main:
   .line 101
   sys   debug_break
   .line 103
-  push4 419611380
+  push4 469943010
   p00
   sys   debug_printf
   .line 104
   sys   debug_break
   .line 105
-  p16
-  push  39
-  p00
-  push4 50512602
+  push4 4293967296
+  push4 50512453
   p00
   refl  42
   p32
@@ -12038,14 +12033,14 @@ main:
   .line 106
   sys   debug_break
   .line 108
-  push4 453165837
+  push4 503497470
   p00
   sys   debug_printf
   .line 109
   sys   debug_break
   .line 110
-  p64
-  push4 3657436994
+  p0
+  push4 1174014495
   push3 197314
   p00
   refl  42
@@ -12055,15 +12050,14 @@ main:
   .line 111
   sys   debug_break
   .line 113
-  push4 486720296
+  push4 352502556
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  p0
-  push4 3657823713
-  push3 197314
+  p0000
+  push4 50512689
   p00
   refl  42
   p32
@@ -12071,253 +12065,322 @@ main:
   sys   format
   .line 116
   sys   debug_break
-  .line 122
-  push4 841731191
+  .line 118
+  push4 386057012
+  p00
+  sys   debug_printf
+  .line 119
+  sys   debug_break
+  .line 120
+  push  100
+  p000
+  push4 50512689
+  p00
+  refl  42
+  p32
+  p0
+  sys   format
+  .line 121
+  sys   debug_break
   .line 123
+  push4 419611467
+  p00
+  sys   debug_printf
+  .line 124
+  sys   debug_break
+  .line 125
+  p16
+  push  39
+  p00
+  push4 50512689
+  p00
+  refl  42
+  p32
+  p0
+  sys   format
+  .line 126
+  sys   debug_break
+  .line 128
+  push4 453165924
+  p00
+  sys   debug_printf
+  .line 129
+  sys   debug_break
+  .line 130
+  p64
+  push4 822087490
+  push3 197315
+  p00
+  refl  42
+  p32
+  p0
+  sys   format
+  .line 131
+  sys   debug_break
+  .line 133
+  push4 486720383
+  p00
+  sys   debug_printf
+  .line 134
+  sys   debug_break
+  .line 135
+  p0
+  push4 822474209
+  push3 197315
+  p00
+  refl  42
+  p32
+  p0
+  sys   format
+  .line 136
+  sys   debug_break
+  .line 142
+  push4 841731191
+  .line 143
   p0000
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 126
+  .line 146
   getl4 8
-  push4 419611461
+  push4 419611548
   p00
   sys   debug_printf
-  .line 127
+  .line 147
   sys   debug_break
-  .line 128
+  .line 148
   getl4 8
-  push4 50512734
+  push4 50512821
   p00
   refl  50
   p32
   p0
   sys   format
-  .line 129
+  .line 149
   sys   debug_break
-  .line 130
+  .line 150
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
   popn  8
-  .line 134
+  .line 154
   push4 841731191
-  .line 135
+  .line 155
   p0000
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12325,22 +12388,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12348,22 +12411,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12371,22 +12434,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12394,22 +12457,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12417,22 +12480,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12440,22 +12503,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12463,22 +12526,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12486,22 +12549,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12509,22 +12572,22 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
-  .line 138
+  .line 158
   getl4 8
-  push4 419611489
+  push4 419611576
   p00
   sys   debug_printf
-  .line 139
+  .line 159
   sys   debug_break
-  .line 140
+  .line 160
   getl4 8
   push4 50487569
   p00
@@ -12532,134 +12595,17 @@ main:
   p32
   p0
   sys   format
-  .line 141
+  .line 161
   sys   debug_break
-  .line 142
+  .line 162
   getl4 8
   p00
   push2 16916
   fmul
   setl4 8
   popn  40
-  .line 148
-  push4 755155834
-  p00
-  sys   debug_printf
-  .line 149
-  sys   debug_break
-  .line 150
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  .line 151
-  sys   debug_break
-  .line 153
-  push4 755155879
-  p00
-  sys   debug_printf
-  .line 154
-  sys   debug_break
-  .line 155
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  .line 156
-  sys   debug_break
-  .line 158
-  push4 755155924
-  p00
-  sys   debug_printf
-  .line 159
-  sys   debug_break
-  .line 160
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  .line 161
-  sys   debug_break
-  .line 163
-  p1
-  push3 2949828
-  p00
-  sys   debug_printf
-  .line 164
-  sys   debug_break
-  .line 165
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  p1
-  sys   assert
-  .line 166
-  sys   debug_break
   .line 168
-  push4 755156014
+  push4 755155921
   p00
   sys   debug_printf
   .line 169
@@ -12688,7 +12634,7 @@ main:
   .line 171
   sys   debug_break
   .line 173
-  push4 755156059
+  push4 755155966
   p00
   sys   debug_printf
   .line 174
@@ -12717,7 +12663,7 @@ main:
   .line 176
   sys   debug_break
   .line 178
-  push4 755156104
+  push4 755156011
   p00
   sys   debug_printf
   .line 179
@@ -12746,7 +12692,7 @@ main:
   .line 181
   sys   debug_break
   .line 183
-  push4 755156149
+  push4 755156056
   p00
   sys   debug_printf
   .line 184
@@ -12775,7 +12721,7 @@ main:
   .line 186
   sys   debug_break
   .line 188
-  push4 738378978
+  push4 755156101
   p00
   sys   debug_printf
   .line 189
@@ -12804,7 +12750,7 @@ main:
   .line 191
   sys   debug_break
   .line 193
-  push4 738379022
+  push4 755156146
   p00
   sys   debug_printf
   .line 194
@@ -12833,7 +12779,7 @@ main:
   .line 196
   sys   debug_break
   .line 198
-  push4 738379066
+  push4 755156191
   p00
   sys   debug_printf
   .line 199
@@ -12862,7 +12808,7 @@ main:
   .line 201
   sys   debug_break
   .line 203
-  push4 738379110
+  push4 755156236
   p00
   sys   debug_printf
   .line 204
@@ -12891,7 +12837,7 @@ main:
   .line 206
   sys   debug_break
   .line 208
-  push4 738379154
+  push4 738379065
   p00
   sys   debug_printf
   .line 209
@@ -12920,7 +12866,7 @@ main:
   .line 211
   sys   debug_break
   .line 213
-  push4 738379198
+  push4 738379109
   p00
   sys   debug_printf
   .line 214
@@ -12949,7 +12895,7 @@ main:
   .line 216
   sys   debug_break
   .line 218
-  push4 738379242
+  push4 738379153
   p00
   sys   debug_printf
   .line 219
@@ -12978,8 +12924,7 @@ main:
   .line 221
   sys   debug_break
   .line 223
-  p32
-  push3 2884294
+  push4 738379207
   p00
   sys   debug_printf
   .line 224
@@ -13007,17 +12952,133 @@ main:
   sys   assert
   .line 226
   sys   debug_break
+  .line 228
+  push4 738379251
+  p00
+  sys   debug_printf
+  .line 229
+  sys   debug_break
   .line 230
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  .line 231
+  sys   debug_break
+  .line 233
+  push4 738379295
+  p00
+  sys   debug_printf
+  .line 234
+  sys   debug_break
+  .line 235
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  .line 236
+  sys   debug_break
+  .line 238
+  push4 738379339
+  p00
+  sys   debug_printf
+  .line 239
+  sys   debug_break
+  .line 240
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  .line 241
+  sys   debug_break
+  .line 243
+  push4 738379383
+  p00
+  sys   debug_printf
+  .line 244
+  sys   debug_break
+  .line 245
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  p1
+  sys   assert
+  .line 246
+  sys   debug_break
+  .line 250
   push  249
   p000
   push  200
   p0000
-  .line 229
+  .line 249
   p000
-  .line 230
+  .line 250
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13025,7 +13086,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 231
+  .line 251
   push2 28885
   p00
   setl4 12
@@ -13034,7 +13095,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13042,7 +13103,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 232
+  .line 252
   push4 125688
   setl4 12
   push2 11881
@@ -13050,7 +13111,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13058,14 +13119,14 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 233
+  .line 253
   push4 3912611954
   setl4 12
   push4 3466048958
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13073,7 +13134,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 234
+  .line 254
   push2 38158
   p00
   setl4 12
@@ -13082,7 +13143,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13090,7 +13151,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 235
+  .line 255
   push4 11266967
   setl4 12
   push2 45423
@@ -13098,7 +13159,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13106,7 +13167,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 236
+  .line 256
   push4 1408251
   setl4 12
   push  26
@@ -13114,7 +13175,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13122,14 +13183,14 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 237
+  .line 257
   push4 3292010552
   setl4 12
   push4 5949799
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13137,7 +13198,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 238
+  .line 258
   push4 1017090251
   setl4 12
   push2 1143
@@ -13145,7 +13206,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13153,7 +13214,7 @@ main:
   udiv4
   setl4 4
   sys   debug_break
-  .line 239
+  .line 259
   push4 132345186
   setl4 12
   push  253
@@ -13161,7 +13222,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171724
+  push4 302171811
   p00
   sys   debug_printf
   sys   debug_break
@@ -13170,7 +13231,7 @@ main:
   setl4 4
   sys   debug_break
   popn  12
-  .line 243
+  .line 263
   p16
   push  255
   dup
@@ -13178,12 +13239,12 @@ main:
   push  193
   dupw2
   dup
-  .line 242
+  .line 262
   p0000
-  .line 243
+  .line 263
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13191,7 +13252,7 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 244
+  .line 264
   push2 61406
   p00
   setl4 12
@@ -13200,7 +13261,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13208,14 +13269,14 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 245
+  .line 265
   push4 14330961
   setl4 12
   push4 4285621001
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13223,14 +13284,14 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 246
+  .line 266
   push4 2539559233
   setl4 12
   push4 1308665073
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13238,7 +13299,7 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 247
+  .line 267
   push3 16741672
   dup
   setl4 12
@@ -13248,7 +13309,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13256,7 +13317,7 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 248
+  .line 268
   push4 15888126
   setl4 12
   push2 65490
@@ -13265,7 +13326,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13273,7 +13334,7 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 249
+  .line 269
   push4 4282522781
   setl4 12
   push  221
@@ -13281,7 +13342,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13289,14 +13350,14 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 250
+  .line 270
   push4 752164454
   setl4 12
   push4 4281274760
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13304,7 +13365,7 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 251
+  .line 271
   push4 242376023
   setl4 12
   push2 13743
@@ -13312,7 +13373,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13320,7 +13381,7 @@ main:
   div4
   setl4 4
   sys   debug_break
-  .line 252
+  .line 272
   push4 3673224160
   setl4 12
   push  255
@@ -13329,7 +13390,7 @@ main:
   setl4 8
   getl4 8
   getl4 16
-  push4 302171742
+  push4 302171829
   p00
   sys   debug_printf
   sys   debug_break
@@ -13338,13 +13399,13 @@ main:
   setl4 4
   sys   debug_break
   popn  12
-  .line 256
+  .line 276
   push3 3408041
   p000
   getl4 4
   push  169
   p000
-  push4 302171760
+  push4 302171847
   p00
   sys   debug_printf
   sys   debug_break
@@ -13356,7 +13417,7 @@ main:
   pop2
   setl2 2
   sys   debug_break
-  .line 257
+  .line 277
   push2 29715
   setl2 6
   push2 28723
@@ -13365,7 +13426,7 @@ main:
   p00
   getl2 10
   p00
-  push4 302171760
+  push4 302171847
   p00
   sys   debug_printf
   sys   debug_break
@@ -13377,7 +13438,7 @@ main:
   pop2
   setl2 2
   sys   debug_break
-  .line 258
+  .line 278
   push2 34746
   setl2 6
   push2 171
@@ -13386,7 +13447,7 @@ main:
   p00
   getl2 10
   p00
-  push4 302171760
+  push4 302171847
   p00
   sys   debug_printf
   sys   debug_break
@@ -13399,14 +13460,14 @@ main:
   setl2 2
   sys   debug_break
   popn  6
-  .line 262
+  .line 282
   push3 1572627
   p000
   getl4 4
   push2 65299
   dup
   dup
-  push4 302171778
+  push4 302171865
   p00
   sys   debug_printf
   sys   debug_break
@@ -13418,7 +13479,7 @@ main:
   pop2
   setl2 2
   sys   debug_break
-  .line 263
+  .line 283
   push2 42020
   setl2 6
   push2 42398
@@ -13427,7 +13488,7 @@ main:
   sext2
   getl2 10
   sext2
-  push4 302171778
+  push4 302171865
   p00
   sys   debug_printf
   sys   debug_break
@@ -13439,7 +13500,7 @@ main:
   pop2
   setl2 2
   sys   debug_break
-  .line 264
+  .line 284
   push2 10945
   setl2 6
   push2 65427
@@ -13448,7 +13509,7 @@ main:
   sext2
   getl2 10
   sext2
-  push4 302171778
+  push4 302171865
   p00
   sys   debug_printf
   sys   debug_break
@@ -13461,7 +13522,7 @@ main:
   setl2 2
   sys   debug_break
   popn  6
-  .line 268
+  .line 288
   pz16
   pz16
   pz16
@@ -13475,22 +13536,22 @@ main:
   pz16
   pz16
   pz8
-  .line 269
-  push4 201508500
+  .line 289
+  push4 201508587
   p00
   sys   debug_printf
-  .line 270
+  .line 290
   sys   debug_break
   p1
   refl  201
   push2 100
   sys   memset
   sys   debug_break
-  .line 271
-  push4 201508512
+  .line 291
+  push4 201508599
   p00
   sys   debug_printf
-  .line 272
+  .line 292
   sys   debug_break
   refl  200
   push2 100
@@ -13498,13 +13559,14 @@ main:
   push2 100
   sys   memcpy
   sys   debug_break
-  .line 273
-  push4 235062956
+  .line 293
+  p3
+  push3 918215
   p00
   sys   debug_printf
-  .line 274
+  .line 294
   sys   debug_break
-  push4 1677903812
+  push4 1677903899
   p00
   refl  106
   push2 100
@@ -13524,7 +13586,7 @@ $L_main_253:
   .line 23
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 24
@@ -13562,7 +13624,7 @@ $L_main_257:
   .line 23
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 24
@@ -13600,7 +13662,7 @@ $L_main_261:
   .line 23
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 24
@@ -13638,7 +13700,7 @@ $L_main_265:
   .line 23
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 24
@@ -13680,7 +13742,7 @@ $L_main_269:
   .line 41
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 42
@@ -13718,7 +13780,7 @@ $L_main_273:
   .line 41
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 42
@@ -13756,7 +13818,7 @@ $L_main_277:
   .line 41
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 42
@@ -13794,7 +13856,7 @@ $L_main_281:
   .line 41
   getl4 5
   getl4 17
-  push4 167953942
+  push4 167953853
   p00
   sys   debug_printf
   .line 42
@@ -13836,7 +13898,7 @@ $L_main_285:
   .line 59
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 60
@@ -13874,7 +13936,7 @@ $L_main_289:
   .line 59
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 60
@@ -13912,7 +13974,7 @@ $L_main_293:
   .line 59
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 60
@@ -13950,7 +14012,7 @@ $L_main_297:
   .line 59
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 60
@@ -13992,7 +14054,7 @@ $L_main_301:
   .line 77
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 78
@@ -14030,7 +14092,7 @@ $L_main_305:
   .line 77
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 78
@@ -14068,7 +14130,7 @@ $L_main_309:
   .line 77
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 78
@@ -14106,7 +14168,7 @@ $L_main_313:
   .line 77
   getl4 5
   getl4 17
-  push4 167952808
+  push4 167952817
   p00
   sys   debug_printf
   .line 78
@@ -14148,7 +14210,7 @@ $L_main_317:
   .line 95
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 96
@@ -14186,7 +14248,7 @@ $L_main_321:
   .line 95
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 96
@@ -14224,7 +14286,7 @@ $L_main_325:
   .line 95
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 96
@@ -14262,7 +14324,7 @@ $L_main_329:
   .line 95
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 96
@@ -14304,7 +14366,7 @@ $L_main_333:
   .line 113
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 114
@@ -14342,7 +14404,7 @@ $L_main_337:
   .line 113
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 114
@@ -14380,7 +14442,7 @@ $L_main_341:
   .line 113
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 114
@@ -14418,7 +14480,7 @@ $L_main_345:
   .line 113
   getl4 5
   getl4 17
-  push4 167954322
+  push4 167954409
   p00
   sys   debug_printf
   .line 114
@@ -14460,7 +14522,7 @@ $L_main_349:
   .line 131
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 132
@@ -14498,7 +14560,7 @@ $L_main_353:
   .line 131
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 132
@@ -14536,7 +14598,7 @@ $L_main_357:
   .line 131
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 132
@@ -14574,7 +14636,7 @@ $L_main_361:
   .line 131
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 132
@@ -14616,7 +14678,7 @@ $L_main_365:
   .line 149
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 150
@@ -14654,7 +14716,7 @@ $L_main_369:
   .line 149
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 150
@@ -14692,7 +14754,7 @@ $L_main_373:
   .line 149
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 150
@@ -14730,7 +14792,7 @@ $L_main_377:
   .line 149
   getl4 5
   getl4 17
-  push4 167954332
+  push4 167954419
   p00
   sys   debug_printf
   .line 150
@@ -14772,7 +14834,7 @@ $L_main_381:
   .line 167
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 168
@@ -14810,7 +14872,7 @@ $L_main_385:
   .line 167
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 168
@@ -14848,7 +14910,7 @@ $L_main_389:
   .line 167
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 168
@@ -14886,7 +14948,7 @@ $L_main_393:
   .line 167
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 168
@@ -14928,7 +14990,7 @@ $L_main_397:
   .line 185
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 186
@@ -14966,7 +15028,7 @@ $L_main_401:
   .line 185
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 186
@@ -15004,7 +15066,7 @@ $L_main_405:
   .line 185
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 186
@@ -15042,7 +15104,7 @@ $L_main_409:
   .line 185
   getl4 5
   getl4 17
-  push4 251840422
+  push4 251840509
   p00
   sys   debug_printf
   .line 186
@@ -15084,7 +15146,7 @@ $L_main_413:
   .line 203
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 204
@@ -15122,7 +15184,7 @@ $L_main_417:
   .line 203
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 204
@@ -15160,7 +15222,7 @@ $L_main_421:
   .line 203
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 204
@@ -15198,7 +15260,7 @@ $L_main_425:
   .line 203
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 204
@@ -15240,7 +15302,7 @@ $L_main_429:
   .line 221
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 222
@@ -15278,7 +15340,7 @@ $L_main_433:
   .line 221
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 222
@@ -15316,7 +15378,7 @@ $L_main_437:
   .line 221
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 222
@@ -15354,7 +15416,7 @@ $L_main_441:
   .line 221
   getl4 5
   getl4 17
-  push4 251840437
+  push4 251840524
   p00
   sys   debug_printf
   .line 222
@@ -17062,11 +17124,11 @@ $L_main_473:
   setl4 8
   popn  8
   .file main.abc
-  .line 279
-  push4 453166778
+  .line 299
+  push4 453166865
   p00
   sys   debug_printf
-  .line 280
+  .line 300
   sys   debug_break
   p0
   p1
@@ -17077,11 +17139,11 @@ $L_main_473:
   p0000
   sys   draw_tilemap
   sys   debug_break
-  .line 281
-  push4 469944021
+  .line 301
+  push4 469944108
   p00
   sys   debug_printf
-  .line 282
+  .line 302
   sys   debug_break
   p0
   p1
@@ -17094,11 +17156,11 @@ $L_main_473:
   dup
   sys   draw_tilemap
   sys   debug_break
-  .line 283
-  push4 469944049
+  .line 303
+  push4 469944136
   p00
   sys   debug_printf
-  .line 284
+  .line 304
   sys   debug_break
   p0
   p1
@@ -17111,11 +17173,11 @@ $L_main_473:
   p00
   sys   draw_tilemap
   sys   debug_break
-  .line 285
-  push4 486721293
+  .line 305
+  push4 486721380
   p00
   sys   debug_printf
-  .line 286
+  .line 306
   sys   debug_break
   p0
   p1
@@ -17128,11 +17190,11 @@ $L_main_473:
   dupw
   sys   draw_tilemap
   sys   debug_break
-  .line 288
-  push4 419612458
+  .line 308
+  push4 419612545
   p00
   sys   debug_printf
-  .line 289
+  .line 309
   sys   debug_break
   p0
   p1
@@ -17141,11 +17203,11 @@ $L_main_473:
   p0000
   sys   draw_tilemap
   sys   debug_break
-  .line 290
-  push4 436389699
+  .line 310
+  push4 436389786
   p00
   sys   debug_printf
-  .line 291
+  .line 311
   sys   debug_break
   p0
   p1
@@ -17156,11 +17218,11 @@ $L_main_473:
   dup
   sys   draw_tilemap
   sys   debug_break
-  .line 292
-  push4 436389725
+  .line 312
+  push4 436389812
   p00
   sys   debug_printf
-  .line 293
+  .line 313
   sys   debug_break
   p0
   p1
@@ -17170,11 +17232,11 @@ $L_main_473:
   p00
   sys   draw_tilemap
   sys   debug_break
-  .line 294
-  push4 453166967
+  .line 314
+  push4 453167054
   p00
   sys   debug_printf
-  .line 295
+  .line 315
   sys   debug_break
   p0
   p1
@@ -17184,7 +17246,7 @@ $L_main_473:
   dupw
   sys   draw_tilemap
   sys   debug_break
-  .line 297
+  .line 317
   p0
   sys   assert
   .line 9
