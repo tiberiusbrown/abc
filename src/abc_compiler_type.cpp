@@ -574,6 +574,13 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             }
             else if(c.comp_type != t && c.type != AST::COMPOUND_LITERAL)
             {
+                if(!convertible(t, c.comp_type))
+                {
+                    errs.push_back({
+                        "Unable to convert \"" + std::string(c.data) + "\" for function argument",
+                        c.line_info });
+                    return;
+                }
                 c.insert_cast(t);
                 transform_constexprs(c, frame);
             }
@@ -586,7 +593,10 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
         type_annotate_recurse(a.children[1], frame);
-        auto t0 = a.children[0].comp_type.without_ref();
+        auto const& t1 = a.children[1].comp_type;
+        if(t1.is_ref())
+            a.children[1].insert_cast(t1.without_ref());
+        auto const& t0 = a.children[0].comp_type.without_ref();
         if(!t0.is_array() && !t0.is_array_ref())
         {
             errs.push_back({

@@ -52,7 +52,7 @@ enum class AST
     DECL_ITEM,    // children are ident [, expr]
     FUNC_STMT,    // children are type, ident, block, args
     IF_STMT,      // children are expr, stmt, stmt (for else)
-    FOR_STMT,     // children are expr, body stmt, init stmt, iter stmt
+    FOR_STMT,     // children are expr, body stmt, iter stmt, init stmt(s)
     WHILE_STMT,   // children are expr and stmt
     DO_WHILE_STMT,// children are expr and stmt
     RETURN_STMT,  // child is expr if it exists

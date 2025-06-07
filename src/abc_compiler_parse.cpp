@@ -224,7 +224,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         for(A; B; C)
             D;
 
-    arranged as children: BLOCK(FOR_STMT(B, BLOCK(D), A, C))
+    arranged as children: BLOCK(FOR_STMT(B, BLOCK(D), C, A))
 
     */
     p["for_stmt"] = [](peg::SemanticValues const& v) {
@@ -236,8 +236,8 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
         auto D = std::any_cast<ast_node_t>(v[3]);
         b.children.emplace_back(std::move(B));
         b.children.push_back({ D.line_info, AST::BLOCK, D.data, { D } });
-        b.children.emplace_back(std::move(A));
         b.children.push_back({ C.line_info, AST::EXPR_STMT, C.data, { C } });
+        b.children.emplace_back(std::move(A));
         a.children.emplace_back(std::move(b));
         return a;
     };

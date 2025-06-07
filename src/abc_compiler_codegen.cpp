@@ -245,7 +245,10 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         bool is_for = (a.type == AST::FOR_STMT);
         bool is_do_while = (a.type == AST::DO_WHILE_STMT);
         if(is_for)
-            codegen(f, frame, a.children[2]);
+        {
+            for(size_t i = 3; i < a.children.size(); ++i)
+                codegen(f, frame, a.children[i]);
+        }
         type_annotate(a.children[0], frame);
         if(!is_do_while && a.children[0].type == AST::INT_CONST && a.children[0].value == 0)
             break;
@@ -269,7 +272,7 @@ void compiler_t::codegen(compiler_func_t& f, compiler_frame_t& frame, ast_node_t
         if(is_for)
         {
             codegen_label(f, cont);
-            codegen(f, frame, a.children[3]);
+            codegen(f, frame, a.children[2]);
         }
         break_stack.pop_back();
         continue_stack.pop_back();

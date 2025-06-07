@@ -2066,8 +2066,21 @@ static void format_exec(format_char_func f)
             uint16_t tb;
             {
                 auto ptr = vm_pop_begin();
+#if 1
+                asm volatile(R"(
+                        ld %B[tn], -%a[ptr]
+                        ld %A[tn], -%a[ptr]
+                        ld %B[tb], -%a[ptr]
+                        ld %A[tb], -%a[ptr]
+                    )"
+                    : [tn]  "=&r" (tn)
+                    , [tb]  "=&r" (tb)
+                    , [ptr] "+&e" (ptr)
+                );
+#else
                 tn = vm_pop<uint16_t>(ptr);
                 tb = vm_pop<uint16_t>(ptr);
+#endif
                 vm_pop_end(ptr);
             }
             format_add_string(f, reinterpret_cast<char*>(tb), tn);
@@ -2079,8 +2092,23 @@ static void format_exec(format_char_func f)
             uint24_t tb;
             {
                 auto ptr = vm_pop_begin();
+#if 1
+                asm volatile(R"(
+                        ld %C[tn], -%a[ptr]
+                        ld %B[tn], -%a[ptr]
+                        ld %A[tn], -%a[ptr]
+                        ld %C[tb], -%a[ptr]
+                        ld %B[tb], -%a[ptr]
+                        ld %A[tb], -%a[ptr]
+                    )"
+                    : [tn]  "=&r" (tn)
+                    , [tb]  "=&r" (tb)
+                    , [ptr] "+&e" (ptr)
+                );
+#else
                 tn = vm_pop<uint24_t>(ptr);
                 tb = vm_pop<uint24_t>(ptr);
+#endif
                 vm_pop_end(ptr);
             }
             format_add_prog_string(f, tb, tn);
@@ -2127,7 +2155,7 @@ struct format_user_buffer
     uint16_t n;
 };
 
-__attribute__((naked))
+[[gnu::naked]]
 static void format_exec_to_buffer(char c)
 {
     asm volatile(R"(
@@ -2766,18 +2794,22 @@ static void sys_init_random_seed()
 static void sys_set_random_seed()
 {
     auto ptr = vm_pop_begin();
-    uint32_t seed = vm_pop<uint32_t>(ptr);
-    vm_pop_end(ptr);
+    uint32_t seed;
     asm volatile(R"(
+            ld  %D[s], -%a[ptr]
+            ld  %C[s], -%a[ptr]
+            ld  %B[s], -%a[ptr]
+            ld  %A[s], -%a[ptr]
             sts %[P]+0, %A[s]
             sts %[P]+1, %B[s]
             sts %[P]+2, %C[s]
             sts %[P]+3, %D[s]
         )"
-        :
-        : [s] "r" (seed)
-        , [P] ""  (&abc_seed[0])
+        : [ptr] "+&e" (ptr)
+        , [s]   "=&r" (seed)
+        : [P]   ""    (&abc_seed[0])
     );
+    vm_pop_end(ptr);
 }
 
 static uint32_t abc_random()
@@ -2843,8 +2875,26 @@ static void sys_random()
 static void sys_random_range()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    uint32_t a, b;
+    asm volatile(R"(
+            ld  %D[a], -%a[ptr]
+            ld  %C[a], -%a[ptr]
+            ld  %B[a], -%a[ptr]
+            ld  %A[a], -%a[ptr]
+            ld  %D[b], -%a[ptr]
+            ld  %C[b], -%a[ptr]
+            ld  %B[b], -%a[ptr]
+            ld  %A[b], -%a[ptr]
+        )"
+        : [ptr] "+&e" (ptr)
+        , [a]   "=&r" (a)
+        , [b]   "=&r" (b)
+    );
+#else
     uint32_t a = vm_pop<uint32_t>(ptr);
     uint32_t b = vm_pop<uint32_t>(ptr);
+#endif
     uint32_t t = a;
     if(a < b)
         t += abc_random() % (b - a);

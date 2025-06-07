@@ -118,6 +118,8 @@ static void make_prog(compiler_type_t& t)
 
 bool compiler_t::convertible(compiler_type_t const& dst, compiler_type_t const& src)
 {
+    if(dst.is_any_ref() && src.is_constexpr)
+        return false;
     if(dst.is_prim() && src.without_ref().is_prim())
         return true;
     if(dst.is_array_ref() && dst.children[0].is_byte)

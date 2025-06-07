@@ -35,7 +35,7 @@ void compiler_t::unroll_loop_sized(
 {
     // only for-loops supported right now
     assert(n.type == AST::FOR_STMT);
-    auto const& stmt_init = n.children[2];
+    auto const& stmt_init = n.children[3];
     auto const& stmt_body = n.children[1];
     auto type = resolve_type(stmt_init.children[0]);
     int64_t x = u.init;
@@ -80,18 +80,35 @@ void compiler_t::unroll_loop_sized(
     codegen_label(f, label_break);
 }
 
+static bool has_lvalue(ast_node_t const& n, std::string ident)
+{
+    if(n.type == AST::IDENT && std::string(n.data) == ident)
+    {
+        if(n.parent && n.parent->type == AST::OP_CAST && !n.parent->comp_type.is_any_ref())
+            return false;
+        return true;
+    }
+    for(auto const& child : n.children)
+        if(has_lvalue(child, ident))
+            return true;
+    return false;
+}
+
 bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
 {
-    // analyze init statement, increment, and condition
-    assert(n.type == AST::FOR_STMT);
-    assert(n.children.size() == 4);
-
     if(!enable_unrolling)
         return false;
 
-    auto const& stmt_init = n.children[2];
+    // analyze init statement, increment, and condition
+    assert(n.type == AST::FOR_STMT);
+    assert(n.children.size() >= 4);
+    if(n.children.size() > 4)
+        return false;
+
+    auto const& stmt_init = n.children[3];
     auto const& cond = without_cast(n.children[0]);
-    auto const& stmt_iter = n.children[3];
+    auto const& body = n.children[1];
+    auto const& stmt_iter = n.children[2];
 
     auto type = resolve_type(stmt_init.children[0]);
 
@@ -114,6 +131,8 @@ bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
         if(expr.type != AST::INT_CONST) return false;
         u.init = truncate_value(type, expr.value);
     }
+#if 0
+    // TODO: need to codegen the final value of the variable
     else if(stmt_init.type == AST::EXPR_STMT)
     {
         auto const& child = stmt_init.children[0];
@@ -125,7 +144,12 @@ bool compiler_t::can_unroll_for_loop(ast_node_t const& n, unroll_info_t& u)
         if(expr.type != AST::INT_CONST) return false;
         u.init = expr.value;
     }
+#endif
     else
+        return false;
+
+    // ensure variable is not assigned inside the loop body
+    if(has_lvalue(body, u.var_name))
         return false;
 
     // figure out increment value
