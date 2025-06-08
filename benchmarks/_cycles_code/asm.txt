@@ -13805,141 +13805,78 @@ main:
   p0000
   .line 20
   push4 966609234
-  .line 21
-  p0
-$L_main_253:
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_255
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_255
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_255
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_255
-  .line 23
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 24
-  sys   debug_break
-  .line 25
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 26
-  sys   debug_break
-  .line 27
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_253
-$L_main_255:
-  pop
   .line 29
   getl4 12
   push4 1152098304
@@ -13948,141 +13885,78 @@ $L_main_255:
   pop4
   .line 20
   push4 966609234
-  .line 21
-  p0
-$L_main_257:
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_259
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_259
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_259
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_259
-  .line 23
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 24
-  sys   debug_break
-  .line 25
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 26
-  sys   debug_break
-  .line 27
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_257
-$L_main_259:
-  pop
   .line 29
   getl4 12
   push4 1152098304
@@ -14091,141 +13965,78 @@ $L_main_259:
   pop4
   .line 20
   push4 966609234
-  .line 21
-  p0
-$L_main_261:
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_263
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_263
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_263
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_263
-  .line 23
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 24
-  sys   debug_break
-  .line 25
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 26
-  sys   debug_break
-  .line 27
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_261
-$L_main_263:
-  pop
   .line 29
   getl4 12
   push4 1152098304
@@ -14234,141 +14045,78 @@ $L_main_263:
   pop4
   .line 20
   push4 966609234
-  .line 21
-  p0
-$L_main_265:
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_267
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_267
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_267
   .line 23
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 24
   sys   debug_break
   .line 25
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 26
   sys   debug_break
   .line 27
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_267
-  .line 23
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 24
-  sys   debug_break
-  .line 25
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 26
-  sys   debug_break
-  .line 27
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 21
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_265
-$L_main_267:
-  pop
   .line 29
   getl4 12
   push4 1152098304
@@ -14381,141 +14129,78 @@ $L_main_267:
   p0000
   .line 38
   push4 966609234
-  .line 39
-  p0
-$L_main_269:
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_271
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_271
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_271
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_271
-  .line 41
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 42
-  sys   debug_break
-  .line 43
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 44
-  sys   debug_break
-  .line 45
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_269
-$L_main_271:
-  pop
   .line 47
   getl4 12
   push4 1152098304
@@ -14524,141 +14209,78 @@ $L_main_271:
   pop4
   .line 38
   push4 966609234
-  .line 39
-  p0
-$L_main_273:
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_275
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_275
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_275
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_275
-  .line 41
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 42
-  sys   debug_break
-  .line 43
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 44
-  sys   debug_break
-  .line 45
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_273
-$L_main_275:
-  pop
   .line 47
   getl4 12
   push4 1152098304
@@ -14667,141 +14289,78 @@ $L_main_275:
   pop4
   .line 38
   push4 966609234
-  .line 39
-  p0
-$L_main_277:
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_279
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_279
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_279
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_279
-  .line 41
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 42
-  sys   debug_break
-  .line 43
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 44
-  sys   debug_break
-  .line 45
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_277
-$L_main_279:
-  pop
   .line 47
   getl4 12
   push4 1152098304
@@ -14810,141 +14369,78 @@ $L_main_279:
   pop4
   .line 38
   push4 966609234
-  .line 39
-  p0
-$L_main_281:
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_283
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_283
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_283
   .line 41
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167952705
   p00
   sys   debug_printf
   .line 42
   sys   debug_break
   .line 43
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fadd
-  setl4 9
+  setl4 8
   .line 44
   sys   debug_break
   .line 45
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_283
-  .line 41
-  getl4 5
-  getl4 17
-  push4 167952705
-  p00
-  sys   debug_printf
-  .line 42
-  sys   debug_break
-  .line 43
-  getl4 13
-  getl4 9
-  fadd
-  setl4 9
-  .line 44
-  sys   debug_break
-  .line 45
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 39
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_281
-$L_main_283:
-  pop
   .line 47
   getl4 12
   push4 1152098304
@@ -14957,141 +14453,78 @@ $L_main_283:
   p0000
   .line 56
   push4 966609234
-  .line 57
-  p0
-$L_main_285:
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_287
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_287
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_287
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_287
-  .line 59
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 60
-  sys   debug_break
-  .line 61
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 62
-  sys   debug_break
-  .line 63
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_285
-$L_main_287:
-  pop
   .line 65
   getl4 12
   push4 1152098304
@@ -15100,141 +14533,78 @@ $L_main_287:
   pop4
   .line 56
   push4 966609234
-  .line 57
-  p0
-$L_main_289:
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_291
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_291
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_291
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_291
-  .line 59
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 60
-  sys   debug_break
-  .line 61
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 62
-  sys   debug_break
-  .line 63
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_289
-$L_main_291:
-  pop
   .line 65
   getl4 12
   push4 1152098304
@@ -15243,141 +14613,78 @@ $L_main_291:
   pop4
   .line 56
   push4 966609234
-  .line 57
-  p0
-$L_main_293:
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_295
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_295
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_295
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_295
-  .line 59
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 60
-  sys   debug_break
-  .line 61
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 62
-  sys   debug_break
-  .line 63
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_293
-$L_main_295:
-  pop
   .line 65
   getl4 12
   push4 1152098304
@@ -15386,141 +14693,78 @@ $L_main_295:
   pop4
   .line 56
   push4 966609234
-  .line 57
-  p0
-$L_main_297:
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_299
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_299
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_299
   .line 59
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 60
   sys   debug_break
   .line 61
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 62
   sys   debug_break
   .line 63
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_299
-  .line 59
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 60
-  sys   debug_break
-  .line 61
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 62
-  sys   debug_break
-  .line 63
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 57
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_297
-$L_main_299:
-  pop
   .line 65
   getl4 12
   push4 1152098304
@@ -15533,141 +14777,78 @@ $L_main_299:
   p0000
   .line 74
   push4 966609234
-  .line 75
-  p0
-$L_main_301:
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_303
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_303
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_303
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_303
-  .line 77
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 78
-  sys   debug_break
-  .line 79
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 80
-  sys   debug_break
-  .line 81
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_301
-$L_main_303:
-  pop
   .line 83
   getl4 12
   push4 1152098304
@@ -15676,141 +14857,78 @@ $L_main_303:
   pop4
   .line 74
   push4 966609234
-  .line 75
-  p0
-$L_main_305:
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_307
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_307
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_307
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_307
-  .line 77
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 78
-  sys   debug_break
-  .line 79
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 80
-  sys   debug_break
-  .line 81
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_305
-$L_main_307:
-  pop
   .line 83
   getl4 12
   push4 1152098304
@@ -15819,141 +14937,78 @@ $L_main_307:
   pop4
   .line 74
   push4 966609234
-  .line 75
-  p0
-$L_main_309:
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_311
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_311
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_311
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_311
-  .line 77
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 78
-  sys   debug_break
-  .line 79
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 80
-  sys   debug_break
-  .line 81
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_309
-$L_main_311:
-  pop
   .line 83
   getl4 12
   push4 1152098304
@@ -15962,141 +15017,78 @@ $L_main_311:
   pop4
   .line 74
   push4 966609234
-  .line 75
-  p0
-$L_main_313:
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_315
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_315
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_315
   .line 77
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167954141
   p00
   sys   debug_printf
   .line 78
   sys   debug_break
   .line 79
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fsub
-  setl4 9
+  setl4 8
   .line 80
   sys   debug_break
   .line 81
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_315
-  .line 77
-  getl4 5
-  getl4 17
-  push4 167954141
-  p00
-  sys   debug_printf
-  .line 78
-  sys   debug_break
-  .line 79
-  getl4 13
-  getl4 9
-  fsub
-  setl4 9
-  .line 80
-  sys   debug_break
-  .line 81
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 75
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_313
-$L_main_315:
-  pop
   .line 83
   getl4 12
   push4 1152098304
@@ -16109,141 +15101,78 @@ $L_main_315:
   p0000
   .line 92
   push4 966609234
-  .line 93
-  p0
-$L_main_317:
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_319
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_319
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_319
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_319
-  .line 95
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 96
-  sys   debug_break
-  .line 97
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 98
-  sys   debug_break
-  .line 99
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_317
-$L_main_319:
-  pop
   .line 101
   getl4 12
   push4 1152098304
@@ -16252,141 +15181,78 @@ $L_main_319:
   pop4
   .line 92
   push4 966609234
-  .line 93
-  p0
-$L_main_321:
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_323
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_323
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_323
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_323
-  .line 95
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 96
-  sys   debug_break
-  .line 97
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 98
-  sys   debug_break
-  .line 99
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_321
-$L_main_323:
-  pop
   .line 101
   getl4 12
   push4 1152098304
@@ -16395,141 +15261,78 @@ $L_main_323:
   pop4
   .line 92
   push4 966609234
-  .line 93
-  p0
-$L_main_325:
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_327
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_327
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_327
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_327
-  .line 95
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 96
-  sys   debug_break
-  .line 97
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 98
-  sys   debug_break
-  .line 99
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_325
-$L_main_327:
-  pop
   .line 101
   getl4 12
   push4 1152098304
@@ -16538,141 +15341,78 @@ $L_main_327:
   pop4
   .line 92
   push4 966609234
-  .line 93
-  p0
-$L_main_329:
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_331
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_331
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_331
   .line 95
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 96
   sys   debug_break
   .line 97
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 98
   sys   debug_break
   .line 99
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_331
-  .line 95
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 96
-  sys   debug_break
-  .line 97
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 98
-  sys   debug_break
-  .line 99
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 93
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_329
-$L_main_331:
-  pop
   .line 101
   getl4 12
   push4 1152098304
@@ -16685,141 +15425,78 @@ $L_main_331:
   p0000
   .line 110
   push4 966609234
-  .line 111
-  p0
-$L_main_333:
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_335
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_335
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_335
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_335
-  .line 113
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 114
-  sys   debug_break
-  .line 115
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 116
-  sys   debug_break
-  .line 117
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_333
-$L_main_335:
-  pop
   .line 119
   getl4 12
   push4 1152098304
@@ -16828,141 +15505,78 @@ $L_main_335:
   pop4
   .line 110
   push4 966609234
-  .line 111
-  p0
-$L_main_337:
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_339
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_339
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_339
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_339
-  .line 113
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 114
-  sys   debug_break
-  .line 115
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 116
-  sys   debug_break
-  .line 117
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_337
-$L_main_339:
-  pop
   .line 119
   getl4 12
   push4 1152098304
@@ -16971,141 +15585,78 @@ $L_main_339:
   pop4
   .line 110
   push4 966609234
-  .line 111
-  p0
-$L_main_341:
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_343
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_343
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_343
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_343
-  .line 113
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 114
-  sys   debug_break
-  .line 115
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 116
-  sys   debug_break
-  .line 117
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_341
-$L_main_343:
-  pop
   .line 119
   getl4 12
   push4 1152098304
@@ -17114,141 +15665,78 @@ $L_main_343:
   pop4
   .line 110
   push4 966609234
-  .line 111
-  p0
-$L_main_345:
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_347
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_347
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_347
   .line 113
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928074
   p00
   sys   debug_printf
   .line 114
   sys   debug_break
   .line 115
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fmul
-  setl4 9
+  setl4 8
   .line 116
   sys   debug_break
   .line 117
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_347
-  .line 113
-  getl4 5
-  getl4 17
-  push4 167928074
-  p00
-  sys   debug_printf
-  .line 114
-  sys   debug_break
-  .line 115
-  getl4 13
-  getl4 9
-  fmul
-  setl4 9
-  .line 116
-  sys   debug_break
-  .line 117
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 111
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_345
-$L_main_347:
-  pop
   .line 119
   getl4 12
   push4 1152098304
@@ -17261,141 +15749,78 @@ $L_main_347:
   p0000
   .line 128
   push4 966609234
-  .line 129
-  p0
-$L_main_349:
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_351
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_351
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_351
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_351
-  .line 131
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 132
-  sys   debug_break
-  .line 133
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 134
-  sys   debug_break
-  .line 135
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_349
-$L_main_351:
-  pop
   .line 137
   getl4 12
   push4 1152098304
@@ -17404,141 +15829,78 @@ $L_main_351:
   pop4
   .line 128
   push4 966609234
-  .line 129
-  p0
-$L_main_353:
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_355
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_355
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_355
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_355
-  .line 131
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 132
-  sys   debug_break
-  .line 133
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 134
-  sys   debug_break
-  .line 135
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_353
-$L_main_355:
-  pop
   .line 137
   getl4 12
   push4 1152098304
@@ -17547,141 +15909,78 @@ $L_main_355:
   pop4
   .line 128
   push4 966609234
-  .line 129
-  p0
-$L_main_357:
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_359
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_359
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_359
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_359
-  .line 131
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 132
-  sys   debug_break
-  .line 133
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 134
-  sys   debug_break
-  .line 135
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_357
-$L_main_359:
-  pop
   .line 137
   getl4 12
   push4 1152098304
@@ -17690,141 +15989,78 @@ $L_main_359:
   pop4
   .line 128
   push4 966609234
-  .line 129
-  p0
-$L_main_361:
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_363
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_363
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_363
   .line 131
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 132
   sys   debug_break
   .line 133
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 134
   sys   debug_break
   .line 135
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_363
-  .line 131
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 132
-  sys   debug_break
-  .line 133
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 134
-  sys   debug_break
-  .line 135
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 129
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_361
-$L_main_363:
-  pop
   .line 137
   getl4 12
   push4 1152098304
@@ -17837,141 +16073,78 @@ $L_main_363:
   p0000
   .line 146
   push4 966609234
-  .line 147
-  p0
-$L_main_365:
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_367
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_367
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_367
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_367
-  .line 149
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 150
-  sys   debug_break
-  .line 151
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 152
-  sys   debug_break
-  .line 153
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_365
-$L_main_367:
-  pop
   .line 155
   getl4 12
   push4 1152098304
@@ -17980,141 +16153,78 @@ $L_main_367:
   pop4
   .line 146
   push4 966609234
-  .line 147
-  p0
-$L_main_369:
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_371
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_371
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_371
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_371
-  .line 149
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 150
-  sys   debug_break
-  .line 151
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 152
-  sys   debug_break
-  .line 153
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_369
-$L_main_371:
-  pop
   .line 155
   getl4 12
   push4 1152098304
@@ -18123,141 +16233,78 @@ $L_main_371:
   pop4
   .line 146
   push4 966609234
-  .line 147
-  p0
-$L_main_373:
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_375
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_375
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_375
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_375
-  .line 149
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 150
-  sys   debug_break
-  .line 151
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 152
-  sys   debug_break
-  .line 153
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_373
-$L_main_375:
-  pop
   .line 155
   getl4 12
   push4 1152098304
@@ -18266,141 +16313,78 @@ $L_main_375:
   pop4
   .line 146
   push4 966609234
-  .line 147
-  p0
-$L_main_377:
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_379
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_379
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_379
   .line 149
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 167928084
   p00
   sys   debug_printf
   .line 150
   sys   debug_break
   .line 151
-  getl4 13
-  getl4 9
+  getl4 12
+  getl4 8
   fdiv
-  setl4 9
+  setl4 8
   .line 152
   sys   debug_break
   .line 153
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_379
-  .line 149
-  getl4 5
-  getl4 17
-  push4 167928084
-  p00
-  sys   debug_printf
-  .line 150
-  sys   debug_break
-  .line 151
-  getl4 13
-  getl4 9
-  fdiv
-  setl4 9
-  .line 152
-  sys   debug_break
-  .line 153
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 147
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_377
-$L_main_379:
-  pop
   .line 155
   getl4 12
   push4 1152098304
@@ -18413,141 +16397,78 @@ $L_main_379:
   p0000
   .line 164
   push4 966609234
-  .line 165
-  p0
-$L_main_381:
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_383
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_383
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_383
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_383
-  .line 167
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 168
-  sys   debug_break
-  .line 169
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 170
-  sys   debug_break
-  .line 171
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_381
-$L_main_383:
-  pop
   .line 173
   getl4 12
   push4 1152098304
@@ -18556,141 +16477,78 @@ $L_main_383:
   pop4
   .line 164
   push4 966609234
-  .line 165
-  p0
-$L_main_385:
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_387
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_387
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_387
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_387
-  .line 167
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 168
-  sys   debug_break
-  .line 169
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 170
-  sys   debug_break
-  .line 171
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_385
-$L_main_387:
-  pop
   .line 173
   getl4 12
   push4 1152098304
@@ -18699,141 +16557,78 @@ $L_main_387:
   pop4
   .line 164
   push4 966609234
-  .line 165
-  p0
-$L_main_389:
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_391
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_391
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_391
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_391
-  .line 167
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 168
-  sys   debug_break
-  .line 169
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 170
-  sys   debug_break
-  .line 171
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_389
-$L_main_391:
-  pop
   .line 173
   getl4 12
   push4 1152098304
@@ -18842,141 +16637,78 @@ $L_main_391:
   pop4
   .line 164
   push4 966609234
-  .line 165
-  p0
-$L_main_393:
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_395
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_395
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_395
   .line 167
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 168
   sys   debug_break
   .line 169
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 170
   sys   debug_break
   .line 171
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_395
-  .line 167
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 168
-  sys   debug_break
-  .line 169
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 170
-  sys   debug_break
-  .line 171
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 165
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_393
-$L_main_395:
-  pop
   .line 173
   getl4 12
   push4 1152098304
@@ -18989,141 +16721,78 @@ $L_main_395:
   p0000
   .line 182
   push4 966609234
-  .line 183
-  p0
-$L_main_397:
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_399
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_399
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_399
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_399
-  .line 185
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 186
-  sys   debug_break
-  .line 187
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 188
-  sys   debug_break
-  .line 189
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_397
-$L_main_399:
-  pop
   .line 191
   getl4 12
   push4 1152098304
@@ -19132,141 +16801,78 @@ $L_main_399:
   pop4
   .line 182
   push4 966609234
-  .line 183
-  p0
-$L_main_401:
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_403
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_403
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_403
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_403
-  .line 185
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 186
-  sys   debug_break
-  .line 187
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 188
-  sys   debug_break
-  .line 189
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_401
-$L_main_403:
-  pop
   .line 191
   getl4 12
   push4 1152098304
@@ -19275,141 +16881,78 @@ $L_main_403:
   pop4
   .line 182
   push4 966609234
-  .line 183
-  p0
-$L_main_405:
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_407
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_407
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_407
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_407
-  .line 185
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 186
-  sys   debug_break
-  .line 187
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 188
-  sys   debug_break
-  .line 189
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_405
-$L_main_407:
-  pop
   .line 191
   getl4 12
   push4 1152098304
@@ -19418,141 +16961,78 @@ $L_main_407:
   pop4
   .line 182
   push4 966609234
-  .line 183
-  p0
-$L_main_409:
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_411
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_411
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_411
   .line 185
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838755
   p00
   sys   debug_printf
   .line 186
   sys   debug_break
   .line 187
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   mod
-  setl4 9
+  setl4 8
   .line 188
   sys   debug_break
   .line 189
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_411
-  .line 185
-  getl4 5
-  getl4 17
-  push4 251838755
-  p00
-  sys   debug_printf
-  .line 186
-  sys   debug_break
-  .line 187
-  getl4 5
-  getl4 17
-  sys   mod
-  setl4 9
-  .line 188
-  sys   debug_break
-  .line 189
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 183
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_409
-$L_main_411:
-  pop
   .line 191
   getl4 12
   push4 1152098304
@@ -19565,141 +17045,78 @@ $L_main_411:
   p0000
   .line 200
   push4 966609234
-  .line 201
-  p0
-$L_main_413:
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_415
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_415
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_415
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_415
-  .line 203
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 204
-  sys   debug_break
-  .line 205
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 206
-  sys   debug_break
-  .line 207
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_413
-$L_main_415:
-  pop
   .line 209
   getl4 12
   push4 1152098304
@@ -19708,141 +17125,78 @@ $L_main_415:
   pop4
   .line 200
   push4 966609234
-  .line 201
-  p0
-$L_main_417:
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_419
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_419
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_419
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_419
-  .line 203
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 204
-  sys   debug_break
-  .line 205
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 206
-  sys   debug_break
-  .line 207
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_417
-$L_main_419:
-  pop
   .line 209
   getl4 12
   push4 1152098304
@@ -19851,141 +17205,78 @@ $L_main_419:
   pop4
   .line 200
   push4 966609234
-  .line 201
-  p0
-$L_main_421:
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_423
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_423
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_423
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_423
-  .line 203
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 204
-  sys   debug_break
-  .line 205
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 206
-  sys   debug_break
-  .line 207
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_421
-$L_main_423:
-  pop
   .line 209
   getl4 12
   push4 1152098304
@@ -19994,141 +17285,78 @@ $L_main_423:
   pop4
   .line 200
   push4 966609234
-  .line 201
-  p0
-$L_main_425:
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_427
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_427
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_427
   .line 203
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 204
   sys   debug_break
   .line 205
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 206
   sys   debug_break
   .line 207
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_427
-  .line 203
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 204
-  sys   debug_break
-  .line 205
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 206
-  sys   debug_break
-  .line 207
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 201
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_425
-$L_main_427:
-  pop
   .line 209
   getl4 12
   push4 1152098304
@@ -20141,141 +17369,78 @@ $L_main_427:
   p0000
   .line 218
   push4 3114092882
-  .line 219
-  p0
-$L_main_429:
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_431
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_431
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_431
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_431
-  .line 221
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 222
-  sys   debug_break
-  .line 223
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 224
-  sys   debug_break
-  .line 225
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_429
-$L_main_431:
-  pop
   .line 227
   getl4 12
   push4 1152098304
@@ -20284,141 +17449,78 @@ $L_main_431:
   pop4
   .line 218
   push4 3114092882
-  .line 219
-  p0
-$L_main_433:
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_435
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_435
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_435
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_435
-  .line 221
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 222
-  sys   debug_break
-  .line 223
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 224
-  sys   debug_break
-  .line 225
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_433
-$L_main_435:
-  pop
   .line 227
   getl4 12
   push4 1152098304
@@ -20427,141 +17529,78 @@ $L_main_435:
   pop4
   .line 218
   push4 3114092882
-  .line 219
-  p0
-$L_main_437:
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_439
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_439
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_439
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_439
-  .line 221
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 222
-  sys   debug_break
-  .line 223
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 224
-  sys   debug_break
-  .line 225
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_437
-$L_main_439:
-  pop
   .line 227
   getl4 12
   push4 1152098304
@@ -20570,141 +17609,78 @@ $L_main_439:
   pop4
   .line 218
   push4 3114092882
-  .line 219
-  p0
-$L_main_441:
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_443
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_443
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_443
   .line 221
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 251838770
   p00
   sys   debug_printf
   .line 222
   sys   debug_break
   .line 223
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   pow
-  setl4 9
+  setl4 8
   .line 224
   sys   debug_break
   .line 225
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_443
-  .line 221
-  getl4 5
-  getl4 17
-  push4 251838770
-  p00
-  sys   debug_printf
-  .line 222
-  sys   debug_break
-  .line 223
-  getl4 5
-  getl4 17
-  sys   pow
-  setl4 9
-  .line 224
-  sys   debug_break
-  .line 225
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 219
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_441
-$L_main_443:
-  pop
   .line 227
   getl4 12
   push4 1152098304
@@ -20717,141 +17693,78 @@ $L_main_443:
   p0000
   .line 236
   push4 966609234
-  .line 237
-  p0
-$L_main_445:
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_447
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_447
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_447
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_447
-  .line 239
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 240
-  sys   debug_break
-  .line 241
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 242
-  sys   debug_break
-  .line 243
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_445
-$L_main_447:
-  pop
   .line 245
   getl4 12
   push4 1152098304
@@ -20860,141 +17773,78 @@ $L_main_447:
   pop4
   .line 236
   push4 966609234
-  .line 237
-  p0
-$L_main_449:
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_451
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_451
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_451
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_451
-  .line 239
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 240
-  sys   debug_break
-  .line 241
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 242
-  sys   debug_break
-  .line 243
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_449
-$L_main_451:
-  pop
   .line 245
   getl4 12
   push4 1152098304
@@ -21003,141 +17853,78 @@ $L_main_451:
   pop4
   .line 236
   push4 966609234
-  .line 237
-  p0
-$L_main_453:
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_455
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_455
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_455
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_455
-  .line 239
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 240
-  sys   debug_break
-  .line 241
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 242
-  sys   debug_break
-  .line 243
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_453
-$L_main_455:
-  pop
   .line 245
   getl4 12
   push4 1152098304
@@ -21146,141 +17933,78 @@ $L_main_455:
   pop4
   .line 236
   push4 966609234
-  .line 237
-  p0
-$L_main_457:
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_459
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_459
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_459
   .line 239
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 240
   sys   debug_break
   .line 241
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 242
   sys   debug_break
   .line 243
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_459
-  .line 239
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 240
-  sys   debug_break
-  .line 241
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 242
-  sys   debug_break
-  .line 243
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 237
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_457
-$L_main_459:
-  pop
   .line 245
   getl4 12
   push4 1152098304
@@ -21293,141 +18017,78 @@ $L_main_459:
   p0000
   .line 254
   push4 966609234
-  .line 255
-  p0
-$L_main_461:
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_463
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_463
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_463
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_463
-  .line 257
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 258
-  sys   debug_break
-  .line 259
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 260
-  sys   debug_break
-  .line 261
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_461
-$L_main_463:
-  pop
   .line 263
   getl4 12
   push4 1152098304
@@ -21436,141 +18097,78 @@ $L_main_463:
   pop4
   .line 254
   push4 966609234
-  .line 255
-  p0
-$L_main_465:
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_467
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_467
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_467
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_467
-  .line 257
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 258
-  sys   debug_break
-  .line 259
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 260
-  sys   debug_break
-  .line 261
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_465
-$L_main_467:
-  pop
   .line 263
   getl4 12
   push4 1152098304
@@ -21579,141 +18177,78 @@ $L_main_467:
   pop4
   .line 254
   push4 966609234
-  .line 255
-  p0
-$L_main_469:
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_471
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_471
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_471
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_471
-  .line 257
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 258
-  sys   debug_break
-  .line 259
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 260
-  sys   debug_break
-  .line 261
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_469
-$L_main_471:
-  pop
   .line 263
   getl4 12
   push4 1152098304
@@ -21722,141 +18257,78 @@ $L_main_471:
   pop4
   .line 254
   push4 966609234
-  .line 255
-  p0
-$L_main_473:
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_475
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_475
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_475
   .line 257
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   push4 285393227
   p00
   sys   debug_printf
   .line 258
   sys   debug_break
   .line 259
-  getl4 5
-  getl4 17
+  getl4 4
+  getl4 16
   sys   atan2
-  setl4 9
+  setl4 8
   .line 260
   sys   debug_break
   .line 261
-  getl4 5
   push4 1152098304
   fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bz    $L_main_475
-  .line 257
-  getl4 5
-  getl4 17
-  push4 285393227
-  p00
-  sys   debug_printf
-  .line 258
-  sys   debug_break
-  .line 259
-  getl4 5
-  getl4 17
-  sys   atan2
-  setl4 9
-  .line 260
-  sys   debug_break
-  .line 261
-  getl4 5
-  push4 1152098304
-  fmul
-  setl4 5
-  .line 255
-  inc
-  dup
-  p4
-  cult
-  bnz   $L_main_473
-$L_main_475:
-  pop
   .line 263
   getl4 12
   push4 1152098304

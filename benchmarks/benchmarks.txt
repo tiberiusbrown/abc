@@ -8,5 +8,5 @@ format                     14057        5397        0.38x
 sieve                      14198      561590       39.55x
 text                      207402       64778        0.31x
 tilessprite                44482      110337        2.48x
-tilessprite16              26978       44741        1.66x
+tilessprite16              26978       39982        1.48x
 tilesrect                 257725       59937        0.23x

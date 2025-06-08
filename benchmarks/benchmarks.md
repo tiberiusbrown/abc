@@ -792,10 +792,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite16: 1.66x slowdown</summary>
+<details><summary>tilessprite16: 1.48x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 26978</td><td>Cycles: 44741</td></tr>
+<tr><td>Cycles: 26978</td><td>Cycles: 39982</td></tr>
 <tr>
 <td>
 

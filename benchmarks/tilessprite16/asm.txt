@@ -15,567 +15,262 @@ main:
   .file tilessprite16.abc
   .line 23
   sys   debug_break
-  .line 27
-  p0
-$L_main_18:
+  .line 30
+  p000
+  p1
+  p0000
+  dup
+  .line 29
+  sys   draw_sprite
   .line 30
   p000
   p1
   p000
-  dup8
   p16
-  mul
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
   p000
-  dup8
-  p16
-  mul
+  p32
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
   p000
-  dup8
-  p16
-  mul
-  p0
+  push2 48
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
   p000
-  dup8
-  p16
-  mul
+  p64
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
   p000
-  dup8
-  p16
-  mul
-  p0
+  push2 80
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
   p000
-  dup8
-  p16
-  mul
-  p0
+  push2 96
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
   p000
-  dup8
-  p16
-  mul
-  p0
+  push2 112
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_17
   .line 30
   p000
   p1
-  p000
-  dup8
+  p0
   p16
-  mul
+  p000
+  .line 29
+  sys   draw_sprite
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  dupw
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bnz   $L_main_18
-$L_main_17:
-  pop
-  p0
-$L_main_22:
   .line 30
   p000
   p1
   p0
   p16
   p0
-  dup8
-  p16
-  mul
+  p32
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
+  .line 30
+  p000
+  p1
+  p0
+  p16
+  push3 12288
+  .line 29
+  sys   draw_sprite
   .line 30
   p000
   p1
   p0
   p16
   p0
-  dup8
-  p16
-  mul
+  p64
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
   .line 30
   p000
   p1
   p0
   p16
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push3 20480
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
   .line 30
   p000
   p1
   p0
   p16
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push3 24576
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
   .line 30
   p000
   p1
   p0
   p16
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push3 28672
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
   .line 30
   p000
   p1
   p0
-  p16
-  p0
-  dup8
-  p16
-  mul
-  p0
-  .line 29
-  sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
-  .line 30
+  p32
   p000
-  p1
-  p0
-  p16
-  p0
-  dup8
-  p16
-  mul
-  p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_21
-  .line 30
-  p000
-  p1
-  p0
-  p16
-  p0
-  dup8
-  p16
-  mul
-  p0
-  .line 29
-  sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bnz   $L_main_22
-$L_main_21:
-  pop
-  p0
-$L_main_26:
   .line 30
   p000
   p1
   p0
   p32
   p0
-  dup8
   p16
-  mul
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  dupw
+  p0
+  .line 29
+  sys   draw_sprite
+  .line 30
+  p000
+  p1
+  p0
+  p32
+  push3 12288
+  .line 29
+  sys   draw_sprite
   .line 30
   p000
   p1
   p0
   p32
   p0
-  dup8
-  p16
-  mul
+  p64
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
   .line 30
   p000
   p1
   p0
   p32
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push3 20480
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
   .line 30
   p000
   p1
   p0
   p32
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push3 24576
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
   .line 30
   p000
   p1
   p0
   p32
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push3 28672
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
   .line 30
   p000
   p1
   p0
-  p32
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push  48
+  p000
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
   .line 30
   p000
   p1
   p0
-  p32
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push4 1048624
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_25
   .line 30
   p000
   p1
   p0
-  p32
-  p0
-  dup8
-  p16
-  mul
-  p0
+  push4 2097200
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bnz   $L_main_26
-$L_main_25:
-  pop
-  p0
-$L_main_30:
   .line 30
   p000
   p1
-  push3 12288
-  dup8
-  p16
-  mul
+  p0
+  push  48
+  dupw
   p0
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
   .line 30
   p000
   p1
-  push3 12288
-  dup8
-  p16
-  mul
   p0
+  push4 4194352
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
   .line 30
   p000
   p1
-  push3 12288
-  dup8
-  p16
-  mul
   p0
+  push4 5242928
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
   .line 30
   p000
   p1
-  push3 12288
-  dup8
-  p16
-  mul
   p0
+  push4 6291504
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
   .line 30
   p000
   p1
-  push3 12288
-  dup8
-  p16
-  mul
   p0
+  push4 7340080
   .line 29
   sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
-  .line 30
-  p000
-  p1
-  push3 12288
-  dup8
-  p16
-  mul
-  p0
-  .line 29
-  sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
-  .line 30
-  p000
-  p1
-  push3 12288
-  dup8
-  p16
-  mul
-  p0
-  .line 29
-  sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bz    $L_main_29
-  .line 30
-  p000
-  p1
-  push3 12288
-  dup8
-  p16
-  mul
-  p0
-  .line 29
-  sys   draw_sprite
-  .line 27
-  inc
-  dup
-  p8
-  cult
-  bnz   $L_main_30
-$L_main_29:
-  pop
   .line 34
   sys   debug_break
   .line 21

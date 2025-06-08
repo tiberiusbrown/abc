@@ -708,6 +708,11 @@ void compiler_t::type_reduce_recurse(ast_node_t& a, size_t size)
         a.comp_type.prim_size = min_size;
         a.children[0].comp_type.prim_size = min_size;
         type_reduce_recurse(a.children[1], min_size);
+        if(a.children[1].type == AST::OP_CAST && a.comp_type == a.children[1].comp_type)
+        {
+            ast_node_t t = std::move(a.children[1]);
+            a = std::move(t);
+        }
         break;
     case AST::OP_SHIFT:
         type_reduce_recurse(a.children[0], 4);
