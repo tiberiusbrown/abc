@@ -153,9 +153,11 @@ primary_expr        <- hex_literal /
                        '(' expr ')' /
                        string_literal
 
-type_name           <- ident type_name_postfix*
+type_name           <- type_name_base type_name_postfix*
+type_name_base      <- ident / ':' type_name '(' arg_type_list? ')' '&'
 type_name_postfix   <- '[' expr ']' / '&' / 'prog' / '[' ']' 'prog' '&' / '[' ']' '&'
 arg_decl_list       <- type_name ident (',' type_name ident)*
+arg_type_list       <- type_name ident? (',' type_name ident?)*
 arg_expr_list       <- expr (',' expr)*
 
 equality_op         <- < '==' / '!=' >
@@ -303,11 +305,27 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["type_name"] = [](peg::SemanticValues const& v) -> ast_node_t {
         auto ident = std::any_cast<ast_node_t>(v[0]);
         ast_node_t a{ v.line_info(), AST::TYPE, ident.data };
+        if(ident.type == AST::TYPE_FUNC_REF)
+            a = std::move(ident);
         for(size_t i = 1; i < v.size(); ++i)
         {
             ast_node_t b = std::any_cast<ast_node_t>(v[i]);
             b.children.emplace_back(std::move(a));
             a = std::move(b);
+        }
+        return a;
+    };
+    p["type_name_base"] = [](peg::SemanticValues const& v) -> ast_node_t {
+        if(v.choice() == 0)
+            return std::any_cast<ast_node_t>(v[0]);
+        ast_node_t a{ v.line_info(), AST::TYPE_FUNC_REF, v.token()};
+        assert(v.size() == 2);
+        a.children.emplace_back(std::move(std::any_cast<ast_node_t>(v[0])));
+        auto args = std::any_cast<ast_node_t>(v[1]);
+        for(auto& arg : args.children)
+        {
+            if(arg.type == AST::TYPE)
+                a.children.emplace_back(std::move(arg));
         }
         return a;
     };
@@ -479,6 +497,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
 
     p["arg_decl_list"] = basic<AST::LIST>;
+    p["arg_type_list"] = basic<AST::LIST>;
     p["arg_expr_list"] = basic<AST::LIST>;
 
     p["primary_expr"] = [](peg::SemanticValues const& v) {

@@ -133,6 +133,7 @@ enum class AST
     TYPE_AREF_PROG, // unsized array reference to prog (child is type)
     TYPE_ARRAY, // sized array (children are size and type*)
     TYPE_PROG,  // sized array (child is type)
+    TYPE_FUNC_REF, // children are return type and arg types
 };
 
 struct compiler_type_t
@@ -147,6 +148,7 @@ struct compiler_type_t
         ARRAY,
         REF,
         ARRAY_REF,
+        FUNC_REF, // children are return type and arg types
         SPRITES,
         FONT,
         TONES,
@@ -169,6 +171,7 @@ struct compiler_type_t
     bool is_ref() const { return type == REF; }
     bool is_array_ref() const { return type == ARRAY_REF; }
     bool is_any_ref() const { return is_ref() || is_array_ref(); }
+    bool is_func_ref() const { return type == FUNC_REF; }
     bool is_prim() const { return type == PRIM; }
     bool is_array() const { return type == ARRAY; }
     bool is_struct() const { return type == STRUCT; }
@@ -541,6 +544,7 @@ struct compiler_lvalue_t
 struct compiler_func_t
 {
     ast_node_t block;
+    compiler_type_t ref_type;
     compiler_func_decl_t decl;
     std::string name;
     std::string filename;

@@ -1,0 +1,64 @@
+.shades 2
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+f:
+  .file func_ref.abc
+  .line 1
+  dup
+  dup3
+  add
+  p2
+  add
+  setl  3
+  pop2
+  ret
+
+g:
+  .file func_ref.abc
+  .line 2
+  dup
+  dup3
+  add
+  p3
+  add
+  setl  3
+  pop2
+  ret
+
+main:
+  .file func_ref.abc
+  .line 6
+  sys   debug_break
+  .line 8
+  pushl f 0
+  .line 9
+  p000
+  getln 3 6
+  icall
+  p2
+  sub
+  not
+  sys   assert
+  .line 10
+  pushl g 0
+  setln 3 3
+  .line 11
+  p000
+  getln 3 6
+  icall
+  p3
+  sub
+  not
+  sys   assert
+  .line 13
+  sys   debug_break
+  .line 4
+  pop3
+  ret
+

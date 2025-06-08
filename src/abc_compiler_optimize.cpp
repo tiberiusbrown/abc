@@ -196,7 +196,8 @@ bool compiler_t::is_inlinable(
 {
     if(refs.count(func)) return false;
     auto it = funcs.find(func);
-    if(it == funcs.end()) return true;
+    if(it == funcs.end())
+        return true;
     auto const& f = it->second;
     refs.insert(func);
     for(auto const& i : f.instrs)
@@ -289,29 +290,34 @@ bool compiler_t::inline_function(std::string const& func)
 
 bool compiler_t::inline_or_remove_functions()
 {
-    std::unordered_map<std::string, int> func_refs;
+    std::unordered_map<std::string, std::pair<int, int> > func_refs;
     for(auto const& [n, f] : funcs)
     {
-        func_refs[n] = 0;
+        func_refs[n] = {};
         for(auto const& [tn, tf] : funcs)
         {
             for(auto const& i : tf.instrs)
                 if(!i.is_label && i.label == n)
-                    func_refs[n] += 1;
+                {
+                    auto& p = func_refs[n];
+                    p.first += 1;
+                    if(i.instr == I_CALL)
+                        p.second += 1;
+                }
         }
     }
 
     bool t = false;
-    for(auto const& [n, c] : func_refs)
+    for(auto const& [n, p] : func_refs)
     {
         if(n == "main") continue;
         if(n == "$globinit") continue;
-        if(c == 0)
+        if(p.first == 0)
         {
             funcs.erase(n);
             t = true;
         }
-        else if(should_inline(n, c))
+        else if(p.first == p.second && should_inline(n, p.first))
         {
             inline_function(n);
             t = true;

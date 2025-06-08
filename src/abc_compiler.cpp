@@ -356,6 +356,16 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         return t;
     }
 
+    if(n.type == AST::TYPE_FUNC_REF)
+    {
+        compiler_type_t t{};
+        t.type = compiler_type_t::FUNC_REF;
+        t.prim_size = 3;
+        for(auto const& child : n.children)
+            t.children.emplace_back(std::move(resolve_type(child)));
+        return t;
+    }
+
     return TYPE_NONE;
 }
 
@@ -427,7 +437,7 @@ compiler_func_t compiler_t::resolve_func(ast_node_t const& n)
         }
     }
 
-    errs.push_back({ "Undefined function: \"" + name + "\"", n.line_info });
+    //errs.push_back({ "Undefined function: \"" + name + "\"", n.line_info });
     return {};
 }
 
@@ -904,6 +914,14 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                 f.decl.arg_types.push_back(resolve_type(ttype));
                 f.decl.arg_names.push_back(std::string(tname.data));
             }
+
+            // reference type
+            f.ref_type = {};
+            f.ref_type.type = compiler_type_t::FUNC_REF;
+            f.ref_type.prim_size = 3;
+            f.ref_type.children.push_back(f.decl.return_type);
+            for(auto const& t : f.decl.arg_types)
+                f.ref_type.children.push_back(t);
 
             if(name == "main" && !f.arg_names.empty())
             {

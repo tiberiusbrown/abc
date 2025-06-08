@@ -1,0 +1,14 @@
+u8 f(u8 x, i8 y) { return x + y + 2; }
+u8 g(u8 x, i8 y) { return x + y + 3; }
+
+void main()
+{
+    $debug_break();
+    
+    :u8(u8 x, i8 y)& r = f;
+    $assert(r(0, 0) == 2);
+    r = g;
+    $assert(r(0, 0) == 3);
+    
+    $debug_break();
+}

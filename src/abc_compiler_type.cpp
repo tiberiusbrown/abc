@@ -485,13 +485,17 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 return;
             }
         }
-        auto it = globals.find(name);
-        if(it != globals.end())
+        if(auto it = globals.find(name); it != globals.end())
         {
             a.comp_type = it->second.var.type;
             if(!it->second.var.is_constexpr && !it->second.is_constexpr_ref())
                 a.comp_type = a.comp_type.with_ref();
             transform_constexprs(a, frame);
+            return;
+        }
+        if(auto it = funcs.find(name); it != funcs.end())
+        {
+            a.comp_type = it->second.ref_type;
             return;
         }
         errs.push_back({ "Undefined variable \"" + name + "\"", a.line_info });
@@ -508,20 +512,32 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
             break;
         }
         auto f = resolve_func(a);
+        if(!f.is_sys)
+            type_annotate_recurse(a.children[0], frame);
         bool is_format = sysfunc_is_format(f.name);
-        if(f.name.empty()) break;
+        auto ref_type = f.ref_type;
+        if(f.name.empty())
+        {
+            assert(a.children[0].type == AST::IDENT);
+            ref_type = a.children[0].comp_type.without_ref();
+        }
+        assert(f.is_sys || !ref_type.children.empty());
 
-        auto* arg_types = &f.decl.arg_types;
+        compiler_type_t const* arg_types = f.is_sys ?
+            f.decl.arg_types.data() :
+            ref_type.children.data() + 1;
         std::vector<compiler_type_t> format_types;
         if(is_format)
         {
             std::string format_str;
             resolve_format_call(a.children[1], f.decl, format_types, format_str);
-            arg_types = &format_types;
+            arg_types = format_types.data();
         }
 
         size_t used_args = a.children[1].children.size();
-        size_t func_args = arg_types->size();
+        size_t func_args = f.is_sys ?
+            is_format ? format_types.size() : f.decl.arg_types.size() :
+            ref_type.children.size() - 1;
         if(used_args > func_args)
         {
             errs.push_back({
@@ -540,7 +556,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         for(size_t i = 0; i < used_args; ++i)
         {
             auto& c = a.children[1].children[i];
-            auto const& t = (*arg_types)[i];
+            auto const& t = arg_types[i];
             if(is_format &&
                 i == f.decl.arg_types.size() - 1 &&
                 c.type != AST::STRING_LITERAL &&
@@ -587,7 +603,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 transform_constexprs(c, frame);
             }
         }
-        a.comp_type = f.decl.return_type;
+        a.comp_type = f.is_sys ? f.decl.return_type : ref_type.children[0];
         break;
     }
     case AST::ARRAY_INDEX:

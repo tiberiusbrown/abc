@@ -423,6 +423,7 @@ void compiler_t::codegen_expr(
 
         auto func = resolve_func(a);
         auto sys = SYS_NONE;
+        if(!func.name.empty())
         {
             auto it = sys_names.find(func.name.substr(1));
             if(it != sys_names.end())
@@ -465,46 +466,55 @@ void compiler_t::codegen_expr(
         // system functions don't need space reserved for return value
         if(!func.is_sys)
         {
+            auto const& ref_type = func.name.empty() ?
+                a.children[0].comp_type.without_ref() :
+                func.ref_type;
             // reserve space for return value
-            frame.size += func.decl.return_type.prim_size;
-            auto n = (uint8_t)func.decl.return_type.prim_size;
+            frame.size += ref_type.children[0].prim_size;
+            auto n = (uint8_t)ref_type.children[0].prim_size;
             if(n > 8)
             {
                 f.instrs.push_back({ I_ALLOC, a.line(), n });
             }
             else
             {
-                for(size_t i = 0; i < func.decl.return_type.prim_size; ++i)
+                for(size_t i = 0; i < ref_type.children[0].prim_size; ++i)
                     f.instrs.push_back({ I_PUSH, a.line(), 0 });
             }
         }
 
+        auto const* arg_types = func.is_sys ?
+            func.decl.arg_types.data() :
+            a.children[0].comp_type.without_ref().children.data() + 1;
+        size_t num_args = func.is_sys ?
+            func.decl.arg_types.size() :
+            a.children[0].comp_type.without_ref().children.size() - 1;
+
         assert(a.children[1].type == AST::FUNC_ARGS);
-        if(!is_format && a.children[1].children.size() != func.decl.arg_types.size())
+        if(!is_format && a.children[1].children.size() != num_args)
         {
             errs.push_back({
                 "Incorrect number of arguments to function \"" + func.name + "\"",
                 a.line_info });
             return;
         }
-
-        auto* arg_types = &func.decl.arg_types;
         std::vector<compiler_type_t> format_types;
         std::string format_str;
         if(is_format)
         {
             resolve_format_call(a.children[1], func.decl, format_types, format_str);
-            arg_types = &format_types;
+            arg_types = format_types.data();
+            num_args = format_types.size();
         }
 
         size_t prev_size = frame.size;
 
         // function args in reverse order
-        for(size_t i = arg_types->size(); i != 0; --i)
+        for(size_t i = num_args; i != 0; --i)
         {
             if(!errs.empty())
                 return;
-            auto const& type = (*arg_types)[i - 1];
+            auto const& type = arg_types[i - 1];
             auto const& expr = a.children[1].children[i - 1];
             bool tref = type.is_ref();
             if(tref && type.without_ref() != expr.comp_type.without_ref())
@@ -571,9 +581,6 @@ void compiler_t::codegen_expr(
         default: break;
         }
 
-        // called function should pop stack
-        frame.size = prev_size;
-
         if(func.is_sys)
         {
             f.instrs.push_back({ I_SYS, a.line(), func.sys });
@@ -587,8 +594,21 @@ void compiler_t::codegen_expr(
                 f.instrs.back().imm2 = (uint32_t)n;
             }
         }
+        else if(func.name.empty())
+        {
+            codegen_expr(f, frame, a.children[0], false);
+            codegen_convert(
+                f, frame, a.children[0],
+                a.children[0].comp_type.without_ref(),
+                a.children[0].comp_type);
+            f.instrs.push_back({ I_ICALL, a.line() });
+            frame.size -= 3;
+        }
         else
             f.instrs.push_back({ I_CALL, a.line(), 0, 0, std::string(a.children[0].data) });
+
+        // called function should pop stack
+        frame.size = prev_size;
 
         // system functions push return value onto stack
         if(func.is_sys)
@@ -721,7 +741,7 @@ no_memcpy_optimization:
             codegen_expr(f, frame, a.children[0], true);
         }
 
-        if(type_noref.is_prim() || type_noref.is_label_ref())
+        if(type_noref.is_prim() || type_noref.is_label_ref() || type_noref.is_func_ref())
         {
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(
@@ -1444,6 +1464,12 @@ void compiler_t::codegen_expr_ident(
             f.instrs.push_back({ I_PUSHG, a.line(), (uint32_t)offset, 0, global->name });
             frame.size += 2;
         }
+    }
+    else if(auto it = funcs.find(name); it != funcs.end())
+    {
+        assert(offset == 0);
+        f.instrs.push_back({ I_PUSHL, a.line(), (uint32_t)offset, 0, it->second.name });
+        frame.size += 3;
     }
     else
     {

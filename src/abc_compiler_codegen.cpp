@@ -735,6 +735,22 @@ void compiler_t::codegen_convert(
     auto const& rfrom = orig_from.without_ref();
     auto const& rto = orig_to.without_ref();
 
+    if(rfrom.is_func_ref() != rto.is_func_ref())
+    {
+        errs.push_back({
+            "Cannot convert between function reference and non-function reference",
+            n.line_info });
+        return;
+    }
+
+    if(rfrom.is_func_ref() && rfrom != rto)
+    {
+        errs.push_back({
+            "Cannot convert between function references of mismatched signatures",
+            n.line_info });
+        return;
+    }
+
     if(rfrom.is_struct() && rto.is_struct() && rfrom.struct_name != rto.struct_name)
     {
         errs.push_back({
