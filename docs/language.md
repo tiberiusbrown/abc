@@ -14,6 +14,7 @@
     - [Aggregates: `struct`](#aggregates-struct)
     - [References](#references)
       - [Unsized Array References](#unsized-array-references)
+      - [Function References](#function-references)
     - [Assets (sprites, fonts, etc)](#assets-sprites-fonts-etc)
       - [Sprite Sets](#sprite-sets)
       - [Tilemaps](#tilemaps)
@@ -228,6 +229,37 @@ int sum(int[]& a)
     return t;
 }
 ```
+
+#### Function References
+
+References to functions are a special type of reference that is copyable and reassignable.
+
+```c
+u8 f(u8 x, i8 y) { return x + y + 2; }
+u8 g(u8 x, i8 y) { return x + y + 3; }
+u8 h(u8 x, u8 y) { return 0; }
+
+void main()
+{
+    // 'r' is a reference to function 'f'
+    :u8(u8 x, i8 y)& r = f;
+
+    // indirect call to 'f' through 'r'
+    $assert(r(0, 0) == 2);
+
+    // function references can be reassigned
+    r = g;
+
+    // indirect call to 'g' through 'r'
+    $assert(r(0, 0) == 3);
+
+    // ERROR: function signature of 'h' differs from 'r'
+    // the second argument of 'h' is 'u8' instead of 'i8'
+    r = h;
+}
+```
+
+The type syntax of a function reference is `:return_type(arg_types_list)&`.
 
 ### Assets (sprites, fonts, etc)
 Various asset types each have their own dedicated type, which acts as a handle to a location in program memory. These handles are copyable but cannot be otherwise inspected or used in arithmetic expressions.
