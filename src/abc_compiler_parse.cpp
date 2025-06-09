@@ -205,7 +205,7 @@ ident               <- < '$'?[a-zA-Z_][a-zA-Z_0-9]* >
 string_literal      <- string_literal_part+
 string_literal_part <- < '"' < string_literal_char* > '"' >
 string_literal_char <- char_escape /
-                       [^\\"\n]
+                       [ !\x23-\x7e]
 char_escape         <- '\\x'[0-9a-fA-F][0-9a-fA-F] /
                        '\\'[nr\\t"']
 
