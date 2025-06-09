@@ -9484,6 +9484,8 @@ $L_update_9:
   .line 118
   p4
   sys   just_pressed
+  pop
+$L_update_71:
   .line 3
   pop
   .line 17
@@ -9496,6 +9498,8 @@ $L_update_10:
   .line 112
   p4
   sys   just_pressed
+  pop
+$L_update_35:
   .line 3
   pop
   .line 17
@@ -9508,6 +9512,8 @@ $L_update_11:
   .line 22
   p4
   sys   just_pressed
+  pop
+$L_update_29:
   .line 24
   getg  frame_count 0
   p3
@@ -9560,6 +9566,8 @@ $L_update_intro_3:
   .line 279
   p4
   sys   just_pressed
+  pop
+$L_update_intro_5:
   .line 270
   ret
 
@@ -11235,6 +11243,8 @@ $L_update_score_tally_14:
   .line 266
   p4
   sys   just_pressed
+  pop
+$L_update_score_tally_16:
   .line 217
   ret
 

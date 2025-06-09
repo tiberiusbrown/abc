@@ -506,7 +506,13 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if((i0.instr == I_JMP || i0.instr == I_BZ || i1.instr == I_BNZ) &&
             i1.is_label && i0.label == i1.label)
         {
-            i0.instr = I_REMOVE;
+            if(i0.instr != I_JMP)
+            {
+                i0.instr = I_POPN;
+                i0.imm = 1;
+            }
+            else
+                i0.instr = I_REMOVE;
             t = true;
             continue;
         }
