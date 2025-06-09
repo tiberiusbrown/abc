@@ -16,10 +16,6 @@
 namespace abc
 {
 
-// minimum number of bytes before a copy operation is transformed
-// into a call to $memcpy or $memcpy_P
-constexpr size_t MIN_MEMCPY_SIZE = 16;
-
 enum class AST
 {
     NONE,
@@ -646,6 +642,7 @@ struct compiler_t
     bool enable_inlining = true;
     bool enable_jmp_to_ret = true;
     bool enable_bake_pushl = true;
+    size_t memcpy_min_bytes = 16;
     size_t max_jump_to_ret_instrs = 8;
     size_t inlining_max_add_instrs = 256;
     size_t switch_min_ranges_for_jump_table = 16;
@@ -662,6 +659,8 @@ struct compiler_t
         uint8_t const* ttf_data, size_t ttf_size);
 
 private:
+
+    friend struct assembler_t;
 
     void init_parser();
     void parse(std::vector<char> const& fi, ast_node_t& ast);

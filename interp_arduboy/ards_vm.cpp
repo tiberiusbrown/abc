@@ -1791,7 +1791,7 @@ I_POPN:
 
 I_ALLOC:
     lpm
-    rjmp .+0
+    st   Y, r9
     in   r10, %[sreg]
     cli
     out  %[spdr], r2

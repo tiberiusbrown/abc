@@ -21,6 +21,8 @@ extern std::unordered_map<std::string, std::vector<std::string>> const sys_overl
 // map from sys function names to indices
 extern std::unordered_map<std::string, sysfunc_t> const sys_names;
 
+struct compiler_t;
+
 struct assembler_t
 {
     assembler_t()
@@ -35,6 +37,7 @@ struct assembler_t
         , error{}
     {}
     error_t assemble(std::istream& f);
+    error_t assemble(compiler_t const& c);
     error_t add_custom_label(
         std::string const& name,
         std::vector<uint8_t> const& data);

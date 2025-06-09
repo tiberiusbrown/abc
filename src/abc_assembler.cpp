@@ -5,6 +5,8 @@
 #include <ctime>
 #include <sstream>
 
+#include "abc_compiler.hpp"
+
 namespace abc
 {
 

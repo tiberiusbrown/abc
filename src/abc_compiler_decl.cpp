@@ -201,14 +201,13 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
         if(v->type.without_ref().is_copyable() &&
             src_type.is_any_ref() &&
             src_type.without_ref().is_copyable() &&
-            v->type.without_ref().prim_size >= MIN_MEMCPY_SIZE)
+            v->type.without_ref().prim_size >= memcpy_min_bytes)
         {
             bool prog = src_type.without_ref().is_prog;
 
             if(!is_global)
             {
                 // allocate space on stack
-                // use pop instr to move stack pointer (optimizes to popn)
                 uint8_t alloc = uint8_t(v->type.without_ref().prim_size);
                 f.instrs.push_back({ I_ALLOC, n.line(), alloc });
                 frame.scopes.back().size += v->type.prim_size;

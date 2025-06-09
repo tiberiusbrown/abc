@@ -642,7 +642,7 @@ void compiler_t::codegen_expr(
 
         // optimize assignment as call to memcpy, memcpy_P, or memset
         if(type_noref.is_copyable() &&
-            type_noref.prim_size >= MIN_MEMCPY_SIZE)
+            type_noref.prim_size >= memcpy_min_bytes)
         {
             bool prog = true;
             bool srcref = false;
