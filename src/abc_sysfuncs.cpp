@@ -134,7 +134,7 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
     { SYS_DRAW_TEXTF,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "fmt" } }, CAT_GRAPHICS, "" } },
     { SYS_TEXT_WIDTH,           { { TYPE_U16,   { TYPE_STR }, { "str" } }, CAT_GRAPHICS, "" } },
     { SYS_TEXT_WIDTH_P,         { { TYPE_U16,   { TYPE_STR_PROG }, { "str" } }, CAT_GRAPHICS, "" } },
-    { SYS_WRAP_TEXT,            { { TYPE_VOID,  { TYPE_STR, TYPE_U8 }, { "str", "w"} }, CAT_GRAPHICS, "" } },
+    { SYS_WRAP_TEXT,            { { TYPE_U16,   { TYPE_STR, TYPE_U8 }, { "str", "w"} }, CAT_GRAPHICS, "" } },
     { SYS_SET_TEXT_FONT,        { { TYPE_VOID,  { TYPE_FONT }, { "f" } }, CAT_GRAPHICS, "" } },
     { SYS_SET_TEXT_COLOR,       { { TYPE_VOID,  { TYPE_U8 }, { "color" } }, CAT_GRAPHICS, "" } },
     { SYS_SPRITES_WIDTH,        { { TYPE_U8,    { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS, "" } },

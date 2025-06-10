@@ -1471,7 +1471,6 @@ static void sys_wrap_text()
     char* p     = reinterpret_cast<char*>(vm_pop<uint16_t>(ptr));
     uint8_t  w  = vm_pop<uint8_t>(ptr);
 #endif
-    vm_pop_end(ptr);
     uint24_t font = ards::vm.text_font;
     (void)FX::readEnd();
     if(uint8_t(font >> 16) == 0xff)
@@ -1482,6 +1481,7 @@ static void sys_wrap_text()
     char* tp = p;   // pointer after last word break
     uint8_t tw = 0; // width at last word break
     uint16_t ttn = tn; // tn at last word break
+    uint16_t num_lines = 1;
     while((c = ld_inc(p)) != '\0' && tn != 0)
     {
         --tn;
@@ -1491,6 +1491,7 @@ static void sys_wrap_text()
             cw = 0;
             tw = 0;
             tp = p;
+            num_lines += 1;
             continue;
         }
         if(c == ' ')
@@ -1503,10 +1504,14 @@ static void sys_wrap_text()
         if(tw == 0) continue;
         p = tp;
         *(tp - 1) = '\n';
+        num_lines += 1;
         cw = 0;
         tw = 0;
         tn = ttn;
     }
+
+    vm_push_unsafe<uint16_t>(ptr, num_lines);
+    vm_pop_end(ptr);
 
     seek_to_pc();
 }
