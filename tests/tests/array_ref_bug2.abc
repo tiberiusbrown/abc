@@ -1,0 +1,21 @@
+struct foo_t
+{
+    int x;
+    char[] prog& str;
+};
+
+foo_t[2] prog BLAH = { { 42, "Hello" }, { 37, "Bye" } };
+
+void main()
+{
+    $debug_break();
+    
+    $assert(len(BLAH) == 2);
+    $assert(len(BLAH[0].str) == 5);
+    $assert(len(BLAH[1].str) == 3);
+    
+    char[] prog& str = BLAH[0].str;
+    $assert(len(str) == 5);
+    
+    $debug_break();
+}

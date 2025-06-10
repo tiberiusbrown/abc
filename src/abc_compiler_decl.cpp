@@ -198,10 +198,10 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
         auto const& src_type = src_node.comp_type;
 
         // optimize as memcpy or strcpy
-        if(v->type.without_ref().is_copyable() &&
+        if(v->type.is_copyable() &&
             src_type.is_any_ref() &&
             src_type.without_ref().is_copyable() &&
-            v->type.without_ref().prim_size >= memcpy_min_bytes)
+            v->type.prim_size >= memcpy_min_bytes)
         {
             bool prog = src_type.without_ref().is_prog;
 

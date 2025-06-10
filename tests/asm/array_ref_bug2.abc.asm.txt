@@ -1,0 +1,49 @@
+.shades 2
+.saved 0
+
+$PD_0:
+  .b 4 48 65 6c 6c 6f
+$PD_1:
+  .b 2 42 79 65
+BLAH:
+  .b 1 2a 00
+  .rp $PD_0
+  .b 4 05 00 00 25 00
+  .rp $PD_1
+  .b 2 03 00 00
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file array_ref_bug2.abc
+  .line 11
+  sys   debug_break
+  .line 13
+  p1
+  sys   assert
+  .line 14
+  p1
+  sys   assert
+  .line 15
+  p1
+  sys   assert
+  .line 17
+  push3 266
+  getpn 6
+  .line 18
+  getln 3 3
+  p5
+  p00
+  sub3
+  bool3
+  not
+  sys   assert
+  .line 20
+  sys   debug_break
+  .line 9
+  popn  6
+  ret
+

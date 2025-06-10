@@ -1319,6 +1319,19 @@ no_memcpy_optimization:
             frame.size += size;
             return;
         }
+        if(r.comp_type.is_ref() && r.comp_type.children[0].is_array_ref())
+        {
+            bool ref_prog = r.comp_type.children[0].is_prog;
+            bool aref_prog = r.comp_type.children[0].children[0].is_prog;
+            codegen_expr(f, frame, r, true);
+            f.instrs.push_back({ I_PUSH, r.line(), aref_prog ? 3u : 2u });
+            f.instrs.push_back({ I_PUSH, r.line(), 0 });
+            if(ref_prog)
+                f.instrs.push_back({ I_PUSH, r.line(), 0 });
+            f.instrs.push_back({ ref_prog ? I_ADD3 : I_ADD2, r.line() });
+            f.instrs.push_back({ ref_prog ? I_GETPN : I_GETRN, r.line(), aref_prog ? 3u : 2u });
+            return;
+        }
         errs.push_back({
             "Unable to resolve \"" + std::string(r.data) + "\"",
             r.line_info });
