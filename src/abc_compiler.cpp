@@ -107,15 +107,6 @@ static bool isspace(char c)
     }
 }
 
-static void make_prog(compiler_type_t& t)
-{
-    t.is_prog = true;
-    if(t.is_any_ref())
-        return;
-    for(auto& child : t.children)
-        make_prog(child);
-}
-
 bool compiler_t::convertible(compiler_type_t const& dst, compiler_type_t const& src)
 {
     if(dst.is_any_ref() && src.is_constexpr)
@@ -148,7 +139,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     {
         assert(n.children.size() == 1);
         compiler_type_t t = resolve_type(n.children[0]);
-        make_prog(t);
+        t.make_prog();
         return t;
     }
 
@@ -229,7 +220,7 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.type = compiler_type_t::ARRAY_REF;
         t.children.push_back(resolve_type(n.children[0]));
         if(n.type == AST::TYPE_AREF_PROG)
-            t.children[0].is_prog = true;
+            t.children[0].make_prog();
         t.prim_size = t.children[0].is_prog ? 6 : 4;
         return t;
     }
@@ -1127,7 +1118,7 @@ compiler_type_t compiler_t::strlit_type(size_t len)
     t.type = compiler_type_t::ARRAY;
     t.prim_size = len;
     t.children.push_back(TYPE_CHAR);
-    make_prog(t);
+    t.make_prog();
     return type;
 }
 

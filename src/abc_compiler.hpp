@@ -295,10 +295,19 @@ struct compiler_type_t
     bool operator==(compiler_type_t const& t) const { return tie() == t.tie(); }
     bool operator!=(compiler_type_t const& t) const { return !operator==(t); }
 
+    void make_prog()
+    {
+        is_prog = true;
+        if(is_any_ref())
+            return;
+        for(auto& child : children)
+            child.make_prog();
+    }
+
     compiler_type_t with_prog() const
     {
         compiler_type_t r = *this;
-        r.is_prog = true;
+        r.make_prog();
         return r;
     }
 
