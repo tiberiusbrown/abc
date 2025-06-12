@@ -3151,7 +3151,7 @@ static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
         tn = ttn;
     }
 
-    return push16(num_lines);
+    return push16(interp, num_lines);
 }
 
 static abc_result_t sys_tilemap_get(abc_interp_t* interp, abc_host_t const* host)
