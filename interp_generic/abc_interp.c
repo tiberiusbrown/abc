@@ -3120,6 +3120,7 @@ static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
     char* tp = p;   // pointer after last word break
     uint8_t tw = 0; // width at last word break
     uint16_t ttn = tn;   // tn at last word break
+    uint16_t num_lines = 1;
     while((c = *p) != '\0' && tn != 0)
     {
         p = (char*)refptr(interp, ++tb);
@@ -3131,6 +3132,7 @@ static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
             cw = 0;
             tw = 0;
             tp = p;
+            num_lines += 1;
             continue;
         }
         if(c == ' ')
@@ -3143,12 +3145,13 @@ static abc_result_t sys_text_wrap(abc_interp_t* interp, abc_host_t const* host)
         if(tw == 0) continue;
         p = tp;
         *(tp - 1) = '\n';
+        num_lines += 1;
         cw = 0;
         tw = 0;
         tn = ttn;
     }
 
-    return ABC_RESULT_NORMAL;
+    return push16(num_lines);
 }
 
 static abc_result_t sys_tilemap_get(abc_interp_t* interp, abc_host_t const* host)
