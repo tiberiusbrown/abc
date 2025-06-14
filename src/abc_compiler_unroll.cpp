@@ -110,6 +110,9 @@ bool compiler_t::can_unroll_for_loop_sized(ast_node_t const& n, unroll_info_t& u
     auto const& body = n.children[1];
     auto const& stmt_iter = n.children[2];
 
+    if(stmt_init.children.empty())
+        return false;
+
     auto type = resolve_type(stmt_init.children[0]);
 
     if(stmt_iter.type != AST::EXPR_STMT)

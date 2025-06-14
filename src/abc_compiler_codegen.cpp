@@ -801,7 +801,7 @@ void compiler_t::codegen_convert(
                 pfrom = &pfrom->children[0];
                 codegen_dereference(f, frame, n, *pfrom);
             }
-            assert(rto.children[0] == rfrom.children[0]);
+            assert(rto.children[0] == rfrom.children[0] || rto.children[0].is_byte);
             return;
         }
         if(rto.children[0].is_byte && !rfrom.is_copyable())
