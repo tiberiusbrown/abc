@@ -203,6 +203,33 @@ void compiler_t::resolve_format_call(
     return;
 }
 
+void compiler_t::codegen_float_const(
+    compiler_func_t& f, compiler_frame_t& frame,
+    ast_node_t const& a)
+{
+    union
+    {
+        float f;
+        uint32_t x;
+    } u = { (float)a.fvalue };
+    uint32_t x = u.x;
+    auto size = a.comp_type.prim_size;
+    frame.size += size;
+    for(size_t i = 0; i < size; ++i, x >>= 8)
+        f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x });
+}
+
+void compiler_t::codegen_int_const(
+    compiler_func_t& f, compiler_frame_t& frame,
+    ast_node_t const& a)
+{
+    uint32_t x = (uint32_t)a.value;
+    auto size = a.comp_type.prim_size;
+    frame.size += size;
+    for(size_t i = 0; i < size; ++i, x >>= 8)
+        f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x });
+}
+
 void compiler_t::codegen_expr(
     compiler_func_t& f, compiler_frame_t& frame, ast_node_t const& a, bool ref)
 {
@@ -380,26 +407,13 @@ void compiler_t::codegen_expr(
 
     case AST::INT_CONST:
     {
-        uint32_t x = (uint32_t)a.value;
-        auto size = a.comp_type.prim_size;
-        frame.size += size;
-        for(size_t i = 0; i < size; ++i, x >>= 8)
-            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x });
+        codegen_int_const(f, frame, a);
         return;
     }
 
     case AST::FLOAT_CONST:
     {
-        union
-        {
-            float f;
-            uint32_t x;
-        } u = { (float)a.fvalue };
-        uint32_t x = u.x;
-        auto size = a.comp_type.prim_size;
-        frame.size += size;
-        for(size_t i = 0; i < size; ++i, x >>= 8)
-            f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x });
+        codegen_float_const(f, frame, a);
         return;
     }
 
@@ -1450,6 +1464,14 @@ void compiler_t::codegen_expr_ident(
     std::string name(a.data);
     if(auto* local = resolve_local(frame, a))
     {
+        if(local->var.is_constexpr)
+        {
+            if(local->var.type.is_float)
+                codegen_float_const(f, frame, a);
+            else
+                codegen_int_const(f, frame, a);
+            return;
+        }
         assert(!local->var.is_constexpr);
         uint8_t frame_offset = (uint8_t)(frame.size - local->frame_offset - offset);
         f.instrs.push_back({ I_REFL, a.line(), frame_offset });
@@ -1457,6 +1479,14 @@ void compiler_t::codegen_expr_ident(
     }
     else if(auto* global = resolve_global(a))
     {
+        if(global->var.is_constexpr)
+        {
+            if(global->var.type.is_float)
+                codegen_float_const(f, frame, a);
+            else
+                codegen_int_const(f, frame, a);
+            return;
+        }
         assert(!global->var.is_constexpr);
         bool prog = global->var.type.is_prog;
         if(global->is_constexpr_ref())

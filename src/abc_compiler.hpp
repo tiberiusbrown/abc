@@ -568,6 +568,7 @@ struct compiler_progdata_t
     std::vector<std::pair<size_t, std::string>> relocs_prog;
     std::vector<std::pair<size_t, std::string>> relocs_glob;
     std::vector<std::pair<size_t, std::string>> inter_labels;
+    bool merged;
 };
 
 struct compiler_constexpr_ref_t
@@ -771,7 +772,13 @@ private:
     void codegen_dereference(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
-    
+    void codegen_int_const(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a);
+    void codegen_float_const(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a);
+
     // returns 0 if can't unroll
     struct unroll_info_t
     {

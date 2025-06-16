@@ -327,9 +327,11 @@ error_t assembler_t::assemble(compiler_t const& c)
     // add progdata
     for(auto const& [label, pd] : c.progdata)
     {
-        if(pd.data.empty())
+        if(pd.merged)
             continue;
         add_label(label);
+        if(pd.data.empty())
+            continue;
         if(!error.msg.empty()) return error;
         size_t rp = 0;
         size_t rg = 0;

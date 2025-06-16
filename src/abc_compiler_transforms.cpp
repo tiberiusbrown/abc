@@ -123,6 +123,7 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
                     return;
                 }
                 n.value = l->var.value;
+                n.type = n.comp_type.is_float ? AST::FLOAT_CONST : AST::INT_CONST;
                 break;
             }
             return;
@@ -138,6 +139,7 @@ void compiler_t::transform_constexprs(ast_node_t& n, compiler_frame_t const& fra
                 return;
             }
             n.value = g->var.value;
+            n.type = n.comp_type.is_float ? AST::FLOAT_CONST : AST::INT_CONST;
             break;
         }
         return;

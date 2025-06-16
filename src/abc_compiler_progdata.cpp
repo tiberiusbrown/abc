@@ -36,8 +36,12 @@ void compiler_t::add_progdata(
 }
 
 void compiler_t::try_merge_progdata(
-    std::string const& label, compiler_progdata_t & pdata)
+    std::string const& label, compiler_progdata_t& pdata)
 {
+#if 0
+    (void)label;
+    (void)pdata;
+#else
     auto const& data = pdata.data;
     if(!pdata.relocs_glob.empty()) return;
     if(!pdata.relocs_prog.empty()) return;
@@ -70,9 +74,11 @@ void compiler_t::try_merge_progdata(
             pd.inter_labels.push_back({ index, label });
             std::sort(pd.inter_labels.begin(), pd.inter_labels.end());
             pdata.data.clear();
+            pdata.merged = true;
             return;
         }
     }
+#endif
 }
 
 void compiler_t::progdata_zero(
