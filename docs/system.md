@@ -102,6 +102,6 @@ void  $tones_play_auto(tones sfx);
 void  $tones_play_primary(tones sfx);
 bool  $tones_playing();
 void  $tones_stop();
-void  $wrap_text(char[]& str, u8 w);
+u16   $wrap_text(char[]& str, u8 w);
 ```
 

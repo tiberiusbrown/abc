@@ -136,6 +136,7 @@ bool compiler_t::can_unroll_for_loop_sized(ast_node_t const& n, unroll_info_t& u
     }
 #if 0
     // TODO: need to codegen the final value of the variable
+    //       (also handle the "break early" possibility)
     else if(stmt_init.type == AST::EXPR_STMT)
     {
         auto const& child = stmt_init.children[0];

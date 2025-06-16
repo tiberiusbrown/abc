@@ -298,6 +298,13 @@ void compiler_t::progdata_expr(
     {
         assert(t.children.size() == 1);
         size_t num_elems = t.prim_size / t.children[0].prim_size;
+        if(t.children[0].is_char && n.type == AST::STRING_LITERAL)
+        {
+            auto data = strlit_data(n);            
+            for(size_t i = 0; i < num_elems; ++i)
+                pd.data.push_back(i < data.size() ? data[i] : 0);
+            break;
+        }
         if(n.type != AST::COMPOUND_LITERAL)
             goto error;
         if(n.children.size() > num_elems)
