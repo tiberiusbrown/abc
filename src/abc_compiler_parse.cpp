@@ -50,8 +50,6 @@ void compiler_t::init_parser()
 {
     peg::parser& p = parser;
 
-    p.enable_packrat_parsing();
-
     p.set_logger([&](size_t line, size_t column, std::string const& msg) {
         errs.push_back({ msg, { line, column } });
     });
