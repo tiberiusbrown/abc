@@ -22,6 +22,8 @@ extern std::unordered_map<std::string, std::vector<std::string>> const sys_overl
 extern std::unordered_map<std::string, sysfunc_t> const sys_names;
 
 struct compiler_t;
+struct compiler_global_t;
+struct compiler_instr_t;
 
 struct assembler_t
 {
@@ -86,6 +88,12 @@ private:
     int shades;
     size_t max_globals_bytes() const { return shades == 2 ? 1024 : 256; }
 
+    void add_global(compiler_global_t const& global);
+    void add_label(std::string const& label);
+    void add_instr(compiler_instr_t const& instr, uint16_t& line,
+        uint16_t& file, std::vector<std::string> const& filenames);
+    void add_file(std::string const& filename);
+
     // current amount of global data bytes
     size_t globals_bytes;
 
@@ -142,8 +150,10 @@ private:
     }
 
     void push_label(std::istream& f, bool has_offset = false, uint16_t size = 3);
+    void push_label(std::string const& label, uint32_t offset = 0, uint16_t size = 3);
 
     void push_global(std::istream& f, bool has_offset = false, uint16_t size = 2);
+    void push_global(std::string const& label, uint32_t offset = 0, uint16_t size = 2);
 
 };
     

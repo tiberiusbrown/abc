@@ -990,7 +990,11 @@ static abc_result_t getpn(abc_interp_t* interp, abc_host_t const* h, uint8_t n)
 
 static uint8_t* refptr(abc_interp_t* interp, uint16_t t)
 {
-    if(t < 0x100 || t >= 0x600) return NULL;
+    if(t < 0x100 || t >= 0x600)
+    {
+        assert(0);
+        return NULL;
+    }
     if(t < 0x200)
     {
         /* stack reference */

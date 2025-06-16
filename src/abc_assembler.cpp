@@ -109,6 +109,12 @@ void assembler_t::push_label(std::istream& f, bool has_offset, uint16_t size)
     byte_count += size;
 }
 
+void assembler_t::push_label(std::string const& label, uint32_t offset, uint16_t size)
+{
+    nodes.push_back({ byte_count, LABEL, I_NOP, size, offset, label });
+    byte_count += size;
+}
+
 void assembler_t::push_global(std::istream& f, bool has_offset, uint16_t size)
 {
     std::string label = read_label(f, error);
@@ -116,6 +122,13 @@ void assembler_t::push_global(std::istream& f, bool has_offset, uint16_t size)
     uint32_t offset = 0;
     if(has_offset)
         f >> offset;
+    nodes.push_back({ byte_count, GLOBAL, I_NOP, size, offset, label });
+    byte_count += size;
+}
+
+void assembler_t::push_global(std::string const& label, uint32_t offset, uint16_t size)
+{
+    if(!error.msg.empty()) return;
     nodes.push_back({ byte_count, GLOBAL, I_NOP, size, offset, label });
     byte_count += size;
 }
@@ -164,6 +177,7 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "getr2", I_GETR2 },
     { "setr", I_SETR },
     { "setr2", I_SETR2 },
+    { "getp", I_GETP },
     { "pop", I_POP },
     { "pop2", I_POP2 },
     { "pop3", I_POP3 },
@@ -253,14 +267,442 @@ static std::unordered_map<std::string, instr_t> const SINGLE_INSTR_NAMES =
     { "ret", I_RET },
 };
 
+void assembler_t::add_global(compiler_global_t const& global)
+{
+    std::string label = global.name;
+    if(globals.count(label) != 0)
+    {
+        error.msg = "Duplicate global \"" + label + "\"";
+        return;
+    }
+    uint32_t ti = (uint32_t)global.var.type.prim_size;
+    if(ti == 0)
+    {
+        error.msg = "Global \"" + label + "\" has zero size";
+        return;
+    }
+    globals[label] = globals_bytes;
+    globals_bytes += ti;
+}
+
+void assembler_t::add_label(std::string const& label)
+{
+    if(labels.count(label) != 0)
+        error.msg = "Duplicate label: \"" + label + "\"";
+    else if(check_label(label, error))
+        labels[label] = nodes.size();
+}
+
+error_t assembler_t::assemble(compiler_t const& c)
+{
+    githash = c.githash;
+    shades = c.shades;
+    saved_bytes = 0;
+
+    // add saved globals
+    for(auto const* gp : c.sorted_globals)
+    {
+        auto const& global = *gp;
+        if(global.is_constexpr_ref() ||
+            global.var.is_constexpr ||
+            global.var.type.is_prog) continue;
+        if(!global.saved) continue;
+        add_global(global);
+        if(!error.msg.empty()) return error;
+        saved_bytes += global.var.type.prim_size;
+    }
+
+    // add non-saved globals
+    for(auto const* gp : c.sorted_globals)
+    {
+        auto const& global = *gp;
+        if(global.is_constexpr_ref() ||
+            global.var.is_constexpr ||
+            global.var.type.is_prog) continue;
+        if(global.saved) continue;
+        add_global(global);
+        if(!error.msg.empty()) return error;
+    }
+
+    // add progdata
+    for(auto const& [label, pd] : c.progdata)
+    {
+        if(pd.data.empty())
+            continue;
+        add_label(label);
+        if(!error.msg.empty()) return error;
+        size_t rp = 0;
+        size_t rg = 0;
+        size_t rl = 0;
+        for(size_t i = 0; i < pd.data.size(); ++i)
+        {
+            if(rp < pd.relocs_prog.size() && pd.relocs_prog[rp].first == i)
+            {
+                nodes.push_back({ byte_count, LABEL, I_NOP, 3, 0, pd.relocs_prog[rp].second });
+                byte_count += 3;
+                data_bytes += 3;
+                rp += 1;
+                i += 2;
+                continue;
+            }
+            if(rg < pd.relocs_glob.size() && pd.relocs_glob[rg].first == i)
+            {
+                nodes.push_back({ byte_count, GLOBAL, I_NOP, 2, 0, pd.relocs_glob[rg].second });
+                byte_count += 2;
+                data_bytes += 2;
+                rg += 1;
+                i += 1;
+                continue;
+            }
+            if(rl < pd.inter_labels.size() && pd.inter_labels[rl].first == i)
+            {
+                while(rl < pd.inter_labels.size() && pd.inter_labels[rl].first == i)
+                {
+                    add_label(pd.inter_labels[rl].second);
+                    if(!error.msg.empty()) return error;
+                    rl += 1;
+                }
+                i -= 1;
+                continue;
+            }
+
+            size_t num = 1;
+            // TODO: optimize this?
+            for(; ; ++num)
+            {
+                if(!(i + num < pd.data.size() &&
+                    (rp >= pd.relocs_prog.size() || pd.relocs_prog[rp].first > i + num) &&
+                    (rg >= pd.relocs_glob.size() || pd.relocs_glob[rg].first > i + num) &&
+                    (rl >= pd.inter_labels.size() || pd.inter_labels[rl].first > i + num)))
+                    break;
+            }
+
+            {
+                int j = 0;
+                for(; j + 4 < num; j += 4)
+                {
+                    push_imm(
+                        ((uint32_t)pd.data[i + j + 0] <<  0) +
+                        ((uint32_t)pd.data[i + j + 1] <<  8) +
+                        ((uint32_t)pd.data[i + j + 2] << 16) +
+                        ((uint32_t)pd.data[i + j + 3] << 24),
+                        4);
+                }
+                for(; j < num; ++j)
+                    push_imm(pd.data[i + j], 1);
+                data_bytes += num;
+                i += num - 1;
+                continue;
+            }
+        }
+    }
+
+    for(auto const& [name, func] : c.funcs)
+    {
+        uint16_t line = 0;
+        uint16_t file = 0;
+        add_label(name);
+        if(!error.msg.empty()) return error;
+        for(auto const& instr : func.instrs)
+        {
+            add_instr(instr, line, file, c.debug_filenames);
+            if(!error.msg.empty()) return error;
+        }
+    }
+
+    return error;
+}
+
+void assembler_t::add_instr(compiler_instr_t const& instr, uint16_t& line,
+    uint16_t& file, std::vector<std::string> const& filenames)
+{
+    if(instr.instr == I_REMOVE)
+        return;
+    if(file != instr.file && instr.file != 0)
+    {
+        file = instr.file;
+        add_file(filenames[file - 1]);
+    }
+    if(instr.is_label)
+    {
+        add_label(instr.label);
+        return;
+    }
+    if(line != instr.line && instr.line != 0)
+    {
+        line = instr.line;
+        push_line(line);
+    }
+    switch(instr.instr)
+    {
+        case I_NOP:
+        case I_P0:
+        case I_P1:
+        case I_P2:
+        case I_P3:
+        case I_P4:
+        case I_P5:
+        case I_P6:
+        case I_P7:
+        case I_P8:
+        case I_P16:
+        case I_P32:
+        case I_P64:
+        case I_P128:
+        case I_P00:
+        case I_P000:
+        case I_P0000:
+        case I_PZ8:
+        case I_PZ16:
+        case I_SEXT:
+        case I_SEXT2:
+        case I_SEXT3:
+        case I_DUP:
+        case I_DUP2:
+        case I_DUP3:
+        case I_DUP4:
+        case I_DUP5:
+        case I_DUP6:
+        case I_DUP7:
+        case I_DUP8:
+        case I_DUPW:
+        case I_DUPW2:
+        case I_DUPW3:
+        case I_DUPW4:
+        case I_DUPW5:
+        case I_DUPW6:
+        case I_DUPW7:
+        case I_DUPW8:
+        case I_GETR:
+        case I_GETR2:
+        case I_SETR:
+        case I_SETR2:
+        case I_GETP:
+        case I_POP:
+        case I_POP2:
+        case I_POP3:
+        case I_POP4:
+        case I_INC:
+        case I_DEC:
+        case I_PINC:
+        case I_PINC2:
+        case I_PINC3:
+        case I_PINC4:
+        case I_PDEC:
+        case I_PDEC2:
+        case I_PDEC3:
+        case I_PDEC4:
+        case I_PINCF:
+        case I_PDECF:
+        case I_ADD:
+        case I_ADD2:
+        case I_ADD3:
+        case I_ADD4:
+        case I_SUB:
+        case I_SUB2:
+        case I_SUB3:
+        case I_SUB4:
+        case I_ADD2B:
+        case I_ADD3B:
+        case I_SUB2B:
+        case I_MUL2B:
+        case I_MUL:
+        case I_MUL2:
+        case I_MUL3:
+        case I_MUL4:
+        case I_UDIV2:
+        case I_UDIV4:
+        case I_DIV2:
+        case I_DIV4:
+        case I_UMOD2:
+        case I_UMOD4:
+        case I_MOD2:
+        case I_MOD4:
+        case I_LSL:
+        case I_LSL2:
+        case I_LSL4:
+        case I_LSR:
+        case I_LSR2:
+        case I_LSR4:
+        case I_AND:
+        case I_AND2:
+        case I_AND4:
+        case I_OR:
+        case I_OR2:
+        case I_OR4:
+        case I_XOR:
+        case I_XOR2:
+        case I_XOR4:
+        case I_COMP:
+        case I_COMP2:
+        case I_COMP4:
+        case I_ASR:
+        case I_ASR2:
+        case I_ASR4:
+        case I_BOOL:
+        case I_BOOL2:
+        case I_BOOL3:
+        case I_BOOL4:
+        case I_CULT:
+        case I_CULT2:
+        case I_CULT3:
+        case I_CULT4:
+        case I_CSLT:
+        case I_CSLT2:
+        case I_CSLT3:
+        case I_CSLT4:
+        case I_CFEQ:
+        case I_CFLT:
+        case I_NOT:
+        case I_FADD:
+        case I_FSUB:
+        case I_FMUL:
+        case I_FDIV:
+        case I_F2I:
+        case I_F2U:
+        case I_I2F:
+        case I_U2F:
+        case I_IJMP:
+        case I_ICALL:
+        case I_RET:
+            push_instr(instr.instr);
+            break;
+        case I_PUSHG:
+            if(auto git = globals.find(instr.label); git != globals.end())
+            {
+                uint32_t imm = (uint32_t)git->second + instr.imm;
+                if(imm < 256)
+                {
+                    push_instr(I_REFGB);
+                    push_imm(imm, 1);
+                }
+                else
+                {
+                    imm += 0x200;
+                    push_instr(I_PUSHG);
+                    push_imm(imm, 2);
+                }
+            }
+            else
+                error.msg = "Unknown global \"" + instr.label + "\"";
+            break;
+        case I_GETG:
+        case I_GETG2:
+        case I_GETG4:
+        case I_SETG:
+        case I_SETG2:
+        case I_SETG4:
+            push_instr(instr.instr);
+            push_global(instr.label, instr.imm, 2);
+            break;
+        case I_GETGN:
+        case I_SETGN:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 1);
+            push_global(instr.label, instr.imm2, 2);
+            break;
+        case I_PUSHL:
+            push_instr(instr.instr);
+            push_label(instr.label, instr.imm, 3);
+            break;
+        case I_BZ:
+        case I_BNZ:
+        case I_BZP:
+        case I_BNZP:
+        case I_JMP:
+        case I_CALL:
+            push_instr(instr.instr);
+            push_label(instr.label, 0, 3);
+            break;
+        case I_PUSH:
+        case I_GETL:
+        case I_GETL2:
+        case I_GETL4:
+        case I_SETL:
+        case I_SETL2:
+        case I_SETL4:
+        case I_GETPN:
+        case I_GETRN:
+        case I_SETRN:
+        case I_POPN:
+        case I_ALLOC:
+        case I_AIXB1:
+        case I_REFL:
+        case I_LINC:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 1);
+            break;
+        case I_UAIDX:
+        case I_UPIDX:
+        case I_ASLC:
+        case I_PSLC:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 2);
+            break;
+        case I_PUSH2:
+            push_instr(I_PUSHG);
+            push_imm(instr.imm, 2);
+            break;
+        case I_PUSH3:
+            push_instr(I_PUSHL);
+            push_imm(instr.imm, 3);
+            break;
+        case I_PUSH4:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 4);
+            break;
+        case I_GETLN:
+        case I_SETLN:
+        case I_AIDXB:
+        case I_PIDXB:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 1);
+            push_imm(instr.imm2, 1);
+            break;
+        case I_AIDX:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 2);
+            push_imm(instr.imm2, 2);
+            break;
+        case I_PIDX:
+            push_instr(instr.instr);
+            push_imm(instr.imm, 2);
+            push_imm(instr.imm2, 3);
+            break;
+        case I_SYS:
+            push_instr(instr.instr);
+            push_imm(instr.imm * 2, 1);
+            break;
+        default:
+            assert(0);
+            break;
+    }
+}
+
+void assembler_t::add_file(std::string const& filename)
+{
+    auto fit = file_table.find(filename);
+    uint8_t file;
+    if(fit == file_table.end())
+    {
+        file = (uint8_t)file_table.size();
+        if(file_table.size() >= 256)
+        {
+            error.msg = "Too many input files";
+            return;
+        }
+        file_table[filename] = file;
+    }
+    else file = fit->second;
+    push_file(file);
+}
+
 error_t assembler_t::assemble(std::istream& f)
 {
     std::string t;
     githash.clear();
     shades = 2;
-
-    //counting_stream_buffer counting_buf(f_orig.rdbuf(), error);
-    //std::istream f(&counting_buf);
+    nodes.clear();
 
     data_bytes = 0;
     while(error.msg.empty() && !f.eof())
@@ -278,10 +720,7 @@ error_t assembler_t::assemble(std::istream& f)
         if(t.back() == ':')
         {
             t.pop_back();
-            if(labels.count(t) != 0)
-                error.msg = "Duplicate label: \"" + t + "\"";
-            else if(check_label(t, error))
-                labels[t] = nodes.size();
+            add_label(t);
             continue;
         }
         for(char& c : t)
@@ -458,10 +897,6 @@ error_t assembler_t::assemble(std::istream& f)
             push_instr(I_SETGN);
             push_imm(read_imm(f, error), 1);
             push_global(f, true);
-        }
-        else if(t == "getp")
-        {
-            push_instr(I_GETP);
         }
         else if(t == "getpn")
         {
@@ -674,21 +1109,8 @@ error_t assembler_t::assemble(std::istream& f)
         else if(t == ".file")
         {
             std::string filename;
-            uint8_t file = 0;
             f >> filename;
-            auto fit = file_table.find(filename);
-            if(fit == file_table.end())
-            {
-                file = (uint8_t)file_table.size();
-                if(file_table.size() >= 256)
-                {
-                    error.msg = "Too many input files";
-                    return error;
-                }
-                file_table[filename] = file;
-            }
-            else file = fit->second;
-            push_file(file);
+            add_file(filename);
         }
         else if(t == ".line")
         {

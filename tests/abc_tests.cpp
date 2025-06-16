@@ -21,30 +21,26 @@ static abc_interp_t interp;
 
 static bool test(std::string const& fpath, std::string const& fname)
 {
-    std::string abc_asm;
     std::vector<uint8_t> binary;
 
     if(fname.size() < 4) return false;
     std::string name = fname.substr(0, fname.size() - 4);
+    abc::compiler_t c{};
 
     {
-        abc::compiler_t c{};
+        std::ofstream fasm((fpath + "/../asm/" + fname + ".asm.txt").c_str());
         c.suppress_githash();
         std::ostringstream fo;
-        c.compile(fpath, name, fo);
+        c.compile(fpath, name, fasm);
         for(auto const& e : c.errors())
             printf("Line %d: %s\n", (int)e.line_info.first, e.msg.c_str());
         assert(c.errors().empty());
         if(!c.errors().empty()) return false;
-        abc_asm = fo.str();
-        std::ofstream fasm((fpath + "/../asm/" + fname + ".asm.txt").c_str());
-        fasm << abc_asm;
     }
 
     {
         abc::assembler_t a{};
-        std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
-        auto e = a.assemble(ss);
+        auto e = a.assemble(c);
         assert(e.msg.empty());
         if(!e.msg.empty())
             return false;

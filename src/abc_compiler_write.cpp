@@ -245,59 +245,13 @@ void compiler_t::write_instr(
     f << "\n";
 }
 
-static auto tie_var(compiler_global_t const* v)
-{
-    return std::tie(v->var.type.prim_size, v->name);
-}
-
 void compiler_t::write(std::ostream& f)
 {
-    // attempt to find git hash
-    if(!do_suppress_githash)
-    {
-        std::filesystem::path p(base_path);
-        std::string h;
-        for(int i = 0; h.empty() && i < 64; ++i)
-        {
-            auto head = p / ".git" / "HEAD";
-            if(std::filesystem::is_regular_file(head))
-            {
-                std::ifstream fhead(head);
-                if(fhead.good())
-                {
-                    std::string t;
-                    std::getline(fhead, t);
-                    t = t.substr(5);
-                    std::filesystem::path ref = p / ".git" / t;
-                    if(std::filesystem::is_regular_file(ref))
-                    {
-                        std::ifstream fref(ref);
-                        if(fref.good())
-                            fref >> h;
-                    }
-                }
-            }
-            if(p.has_parent_path())
-                p = p.parent_path();
-        }
-        if(!h.empty())
-            f << ".githash " << h << "\n";
-    }
+    if(!do_suppress_githash && !githash.empty())
+        f << ".githash " << githash << "\n";
 
     // .shades directive
     f << ".shades " << shades << "\n";
-
-    // sort globals by ascending size for optimizing access
-
-    std::vector<compiler_global_t const*> sorted_globals;
-
-    for(auto const& [name, global] : globals)
-        sorted_globals.push_back(&global);
-
-    std::sort(sorted_globals.begin(), sorted_globals.end(),
-        [](compiler_global_t const* a, compiler_global_t const* b) {
-            return tie_var(a) < tie_var(b);
-    });
 
     // saved globals first
     size_t saved_size = 0;

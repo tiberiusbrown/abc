@@ -77,14 +77,12 @@ static uint64_t measure(bool abc = false)
 
 static std::vector<uint8_t> compile(std::string const& fname)
 {
-    std::string abc_asm;
     abc::compiler_t c{};
-    std::ostringstream fo;
     std::filesystem::path p(fname);
     auto path = p.parent_path().lexically_normal().generic_string();
     auto name = p.stem().generic_string();
     c.suppress_githash();
-    c.compile(path, name, fo);
+    c.compile(path, name);
     for(auto const& e : c.errors())
     {
         printf("%s ERROR (line %d): %s\n",
@@ -94,15 +92,13 @@ static std::vector<uint8_t> compile(std::string const& fname)
     }
     if(!c.errors().empty())
         return {};
-    abc_asm = fo.str();
     {
         std::ofstream fasm(path + "/asm.txt");
-        fasm << abc_asm;
+        c.write(fasm);
     }
 
     abc::assembler_t a{};
-    std::istrstream ss(abc_asm.data(), (int)abc_asm.size());
-    auto e = a.assemble(ss);
+    auto e = a.assemble(c);
     assert(e.msg.empty());
     e = a.link();
     assert(e.msg.empty());

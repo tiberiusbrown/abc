@@ -614,6 +614,11 @@ struct compiler_t
     void compile(
         std::string const& path,
         std::string const& name,
+        std::function<bool(std::string const&, std::vector<char>&)> const& loader);
+
+    void compile(
+        std::string const& path,
+        std::string const& name,
         std::function<bool(std::string const&, std::vector<char>&)> const& loader,
         std::ostream& fo);
 
@@ -631,6 +636,23 @@ struct compiler_t
             return true;
         }, fo);
     }
+
+    void compile(
+        std::string const& path,
+        std::string const& name)
+    {
+        compile(path, name, [](std::string const& fname, std::vector<char>& t) -> bool {
+            std::ifstream f(fname, std::ios::in | std::ios::binary);
+            if(f.fail()) return false;
+            t = std::vector<char>(
+                (std::istreambuf_iterator<char>(f)),
+                (std::istreambuf_iterator<char>()));
+            return true;
+        });
+    }
+
+    // write assembly
+    void write(std::ostream& f);
 
     std::vector<error_t> const& errors() const { return errs; }
     std::vector<error_t> const& warnings() const { return warns; }
@@ -841,7 +863,6 @@ private:
     void write_instr(
         std::ostream& f, compiler_instr_t const& instr, uint16_t& line,
         uint16_t& file, std::vector<std::string> const& filenames);
-    void write(std::ostream& f);
 
     // parse data
     std::string input_data;
@@ -885,6 +906,9 @@ private:
     std::unordered_set<std::string> import_set;
 
     std::unordered_map<std::string, std::string> arduboy_file_directives;
+
+    std::string githash;
+    std::vector<compiler_global_t const*> sorted_globals;
 
     int shades;
     bool non_directive_found;
