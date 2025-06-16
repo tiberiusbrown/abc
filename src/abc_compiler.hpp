@@ -669,6 +669,7 @@ struct compiler_t
     // "Private but technically public" API
     //
 
+    bool enable_merging_progdata = true;
     bool enable_sized_unrolling = true;
     bool enable_unsized_unrolling = true;
     bool enable_inlining = true;

@@ -50,6 +50,8 @@ void compiler_t::init_parser()
 {
     peg::parser& p = parser;
 
+    p.enable_packrat_parsing();
+
     p.set_logger([&](size_t line, size_t column, std::string const& msg) {
         errs.push_back({ msg, { line, column } });
     });
@@ -108,6 +110,7 @@ switch_case_item    <- expr ('...' expr)?
 
 # right-associative binary assignment operator
 expr                <- '{' '}' /
+                       '{' primary_expr (',' primary_expr)* ','? '}' /
                        '{' expr (',' expr)* ','? '}' /
                        postfix_expr assignment_op expr /
                        conditional_expr
@@ -586,7 +589,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     };
 
     p["expr"] = [](peg::SemanticValues const& v) -> ast_node_t {
-        if(v.choice() == 0 || v.choice() == 1)
+        if(v.choice() <= 2)
         {
             ast_node_t a{ v.line_info(), AST::COMPOUND_LITERAL, v.token() };
             for(auto& child : v)
@@ -594,7 +597,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
             return a;
         }
         auto child0 = std::any_cast<ast_node_t>(v[0]);
-        if(v.choice() == 3) return child0;
+        if(v.choice() == 4) return child0;
 
         // normal assignment
         auto child1 = std::any_cast<ast_node_t>(v[1]);

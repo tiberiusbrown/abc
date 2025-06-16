@@ -42,35 +42,60 @@ void compiler_t::try_merge_progdata(
     (void)label;
     (void)pdata;
 #else
+    if(!enable_merging_progdata) return;
     auto const& data = pdata.data;
+    if(data.empty()) return;
     if(!pdata.relocs_glob.empty()) return;
     if(!pdata.relocs_prog.empty()) return;
     for(auto& [k, pd] : progdata)
     {
         if(k == label)
             continue;
-        // search for data inside pd.data
-        for(auto it = pd.data.begin();;)
+
+        size_t ig = 0;
+        size_t ip = 0;
+        size_t istart = 0;
+        size_t n = data.size();
+        while(istart < pd.data.size())
         {
-            it = std::search(
-                it, pd.data.end(),
-                data.begin(), data.end());
-            if(it == pd.data.end())
+            // heuristic: if we are searching for a decently-sized chunk of data,
+            // stop early rather than search some massive chunk
+            if(n >= 8 && istart >= 16)
                 break;
 
-            // we found a subsequence match: ensure there are no relocs inside it
-            size_t index = size_t(it - pd.data.begin());
-            bool valid = true;
-            for(auto const& p : pd.relocs_glob)
-                if(p.first >= index && p.first < index + data.size())
-                    valid = false;
-            for(auto const& p : pd.relocs_prog)
-                if(p.first >= index && p.first < index + data.size())
-                    valid = false;
-            if(!valid)
-                continue;
+            while(ig < pdata.relocs_glob.size() && pdata.relocs_glob[ig].first < istart + n)
+            {
+                istart = pdata.relocs_glob[ig].first + 2;
+                ig += 1;
+            }
+            while(ip < pdata.relocs_prog.size() && pdata.relocs_prog[ip].first < istart + n)
+            {
+                istart = pdata.relocs_prog[ip].first + 3;
+                ip += 1;
+            }
 
-            // add a intermediate label into pd
+            size_t iend = pd.data.size();
+            if(ig < pdata.relocs_glob.size())
+                iend = std::min(iend, pdata.relocs_glob[ig].first);
+            if(ip < pdata.relocs_prog.size())
+                iend = std::min(iend, pdata.relocs_prog[ip].first);
+
+            // heuristic
+            if(n >= 8)
+                iend = std::min(iend, istart + n * 2);
+
+            auto it = std::search(
+                pd.data.begin() + istart,
+                pd.data.begin() + iend,
+                data.begin(),
+                data.end());
+            if(it == pd.data.begin() + iend)
+            {
+                istart = iend;
+                continue;
+            }
+
+            size_t index = size_t(it - (pd.data.begin() + istart));
             pd.inter_labels.push_back({ index, label });
             std::sort(pd.inter_labels.begin(), pd.inter_labels.end());
             pdata.data.clear();
