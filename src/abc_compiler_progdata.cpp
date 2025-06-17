@@ -49,59 +49,33 @@ void compiler_t::try_merge_progdata(
     if(!pdata.relocs_prog.empty()) return;
     for(auto& [k, pd] : progdata)
     {
+        if(!pd.relocs_glob.empty() || !pd.relocs_prog.empty() || !pd.inter_labels.empty())
+            continue;
+
+        if(data.size() > pd.data.size())
+            continue;
+
+        if(data.size() >= 32 && data.size() != pd.data.size())
+            continue;
+
         if(k == label)
             continue;
 
-        size_t ig = 0;
-        size_t ip = 0;
-        size_t istart = 0;
-        size_t n = data.size();
-        while(istart < pd.data.size())
-        {
-            // heuristic: if we are searching for a decently-sized chunk of data,
-            // stop early rather than search some massive chunk
-            if(n >= 8 && istart >= 16)
-                break;
+        auto it = std::search(
+            pd.data.begin(),
+            pd.data.end(),
+            data.begin(),
+            data.end());
 
-            while(ig < pdata.relocs_glob.size() && pdata.relocs_glob[ig].first < istart + n)
-            {
-                istart = pdata.relocs_glob[ig].first + 2;
-                ig += 1;
-            }
-            while(ip < pdata.relocs_prog.size() && pdata.relocs_prog[ip].first < istart + n)
-            {
-                istart = pdata.relocs_prog[ip].first + 3;
-                ip += 1;
-            }
+        if(it == pd.data.end())
+            continue;
 
-            size_t iend = pd.data.size();
-            if(ig < pdata.relocs_glob.size())
-                iend = std::min(iend, pdata.relocs_glob[ig].first);
-            if(ip < pdata.relocs_prog.size())
-                iend = std::min(iend, pdata.relocs_prog[ip].first);
-
-            // heuristic
-            if(n >= 8)
-                iend = std::min(iend, istart + n * 2);
-
-            auto it = std::search(
-                pd.data.begin() + istart,
-                pd.data.begin() + iend,
-                data.begin(),
-                data.end());
-            if(it == pd.data.begin() + iend)
-            {
-                istart = iend;
-                continue;
-            }
-
-            size_t index = size_t(it - (pd.data.begin() + istart));
-            pd.inter_labels.push_back({ index, label });
-            std::sort(pd.inter_labels.begin(), pd.inter_labels.end());
-            pdata.data.clear();
-            pdata.merged = true;
-            return;
-        }
+        size_t index = size_t(it - pd.data.begin());
+        pd.inter_labels.push_back({ index, label });
+        std::sort(pd.inter_labels.begin(), pd.inter_labels.end());
+        pdata.data.clear();
+        pdata.merged = true;
+        return;
     }
 #endif
 }

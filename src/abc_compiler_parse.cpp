@@ -107,6 +107,8 @@ switch_case         <- 'case' '(' switch_case_item (',' switch_case_item)* ')' s
 switch_case_item    <- expr ('...' expr)?
 
 # right-associative binary assignment operator
+# the second option is for faster parsing of large progdata
+# compared to the third option
 expr                <- '{' '}' /
                        '{' primary_expr (',' primary_expr)* ','? '}' /
                        '{' expr (',' expr)* ','? '}' /

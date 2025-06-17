@@ -282,9 +282,11 @@ void compiler_t::write(std::ostream& f)
 
     for(auto const& [label, pd] : progdata)
     {
-        if(pd.data.empty())
+        if(pd.merged)
             continue;
         f << label << ":\n";
+        if(pd.data.empty())
+            continue;
         size_t rp = 0;
         size_t rg = 0;
         size_t rl = 0;
