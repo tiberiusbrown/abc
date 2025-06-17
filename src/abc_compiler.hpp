@@ -670,7 +670,7 @@ struct compiler_t
     //
 
     bool enable_merging_progdata = true;
-    bool enable_sized_unrolling = false;
+    bool enable_sized_unrolling = true;
     bool enable_unsized_unrolling = true;
     bool enable_inlining = true;
     bool enable_jmp_to_ret = true;

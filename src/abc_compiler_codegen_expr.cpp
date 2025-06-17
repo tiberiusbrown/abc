@@ -1464,14 +1464,14 @@ void compiler_t::codegen_expr_ident(
     std::string name(a.data);
     if(auto* local = resolve_local(frame, a))
     {
-        if(local->var.is_constexpr)
-        {
-            if(local->var.type.is_float)
-                codegen_float_const(f, frame, a);
-            else
-                codegen_int_const(f, frame, a);
-            return;
-        }
+        //if(local->var.is_constexpr)
+        //{
+        //    if(local->var.type.is_float)
+        //        codegen_float_const(f, frame, a);
+        //    else
+        //        codegen_int_const(f, frame, a);
+        //    return;
+        //}
         assert(!local->var.is_constexpr);
         uint8_t frame_offset = (uint8_t)(frame.size - local->frame_offset - offset);
         f.instrs.push_back({ I_REFL, a.line(), frame_offset });
@@ -1479,14 +1479,14 @@ void compiler_t::codegen_expr_ident(
     }
     else if(auto* global = resolve_global(a))
     {
-        if(global->var.is_constexpr)
-        {
-            if(global->var.type.is_float)
-                codegen_float_const(f, frame, a);
-            else
-                codegen_int_const(f, frame, a);
-            return;
-        }
+        //if(global->var.is_constexpr)
+        //{
+        //    if(global->var.type.is_float)
+        //        codegen_float_const(f, frame, a);
+        //    else
+        //        codegen_int_const(f, frame, a);
+        //    return;
+        //}
         assert(!global->var.is_constexpr);
         bool prog = global->var.type.is_prog;
         if(global->is_constexpr_ref())

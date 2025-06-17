@@ -691,6 +691,17 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         a.comp_type = strlit_type(strlit_data(a).size());
         break;
     }
+    case AST::ARRAY_LEN:
+    {
+        assert(a.children[1].type == AST::FUNC_ARGS);
+        auto& child = a.children[1].children[0];
+        type_annotate_recurse(child, frame);
+        assert(child.comp_type.is_any_ref());
+        a.comp_type = TYPE_U16;
+        if(child.comp_type.children[0].is_prog)
+            a.comp_type = TYPE_U24;
+        transform_constexprs(a, frame);
+    }
     default:
         break;
     }
