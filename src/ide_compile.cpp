@@ -13,6 +13,22 @@ inline bool ends_with(std::string const& value, std::string const& ending)
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
+static std::filesystem::path find_main(std::filesystem::path const& dir)
+{
+    if(!std::filesystem::is_directory(dir))
+        return {};
+    auto m = dir / "main.abc";
+    if(std::filesystem::exists(m))
+        return m;
+    for(auto const& child : std::filesystem::directory_iterator{ dir })
+    {
+        m = find_main(child);
+        if(!m.empty())
+            return m;
+    }
+    return {};
+}
+
 bool compile_all()
 {
     abc::compiler_t c{};
@@ -25,16 +41,17 @@ bool compile_all()
     for(auto& [n, f] : open_files)
         f->save();
 
+    auto fpath = find_main(project.root.path);
+
     do
     {
-        auto fpath = project.root.path / "main.abc";
         if(!std::filesystem::exists(fpath))
         {
             project.errors["<Project>"].push_back({ "No main.abc found" });
             break;
         };
         std::stringstream sout;
-        c.compile(project.root.path.generic_string(), "main", sout);
+        c.compile(fpath.parent_path().generic_string(), "main", sout);
         std::string t = sout.str();
         asm_editor.SetText(t);
         asms.push_back(t);
