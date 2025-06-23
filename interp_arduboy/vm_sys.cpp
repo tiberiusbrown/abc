@@ -1202,6 +1202,7 @@ static void sys_draw_tilemap()
                 uint8_t const* p = &buf[i];
                 asm volatile(R"(
                         ld   %A[frame], %a[p]+
+                        clr  %B[frame]
                         cpse %[format], __zero_reg__
                         ld   %B[frame], %a[p]
                     1:
