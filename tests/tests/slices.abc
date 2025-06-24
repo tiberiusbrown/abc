@@ -1,3 +1,8 @@
+struct foo_t
+{
+    char[10] str;
+};
+
 void main()
 {
     $debug_break();
@@ -64,6 +69,40 @@ void main()
     }
     
     $assert("Hello"[1:4] == "ell");
+    
+    {
+        char[5] str = "Hello";
+        $assert(str == "Hello");
+        $memcpy(str[1:4], "opp");
+        $assert(str == "Hoppo");
+    }
+    
+    {
+        char[5] str = "Hello";
+        char[5] str2 = "Boppy";
+        $assert(str == "Hello");
+        $memcpy(str[1:4], str2[1:4]);
+        $assert(str == "Hoppo");
+    }
+    
+    {
+        foo_t f = { "Hello" };
+        $assert(f.str == "Hello");
+        $memcpy(f.str[1:4], "opp");
+        $assert(f.str == "Hoppo");
+    }
+    
+    {
+        char[5] str = "Hello";
+        $assert(str == "Hello");
+        $memset(str[1:4], 'o');
+        $assert(str == "Hoooo");
+        $memset(str[1+:3], 'y');
+        $assert(str == "Hyyyo");
+        u8 n = 3;
+        $memset(str[1+:n], 'z');
+        $assert(str == "Hzzzo");
+    }
     
     $debug_break();
 }

@@ -572,7 +572,14 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 auto const& ct = c.comp_type.without_ref();
                 if(ct.is_array_ref())
                 {
-                    if(t.children[0] != ct.children[0])
+                    if(t.children[0].is_prog != ct.children[0].is_prog)
+                    {
+                        errs.push_back({
+                            "Mismatched prog for UAR conversion",
+                            c.line_info });
+                        return;
+                    }
+                    if(t.children[0] != ct.children[0] && !t.children[0].is_byte)
                     {
                         errs.push_back({
                             "Incompatible array element types for UARs",
