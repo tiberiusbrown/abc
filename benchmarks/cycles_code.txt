@@ -382,11 +382,11 @@
     266    $round(949.31878662)
     277    $round(35124.79687500)
     212    $round(1299617.50000000)
-  31590    draw_tilemap(0, 0) [16x16]
-  35373    draw_tilemap(-1, 0) [16x16]
-  36713    draw_tilemap(0, -1) [16x16]
-  41161    draw_tilemap(-1, -1) [16x16]
-  66004    draw_tilemap(0, 0) [8x8]
-  71892    draw_tilemap(-1, 0) [8x8]
-  73944    draw_tilemap(0, -1) [8x8]
-  80506    draw_tilemap(-1, -1) [8x8]
+  31622    draw_tilemap(0, 0) [16x16]
+  35409    draw_tilemap(-1, 0) [16x16]
+  36753    draw_tilemap(0, -1) [16x16]
+  41206    draw_tilemap(-1, -1) [16x16]
+  66132    draw_tilemap(0, 0) [8x8]
+  72028    draw_tilemap(-1, 0) [8x8]
+  74088    draw_tilemap(0, -1) [8x8]
+  80659    draw_tilemap(-1, -1) [8x8]

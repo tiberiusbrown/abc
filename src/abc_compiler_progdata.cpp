@@ -49,7 +49,7 @@ void compiler_t::try_merge_progdata(
     if(!pdata.relocs_prog.empty()) return;
     for(auto& [k, pd] : progdata)
     {
-        if(!pd.relocs_glob.empty() || !pd.relocs_prog.empty() || !pd.inter_labels.empty())
+        if(!pd.relocs_glob.empty() || !pd.relocs_prog.empty())
             continue;
 
         if(data.size() > pd.data.size())

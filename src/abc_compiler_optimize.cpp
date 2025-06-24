@@ -26,6 +26,8 @@ void compiler_t::optimize()
             uint32_t offset = 256;
             for(auto& [label, pd] : progdata)
             {
+                if(pd.merged)
+                    continue;
                 pd.offset = offset;
                 offset += (uint32_t)pd.data.size();
             }
@@ -33,6 +35,8 @@ void compiler_t::optimize()
         // compute progdata(interlabel) offsets
         for(auto& [label, pd] : progdata)
         {
+            if(pd.merged)
+                continue;
             for(auto const& i : pd.inter_labels)
             {
                 if(auto it = progdata.find(i.second); it != progdata.end())
