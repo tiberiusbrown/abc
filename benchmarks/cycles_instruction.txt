@@ -108,7 +108,7 @@
   114   setrn 16
   202   setrn 32
    34   aixb1
-   52   aidxb
+   51   aidxb
    95   aidx
    52   pidxb
   123   pidx

@@ -90,10 +90,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble2: 30.65x slowdown</summary>
+<details><summary>bubble2: 30.57x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 52858</td><td>Cycles: 1619966</td></tr>
+<tr><td>Cycles: 52858</td><td>Cycles: 1615934</td></tr>
 <tr>
 <td>
 
@@ -180,10 +180,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble3: 27.25x slowdown</summary>
+<details><summary>bubble3: 27.19x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 71002</td><td>Cycles: 1934462</td></tr>
+<tr><td>Cycles: 71002</td><td>Cycles: 1930430</td></tr>
 <tr>
 <td>
 
@@ -270,10 +270,10 @@ void main()
 </table>
 </details>
 
-<details><summary>bubble4: 23.06x slowdown</summary>
+<details><summary>bubble4: 23.01x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 89146</td><td>Cycles: 2055422</td></tr>
+<tr><td>Cycles: 89146</td><td>Cycles: 2051390</td></tr>
 <tr>
 <td>
 

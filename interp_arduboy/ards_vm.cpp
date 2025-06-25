@@ -1103,6 +1103,7 @@ getln_error:
     .align 6
 
 I_GETLN:
+    ; TODO: missing test for data stack overflow
     lpm
     lpm
     cli
@@ -1767,7 +1768,6 @@ aidx_part2:
     adc  r23, r21
     st   Y+, r22
     mov  r9, r23
-aidxb_dispatch:
     dispatch
 
 I_POPN:
@@ -1829,6 +1829,7 @@ I_AIXB1:
     adc  r9, r2
     st   Y+, r22
     nop
+aidxb_dispatch:
     dispatch_noalign_reverse
 aidx_error:
     ldi  r24, 2
@@ -1836,6 +1837,10 @@ aidx_error:
     .align 6
 
 I_AIDXB:
+    ; r16: elem size
+    ; r17: num elems
+    ; r20: index
+
     mov  r20, r9
     ldi  r17, 2
     add  r6, r17
@@ -1843,27 +1848,25 @@ I_AIDXB:
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
+    sei
     adc  r7, r2
     adc  r8, r2
-    rcall pop3_delay_13
+    mul  r16, r20
+    ld   r21, -Y
+    rcall pop3_delay_7
+    cli
     out  %[spdr], r2
     in   r17, %[spdr]
     sei
-
-    ; r16: elem size
-    ; r17: num elems
-    ; r20: index
     cp   r20, r17
     brsh aidx_error
-    mul  r16, r20
-    ld   r21, -Y
     ld   r20, -Y
     add  r0, r20
     adc  r1, r21
     st   Y+, r0
     mov  r9, r1
-    nop
-    dispatch
+    rjmp aidxb_dispatch
+    .align 6
 
 I_AIDX:
     mov  r21, r9
