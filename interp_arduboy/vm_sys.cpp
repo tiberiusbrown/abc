@@ -15,6 +15,8 @@
 
 #include <math.h>
 
+#define TILEMAP_USE_DRAW_SPRITE_HELPER 0
+
 extern uint8_t abc_seed[4];
 uint8_t abc_seed[4];
 
@@ -819,7 +821,7 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
     uint24_t image;
     uint8_t w;
     uint8_t h;
-    uint16_t num;
+    uint8_t num;
     uint8_t mode;
     uint16_t frame;
     asm volatile(R"(
@@ -836,18 +838,18 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             ld   %C[image], -%a[ptr]
             ld   %B[image], -%a[ptr]
             ld   %A[image], -%a[ptr]
-            lds  %A[num], %[datapage]+0
-            lds  %B[num], %[datapage]+1
-            add  %A[num], %B[image]
-            adc  %B[num], %C[image]
-            out  %[spdr], %B[num]
+            lds  %A[frame], %[datapage]+0
+            lds  %B[frame], %[datapage]+1
+            add  %A[frame], %B[image]
+            adc  %B[frame], %C[image]
+            out  %[spdr], %B[frame]
             ldd  %A[x], %a[ptr]+5
             ldd  %B[x], %a[ptr]+6
             ldd  %A[y], %a[ptr]+3
             ldd  %B[y], %a[ptr]+4
-            ld   %B[frame], -%a[ptr]
-            ld   %A[frame], -%a[ptr]
-            sts  %[vmsp], %A[ptr]
+
+            lpm
+            lpm
 
             rjmp 1f
         draw_sprite_helper_delay_17:
@@ -867,9 +869,11 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             ret
         1:  ldi  %[w], 5
 
-            out  %[spdr], %A[num]
-            rcall draw_sprite_helper_delay_16
-            in   %B[num], %[sreg]
+            out  %[spdr], %A[frame]
+            ld   %B[frame], -%a[ptr]
+            ld   %A[frame], -%a[ptr]
+            sts  %[vmsp], %A[ptr]
+            rcall draw_sprite_helper_delay_11
             out  %[spdr], %A[image]
             add  %A[image], %[w]
             adc  %B[image], __zero_reg__
@@ -881,13 +885,13 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             cli
             out  %[spdr], __zero_reg__
             in   %[w], %[spdr]
-            out  %[sreg], %B[num]
+            sei
             rcall draw_sprite_helper_delay_13
 
             cli
             out  %[spdr], __zero_reg__
             in   %[h], %[spdr]
-            out  %[sreg], %B[num]
+            sei
             subi %[h], -7
             andi %[h], 0xf8
 
@@ -896,12 +900,19 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             lsr  %A[ptr]
             lsr  %A[ptr]
             lsr  %A[ptr]
-            rcall draw_sprite_helper_delay_7
+
+            rjmp 1f
+        draw_sprite_helper_error:
+            ldi  r24, %[err]
+            jmp  %x[vm_error]
+        1:
+            lpm
+            rjmp .+0
 
             cli
             out  %[spdr], __zero_reg__
             in   %[mode], %[spdr]
-            out  %[sreg], %B[num]
+            sei
 
             ; add frame offset to image
             or   %[mode], %[mask]
@@ -917,8 +928,8 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
 
             cli
             out  %[spdr], __zero_reg__
-            in   %A[num], %[spdr]
-            out  %[sreg], %B[num]
+            in   %[num], %[spdr]
+            sei
 
             ; add frame offset to image
             mul  %B[ptr], %A[frame]
@@ -931,16 +942,13 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             adc  %B[image], r1
             clr  __zero_reg__
             adc  %C[image], __zero_reg__
-            cp   %A[frame], %A[num]
+            cp   %A[frame], %[num]
 
-            in   %B[num], %[spdr]
+            in   %[num], %[spdr]
             sbi  %[fxport], %[fxbit]
 
-            cpc  %B[frame], %B[num]
-            brlo 1f
-            ldi  r24, %[err]
-            call %x[vm_error]
-        1:
+            cpc  %B[frame], %[num]
+            brsh draw_sprite_helper_error
 
         )"
         : [w]        "=&d" (w)
@@ -964,13 +972,19 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [vm_error] ""    (vm_error)
     );
     SpritesABC::drawBasicFX(x, y, w, h, image, mode);
+
+#if !TILEMAP_USE_DRAW_SPRITE_HELPER
+    seek_to_pc();
+#endif
 }
 
 static void sys_draw_sprite()
 {
 #if ABC_SHADES == 2
     draw_sprite_helper(0);
+#if TILEMAP_USE_DRAW_SPRITE_HELPER
     seek_to_pc();
+#endif
 #else
     auto ptr = vm_pop_begin();
 #if 1
@@ -1011,7 +1025,9 @@ static void sys_draw_sprite_selfmask()
 {
 #if ABC_SHADES == 2
     draw_sprite_helper(4);
+#if TILEMAP_USE_DRAW_SPRITE_HELPER
     seek_to_pc();
+#endif
 #else
     ards::vm.sp -= 9; // x:2 y:2 img:3 frame:2
 #endif
@@ -1077,8 +1093,6 @@ static uint16_t fx_read_pending_last_uint16_le()
     );
     return t;
 }
-
-#define TILEMAP_USE_DRAW_SPRITE_HELPER 0
 
 static void sys_draw_tilemap()
 {
