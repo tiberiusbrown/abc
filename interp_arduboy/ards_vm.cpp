@@ -1927,33 +1927,35 @@ I_PIDXB:
     ; load progref into r13:r14:r9
     ld   r9, -Y
     ld   r14, -Y
-    in   r0, %[sreg]
+    nop
     cli
     ; load elem size into r16
     ; load elem count into r17
     out  %[spdr], r2
     in   r16, %[spdr]
+    sei
     ld   r13, -Y
     ldi  r17, 2
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
-    rcall pop3_delay_9
+    rjmp .+0
+    mul  r10, r16 ; index * elem size
+    add  r13, r0
+    adc  r14, r1
+    adc  r9, r2
+    cli
     out  %[spdr], r2
     in   r17, %[spdr]
-    out  %[sreg], r0
+    sei
     ; bounds check index against elem count
     cp   r10, r17
     brsh pidxb_error
     ; compute prog ref + index * elem_size
-1:  mul  r10, r16 ; index * elem size
-    add  r13, r0
-    adc  r14, r1
-    adc  r9, r2
     ; push prog ref
     st   Y+, r13
     st   Y+, r14
-    nop
+    lpm
     rjmp pidxb_dispatch
 pidxb_error:
 pidx_error:
@@ -2318,6 +2320,7 @@ I_LINC:
     inc  r0
     st   X, r0
     rjmp .+0
+pidxb_dispatch:
     dispatch_reverse
 
 I_PINC:
@@ -2328,7 +2331,6 @@ I_PINC:
     inc  r16
     st   -X, r16
 slc_dispatch:
-pidxb_dispatch:
     dispatch
     ; TODO: SPACE HERE
 
