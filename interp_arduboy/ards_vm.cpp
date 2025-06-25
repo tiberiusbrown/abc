@@ -3791,14 +3791,14 @@ I_BZ2:
     ldi  r18, 3
     ld   r9, -Y
     ldi  r19, 0xff
-    rcall branch_delay_10
+    add  r6, r16
+    rcall branch_delay_9
     in   r17, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
     sbrs r17, 7
     ldi  r19, 0x00
-    add  r6, r16
     adc  r7, r17
     adc  r8, r19
     rjmp jump_to_pc_delayed2
