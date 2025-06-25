@@ -1,0 +1,35 @@
+constexpr u8 SQRT_N = 30;
+constexpr u16 N = SQRT_N * SQRT_N;
+bool[N] A;
+
+bool is_prime(u16 n)
+{
+    u16 m = n / 2;
+    for(u16 i = 2; i <= m; ++i)
+    {
+        if(n % i == 0)
+            return false;
+    }
+    return true;
+}
+
+void main()
+{
+    $debug_break();
+    
+    $memset(A, true);
+    
+    for(u8 i = 2; i < SQRT_N; ++i)
+    {
+        if(A[i])
+            for(u16 j = i * i; j < N; j += i)
+                A[j] = false;
+    }
+    
+    for(u16 i = 0; i < N; ++i)
+    {
+        $assert(A[i] == is_prime(i));
+    }
+
+    $debug_break();
+}

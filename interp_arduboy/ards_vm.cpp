@@ -1761,14 +1761,24 @@ I_POP4:
     subi r28, 4
     ld   r9, Y
     nop
+aidx_dispatch:
     dispatch_noalign_reverse
 aidx_part2:
+    out  %[spdr], r2
+    in   r19, %[spdr]
+    sei
+    cpc  r25, r19
+    brsh aidx_error
     ld   r20, -Y
     add  r22, r20
     adc  r23, r21
     st   Y+, r22
     mov  r9, r23
-    dispatch
+    rjmp aidx_dispatch
+aidx_error:
+    ldi  r24, 2
+    jmp  call_vm_error
+    .align 6
 
 I_POPN:
     lpm
@@ -1822,7 +1832,7 @@ I_AIXB1:
     ; r0:  num elems
     ; r20: index
     cp   r20, r0
-    brsh aidx_error
+    brsh aixb1_error
     ld   r9, -Y
     ld   r22, -Y
     add  r22, r20
@@ -1831,9 +1841,10 @@ I_AIXB1:
     nop
 aidxb_dispatch:
     dispatch_noalign_reverse
-aidx_error:
+aidxb_error:
+aixb1_error:
     ldi  r24, 2
-    call call_vm_error
+    jmp  call_vm_error
     .align 6
 
 I_AIDXB:
@@ -1859,7 +1870,7 @@ I_AIDXB:
     in   r17, %[spdr]
     sei
     cp   r20, r17
-    brsh aidx_error
+    brsh aidxb_error
     ld   r20, -Y
     add  r0, r20
     adc  r1, r21
@@ -1869,10 +1880,9 @@ I_AIDXB:
     .align 6
 
 I_AIDX:
-    mov  r21, r9
+    mov  r25, r9
     ld   r20, -Y
-    rjmp .+0
-    in   r10, %[sreg]
+    lpm
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
@@ -1883,17 +1893,19 @@ I_AIDX:
     rcall pop3_delay_11
     out  %[spdr], r2
     in   r17, %[spdr]
-    rcall pop3_delay_15
+    rcall pop3_delay_13
+    mul  r16, r20
     out  %[spdr], r2
     in   r18, %[spdr]
-    rcall pop3_delay_15
-    out  %[spdr], r2
-    in   r19, %[spdr]
-    out  %[sreg], r10
-
+    movw r22, r0
+    mul  r16, r25
+    add  r23, r0
+    mul  r17, r20
+    add  r23, r0
+    ld   r21, -Y
+    lpm
     cp   r20, r18
-    cpc  r21, r19
-    brsh aidx_error
+    rjmp aidx_part2
     ; A1 A0 : r21 r20
     ; B1 B0 : r17 r16
     ; C1 C0 : r23 r22
@@ -1907,14 +1919,6 @@ I_AIDX:
     ; ========
     ;    C1 C0
     ;
-    mul  r16, r20
-    movw r22, r0
-    mul  r16, r21
-    add  r23, r0
-    mul  r17, r20
-    add  r23, r0
-    ld   r21, -Y
-    rjmp aidx_part2
     .align 6
 
 I_PIDXB:
@@ -1954,7 +1958,7 @@ I_PIDXB:
 pidxb_error:
 pidx_error:
     ldi  r24, 2
-    jmp call_vm_error
+    jmp  call_vm_error
     .align 6
 
 I_PIDX:

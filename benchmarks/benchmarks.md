@@ -584,10 +584,10 @@ void main()
 </table>
 </details>
 
-<details><summary>sieve: 39.55x slowdown</summary>
+<details><summary>sieve: 38.65x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 14198</td><td>Cycles: 561590</td></tr>
+<tr><td>Cycles: 14198</td><td>Cycles: 548760</td></tr>
 <tr>
 <td>
 
