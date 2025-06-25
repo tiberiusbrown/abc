@@ -4148,12 +4148,11 @@ I_CALL2:
     cpi  r26, %[MAX_CALLS] * 3 - 3
     brsh call2_error
     ldi  r27, 0x06
-    nop
+    ldi  r18, 2
     cli
     out  %[spdr], r2
     in   r16, %[spdr]
     sei
-    ldi  r18, 2
     add  r6, r18
     adc  r7, r2
     adc  r8, r2
@@ -4162,17 +4161,16 @@ I_CALL2:
     st   X+, r8
     sts  %[vm_csp], r26
     ldi  r18, 3
-    nop
+    ldi  r19, 0
+    add  r6, r16
     in   r17, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
-    mov  r1, r17
-    lsl  r1
-    sbc  r1, r1
-    add  r6, r16
+    sbrc r17, 7
+    ldi  r19, 0xff
     adc  r7, r17
-    adc  r8, r1
+    adc  r8, r19
     rjmp jump_to_pc_delayed2
     .align 6
 

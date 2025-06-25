@@ -314,7 +314,7 @@
   127   jmp2
   144   call
   121   call1
-  128   call2
+  126   call2
   118   icall
   109   ret
    95   $get_pixel
