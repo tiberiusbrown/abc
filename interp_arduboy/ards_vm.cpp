@@ -1080,16 +1080,13 @@ I_GETL2:
     
 I_GETL4:
     cpi  r28, 251
-    brlo 1f
-getln_error:
-    ldi  r24, 5
-    call call_vm_error
-1:  st   Y+, r9
-    add  r6, r4
+    brsh getln_error
+    st   Y+, r9
     movw r26, r28
+    add  r6, r4
+    adc  r7, r2
     in   r0, %[spdr]
     out  %[spdr], r2
-    adc  r7, r2
     adc  r8, r2
     sub  r26, r0
     ld   r16, X+
@@ -1099,7 +1096,11 @@ getln_error:
     st   Y+, r16
     st   Y+, r17
     st   Y+, r18
-    dispatch
+    dispatch_noalign
+getln_error:
+    ldi  r24, 5
+    call call_vm_error
+    .align 6
 
 I_GETLN:
     lpm
