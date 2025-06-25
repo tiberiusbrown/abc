@@ -4051,14 +4051,14 @@ I_JMP2:
     out  %[spdr], r2
     in   r24, %[spdr]
     sei
-    rcall branch_delay_14
+    rcall branch_delay_13
+    add  r6, r24
     in   r25, %[spdr]
     fx_disable
     fx_enable
     out  %[spdr], r18
     sbrs r25, 7
     ldi  r19, 0x00
-    add  r6, r24
     adc  r7, r25
     adc  r8, r19
     rjmp jump_to_pc_delayed2

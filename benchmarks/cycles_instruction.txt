@@ -311,7 +311,7 @@
   110   bnzp1 (taken)
   144   jmp
   110   jmp1
-  127   jmp2
+  126   jmp2
   144   call
   121   call1
   126   call2
