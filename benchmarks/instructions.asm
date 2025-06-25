@@ -806,6 +806,11 @@ $L_main_start:
     popn 32
     sys debug_break
     
+    sys debug_break
+    alloc 32
+    sys debug_break    
+    popn 32
+    
     p0
     sys debug_break
     refl 1

@@ -531,10 +531,10 @@ void main()
 </table>
 </details>
 
-<details><summary>format: 0.38x slowdown (2.60x speedup)</summary>
+<details><summary>format: 0.38x slowdown (2.61x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 14057</td><td>Cycles: 5397</td></tr>
+<tr><td>Cycles: 14057</td><td>Cycles: 5396</td></tr>
 <tr>
 <td>
 

@@ -2201,11 +2201,11 @@ I_REFL:
     brlo 1f
     ldi  r24, 5
     call call_vm_error
-1:  in   r10, %[sreg]
+1:  nop
     cli
     out  %[spdr], r2
     in   r0, %[spdr]
-    out  %[sreg], r10
+    sei
     add  r6, r4
     adc  r7, r2
     adc  r8, r2
@@ -2213,8 +2213,7 @@ I_REFL:
     sub  r16, r0
     st   Y+, r16
     mov  r9, r17
-    rjmp .+0
-    rjmp .+0
+    nop
     rjmp refl_dispatch
 pslc_error:
     ldi  r24, 2
@@ -2253,6 +2252,7 @@ I_INC:
 dec_dispatch:
 refgb_dispatch:
 uaidx_dispatch:
+refl_dispatch:
     dispatch_noalign_reverse
     ; TODO: space here
     .align 6
@@ -2321,7 +2321,6 @@ I_PINC:
     st   -X, r16
 slc_dispatch:
 pidxb_dispatch:
-refl_dispatch:
     dispatch
     ; TODO: SPACE HERE
 

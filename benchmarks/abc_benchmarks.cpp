@@ -307,6 +307,7 @@ int abc_benchmarks()
         "getp",
         "getpn 2", "getpn 3", "getpn 4", "getpn 8", "getpn 16", "getpn 32",
         "pop", "pop2", "pop3", "pop4", "popn N",
+        "alloc N",
         "refl", "refgb",
         "getr", "getr2", "getrn 3", "getrn 4", "getrn 8", "getrn 16", "getrn 32",
         "setr", "setr2", "setrn 3", "setrn 4", "setrn 8", "setrn 16", "setrn 32",
