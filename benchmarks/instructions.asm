@@ -2750,80 +2750,80 @@ $L_main_13:
     
     p1
     push 8
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_filled_circle
     sys debug_break
     
     p1
     push 16
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_filled_circle
     sys debug_break
     
     p1
     push 32
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_filled_circle
     sys debug_break
     
     p1
     push 64
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_filled_circle
     sys debug_break
     
     p1
     push 8
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_circle
     sys debug_break
     
     p1
     push 16
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_circle
     sys debug_break
     
     p1
     push 32
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_circle
     sys debug_break
     
     p1
     push 64
-    p0
     push 32
     p0
     push 64
+    p0
     sys debug_break
     sys draw_circle
     sys debug_break

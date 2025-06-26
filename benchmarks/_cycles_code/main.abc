@@ -72,7 +72,7 @@ void main()
     
     for(u8 r = 4; r <= 64; r += 4)
     {
-        $debug_printf("$draw_filled_circle(62, 32, %u);\n", r);
+        $debug_printf("$draw_filled_circle(64, 32, %u);\n", r);
         $debug_break();
         $draw_filled_circle(64, 32, r, WHITE);
         $debug_break();
@@ -80,7 +80,7 @@ void main()
     
     for(u8 r = 4; r <= 64; r += 4)
     {
-        $debug_printf("$draw_circle(62, 32, %u);\n", r);
+        $debug_printf("$draw_circle(64, 32, %u);\n", r);
         $debug_break();
         $draw_circle(64, 32, r, WHITE);
         $debug_break();

@@ -936,32 +936,44 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
 
 void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, uint8_t color)
 {
-    uint8_t r0, r1, m0, m1, c0, c1;
+    uint8_t r0, m1, c0;
     uint8_t* buf;
     uint8_t buf_adv;
-    uint8_t rows;
-    uint8_t bot;
     uint8_t col;
-
-    r0 = yc;
-    yc += h;
-    c0 = SpritesABC_bitShiftLeftMaskUInt8(r0);
-    m1 = SpritesABC_bitShiftLeftMaskUInt8(yc);
-    yc -= 1;
+    uint8_t t;
 
     asm volatile(R"(
-            lsr %[r0]
-            lsr %[r0]
-            lsr %[r0]
-            lsr %[r1]
-            lsr %[r1]
-            lsr %[r1]
-        )"
-        : [r0] "+&r" (r0)
-        , [r1] "+&r" (yc)
-    );
 
-    asm volatile(R"(
+            mov  %[r0], %[r1]
+            add  %[r1], %[h]
+
+            ldi  %[c0], 1
+            sbrc %[r0], 1
+            ldi  %[c0], 4
+            sbrc %[r0], 0
+            lsl  %[c0]
+            sbrc %[r0], 2
+            swap %[c0]
+            neg  %[c0]
+
+            ldi  %[m1], 1
+            sbrc %[r1], 1
+            ldi  %[m1], 4
+            sbrc %[r1], 0
+            lsl  %[m1]
+            sbrc %[r1], 2
+            swap %[m1]
+            neg  %[m1]
+
+            dec  %[r1]
+
+            lsr  %[r0]
+            lsr  %[r0]
+            lsr  %[r0]
+            lsr  %[r1]
+            lsr  %[r1]
+            lsr  %[r1]
+
             ldi  %[buf_adv], 128
             mul  %[r0], %[buf_adv]
             movw %A[buf], r0
@@ -971,43 +983,50 @@ void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, 
             add  %A[buf], %[x]
             adc  %B[buf], __zero_reg__
             sub  %[buf_adv], %[w]
+
+            sub  %[r1], %[r0]
+            sbrc %[c0], 0
+            inc  %[r1]
+            sbrc %[m1], 0
+            inc  %[r1]
+            sbrc %[color], 0
+            ldi  %[color], 0xff
         )"
         : [buf]     "=&e" (buf)
         , [buf_adv] "=&d" (buf_adv)
-        : [r0]      "r"   (r0)
-        , [x]       "r"   (xc)
+        , [r0]      "=&r" (r0)
+        , [r1]      "+&r" (yc)
+        , [color]   "+&d" (color)
+        , [c0]      "=&d" (c0)
+        , [m1]      "=&d" (m1)
+        : [x]       "r"   (xc)
         , [w]       "r"   (w)
+        , [h]       "r"   (h)
         , [sBuffer] ""    (Arduboy2Base::sBuffer)
         );
 
-    rows = yc - r0; // middle rows + 1
-    if(c0 & 1) ++rows; // no top fragment
-    if(m1 & 1) ++rows; // no bottom fragment
-    if(color & 1) color = 0xff;
-
-    m0 = ~c0;
-    c1 = ~m1;
-    bot = c1;
-    //c0 &= color;
-    c1 &= color;
-
-#ifdef ARDUINO_ARCH_AVR
-    asm volatile(R"ASM(
-            tst  %[rows]
-            brne L%=_top
-            or   %[m1], %[m0]
-            and  %[c1], %[c0]
+    asm volatile(R"(
+            mov  %[t], %[c0]
+            com  %[t]
+            cpse %[rows], __zero_reg__
+            rjmp L%=_top
+            mov  r0, %[m1]
+            com  r0
+            or   %[m1], %[t]
+            mov  %[t], r0
+            and  %[t], %[c0]
+            and  %[t], %[color]
             rjmp L%=_bottom_loop
 
         L%=_top:
-            tst  %[m0]
+            ; Z flag from com t still set
             breq L%=_middle
             and  %[c0], %[color]
             mov  %[col], %[w]
 
         L%=_top_loop:
             ld   __tmp_reg__, %a[buf]
-            and  __tmp_reg__, %[m0]
+            and  __tmp_reg__, %[t]
             or   __tmp_reg__, %[c0]
             st   %a[buf]+, __tmp_reg__
             dec  %[col]
@@ -1054,78 +1073,29 @@ void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, 
             brne L%=_middle_loop
 
         L%=_bottom:
-            tst  %[bot]
+            mov  %[t], %[m1]
+            com  %[t]
             breq L%=_finish
+            and  %[t], %[color]
 
         L%=_bottom_loop:
             ld   __tmp_reg__, %a[buf]
             and  __tmp_reg__, %[m1]
-            or   __tmp_reg__, %[c1]
+            or   __tmp_reg__, %[t]
             st   %a[buf]+, __tmp_reg__
             dec  %[w]
             brne L%=_bottom_loop
 
         L%=_finish:
-        )ASM"
-        :
-        [buf]     "+&e" (buf),
-        [w]       "+&d" (w),
-        [rows]    "+&r" (rows),
-        [col]     "=&d" (col)
-        :
-        [buf_adv] "r"   (buf_adv),
-        [color]   "r"   (color),
-        [m0]      "r"   (m0),
-        [m1]      "r"   (m1),
-        [c0]      "r"   (c0),
-        [c1]      "r"   (c1),
-        [bot]     "r"   (bot)
+        )"
+        : [buf]     "+&e" (buf)
+        , [w]       "+&r" (w)
+        , [rows]    "+&r" (yc)
+        , [col]     "=&d" (col)
+        , [t]       "=&r" (t)
+        : [buf_adv] "r"   (buf_adv)
+        , [color]   "r"   (color)
+        , [m1]      "r"   (m1)
+        , [c0]      "r"   (c0)
         );
-#else
-    if(rows == 0)
-    {
-        m1 |= m0;
-        c1 &= c0;
-    }
-    else
-    {
-        if(m0 != 0)
-        {
-            col = w;
-            do
-            {
-                uint8_t t = *buf;
-                t &= m0;
-                t |= c0;
-                *buf++ = t;
-            } while(--col != 0);
-            buf += buf_adv;
-        }
-        
-        if(--rows != 0)
-        {
-            do
-            {
-                col = w;
-                do
-                {
-                    *buf++ = color;
-                } while(--col != 0);
-                buf += buf_adv;
-            } while(--rows != 0);
-        }
-    }
-    
-    if(bot)
-    {
-        do
-        {
-            uint8_t t = *buf;
-            t &= m1;
-            t |= c1;
-            *buf++ = t;
-        } while(--w != 0);
-    }
-    
-#endif
 }
