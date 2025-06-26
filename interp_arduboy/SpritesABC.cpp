@@ -944,8 +944,7 @@ void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, 
 
     asm volatile(R"(
 
-            mov  %[r0], %[r1]
-            add  %[r1], %[h]
+            add  %[r1], %[r0]
 
             ldi  %[c0], 1
             sbrc %[r0], 1
@@ -994,14 +993,13 @@ void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, 
         )"
         : [buf]     "=&e" (buf)
         , [buf_adv] "=&d" (buf_adv)
-        , [r0]      "=&r" (r0)
-        , [r1]      "+&r" (yc)
+        , [r0]      "+&r" (yc)
+        , [r1]      "+&r" (h)
         , [color]   "+&d" (color)
         , [c0]      "=&d" (c0)
         , [m1]      "=&d" (m1)
         : [x]       "r"   (xc)
         , [w]       "r"   (w)
-        , [h]       "r"   (h)
         , [sBuffer] ""    (Arduboy2Base::sBuffer)
         );
 
@@ -1090,7 +1088,7 @@ void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, 
         )"
         : [buf]     "+&e" (buf)
         , [w]       "+&r" (w)
-        , [rows]    "+&r" (yc)
+        , [rows]    "+&r" (h)
         , [col]     "=&d" (col)
         , [t]       "=&r" (t)
         : [buf_adv] "r"   (buf_adv)
