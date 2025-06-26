@@ -254,7 +254,7 @@ int abc_benchmarks()
     if(!fout) return 1;
     {
         printf("\n");
-        out_txt("Platformer benchmark...\n");
+        out_txt("Running platformer benchmark...\n");
         auto binary = compile(PLATFORMER_DIR "/benchmark.abc");
         assert(!binary.empty());
         {
@@ -272,6 +272,8 @@ int abc_benchmarks()
     }
     fclose(fout);
 #endif
+
+    printf("Running instruction benchmarks...\n");
 
     fout = fopen(BENCHMARKS_DIR "/cycles_instruction.txt", "w");
     if(!fout) return 1;
@@ -454,6 +456,8 @@ int abc_benchmarks()
     }
 
     fclose(fout);
+
+    printf("Running code benchmarks...\n");
 
     fout = fopen(BENCHMARKS_DIR "/cycles_code.txt", "w");
     if(!fout) return 1;

@@ -936,51 +936,60 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
 
 void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, uint8_t color)
 {
-    uint8_t y1 = yc + h;
+    uint8_t r0, r1, m0, m1, c0, c1;
+    uint8_t* buf;
+    uint8_t buf_adv;
+    uint8_t rows;
+    uint8_t bot;
+    uint8_t col;
 
-    uint8_t c0 = SpritesABC_bitShiftLeftMaskUInt8(yc); // 11100000
-    uint8_t m1 = SpritesABC_bitShiftLeftMaskUInt8(y1); // 11000000
-    uint8_t m0 = ~c0; // 00011111
-    uint8_t c1 = ~m1; // 00111111
+    r0 = yc;
+    yc += h;
+    c0 = SpritesABC_bitShiftLeftMaskUInt8(r0);
+    m1 = SpritesABC_bitShiftLeftMaskUInt8(yc);
+    yc -= 1;
 
-    uint8_t r0 = yc;
-    uint8_t r1 = y1 - 1;
-    asm volatile(
-        "lsr %[r0]\n"
-        "lsr %[r0]\n"
-        "lsr %[r0]\n"
-        "lsr %[r1]\n"
-        "lsr %[r1]\n"
-        "lsr %[r1]\n"
-        : [r0] "+&r" (r0),
-          [r1] "+&r" (r1));
+    asm volatile(R"(
+            lsr %[r0]
+            lsr %[r0]
+            lsr %[r0]
+            lsr %[r1]
+            lsr %[r1]
+            lsr %[r1]
+        )"
+        : [r0] "+&r" (r0)
+        , [r1] "+&r" (yc)
+    );
 
-    uint8_t* buf = Arduboy2Base::sBuffer;
-    asm volatile(
-        "mul %[r0], %[c128]\n"
-        "add %A[buf], r0\n"
-        "adc %B[buf], r1\n"
-        "clr __zero_reg__\n"
-        "add %A[buf], %[x]\n"
-        "adc %B[buf], __zero_reg__\n"
-        :
-        [buf]  "+&e" (buf)
-        :
-        [r0]   "r"   (r0),
-        [x]    "r"   (xc),
-        [c128] "r"   ((uint8_t)128)
+    asm volatile(R"(
+            ldi  %[buf_adv], 128
+            mul  %[r0], %[buf_adv]
+            movw %A[buf], r0
+            clr  __zero_reg__
+            subi %A[buf], lo8(-(%[sBuffer]))
+            sbci %B[buf], hi8(-(%[sBuffer]))
+            add  %A[buf], %[x]
+            adc  %B[buf], __zero_reg__
+            sub  %[buf_adv], %[w]
+        )"
+        : [buf]     "=&e" (buf)
+        , [buf_adv] "=&d" (buf_adv)
+        : [r0]      "r"   (r0)
+        , [x]       "r"   (xc)
+        , [w]       "r"   (w)
+        , [sBuffer] ""    (Arduboy2Base::sBuffer)
         );
 
-    uint8_t rows = r1 - r0; // middle rows + 1
-    uint8_t bot = c1;
+    rows = yc - r0; // middle rows + 1
     if(c0 & 1) ++rows; // no top fragment
     if(m1 & 1) ++rows; // no bottom fragment
-    if(color) color = 0xff;
-    c0 &= color;
-    c1 &= color;
+    if(color & 1) color = 0xff;
 
-    uint8_t col;
-    uint8_t buf_adv = 128 - w;
+    m0 = ~c0;
+    c1 = ~m1;
+    bot = c1;
+    //c0 &= color;
+    c1 &= color;
 
 #ifdef ARDUINO_ARCH_AVR
     asm volatile(R"ASM(
@@ -993,6 +1002,7 @@ void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, 
         L%=_top:
             tst  %[m0]
             breq L%=_middle
+            and  %[c0], %[color]
             mov  %[col], %[w]
 
         L%=_top_loop:
