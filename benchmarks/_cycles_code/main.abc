@@ -41,6 +41,34 @@ void main()
     $debug_break();
     $get_pixel(3, 3);
     $debug_break();
+
+    for(u8 w = 4; w != 0; w <<= 1)
+    {
+        for(u8 h = 4; h <= 64; h <<= 1)
+        {
+            for(u8 y = 0; y <= 4; y += 4)
+            {
+                $debug_printf("$draw_filled_rect(0, %u, %u, %u);\n", y, w, h);
+                $debug_break();
+                $draw_filled_rect(0, y, w, h, WHITE);
+                $debug_break();
+            }
+        }
+    }
+
+    for(u8 w = 4; w != 0; w <<= 1)
+    {
+        for(u8 h = 4; h <= 64; h <<= 1)
+        {
+            for(u8 y = 0; y <= 4; y += 4)
+            {
+                $debug_printf("$draw_rect(0, %u, %u, %u);\n", y, w, h);
+                $debug_break();
+                $draw_rect(0, y, w, h, WHITE);
+                $debug_break();
+            }
+        }
+    }
     
     $debug_printf("$display()\n");
     $debug_break();

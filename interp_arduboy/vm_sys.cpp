@@ -694,11 +694,35 @@ static void sys_draw_rect()
 {
 #if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
+#if 0
+    int16_t x;
+    int16_t y;
+    uint8_t w;
+    uint8_t h;
+    uint8_t c;
+    asm volatile(R"(
+            ld %B[x], -%a[p]
+            ld %A[x], -%a[p]
+            ld %B[y], -%a[p]
+            ld %A[y], -%a[p]
+            ld %[w], -%a[p]
+            ld %[h], -%a[p]
+            ld %[c], -%a[p]
+        )"
+        : [p] "+&e" (ptr)
+        , [x] "=&r" (x)
+        , [y] "=&r" (y)
+        , [w] "=&r" (w)
+        , [h] "=&r" (h)
+        , [c] "=&r" (c)
+    );
+#else
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t w = vm_pop<uint8_t>(ptr);
     uint8_t h = vm_pop<uint8_t>(ptr);
     uint8_t c = vm_pop<uint8_t>(ptr);
+#endif
     vm_pop_end(ptr);
     SpritesABC::fillRect(x, y, w, 1, c);
     SpritesABC::fillRect(x, y, 1, h, c);
