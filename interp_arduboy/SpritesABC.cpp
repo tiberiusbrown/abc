@@ -322,56 +322,10 @@ void SpritesABC::drawBasicFX(
             cp   r20, r8
             breq .+2
             inc  r11
-            rjmp L%=_begin
 
         ;
         ;   RENDERING
         ;
-
-        L%=_seek:
-
-            ; seek subroutine
-            cbi  %[fxport], %[fxbit]
-            ldi  r30, 3
-            out  %[spdr], r30
-            clr  __zero_reg__
-            add  r14, r20
-            adc  r15, __zero_reg__
-            adc  r16, __zero_reg__
-            sbrc r12, 0
-            add  r14, r20
-            sbrc r12, 0
-            adc  r15, __zero_reg__
-            sbrc r12, 0
-            adc  r16, __zero_reg__
-            clr  r11
-            cp   r20, r8
-            breq .+2
-            inc  r11
-            lpm
-            out  %[spdr], r16
-            rcall L%=_delay_17
-            out  %[spdr], r15
-            rcall L%=_delay_17
-            out  %[spdr], r14
-            rcall L%=_delay_16
-            out  %[spdr], __zero_reg__
-            rjmp .+0
-            rjmp .+0
-            ret
-            
-        L%=_delay_17:
-            nop
-        L%=_delay_16:
-            rjmp .+0
-        L%=_delay_14:
-            nop
-        L%=_delay_13:
-            lpm
-        L%=_delay_10:
-            lpm
-        L%=_delay_7:
-            ret
 
         L%=_begin:
 
@@ -450,7 +404,6 @@ void SpritesABC::drawBasicFX(
             ; only seek again if necessary
             tst  r11
             breq L%=_middle_skip_reseek
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
 
@@ -550,7 +503,6 @@ void SpritesABC::drawBasicFX(
             ; seek if needed
             tst  r11
             breq L%=_bottom_dispatch
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -653,7 +605,6 @@ void SpritesABC::drawBasicFX(
             ; only seek again if necessary
             tst  r11
             breq L%=_middle_skip_reseek_selfmask
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -699,7 +650,6 @@ void SpritesABC::drawBasicFX(
             ; seek if needed
             tst  r11
             breq L%=_bottom_loop_selfmask
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -772,7 +722,6 @@ void SpritesABC::drawBasicFX(
             ; only seek again if necessary
             tst  r11
             breq L%=_middle_skip_reseek_erase
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -819,7 +768,6 @@ void SpritesABC::drawBasicFX(
             ; seek if needed
             tst  r11
             breq L%=_bottom_loop_pre_erase
-            in   r0, %[spsr]
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -849,7 +797,6 @@ void SpritesABC::drawBasicFX(
 
             clr  __zero_reg__
             sbi  %[fxport], %[fxbit]
-            in   r0, %[spsr]
             
         L%=_end:
 
@@ -872,6 +819,51 @@ void SpritesABC::drawBasicFX(
             
         L%=_end_postpop:
             
+            ret
+
+        L%=_seek:
+
+            ; seek subroutine
+            cbi  %[fxport], %[fxbit]
+            ldi  r30, 3
+            out  %[spdr], r30
+            clr  __zero_reg__
+            add  r14, r20
+            adc  r15, __zero_reg__
+            adc  r16, __zero_reg__
+            sbrc r12, 0
+            add  r14, r20
+            sbrc r12, 0
+            adc  r15, __zero_reg__
+            sbrc r12, 0
+            adc  r16, __zero_reg__
+            clr  r11
+            cp   r20, r8
+            breq .+2
+            inc  r11
+            lpm
+            out  %[spdr], r16
+            rcall L%=_delay_17
+            out  %[spdr], r15
+            rcall L%=_delay_17
+            out  %[spdr], r14
+            rcall L%=_delay_16
+            out  %[spdr], __zero_reg__
+            rjmp .+0
+            rjmp .+0
+            ret
+            
+        L%=_delay_17:
+            nop
+        L%=_delay_16:
+            rjmp .+0
+        L%=_delay_14:
+            nop
+        L%=_delay_13:
+            lpm
+        L%=_delay_10:
+            lpm
+        L%=_delay_7:
             ret
 
         )ASM"

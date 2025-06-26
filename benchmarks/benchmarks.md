@@ -652,10 +652,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.31x slowdown (3.20x speedup)</summary>
+<details><summary>text: 0.31x slowdown (3.21x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 64814</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 64514</td></tr>
 <tr>
 <td>
 
@@ -710,10 +710,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite: 2.41x slowdown</summary>
+<details><summary>tilessprite: 1.34x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 44482</td><td>Cycles: 107386</td></tr>
+<tr><td>Cycles: 90616</td><td>Cycles: 121353</td></tr>
 <tr>
 <td>
 
@@ -730,6 +730,9 @@ static constexpr uint8_t SPRITE[] PROGMEM = {
     0x3c, 0x7e, 0xdb, 0xbf, 0xbf, 0xdb, 0x7e, 0x3c
 };
 
+int offx = 3;
+int offy = 2;
+
 int main()
 {
     // for accurate comparison, prevent inlining with extra call here
@@ -740,12 +743,8 @@ int main()
     
     bool color = false;
     for(u8 y = 0; y < 8; y = y + 1)
-    {
         for(u8 x = 0; x < 16; x = x + 1)
-        {
-            Sprites::drawOverwrite(x * 8, y * 8, SPRITE, 0);
-        }
-    }
+            Sprites::drawOverwrite(x * 8 + offx, y * 8 + offy, SPRITE, 0);
 
     debug_break();
 }
@@ -768,19 +767,17 @@ constexpr sprites SPRITE = sprites{
     ..XXXX..
 };
 
+int offx = 3;
+int offy = 2;
+
 void main()
 {
     
     $debug_break();
     
     for(u8 y = 0; y < 8; ++y)
-    {
         for(u8 x = 0; x < 16; ++x)
-        {
-            $draw_sprite(
-                u8(x * 8), u8(y * 8), SPRITE, 0);
-        }
-    }
+            $draw_sprite(x * 8 + offx, y * 8 + offy, SPRITE, 0);
 
     $debug_break();
 }
@@ -792,10 +789,10 @@ void main()
 </table>
 </details>
 
-<details><summary>tilessprite16: 1.45x slowdown</summary>
+<details><summary>tilessprite16: 0.65x slowdown (1.53x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 26978</td><td>Cycles: 39246</td></tr>
+<tr><td>Cycles: 65088</td><td>Cycles: 42438</td></tr>
 <tr>
 <td>
 
@@ -815,6 +812,9 @@ static constexpr uint8_t SPRITE[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
+int offx = 3;
+int offy = 2;
+
 int main()
 {
     // for accurate comparison, prevent inlining with extra call here
@@ -825,12 +825,8 @@ int main()
     
     bool color = false;
     for(u8 y = 0; y < 4; y = y + 1)
-    {
         for(u8 x = 0; x < 8; x = x + 1)
-        {
-            Sprites::drawOverwrite(x * 16, y * 16, SPRITE, 0);
-        }
-    }
+            Sprites::drawOverwrite(x * 16 + offx, y * 16 + offy, SPRITE, 0);
 
     debug_break();
 }
@@ -861,18 +857,16 @@ constexpr sprites SPRITE = sprites{
     ........XXXXXXXX
 };
 
+int offx = 3;
+int offy = 2;
+
 void main()
 {
     $debug_break();
     
     for(u8 y = 0; y < 4; ++y)
-    {
         for(u8 x = 0; x < 8; ++x)
-        {
-            $draw_sprite(
-                u8(x * 16), u8(y * 16), SPRITE, 0);
-        }
-    }
+            $draw_sprite(x * 16 + offx, y * 16 + offy, SPRITE, 0);
 
     $debug_break();
 }

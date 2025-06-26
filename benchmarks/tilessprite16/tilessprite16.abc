@@ -18,18 +18,16 @@ constexpr sprites SPRITE = sprites{
     ........XXXXXXXX
 };
 
+int offx = 3;
+int offy = 2;
+
 void main()
 {
     $debug_break();
     
     for(u8 y = 0; y < 4; ++y)
-    {
         for(u8 x = 0; x < 8; ++x)
-        {
-            $draw_sprite(
-                u8(x * 16), u8(y * 16), SPRITE, 0);
-        }
-    }
+            $draw_sprite(x * 16 + offx, y * 16 + offy, SPRITE, 0);
 
     $debug_break();
 }

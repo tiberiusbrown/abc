@@ -13,6 +13,9 @@ static constexpr uint8_t SPRITE[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 };
 
+int offx = 3;
+int offy = 2;
+
 int main()
 {
     // for accurate comparison, prevent inlining with extra call here
@@ -23,12 +26,8 @@ int main()
     
     bool color = false;
     for(u8 y = 0; y < 4; y = y + 1)
-    {
         for(u8 x = 0; x < 8; x = x + 1)
-        {
-            Sprites::drawOverwrite(x * 16, y * 16, SPRITE, 0);
-        }
-    }
+            Sprites::drawOverwrite(x * 16 + offx, y * 16 + offy, SPRITE, 0);
 
     debug_break();
 }
