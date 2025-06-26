@@ -2013,10 +2013,33 @@ static void sys_memset()
 static void sys_memcpy()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    uint16_t n0;
+    uint16_t b0;
+    uint16_t n1;
+    uint16_t b1;
+    asm volatile(R"(
+            ld %B[n0], -%a[p]
+            ld %A[n0], -%a[p]
+            ld %B[b0], -%a[p]
+            ld %A[b0], -%a[p]
+            ld %B[n1], -%a[p]
+            ld %A[n1], -%a[p]
+            ld %B[b1], -%a[p]
+            ld %A[b1], -%a[p]
+        )"
+        : [p]  "+&e" (ptr)
+        , [n0] "=&r" (n0)
+        , [n1] "=&r" (n1)
+        , [b0] "=&r" (b0)
+        , [b1] "=&r" (b1)
+    );
+#else
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
     uint16_t n1 = vm_pop<uint16_t>(ptr);
     uint16_t b1 = vm_pop<uint16_t>(ptr);
+#endif
     vm_pop_end(ptr);
     if(n0 != n1)
         vm_error(ards::ERR_CPY);
@@ -2029,10 +2052,35 @@ static void sys_memcpy()
 static void sys_memcpy_P()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    uint16_t n0;
+    uint16_t b0;
+    uint24_t n1;
+    uint24_t b1;
+    asm volatile(R"(
+            ld %B[n0], -%a[p]
+            ld %A[n0], -%a[p]
+            ld %B[b0], -%a[p]
+            ld %A[b0], -%a[p]
+            ld %C[n1], -%a[p]
+            ld %B[n1], -%a[p]
+            ld %A[n1], -%a[p]
+            ld %C[b1], -%a[p]
+            ld %B[b1], -%a[p]
+            ld %A[b1], -%a[p]
+        )"
+        : [p]  "+&e" (ptr)
+        , [n0] "=&r" (n0)
+        , [n1] "=&r" (n1)
+        , [b0] "=&r" (b0)
+        , [b1] "=&r" (b1)
+    );
+#else
     uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
+#endif
     vm_pop_end(ptr);
     FX::disable();
     if(n0 != n1)
