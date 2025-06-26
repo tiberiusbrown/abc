@@ -888,27 +888,6 @@ void SpritesABC::drawBasicFX(
         );
 }
 
-// from Mr. Blinky's ArduboyFX library
-[[gnu::always_inline]]
-static uint8_t SpritesABC_bitShiftLeftMaskUInt8(uint8_t bit)
-{
-    uint8_t result;
-    asm volatile(
-        "ldi    %[result], 1    \n" // 0 = 000 => 1111 1111 = -1
-        "sbrc   %[bit], 1       \n" // 1 = 001 => 1111 1110 = -2
-        "ldi    %[result], 4    \n" // 2 = 010 => 1111 1100 = -4
-        "sbrc   %[bit], 0       \n" // 3 = 011 => 1111 1000 = -8
-        "lsl    %[result]       \n"
-        "sbrc   %[bit], 2       \n" // 4 = 100 => 1111 0000 = -16
-        "swap   %[result]       \n" // 5 = 101 => 1110 0000 = -32
-        "neg    %[result]       \n" // 6 = 110 => 1100 0000 = -64
-        :[result] "=&d" (result)    // 7 = 111 => 1000 0000 = -128
-        :[bit]    "r"   (bit)
-        :
-    );
-    return result;
-}
-
 void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t color)
 {
     if(x >= 128) return;
@@ -917,6 +896,41 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
     if(y + h <= 0) return;
     if(w == 0 || h == 0) return;
 
+#if 1
+    uint8_t t;
+    asm volatile(R"(
+            sbrs %B[y], 7
+            rjmp 1f
+            add  %[h], %A[y]
+            clr  %A[y]
+        1:
+            sbrs %B[x], 7
+            rjmp 1f
+            add  %[w], %A[x]
+            clr  %A[x]
+        1:
+            ldi  %[t], 64
+            sub  %[t], %A[y]
+            cp   %[h], %[t]
+            brlo 1f
+            mov  %[h], %[t]
+        1:
+            ldi  %[t], 128
+            sub  %[t], %A[x]
+            cp   %[w], %[t]
+            brlo 1f
+            mov  %[w], %[t]
+        1:
+        )"
+        : [t] "=&d" (t)
+        , [x] "+&r" (x)
+        , [y] "+&r" (y)
+        , [w] "+&r" (w)
+        , [h] "+&r" (h)
+    );
+
+    fillRect_clipped((uint8_t)x, (uint8_t)y, w, h, color);
+#else
     // clip coords
     uint8_t xc = x;
     uint8_t yc = y;
@@ -932,6 +946,8 @@ void SpritesABC::fillRect(int16_t x, int16_t y, uint8_t w, uint8_t h, uint8_t co
         w = 128 - xc;
 
     fillRect_clipped(xc, yc, w, h, color);
+#endif
+
 }
 
 void SpritesABC::fillRect_clipped(uint8_t xc, uint8_t yc, uint8_t w, uint8_t h, uint8_t color)
