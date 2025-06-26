@@ -97,6 +97,30 @@ void main()
         }
     }
     
+    for(u8 n = 0; n <= 128; n += 8)
+    {
+        $debug_printf("$draw_hline(x=0, w=%u);\n", n);
+        $debug_break();
+        $draw_hline(0, 0, n, WHITE);
+        $debug_break();
+        $debug_printf("$draw_hline(x=1, w=%u);\n", n);
+        $debug_break();
+        $draw_hline(1, 0, n, WHITE);
+        $debug_break();
+    }
+    
+    for(u8 n = 0; n <= 64; n += 4)
+    {
+        $debug_printf("$draw_vline(y=0, h=%u);\n", n);
+        $debug_break();
+        $draw_vline(0, 0, n, WHITE);
+        $debug_break();
+        $debug_printf("$draw_vline(y=1, h=%u);\n", n);
+        $debug_break();
+        $draw_vline(0, 1, n, WHITE);
+        $debug_break();
+    }
+    
     $debug_printf("$display()\n");
     $debug_break();
     $display();
