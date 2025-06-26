@@ -425,7 +425,7 @@ void wait_for_frame_timing()
 #if ABC_SHADES == 2
 static void sys_display()
 {
-    (void)FX::readEnd();
+    FX::disable();
     FX::display(true);
     wait_for_frame_timing();
     seek_to_pc();
@@ -435,7 +435,7 @@ static void sys_display()
 #if ABC_SHADES == 2
 static void sys_display_noclear()
 {
-    (void)FX::readEnd();
+    FX::disable();
     FX::display(false);
     wait_for_frame_timing();
     seek_to_pc();
@@ -1146,7 +1146,7 @@ static void sys_draw_sprite()
     uint16_t frame = vm_pop<uint16_t>(ptr);
 #endif
     vm_pop_end(ptr);
-    FX::readEnd();
+    FX::disable();
     shades_draw_sprite(x, y, img, frame);
     seek_to_pc();
 #endif
@@ -1256,7 +1256,7 @@ static void sys_draw_tilemap()
     uint24_t tm = vm_pop<uint24_t>(ptr);
 #endif
     vm_pop_end(ptr);
-    FX::readEnd();
+    FX::disable();
 
     if(x >= 128) goto end;
     if(y >=  64) goto end;
@@ -1396,7 +1396,7 @@ static void sys_tilemap_get()
     uint24_t tm = vm_pop<uint24_t>(ptr);
     uint16_t x = vm_pop<uint16_t>(ptr);
     uint16_t y = vm_pop<uint16_t>(ptr);
-    FX::readEnd();
+    FX::disable();
 
     FX::seekData(tm);
     uint8_t format = FX::readPendingUInt8();
@@ -1618,7 +1618,7 @@ static void sys_wrap_text()
     uint8_t  w  = vm_pop<uint8_t>(ptr);
 #endif
     uint24_t font = ards::vm.text_font;
-    (void)FX::readEnd();
+    FX::disable();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
 
@@ -1672,7 +1672,7 @@ static void sys_draw_text()
     uint16_t tb   = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     
-    (void)FX::readEnd();
+    FX::disable();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
 #if ABC_SHADES == 2
@@ -1716,7 +1716,7 @@ static void sys_draw_text_P()
     uint24_t tb   = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
     
-    (void)FX::readEnd();
+    FX::disable();
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
 #if ABC_SHADES == 2
@@ -1762,7 +1762,7 @@ static void sys_text_width()
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
     
-    (void)FX::readEnd();
+    FX::disable();
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
     uint16_t wmax = 0;
@@ -1796,7 +1796,7 @@ static void sys_text_width_P()
     if(uint8_t(font >> 16) == 0xff)
         vm_error(ards::ERR_FNT);
     
-    (void)FX::readEnd();
+    FX::disable();
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
     uint16_t wmax = 0;
@@ -1851,7 +1851,7 @@ static void sys_strlen_P()
     uint24_t t = 0;
     if(n != 0)
     {
-        (void)FX::readEnd();
+        FX::disable();
         fx_seek_data(b);
         while(FX::readPendingUInt8() != '\0')
         {
@@ -1895,7 +1895,7 @@ static void sys_strcmp_P()
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    (void)FX::readEnd();
+    FX::disable();
     fx_seek_data(b1);
     uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
     uint8_t c0, c1;
@@ -1921,7 +1921,7 @@ static void sys_strcmp_PP()
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    (void)FX::readEnd();
+    FX::disable();
     uint8_t c0, c1;
     for(;;)
     {
@@ -1971,7 +1971,7 @@ static void sys_strcpy_P()
     uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
     vm_pop_end(ptr);
-    (void)FX::readEnd();
+    FX::disable();
     fx_seek_data(b1);
     uint16_t nr = n0;
     uint16_t br = b0;
@@ -2381,7 +2381,7 @@ static void sys_format()
     uint16_t dn = vm_pop<uint16_t>(ptr);
     uint16_t db = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    (void)FX::readEnd();
+    FX::disable();
     
     format_user_buffer user;
     user.p = reinterpret_cast<char*>(db);
@@ -2397,7 +2397,7 @@ static void sys_format()
 
 static void sys_debug_printf()
 {
-    (void)FX::readEnd();
+    FX::disable();
     
     format_exec(format_exec_debug_printf);
     
@@ -2425,7 +2425,7 @@ static void sys_draw_textf()
         shades_draw_chars_begin(x, y);
     }
 #endif
-    (void)FX::readEnd();
+    FX::disable();
 
     {
         uint8_t t = uint8_t(ards::vm.text_font >> 16);
@@ -2458,7 +2458,7 @@ static void tones_play_helper(void(*f)(uint24_t))
     if(!Arduboy2Audio::enabled())
         return;
     
-    (void)FX::readEnd();
+    FX::disable();
     
     f(song);
     
@@ -2535,7 +2535,7 @@ constexpr size_t MAX_SAVE_SIZE = (ABC_SHADES == 2 ? 1024 : 256);
 static void sys_save_exists()
 {
     uint16_t save_size;
-    (void)FX::readEnd();
+    FX::disable();
     fx_seek_data(10);
     union
     {
@@ -2558,7 +2558,7 @@ static void sys_save_exists()
 static void sys_save()
 {
     uint16_t save_size;
-    (void)FX::readEnd();
+    FX::disable();
     FX::seekData(10);
     union
     {
@@ -2575,7 +2575,7 @@ static void sys_save()
 
 static void sys_load()
 {
-    (void)FX::readEnd();
+    FX::disable();
     fx_seek_data(10);
     union
     {
