@@ -127,12 +127,18 @@ uint8_t draw_char(uint8_t x, uint8_t y, char c)
 #if 1
     if(x > 125) return 3;
     uint8_t i;
-    for(i = 1; i <= 4; ++i)
+    for(i = 1; i <= 4; ++i, ++x)
     {
         uint8_t t = uint8_t(p) & 0x1f;
         if(t == 0) break;
-        for(uint8_t j = y; t; ++j, t >>= 1)
-            if(t & 1) Arduboy2Base::drawPixel(x + i - 1, j, WHITE);
+        uint8_t j = y;
+        do
+        {
+            if(t & 1)
+                Arduboy2Base::drawPixel(x, j, WHITE);
+            ++j;
+        }
+        while((t /= 2u) != 0);
         p >>= 5;
     }
     return i;
@@ -156,7 +162,18 @@ uint8_t draw_text(uint8_t x, uint8_t y, char const* t, bool prog)
 {
     for(;;)
     {
-        char c = prog ? pgm_read_byte(t++) : *t++;
+        char c;
+        asm volatile(R"(
+                sbrs %[p], 0
+                ld   %[c], %a[t]+
+                sbrc %[p], 0
+                lpm  %[c], %a[t]+
+            )"
+            : [c] "=&r" (c)
+            , [t] "+&z" (t)
+            : [p] "r"   (prog)
+        );
+        //char c = prog ? pgm_read_byte_inc(t) : ld_inc(t);
         if(c == '\0') return x;
         x += draw_char(x, y, c);
     }
