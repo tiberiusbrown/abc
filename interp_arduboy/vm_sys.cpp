@@ -30,7 +30,7 @@ extern sys_func_t const SYS_FUNCS[] PROGMEM;
 extern "C" void vm_error(ards::error_t e);
 
 template<class T>
-__attribute__((always_inline)) inline uint8_t ld_inc(T*& p)
+[[gnu::always_inline]] inline uint8_t ld_inc(T*& p)
 {
     uint8_t t;
     asm volatile("ld %[t], %a[p]+\n" : [t]"=&r"(t), [p]"+&e"(p));
@@ -38,7 +38,7 @@ __attribute__((always_inline)) inline uint8_t ld_inc(T*& p)
 }
 
 template<class T>
-__attribute__((always_inline)) inline uint8_t ld_predec(T*& p)
+[[gnu::always_inline]] inline uint8_t ld_predec(T*& p)
 {
     uint8_t t;
     asm volatile("ld %[t], -%a[p]\n" : [t]"=&r"(t), [p]"+&e"(p));
@@ -46,12 +46,12 @@ __attribute__((always_inline)) inline uint8_t ld_predec(T*& p)
 }
 
 template<class T>
-__attribute__((always_inline)) inline void st_inc(T*& p, uint8_t t)
+[[gnu::always_inline]] inline void st_inc(T*& p, uint8_t t)
 {
     asm volatile("st %a[p]+, %[t]\n" : [p]"+&e"(p) : [t]"r"(t));
 }
 
-__attribute__((always_inline)) inline uint8_t* vm_pop_begin()
+[[gnu::always_inline]] inline uint8_t* vm_pop_begin()
 {
     uint8_t* r;
     asm volatile(
@@ -62,13 +62,13 @@ __attribute__((always_inline)) inline uint8_t* vm_pop_begin()
     return r;
 }
 
-__attribute__((always_inline)) inline void vm_pop_end(uint8_t* ptr)
+[[gnu::always_inline]] inline void vm_pop_end(uint8_t* ptr)
 {
     ards::vm.sp = (uint8_t)(uintptr_t)ptr;
 }
 
 template<class T>
-__attribute__((always_inline)) inline T vm_pop(uint8_t*& ptr)
+[[gnu::always_inline]] inline T vm_pop(uint8_t*& ptr)
 {
     union
     {
@@ -113,7 +113,7 @@ inline void vm_push_n(uint8_t* ptr, byte_storage<N> x)
 }
 
 template<class T>
-__attribute__((always_inline))
+[[gnu::always_inline]]
 void vm_push_unsafe(uint8_t*& ptr, T x)
 {
     union
@@ -337,7 +337,7 @@ static void fx_read_byte_inc_helper(uint24_t& fb)
     );
 }
 
-__attribute__((always_inline))
+[[gnu::always_inline]]
 static uint8_t fx_read_byte_inc(uint24_t& fb)
 {
     uint8_t r;
@@ -445,12 +445,68 @@ static void sys_display_noclear()
 static void sys_draw_pixel()
 {
 #if ABC_SHADES == 2
+#if 0
+    int16_t x;// = vm_pop<int16_t>(ptr);
+    int16_t y;// = vm_pop<int16_t>(ptr);
+    uint8_t color;// = vm_pop<uint8_t>(ptr);
+    //if(uint16_t(x) >= WIDTH || uint16_t(y) >= HEIGHT)
+    //    return;
+    uint8_t* p;
+    asm volatile(R"(
+            lds  %A[p], %[vm_sp]
+            ldi  %B[p], 1
+            ld   %B[x], -%a[p]
+            ld   %A[x], -%a[p]
+            ld   %B[y], -%a[p]
+            ld   %A[y], -%a[p]
+            ld   %[c], -%a[p]
+            sts  %[vm_sp], %A[p]
+
+            cpi  %A[x], 128
+            cpc  %B[x], __zero_reg__
+            brsh 1f
+            cpi  %A[y], 64
+            cpc  %B[y], __zero_reg__
+            brsh 1f
+
+            ldi  %B[y], 1
+            sbrc %A[y], 1
+            ldi  %B[y], 4
+            sbrc %A[y], 0
+            lsl  %B[y]
+            sbrc %A[y], 2
+            swap %B[y]
+            ldi  %A[p], 128/8
+            andi %A[y], 0xf8
+            mul  %A[y], %A[p]
+            movw %A[p], r0
+            subi %A[p], lo8(-(%[buf]))
+            sbci %B[p], hi8(-(%[buf]))
+            clr  __zero_reg__
+            add  %A[p], %A[x]
+            adc  %B[p], __zero_reg__
+            ld   r0, %a[p]
+            or   r0, %B[y]
+            sbrs %[c], 0
+            eor  r0, %B[y]
+            st   %a[p], r0
+        1:
+        )"
+        : [p]     "+&e" (p)
+        , [x]     "=&d" (x)
+        , [y]     "=&d" (y)
+        , [c]     "=&r" (color)
+        : [buf]   ""    (Arduboy2Base::sBuffer)
+        , [vm_sp] ""    (&ards::vm.sp)
+    );
+#else
     auto ptr = vm_pop_begin();
     int16_t x = vm_pop<int16_t>(ptr);
     int16_t y = vm_pop<int16_t>(ptr);
     uint8_t color = vm_pop<uint8_t>(ptr);
     vm_pop_end(ptr);
     Arduboy2Base::drawPixel(x, y, color);
+#endif
 #else
     ards::vm.sp -= 5;
 #endif
@@ -459,6 +515,59 @@ static void sys_draw_pixel()
 static void sys_get_pixel()
 {
 #if ABC_SHADES == 2
+#if 1
+    uint8_t x;
+    uint8_t y;
+    uint8_t m;
+    uint8_t color;
+    uint8_t* p;
+    uint8_t* b;
+    asm volatile(R"(
+            lds  %A[p], %[vm_sp]
+            ldi  %B[p], 1
+            ld   %[x], -%a[p]
+            ld   %[y], -%a[p]
+
+            clr  %[c]
+            cpi  %[x], 128
+            brsh 1f
+            cpi  %[y], 64
+            brsh 1f
+
+            ldi  %[m], 1
+            sbrc %[y], 1
+            ldi  %[m], 4
+            sbrc %[y], 0
+            lsl  %[m]
+            sbrc %[y], 2
+            swap %[m]
+            ldi  %A[b], 128/8
+            andi %[y], 0xf8
+            mul  %[y], %A[b]
+            movw %A[b], r0
+            clr  __zero_reg__
+            subi %A[b], lo8(-(%[buf]))
+            sbci %B[b], hi8(-(%[buf]))
+            add  %A[b], %[x]
+            adc  %B[b], __zero_reg__
+            ld   r0, %a[b]
+            and  r0, %[m]
+            breq .+2
+            inc  %[c]
+
+        1:  st   %a[p]+, %[c]
+            sts  %[vm_sp], %A[p]
+        )"
+        : [p]     "=&e" (p)
+        , [b]     "=&e" (b)
+        , [x]     "=&r" (x)
+        , [y]     "=&d" (y)
+        , [m]     "=&d" (m)
+        , [c]     "=&r" (color)
+        : [buf]   ""    (Arduboy2Base::sBuffer)
+        , [vm_sp] ""    (&ards::vm.sp)
+    );
+#else
     // TODO: optimize
     auto ptr = vm_pop_begin();
     uint8_t x = vm_pop<uint8_t>(ptr);
@@ -466,6 +575,7 @@ static void sys_get_pixel()
     uint8_t c = x < 128 && y < 64 ? Arduboy2Base::getPixel(x, y) : 0;
     vm_push_unsafe<uint8_t>(ptr, c);
     vm_pop_end(ptr);
+#endif
 #else
     auto ptr = vm_pop_begin();
     ptr -= 2;
@@ -652,7 +762,7 @@ static void sys_draw_circle()
 #endif
 }
 
-__attribute__((always_inline))
+[[gnu::always_inline]]
 static void draw_fast_vline(int16_t x, int16_t y, uint16_t h, uint8_t color)
 {
     SpritesABC::fillRect(x, y, 1, h, color);
@@ -816,14 +926,16 @@ static void sys_millis()
 static void draw_sprite_helper(uint8_t selfmask_bit)
 {
     void* ptr;
+    uint8_t num;
+    uint16_t frame;
+
     int16_t x;
     int16_t y;
     uint24_t image;
     uint8_t w;
     uint8_t h;
-    uint8_t num;
     uint8_t mode;
-    uint16_t frame;
+    
     asm volatile(R"(
 
             ; the function prologue provides enough delay to disable FX here
@@ -932,11 +1044,11 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             sei
 
             ; add frame offset to image
+            mul  %B[ptr], %B[frame]
+            add  %C[image], r0
             mul  %B[ptr], %A[frame]
             add  %B[image], r0
             adc  %C[image], r1
-            mul  %B[ptr], %B[frame]
-            add  %C[image], r0
             mul  %A[ptr], %A[frame]
             add  %A[image], r0
             adc  %B[image], r1

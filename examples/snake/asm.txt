@@ -492,7 +492,7 @@ game_loop:
   aidx  2 448
   getr2
   .line 131
-  p3
+  p1
   getg  dead 0
   p3
   add
@@ -1026,7 +1026,7 @@ $L_game_loop_21:
   aidx  2 448
   setr2
   .line 113
-  p3
+  p1
   p4
   dup
   dup4
@@ -1093,7 +1093,7 @@ $L_game_loop_11:
   p0000
   sys   draw_filled_rect
   .line 151
-  p3
+  p1
   p2
   p128
   p6
@@ -1162,7 +1162,7 @@ $L_main_11:
   setl  2
 $L_main_12:
   .line 175
-  p3
+  p1
   dup2
   p3
   add
@@ -1286,7 +1286,7 @@ $L_main_14:
   setl  2
 $L_main_15:
   .line 175
-  p3
+  p1
   dup2
   p3
   add

@@ -12056,8 +12056,8 @@ main:
   .line 36
   sys   debug_break
   .line 37
+  p1
   p3
-  dup
   p0
   dupw
   sys   draw_pixel

@@ -317,7 +317,7 @@
   126   call2
   118   icall
   109   ret
-   95   $get_pixel
+   87   $get_pixel
    95   $draw_pixel
   190   $draw_hline (0, 0, 1)
  1333   $draw_hline (0, 0, 128)

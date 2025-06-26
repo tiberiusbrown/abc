@@ -75,13 +75,13 @@ bool sysfunc_is_format(std::string const& f)
 
 std::vector<builtin_constexpr_t> const builtin_constexprs
 {
-    { "WHITE",        TYPE_U8,    3 },
-    { "LIGHT_GRAY",   TYPE_U8,    2 },
-    { "LIGHT_GREY",   TYPE_U8,    2 },
+    { "WHITE",        TYPE_U8,    1 },
+    { "LIGHT_GRAY",   TYPE_U8,    1 },
+    { "LIGHT_GREY",   TYPE_U8,    1 },
     { "GRAY",         TYPE_U8,    1 },
     { "GREY",         TYPE_U8,    1 },
-    { "DARK_GRAY",    TYPE_U8,    1 },
-    { "DARK_GREY",    TYPE_U8,    1 },
+    { "DARK_GRAY",    TYPE_U8,    0 },
+    { "DARK_GREY",    TYPE_U8,    0 },
     { "BLACK",        TYPE_U8,    0 },
     { "SHADES",       TYPE_U8,    2 },
     { "A_BUTTON",     TYPE_U8,    1 << 3 },

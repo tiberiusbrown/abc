@@ -692,8 +692,8 @@ $L_loop_27:
   sys   tones_play
 $L_loop_28:
   .line 106
-  p3
   p1
+  dup
   p128
   p6
   p000
@@ -737,7 +737,7 @@ $L_loop_28:
   push2 52
   sys   draw_text_P
   .line 118
-  push3 267267
+  push3 267265
   getg4 py0 0
   sys   round
   f2i
@@ -745,7 +745,7 @@ $L_loop_28:
   p00
   sys   draw_filled_rect
   .line 119
-  push3 267267
+  push3 267265
   getg4 py1 0
   sys   round
   f2i
@@ -766,8 +766,8 @@ $L_loop_28:
   pop2
   sys   draw_sprite
   .line 125
-  p3
   p1
+  dup
   p128
   push  63
   p000
