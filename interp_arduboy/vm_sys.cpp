@@ -694,7 +694,7 @@ static void sys_draw_rect()
 {
 #if ABC_SHADES == 2
     auto ptr = vm_pop_begin();
-#if 0
+#if 1
     int16_t x;
     int16_t y;
     uint8_t w;
