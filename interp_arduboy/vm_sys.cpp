@@ -923,47 +923,61 @@ static void sys_millis()
     vm_push((uint32_t)millis());
 }
 
+[[ gnu::naked, gnu::noinline ]]
 static void draw_sprite_helper(uint8_t selfmask_bit)
 {
-    void* ptr;
-    uint8_t num;
-    uint16_t frame;
-
-    int16_t x;
-    int16_t y;
-    uint24_t image;
-    uint8_t w;
-    uint8_t h;
-    uint8_t mode;
-    
     asm volatile(R"(
 
-            ; the function prologue provides enough delay to disable FX here
+            ; PTR      Z
+            ; PTR_A    r30
+            ; PTR_B    r31
+            ; NUM      r19
+            ; FRAME_A  r26
+            ; FRAME_B  r27
+            ; MASK     r21
+
+            ; X_A      r24
+            ; X_B      r25
+            ; Y_A      r22
+            ; Y_B      r23
+            ; W        r20
+            ; H        r18
+            ; IMAGE_A  r14
+            ; IMAGE_B  r15
+            ; IMAGE_C  r16
+            ; MODE     r12
+
             sbi  %[fxport], %[fxbit]
-
             cbi  %[fxport], %[fxbit]
-            ldi  %[w], 3
-            out  %[spdr], %[w]
-            lds  %A[ptr], %[vmsp]
-            ldi  %B[ptr], 1
-            sbiw %A[ptr], 4
-            ld   %C[image], -%a[ptr]
-            ld   %B[image], -%a[ptr]
-            ld   %A[image], -%a[ptr]
-            lds  %A[frame], %[datapage]+0
-            lds  %B[frame], %[datapage]+1
-            add  %A[frame], %B[image]
-            adc  %B[frame], %C[image]
-            out  %[spdr], %B[frame]
-            ldd  %A[x], %a[ptr]+5
-            ldd  %B[x], %a[ptr]+6
-            ldd  %A[y], %a[ptr]+3
-            ldd  %B[y], %a[ptr]+4
+            ldi  r20, 3
+            out  %[spdr], r20
 
-            lpm
-            lpm
+            lds  r30, %[vmsp]
+            ldi  r31, 1
+            sbiw r30, 4
+            ld   r20, -Z
+            ld   r19, -Z
+            ld   r18, -Z
+            lds  r26, %[datapage]+0
+            lds  r27, %[datapage]+1
+            add  r26, r19
+            adc  r27, r20
+
+            out  %[spdr], r27
+
+            push r12
+            push r14
+            push r15
+            push r16
+
+            movw r14, r18
+            mov  r16, r20
+
+            ldd  r22, Z+3
+            ldd  r23, Z+4
 
             rjmp 1f
+            
         draw_sprite_helper_delay_17:
             nop
         draw_sprite_helper_delay_16:
@@ -979,39 +993,45 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
             rjmp .+0
         draw_sprite_helper_delay_7:
             ret
-        1:  ldi  %[w], 5
 
-            out  %[spdr], %A[frame]
-            ld   %B[frame], -%a[ptr]
-            ld   %A[frame], -%a[ptr]
-            sts  %[vmsp], %A[ptr]
-            rcall draw_sprite_helper_delay_11
-            out  %[spdr], %A[image]
-            add  %A[image], %[w]
-            adc  %B[image], __zero_reg__
-            adc  %C[image], __zero_reg__
+        1:  ldi  r20, 5
+
+            out  %[spdr], r26
+            mov  r21, r24
+            ldd  r24, Z+5
+            ldd  r25, Z+6
+            ld   r27, -Z
+            ld   r26, -Z
+            sts  %[vmsp], r30
+            lpm
+            lpm
+
+            out  %[spdr], r14
+            add  r14, r20
+            adc  r15, __zero_reg__
+            adc  r16, __zero_reg__
             rcall draw_sprite_helper_delay_13
             out  %[spdr], __zero_reg__
             rcall draw_sprite_helper_delay_15
 
             cli
             out  %[spdr], __zero_reg__
-            in   %[w], %[spdr]
+            in   r20, %[spdr]
             sei
             rcall draw_sprite_helper_delay_13
 
             cli
             out  %[spdr], __zero_reg__
-            in   %[h], %[spdr]
+            in   r18, %[spdr]
             sei
-            subi %[h], -7
-            andi %[h], 0xf8
+            subi r18, -7
+            andi r18, 0xf8
 
             ; add frame offset to image
-            mov  %A[ptr], %[h]
-            lsr  %A[ptr]
-            lsr  %A[ptr]
-            lsr  %A[ptr]
+            mov  r30, r18
+            lsr  r30
+            lsr  r30
+            lsr  r30
 
             rjmp 1f
         draw_sprite_helper_error:
@@ -1023,57 +1043,59 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
 
             cli
             out  %[spdr], __zero_reg__
-            in   %[mode], %[spdr]
+            in   r12, %[spdr]
             sei
 
             ; add frame offset to image
-            or   %[mode], %[mask]
-            sbrc %[mode], 0
-            lsl  %A[ptr]
-            mul  %A[ptr], %[w]
-            movw %A[ptr], r0
-            mul  %A[ptr], %B[frame]
-            add  %B[image], r0
-            adc  %C[image], r1
+            or   r12, r21
+            sbrc r12, 0
+            lsl  r30
+            mul  r30, r20
+            movw r30, r0
+            mul  r30, r27
+            add  r15, r0
+            adc  r16, r1
             clr  __zero_reg__
             rjmp .+0
 
             cli
             out  %[spdr], __zero_reg__
-            in   %[num], %[spdr]
+            in   r19, %[spdr]
             sei
 
             ; add frame offset to image
-            mul  %B[ptr], %B[frame]
-            add  %C[image], r0
-            mul  %B[ptr], %A[frame]
-            add  %B[image], r0
-            adc  %C[image], r1
-            mul  %A[ptr], %A[frame]
-            add  %A[image], r0
-            adc  %B[image], r1
+            mul  r31, r27
+            add  r16, r0
+            mul  r31, r26
+            add  r15, r0
+            adc  r16, r1
+            mul  r30, r26
+            add  r14, r0
+            adc  r15, r1
             clr  __zero_reg__
-            adc  %C[image], __zero_reg__
-            cp   %A[frame], %[num]
+            adc  r16, __zero_reg__
+            cp   r26, r19
 
-            in   %[num], %[spdr]
+            in   r19, %[spdr]
             sbi  %[fxport], %[fxbit]
 
-            cpc  %B[frame], %[num]
+            cpc  r27, r19
             brsh draw_sprite_helper_error
 
-        )"
-        : [w]        "=&d" (w)
-        , [h]        "=&d" (h)
-        , [num]      "=&r" (num)
-        , [mode]     "=&r" (mode)
-        , [ptr]      "=&z" (ptr)
-        , [frame]    "=&r" (frame)
-        , [image]    "=&r" (image)
-        , [x]        "=&r" (x)
-        , [y]        "=&r" (y)
-        : [mask]     "r"   (selfmask_bit)
-        , [vmsp]     ""    (&ards::vm.sp)
+            call %x[draw]
+
+            pop  r16
+            pop  r15
+            pop  r14
+            pop  r12
+)"
+#if !TILEMAP_USE_DRAW_SPRITE_HELPER
+            "jmp  %x[seek]\n"
+#else
+            "ret\n"
+#endif
+        :
+        : [vmsp]     ""    (&ards::vm.sp)
         , [fxport]   "i"   (_SFR_IO_ADDR(FX_PORT))
         , [fxbit]    "i"   (FX_BIT)
         , [spdr]     "i"   (_SFR_IO_ADDR(SPDR))
@@ -1082,12 +1104,9 @@ static void draw_sprite_helper(uint8_t selfmask_bit)
         , [err]      "i"   (ards::ERR_FRM)
         , [datapage] ""    (&FX::programDataPage)
         , [vm_error] ""    (vm_error)
+        , [draw]     ""    (SpritesABC::drawBasicFX)
+        , [seek]     ""    (seek_to_pc)
     );
-    SpritesABC::drawBasicFX(x, y, w, h, image, mode);
-
-#if !TILEMAP_USE_DRAW_SPRITE_HELPER
-    seek_to_pc();
-#endif
 }
 
 static void sys_draw_sprite()
