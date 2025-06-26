@@ -70,6 +70,33 @@ void main()
         }
     }
     
+    for(u8 r = 4; r <= 64; r += 4)
+    {
+        $debug_printf("$draw_filled_circle(62, 32, %u);\n", r);
+        $debug_break();
+        $draw_filled_circle(64, 32, r, WHITE);
+        $debug_break();
+    }
+    
+    for(u8 r = 4; r <= 64; r += 4)
+    {
+        $debug_printf("$draw_circle(62, 32, %u);\n", r);
+        $debug_break();
+        $draw_circle(64, 32, r, WHITE);
+        $debug_break();
+    }
+    
+    for(u8 y = 0; y <= 64; y += 8)
+    {
+        for(u8 x = 0; x <= 128; x += 16)
+        {
+            $debug_printf("$draw_line(64, 32, %u, %u);\n", x, y);
+            $debug_break();
+            $draw_line(64, 32, x, y, WHITE);
+            $debug_break();
+        }
+    }
+    
     $debug_printf("$display()\n");
     $debug_break();
     $display();
