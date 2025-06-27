@@ -90,7 +90,7 @@ static void print_sysfunc(
 {
     auto const& decl = info.decl;
     fprintf(f, "## `$%s`", k.c_str());
-    fprintf(f, "\n\n### Declaration");
+    //fprintf(f, "\n\n### Declaration");
     fprintf(f, "\n\n```c");
     print_sysfunc_decl(f, k, v, info);
     if(auto it2 = abc::sys_overloads.find(k); it2 != abc::sys_overloads.end())
@@ -103,7 +103,7 @@ static void print_sysfunc(
         }
     }
     fprintf(f, "\n```");
-    fprintf(f, "\n\n### Description");
+    //fprintf(f, "\n\n### Description");
     fprintf(f, "\n\n%s", info.desc.c_str());
     if(!info.arg_descs.empty())
     {
