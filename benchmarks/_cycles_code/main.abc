@@ -6,6 +6,36 @@ constexpr tilemap TMAP = tilemap{ "world.tmx" };
 constexpr sprites TILES = sprites{ 16x16 "tiles.png" };
 constexpr sprites TILES8 = sprites{ 8x8 "tiles.png" };
 
+constexpr sprites SPRITE8M = sprites{ 8x8
+    --------
+    --------
+    --------
+    --------
+    --------
+    --------
+    --------
+    --------
+};
+
+constexpr sprites SPRITE16M = sprites{ 16x16
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+    ----------------
+};
+
 constexpr tilemap TMAP8 = tilemap{
     17x9
     18,19,146,59,134,155,170,6,171,37,37,38,27,17,19,43,222,
@@ -401,6 +431,54 @@ void main()
         u16 x = 0, y = 0;
         $debug_break();
         $tilemap_get(TMAP, x, y);
+        $debug_break();
+    }
+    
+    for(i16 x = -8; x <= 0; ++x)
+    {
+        $debug_printf("draw_sprite(%d, 0) [8x8 unmasked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 0, TILES8, 0);
+        $debug_break();
+        $debug_printf("draw_sprite(%d, 1) [8x8 unmasked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 1, TILES8, 0);
+        $debug_break();
+    }
+    
+    for(i16 x = -8; x <= 0; ++x)
+    {
+        $debug_printf("draw_sprite(%d, 0) [8x8 masked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 0, SPRITE8M, 0);
+        $debug_break();
+        $debug_printf("draw_sprite(%d, 1) [8x8 masked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 1, SPRITE8M, 0);
+        $debug_break();
+    }
+    
+    for(i16 x = -16; x <= 0; x += 2)
+    {
+        $debug_printf("draw_sprite(%d, 0) [16x16 unmasked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 0, TILES, 0);
+        $debug_break();
+        $debug_printf("draw_sprite(%d, 1) [16x16 unmasked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 1, TILES, 0);
+        $debug_break();
+    }
+    
+    for(i16 x = -16; x <= 0; x += 2)
+    {
+        $debug_printf("draw_sprite(%d, 0) [16x16 masked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 0, SPRITE16M, 0);
+        $debug_break();
+        $debug_printf("draw_sprite(%d, 1) [16x16 masked]\n", x);
+        $debug_break();
+        $draw_sprite(x, 1, SPRITE16M, 0);
         $debug_break();
     }
     
