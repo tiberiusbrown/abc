@@ -6,6 +6,19 @@ constexpr tilemap TMAP = tilemap{ "world.tmx" };
 constexpr sprites TILES = sprites{ 16x16 "tiles.png" };
 constexpr sprites TILES8 = sprites{ 8x8 "tiles.png" };
 
+constexpr tilemap TMAP8 = tilemap{
+    17x9
+    18,19,146,59,134,155,170,6,171,37,37,38,27,17,19,43,222,
+    35,161,162,163,28,134,155,154,7,7,7,135,74,52,52,75,222,
+    27,177,178,179,11,11,134,135,81,74,52,52,219,50,50,51,222,
+    27,193,194,195,17,3,17,19,74,219,50,50,202,53,53,91,222,
+    28,209,128,211,17,35,142,74,219,202,53,53,91,156,157,158,222,
+    19,59,74,52,52,52,52,219,202,91,17,19,118,172,173,174,222,
+    1,3,90,203,50,50,202,53,91,118,6,6,187,204,205,206,222,
+    34,34,43,90,53,53,91,59,118,171,114,154,135,220,221,222,222,
+    34,34,43,90,53,53,91,59,118,171,114,154,135,220,221,222,222,
+};
+
 void main()
 {
     $debug_printf("nothing (baseline)\n");
@@ -375,23 +388,55 @@ void main()
     
     bench_math();
     
-    $debug_printf("draw_tilemap(0, 0) [16x16]\n");
+    {
+        $debug_printf("tilemap_get(TMAP8);\n");
+        u16 x = 0, y = 0;
+        $debug_break();
+        $tilemap_get(TMAP8, x, y);
+        $debug_break();
+    }
+    
+    {
+        $debug_printf("tilemap_get(TMAP16);\n");
+        u16 x = 0, y = 0;
+        $debug_break();
+        $tilemap_get(TMAP, x, y);
+        $debug_break();
+    }
+    
+    $debug_printf("draw_tilemap(TMAP8 ,  0,  0) [16x16]\n");
+    $debug_break(); $draw_tilemap(0, 0, TILES, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16,  0,  0) [16x16]\n");
     $debug_break(); $draw_tilemap(0, 0, TILES, TMAP); $debug_break();
-    $debug_printf("draw_tilemap(-1, 0) [16x16]\n");
+    $debug_printf("draw_tilemap(TMAP8 , -1,  0) [16x16]\n");
+    $debug_break(); $draw_tilemap(-1, 0, TILES, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16, -1,  0) [16x16]\n");
     $debug_break(); $draw_tilemap(-1, 0, TILES, TMAP); $debug_break();
-    $debug_printf("draw_tilemap(0, -1) [16x16]\n");
+    $debug_printf("draw_tilemap(TMAP8 ,  0, -1) [16x16]\n");
+    $debug_break(); $draw_tilemap(0, -1, TILES, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16,  0, -1) [16x16]\n");
     $debug_break(); $draw_tilemap(0, -1, TILES, TMAP); $debug_break();
-    $debug_printf("draw_tilemap(-1, -1) [16x16]\n");
+    $debug_printf("draw_tilemap(TMAP8 , -1, -1) [16x16]\n");
+    $debug_break(); $draw_tilemap(-1, -1, TILES, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16, -1, -1) [16x16]\n");
     $debug_break(); $draw_tilemap(-1, -1, TILES, TMAP); $debug_break();
     
-    $debug_printf("draw_tilemap(0, 0) [8x8]\n");
+    $debug_printf("draw_tilemap(TMAP8 ,  0,  0) [8x8]\n");
+    $debug_break(); $draw_tilemap(0, 0, TILES8, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16,  0,  0) [8x8]\n");
     $debug_break(); $draw_tilemap(0, 0, TILES8, TMAP); $debug_break();
-    $debug_printf("draw_tilemap(-1, 0) [8x8]\n");
+    $debug_printf("draw_tilemap(TMAP8 , -1,  0) [8x8]\n");
+    $debug_break(); $draw_tilemap(-1, 0, TILES8, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16, -1,  0) [8x8]\n");
     $debug_break(); $draw_tilemap(-1, 0, TILES8, TMAP); $debug_break();
-    $debug_printf("draw_tilemap(0, -1) [8x8]\n");
+    $debug_printf("draw_tilemap(TMAP8 ,  0, -1) [8x8]\n");
+    $debug_break(); $draw_tilemap(0, -1, TILES8, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16,  0, -1) [8x8]\n");
     $debug_break(); $draw_tilemap(0, -1, TILES8, TMAP); $debug_break();
-    $debug_printf("draw_tilemap(-1, -1) [8x8]\n");
+    $debug_printf("draw_tilemap(TMAP8 , -1, -1) [8x8]\n");
+    $debug_break(); $draw_tilemap(-1, -1, TILES8, TMAP8); $debug_break();
+    $debug_printf("draw_tilemap(TMAP16, -1, -1) [8x8]\n");
     $debug_break(); $draw_tilemap(-1, -1, TILES8, TMAP); $debug_break();
-
+    
     $assert(0);
 }

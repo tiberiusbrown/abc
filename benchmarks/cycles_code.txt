@@ -683,11 +683,21 @@
     265    $round(949.31878662)
     276    $round(35124.79687500)
     211    $round(1299617.50000000)
-  31542    draw_tilemap(0, 0) [16x16]
-  35309    draw_tilemap(-1, 0) [16x16]
-  36656    draw_tilemap(0, -1) [16x16]
-  41086    draw_tilemap(-1, -1) [16x16]
-  65848    draw_tilemap(0, 0) [8x8]
-  71720    draw_tilemap(-1, 0) [8x8]
-  73770    draw_tilemap(0, -1) [8x8]
-  80314    draw_tilemap(-1, -1) [8x8]
+    814    tilemap_get(TMAP8);
+    833    tilemap_get(TMAP16);
+  31515    draw_tilemap(TMAP8 ,  0,  0) [16x16]
+  31542    draw_tilemap(TMAP16,  0,  0) [16x16]
+  33674    draw_tilemap(TMAP8 , -1,  0) [16x16]
+  35309    draw_tilemap(TMAP16, -1,  0) [16x16]
+  36619    draw_tilemap(TMAP8 ,  0, -1) [16x16]
+  36656    draw_tilemap(TMAP16,  0, -1) [16x16]
+  39039    draw_tilemap(TMAP8 , -1, -1) [16x16]
+  41086    draw_tilemap(TMAP16, -1, -1) [16x16]
+  62510    draw_tilemap(TMAP8 ,  0,  0) [8x8]
+  65848    draw_tilemap(TMAP16,  0,  0) [8x8]
+  68358    draw_tilemap(TMAP8 , -1,  0) [8x8]
+  71720    draw_tilemap(TMAP16, -1,  0) [8x8]
+  70005    draw_tilemap(TMAP8 ,  0, -1) [8x8]
+  73770    draw_tilemap(TMAP16,  0, -1) [8x8]
+  76522    draw_tilemap(TMAP8 , -1, -1) [8x8]
+  80314    draw_tilemap(TMAP16, -1, -1) [8x8]
