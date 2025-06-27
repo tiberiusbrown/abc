@@ -1958,7 +1958,6 @@ I_PIDXB:
     lpm
     rjmp pidxb_dispatch
 pidxb_error:
-pidx_error:
     ldi  r24, 2
     jmp  call_vm_error
     .align 6
@@ -1988,25 +1987,8 @@ I_PIDX:
     ld   r15, -Y
     ld   r14, -Y
     ld   r13, -Y
-    rcall pop3_delay_10
-
-    ; load elem count into r16:r18
-    in   r16, %[spdr]
-    out  %[spdr], r2
-    rcall pop3_delay_16
-    in   r17, %[spdr]
-    out  %[spdr], r2
-    rcall pop3_delay_16
-    in   r18, %[spdr]
-    out  %[spdr], r2
-
-    ; bounds check index against elem count
-    cp   r10, r16
-    cpc  r11, r17
-    cpc  r12, r18
-    brsh pidx_error
-
     jmp pidx_part2
+
     .align 6
 
 I_UAIDX:
@@ -4278,6 +4260,10 @@ I_SYS:
 ; helper methods
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+pidx_error:
+    ldi  r24, 2
+    jmp  call_vm_error
+    
 pidx_part2:
     
     ; compute prog ref + index * elem_size
@@ -4297,11 +4283,17 @@ pidx_part2:
     ;    ========
     ;    C2 C1 C0
     ;
+
     mul  r10, r20 ; A0*B0
     add  r13, r0
     adc  r14, r1
     adc  r15, r2
     mul  r10, r21 ; A0*B1
+
+    ; load elem count into r16:r18
+    in   r16, %[spdr]
+    out  %[spdr], r2
+
     add  r14, r0
     adc  r15, r1
     mul  r11, r20 ; A1*B0
@@ -4311,18 +4303,39 @@ pidx_part2:
     add  r15, r0
     mul  r12, r20 ; A2*B0
     add  r15, r0
-    
+
     ; push prog ref
     st   Y+, r13
+    rjmp .+0
+
+    in   r17, %[spdr]
+    out  %[spdr], r2
+    rcall upidx_delay_16
+    in   r18, %[spdr]
+    out  %[spdr], r2
+
+    ; bounds check index against elem count
+    cp   r10, r16
+    cpc  r11, r17
+    cpc  r12, r18
+    brsh pidx_error
+    
+    rcall upidx_delay_12
+    
     in   r0, %[spdr]
     out  %[spdr], r2
+
     st   Y+, r14
     mov  r9, r15
+    
     mul  r0, r3
     movw r30, r0
     add  r31, r5
     ijmp
 
+upidx_delay_16:
+    rjmp .+0
+    rjmp .+0
 upidx_delay_12:
     rjmp .+0
 upidx_delay_10:
