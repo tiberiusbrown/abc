@@ -1970,7 +1970,7 @@ I_PIDX:
     ; load elem size into r20:r21
     in   r20, %[spdr]
     out  %[spdr], r2
-    ldi  r17, 5
+    ldi  r17, 6
     add  r6, r17
     adc  r7, r2
     adc  r8, r2
@@ -4314,10 +4314,14 @@ pidx_part2:
     
     ; push prog ref
     st   Y+, r13
+    in   r0, %[spdr]
+    out  %[spdr], r2
     st   Y+, r14
     mov  r9, r15
-seek_dispatch:
-    dispatch_noalign
+    mul  r0, r3
+    movw r30, r0
+    add  r31, r5
+    ijmp
 
 upidx_delay_12:
     rjmp .+0

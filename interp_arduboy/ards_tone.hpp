@@ -158,7 +158,7 @@ volatile channel_t channels[3]; // primary, secondary, tones channels
 volatile bool reload_needed;
 volatile bool music_active;
 
-__attribute__((naked, noinline))
+[[ gnu::naked, gnu::noinline ]]
 void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
 {
     // addr: r22,r23,r24
@@ -206,7 +206,6 @@ void fx_read_data_bytes(uint24_t addr, void* dst, size_t num)
             in    r0, %[spdr]
             st    X, r0
             sbi   %[fxport], %[fxbit]
-            in    r0, %[spsr]
             ret
 
         L%=_delay_17:
