@@ -582,10 +582,11 @@ struct sysfunc_info_t
     compiler_func_decl_t decl;
     std::string category;
     std::string desc;
-    std::string return_desc;
     std::vector<std::string> arg_descs;
+    std::string return_desc;
 };
 extern std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls;
+extern std::vector<std::string> const sysfunc_cats;
 
 extern std::unordered_set<std::string> const keywords;
 extern std::unordered_map<std::string, compiler_type_t> const primitive_types;

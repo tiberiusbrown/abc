@@ -68,9 +68,10 @@ static void print_sysfunc_decl(
     FILE* f,
     std::string const& k,
     abc::sysfunc_t v,
-    abc::compiler_func_decl_t const& decl)
+    abc::sysfunc_info_t const& info)
 {
-    fprintf(f, "%-5s $%s(", abc::type_name(decl.return_type).c_str(), k.c_str());
+    auto const& decl = info.decl;
+    fprintf(f, "\n%s $%s(", abc::type_name(decl.return_type).c_str(), k.c_str());
     for(size_t i = 0; i < decl.arg_types.size(); ++i)
     {
         if(i != 0) fprintf(f, ", ");
@@ -78,7 +79,48 @@ static void print_sysfunc_decl(
     }
     if(abc::sysfunc_is_format(v))
         fprintf(f, ", ...");
-    fprintf(f, ");\n");
+    fprintf(f, ");");
+}
+
+static void print_sysfunc(
+    FILE* f,
+    std::string const& k,
+    abc::sysfunc_t v,
+    abc::sysfunc_info_t const& info)
+{
+    auto const& decl = info.decl;
+    fprintf(f, "<details><summary>`$%s`</summary>", k.c_str());
+    fprintf(f, "\n\n### Declaration");
+    fprintf(f, "\n\n```c");
+    print_sysfunc_decl(f, k, v, info);
+    if(auto it2 = abc::sys_overloads.find(k); it2 != abc::sys_overloads.end())
+    {
+        for(auto const& ov : it2->second)
+        {
+            auto jt = abc::sys_names.find(ov);
+            auto kt = abc::sysfunc_decls.find(jt->second);
+            print_sysfunc_decl(f, k, jt->second, kt->second);
+        }
+    }
+    fprintf(f, "\n```");
+    fprintf(f, "\n\n### Description");
+    fprintf(f, "\n\n%s", info.desc.c_str());
+    if(!info.arg_descs.empty())
+    {
+        fprintf(f, "\n\n| Parameter | Description |");
+        fprintf(f, "\n| -- | -- |");
+        for(size_t i = 0; i < info.arg_descs.size(); ++i)
+        {
+            fprintf(f, "\n| **%s** | %s |",
+                decl.arg_names[i].c_str(), info.arg_descs[i].c_str());
+        }
+    }
+    if(!info.return_desc.empty())
+    {
+        fprintf(f, "\n\n### Return Value");
+        fprintf(f, "\n\n%s", info.return_desc.c_str());
+    }
+    fprintf(f, "\n</details>\n");
 }
 
 int abc_docs()
@@ -91,36 +133,33 @@ int abc_docs()
     f = fopen(DOCS_DIR "/system.md", "w");
     if(!f) return 1;
 
+#if 0
     fprintf(f, "# Predefined Constants\n\n```c\n");
     for(auto const& c : abc::builtin_constexprs)
     {
         fprintf(f, "%s %s;\n", abc::type_name(c.type).c_str(), c.name.c_str());
     }
     fprintf(f, "```\n\n");
+#endif
 
-    fprintf(f, "# System Calls\n\n```c\n");
-    for(auto const& [k, v] : sys_names)
+    for(auto const& cat : abc::sysfunc_cats)
     {
-        bool skip = false;
-        for(auto const& [k2, v2] : abc::sys_overloads)
-            for(auto const& v3 : v2)
-                if(v3 == k) skip = true;
-        if(skip) continue;
-        auto it = abc::sysfunc_decls.find(v);
-        if(it == abc::sysfunc_decls.end()) continue;
-        auto const& decl = it->second.decl;
-        print_sysfunc_decl(f, k, v, decl);
-        if(auto it2 = abc::sys_overloads.find(k); it2 != abc::sys_overloads.end())
+        fprintf(f, "# %s\n\n", cat.c_str());
+        for(auto const& [k, v] : sys_names)
         {
-            for(auto const& ov : it2->second)
-            {
-                auto jt = abc::sys_names.find(ov);
-                auto kt = abc::sysfunc_decls.find(jt->second);
-                print_sysfunc_decl(f, k, jt->second, kt->second.decl);
-            }
+            bool skip = false;
+            for(auto const& [k2, v2] : abc::sys_overloads)
+                for(auto const& v3 : v2)
+                    if(v3 == k) skip = true;
+            if(skip) continue;
+            auto it = abc::sysfunc_decls.find(v);
+            if(it == abc::sysfunc_decls.end()) continue;
+            if(it->second.category != cat) continue;
+            print_sysfunc(f, k, v, it->second);
         }
+        fprintf(f, "\n");
     }
-    fprintf(f, "```\n\n");
+    fprintf(f, "\n");
 
     fclose(f);
 

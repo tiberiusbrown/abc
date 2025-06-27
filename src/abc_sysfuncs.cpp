@@ -113,59 +113,262 @@ static std::string const CAT_UTILITY = "Utility";
 static std::string const CAT_RANDOM = "Random";
 static std::string const CAT_SAVELOAD = "Save/Load";
 
+std::vector<std::string> const sysfunc_cats =
+{
+    CAT_GRAPHICS,
+    CAT_SOUND,
+    CAT_BUTTONS,
+    CAT_MATH,
+    CAT_STRINGS,
+    CAT_UTILITY,
+    CAT_RANDOM,
+    CAT_SAVELOAD,
+};
+
+static std::string const HELP_FORMAT_STR =
+    "The formatting supports a limited subset of `printf`-style format strings.\n\n"
+    "| Specifier | Description |\n"
+    "| -- | -- |\n"
+    "| `%%` | A single '%' character. |\n"
+    "| `%d` | A signed decimal integer (`i32`). |\n"
+    "| `%u` | An unsigned decimal integer (`u32`). |\n"
+    "| `%x` | An unsigned hexadecimal integer (`u32`). |\n"
+    "| `%f` | A floating-point number (`float`). |\n"
+    "| `%c` | A single character (`char`). |\n"
+    "| `%s` | A text string (`char[]&` or `char[] prog&`). |\n\n"
+    "The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to 9; "
+    "for example, `%04u` would print 42 as \"0042\". "
+    "The `%f` specifier supports a precision modifier of up to 9 digits for decimal fractions; "
+    "for example, `.3f` would print 3.14159 as \"3.142\".";
+
 std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
 {
-    { SYS_DISPLAY,              { { TYPE_VOID,  { }, { } }, CAT_GRAPHICS, "" } },
-    { SYS_DISPLAY_NOCLEAR,      { { TYPE_VOID,  { }, { } }, CAT_GRAPHICS, "" } },
-    { SYS_GET_PIXEL,            { { TYPE_U8,    { TYPE_U8, TYPE_U8 }, { "x", "y" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_PIXEL,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8 }, { "x", "y", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_HLINE,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_VLINE,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "h", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_LINE,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_I16, TYPE_I16, TYPE_U8 }, { "x0", "y0", "x1", "y1", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_RECT,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "h", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_FILLED_RECT,     { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "h", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_CIRCLE,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "r", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_FILLED_CIRCLE,   { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "r", "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_SPRITE,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 }, { "x", "y", "s", "frame" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_SPRITE_SELFMASK, { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 }, { "x", "y", "s", "frame" } }, CAT_GRAPHICS, "" } },
+    { SYS_DISPLAY,              { { TYPE_VOID,  { }, { } }, CAT_GRAPHICS,
+        "Call this function once at the end of each frame to update the display and inputs. "
+        "This function does the following in sequence:\n"
+        "  1. Push the contents of the display buffer to the display.\n"
+        "  2. Clear the contents of the display buffer to all black pixels.\n"
+        "  3. Wait for frame timing (see `$set_frame_rate`).\n"
+        "  4. Poll button states." } },
+    { SYS_DISPLAY_NOCLEAR,      { { TYPE_VOID,  { }, { } }, CAT_GRAPHICS,
+        "When not using grayscale, this function behaves exactly like `$display` except that the contents of the display "
+        "buffer are left unmodified after pushing to the display. "
+        "In grayscale modes, this function behaves exactly like `$display`, clearing the display buffer to all `BLACK` pixels." } },
+    { SYS_GET_PIXEL,            { { TYPE_U8,    { TYPE_U8, TYPE_U8 }, { "x", "y" } }, CAT_GRAPHICS,
+        "Retrieves the color of a single pixel from the display buffer. "
+        "In grayscale modes, this function always returns `BLACK`.", {
+        "The x-coordinate of the pixel to test.",
+        "The y-coordinate of the pixel to test."},
+        "The color of the pixel: either `BLACK` or `WHITE`." } },
+    { SYS_DRAW_PIXEL,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8 }, { "x", "y", "color" } }, CAT_GRAPHICS,
+        "Draws a single pixel of a given color to the display buffer. "
+        "This function does nothing in grayscale modes.", {
+        "The x-coordinate of the pixel.",
+        "The y-coorindate of the pixel."
+        "The color (`BLACK` or `WHITE`) of the pixel." } } },
+    { SYS_DRAW_HLINE,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "color" } }, CAT_GRAPHICS,
+        "Draws a horizontal line of a given color to the display buffer. "
+        "This function does nothing in grayscale modes.", {
+        "The x-coordinate of the leftmost pixel of the line.",
+        "The y-coordinate of the line.",
+        "The width of the line in pixels.",
+        "The color (`BLACK` or `WHITE`) of the line." } } },
+    { SYS_DRAW_VLINE,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "h", "color" } }, CAT_GRAPHICS,
+        "Draws a vertical line of a given color to the display buffer. "
+        "This function does nothing in grayscale modes.", {
+        "The x-coordinate of the line.",
+        "The y-coordinate of topmost pixel of the line.",
+        "The height of the line in pixels.",
+        "The color (`BLACK` or `WHITE`) of the line." } } },
+    { SYS_DRAW_LINE,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_I16, TYPE_I16, TYPE_U8 }, { "x0", "y0", "x1", "y1", "color" } }, CAT_GRAPHICS,
+        "Draws a line between two arbitrary points to the display buffer. "
+        "This function does nothing in grayscale modes.", {
+        "The x-coordinate of the start of the line.",
+        "The y-coordinate of the start of the line.",
+        "The x-coordinate of the end of the line.",
+        "The y-coordinate of the end of the line.",
+        "The color (`BLACK` or `WHITE`) of the line." } } },
+    { SYS_DRAW_RECT,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "h", "color" } }, CAT_GRAPHICS,
+        "Draws a single pixel thick outline of a rectangle to the display buffer. ", {
+        "The x-coordinate of the left side of the rectangle.",
+        "The y-coordinate of the top side of the rectangle.",
+        "The width of the rectangle in pixels.",
+        "The height of the rectangle in pixels.",
+        "The color of the rectangle." } } },
+    { SYS_DRAW_FILLED_RECT,     { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "h", "color" } }, CAT_GRAPHICS,
+        "Draws a filled rectangle to the display buffer. ", {
+        "The x-coordinate of the left side of the rectangle.",
+        "The y-coordinate of the top side of the rectangle.",
+        "The width of the rectangle in pixels.",
+        "The height of the rectangle in pixels.",
+        "The color of the rectangle." } } },
+    { SYS_DRAW_CIRCLE,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "r", "color" } }, CAT_GRAPHICS,
+        "Draws a single pixel thick outline of a circle to the display buffer. "
+        "This function does nothing in grayscale modes.", {
+        "The x-coordinate of the center of the circle.",
+        "The y-coorindate of the center of the circle.",
+        "The radius of the circle in pixels.",
+        "The color of the circle." } } },
+    { SYS_DRAW_FILLED_CIRCLE,   { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "r", "color" } }, CAT_GRAPHICS,
+        "Draws a filled circle to the display buffer. ", {
+        "The x-coordinate of the center of the circle.",
+        "The y-coorindate of the center of the circle.",
+        "The radius of the circle in pixels.",
+        "The color of the circle." } } },
+    { SYS_DRAW_SPRITE,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 }, { "x", "y", "s", "frame" } }, CAT_GRAPHICS,
+        "Draws a sprite to the display buffer. ", {
+        "The x-coorindate of the top side of the sprite.",
+        "The y-coordinate of the left side of the sprite.",
+        "The sprite set for the sprite to draw.",
+        "The frame of the sprite to draw form the sprite set." } } },
+    { SYS_DRAW_SPRITE_SELFMASK, { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 }, { "x", "y", "s", "frame" } }, CAT_GRAPHICS,
+        "Draws a sprite to the display buffer. "
+        "If the sprite is unmasked, the sprite is masked by its own white pixels. "
+        "If the sprite is masked, the sprite is masked as normal. "
+        "In grayscale modes, this function behaves exactly as `$draw_sprite`.", {
+        "The x-coorindate of the top side of the sprite.",
+        "The y-coordinate of the left side of the sprite.",
+        "The sprite set for the sprite to draw.",
+        "The frame of the sprite to draw form the sprite set." } } },
     { SYS_DRAW_TILEMAP,         { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_TILEMAP }, { "x", "y", "s", "tm" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_TEXT,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR }, { "x", "y", "str" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_TEXT_P,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "str" } }, CAT_GRAPHICS, "" } },
-    { SYS_DRAW_TEXTF,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "fmt" } }, CAT_GRAPHICS, "" } },
-    { SYS_TEXT_WIDTH,           { { TYPE_U16,   { TYPE_STR }, { "str" } }, CAT_GRAPHICS, "" } },
-    { SYS_TEXT_WIDTH_P,         { { TYPE_U16,   { TYPE_STR_PROG }, { "str" } }, CAT_GRAPHICS, "" } },
-    { SYS_WRAP_TEXT,            { { TYPE_U16,   { TYPE_STR, TYPE_U8 }, { "str", "w"} }, CAT_GRAPHICS, "" } },
-    { SYS_SET_TEXT_FONT,        { { TYPE_VOID,  { TYPE_FONT }, { "f" } }, CAT_GRAPHICS, "" } },
-    { SYS_SET_TEXT_COLOR,       { { TYPE_VOID,  { TYPE_U8 }, { "color" } }, CAT_GRAPHICS, "" } },
-    { SYS_SPRITES_WIDTH,        { { TYPE_U8,    { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS, "" } },
-    { SYS_SPRITES_HEIGHT,       { { TYPE_U8,    { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS, "" } },
-    { SYS_SPRITES_FRAMES,       { { TYPE_U16,   { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS, "" } },
-    { SYS_TILEMAP_WIDTH,        { { TYPE_U16,   { TYPE_TILEMAP }, { "tm" } }, CAT_GRAPHICS, "" } },
-    { SYS_TILEMAP_HEIGHT,       { { TYPE_U16,   { TYPE_TILEMAP }, { "tm" } }, CAT_GRAPHICS, "" } },
-    { SYS_TILEMAP_GET,          { { TYPE_U16,   { TYPE_TILEMAP, TYPE_U16, TYPE_U16 }, { "tm", "x", "y" }}, CAT_GRAPHICS, ""}},
-    { SYS_SET_FRAME_RATE,       { { TYPE_VOID,  { TYPE_U8 }, { "fps" } }, CAT_GRAPHICS, "" } },
-    { SYS_IDLE,                 { { TYPE_VOID,  { }, { } }, CAT_UTILITY, "" } },
-    { SYS_DEBUG_BREAK,          { { TYPE_VOID,  { }, { } }, CAT_UTILITY, "" } },
-    { SYS_DEBUG_PRINTF,         { { TYPE_VOID,  { TYPE_STR_PROG }, { "fmt" } }, CAT_UTILITY, "" } },
-    { SYS_ASSERT,               { { TYPE_VOID,  { TYPE_BOOL }, { "cond" } }, CAT_UTILITY, "" } },
-    { SYS_BUTTONS,              { { TYPE_U8,    { }, { } }, CAT_BUTTONS, "" } },
-    { SYS_JUST_PRESSED,         { { TYPE_BOOL,  { TYPE_U8 }, { "button" } }, CAT_BUTTONS, "" } },
-    { SYS_JUST_RELEASED,        { { TYPE_BOOL,  { TYPE_U8 }, { "button" } }, CAT_BUTTONS, "" } },
-    { SYS_PRESSED,              { { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } }, CAT_BUTTONS, "" } },
-    { SYS_ANY_PRESSED,          { { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } }, CAT_BUTTONS, "" } },
-    { SYS_NOT_PRESSED,          { { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } }, CAT_BUTTONS, "" } },
-    { SYS_MILLIS,               { { TYPE_U32,   { }, { } }, CAT_UTILITY, "" } },
-    { SYS_MEMSET,               { { TYPE_VOID,  { TYPE_BYTE_AREF, TYPE_U8 }, { "dst", "val" } }, CAT_UTILITY, "" } },
-    { SYS_MEMCPY,               { { TYPE_VOID,  { TYPE_BYTE_AREF, TYPE_BYTE_AREF }, { "dst", "src" } }, CAT_UTILITY, "" } },
+    { SYS_DRAW_TEXT,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR }, { "x", "y", "text" } }, CAT_GRAPHICS,
+        "Draws some text to the display buffer. "
+        "The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. ", {
+        "The x-coordinate of the left edge of the first character in the text. "
+        "When drawing, newline characters will set the x-coordinate of the next character to this value.",
+        "The y-coordinate of the baseline of the first character in the text.",
+        "The text to draw." } } },
+    { SYS_DRAW_TEXT_P,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "text" } }, CAT_GRAPHICS, "" } },
+    { SYS_DRAW_TEXTF,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "fmt" } }, CAT_GRAPHICS,
+        "Draws some formatted text to the display buffer. " + HELP_FORMAT_STR + " "
+        "The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. ", {
+        "The x-coordinate of the left edge of the first character in the text. "
+        "When drawing, newline characters will set the x-coordinate of the next character to this value.",
+        "The y-coordinate of the baseline of the first character in the text.",
+        "The format string to use for constructing the text to draw." } } },
+    { SYS_TEXT_WIDTH,           { { TYPE_U16,   { TYPE_STR }, { "text" } }, CAT_GRAPHICS,
+        "Gets the width of some text in pixels. "
+        "The font that was previously set by `$set_text_font` is used for character widths.", {
+        "The text to compute the width." },
+        "The width of the text in pixels." } },
+    { SYS_TEXT_WIDTH_P,         { { TYPE_U16,   { TYPE_STR_PROG }, { "text" } }, CAT_GRAPHICS, "" } },
+    { SYS_WRAP_TEXT,            { { TYPE_U16,   { TYPE_STR, TYPE_U8 }, { "text", "w"} }, CAT_GRAPHICS,
+        "Word-wrap some text in-place by replacing space characters with newlines. "
+        "The font that was previously set by `$set_text_font` is used for character widths.", {
+        "The text to word-wrap.",
+        "The wrap width in pixels." } } },
+    { SYS_SET_TEXT_FONT,        { { TYPE_VOID,  { TYPE_FONT }, { "f" } }, CAT_GRAPHICS,
+        "Set the font used by subsequent text functions.", {
+        "The font to use in subsequent text functions." } } },
+    { SYS_SET_TEXT_COLOR,       { { TYPE_VOID,  { TYPE_U8 }, { "color" } }, CAT_GRAPHICS,
+        "Set the color used by subsequence text drawing functions.", {
+        "The color to use in subsequent text functions." } } },
+    { SYS_SPRITES_WIDTH,        { { TYPE_U8,    { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS,
+        "Get the sprite width for a sprite set.", {
+        "The sprite set." },
+        "The sprite width for the sprite set." } },
+    { SYS_SPRITES_HEIGHT,       { { TYPE_U8,    { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS,
+        "Get the sprite height for a sprite set.", {
+        "The sprite set." },
+        "The sprite height for the sprite set." } },
+    { SYS_SPRITES_FRAMES,       { { TYPE_U16,   { TYPE_SPRITES }, { "s" } }, CAT_GRAPHICS,
+        "Get the number of sprite frames in a sprite set.", {
+        "The sprite set." },
+        "The number of sprite frames in the sprite set." } },
+    { SYS_TILEMAP_WIDTH,        { { TYPE_U16,   { TYPE_TILEMAP }, { "tm" } }, CAT_GRAPHICS,
+        "Get the width of a tilemap in tiles.", {
+        "The tilemap." },
+        "The width of the tilemap in tiles." } },
+    { SYS_TILEMAP_HEIGHT,       { { TYPE_U16,   { TYPE_TILEMAP }, { "tm" } }, CAT_GRAPHICS,
+        "Get the height of a tilemap in tiles.", {
+        "The tilemap." },
+        "The height of the tilemap in tiles." } },
+    { SYS_TILEMAP_GET,          { { TYPE_U16,   { TYPE_TILEMAP, TYPE_U16, TYPE_U16 }, { "tm", "x", "y" }}, CAT_GRAPHICS,
+        "Get the tile at the given coordinates in a tilemap. "
+        "Tilemap coordinates are unsigned. The x-coordinate runs left-to-right and the y-coordinate runs top-to-bottom.", {
+        "The x-coordinate of the tile to get.",
+        "The y-coordinate of the tile to get." } } },
+    { SYS_SET_FRAME_RATE,       { { TYPE_VOID,  { TYPE_U8 }, { "fps" } }, CAT_GRAPHICS,
+        "Set the target frame rate (see `$display`).", {
+        "The frame rate in frames per second." } } },
+    { SYS_IDLE,                 { { TYPE_VOID,  { }, { } }, CAT_UTILITY,
+        "Do nothing for a short time (one millisecond or less) and the CPU in a low power mode. "
+        "This can be useful for waiting to respond to a button press without calling `$display` and "
+        "without utilizing the CPU at 100%. "
+        "Most games do not need to use this function." } },
+    { SYS_DEBUG_BREAK,          { { TYPE_VOID,  { }, { } }, CAT_UTILITY,
+        "Issue an AVR `break` instruction. "
+        "This can be useful for debugging with an emulator or hardware debugger." } },
+    { SYS_DEBUG_PRINTF,         { { TYPE_VOID,  { TYPE_STR_PROG }, { "fmt" } }, CAT_UTILITY,
+        "Output some formatted text to the serial console. "
+        "This function does not work on a physical Arduboy FX, as the interpreter does not include "
+        "a USB software stack.", {
+        "The format string to use for constructing the text to output." } } },
+    { SYS_ASSERT,               { { TYPE_VOID,  { TYPE_BOOL }, { "cond" } }, CAT_UTILITY,
+        "Runtime assertion for debug purposes. If the asserted condition evaluates to `false`, "
+        "execution halts and a stack trace is displayed.", {
+        "The condition to check." } } },
+    { SYS_BUTTONS,              { { TYPE_U8,    { }, { } }, CAT_BUTTONS,
+        "Gets the state of the buttons combined into a single mask. "
+        "The bit for each button is `1` when the button is pressed." } },
+    { SYS_JUST_PRESSED,         { { TYPE_BOOL,  { TYPE_U8 }, { "button" } }, CAT_BUTTONS,
+        "Test if a button has just been pressed since the last frame.", {
+        "The button to test for. Only one button should be specified." },
+        "`true` if the specified button has just been pressed since the last frame." } },
+    { SYS_JUST_RELEASED,        { { TYPE_BOOL,  { TYPE_U8 }, { "button" } }, CAT_BUTTONS,
+        "Test if a button has just been released since the last frame.", {
+        "The button to test for. Only one button should be specified." },
+        "`true` if the specified button has just been released since the last frame." } },
+    { SYS_PRESSED,              { { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } }, CAT_BUTTONS,
+        "Test if all of the specified buttons are pressed.", {
+        "A bit mask indicating which buttons to test (can be a single button)." },
+        "`true` if *all* buttons in the provided mask are currently pressed." } },
+    { SYS_ANY_PRESSED,          { { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } }, CAT_BUTTONS,
+        "Test if any of the specified buttons are pressed.", {
+        "A bit mask indicating which buttons to test (can be a single button)." },
+        "`true` if *one or more* buttons in the provided mask are currently pressed." } },
+    { SYS_NOT_PRESSED,          { { TYPE_BOOL,  { TYPE_U8 }, { "buttons" } }, CAT_BUTTONS,
+        "Test if all of the specified buttons are not pressed.", {
+        "A bit mask indicating which buttons to test (can be a single button)." },
+        "`true` if *all* buttons in the provided mask are currently released." } },
+    { SYS_MILLIS,               { { TYPE_U32,   { }, { } }, CAT_UTILITY,
+        "Gets the time elapsed in milliseconds since program start.", {},
+        "The time in milliseconds since program start." } },
+    { SYS_MEMSET,               { { TYPE_VOID,  { TYPE_BYTE_AREF, TYPE_U8 }, { "dst", "val" } }, CAT_UTILITY,
+        "Set each byte of some byte array to a single value.", {
+        "The byte array to modify.",
+        "The value to copy to each byte." } } },
+    { SYS_MEMCPY,               { { TYPE_VOID,  { TYPE_BYTE_AREF, TYPE_BYTE_AREF }, { "dst", "src" } }, CAT_UTILITY,
+        "Copy one byte array to another. The two byte arrays must be the same size.", {
+        "The destination byte array.",
+        "The source byte array." } } },
     { SYS_MEMCPY_P,             { { TYPE_VOID,  { TYPE_BYTE_AREF, TYPE_BYTE_PROG_AREF }, { "dst", "src" } }, CAT_UTILITY, "" } },
-    { SYS_STRLEN,               { { TYPE_U16,   { TYPE_STR }, { "str" } }, CAT_STRINGS, "" } },
+    { SYS_STRLEN,               { { TYPE_U16,   { TYPE_STR }, { "str" } }, CAT_STRINGS,
+        "Get the length of a text string in characters. "
+        "Use the `len` operator to get the capacity of a text string in characters.", {
+        "The text string." },
+        "The length of the text string in characters." } },
     { SYS_STRLEN_P,             { { TYPE_U24,   { TYPE_STR_PROG }, { "str" } }, CAT_STRINGS, "" } },
-    { SYS_STRCMP,               { { TYPE_I8,    { TYPE_STR, TYPE_STR }, { "str0", "str1" } }, CAT_STRINGS, "" } },
+    { SYS_STRCMP,               { { TYPE_I8,    { TYPE_STR, TYPE_STR }, { "str0", "str1" } }, CAT_STRINGS,
+        "Compare two text strings against each other lexicographically.", {
+        "The first string to compare.",
+        "The second string to compare." },
+        "An integral value indicating the result of the comparison. "
+        "A zero value indicates the two strings are equal. "
+        "A negative or positive value indicates the first string is lexicographically "
+        "less than or greater than the second string, respectively." } },
     { SYS_STRCMP_P,             { { TYPE_I8,    { TYPE_STR, TYPE_STR_PROG }, { "str0", "str1" } }, CAT_STRINGS, "" } },
     { SYS_STRCMP_PP,            { { TYPE_I8,    { TYPE_STR_PROG, TYPE_STR_PROG }, { "str0", "str1" } }, CAT_STRINGS, "" } },
-    { SYS_STRCPY,               { { TYPE_STR,   { TYPE_STR, TYPE_STR }, { "dst", "src" } }, CAT_STRINGS, "" } },
+    { SYS_STRCPY,               { { TYPE_STR,   { TYPE_STR, TYPE_STR }, { "dst", "src" } }, CAT_STRINGS,
+        "Copy one text string to another. The two text strings may be different lengths or capacities.", {
+        "The destination text string.",
+        "The source text string." },
+        "A reference to the destination text string." } },
     { SYS_STRCPY_P,             { { TYPE_STR,   { TYPE_STR, TYPE_STR_PROG }, { "dst", "src" } }, CAT_STRINGS, "" } },
-    { SYS_FORMAT,               { { TYPE_VOID,  { TYPE_STR, TYPE_STR_PROG }, { "dst", "fmt" } }, CAT_STRINGS, "" } },
+    { SYS_FORMAT,               { { TYPE_VOID,  { TYPE_STR, TYPE_STR_PROG }, { "dst", "fmt" } }, CAT_STRINGS,
+        "Copy formatted text into a text string. " + HELP_FORMAT_STR, {
+        "The destination text string.",
+        "The format string to use for constructing the destination text string." } } },
     { SYS_MUSIC_PLAY,           { { TYPE_VOID,  { TYPE_MUSIC }, { "song" } }, CAT_SOUND, "" } },
     { SYS_MUSIC_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND, "" } },
     { SYS_MUSIC_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND, "" } },

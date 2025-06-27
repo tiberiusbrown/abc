@@ -3227,7 +3227,7 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
 #if ABC_SHADES == 2
     sys_draw_sprite_selfmask,
 #else
-    sys_pop_n<9>,
+    sys_draw_sprite,
 #endif
 
     sys_draw_tilemap,

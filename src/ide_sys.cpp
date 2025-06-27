@@ -3,6 +3,21 @@
 #include "abc_assembler.hpp"
 #include "abc_compiler.hpp"
 
+#include <imgui_markdown/imgui_markdown.h>
+
+static void do_markdown(std::string const& str)
+{
+    using namespace ImGui;
+
+    MarkdownConfig cfg{};
+
+    cfg.headingFormats[0] = { font_h1, true };
+    cfg.headingFormats[1] = { font_h2, true };
+    cfg.headingFormats[2] = { font_h3, false };
+
+    Markdown(str.c_str(), str.size(), cfg);
+}
+
 void ide_system_reference()
 {
     using namespace ImGui;
@@ -24,6 +39,7 @@ void ide_system_reference()
     float const indent_width = CalcTextSize("    ").x;
 
     constexpr auto TYPE_COLOR = IM_COL32(20, 120, 200, 255);
+    constexpr auto ARG_COLOR = IM_COL32(20, 200, 120, 255);
 
     PushFont(font_h2);
     TextUnformatted("Predefined Constants");
@@ -69,34 +85,76 @@ void ide_system_reference()
     {
         auto it = abc::sysfunc_decls.find(v);
         if(it == abc::sysfunc_decls.end()) continue;
-        auto const& decl = it->second.decl;
-        PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-        Text("%-4s", abc::type_name(decl.return_type).c_str());
-        PopStyleColor();
-        SameLine();
-        Text("$%s(", k.c_str());
-        SameLine(0.f, 0.f);
-        for(size_t i = 0; i < decl.arg_types.size(); ++i)
+        auto const& info = it->second;
+        auto const& decl = info.decl;
+
+        if(TreeNode(k.c_str()))
         {
-            if(i != 0)
-            {
-                SameLine(0.f, 0.f);
-                TextUnformatted(",");
-                SameLine();
-            }
+            NewLine();
+
             PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
-            TextUnformatted(abc::type_name(decl.arg_types[i]).c_str());
+            TextUnformatted(abc::type_name(decl.return_type).c_str());
             PopStyleColor();
             SameLine();
-            TextUnformatted(decl.arg_names[i].c_str());
-            if(i + 1 == decl.arg_types.size() && abc::sysfunc_is_format(v))
+            Text("$%s(", k.c_str());
+            SameLine(0.f, 0.f);
+            for(size_t i = 0; i < decl.arg_types.size(); ++i)
             {
-                SameLine(0.f, 0.f);
-                TextUnformatted(", ...");
+                if(i != 0)
+                {
+                    SameLine(0.f, 0.f);
+                    TextUnformatted(",");
+                    SameLine();
+                }
+                PushStyleColor(ImGuiCol_Text, TYPE_COLOR);
+                TextUnformatted(abc::type_name(decl.arg_types[i]).c_str());
+                PopStyleColor();
+                SameLine();
+                TextUnformatted(decl.arg_names[i].c_str());
+                if(i + 1 == decl.arg_types.size() && abc::sysfunc_is_format(v))
+                {
+                    SameLine(0.f, 0.f);
+                    TextUnformatted(", ...");
+                }
             }
+            SameLine(0.f, 0.f);
+            TextUnformatted(");");
+            
+            NewLine();
+
+            Indent();
+            do_markdown(info.desc);
+
+            NewLine();
+
+            if(!info.return_desc.empty())
+            {
+                PushStyleColor(ImGuiCol_Text, ARG_COLOR);
+                TextUnformatted("Return    ");
+                PopStyleColor();
+                SameLine();
+                do_markdown(info.return_desc);
+                NewLine();
+            }
+
+            for(size_t i = 0; i < info.arg_descs.size(); ++i)
+            {
+                
+                PushStyleColor(ImGuiCol_Text, ARG_COLOR);
+                Text("%-10s", decl.arg_names[i].c_str());
+                PopStyleColor();
+                SameLine();
+                do_markdown(info.arg_descs[i]);
+            }
+
+            if(!info.arg_descs.empty())
+                NewLine();
+
+            Unindent();
+
+            TreePop();
         }
-        SameLine(0.f, 0.f);
-        TextUnformatted(");");
+
     }
     Unindent(indent_width);
 #if 0
