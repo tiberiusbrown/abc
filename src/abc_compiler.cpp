@@ -449,6 +449,7 @@ bool compiler_t::check_identifier(ast_node_t const& n)
 std::string compiler_t::resolve_label_ref(
     compiler_frame_t const& frame, ast_node_t const& n, compiler_type_t const& t)
 {
+    // TODO: add caches for each resource type
     if(n.type == AST::LABEL_REF)
     {
         return std::string(n.data);

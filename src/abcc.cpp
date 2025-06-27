@@ -37,6 +37,8 @@ static void usage(char const* argv0)
 
 int main(int argc, char** argv)
 {
+    std::cout << "ABC Compiler Copyright (c) " ABC_YEAR " Peter Brown (MIT License)\n" << std::endl;
+
 #if 0
     for(int i = 0; i < 129; ++i)
     {
@@ -123,11 +125,11 @@ int main(int argc, char** argv)
 #endif
 
 #ifndef NDEBUG
-    //psrc = "C:/Users/Brown/Documents/GitHub/summer_camp/src/main.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/arduboy_lasertank/src/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/func_ref.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/func_ref.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
     //parduboy = "C:/Users/Brown/Documents/GitHub/abc/examples/test/test.arduboy";
 #endif

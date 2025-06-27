@@ -6,7 +6,7 @@
 
 static std::string const WELCOME_STR =
 std::string("# ABC IDE ") + abc_version + R"(
-Copyright (c) 2023 Peter Brown (MIT License).
+Copyright (c) )" ABC_YEAR R"( Peter Brown (MIT License).
 
 ABC is a C-like scripting language with an associated interpreter designed for the Arduboy FX. It includes runtime error checking and support for various FX assets, such as sprites, fonts, strings, and arbitrary data.
 )";

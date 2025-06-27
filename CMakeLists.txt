@@ -182,6 +182,8 @@ target_include_directories(abc_compiler PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
     "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
     )
+string(TIMESTAMP ABC_YEAR "%Y")
+target_compile_definitions(abc_compiler PUBLIC -DABC_YEAR="${ABC_YEAR}")
 target_include_directories(abc_compiler PRIVATE "${GENHEADER_DIR}")
 target_include_directories(abc_compiler PRIVATE deps/midifile/include)
 target_link_libraries(abc_compiler PRIVATE fmt midifile tmxlite)
