@@ -690,6 +690,7 @@ void SpritesABC::drawBasicFX(
             subi r26, lo8(-128)
             sbci r27, hi8(-128)
             mov  r21, r8
+            rjmp .+0
 
         L%=_top_loop_erase:
 
