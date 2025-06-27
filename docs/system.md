@@ -1,6 +1,6 @@
 # Graphics
 
-<details><summary>`$display`</summary>
+## `$display`
 
 ### Declaration
 
@@ -15,8 +15,7 @@ Call this function once at the end of each frame to update the display and input
   2. Clear the contents of the display buffer to all black pixels.
   3. Wait for frame timing (see `$set_frame_rate`).
   4. Poll button states.
-</details>
-<details><summary>`$display_noclear`</summary>
+## `$display_noclear`
 
 ### Declaration
 
@@ -27,8 +26,7 @@ void $display_noclear();
 ### Description
 
 When not using grayscale, this function behaves exactly like `$display` except that the contents of the display buffer are left unmodified after pushing to the display. In grayscale modes, this function behaves exactly like `$display`, clearing the display buffer to all `BLACK` pixels.
-</details>
-<details><summary>`$draw_circle`</summary>
+## `$draw_circle`
 
 ### Declaration
 
@@ -46,8 +44,7 @@ Draws a single pixel thick outline of a circle to the display buffer. This funct
 | **y** | The y-coorindate of the center of the circle. |
 | **r** | The radius of the circle in pixels. |
 | **color** | The color of the circle. |
-</details>
-<details><summary>`$draw_filled_circle`</summary>
+## `$draw_filled_circle`
 
 ### Declaration
 
@@ -65,8 +62,7 @@ Draws a filled circle to the display buffer.
 | **y** | The y-coorindate of the center of the circle. |
 | **r** | The radius of the circle in pixels. |
 | **color** | The color of the circle. |
-</details>
-<details><summary>`$draw_filled_rect`</summary>
+## `$draw_filled_rect`
 
 ### Declaration
 
@@ -85,8 +81,7 @@ Draws a filled rectangle to the display buffer.
 | **w** | The width of the rectangle in pixels. |
 | **h** | The height of the rectangle in pixels. |
 | **color** | The color of the rectangle. |
-</details>
-<details><summary>`$draw_hline`</summary>
+## `$draw_hline`
 
 ### Declaration
 
@@ -104,8 +99,7 @@ Draws a horizontal line of a given color to the display buffer. This function do
 | **y** | The y-coordinate of the line. |
 | **w** | The width of the line in pixels. |
 | **color** | The color (`BLACK` or `WHITE`) of the line. |
-</details>
-<details><summary>`$draw_line`</summary>
+## `$draw_line`
 
 ### Declaration
 
@@ -124,8 +118,7 @@ Draws a line between two arbitrary points to the display buffer. This function d
 | **x1** | The x-coordinate of the end of the line. |
 | **y1** | The y-coordinate of the end of the line. |
 | **color** | The color (`BLACK` or `WHITE`) of the line. |
-</details>
-<details><summary>`$draw_pixel`</summary>
+## `$draw_pixel`
 
 ### Declaration
 
@@ -141,8 +134,7 @@ Draws a single pixel of a given color to the display buffer. This function does 
 | -- | -- |
 | **x** | The x-coordinate of the pixel. |
 | **y** | The y-coorindate of the pixel.The color (`BLACK` or `WHITE`) of the pixel. |
-</details>
-<details><summary>`$draw_rect`</summary>
+## `$draw_rect`
 
 ### Declaration
 
@@ -161,8 +153,7 @@ Draws a single pixel thick outline of a rectangle to the display buffer.
 | **w** | The width of the rectangle in pixels. |
 | **h** | The height of the rectangle in pixels. |
 | **color** | The color of the rectangle. |
-</details>
-<details><summary>`$draw_sprite`</summary>
+## `$draw_sprite`
 
 ### Declaration
 
@@ -180,8 +171,7 @@ Draws a sprite to the display buffer.
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
 | **frame** | The frame of the sprite to draw form the sprite set. |
-</details>
-<details><summary>`$draw_sprite_selfmask`</summary>
+## `$draw_sprite_selfmask`
 
 ### Declaration
 
@@ -199,8 +189,7 @@ Draws a sprite to the display buffer. If the sprite is unmasked, the sprite is m
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
 | **frame** | The frame of the sprite to draw form the sprite set. |
-</details>
-<details><summary>`$draw_text`</summary>
+## `$draw_text`
 
 ### Declaration
 
@@ -218,8 +207,7 @@ Draws some text to the display buffer. The font and color that were previously s
 | **x** | The x-coordinate of the left edge of the first character in the text. When drawing, newline characters will set the x-coordinate of the next character to this value. |
 | **y** | The y-coordinate of the baseline of the first character in the text. |
 | **text** | The text to draw. |
-</details>
-<details><summary>`$draw_textf`</summary>
+## `$draw_textf`
 
 ### Declaration
 
@@ -248,8 +236,7 @@ The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to
 | **x** | The x-coordinate of the left edge of the first character in the text. When drawing, newline characters will set the x-coordinate of the next character to this value. |
 | **y** | The y-coordinate of the baseline of the first character in the text. |
 | **fmt** | The format string to use for constructing the text to draw. |
-</details>
-<details><summary>`$draw_tilemap`</summary>
+## `$draw_tilemap`
 
 ### Declaration
 
@@ -260,8 +247,7 @@ void $draw_tilemap(i16 x, i16 y, sprites s, tilemap tm);
 ### Description
 
 
-</details>
-<details><summary>`$draw_vline`</summary>
+## `$draw_vline`
 
 ### Declaration
 
@@ -279,8 +265,7 @@ Draws a vertical line of a given color to the display buffer. This function does
 | **y** | The y-coordinate of topmost pixel of the line. |
 | **h** | The height of the line in pixels. |
 | **color** | The color (`BLACK` or `WHITE`) of the line. |
-</details>
-<details><summary>`$get_pixel`</summary>
+## `$get_pixel`
 
 ### Declaration
 
@@ -300,8 +285,7 @@ Retrieves the color of a single pixel from the display buffer. In grayscale mode
 ### Return Value
 
 The color of the pixel: either `BLACK` or `WHITE`.
-</details>
-<details><summary>`$set_frame_rate`</summary>
+## `$set_frame_rate`
 
 ### Declaration
 
@@ -316,8 +300,7 @@ Set the target frame rate (see `$display`).
 | Parameter | Description |
 | -- | -- |
 | **fps** | The frame rate in frames per second. |
-</details>
-<details><summary>`$set_text_color`</summary>
+## `$set_text_color`
 
 ### Declaration
 
@@ -332,8 +315,7 @@ Set the color used by subsequence text drawing functions.
 | Parameter | Description |
 | -- | -- |
 | **color** | The color to use in subsequent text functions. |
-</details>
-<details><summary>`$set_text_font`</summary>
+## `$set_text_font`
 
 ### Declaration
 
@@ -348,8 +330,7 @@ Set the font used by subsequent text functions.
 | Parameter | Description |
 | -- | -- |
 | **f** | The font to use in subsequent text functions. |
-</details>
-<details><summary>`$sprites_frames`</summary>
+## `$sprites_frames`
 
 ### Declaration
 
@@ -368,8 +349,7 @@ Get the number of sprite frames in a sprite set.
 ### Return Value
 
 The number of sprite frames in the sprite set.
-</details>
-<details><summary>`$sprites_height`</summary>
+## `$sprites_height`
 
 ### Declaration
 
@@ -388,8 +368,7 @@ Get the sprite height for a sprite set.
 ### Return Value
 
 The sprite height for the sprite set.
-</details>
-<details><summary>`$sprites_width`</summary>
+## `$sprites_width`
 
 ### Declaration
 
@@ -408,8 +387,7 @@ Get the sprite width for a sprite set.
 ### Return Value
 
 The sprite width for the sprite set.
-</details>
-<details><summary>`$text_width`</summary>
+## `$text_width`
 
 ### Declaration
 
@@ -429,8 +407,7 @@ Gets the width of some text in pixels. The font that was previously set by `$set
 ### Return Value
 
 The width of the text in pixels.
-</details>
-<details><summary>`$tilemap_get`</summary>
+## `$tilemap_get`
 
 ### Declaration
 
@@ -446,8 +423,7 @@ Get the tile at the given coordinates in a tilemap. Tilemap coordinates are unsi
 | -- | -- |
 | **tm** | The x-coordinate of the tile to get. |
 | **x** | The y-coordinate of the tile to get. |
-</details>
-<details><summary>`$tilemap_height`</summary>
+## `$tilemap_height`
 
 ### Declaration
 
@@ -466,8 +442,7 @@ Get the height of a tilemap in tiles.
 ### Return Value
 
 The height of the tilemap in tiles.
-</details>
-<details><summary>`$tilemap_width`</summary>
+## `$tilemap_width`
 
 ### Declaration
 
@@ -486,8 +461,7 @@ Get the width of a tilemap in tiles.
 ### Return Value
 
 The width of the tilemap in tiles.
-</details>
-<details><summary>`$wrap_text`</summary>
+## `$wrap_text`
 
 ### Declaration
 
@@ -503,11 +477,10 @@ Word-wrap some text in-place by replacing space characters with newlines. The fo
 | -- | -- |
 | **text** | The text to word-wrap. |
 | **w** | The wrap width in pixels. |
-</details>
 
 # Sound
 
-<details><summary>`$audio_enabled`</summary>
+## `$audio_enabled`
 
 ### Declaration
 
@@ -518,8 +491,7 @@ bool $audio_enabled();
 ### Description
 
 
-</details>
-<details><summary>`$audio_playing`</summary>
+## `$audio_playing`
 
 ### Declaration
 
@@ -530,8 +502,7 @@ bool $audio_playing();
 ### Description
 
 
-</details>
-<details><summary>`$audio_stop`</summary>
+## `$audio_stop`
 
 ### Declaration
 
@@ -542,8 +513,7 @@ void $audio_stop();
 ### Description
 
 
-</details>
-<details><summary>`$audio_toggle`</summary>
+## `$audio_toggle`
 
 ### Declaration
 
@@ -554,8 +524,7 @@ void $audio_toggle();
 ### Description
 
 
-</details>
-<details><summary>`$music_play`</summary>
+## `$music_play`
 
 ### Declaration
 
@@ -566,8 +535,7 @@ void $music_play(music song);
 ### Description
 
 
-</details>
-<details><summary>`$music_playing`</summary>
+## `$music_playing`
 
 ### Declaration
 
@@ -578,8 +546,7 @@ bool $music_playing();
 ### Description
 
 
-</details>
-<details><summary>`$music_stop`</summary>
+## `$music_stop`
 
 ### Declaration
 
@@ -590,8 +557,7 @@ void $music_stop();
 ### Description
 
 
-</details>
-<details><summary>`$tones_play`</summary>
+## `$tones_play`
 
 ### Declaration
 
@@ -602,8 +568,7 @@ void $tones_play(tones sfx);
 ### Description
 
 
-</details>
-<details><summary>`$tones_play_auto`</summary>
+## `$tones_play_auto`
 
 ### Declaration
 
@@ -614,8 +579,7 @@ void $tones_play_auto(tones sfx);
 ### Description
 
 
-</details>
-<details><summary>`$tones_play_primary`</summary>
+## `$tones_play_primary`
 
 ### Declaration
 
@@ -626,8 +590,7 @@ void $tones_play_primary(tones sfx);
 ### Description
 
 
-</details>
-<details><summary>`$tones_playing`</summary>
+## `$tones_playing`
 
 ### Declaration
 
@@ -638,8 +601,7 @@ bool $tones_playing();
 ### Description
 
 
-</details>
-<details><summary>`$tones_stop`</summary>
+## `$tones_stop`
 
 ### Declaration
 
@@ -650,11 +612,10 @@ void $tones_stop();
 ### Description
 
 
-</details>
 
 # Buttons
 
-<details><summary>`$any_pressed`</summary>
+## `$any_pressed`
 
 ### Declaration
 
@@ -673,8 +634,7 @@ Test if any of the specified buttons are pressed.
 ### Return Value
 
 `true` if *one or more* buttons in the provided mask are currently pressed.
-</details>
-<details><summary>`$buttons`</summary>
+## `$buttons`
 
 ### Declaration
 
@@ -685,8 +645,7 @@ u8 $buttons();
 ### Description
 
 Gets the state of the buttons combined into a single mask. The bit for each button is `1` when the button is pressed.
-</details>
-<details><summary>`$just_pressed`</summary>
+## `$just_pressed`
 
 ### Declaration
 
@@ -705,8 +664,7 @@ Test if a button has just been pressed since the last frame.
 ### Return Value
 
 `true` if the specified button has just been pressed since the last frame.
-</details>
-<details><summary>`$just_released`</summary>
+## `$just_released`
 
 ### Declaration
 
@@ -725,8 +683,7 @@ Test if a button has just been released since the last frame.
 ### Return Value
 
 `true` if the specified button has just been released since the last frame.
-</details>
-<details><summary>`$not_pressed`</summary>
+## `$not_pressed`
 
 ### Declaration
 
@@ -745,8 +702,7 @@ Test if all of the specified buttons are not pressed.
 ### Return Value
 
 `true` if *all* buttons in the provided mask are currently released.
-</details>
-<details><summary>`$pressed`</summary>
+## `$pressed`
 
 ### Declaration
 
@@ -765,11 +721,10 @@ Test if all of the specified buttons are pressed.
 ### Return Value
 
 `true` if *all* buttons in the provided mask are currently pressed.
-</details>
 
 # Math
 
-<details><summary>`$atan2`</summary>
+## `$atan2`
 
 ### Declaration
 
@@ -780,8 +735,7 @@ float $atan2(float y, float x);
 ### Description
 
 
-</details>
-<details><summary>`$ceil`</summary>
+## `$ceil`
 
 ### Declaration
 
@@ -792,8 +746,7 @@ float $ceil(float x);
 ### Description
 
 
-</details>
-<details><summary>`$cos`</summary>
+## `$cos`
 
 ### Declaration
 
@@ -804,8 +757,7 @@ float $cos(float angle);
 ### Description
 
 
-</details>
-<details><summary>`$floor`</summary>
+## `$floor`
 
 ### Declaration
 
@@ -816,8 +768,7 @@ float $floor(float x);
 ### Description
 
 
-</details>
-<details><summary>`$mod`</summary>
+## `$mod`
 
 ### Declaration
 
@@ -828,8 +779,7 @@ float $mod(float x, float y);
 ### Description
 
 
-</details>
-<details><summary>`$pow`</summary>
+## `$pow`
 
 ### Declaration
 
@@ -840,8 +790,7 @@ float $pow(float x, float y);
 ### Description
 
 
-</details>
-<details><summary>`$round`</summary>
+## `$round`
 
 ### Declaration
 
@@ -852,8 +801,7 @@ float $round(float x);
 ### Description
 
 
-</details>
-<details><summary>`$sin`</summary>
+## `$sin`
 
 ### Declaration
 
@@ -864,8 +812,7 @@ float $sin(float angle);
 ### Description
 
 
-</details>
-<details><summary>`$sqrt`</summary>
+## `$sqrt`
 
 ### Declaration
 
@@ -876,8 +823,7 @@ float $sqrt(float x);
 ### Description
 
 
-</details>
-<details><summary>`$tan`</summary>
+## `$tan`
 
 ### Declaration
 
@@ -888,11 +834,10 @@ float $tan(float angle);
 ### Description
 
 
-</details>
 
 # Strings
 
-<details><summary>`$format`</summary>
+## `$format`
 
 ### Declaration
 
@@ -920,8 +865,7 @@ The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to
 | -- | -- |
 | **dst** | The destination text string. |
 | **fmt** | The format string to use for constructing the destination text string. |
-</details>
-<details><summary>`$strcmp`</summary>
+## `$strcmp`
 
 ### Declaration
 
@@ -943,8 +887,7 @@ Compare two text strings against each other lexicographically.
 ### Return Value
 
 An integral value indicating the result of the comparison. A zero value indicates the two strings are equal. A negative or positive value indicates the first string is lexicographically less than or greater than the second string, respectively.
-</details>
-<details><summary>`$strcpy`</summary>
+## `$strcpy`
 
 ### Declaration
 
@@ -965,8 +908,7 @@ Copy one text string to another. The two text strings may be different lengths o
 ### Return Value
 
 A reference to the destination text string.
-</details>
-<details><summary>`$strlen`</summary>
+## `$strlen`
 
 ### Declaration
 
@@ -986,11 +928,10 @@ Get the length of a text string in characters. Use the `len` operator to get the
 ### Return Value
 
 The length of the text string in characters.
-</details>
 
 # Utility
 
-<details><summary>`$assert`</summary>
+## `$assert`
 
 ### Declaration
 
@@ -1005,8 +946,7 @@ Runtime assertion for debug purposes. If the asserted condition evaluates to `fa
 | Parameter | Description |
 | -- | -- |
 | **cond** | The condition to check. |
-</details>
-<details><summary>`$debug_break`</summary>
+## `$debug_break`
 
 ### Declaration
 
@@ -1017,8 +957,7 @@ void $debug_break();
 ### Description
 
 Issue an AVR `break` instruction. This can be useful for debugging with an emulator or hardware debugger.
-</details>
-<details><summary>`$debug_printf`</summary>
+## `$debug_printf`
 
 ### Declaration
 
@@ -1033,8 +972,7 @@ Output some formatted text to the serial console. This function does not work on
 | Parameter | Description |
 | -- | -- |
 | **fmt** | The format string to use for constructing the text to output. |
-</details>
-<details><summary>`$idle`</summary>
+## `$idle`
 
 ### Declaration
 
@@ -1045,8 +983,7 @@ void $idle();
 ### Description
 
 Do nothing for a short time (one millisecond or less) and the CPU in a low power mode. This can be useful for waiting to respond to a button press without calling `$display` and without utilizing the CPU at 100%. Most games do not need to use this function.
-</details>
-<details><summary>`$memcpy`</summary>
+## `$memcpy`
 
 ### Declaration
 
@@ -1063,8 +1000,7 @@ Copy one byte array to another. The two byte arrays must be the same size.
 | -- | -- |
 | **dst** | The destination byte array. |
 | **src** | The source byte array. |
-</details>
-<details><summary>`$memset`</summary>
+## `$memset`
 
 ### Declaration
 
@@ -1080,8 +1016,7 @@ Set each byte of some byte array to a single value.
 | -- | -- |
 | **dst** | The byte array to modify. |
 | **val** | The value to copy to each byte. |
-</details>
-<details><summary>`$millis`</summary>
+## `$millis`
 
 ### Declaration
 
@@ -1096,11 +1031,10 @@ Gets the time elapsed in milliseconds since program start.
 ### Return Value
 
 The time in milliseconds since program start.
-</details>
 
 # Random
 
-<details><summary>`$generate_random_seed`</summary>
+## `$generate_random_seed`
 
 ### Declaration
 
@@ -1111,8 +1045,7 @@ u32 $generate_random_seed();
 ### Description
 
 
-</details>
-<details><summary>`$init_random_seed`</summary>
+## `$init_random_seed`
 
 ### Declaration
 
@@ -1123,8 +1056,7 @@ void $init_random_seed();
 ### Description
 
 
-</details>
-<details><summary>`$random`</summary>
+## `$random`
 
 ### Declaration
 
@@ -1135,8 +1067,7 @@ u32 $random();
 ### Description
 
 
-</details>
-<details><summary>`$random_range`</summary>
+## `$random_range`
 
 ### Declaration
 
@@ -1147,8 +1078,7 @@ u32 $random_range(u32 lo, u32 hi);
 ### Description
 
 
-</details>
-<details><summary>`$set_random_seed`</summary>
+## `$set_random_seed`
 
 ### Declaration
 
@@ -1159,11 +1089,10 @@ void $set_random_seed(u32 seed);
 ### Description
 
 
-</details>
 
 # Save/Load
 
-<details><summary>`$load`</summary>
+## `$load`
 
 ### Declaration
 
@@ -1174,8 +1103,7 @@ bool $load();
 ### Description
 
 
-</details>
-<details><summary>`$save`</summary>
+## `$save`
 
 ### Declaration
 
@@ -1186,8 +1114,7 @@ void $save();
 ### Description
 
 
-</details>
-<details><summary>`$save_exists`</summary>
+## `$save_exists`
 
 ### Declaration
 
@@ -1198,6 +1125,5 @@ bool $save_exists();
 ### Description
 
 
-</details>
 
 

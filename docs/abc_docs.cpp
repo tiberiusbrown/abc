@@ -89,7 +89,7 @@ static void print_sysfunc(
     abc::sysfunc_info_t const& info)
 {
     auto const& decl = info.decl;
-    fprintf(f, "<details><summary>`$%s`</summary>", k.c_str());
+    fprintf(f, "## `$%s`", k.c_str());
     fprintf(f, "\n\n### Declaration");
     fprintf(f, "\n\n```c");
     print_sysfunc_decl(f, k, v, info);
@@ -120,7 +120,7 @@ static void print_sysfunc(
         fprintf(f, "\n\n### Return Value");
         fprintf(f, "\n\n%s", info.return_desc.c_str());
     }
-    fprintf(f, "\n</details>\n");
+    fprintf(f, "\n");
 }
 
 int abc_docs()
