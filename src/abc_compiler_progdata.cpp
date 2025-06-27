@@ -49,6 +49,9 @@ void compiler_t::try_merge_progdata(
     if(!pdata.relocs_prog.empty()) return;
     for(auto& [k, pd] : progdata)
     {
+        if(pd.merged)
+            continue;
+
         if(!pd.relocs_glob.empty() || !pd.relocs_prog.empty())
             continue;
 
@@ -73,7 +76,8 @@ void compiler_t::try_merge_progdata(
         size_t index = size_t(it - pd.data.begin());
         pd.inter_labels.push_back({ index, label });
         std::sort(pd.inter_labels.begin(), pd.inter_labels.end());
-        pdata.data.clear();
+        std::vector<uint8_t> empty;
+        pdata.data.swap(empty);
         pdata.merged = true;
         return;
     }
