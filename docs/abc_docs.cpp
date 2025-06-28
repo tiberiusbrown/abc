@@ -88,7 +88,7 @@ static std::string tolabel(std::string const& t)
 {
     std::string r(t);
     for(auto& c : r)
-        c = char(isalnum(c) ? tolower(c) : '-');
+        c = char(isalnum(c) || c == '_' ? tolower(c) : '-');
     return r;
 }
 
