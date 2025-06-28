@@ -2252,8 +2252,8 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     {
         r *= 10.f;
         uint8_t t = (uint8_t)r;
-        f((char)('0' + t));
         r -= t;
+        f((char)('0' + t));
     }
 }
 

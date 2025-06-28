@@ -49,7 +49,7 @@ slices                                 23438
 slice_bug                                344
 slice_len                                494
 sprites_len                             2750
-strings                                52276
+strings                                52268
 structs                                28183
 structs2                                 526
 struct_ref_bug                           464
