@@ -166,7 +166,7 @@ int abc_docs()
             auto it = abc::sysfunc_decls.find(v);
             if(it == abc::sysfunc_decls.end()) continue;
             if(it->second.category != cat) continue;
-            fprintf(f, "  - [`$%s`](#-%s)\n", k.c_str(), tolabel(k).c_str());
+            fprintf(f, "  - [`$%s`](#%s)\n", k.c_str(), tolabel(k).c_str());
         }
     }
     fprintf(f, "\n");
