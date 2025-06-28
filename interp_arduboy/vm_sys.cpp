@@ -2218,9 +2218,27 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     }
     
     {
+#if 1
+        static float const PRECS[10] PROGMEM =
+        {
+            5e-1f, 5e-2f, 5e-3f, 5e-4f, 5e-5f, 5e-6f, 5e-7f, 5e-8f, 5e-9f, 5e-10f,
+        };
+        float r;
+        float const* p = &PRECS[prec];
+        asm volatile(R"(
+            lpm %A[r], %a[p]+
+            lpm %B[r], %a[p]+
+            lpm %C[r], %a[p]+
+            lpm %D[r], %a[p]+
+            )"
+            : [r] "=&r" (r)
+            , [p] "+&z" (p)
+        );
+#else
         float r = 0.5f;
         for(uint8_t i = 0; i < prec; ++i)
             r *= 0.1f;
+#endif
         x += r;
     }
     
