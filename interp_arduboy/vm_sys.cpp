@@ -2079,25 +2079,37 @@ static void sys_memcpy_P()
 #if 1
     uint16_t n0;
     uint16_t b0;
-    uint24_t n1;
     uint24_t b1;
     asm volatile(R"(
-            ld %B[n0], -%a[p]
-            ld %A[n0], -%a[p]
-            ld %B[b0], -%a[p]
-            ld %A[b0], -%a[p]
-            ld %C[n1], -%a[p]
-            ld %B[n1], -%a[p]
-            ld %A[n1], -%a[p]
-            ld %C[b1], -%a[p]
-            ld %B[b1], -%a[p]
-            ld %A[b1], -%a[p]
+            ld   %B[n0], -%a[p]
+            ld   %A[n0], -%a[p]
+            ld   %B[b0], -%a[p]
+            ld   %A[b0], -%a[p]
+
+            ; load and compare n1 against n0
+            ld   r0, -%a[p]
+            cp   r0, __zero_reg__
+            ld   r0, -%a[p]
+            cpc  r0, %B[n0]
+            ld   r0, -%a[p]
+            cpc  r0, %A[n0]
+            
+            ld   %C[b1], -%a[p]
+            ld   %B[b1], -%a[p]
+            ld   %A[b1], -%a[p]
+
+            ; if n1 != n0, error
+            breq 1f
+            ldi  r24, %[ERR_CPY]
+            jmp  %x[vm_error]
+        1:
         )"
-        : [p]  "+&e" (ptr)
-        , [n0] "=&r" (n0)
-        , [n1] "=&r" (n1)
-        , [b0] "=&r" (b0)
-        , [b1] "=&r" (b1)
+        : [p]        "+&e" (ptr)
+        , [n0]       "=&r" (n0)
+        , [b0]       "=&r" (b0)
+        , [b1]       "=&r" (b1)
+        : [ERR_CPY]  "I"   (ards::ERR_CPY)
+        , [vm_error] ""    (vm_error)
     );
 #else
     uint16_t n0 = vm_pop<uint16_t>(ptr);
@@ -2107,8 +2119,6 @@ static void sys_memcpy_P()
 #endif
     vm_pop_end(ptr);
     FX::disable();
-    if(n0 != n1)
-        vm_error(ards::ERR_CPY);
     ards::detail::fx_read_data_bytes(
         b1, reinterpret_cast<void*>(b0), n0);
     seek_to_pc();

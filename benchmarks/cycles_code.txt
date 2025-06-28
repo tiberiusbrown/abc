@@ -386,9 +386,12 @@
     368    div2  : -237 / 23
     307    div2  : -23516 / -23138
     418    div2  : 10945 / -109
+    167    memset(1)
+    231    memcpy(1)
+    442    memcpy_P(1)
     481    memset(100)
    1053    memcpy(100)
-   2172    memcpy_P(100)
+   2140    memcpy_P(100)
     271    0.00001000 + 0.00030000
     307    0.00001000 + 0.41189999
     289    0.00001000 + 565.53869628
@@ -757,19 +760,19 @@
    1770    draw_sprite(-2, 1) [16x16 masked]
    1750    draw_sprite(0, 0) [16x16 masked]
    1765    draw_sprite(0, 1) [16x16 masked]
-  31515    draw_tilemap(TMAP8 ,  0,  0) [16x16]
-  31542    draw_tilemap(TMAP16,  0,  0) [16x16]
-  33674    draw_tilemap(TMAP8 , -1,  0) [16x16]
-  35309    draw_tilemap(TMAP16, -1,  0) [16x16]
-  36619    draw_tilemap(TMAP8 ,  0, -1) [16x16]
-  36656    draw_tilemap(TMAP16,  0, -1) [16x16]
-  39039    draw_tilemap(TMAP8 , -1, -1) [16x16]
-  41086    draw_tilemap(TMAP16, -1, -1) [16x16]
-  62510    draw_tilemap(TMAP8 ,  0,  0) [8x8]
-  65848    draw_tilemap(TMAP16,  0,  0) [8x8]
-  68358    draw_tilemap(TMAP8 , -1,  0) [8x8]
-  71720    draw_tilemap(TMAP16, -1,  0) [8x8]
-  70005    draw_tilemap(TMAP8 ,  0, -1) [8x8]
-  73770    draw_tilemap(TMAP16,  0, -1) [8x8]
-  76522    draw_tilemap(TMAP8 , -1, -1) [8x8]
-  80314    draw_tilemap(TMAP16, -1, -1) [8x8]
+  31511    draw_tilemap(TMAP8 ,  0,  0) [16x16]
+  31538    draw_tilemap(TMAP16,  0,  0) [16x16]
+  33670    draw_tilemap(TMAP8 , -1,  0) [16x16]
+  35301    draw_tilemap(TMAP16, -1,  0) [16x16]
+  36614    draw_tilemap(TMAP8 ,  0, -1) [16x16]
+  36651    draw_tilemap(TMAP16,  0, -1) [16x16]
+  39034    draw_tilemap(TMAP8 , -1, -1) [16x16]
+  41076    draw_tilemap(TMAP16, -1, -1) [16x16]
+  62502    draw_tilemap(TMAP8 ,  0,  0) [8x8]
+  65832    draw_tilemap(TMAP16,  0,  0) [8x8]
+  68342    draw_tilemap(TMAP8 , -1,  0) [8x8]
+  71696    draw_tilemap(TMAP16, -1,  0) [8x8]
+  69996    draw_tilemap(TMAP8 ,  0, -1) [8x8]
+  73752    draw_tilemap(TMAP16,  0, -1) [8x8]
+  76504    draw_tilemap(TMAP8 , -1, -1) [8x8]
+  80287    draw_tilemap(TMAP16, -1, -1) [8x8]
