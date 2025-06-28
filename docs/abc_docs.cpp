@@ -118,7 +118,7 @@ static void print_sysfunc(
     if(!info.arg_descs.empty())
     {
         fprintf(f, "\n\n| Parameter | Description |");
-        fprintf(f, "\n| -- | -- |");
+        fprintf(f, "\n| :-- | :-- |");
         for(size_t i = 0; i < info.arg_descs.size(); ++i)
         {
             fprintf(f, "\n| **%s** | %s |",

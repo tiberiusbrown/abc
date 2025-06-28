@@ -110,7 +110,7 @@ void $draw_circle(i16 x, i16 y, u8 r, u8 color);
 Draws a single pixel thick outline of a circle to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the center of the circle. |
 | **y** | The y-coorindate of the center of the circle. |
 | **r** | The radius of the circle in pixels. |
@@ -124,7 +124,7 @@ void $draw_filled_circle(i16 x, i16 y, u8 r, u8 color);
 Draws a filled circle to the display buffer. 
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the center of the circle. |
 | **y** | The y-coorindate of the center of the circle. |
 | **r** | The radius of the circle in pixels. |
@@ -138,7 +138,7 @@ void $draw_filled_rect(i16 x, i16 y, u8 w, u8 h, u8 color);
 Draws a filled rectangle to the display buffer. 
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the left side of the rectangle. |
 | **y** | The y-coordinate of the top side of the rectangle. |
 | **w** | The width of the rectangle in pixels. |
@@ -153,7 +153,7 @@ void $draw_hline(i16 x, i16 y, u8 w, u8 color);
 Draws a horizontal line of a given color to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the leftmost pixel of the line. |
 | **y** | The y-coordinate of the line. |
 | **w** | The width of the line in pixels. |
@@ -167,7 +167,7 @@ void $draw_line(i16 x0, i16 y0, i16 x1, i16 y1, u8 color);
 Draws a line between two arbitrary points to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x0** | The x-coordinate of the start of the line. |
 | **y0** | The y-coordinate of the start of the line. |
 | **x1** | The x-coordinate of the end of the line. |
@@ -182,7 +182,7 @@ void $draw_pixel(i16 x, i16 y, u8 color);
 Draws a single pixel of a given color to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the pixel. |
 | **y** | The y-coorindate of the pixel.The color (`BLACK` or `WHITE`) of the pixel. |
 ## `$draw_rect`
@@ -194,7 +194,7 @@ void $draw_rect(i16 x, i16 y, u8 w, u8 h, u8 color);
 Draws a single pixel thick outline of a rectangle to the display buffer. 
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the left side of the rectangle. |
 | **y** | The y-coordinate of the top side of the rectangle. |
 | **w** | The width of the rectangle in pixels. |
@@ -209,7 +209,7 @@ void $draw_sprite(i16 x, i16 y, sprites s, u16 frame);
 Draws a sprite to the display buffer. 
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coorindate of the top side of the sprite. |
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
@@ -223,7 +223,7 @@ void $draw_sprite_selfmask(i16 x, i16 y, sprites s, u16 frame);
 Draws a sprite to the display buffer. If the sprite is unmasked, the sprite is masked by its own white pixels. If the sprite is masked, the sprite is masked as normal. In grayscale modes, this function behaves exactly as `$draw_sprite`.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coorindate of the top side of the sprite. |
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
@@ -238,7 +238,7 @@ void $draw_text(i16 x, i16 y, char[] prog& text);
 Draws some text to the display buffer. The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. 
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the left edge of the first character in the text. When drawing, newline characters will set the x-coordinate of the next character to this value. |
 | **y** | The y-coordinate of the baseline of the first character in the text. |
 | **text** | The text to draw. |
@@ -251,7 +251,7 @@ void $draw_textf(i16 x, i16 y, char[] prog& fmt, ...);
 Draws some formatted text to the display buffer. The formatting supports a limited subset of `printf`-style format strings.
 
 | Specifier | Description |
-| -- | -- |
+| :-- | :-- |
 | `%%` | A single '%' character. |
 | `%d` | A signed decimal integer (`i32`). |
 | `%u` | An unsigned decimal integer (`u32`). |
@@ -263,7 +263,7 @@ Draws some formatted text to the display buffer. The formatting supports a limit
 The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to 9; for example, `%04u` would print 42 as "0042". The `%f` specifier supports a precision modifier of up to 9 digits for decimal fractions; for example, `.3f` would print 3.14159 as "3.142". The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. 
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the left edge of the first character in the text. When drawing, newline characters will set the x-coordinate of the next character to this value. |
 | **y** | The y-coordinate of the baseline of the first character in the text. |
 | **fmt** | The format string to use for constructing the text to draw. |
@@ -283,7 +283,7 @@ void $draw_vline(i16 x, i16 y, u8 h, u8 color);
 Draws a vertical line of a given color to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the line. |
 | **y** | The y-coordinate of topmost pixel of the line. |
 | **h** | The height of the line in pixels. |
@@ -297,7 +297,7 @@ u8 $get_pixel(u8 x, u8 y);
 Retrieves the color of a single pixel from the display buffer. In grayscale modes, this function always returns `BLACK`.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The x-coordinate of the pixel to test. |
 | **y** | The y-coordinate of the pixel to test. |
 
@@ -313,7 +313,7 @@ void $set_frame_rate(u8 fps);
 Set the target frame rate (see `$display`).
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **fps** | The frame rate in frames per second. |
 ## `$set_text_color`
 
@@ -324,7 +324,7 @@ void $set_text_color(u8 color);
 Set the color used by subsequence text drawing functions.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **color** | The color to use in subsequent text functions. |
 ## `$set_text_font`
 
@@ -335,7 +335,7 @@ void $set_text_font(font f);
 Set the font used by subsequent text functions.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **f** | The font to use in subsequent text functions. |
 ## `$sprites_frames`
 
@@ -346,7 +346,7 @@ u16 $sprites_frames(sprites s);
 Get the number of sprite frames in a sprite set.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **s** | The sprite set. |
 
 ### Return Value
@@ -361,7 +361,7 @@ u8 $sprites_height(sprites s);
 Get the sprite height for a sprite set.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **s** | The sprite set. |
 
 ### Return Value
@@ -376,7 +376,7 @@ u8 $sprites_width(sprites s);
 Get the sprite width for a sprite set.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **s** | The sprite set. |
 
 ### Return Value
@@ -392,7 +392,7 @@ u16 $text_width(char[] prog& text);
 Gets the width of some text in pixels. The font that was previously set by `$set_text_font` is used for character widths.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **text** | The text to compute the width. |
 
 ### Return Value
@@ -407,7 +407,7 @@ u16 $tilemap_get(tilemap tm, u16 x, u16 y);
 Get the tile at the given coordinates in a tilemap. Tilemap coordinates are unsigned. The x-coordinate runs left-to-right and the y-coordinate runs top-to-bottom.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **tm** | The x-coordinate of the tile to get. |
 | **x** | The y-coordinate of the tile to get. |
 ## `$tilemap_height`
@@ -419,7 +419,7 @@ u16 $tilemap_height(tilemap tm);
 Get the height of a tilemap in tiles.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **tm** | The tilemap. |
 
 ### Return Value
@@ -434,7 +434,7 @@ u16 $tilemap_width(tilemap tm);
 Get the width of a tilemap in tiles.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **tm** | The tilemap. |
 
 ### Return Value
@@ -449,7 +449,7 @@ u16 $wrap_text(char[]& text, u8 w);
 Word-wrap some text in-place by replacing space characters with newlines. The font that was previously set by `$set_text_font` is used for character widths.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **text** | The text to word-wrap. |
 | **w** | The wrap width in pixels. |
 
@@ -500,7 +500,7 @@ void $music_play(music song);
 Start playing some music. Any previoously playing music will be stopped.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **song** | The music to play. |
 ## `$music_playing`
 
@@ -529,7 +529,7 @@ void $tones_play(tones sfx);
 Play some tones on the tones channel. Any tones previously playing on the tones channel will be stopped.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **sfx** | The tones to play. |
 ## `$tones_play_auto`
 
@@ -547,7 +547,7 @@ void $tones_play_primary(tones sfx);
 Play some tones on the primary music channel. Any tones on the primary channel or music previously playing will be stopped. This is useful when some tones need to play that should not be interrupted by future calls to `$tones_play`.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **sfx** | The tones to play.  |
 ## `$tones_playing`
 
@@ -579,7 +579,7 @@ bool $any_pressed(u8 buttons);
 Test if any of the specified buttons are pressed.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **buttons** | A bit mask indicating which buttons to test (can be a single button). |
 
 ### Return Value
@@ -601,7 +601,7 @@ bool $just_pressed(u8 button);
 Test if a button has just been pressed since the last frame.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **button** | The button to test for. Only one button should be specified. |
 
 ### Return Value
@@ -616,7 +616,7 @@ bool $just_released(u8 button);
 Test if a button has just been released since the last frame.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **button** | The button to test for. Only one button should be specified. |
 
 ### Return Value
@@ -631,7 +631,7 @@ bool $not_pressed(u8 buttons);
 Test if all of the specified buttons are not pressed.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **buttons** | A bit mask indicating which buttons to test (can be a single button). |
 
 ### Return Value
@@ -646,7 +646,7 @@ bool $pressed(u8 buttons);
 Test if all of the specified buttons are pressed.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **buttons** | A bit mask indicating which buttons to test (can be a single button). |
 
 ### Return Value
@@ -664,7 +664,7 @@ float $atan2(float y, float x);
 Get the angle between the positive x-axis and the ray from the origin to the point (x, y) on the Cartesian plane.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **y** | The y-coordinate of the ray endpoint on the Cartesian plane. |
 | **x** | The x-coordinate of the ray endpoint on the Cartesian plane. |
 
@@ -680,7 +680,7 @@ float $ceil(float x);
 Get the least integer not less than a number.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The number. |
 
 ### Return Value
@@ -695,7 +695,7 @@ float $cos(float angle);
 Get the cosine of an angle.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **angle** | The angle in radians. |
 
 ### Return Value
@@ -710,7 +710,7 @@ float $floor(float x);
 Get the greatest integer not greater than a number.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The number. |
 
 ### Return Value
@@ -725,7 +725,7 @@ float $mod(float x, float y);
 Get the remainder of a division.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The numerator of the division. |
 | **y** | The denominator of the division. |
 
@@ -741,7 +741,7 @@ float $pow(float x, float y);
 Get the result of an exponentiation.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The base of the exponentiation. |
 | **y** | The exponent of the exponentiation. |
 
@@ -757,7 +757,7 @@ float $round(float x);
 Get the integer closest to a number, choosing the greater if equidistant from two integers.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The number. |
 
 ### Return Value
@@ -772,7 +772,7 @@ float $sin(float angle);
 Get the sine of an angle.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **angle** | The angle in radians. |
 
 ### Return Value
@@ -787,7 +787,7 @@ float $sqrt(float x);
 Get the square root of a number.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **x** | The number. |
 
 ### Return Value
@@ -802,7 +802,7 @@ float $tan(float angle);
 Get the tangent of an angle.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **angle** | The angle in radians. |
 
 ### Return Value
@@ -820,7 +820,7 @@ void $format(char[]& dst, char[] prog& fmt, ...);
 Copy formatted text into a text string. The formatting supports a limited subset of `printf`-style format strings.
 
 | Specifier | Description |
-| -- | -- |
+| :-- | :-- |
 | `%%` | A single '%' character. |
 | `%d` | A signed decimal integer (`i32`). |
 | `%u` | An unsigned decimal integer (`u32`). |
@@ -832,7 +832,7 @@ Copy formatted text into a text string. The formatting supports a limited subset
 The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to 9; for example, `%04u` would print 42 as "0042". The `%f` specifier supports a precision modifier of up to 9 digits for decimal fractions; for example, `.3f` would print 3.14159 as "3.142".
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **dst** | The destination text string. |
 | **fmt** | The format string to use for constructing the destination text string. |
 ## `$strcmp`
@@ -846,7 +846,7 @@ i8 $strcmp(char[] prog& str0, char[] prog& str1);
 Compare two text strings against each other lexicographically.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **str0** | The first string to compare. |
 | **str1** | The second string to compare. |
 
@@ -863,7 +863,7 @@ char[]& $strcpy(char[]& dst, char[] prog& src);
 Copy one text string to another. The two text strings may be different lengths or capacities.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **dst** | The destination text string. |
 | **src** | The source text string. |
 
@@ -880,7 +880,7 @@ u24 $strlen(char[] prog& str);
 Get the length of a text string in characters. Use the `len` operator to get the capacity of a text string in characters.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **str** | The text string. |
 
 ### Return Value
@@ -898,7 +898,7 @@ void $assert(bool cond);
 Runtime assertion for debug purposes. If the asserted condition evaluates to `false`, execution halts and a stack trace is displayed.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **cond** | The condition to check. |
 ## `$debug_break`
 
@@ -916,7 +916,7 @@ void $debug_printf(char[] prog& fmt, ...);
 Output some formatted text to the serial console. This function does not work on a physical Arduboy FX, as the interpreter does not include a USB software stack.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **fmt** | The format string to use for constructing the text to output. |
 ## `$idle`
 
@@ -935,7 +935,7 @@ void $memcpy(byte[]& dst, byte[] prog& src);
 Copy one byte array to another. The two byte arrays must be the same size.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **dst** | The destination byte array. |
 | **src** | The source byte array. |
 ## `$memset`
@@ -947,7 +947,7 @@ void $memset(byte[]& dst, u8 val);
 Set each byte of some byte array to a single value.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **dst** | The byte array to modify. |
 | **val** | The value to copy to each byte. |
 ## `$millis`
@@ -1002,7 +1002,7 @@ u32 $random_range(u32 lo, u32 hi);
 Get a 32-bit random value generated from the internal random seed constrained to fall within a given range. The range is inclusive; `$random_range(1, 3)` will produce either 1, 2, or 3.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **lo** | The lower bound of the constrained range, inclusive. |
 | **hi** | The upper bound of the constrained range, inclusive. |
 
@@ -1018,7 +1018,7 @@ void $set_random_seed(u32 seed);
 Set the internal random seed.
 
 | Parameter | Description |
-| -- | -- |
+| :-- | :-- |
 | **seed** | The random seed. |
 
 # Save/Load

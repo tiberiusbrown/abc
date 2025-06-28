@@ -128,7 +128,7 @@ std::vector<std::string> const sysfunc_cats =
 static std::string const HELP_FORMAT_STR =
     "The formatting supports a limited subset of `printf`-style format strings.\n\n"
     "| Specifier | Description |\n"
-    "| -- | -- |\n"
+    "| :-- | :-- |\n"
     "| `%%` | A single '%' character. |\n"
     "| `%d` | A signed decimal integer (`i32`). |\n"
     "| `%u` | An unsigned decimal integer (`u32`). |\n"
