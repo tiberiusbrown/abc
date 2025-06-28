@@ -369,36 +369,117 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "Copy formatted text into a text string. " + HELP_FORMAT_STR, {
         "The destination text string.",
         "The format string to use for constructing the destination text string." } } },
-    { SYS_MUSIC_PLAY,           { { TYPE_VOID,  { TYPE_MUSIC }, { "song" } }, CAT_SOUND, "" } },
-    { SYS_MUSIC_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_MUSIC_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_TONES_PLAY,           { { TYPE_VOID,  { TYPE_TONES }, { "sfx" } }, CAT_SOUND, "" } },
-    { SYS_TONES_PLAY_PRIMARY,   { { TYPE_VOID,  { TYPE_TONES }, { "sfx" } }, CAT_SOUND, "" } },
-    { SYS_TONES_PLAY_AUTO,      { { TYPE_VOID,  { TYPE_TONES }, { "sfx" } }, CAT_SOUND, "" } },
-    { SYS_TONES_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_TONES_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_AUDIO_ENABLED,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_AUDIO_TOGGLE,         { { TYPE_VOID,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_AUDIO_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_AUDIO_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND, "" } },
-    { SYS_SAVE_EXISTS,          { { TYPE_BOOL,  { }, { } }, CAT_SAVELOAD, "" } },
-    { SYS_SAVE,                 { { TYPE_VOID,  { }, { } }, CAT_SAVELOAD, "" } },
-    { SYS_LOAD,                 { { TYPE_BOOL,  { }, { } }, CAT_SAVELOAD, "" } },
-    { SYS_SIN,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" } }, CAT_MATH, "" } },
-    { SYS_COS,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" } }, CAT_MATH, "" } },
-    { SYS_TAN,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" } }, CAT_MATH, "" } },
-    { SYS_ATAN2,                { { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "y", "x" } }, CAT_MATH, "" } },
-    { SYS_FLOOR,                { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH, "" } },
-    { SYS_CEIL,                 { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH, "" } },
-    { SYS_ROUND,                { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH, "" } },
-    { SYS_MOD,                  { { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" } }, CAT_MATH, "" } },
-    { SYS_POW,                  { { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" } }, CAT_MATH, "" } },
-    { SYS_SQRT,                 { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH, "" } },
-    { SYS_GENERATE_RANDOM_SEED, { { TYPE_U32,   { }, { } }, CAT_RANDOM, "" } },
-    { SYS_INIT_RANDOM_SEED,     { { TYPE_VOID,  { }, { } }, CAT_RANDOM, "" } },
-    { SYS_SET_RANDOM_SEED,      { { TYPE_VOID,  { TYPE_U32 }, { "seed" } }, CAT_RANDOM, ""}},
-    { SYS_RANDOM,               { { TYPE_U32,   { }, { } }, CAT_RANDOM, "" } },
-    { SYS_RANDOM_RANGE,         { { TYPE_U32,   { TYPE_U32, TYPE_U32 }, { "lo", "hi" } }, CAT_RANDOM, "" } },
+    { SYS_MUSIC_PLAY,           { { TYPE_VOID,  { TYPE_MUSIC }, { "song" } }, CAT_SOUND,
+        "Start playing some music. Any previoously playing music will be stopped.", {
+        "The music to play." } } },
+    { SYS_MUSIC_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND,
+        "Get whether any music is playing.", {},
+        "`true` if any music is playing." } },
+    { SYS_MUSIC_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND,
+        "Stop any music that is currently playing." } },
+    { SYS_TONES_PLAY,           { { TYPE_VOID,  { TYPE_TONES }, { "sfx" } }, CAT_SOUND,
+        "Play some tones on the tones channel. "
+        "Any tones previously playing on the tones channel will be stopped.", {
+        "The tones to play." } } },
+    { SYS_TONES_PLAY_PRIMARY,   { { TYPE_VOID,  { TYPE_TONES }, { "sfx" } }, CAT_SOUND,
+        "Play some tones on the primary music channel. "
+        "Any tones on the primary channel or music previously playing will be stopped. "
+        "This is useful when some tones need to play that should not be interrupted by "
+        "future calls to `$tones_play`.", {
+        "The tones to play. " } } },
+    { SYS_TONES_PLAY_AUTO,      { { TYPE_VOID,  { TYPE_TONES }, { "sfx" } }, CAT_SOUND,
+        "Play some tones on either the tones channel or the primary music channel. "
+        "The primary music channel will be used only if the tones channel is occupied "
+        "and the primary music channel is unoccupied. "
+        "This is useful for situations where music is not playing; it allows two tones "
+        "to play simultaneously." } },
+    { SYS_TONES_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND,
+        "Get whether tones are playing on any channel.", {},
+        "`true` if tones are playing on any channel." } },
+    { SYS_TONES_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND,
+        "Stop any tones playing on any channel." } },
+    { SYS_AUDIO_ENABLED,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND,
+        "Get whether music and tones are able to play.", {},
+        "`true` if music and tones are able to play." } },
+    { SYS_AUDIO_TOGGLE,         { { TYPE_VOID,  { }, { } }, CAT_SOUND,
+        "Toggle whether music and tones are able to play." } },
+    { SYS_AUDIO_PLAYING,        { { TYPE_BOOL,  { }, { } }, CAT_SOUND,
+        "Get whether any music or tones are playing on any channel.", {},
+        "`true` if any music or tones are playing on any channel." } },
+    { SYS_AUDIO_STOP,           { { TYPE_VOID,  { }, { } }, CAT_SOUND,
+        "Stop any music or tones that are currently playing on any channel." } },
+    { SYS_SAVE_EXISTS,          { { TYPE_BOOL,  { }, { } }, CAT_SAVELOAD,
+        "Get whether a save file exists.", {},
+        "`true` if a save file exists." } },
+    { SYS_SAVE,                 { { TYPE_VOID,  { }, { } }, CAT_SAVELOAD,
+        "Save all `saved` global variables to the save file." } },
+    { SYS_LOAD,                 { { TYPE_BOOL,  { }, { } }, CAT_SAVELOAD,
+        "Overwrite all `saved` global variables from the save file, if it exists.", {},
+        "`true` if the save file exists and the global variables were overwritten." } },
+    { SYS_SIN,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" } }, CAT_MATH,
+        "Get the sine of an angle.", {
+        "The angle in radians." },
+        "The sine of the angle." } },
+    { SYS_COS,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" } }, CAT_MATH,
+        "Get the cosine of an angle.", {
+        "The angle in radians." },
+        "The cosine of the angle." } },
+    { SYS_TAN,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "angle" } }, CAT_MATH,
+        "Get the tangent of an angle.", {
+        "The angle in radians." },
+        "The tangent of the angle." } },
+    { SYS_ATAN2,                { { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "y", "x" } }, CAT_MATH,
+        "Get the angle between the positive x-axis and the ray from the origin "
+        "to the point (x, y) on the Cartesian plane.", {
+        "The y-coordinate of the ray endpoint on the Cartesian plane.",
+        "The x-coordinate of the ray endpoint on the Cartesian plane." },
+        "The angle between the positive x-axis and the ray from the origin "
+        "to the point (x, y) on the Cartesian plane." } },
+    { SYS_FLOOR,                { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH,
+        "Get the greatest integer not greater than a number.", {
+        "The number." },
+        "The greatest integer not greater than the number." } },
+    { SYS_CEIL,                 { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH,
+        "Get the least integer not less than a number.", {
+        "The number." },
+        "The least integer not less than the number." } },
+    { SYS_ROUND,                { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH,
+        "Get the integer closest to a number, choosing the greater if equidistant from two integers.", {
+        "The number." },
+        "The integer closest to the number, choosing the greater if equidistant from two integers." } },
+    { SYS_MOD,                  { { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" } }, CAT_MATH,
+        "Get the remainder of a division.", {
+        "The numerator of the division.",
+        "The denominator of the division." },
+        "The remainder of the division." } },
+    { SYS_POW,                  { { TYPE_FLOAT, { TYPE_FLOAT, TYPE_FLOAT }, { "x", "y" } }, CAT_MATH,
+        "Get the result of an exponentiation.", {
+        "The base of the exponentiation.",
+        "The exponent of the exponentiation." },
+        "The result of the exponentiation." } },
+    { SYS_SQRT,                 { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH,
+        "Get the square root of a number.", {
+        "The number." },
+        "The square root of the number." } },
+    { SYS_GENERATE_RANDOM_SEED, { { TYPE_U32,   { }, { } }, CAT_RANDOM,
+        "Get a random value generated from true entropy.", {},
+        "A random value generated from true entropy." } },
+    { SYS_INIT_RANDOM_SEED,     { { TYPE_VOID,  { }, { } }, CAT_RANDOM,
+        "Initialize the internal random seed with a value generated from true entropy." } },
+    { SYS_SET_RANDOM_SEED,      { { TYPE_VOID,  { TYPE_U32 }, { "seed" } }, CAT_RANDOM,
+        "Set the internal random seed.", {
+        "The random seed." } } },
+    { SYS_RANDOM,               { { TYPE_U32,   { }, { } }, CAT_RANDOM,
+        "Get a 32-bit random value generated from the internal random seed.", {},
+        "A 32-bit random value generated from the internal random seed." } },
+    { SYS_RANDOM_RANGE,         { { TYPE_U32,   { TYPE_U32, TYPE_U32 }, { "lo", "hi" } }, CAT_RANDOM,
+        "Get a 32-bit random value generated from the internal random seed "
+        "constrained to fall within a given range. "
+        "The range is inclusive; `$random_range(1, 3)` will produce either 1, 2, or 3.", {
+        "The lower bound of the constrained range, inclusive.",
+        "The upper bound of the constrained range, inclusive." },
+        "A 32-bit random value generated from the internal random seed "
+        "constrained to fall within the given range." } },
 };
 
 }

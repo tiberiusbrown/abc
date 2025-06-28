@@ -1,3 +1,86 @@
+- [Graphics](#Graphics)
+  -[`$display`](display)
+  -[`$display_noclear`](display_noclear)
+  -[`$draw_circle`](draw_circle)
+  -[`$draw_filled_circle`](draw_filled_circle)
+  -[`$draw_filled_rect`](draw_filled_rect)
+  -[`$draw_hline`](draw_hline)
+  -[`$draw_line`](draw_line)
+  -[`$draw_pixel`](draw_pixel)
+  -[`$draw_rect`](draw_rect)
+  -[`$draw_sprite`](draw_sprite)
+  -[`$draw_sprite_selfmask`](draw_sprite_selfmask)
+  -[`$draw_text`](draw_text)
+  -[`$draw_textf`](draw_textf)
+  -[`$draw_tilemap`](draw_tilemap)
+  -[`$draw_vline`](draw_vline)
+  -[`$get_pixel`](get_pixel)
+  -[`$set_frame_rate`](set_frame_rate)
+  -[`$set_text_color`](set_text_color)
+  -[`$set_text_font`](set_text_font)
+  -[`$sprites_frames`](sprites_frames)
+  -[`$sprites_height`](sprites_height)
+  -[`$sprites_width`](sprites_width)
+  -[`$text_width`](text_width)
+  -[`$tilemap_get`](tilemap_get)
+  -[`$tilemap_height`](tilemap_height)
+  -[`$tilemap_width`](tilemap_width)
+  -[`$wrap_text`](wrap_text)
+- [Sound](#Sound)
+  -[`$audio_enabled`](audio_enabled)
+  -[`$audio_playing`](audio_playing)
+  -[`$audio_stop`](audio_stop)
+  -[`$audio_toggle`](audio_toggle)
+  -[`$music_play`](music_play)
+  -[`$music_playing`](music_playing)
+  -[`$music_stop`](music_stop)
+  -[`$tones_play`](tones_play)
+  -[`$tones_play_auto`](tones_play_auto)
+  -[`$tones_play_primary`](tones_play_primary)
+  -[`$tones_playing`](tones_playing)
+  -[`$tones_stop`](tones_stop)
+- [Buttons](#Buttons)
+  -[`$any_pressed`](any_pressed)
+  -[`$buttons`](buttons)
+  -[`$just_pressed`](just_pressed)
+  -[`$just_released`](just_released)
+  -[`$not_pressed`](not_pressed)
+  -[`$pressed`](pressed)
+- [Math](#Math)
+  -[`$atan2`](atan2)
+  -[`$ceil`](ceil)
+  -[`$cos`](cos)
+  -[`$floor`](floor)
+  -[`$mod`](mod)
+  -[`$pow`](pow)
+  -[`$round`](round)
+  -[`$sin`](sin)
+  -[`$sqrt`](sqrt)
+  -[`$tan`](tan)
+- [Strings](#Strings)
+  -[`$format`](format)
+  -[`$strcmp`](strcmp)
+  -[`$strcpy`](strcpy)
+  -[`$strlen`](strlen)
+- [Utility](#Utility)
+  -[`$assert`](assert)
+  -[`$debug_break`](debug_break)
+  -[`$debug_printf`](debug_printf)
+  -[`$idle`](idle)
+  -[`$memcpy`](memcpy)
+  -[`$memset`](memset)
+  -[`$millis`](millis)
+- [Random](#Random)
+  -[`$generate_random_seed`](generate_random_seed)
+  -[`$init_random_seed`](init_random_seed)
+  -[`$random`](random)
+  -[`$random_range`](random_range)
+  -[`$set_random_seed`](set_random_seed)
+- [Save/Load](#Save/Load)
+  -[`$load`](load)
+  -[`$save`](save)
+  -[`$save_exists`](save_exists)
+
 # Graphics
 
 ## `$display`
@@ -378,84 +461,112 @@ Word-wrap some text in-place by replacing space characters with newlines. The fo
 bool $audio_enabled();
 ```
 
+Get whether music and tones are able to play.
 
+### Return Value
+
+`true` if music and tones are able to play.
 ## `$audio_playing`
 
 ```c
 bool $audio_playing();
 ```
 
+Get whether any music or tones are playing on any channel.
 
+### Return Value
+
+`true` if any music or tones are playing on any channel.
 ## `$audio_stop`
 
 ```c
 void $audio_stop();
 ```
 
-
+Stop any music or tones that are currently playing on any channel.
 ## `$audio_toggle`
 
 ```c
 void $audio_toggle();
 ```
 
-
+Toggle whether music and tones are able to play.
 ## `$music_play`
 
 ```c
 void $music_play(music song);
 ```
 
+Start playing some music. Any previoously playing music will be stopped.
 
+| Parameter | Description |
+| -- | -- |
+| **song** | The music to play. |
 ## `$music_playing`
 
 ```c
 bool $music_playing();
 ```
 
+Get whether any music is playing.
 
+### Return Value
+
+`true` if any music is playing.
 ## `$music_stop`
 
 ```c
 void $music_stop();
 ```
 
-
+Stop any music that is currently playing.
 ## `$tones_play`
 
 ```c
 void $tones_play(tones sfx);
 ```
 
+Play some tones on the tones channel. Any tones previously playing on the tones channel will be stopped.
 
+| Parameter | Description |
+| -- | -- |
+| **sfx** | The tones to play. |
 ## `$tones_play_auto`
 
 ```c
 void $tones_play_auto(tones sfx);
 ```
 
-
+Play some tones on either the tones channel or the primary music channel. The primary music channel will be used only if the tones channel is occupied and the primary music channel is unoccupied. This is useful for situations where music is not playing; it allows two tones to play simultaneously.
 ## `$tones_play_primary`
 
 ```c
 void $tones_play_primary(tones sfx);
 ```
 
+Play some tones on the primary music channel. Any tones on the primary channel or music previously playing will be stopped. This is useful when some tones need to play that should not be interrupted by future calls to `$tones_play`.
 
+| Parameter | Description |
+| -- | -- |
+| **sfx** | The tones to play.  |
 ## `$tones_playing`
 
 ```c
 bool $tones_playing();
 ```
 
+Get whether tones are playing on any channel.
 
+### Return Value
+
+`true` if tones are playing on any channel.
 ## `$tones_stop`
 
 ```c
 void $tones_stop();
 ```
 
-
+Stop any tones playing on any channel.
 
 # Buttons
 
@@ -550,70 +661,153 @@ Test if all of the specified buttons are pressed.
 float $atan2(float y, float x);
 ```
 
+Get the angle between the positive x-axis and the ray from the origin to the point (x, y) on the Cartesian plane.
 
+| Parameter | Description |
+| -- | -- |
+| **y** | The y-coordinate of the ray endpoint on the Cartesian plane. |
+| **x** | The x-coordinate of the ray endpoint on the Cartesian plane. |
+
+### Return Value
+
+The angle between the positive x-axis and the ray from the origin to the point (x, y) on the Cartesian plane.
 ## `$ceil`
 
 ```c
 float $ceil(float x);
 ```
 
+Get the least integer not less than a number.
 
+| Parameter | Description |
+| -- | -- |
+| **x** | The number. |
+
+### Return Value
+
+The least integer not less than the number.
 ## `$cos`
 
 ```c
 float $cos(float angle);
 ```
 
+Get the cosine of an angle.
 
+| Parameter | Description |
+| -- | -- |
+| **angle** | The angle in radians. |
+
+### Return Value
+
+The cosine of the angle.
 ## `$floor`
 
 ```c
 float $floor(float x);
 ```
 
+Get the greatest integer not greater than a number.
 
+| Parameter | Description |
+| -- | -- |
+| **x** | The number. |
+
+### Return Value
+
+The greatest integer not greater than the number.
 ## `$mod`
 
 ```c
 float $mod(float x, float y);
 ```
 
+Get the remainder of a division.
 
+| Parameter | Description |
+| -- | -- |
+| **x** | The numerator of the division. |
+| **y** | The denominator of the division. |
+
+### Return Value
+
+The remainder of the division.
 ## `$pow`
 
 ```c
 float $pow(float x, float y);
 ```
 
+Get the result of an exponentiation.
 
+| Parameter | Description |
+| -- | -- |
+| **x** | The base of the exponentiation. |
+| **y** | The exponent of the exponentiation. |
+
+### Return Value
+
+The result of the exponentiation.
 ## `$round`
 
 ```c
 float $round(float x);
 ```
 
+Get the integer closest to a number, choosing the greater if equidistant from two integers.
 
+| Parameter | Description |
+| -- | -- |
+| **x** | The number. |
+
+### Return Value
+
+The integer closest to the number, choosing the greater if equidistant from two integers.
 ## `$sin`
 
 ```c
 float $sin(float angle);
 ```
 
+Get the sine of an angle.
 
+| Parameter | Description |
+| -- | -- |
+| **angle** | The angle in radians. |
+
+### Return Value
+
+The sine of the angle.
 ## `$sqrt`
 
 ```c
 float $sqrt(float x);
 ```
 
+Get the square root of a number.
 
+| Parameter | Description |
+| -- | -- |
+| **x** | The number. |
+
+### Return Value
+
+The square root of the number.
 ## `$tan`
 
 ```c
 float $tan(float angle);
 ```
 
+Get the tangent of an angle.
 
+| Parameter | Description |
+| -- | -- |
+| **angle** | The angle in radians. |
+
+### Return Value
+
+The tangent of the angle.
 
 # Strings
 
@@ -776,35 +970,56 @@ The time in milliseconds since program start.
 u32 $generate_random_seed();
 ```
 
+Get a random value generated from true entropy.
 
+### Return Value
+
+A random value generated from true entropy.
 ## `$init_random_seed`
 
 ```c
 void $init_random_seed();
 ```
 
-
+Initialize the internal random seed with a value generated from true entropy.
 ## `$random`
 
 ```c
 u32 $random();
 ```
 
+Get a 32-bit random value generated from the internal random seed.
 
+### Return Value
+
+A 32-bit random value generated from the internal random seed.
 ## `$random_range`
 
 ```c
 u32 $random_range(u32 lo, u32 hi);
 ```
 
+Get a 32-bit random value generated from the internal random seed constrained to fall within a given range. The range is inclusive; `$random_range(1, 3)` will produce either 1, 2, or 3.
 
+| Parameter | Description |
+| -- | -- |
+| **lo** | The lower bound of the constrained range, inclusive. |
+| **hi** | The upper bound of the constrained range, inclusive. |
+
+### Return Value
+
+A 32-bit random value generated from the internal random seed constrained to fall within the given range.
 ## `$set_random_seed`
 
 ```c
 void $set_random_seed(u32 seed);
 ```
 
+Set the internal random seed.
 
+| Parameter | Description |
+| -- | -- |
+| **seed** | The random seed. |
 
 # Save/Load
 
@@ -814,20 +1029,28 @@ void $set_random_seed(u32 seed);
 bool $load();
 ```
 
+Overwrite all `saved` global variables from the save file, if it exists.
 
+### Return Value
+
+`true` if the save file exists and the global variables were overwritten.
 ## `$save`
 
 ```c
 void $save();
 ```
 
-
+Save all `saved` global variables to the save file.
 ## `$save_exists`
 
 ```c
 bool $save_exists();
 ```
 
+Get whether a save file exists.
 
+### Return Value
+
+`true` if a save file exists.
 
 

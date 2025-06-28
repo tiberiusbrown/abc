@@ -142,6 +142,25 @@ int abc_docs()
     fprintf(f, "```\n\n");
 #endif
 
+    // table of contents
+    for(auto const& cat : abc::sysfunc_cats)
+    {
+        fprintf(f, "- [%s](#%s)\n", cat.c_str(), cat.c_str());
+        for(auto const& [k, v] : sys_names)
+        {
+            bool skip = false;
+            for(auto const& [k2, v2] : abc::sys_overloads)
+                for(auto const& v3 : v2)
+                    if(v3 == k) skip = true;
+            if(skip) continue;
+            auto it = abc::sysfunc_decls.find(v);
+            if(it == abc::sysfunc_decls.end()) continue;
+            if(it->second.category != cat) continue;
+            fprintf(f, "  -[`$%s`](%s)\n", k.c_str(), k.c_str());
+        }
+    }
+    fprintf(f, "\n");
+
     for(auto const& cat : abc::sysfunc_cats)
     {
         fprintf(f, "# %s\n\n", cat.c_str());
