@@ -127,8 +127,7 @@ static void print_sysfunc(
     }
     if(!info.return_desc.empty())
     {
-        fprintf(f, "\n\n### Return Value");
-        fprintf(f, "\n\n%s", info.return_desc.c_str());
+        fprintf(f, "\n\n**Returns:** %s", info.return_desc.c_str());
     }
     fprintf(f, "\n\n");
 }

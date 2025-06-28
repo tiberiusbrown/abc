@@ -323,9 +323,7 @@ Get the color of a single pixel from the display buffer. In grayscale modes, thi
 | **x** | The x-coordinate of the pixel to test. |
 | **y** | The y-coordinate of the pixel to test. |
 
-### Return Value
-
-The color of the pixel: either `BLACK` or `WHITE`.
+**Returns:** The color of the pixel: either `BLACK` or `WHITE`.
 
 ## `$set_frame_rate`
 
@@ -375,9 +373,7 @@ Get the number of sprite frames in a sprite set.
 | :-- | :-- |
 | **s** | The sprite set. |
 
-### Return Value
-
-The number of sprite frames in the sprite set.
+**Returns:** The number of sprite frames in the sprite set.
 
 ## `$sprites_height`
 
@@ -391,9 +387,7 @@ Get the sprite height for a sprite set.
 | :-- | :-- |
 | **s** | The sprite set. |
 
-### Return Value
-
-The sprite height for the sprite set.
+**Returns:** The sprite height for the sprite set.
 
 ## `$sprites_width`
 
@@ -407,9 +401,7 @@ Get the sprite width for a sprite set.
 | :-- | :-- |
 | **s** | The sprite set. |
 
-### Return Value
-
-The sprite width for the sprite set.
+**Returns:** The sprite width for the sprite set.
 
 ## `$text_width`
 
@@ -424,9 +416,7 @@ Get the width of some text in pixels. The font that was previously set by `$set_
 | :-- | :-- |
 | **text** | The text to compute the width. |
 
-### Return Value
-
-The width of the text in pixels.
+**Returns:** The width of the text in pixels.
 
 ## `$tilemap_get`
 
@@ -441,6 +431,8 @@ Get the tile at the given coordinates in a tilemap. Tilemap coordinates are unsi
 | **tm** | The x-coordinate of the tile to get. |
 | **x** | The y-coordinate of the tile to get. |
 
+**Returns:** The tile at the given coordinates in the tilemap.
+
 ## `$tilemap_height`
 
 ```c
@@ -453,9 +445,7 @@ Get the height of a tilemap in tiles.
 | :-- | :-- |
 | **tm** | The tilemap. |
 
-### Return Value
-
-The height of the tilemap in tiles.
+**Returns:** The height of the tilemap in tiles.
 
 ## `$tilemap_width`
 
@@ -469,9 +459,7 @@ Get the width of a tilemap in tiles.
 | :-- | :-- |
 | **tm** | The tilemap. |
 
-### Return Value
-
-The width of the tilemap in tiles.
+**Returns:** The width of the tilemap in tiles.
 
 ## `$wrap_text`
 
@@ -497,9 +485,7 @@ bool $audio_enabled();
 
 Get whether music and tones are able to play.
 
-### Return Value
-
-`true` if music and tones are able to play.
+**Returns:** `true` if music and tones are able to play.
 
 ## `$audio_playing`
 
@@ -509,9 +495,7 @@ bool $audio_playing();
 
 Get whether any music or tones are playing on any channel.
 
-### Return Value
-
-`true` if any music or tones are playing on any channel.
+**Returns:** `true` if any music or tones are playing on any channel.
 
 ## `$audio_stop`
 
@@ -549,9 +533,7 @@ bool $music_playing();
 
 Get whether any music is playing.
 
-### Return Value
-
-`true` if any music is playing.
+**Returns:** `true` if any music is playing.
 
 ## `$music_stop`
 
@@ -601,9 +583,7 @@ bool $tones_playing();
 
 Get whether tones are playing on any channel.
 
-### Return Value
-
-`true` if tones are playing on any channel.
+**Returns:** `true` if tones are playing on any channel.
 
 ## `$tones_stop`
 
@@ -628,9 +608,7 @@ Test if any of the specified buttons are pressed.
 | :-- | :-- |
 | **buttons** | A bit mask indicating which buttons to test (can be a single button). |
 
-### Return Value
-
-`true` if *one or more* buttons in the provided mask are currently pressed.
+**Returns:** `true` if *one or more* buttons in the provided mask are currently pressed.
 
 ## `$buttons`
 
@@ -652,9 +630,7 @@ Test if a button has just been pressed since the last frame.
 | :-- | :-- |
 | **button** | The button to test for. Only one button should be specified. |
 
-### Return Value
-
-`true` if the specified button has just been pressed since the last frame.
+**Returns:** `true` if the specified button has just been pressed since the last frame.
 
 ## `$just_released`
 
@@ -668,9 +644,7 @@ Test if a button has just been released since the last frame.
 | :-- | :-- |
 | **button** | The button to test for. Only one button should be specified. |
 
-### Return Value
-
-`true` if the specified button has just been released since the last frame.
+**Returns:** `true` if the specified button has just been released since the last frame.
 
 ## `$not_pressed`
 
@@ -684,9 +658,7 @@ Test if all of the specified buttons are not pressed.
 | :-- | :-- |
 | **buttons** | A bit mask indicating which buttons to test (can be a single button). |
 
-### Return Value
-
-`true` if *all* buttons in the provided mask are currently released.
+**Returns:** `true` if *all* buttons in the provided mask are currently released.
 
 ## `$pressed`
 
@@ -700,9 +672,7 @@ Test if all of the specified buttons are pressed.
 | :-- | :-- |
 | **buttons** | A bit mask indicating which buttons to test (can be a single button). |
 
-### Return Value
-
-`true` if *all* buttons in the provided mask are currently pressed.
+**Returns:** `true` if *all* buttons in the provided mask are currently pressed.
 
 
 # Math
@@ -720,9 +690,7 @@ Get the angle between the positive x-axis and the ray from the origin to the poi
 | **y** | The y-coordinate of the ray endpoint on the Cartesian plane. |
 | **x** | The x-coordinate of the ray endpoint on the Cartesian plane. |
 
-### Return Value
-
-The angle between the positive x-axis and the ray from the origin to the point (x, y) on the Cartesian plane.
+**Returns:** The angle between the positive x-axis and the ray from the origin to the point (x, y) on the Cartesian plane.
 
 ## `$ceil`
 
@@ -736,9 +704,7 @@ Get the least integer not less than a number.
 | :-- | :-- |
 | **x** | The number. |
 
-### Return Value
-
-The least integer not less than the number.
+**Returns:** The least integer not less than the number.
 
 ## `$cos`
 
@@ -752,9 +718,7 @@ Get the cosine of an angle.
 | :-- | :-- |
 | **angle** | The angle in radians. |
 
-### Return Value
-
-The cosine of the angle.
+**Returns:** The cosine of the angle.
 
 ## `$floor`
 
@@ -768,9 +732,7 @@ Get the greatest integer not greater than a number.
 | :-- | :-- |
 | **x** | The number. |
 
-### Return Value
-
-The greatest integer not greater than the number.
+**Returns:** The greatest integer not greater than the number.
 
 ## `$mod`
 
@@ -785,9 +747,7 @@ Get the remainder of a division.
 | **x** | The numerator of the division. |
 | **y** | The denominator of the division. |
 
-### Return Value
-
-The remainder of the division.
+**Returns:** The remainder of the division.
 
 ## `$pow`
 
@@ -802,9 +762,7 @@ Get the result of an exponentiation.
 | **x** | The base of the exponentiation. |
 | **y** | The exponent of the exponentiation. |
 
-### Return Value
-
-The result of the exponentiation.
+**Returns:** The result of the exponentiation.
 
 ## `$round`
 
@@ -818,9 +776,7 @@ Get the integer closest to a number, choosing the greater if equidistant from tw
 | :-- | :-- |
 | **x** | The number. |
 
-### Return Value
-
-The integer closest to the number, choosing the greater if equidistant from two integers.
+**Returns:** The integer closest to the number, choosing the greater if equidistant from two integers.
 
 ## `$sin`
 
@@ -834,9 +790,7 @@ Get the sine of an angle.
 | :-- | :-- |
 | **angle** | The angle in radians. |
 
-### Return Value
-
-The sine of the angle.
+**Returns:** The sine of the angle.
 
 ## `$sqrt`
 
@@ -850,9 +804,7 @@ Get the square root of a number.
 | :-- | :-- |
 | **x** | The number. |
 
-### Return Value
-
-The square root of the number.
+**Returns:** The square root of the number.
 
 ## `$tan`
 
@@ -866,9 +818,7 @@ Get the tangent of an angle.
 | :-- | :-- |
 | **angle** | The angle in radians. |
 
-### Return Value
-
-The tangent of the angle.
+**Returns:** The tangent of the angle.
 
 
 # Strings
@@ -913,9 +863,7 @@ Compare two text strings against each other lexicographically.
 | **str0** | The first string to compare. |
 | **str1** | The second string to compare. |
 
-### Return Value
-
-An integral value indicating the result of the comparison. A zero value indicates the two strings are equal. A negative or positive value indicates the first string is lexicographically less than or greater than the second string, respectively.
+**Returns:** An integral value indicating the result of the comparison. A zero value indicates the two strings are equal. A negative or positive value indicates the first string is lexicographically less than or greater than the second string, respectively.
 
 ## `$strcpy`
 
@@ -931,9 +879,7 @@ Copy one text string to another. The two text strings may be different lengths o
 | **dst** | The destination text string. |
 | **src** | The source text string. |
 
-### Return Value
-
-A reference to the destination text string.
+**Returns:** A reference to the destination text string.
 
 ## `$strlen`
 
@@ -948,9 +894,7 @@ Get the length of a text string in characters. Use the `len` operator to get the
 | :-- | :-- |
 | **str** | The text string. |
 
-### Return Value
-
-The length of the text string in characters.
+**Returns:** The length of the text string in characters.
 
 
 # Utility
@@ -1030,9 +974,7 @@ u32 $millis();
 
 Gets the time elapsed in milliseconds since program start.
 
-### Return Value
-
-The time in milliseconds since program start.
+**Returns:** The time in milliseconds since program start.
 
 
 # Random
@@ -1045,9 +987,7 @@ u32 $generate_random_seed();
 
 Get a random value generated from true entropy.
 
-### Return Value
-
-A random value generated from true entropy.
+**Returns:** A random value generated from true entropy.
 
 ## `$init_random_seed`
 
@@ -1065,9 +1005,7 @@ u32 $random();
 
 Get a 32-bit random value generated from the internal random seed.
 
-### Return Value
-
-A 32-bit random value generated from the internal random seed.
+**Returns:** A 32-bit random value generated from the internal random seed.
 
 ## `$random_range`
 
@@ -1082,9 +1020,7 @@ Get a 32-bit random value generated from the internal random seed constrained to
 | **lo** | The lower bound of the constrained range, inclusive. |
 | **hi** | The upper bound of the constrained range, inclusive. |
 
-### Return Value
-
-A 32-bit random value generated from the internal random seed constrained to fall within the given range.
+**Returns:** A 32-bit random value generated from the internal random seed constrained to fall within the given range.
 
 ## `$set_random_seed`
 
@@ -1109,9 +1045,7 @@ bool $load();
 
 Overwrite all `saved` global variables from the save file, if it exists.
 
-### Return Value
-
-`true` if the save file exists and the global variables were overwritten.
+**Returns:** `true` if the save file exists and the global variables were overwritten.
 
 ## `$save`
 
@@ -1129,9 +1063,7 @@ bool $save_exists();
 
 Get whether a save file exists.
 
-### Return Value
-
-`true` if a save file exists.
+**Returns:** `true` if a save file exists.
 
 
 

@@ -292,7 +292,8 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "Get the tile at the given coordinates in a tilemap. "
         "Tilemap coordinates are unsigned. The x-coordinate runs left-to-right and the y-coordinate runs top-to-bottom.", {
         "The x-coordinate of the tile to get.",
-        "The y-coordinate of the tile to get." } } },
+        "The y-coordinate of the tile to get." },
+        "The tile at the given coordinates in the tilemap." } },
     { SYS_SET_FRAME_RATE,       { { TYPE_VOID,  { TYPE_U8 }, { "fps" } }, CAT_GRAPHICS,
         "Set the target frame rate (see `$display`).", {
         "The frame rate in frames per second." } } },
