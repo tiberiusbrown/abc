@@ -7,6 +7,8 @@
 #include <string>
 #include <tuple>
 
+#include <ctype.h>
+
 #include <all_fonts.hpp>
 #include <stb_truetype.h>
 
@@ -82,6 +84,14 @@ static void print_sysfunc_decl(
     fprintf(f, ");");
 }
 
+static std::string tolabel(std::string const& t)
+{
+    std::string r(t);
+    for(auto& c : r)
+        c = char(isalnum(c) ? tolower(c) : '_');
+    return r;
+}
+
 static void print_sysfunc(
     FILE* f,
     std::string const& k,
@@ -145,7 +155,7 @@ int abc_docs()
     // table of contents
     for(auto const& cat : abc::sysfunc_cats)
     {
-        fprintf(f, "- [%s](#%s)\n", cat.c_str(), cat.c_str());
+        fprintf(f, "- [%s](#%s)\n", cat.c_str(), tolabel(cat).c_str());
         for(auto const& [k, v] : sys_names)
         {
             bool skip = false;
@@ -156,7 +166,7 @@ int abc_docs()
             auto it = abc::sysfunc_decls.find(v);
             if(it == abc::sysfunc_decls.end()) continue;
             if(it->second.category != cat) continue;
-            fprintf(f, "  -[`$%s`](%s)\n", k.c_str(), k.c_str());
+            fprintf(f, "  - [`$%s`](#_%s)\n", k.c_str(), tolabel(k).c_str());
         }
     }
     fprintf(f, "\n");
