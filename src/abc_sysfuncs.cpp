@@ -155,33 +155,33 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "buffer are left unmodified after pushing to the display. "
         "In grayscale modes, this function behaves exactly like `$display`, clearing the display buffer to all `BLACK` pixels." } },
     { SYS_GET_PIXEL,            { { TYPE_U8,    { TYPE_U8, TYPE_U8 }, { "x", "y" } }, CAT_GRAPHICS,
-        "Retrieves the color of a single pixel from the display buffer. "
+        "Get the color of a single pixel from the display buffer. "
         "In grayscale modes, this function always returns `BLACK`.", {
         "The x-coordinate of the pixel to test.",
         "The y-coordinate of the pixel to test."},
         "The color of the pixel: either `BLACK` or `WHITE`." } },
     { SYS_DRAW_PIXEL,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8 }, { "x", "y", "color" } }, CAT_GRAPHICS,
-        "Draws a single pixel of a given color to the display buffer. "
+        "Draw a single pixel of a given color to the display buffer. "
         "This function does nothing in grayscale modes.", {
         "The x-coordinate of the pixel.",
         "The y-coorindate of the pixel."
         "The color (`BLACK` or `WHITE`) of the pixel." } } },
     { SYS_DRAW_HLINE,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "color" } }, CAT_GRAPHICS,
-        "Draws a horizontal line of a given color to the display buffer. "
+        "Draw a horizontal line of a given color to the display buffer. "
         "This function does nothing in grayscale modes.", {
         "The x-coordinate of the leftmost pixel of the line.",
         "The y-coordinate of the line.",
         "The width of the line in pixels.",
         "The color (`BLACK` or `WHITE`) of the line." } } },
     { SYS_DRAW_VLINE,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "h", "color" } }, CAT_GRAPHICS,
-        "Draws a vertical line of a given color to the display buffer. "
+        "Draw a vertical line of a given color to the display buffer. "
         "This function does nothing in grayscale modes.", {
         "The x-coordinate of the line.",
         "The y-coordinate of topmost pixel of the line.",
         "The height of the line in pixels.",
         "The color (`BLACK` or `WHITE`) of the line." } } },
     { SYS_DRAW_LINE,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_I16, TYPE_I16, TYPE_U8 }, { "x0", "y0", "x1", "y1", "color" } }, CAT_GRAPHICS,
-        "Draws a line between two arbitrary points to the display buffer. "
+        "Draw a line between two arbitrary points to the display buffer. "
         "This function does nothing in grayscale modes.", {
         "The x-coordinate of the start of the line.",
         "The y-coordinate of the start of the line.",
@@ -189,40 +189,40 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "The y-coordinate of the end of the line.",
         "The color (`BLACK` or `WHITE`) of the line." } } },
     { SYS_DRAW_RECT,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "h", "color" } }, CAT_GRAPHICS,
-        "Draws a single pixel thick outline of a rectangle to the display buffer. ", {
+        "Draw a single pixel thick outline of a rectangle to the display buffer. ", {
         "The x-coordinate of the left side of the rectangle.",
         "The y-coordinate of the top side of the rectangle.",
         "The width of the rectangle in pixels.",
         "The height of the rectangle in pixels.",
         "The color of the rectangle." } } },
     { SYS_DRAW_FILLED_RECT,     { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8, TYPE_U8 }, { "x", "y", "w", "h", "color" } }, CAT_GRAPHICS,
-        "Draws a filled rectangle to the display buffer. ", {
+        "Draw a filled rectangle to the display buffer. ", {
         "The x-coordinate of the left side of the rectangle.",
         "The y-coordinate of the top side of the rectangle.",
         "The width of the rectangle in pixels.",
         "The height of the rectangle in pixels.",
         "The color of the rectangle." } } },
     { SYS_DRAW_CIRCLE,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "r", "color" } }, CAT_GRAPHICS,
-        "Draws a single pixel thick outline of a circle to the display buffer. "
+        "Draw a single pixel thick outline of a circle to the display buffer. "
         "This function does nothing in grayscale modes.", {
         "The x-coordinate of the center of the circle.",
         "The y-coorindate of the center of the circle.",
         "The radius of the circle in pixels.",
         "The color of the circle." } } },
     { SYS_DRAW_FILLED_CIRCLE,   { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_U8, TYPE_U8 }, { "x", "y", "r", "color" } }, CAT_GRAPHICS,
-        "Draws a filled circle to the display buffer. ", {
+        "Draw a filled circle to the display buffer. ", {
         "The x-coordinate of the center of the circle.",
         "The y-coorindate of the center of the circle.",
         "The radius of the circle in pixels.",
         "The color of the circle." } } },
     { SYS_DRAW_SPRITE,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 }, { "x", "y", "s", "frame" } }, CAT_GRAPHICS,
-        "Draws a sprite to the display buffer. ", {
+        "Draw a sprite to the display buffer. ", {
         "The x-coorindate of the top side of the sprite.",
         "The y-coordinate of the left side of the sprite.",
         "The sprite set for the sprite to draw.",
         "The frame of the sprite to draw form the sprite set." } } },
     { SYS_DRAW_SPRITE_SELFMASK, { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16 }, { "x", "y", "s", "frame" } }, CAT_GRAPHICS,
-        "Draws a sprite to the display buffer. "
+        "Draw a sprite to the display buffer. "
         "If the sprite is unmasked, the sprite is masked by its own white pixels. "
         "If the sprite is masked, the sprite is masked as normal. "
         "In grayscale modes, this function behaves exactly as `$draw_sprite`.", {
@@ -230,9 +230,14 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "The y-coordinate of the left side of the sprite.",
         "The sprite set for the sprite to draw.",
         "The frame of the sprite to draw form the sprite set." } } },
-    { SYS_DRAW_TILEMAP,         { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_TILEMAP }, { "x", "y", "s", "tm" } }, CAT_GRAPHICS, "" } },
+    { SYS_DRAW_TILEMAP,         { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_TILEMAP }, { "x", "y", "s", "tm" } }, CAT_GRAPHICS,
+        "Draw a tilemap resource to the display buffer.", {
+        "The x-coordinate of the left side of the tilemap.",
+        "The y-coordinate of the top side of the tilemap.",
+        "The sprite set to use for the tiles.",
+        "The tilemap to use for the sprite frames." } } },
     { SYS_DRAW_TEXT,            { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR }, { "x", "y", "text" } }, CAT_GRAPHICS,
-        "Draws some text to the display buffer. "
+        "Draw some text to the display buffer. "
         "The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. ", {
         "The x-coordinate of the left edge of the first character in the text. "
         "When drawing, newline characters will set the x-coordinate of the next character to this value.",
@@ -240,14 +245,14 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "The text to draw." } } },
     { SYS_DRAW_TEXT_P,          { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "text" } }, CAT_GRAPHICS, "" } },
     { SYS_DRAW_TEXTF,           { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_STR_PROG }, { "x", "y", "fmt" } }, CAT_GRAPHICS,
-        "Draws some formatted text to the display buffer. " + HELP_FORMAT_STR + " "
+        "Draw some formatted text to the display buffer. " + HELP_FORMAT_STR + " "
         "The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. ", {
         "The x-coordinate of the left edge of the first character in the text. "
         "When drawing, newline characters will set the x-coordinate of the next character to this value.",
         "The y-coordinate of the baseline of the first character in the text.",
         "The format string to use for constructing the text to draw." } } },
     { SYS_TEXT_WIDTH,           { { TYPE_U16,   { TYPE_STR }, { "text" } }, CAT_GRAPHICS,
-        "Gets the width of some text in pixels. "
+        "Get the width of some text in pixels. "
         "The font that was previously set by `$set_text_font` is used for character widths.", {
         "The text to compute the width." },
         "The width of the text in pixels." } },

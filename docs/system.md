@@ -94,6 +94,7 @@ Call this function once at the end of each frame to update the display and input
   2. Clear the contents of the display buffer to all black pixels.
   3. Wait for frame timing (see `$set_frame_rate`).
   4. Poll button states.
+
 ## `$display_noclear`
 
 ```c
@@ -101,13 +102,14 @@ void $display_noclear();
 ```
 
 When not using grayscale, this function behaves exactly like `$display` except that the contents of the display buffer are left unmodified after pushing to the display. In grayscale modes, this function behaves exactly like `$display`, clearing the display buffer to all `BLACK` pixels.
+
 ## `$draw_circle`
 
 ```c
 void $draw_circle(i16 x, i16 y, u8 r, u8 color);
 ```
 
-Draws a single pixel thick outline of a circle to the display buffer. This function does nothing in grayscale modes.
+Draw a single pixel thick outline of a circle to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -115,13 +117,14 @@ Draws a single pixel thick outline of a circle to the display buffer. This funct
 | **y** | The y-coorindate of the center of the circle. |
 | **r** | The radius of the circle in pixels. |
 | **color** | The color of the circle. |
+
 ## `$draw_filled_circle`
 
 ```c
 void $draw_filled_circle(i16 x, i16 y, u8 r, u8 color);
 ```
 
-Draws a filled circle to the display buffer. 
+Draw a filled circle to the display buffer. 
 
 | Parameter | Description |
 | :-- | :-- |
@@ -129,13 +132,14 @@ Draws a filled circle to the display buffer.
 | **y** | The y-coorindate of the center of the circle. |
 | **r** | The radius of the circle in pixels. |
 | **color** | The color of the circle. |
+
 ## `$draw_filled_rect`
 
 ```c
 void $draw_filled_rect(i16 x, i16 y, u8 w, u8 h, u8 color);
 ```
 
-Draws a filled rectangle to the display buffer. 
+Draw a filled rectangle to the display buffer. 
 
 | Parameter | Description |
 | :-- | :-- |
@@ -144,13 +148,14 @@ Draws a filled rectangle to the display buffer.
 | **w** | The width of the rectangle in pixels. |
 | **h** | The height of the rectangle in pixels. |
 | **color** | The color of the rectangle. |
+
 ## `$draw_hline`
 
 ```c
 void $draw_hline(i16 x, i16 y, u8 w, u8 color);
 ```
 
-Draws a horizontal line of a given color to the display buffer. This function does nothing in grayscale modes.
+Draw a horizontal line of a given color to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -158,13 +163,14 @@ Draws a horizontal line of a given color to the display buffer. This function do
 | **y** | The y-coordinate of the line. |
 | **w** | The width of the line in pixels. |
 | **color** | The color (`BLACK` or `WHITE`) of the line. |
+
 ## `$draw_line`
 
 ```c
 void $draw_line(i16 x0, i16 y0, i16 x1, i16 y1, u8 color);
 ```
 
-Draws a line between two arbitrary points to the display buffer. This function does nothing in grayscale modes.
+Draw a line between two arbitrary points to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -173,25 +179,27 @@ Draws a line between two arbitrary points to the display buffer. This function d
 | **x1** | The x-coordinate of the end of the line. |
 | **y1** | The y-coordinate of the end of the line. |
 | **color** | The color (`BLACK` or `WHITE`) of the line. |
+
 ## `$draw_pixel`
 
 ```c
 void $draw_pixel(i16 x, i16 y, u8 color);
 ```
 
-Draws a single pixel of a given color to the display buffer. This function does nothing in grayscale modes.
+Draw a single pixel of a given color to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
 | :-- | :-- |
 | **x** | The x-coordinate of the pixel. |
 | **y** | The y-coorindate of the pixel.The color (`BLACK` or `WHITE`) of the pixel. |
+
 ## `$draw_rect`
 
 ```c
 void $draw_rect(i16 x, i16 y, u8 w, u8 h, u8 color);
 ```
 
-Draws a single pixel thick outline of a rectangle to the display buffer. 
+Draw a single pixel thick outline of a rectangle to the display buffer. 
 
 | Parameter | Description |
 | :-- | :-- |
@@ -200,13 +208,14 @@ Draws a single pixel thick outline of a rectangle to the display buffer.
 | **w** | The width of the rectangle in pixels. |
 | **h** | The height of the rectangle in pixels. |
 | **color** | The color of the rectangle. |
+
 ## `$draw_sprite`
 
 ```c
 void $draw_sprite(i16 x, i16 y, sprites s, u16 frame);
 ```
 
-Draws a sprite to the display buffer. 
+Draw a sprite to the display buffer. 
 
 | Parameter | Description |
 | :-- | :-- |
@@ -214,13 +223,14 @@ Draws a sprite to the display buffer.
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
 | **frame** | The frame of the sprite to draw form the sprite set. |
+
 ## `$draw_sprite_selfmask`
 
 ```c
 void $draw_sprite_selfmask(i16 x, i16 y, sprites s, u16 frame);
 ```
 
-Draws a sprite to the display buffer. If the sprite is unmasked, the sprite is masked by its own white pixels. If the sprite is masked, the sprite is masked as normal. In grayscale modes, this function behaves exactly as `$draw_sprite`.
+Draw a sprite to the display buffer. If the sprite is unmasked, the sprite is masked by its own white pixels. If the sprite is masked, the sprite is masked as normal. In grayscale modes, this function behaves exactly as `$draw_sprite`.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -228,6 +238,7 @@ Draws a sprite to the display buffer. If the sprite is unmasked, the sprite is m
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
 | **frame** | The frame of the sprite to draw form the sprite set. |
+
 ## `$draw_text`
 
 ```c
@@ -235,20 +246,21 @@ void $draw_text(i16 x, i16 y, char[]& text);
 void $draw_text(i16 x, i16 y, char[] prog& text);
 ```
 
-Draws some text to the display buffer. The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. 
+Draw some text to the display buffer. The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. 
 
 | Parameter | Description |
 | :-- | :-- |
 | **x** | The x-coordinate of the left edge of the first character in the text. When drawing, newline characters will set the x-coordinate of the next character to this value. |
 | **y** | The y-coordinate of the baseline of the first character in the text. |
 | **text** | The text to draw. |
+
 ## `$draw_textf`
 
 ```c
 void $draw_textf(i16 x, i16 y, char[] prog& fmt, ...);
 ```
 
-Draws some formatted text to the display buffer. The formatting supports a limited subset of `printf`-style format strings.
+Draw some formatted text to the display buffer. The formatting supports a limited subset of `printf`-style format strings.
 
 | Specifier | Description |
 | :-- | :-- |
@@ -267,12 +279,21 @@ The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to
 | **x** | The x-coordinate of the left edge of the first character in the text. When drawing, newline characters will set the x-coordinate of the next character to this value. |
 | **y** | The y-coordinate of the baseline of the first character in the text. |
 | **fmt** | The format string to use for constructing the text to draw. |
+
 ## `$draw_tilemap`
 
 ```c
 void $draw_tilemap(i16 x, i16 y, sprites s, tilemap tm);
 ```
 
+Draw a tilemap resource to the display buffer.
+
+| Parameter | Description |
+| :-- | :-- |
+| **x** | The x-coordinate of the left side of the tilemap. |
+| **y** | The y-coordinate of the top side of the tilemap. |
+| **s** | The sprite set to use for the tiles. |
+| **tm** | The tilemap to use for the sprite frames. |
 
 ## `$draw_vline`
 
@@ -280,7 +301,7 @@ void $draw_tilemap(i16 x, i16 y, sprites s, tilemap tm);
 void $draw_vline(i16 x, i16 y, u8 h, u8 color);
 ```
 
-Draws a vertical line of a given color to the display buffer. This function does nothing in grayscale modes.
+Draw a vertical line of a given color to the display buffer. This function does nothing in grayscale modes.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -288,13 +309,14 @@ Draws a vertical line of a given color to the display buffer. This function does
 | **y** | The y-coordinate of topmost pixel of the line. |
 | **h** | The height of the line in pixels. |
 | **color** | The color (`BLACK` or `WHITE`) of the line. |
+
 ## `$get_pixel`
 
 ```c
 u8 $get_pixel(u8 x, u8 y);
 ```
 
-Retrieves the color of a single pixel from the display buffer. In grayscale modes, this function always returns `BLACK`.
+Get the color of a single pixel from the display buffer. In grayscale modes, this function always returns `BLACK`.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -304,6 +326,7 @@ Retrieves the color of a single pixel from the display buffer. In grayscale mode
 ### Return Value
 
 The color of the pixel: either `BLACK` or `WHITE`.
+
 ## `$set_frame_rate`
 
 ```c
@@ -315,6 +338,7 @@ Set the target frame rate (see `$display`).
 | Parameter | Description |
 | :-- | :-- |
 | **fps** | The frame rate in frames per second. |
+
 ## `$set_text_color`
 
 ```c
@@ -326,6 +350,7 @@ Set the color used by subsequence text drawing functions.
 | Parameter | Description |
 | :-- | :-- |
 | **color** | The color to use in subsequent text functions. |
+
 ## `$set_text_font`
 
 ```c
@@ -337,6 +362,7 @@ Set the font used by subsequent text functions.
 | Parameter | Description |
 | :-- | :-- |
 | **f** | The font to use in subsequent text functions. |
+
 ## `$sprites_frames`
 
 ```c
@@ -352,6 +378,7 @@ Get the number of sprite frames in a sprite set.
 ### Return Value
 
 The number of sprite frames in the sprite set.
+
 ## `$sprites_height`
 
 ```c
@@ -367,6 +394,7 @@ Get the sprite height for a sprite set.
 ### Return Value
 
 The sprite height for the sprite set.
+
 ## `$sprites_width`
 
 ```c
@@ -382,6 +410,7 @@ Get the sprite width for a sprite set.
 ### Return Value
 
 The sprite width for the sprite set.
+
 ## `$text_width`
 
 ```c
@@ -389,7 +418,7 @@ u16 $text_width(char[]& text);
 u16 $text_width(char[] prog& text);
 ```
 
-Gets the width of some text in pixels. The font that was previously set by `$set_text_font` is used for character widths.
+Get the width of some text in pixels. The font that was previously set by `$set_text_font` is used for character widths.
 
 | Parameter | Description |
 | :-- | :-- |
@@ -398,6 +427,7 @@ Gets the width of some text in pixels. The font that was previously set by `$set
 ### Return Value
 
 The width of the text in pixels.
+
 ## `$tilemap_get`
 
 ```c
@@ -410,6 +440,7 @@ Get the tile at the given coordinates in a tilemap. Tilemap coordinates are unsi
 | :-- | :-- |
 | **tm** | The x-coordinate of the tile to get. |
 | **x** | The y-coordinate of the tile to get. |
+
 ## `$tilemap_height`
 
 ```c
@@ -425,6 +456,7 @@ Get the height of a tilemap in tiles.
 ### Return Value
 
 The height of the tilemap in tiles.
+
 ## `$tilemap_width`
 
 ```c
@@ -440,6 +472,7 @@ Get the width of a tilemap in tiles.
 ### Return Value
 
 The width of the tilemap in tiles.
+
 ## `$wrap_text`
 
 ```c
@@ -452,6 +485,7 @@ Word-wrap some text in-place by replacing space characters with newlines. The fo
 | :-- | :-- |
 | **text** | The text to word-wrap. |
 | **w** | The wrap width in pixels. |
+
 
 # Sound
 
@@ -466,6 +500,7 @@ Get whether music and tones are able to play.
 ### Return Value
 
 `true` if music and tones are able to play.
+
 ## `$audio_playing`
 
 ```c
@@ -477,6 +512,7 @@ Get whether any music or tones are playing on any channel.
 ### Return Value
 
 `true` if any music or tones are playing on any channel.
+
 ## `$audio_stop`
 
 ```c
@@ -484,6 +520,7 @@ void $audio_stop();
 ```
 
 Stop any music or tones that are currently playing on any channel.
+
 ## `$audio_toggle`
 
 ```c
@@ -491,6 +528,7 @@ void $audio_toggle();
 ```
 
 Toggle whether music and tones are able to play.
+
 ## `$music_play`
 
 ```c
@@ -502,6 +540,7 @@ Start playing some music. Any previoously playing music will be stopped.
 | Parameter | Description |
 | :-- | :-- |
 | **song** | The music to play. |
+
 ## `$music_playing`
 
 ```c
@@ -513,6 +552,7 @@ Get whether any music is playing.
 ### Return Value
 
 `true` if any music is playing.
+
 ## `$music_stop`
 
 ```c
@@ -520,6 +560,7 @@ void $music_stop();
 ```
 
 Stop any music that is currently playing.
+
 ## `$tones_play`
 
 ```c
@@ -531,6 +572,7 @@ Play some tones on the tones channel. Any tones previously playing on the tones 
 | Parameter | Description |
 | :-- | :-- |
 | **sfx** | The tones to play. |
+
 ## `$tones_play_auto`
 
 ```c
@@ -538,6 +580,7 @@ void $tones_play_auto(tones sfx);
 ```
 
 Play some tones on either the tones channel or the primary music channel. The primary music channel will be used only if the tones channel is occupied and the primary music channel is unoccupied. This is useful for situations where music is not playing; it allows two tones to play simultaneously.
+
 ## `$tones_play_primary`
 
 ```c
@@ -549,6 +592,7 @@ Play some tones on the primary music channel. Any tones on the primary channel o
 | Parameter | Description |
 | :-- | :-- |
 | **sfx** | The tones to play.  |
+
 ## `$tones_playing`
 
 ```c
@@ -560,6 +604,7 @@ Get whether tones are playing on any channel.
 ### Return Value
 
 `true` if tones are playing on any channel.
+
 ## `$tones_stop`
 
 ```c
@@ -567,6 +612,7 @@ void $tones_stop();
 ```
 
 Stop any tones playing on any channel.
+
 
 # Buttons
 
@@ -585,6 +631,7 @@ Test if any of the specified buttons are pressed.
 ### Return Value
 
 `true` if *one or more* buttons in the provided mask are currently pressed.
+
 ## `$buttons`
 
 ```c
@@ -592,6 +639,7 @@ u8 $buttons();
 ```
 
 Gets the state of the buttons combined into a single mask. The bit for each button is `1` when the button is pressed.
+
 ## `$just_pressed`
 
 ```c
@@ -607,6 +655,7 @@ Test if a button has just been pressed since the last frame.
 ### Return Value
 
 `true` if the specified button has just been pressed since the last frame.
+
 ## `$just_released`
 
 ```c
@@ -622,6 +671,7 @@ Test if a button has just been released since the last frame.
 ### Return Value
 
 `true` if the specified button has just been released since the last frame.
+
 ## `$not_pressed`
 
 ```c
@@ -637,6 +687,7 @@ Test if all of the specified buttons are not pressed.
 ### Return Value
 
 `true` if *all* buttons in the provided mask are currently released.
+
 ## `$pressed`
 
 ```c
@@ -652,6 +703,7 @@ Test if all of the specified buttons are pressed.
 ### Return Value
 
 `true` if *all* buttons in the provided mask are currently pressed.
+
 
 # Math
 
@@ -671,6 +723,7 @@ Get the angle between the positive x-axis and the ray from the origin to the poi
 ### Return Value
 
 The angle between the positive x-axis and the ray from the origin to the point (x, y) on the Cartesian plane.
+
 ## `$ceil`
 
 ```c
@@ -686,6 +739,7 @@ Get the least integer not less than a number.
 ### Return Value
 
 The least integer not less than the number.
+
 ## `$cos`
 
 ```c
@@ -701,6 +755,7 @@ Get the cosine of an angle.
 ### Return Value
 
 The cosine of the angle.
+
 ## `$floor`
 
 ```c
@@ -716,6 +771,7 @@ Get the greatest integer not greater than a number.
 ### Return Value
 
 The greatest integer not greater than the number.
+
 ## `$mod`
 
 ```c
@@ -732,6 +788,7 @@ Get the remainder of a division.
 ### Return Value
 
 The remainder of the division.
+
 ## `$pow`
 
 ```c
@@ -748,6 +805,7 @@ Get the result of an exponentiation.
 ### Return Value
 
 The result of the exponentiation.
+
 ## `$round`
 
 ```c
@@ -763,6 +821,7 @@ Get the integer closest to a number, choosing the greater if equidistant from tw
 ### Return Value
 
 The integer closest to the number, choosing the greater if equidistant from two integers.
+
 ## `$sin`
 
 ```c
@@ -778,6 +837,7 @@ Get the sine of an angle.
 ### Return Value
 
 The sine of the angle.
+
 ## `$sqrt`
 
 ```c
@@ -793,6 +853,7 @@ Get the square root of a number.
 ### Return Value
 
 The square root of the number.
+
 ## `$tan`
 
 ```c
@@ -808,6 +869,7 @@ Get the tangent of an angle.
 ### Return Value
 
 The tangent of the angle.
+
 
 # Strings
 
@@ -835,6 +897,7 @@ The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to
 | :-- | :-- |
 | **dst** | The destination text string. |
 | **fmt** | The format string to use for constructing the destination text string. |
+
 ## `$strcmp`
 
 ```c
@@ -853,6 +916,7 @@ Compare two text strings against each other lexicographically.
 ### Return Value
 
 An integral value indicating the result of the comparison. A zero value indicates the two strings are equal. A negative or positive value indicates the first string is lexicographically less than or greater than the second string, respectively.
+
 ## `$strcpy`
 
 ```c
@@ -870,6 +934,7 @@ Copy one text string to another. The two text strings may be different lengths o
 ### Return Value
 
 A reference to the destination text string.
+
 ## `$strlen`
 
 ```c
@@ -887,6 +952,7 @@ Get the length of a text string in characters. Use the `len` operator to get the
 
 The length of the text string in characters.
 
+
 # Utility
 
 ## `$assert`
@@ -900,6 +966,7 @@ Runtime assertion for debug purposes. If the asserted condition evaluates to `fa
 | Parameter | Description |
 | :-- | :-- |
 | **cond** | The condition to check. |
+
 ## `$debug_break`
 
 ```c
@@ -907,6 +974,7 @@ void $debug_break();
 ```
 
 Issue an AVR `break` instruction. This can be useful for debugging with an emulator or hardware debugger.
+
 ## `$debug_printf`
 
 ```c
@@ -918,6 +986,7 @@ Output some formatted text to the serial console. This function does not work on
 | Parameter | Description |
 | :-- | :-- |
 | **fmt** | The format string to use for constructing the text to output. |
+
 ## `$idle`
 
 ```c
@@ -925,6 +994,7 @@ void $idle();
 ```
 
 Do nothing for a short time (one millisecond or less) and the CPU in a low power mode. This can be useful for waiting to respond to a button press without calling `$display` and without utilizing the CPU at 100%. Most games do not need to use this function.
+
 ## `$memcpy`
 
 ```c
@@ -938,6 +1008,7 @@ Copy one byte array to another. The two byte arrays must be the same size.
 | :-- | :-- |
 | **dst** | The destination byte array. |
 | **src** | The source byte array. |
+
 ## `$memset`
 
 ```c
@@ -950,6 +1021,7 @@ Set each byte of some byte array to a single value.
 | :-- | :-- |
 | **dst** | The byte array to modify. |
 | **val** | The value to copy to each byte. |
+
 ## `$millis`
 
 ```c
@@ -961,6 +1033,7 @@ Gets the time elapsed in milliseconds since program start.
 ### Return Value
 
 The time in milliseconds since program start.
+
 
 # Random
 
@@ -975,6 +1048,7 @@ Get a random value generated from true entropy.
 ### Return Value
 
 A random value generated from true entropy.
+
 ## `$init_random_seed`
 
 ```c
@@ -982,6 +1056,7 @@ void $init_random_seed();
 ```
 
 Initialize the internal random seed with a value generated from true entropy.
+
 ## `$random`
 
 ```c
@@ -993,6 +1068,7 @@ Get a 32-bit random value generated from the internal random seed.
 ### Return Value
 
 A 32-bit random value generated from the internal random seed.
+
 ## `$random_range`
 
 ```c
@@ -1009,6 +1085,7 @@ Get a 32-bit random value generated from the internal random seed constrained to
 ### Return Value
 
 A 32-bit random value generated from the internal random seed constrained to fall within the given range.
+
 ## `$set_random_seed`
 
 ```c
@@ -1020,6 +1097,7 @@ Set the internal random seed.
 | Parameter | Description |
 | :-- | :-- |
 | **seed** | The random seed. |
+
 
 # Save/Load
 
@@ -1034,6 +1112,7 @@ Overwrite all `saved` global variables from the save file, if it exists.
 ### Return Value
 
 `true` if the save file exists and the global variables were overwritten.
+
 ## `$save`
 
 ```c
@@ -1041,6 +1120,7 @@ void $save();
 ```
 
 Save all `saved` global variables to the save file.
+
 ## `$save_exists`
 
 ```c
@@ -1052,5 +1132,6 @@ Get whether a save file exists.
 ### Return Value
 
 `true` if a save file exists.
+
 
 

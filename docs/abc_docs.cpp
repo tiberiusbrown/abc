@@ -130,7 +130,7 @@ static void print_sysfunc(
         fprintf(f, "\n\n### Return Value");
         fprintf(f, "\n\n%s", info.return_desc.c_str());
     }
-    fprintf(f, "\n");
+    fprintf(f, "\n\n");
 }
 
 int abc_docs()
