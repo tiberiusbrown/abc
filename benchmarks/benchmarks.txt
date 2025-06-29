@@ -2,7 +2,7 @@ bubble1                    34714     1494431       43.05x
 bubble2                    52858     1615391       30.56x
 bubble3                    71002     1929887       27.18x
 bubble4                    89146     2050847       23.01x
-mat3rotation               13138       14659        1.12x
+mat3rotation               13138       13909        1.06x
 fibonacci                 128131     2329780       18.18x
 format                     14057        5319        0.38x
 sieve                      14198      548572       38.64x
@@ -26,7 +26,7 @@ copy2d                                   937
 div                                   419982
 do_while                                1375
 enum                                     350
-float                                  13451
+float                                  13342
 func_ref                                1341
 globinit                                1690
 gtgb                                     402
@@ -49,7 +49,7 @@ slices                                 23438
 slice_bug                                344
 slice_len                                494
 sprites_len                             2750
-strings                                50273
+strings                                50052
 structs                                28183
 structs2                                 526
 struct_ref_bug                           464

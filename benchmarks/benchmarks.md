@@ -360,10 +360,10 @@ void main()
 </table>
 </details>
 
-<details><summary>mat3rotation: 1.12x slowdown</summary>
+<details><summary>mat3rotation: 1.06x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 13138</td><td>Cycles: 14659</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 13909</td></tr>
 <tr>
 <td>
 

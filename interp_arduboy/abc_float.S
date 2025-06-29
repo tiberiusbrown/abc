@@ -1,3 +1,9 @@
+; List of simplifications:
+;    - no denormalization after mul/add/sub
+;    - no rounding after mul/add/sub
+;    - least order mantissa subproduct is skipped in mul (A0*B0)
+;    - no inf/nan detection
+
 #if 1
 
 #define    _U(name)    name
@@ -62,7 +68,7 @@ ENTRY __fp_splitA
     cp   r1, rA3
     ror  rA2
     
-    clc
+    ; carry is cleared after previous instr
     ret
 
 ENDFUNC __fp_splitA
@@ -94,7 +100,20 @@ FUNCTION __mulsf3x
 ENTRY __mulsf3
 ENTRY __mulsf3x
 
-    call __fp_split3
+    ; call __fp_split3
+
+    ; __fp_split3 inlined
+    sbrc rB3, 7
+    subi rA3, 0x80
+    lsl  rB2
+    rol  rB3
+    cp   r1, rB3
+    ror  rB2
+    bst  rA3, 7
+    lsl  rA2
+    rol  rA3
+    cp   r1, rA3
+    ror  rA2
 
 ENTRY __mulsf3_pse
 
@@ -269,7 +288,20 @@ ENTRY __addsf3x
     ; save sign of A
     mov  ZL, rA3
 
-    call __fp_split3
+    ; call __fp_split3
+
+    ; __fp_split3 inlined
+    sbrc rB3, 7
+    subi rA3, 0x80
+    lsl  rB2
+    rol  rB3
+    cp   r1, rB3
+    ror  rB2
+    bst  rA3, 7
+    lsl  rA2
+    rol  rA3
+    cp   r1, rA3
+    ror  rA2
 
     ; compare A and B
     cp   rAE, rBE
