@@ -360,10 +360,10 @@ void main()
 </table>
 </details>
 
-<details><summary>mat3rotation: 1.24x slowdown</summary>
+<details><summary>mat3rotation: 1.12x slowdown</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 13138</td><td>Cycles: 16302</td></tr>
+<tr><td>Cycles: 13138</td><td>Cycles: 14659</td></tr>
 <tr>
 <td>
 
@@ -531,10 +531,10 @@ void main()
 </table>
 </details>
 
-<details><summary>format: 0.38x slowdown (2.62x speedup)</summary>
+<details><summary>format: 0.38x slowdown (2.64x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 14057</td><td>Cycles: 5369</td></tr>
+<tr><td>Cycles: 14057</td><td>Cycles: 5319</td></tr>
 <tr>
 <td>
 
@@ -652,10 +652,10 @@ void main()
 </table>
 </details>
 
-<details><summary>text: 0.31x slowdown (3.21x speedup)</summary>
+<details><summary>text: 0.31x slowdown (3.22x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 207402</td><td>Cycles: 64514</td></tr>
+<tr><td>Cycles: 207402</td><td>Cycles: 64453</td></tr>
 <tr>
 <td>
 

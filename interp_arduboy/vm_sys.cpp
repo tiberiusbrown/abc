@@ -2148,6 +2148,9 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
     }
 }
 
+//struct u32_div_t { uint32_t q, r; };
+//extern "C" u32_div_t __udivmodsi4(uint32_t n, uint32_t d);
+
 static void format_add_int(
     format_char_func f, uint32_t x, bool sign, uint8_t base, int8_t w)
 {
@@ -2166,12 +2169,31 @@ static void format_add_int(
         st_inc(tp, '0');
         --w;
     }
-    while(x != 0)
+    if(base == 10)
     {
-        uint8_t r = x % base;
-        x /= base;
-        st_inc(tp, char(r + (r < 10 ? '0' : 'a' - 10)));
-        --w;
+        while(x != 0)
+        {
+#if 0
+            u32_div_t d = __udivmodsi4(x, 10);
+            uint8_t r = d.r;
+            x = d.q;
+#else
+            uint8_t r = x % 10;
+            x /= 10;
+#endif
+            st_inc(tp, char(r + '0'));
+            --w;
+        }
+    }
+    else
+    {
+        while(x != 0)
+        {
+            uint8_t r = (uint8_t)x & 0xf;
+            x >>= 4;
+            st_inc(tp, char(r + (r < 10 ? '0' : 'a' - 10)));
+            --w;
+        }
     }
 
     while(w > 0)
@@ -2189,21 +2211,21 @@ static void* format_user;
 
 static void format_add_float(format_char_func f, float x, uint8_t prec)
 {
-    if(isnan(x))
-    {
-        f('n');
-        f('a');
-        f('n');
-        return;
-    }
-    if(isinf(x))
-    {
-        f('i');
-        f('n');
-        f('f');
-        return;
-    }
-    if(x > 4294967040.f || x < -4294967040.f)
+    //if(isnan(x))
+    //{
+    //    f('n');
+    //    f('a');
+    //    f('n');
+    //    return;
+    //}
+    //if(isinf(x))
+    //{
+    //    f('i');
+    //    f('n');
+    //    f('f');
+    //    return;
+    //}
+    if(fabs(x) > 4294967040.f)
     {
         f('o');
         f('v');

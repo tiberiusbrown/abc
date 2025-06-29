@@ -3524,7 +3524,7 @@ I_CFEQ:
     ld   r23, -Y
     ld   r22, -Y
     clr  r1
-    call __eqsf2
+    call __fp_cmp
     mov  r9, r4
     cpse r24, __zero_reg__
     clr  r9
@@ -3540,11 +3540,10 @@ I_CFLT:
     ld   r23, -Y
     ld   r22, -Y
     clr  r1
-    call __ltsf2
-    rol  r24
-    clr  r24
-    rol  r24
-    mov  r9, r24
+    call __fp_cmp
+    mov  r9, r4
+    sbrs r24, 7
+    clr  r9
     dispatch
 
 I_NOT:

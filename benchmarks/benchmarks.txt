@@ -2,11 +2,11 @@ bubble1                    34714     1494431       43.05x
 bubble2                    52858     1615391       30.56x
 bubble3                    71002     1929887       27.18x
 bubble4                    89146     2050847       23.01x
-mat3rotation               13138       16302        1.24x
+mat3rotation               13138       14659        1.12x
 fibonacci                 128131     2329780       18.18x
-format                     14057        5369        0.38x
+format                     14057        5319        0.38x
 sieve                      14198      548572       38.64x
-text                      207402       64514        0.31x
+text                      207402       64453        0.31x
 tilessprite                90616      121353        1.34x
 tilessprite16              65088       42438        0.65x
 tilesrect                 257725       58138        0.23x
@@ -26,7 +26,7 @@ copy2d                                   937
 div                                   419982
 do_while                                1375
 enum                                     350
-float                                  14686
+float                                  13451
 func_ref                                1341
 globinit                                1690
 gtgb                                     402
@@ -49,7 +49,7 @@ slices                                 23438
 slice_bug                                344
 slice_len                                494
 sprites_len                             2750
-strings                                52268
+strings                                50273
 structs                                28183
 structs2                                 526
 struct_ref_bug                           464
