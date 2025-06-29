@@ -1,2 +1,2 @@
 Running platformer benchmark...
-    157599
+    157597

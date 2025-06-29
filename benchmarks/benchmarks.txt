@@ -26,7 +26,7 @@ copy2d                                   937
 div                                   419982
 do_while                                1375
 enum                                     350
-float                                  13342
+float                                  13340
 func_ref                                1341
 globinit                                1690
 gtgb                                     402

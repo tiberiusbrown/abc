@@ -1,8 +1,9 @@
 ; List of simplifications:
+;    - no inf/nan detection
+;    - mul treats denormals as zeros
+;    - least order mantissa subproduct is skipped in mul (A0*B0)
 ;    - no denormalization after mul/add/sub
 ;    - no rounding after mul/add/sub
-;    - least order mantissa subproduct is skipped in mul (A0*B0)
-;    - no inf/nan detection
 
 #if 1
 
@@ -377,8 +378,8 @@ ENTRY __addsf3x
 	ror  rA2
 	ror  rA1
 	ror  rA0
-	ror  rAE
-	ror  ZH
+	; ror  rAE
+	; ror  ZH
 8:  inc  rA3
 
 .L_ret:
