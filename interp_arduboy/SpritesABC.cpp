@@ -137,12 +137,11 @@ void SpritesABC::drawBasicFX(
         uint8_t  reseek       [T flag]
         uint8_t  col_start    r3
         uint8_t  buf_adv      r4
-        uint8_t  shift_coef   r5
         uint16_t shift_mask   r6 (reused in render loops)
         uint8_t  cols         r8
         uint8_t  mode         r12
         uint24_t image        r14
-        int8_t   page_start   r17
+        int8_t   page_start   r17 (reused for shift_coef)
         uint8_t  h            r18 (reused for buf_data)
         uint8_t  pages        r19
         uint8_t  w            r20
@@ -167,10 +166,10 @@ void SpritesABC::drawBasicFX(
 
             T flag       reseek
             r4           buf_adv
-            r5           shift_coef
             r8           cols
             r12          mode
             r14:r15:r16  image - w (w readded in first seek)
+            r17          shift_coef
             r19          pages
             r20          w
             r22 (w/ T)   sreg
@@ -232,10 +231,10 @@ void SpritesABC::drawBasicFX(
             ret
         1:
     
-            ; push r2 ; unmodified
+            ; push r2  ; unmodified
             push r3
             push r4
-            push r5
+            ; push r5  ; unmodified
             push r6
             push r7
             push r8
@@ -347,27 +346,27 @@ void SpritesABC::drawBasicFX(
             mov  r4, r30
             
             ; precompute vertical shift coef and mask
-            ldi  r21, 1
+            ldi  r17, 1
             sbrc r22, 1
-            ldi  r21, 4
+            ldi  r17, 4
             sbrc r22, 0
-            lsl  r21
+            lsl  r17
             sbrc r22, 2
-            swap r21
-            mov  r5, r21
+            swap r17
 
             ldi  r30, 0xff
-            mul  r30, r5
+            mul  r30, r17
             movw r6, r0
             com  r6
             com  r7
+
+            clr  __zero_reg__
             
             ; continue initial seek
             out  %[spdr], r14
         
             ; continue initial seek
-            clr  __zero_reg__
-            rcall L%=_delay_13
+            rcall L%=_delay_14
 
             ; r23[1] = (page_start < 0)
             bst  r17, 7
@@ -414,7 +413,7 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             ld   r18, X
             and  r18, r7
             or   r18, r1
@@ -430,14 +429,14 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             movw r24, r0
             rcall L%=_delay_10
             cli
             out  %[spdr], __zero_reg__
             in   r6, %[spdr]
             out  %[sreg], r22
-            mul  r6, r5
+            mul  r6, r17
             movw r6, r0
             ld   r18, X
             com  r7
@@ -489,7 +488,7 @@ void SpritesABC::drawBasicFX(
             ; unrolled twice to meet SPI rate
             in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  r24, r5
+            mul  r24, r17
             ld   r18, X
             and  r18, r6
             or   r18, r0
@@ -501,7 +500,7 @@ void SpritesABC::drawBasicFX(
             ld   r18, X
         2:  in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  r24, r5
+            mul  r24, r17
             and  r18, r6
             or   r18, r0
             st   X+, r18
@@ -520,14 +519,14 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             movw r24, r0
             ld   r18, X
             ld   r7, Z
             rcall L%=_delay_7
             in   r6, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  r6, r5
+            mul  r6, r17
             com  r0
             and  r18, r0
             or   r18, r24
@@ -575,7 +574,7 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             ld   r18, X
             and  r18, r6
             or   r18, r0
@@ -592,14 +591,14 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             movw r24, r0
             rcall L%=_delay_10
             cli
             out  %[spdr], __zero_reg__
             in   r19, %[spdr]
             out  %[sreg], r22
-            mul  r19, r5
+            mul  r19, r17
             mov  r19, r0
             ld   r18, X
             com  r19
@@ -636,7 +635,7 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             ld   r18, X
             or   r18, r1
             st   X+, r18
@@ -675,7 +674,7 @@ void SpritesABC::drawBasicFX(
             ; write one page from image to buf/buf+128
             in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  r24, r5
+            mul  r24, r17
             ld   r18, X
             or   r18, r0
             st   X+, r18
@@ -713,7 +712,7 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             ld   r18, X
             or   r18, r0
             st   X+, r18
@@ -748,7 +747,7 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             com  r0
             com  r1
             ld   r18, X
@@ -789,7 +788,7 @@ void SpritesABC::drawBasicFX(
             ; write one page from image to buf/buf+128
             in   r24, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  r24, r5
+            mul  r24, r17
             com  r0
             com  r1
             ld   r18, X
@@ -830,7 +829,7 @@ void SpritesABC::drawBasicFX(
             out  %[spdr], __zero_reg__
             in   r24, %[spdr]
             out  %[sreg], r22
-            mul  r24, r5
+            mul  r24, r17
             com  r0
             com  r1
             ld   r18, X
@@ -859,10 +858,10 @@ void SpritesABC::drawBasicFX(
             pop  r8
             pop  r7
             pop  r6
-            pop  r5
+            ; pop  r5  ; unmodified
             pop  r4
             pop  r3
-            ; pop  r2 ; unmodified
+            ; pop  r2  ; unmodified
             
         L%=_end_postpop:
             
