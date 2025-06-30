@@ -344,6 +344,10 @@ void SpritesABC::drawBasicFX(
             ldi  r30, 128
             sub  r30, r8
             mov  r4, r30
+
+            ; top flag: r23[1] = (page_start < 0)
+            bst  r17, 7
+            bld  r23, 1
             
             ; precompute vertical shift coef and mask
             ldi  r17, 1
@@ -357,21 +361,17 @@ void SpritesABC::drawBasicFX(
             ldi  r30, 0xff
             mul  r30, r17
             movw r6, r0
-            com  r6
-            com  r7
 
             clr  __zero_reg__
             
             ; continue initial seek
             out  %[spdr], r14
         
-            ; continue initial seek
+            com  r6
+            com  r7
             rcall L%=_delay_14
 
-            ; r23[1] = (page_start < 0)
-            bst  r17, 7
-            bld  r23, 1
-
+            ; continue initial seek
             out  %[spdr], __zero_reg__
 
             ; reseek flag in T
