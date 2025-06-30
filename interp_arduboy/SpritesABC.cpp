@@ -277,11 +277,13 @@ void SpritesABC::drawBasicFX(
             mov  r8, r21
         1:
         
+            ; flag register
+            clr  r23
+
             ; clip against bottom edge
             ldi  r30, 7
             sub  r30, r17
             
-            clr  r23
             cp   r30, r19
             brge 1f
             mov  r19, r30
