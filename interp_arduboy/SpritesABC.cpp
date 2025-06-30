@@ -318,12 +318,12 @@ void SpritesABC::drawBasicFX(
         
             ; continue initial seek
             clr  __zero_reg__
-            in   r22, %[sreg]
-            rcall L%=_delay_14
+            rcall L%=_delay_15
             out  %[spdr], __zero_reg__
+            clt
             cpse r20, r8
-            ori  r23, (1<<1)
-            rjmp .+0
+            set
+            in   r22, %[sreg]
 
         ;
         ;   RENDERING
@@ -404,8 +404,7 @@ void SpritesABC::drawBasicFX(
         L%=_middle:
 
             ; only seek again if necessary
-            sbrs r23, 1
-            rjmp L%=_middle_skip_reseek
+            brtc L%=_middle_skip_reseek
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
 
@@ -501,8 +500,7 @@ void SpritesABC::drawBasicFX(
             rjmp L%=_finish
 
             ; seek if needed
-            sbrs r23, 1
-            rjmp L%=_bottom_dispatch
+            brtc L%=_bottom_dispatch
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -603,8 +601,7 @@ void SpritesABC::drawBasicFX(
         L%=_middle_selfmask:
 
             ; only seek again if necessary
-            sbrs r23, 1
-            rjmp L%=_middle_skip_reseek_selfmask
+            brtc L%=_middle_skip_reseek_selfmask
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -646,8 +643,7 @@ void SpritesABC::drawBasicFX(
             rjmp L%=_finish
 
             ; seek if needed
-            sbrs r23, 1
-            rjmp L%=_bottom_loop_selfmask
+            brtc L%=_bottom_loop_selfmask
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -719,8 +715,7 @@ void SpritesABC::drawBasicFX(
         L%=_middle_erase:
 
             ; only seek again if necessary
-            sbrs r23, 1
-            rjmp L%=_middle_skip_reseek_erase
+            brtc L%=_middle_skip_reseek_erase
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -763,8 +758,7 @@ void SpritesABC::drawBasicFX(
             rjmp L%=_finish
 
             ; seek if needed
-            sbrs r23, 1
-            rjmp L%=_bottom_loop_pre_erase
+            brtc L%=_bottom_loop_pre_erase
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -836,10 +830,7 @@ void SpritesABC::drawBasicFX(
             adc  r16, __zero_reg__
             rcall L%=_delay_7
             out  %[spdr], r16
-            andi r23, ~(1<<1)
-            cpse r20, r8
-            ori  r23, (1<<1)
-            rcall L%=_delay_14
+            rcall L%=_delay_17
             out  %[spdr], r15
             rcall L%=_delay_17
             out  %[spdr], r14
@@ -852,7 +843,9 @@ void SpritesABC::drawBasicFX(
         L%=_delay_17:
             nop
         L%=_delay_16:
-            rjmp .+0
+            nop
+        L%=_delay_15:
+            nop
         L%=_delay_14:
             nop
         L%=_delay_13:
