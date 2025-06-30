@@ -134,25 +134,25 @@ void SpritesABC::drawBasicFX(
     uint24_t image, uint8_t mode)
 {
     /*
-    register bool     bottom     asm("r2");
-    register uint8_t  col_start  asm("r3");
-    register uint8_t  buf_adv    asm("r4");
-    register uint8_t  shift_coef asm("r5");
-    register uint16_t shift_mask asm("r6");
-    register uint8_t  cols       asm("r8");
-    register uint8_t  buf_data   asm("r9");
-    register uint8_t  a_mode     asm("r12") = mode;
-    register uint8_t  reseek     asm("r11");
-    register uint24_t a_image    asm("r14") = image;
-    register int8_t   page_start asm("r17");
-    register uint8_t  a_h        asm("r18") = h;
-    register uint8_t  pages      asm("r19");
-    register uint8_t  a_w        asm("r20") = w;
-    register uint8_t  count      asm("r21");
-    register int16_t  a_y        asm("r22") = y;
-    register int16_t  a_x        asm("r24") = x;
-    register uint8_t* buf        asm("r26");
-    register uint8_t* bufn       asm("r30");
+        uint8_t  col_start    r3
+        uint8_t  buf_adv      r4
+        uint8_t  shift_coef   r5
+        uint16_t shift_mask   r6 (reused in render loops)
+        uint8_t  cols         r8
+        uint8_t  buf_data     r9 (reused in render loops)
+        uint8_t  mode         r12
+        uint24_t image        r14
+        int8_t   page_start   r17
+        uint8_t  h            r18
+        uint8_t  pages        r19
+        uint8_t  w            r20
+        uint8_t  count        r21
+        int16_t  y            r22 (reused for bottom and reseek flags)
+        bool     bottom       r23 bit 0
+        uint8_t  reseek       r23 bit 1
+        int16_t  x            r24 (reused in render loops)
+        uint8_t* buf          r26
+        uint8_t* bufn         r30
     */
 
     asm volatile(R"ASM(
@@ -183,7 +183,7 @@ void SpritesABC::drawBasicFX(
             ret
         1:
     
-            push r2
+            ; push r2 ; unmodified
             push r3
             push r4
             push r5
@@ -192,7 +192,7 @@ void SpritesABC::drawBasicFX(
             push r8
             push r9
             ; push r10 ; unmodified
-            push r11
+            ; push r11 ; unmodified
             ; push r12 ; unmodified
             ; push r13 ; unmodified
             push r14
@@ -201,7 +201,7 @@ void SpritesABC::drawBasicFX(
             push r17
         
             mov  r3, r24
-            clr  r2
+            clr  r6
             mov  r8, r20
     
             mov  r19, r18
@@ -233,7 +233,7 @@ void SpritesABC::drawBasicFX(
             mul  r17, r20
             add  r14, r0
             adc  r15, r1
-            adc  r16, r2
+            adc  r16, r6
             ldi  r17, 0xff
         1:
         
@@ -252,7 +252,7 @@ void SpritesABC::drawBasicFX(
             rol  r25
         1:  sub  r14, r24
             sbc  r15, r25
-            sbc  r16, r2
+            sbc  r16, r6
             sbrc r25, 7
             inc  r16
             clr  r3
@@ -281,10 +281,11 @@ void SpritesABC::drawBasicFX(
             ldi  r30, 7
             sub  r30, r17
             
+            clr  r23
             cp   r30, r19
             brge 1f
             mov  r19, r30
-            inc  r2
+            ori  r23, (1<<0)
         1:
             
             ; continue initial seek
@@ -318,10 +319,9 @@ void SpritesABC::drawBasicFX(
             in   r22, %[sreg]
             rcall L%=_delay_14
             out  %[spdr], __zero_reg__
-            clr  r11
-            cp   r20, r8
-            breq .+2
-            inc  r11
+            cpse r20, r8
+            ori  r23, (1<<1)
+            rjmp .+0
 
         ;
         ;   RENDERING
@@ -402,8 +402,8 @@ void SpritesABC::drawBasicFX(
         L%=_middle:
 
             ; only seek again if necessary
-            tst  r11
-            breq L%=_middle_skip_reseek
+            sbrs r23, 1
+            rjmp L%=_middle_skip_reseek
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
 
@@ -495,14 +495,12 @@ void SpritesABC::drawBasicFX(
 
         L%=_bottom:
 
-            tst  r2
-            brne 1f
+            sbrs r23, 0
             rjmp L%=_finish
-        1:
 
             ; seek if needed
-            tst  r11
-            breq L%=_bottom_dispatch
+            sbrs r23, 1
+            rjmp L%=_bottom_dispatch
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -603,8 +601,8 @@ void SpritesABC::drawBasicFX(
         L%=_middle_selfmask:
 
             ; only seek again if necessary
-            tst  r11
-            breq L%=_middle_skip_reseek_selfmask
+            sbrs r23, 1
+            rjmp L%=_middle_skip_reseek_selfmask
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -642,14 +640,12 @@ void SpritesABC::drawBasicFX(
 
         L%=_bottom_selfmask:
 
-            tst  r2
-            brne 1f
+            sbrs r23, 0
             rjmp L%=_finish
-        1:
 
             ; seek if needed
-            tst  r11
-            breq L%=_bottom_loop_selfmask
+            sbrs r23, 1
+            rjmp L%=_bottom_loop_selfmask
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -721,8 +717,8 @@ void SpritesABC::drawBasicFX(
         L%=_middle_erase:
 
             ; only seek again if necessary
-            tst  r11
-            breq L%=_middle_skip_reseek_erase
+            sbrs r23, 1
+            rjmp L%=_middle_skip_reseek_erase
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -761,14 +757,12 @@ void SpritesABC::drawBasicFX(
 
         L%=_bottom_erase:
 
-            tst  r2
-            brne 1f
+            sbrs r23, 0
             rjmp L%=_finish
-        1:
 
             ; seek if needed
-            tst  r11
-            breq L%=_bottom_loop_pre_erase
+            sbrs r23, 1
+            rjmp L%=_bottom_loop_pre_erase
             sbi  %[fxport], %[fxbit]
             rcall L%=_seek
             rjmp .+0
@@ -807,7 +801,7 @@ void SpritesABC::drawBasicFX(
             pop  r14
             ; pop  r13 ; unmodified
             ; pop  r12 ; unmodified
-            pop  r11
+            ; pop  r11 ; unmodified
             ; pop  r10 ; unmodified
             pop  r9
             pop  r8
@@ -816,7 +810,7 @@ void SpritesABC::drawBasicFX(
             pop  r5
             pop  r4
             pop  r3
-            pop  r2
+            ; pop  r2 ; unmodified
             
         L%=_end_postpop:
             
@@ -838,13 +832,12 @@ void SpritesABC::drawBasicFX(
             adc  r15, __zero_reg__
             sbrc r12, 0
             adc  r16, __zero_reg__
-            clr  r11
-            cp   r20, r8
-            breq .+2
-            inc  r11
-            lpm
+            rcall L%=_delay_7
             out  %[spdr], r16
-            rcall L%=_delay_17
+            andi r23, ~(1<<1)
+            cpse r20, r8
+            ori  r23, (1<<1)
+            rcall L%=_delay_14
             out  %[spdr], r15
             rcall L%=_delay_17
             out  %[spdr], r14
