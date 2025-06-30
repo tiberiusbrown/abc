@@ -261,7 +261,8 @@ void SpritesABC::drawBasicFX(
             
             ; page_start
             mov  r17, r22
-            asr  r17
+            asr  r23
+            ror  r17
             asr  r17
             asr  r17
             
