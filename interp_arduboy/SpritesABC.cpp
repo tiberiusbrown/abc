@@ -135,9 +135,8 @@ void SpritesABC::drawBasicFX(
 {
     /*
         uint8_t  reseek       [T flag]
-        uint8_t  col_start    r3
         uint8_t  buf_adv      r4
-        uint16_t shift_mask   r6 (reused in render loops)
+        uint16_t shift_mask   r6
         uint8_t  cols         r8
         uint8_t  mode         r12
         uint24_t image        r14
@@ -231,8 +230,13 @@ void SpritesABC::drawBasicFX(
             ret
         1:
     
+            ; begin initial seek
+            cbi  %[fxport], %[fxbit]
+            ldi  r21, 3
+            out  %[spdr], r21
+    
             ; push r2  ; unmodified
-            push r3
+            ; push r3  ; unmodified
             push r4
             ; push r5  ; unmodified
             push r6
@@ -248,30 +252,20 @@ void SpritesABC::drawBasicFX(
             push r16
             push r17
         
-            mov  r3, r24
             clr  r6
-            mov  r8, r20
     
             mov  r19, r18
             lsr  r19
             lsr  r19
             lsr  r19
-    
-            ; begin initial seek
-            cbi  %[fxport], %[fxbit]
-            ldi  r21, 3
-            out  %[spdr], r21
             
-            movw r30, r22
-            asr  r31
-            ror  r30
-            asr  r31
-            ror  r30
-            asr  r31
-            ror  r30
+            ; page_start
+            mov  r17, r22
+            asr  r17
+            asr  r17
+            asr  r17
             
             ; clip against top edge
-            mov  r17, r30
             cpi  r17, 0xff
             brge 1f
             com  r17
@@ -291,6 +285,7 @@ void SpritesABC::drawBasicFX(
             adc r16, r0
         
             ; clip against left edge
+            mov  r8, r20
             sbrs r25, 7
             rjmp 2f
             add  r8, r24
@@ -303,7 +298,7 @@ void SpritesABC::drawBasicFX(
             sbc  r16, r6
             sbrc r25, 7
             inc  r16
-            clr  r3
+            clr  r24
         2:
         
             ; continue initial seek
@@ -314,12 +309,12 @@ void SpritesABC::drawBasicFX(
             ldi  r27, hi8(%[sBuffer])
             ldi  r21, 128
             mulsu r17, r21
-            add  r0, r3
+            add  r0, r24
             add  r26, r0
             adc  r27, r1
             
             ; clip against right edge
-            sub  r21, r3
+            sub  r21, r24
             cp   r8, r21
             brlo 1f
             mov  r8, r21
@@ -331,23 +326,23 @@ void SpritesABC::drawBasicFX(
             ; clip against bottom edge
             ldi  r30, 7
             sub  r30, r17
+
+            ; top flag: r23[1] = (page_start < 0)
+            bst  r17, 7
+            bld  r23, 1
+            
+            ; continue initial seek
+            out  %[spdr], r15
             
             cp   r30, r19
             brge 1f
             mov  r19, r30
             ori  r23, (1<<0)
         1:
-            
-            ; continue initial seek
-            out  %[spdr], r15
         
             ldi  r30, 128
             sub  r30, r8
             mov  r4, r30
-
-            ; top flag: r23[1] = (page_start < 0)
-            bst  r17, 7
-            bld  r23, 1
             
             ; precompute vertical shift coef and mask
             ldi  r17, 1
@@ -361,15 +356,14 @@ void SpritesABC::drawBasicFX(
             ldi  r30, 0xff
             mul  r30, r17
             movw r6, r0
-
-            clr  __zero_reg__
             
             ; continue initial seek
             out  %[spdr], r14
         
             com  r6
             com  r7
-            rcall L%=_delay_14
+            clr  __zero_reg__
+            rcall L%=_delay_13
 
             ; continue initial seek
             out  %[spdr], __zero_reg__
@@ -860,7 +854,7 @@ void SpritesABC::drawBasicFX(
             pop  r6
             ; pop  r5  ; unmodified
             pop  r4
-            pop  r3
+            ; pop  r3  ; unmodified
             ; pop  r2  ; unmodified
             
         L%=_end_postpop:
