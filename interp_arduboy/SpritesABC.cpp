@@ -163,8 +163,7 @@ void SpritesABC::drawBasicFX(
         OUTPUT
 
             T flag       reseek
-            r4           buf_adv
-            r6:r7        [reserved for use in render loops]
+            r6:r7        [shift_mask, or reserved for use in render loops]
             r8           cols
             r12          mode
             r14:r15:r16  image - w (w readded in first seek)
@@ -177,14 +176,15 @@ void SpritesABC::drawBasicFX(
             r23 bit 0    bottom
             r23 bit 1    top (page_start < 0)
             r24          [reserved for use in render loops]
-            r25
+            r25          buf_adv
             r26:r27      buf
             r30:r31      bufn
 
-        PSEUDOCODE (unfinished)
+        PSEUDOCODE
 
             image += data_page * 256
             
+            // clip against top edge
             pages = h >> 3
             page_start = y >> 3;
             if page_start < -1:
@@ -194,7 +194,9 @@ void SpritesABC::drawBasicFX(
                     page_start <<= 1
                 image += page_start * w
                 page_start = -1
+            top = (page_start < 0)
 
+            // clip against left edge
             cols = w
             if x < 0:
                 cols += x
@@ -203,8 +205,22 @@ void SpritesABC::drawBasicFX(
                 image -= x
                 x = 0
             
+            // compute buffer start address
             buf = sBuffer + page_start * 128 + x
 
+            // clip against right edge
+            if cols >= 128 - x:
+                cols = 128 - x
+            
+            // clip against bottom edge
+            if pages > 7 - page_start:
+                pages = 7 - page_start
+                bottom = true
+            
+            buf_adv = 128 - cols
+
+            shift_coef = 1 << (y & 7)
+            shift_mask = ~(0xff * shift_coef)
     */
 
     asm volatile(R"ASM(
