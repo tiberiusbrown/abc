@@ -135,7 +135,6 @@ void SpritesABC::drawBasicFX(
 {
     /*
         uint8_t  reseek       [T flag]
-        uint8_t  buf_adv      r4
         uint16_t shift_mask   r6
         uint8_t  cols         r8
         uint8_t  mode         r12
@@ -148,7 +147,7 @@ void SpritesABC::drawBasicFX(
         int16_t  y            r22 (reused for sreg and bottom)
         bool     bottom       r23 bit 0
         bool     top          r23 bit 1
-        int16_t  x            r24 (reused in render loops)
+        int16_t  x            r24 (reused in render loops and for buf_adv)
         uint8_t* buf          r26
         uint8_t* bufn         r30
 
@@ -165,16 +164,22 @@ void SpritesABC::drawBasicFX(
 
             T flag       reseek
             r4           buf_adv
+            r6:r7        [reserved for use in render loops]
             r8           cols
             r12          mode
             r14:r15:r16  image - w (w readded in first seek)
             r17          shift_coef
+            r18          [reserved for use in render loops]
             r19          pages
-            r20          w
+            r20          w (needed for reseek method)
+            r21          [reserved for render loop counter]
             r22 (w/ T)   sreg
             r23 bit 0    bottom
             r23 bit 1    top (page_start < 0)
+            r24          [reserved for use in render loops]
+            r25
             r26:r27      buf
+            r30:r31      bufn
 
         PSEUDOCODE (unfinished)
 
@@ -237,7 +242,7 @@ void SpritesABC::drawBasicFX(
     
             ; push r2  ; unmodified
             ; push r3  ; unmodified
-            push r4
+            ; push r4  ; unmodified
             ; push r5  ; unmodified
             push r6
             push r7
@@ -341,9 +346,8 @@ void SpritesABC::drawBasicFX(
             ori  r23, (1<<0)
         1:
         
-            ldi  r30, 128
-            sub  r30, r8
-            mov  r4, r30
+            ldi  r25, 128
+            sub  r25, r8
             
             ; precompute vertical shift coef and mask
             ldi  r17, 1
@@ -357,14 +361,15 @@ void SpritesABC::drawBasicFX(
             ldi  r30, 0xff
             mul  r30, r17
             movw r6, r0
+
+            com  r6
             
             ; continue initial seek
             out  %[spdr], r14
         
-            com  r6
             com  r7
             clr  __zero_reg__
-            rcall L%=_delay_13
+            rcall L%=_delay_14
 
             ; continue initial seek
             out  %[spdr], __zero_reg__
@@ -422,21 +427,21 @@ void SpritesABC::drawBasicFX(
 
             cli
             out  %[spdr], __zero_reg__
-            in   r24, %[spdr]
+            in   r0, %[spdr]
             out  %[sreg], r22
-            mul  r24, r17
-            movw r24, r0
+            mul  r0, r17
+            mov  r24, r1
             rcall L%=_delay_10
             cli
             out  %[spdr], __zero_reg__
-            in   r6, %[spdr]
+            in   r0, %[spdr]
             out  %[sreg], r22
-            mul  r6, r17
-            movw r6, r0
+            mul  r0, r17
+            mov  r7, r1
             ld   r18, X
             com  r7
             and  r18, r7
-            or   r18, r25
+            or   r18, r24
             st   X+, r18
             dec  r21
             brne L%=_top_loop_masked
@@ -512,24 +517,24 @@ void SpritesABC::drawBasicFX(
 
             cli
             out  %[spdr], __zero_reg__
-            in   r24, %[spdr]
+            in   r0, %[spdr]
             out  %[sreg], r22
-            mul  r24, r17
-            movw r24, r0
+            mul  r0, r17
+            movw r6, r0
             ld   r18, X
-            ld   r7, Z
+            ld   r24, Z
             rcall L%=_delay_7
-            in   r6, %[spdr]
+            in   r0, %[spdr]
             out  %[spdr], __zero_reg__
-            mul  r6, r17
+            mul  r0, r17
             com  r0
             and  r18, r0
-            or   r18, r24
+            or   r18, r6
             st   X+, r18
             com  r1
-            and  r7, r1
-            or   r7, r25
-            st   Z+, r7
+            and  r24, r1
+            or   r24, r7
+            st   Z+, r24
             dec  r21
             brne L%=_middle_loop_inner_masked
 
@@ -537,7 +542,7 @@ void SpritesABC::drawBasicFX(
 
             ; advance buf to the next page
             clr  __zero_reg__
-            add  r26, r4
+            add  r26, r25
             adc  r27, __zero_reg__
             dec  r19
             breq 1f
@@ -682,7 +687,7 @@ void SpritesABC::drawBasicFX(
 
             ; advance buf to the next page
             clr  __zero_reg__
-            add  r26, r4
+            add  r26, r25
             adc  r27, __zero_reg__
             dec  r19
             brne L%=_middle_selfmask
@@ -797,7 +802,7 @@ void SpritesABC::drawBasicFX(
 
             ; advance buf to the next page
             clr  __zero_reg__
-            add  r26, r4
+            add  r26, r25
             adc  r27, __zero_reg__
             dec  r19
             brne L%=_middle_erase
@@ -854,7 +859,7 @@ void SpritesABC::drawBasicFX(
             pop  r7
             pop  r6
             ; pop  r5  ; unmodified
-            pop  r4
+            ; pop  r4  ; unmodified
             ; pop  r3  ; unmodified
             ; pop  r2  ; unmodified
             
