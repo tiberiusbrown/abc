@@ -1,7 +1,7 @@
 #include "SpritesABC.hpp"
 
 [[ gnu::naked, gnu::noinline ]]
-static void SpritesABC::drawFX(
+void SpritesABC::drawFX(
     int16_t x, int16_t y,
     uint24_t image, uint8_t mode, uint16_t frame)
 {
@@ -78,7 +78,7 @@ static void SpritesABC::drawFX(
 }
 
 [[ gnu::naked, gnu::noinline ]]
-static void SpritesABC::drawSizedFX(
+void SpritesABC::drawSizedFX(
     int16_t x, int16_t y, uint8_t w, uint8_t h,
     uint24_t image, uint8_t mode, uint16_t frame)
 {
@@ -104,6 +104,8 @@ static void SpritesABC::drawSizedFX(
             mul  r30, r10
             add  r14, r0
             adc  r15, r1
+            clr  r1
+            adc  r16, r1
             mul  r31, r10
             add  r15, r0
             adc  r16, r1

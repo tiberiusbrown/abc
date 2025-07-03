@@ -1461,7 +1461,7 @@ void draw_char(
         AFTER
         =================
         x     r24 r25
-        y     r22 r21
+        y     r22 r23
         w     r20     (same as c)
         h     r18
         font  r14 r15 r16
@@ -1730,14 +1730,47 @@ static void sys_draw_text()
     seek_to_pc();
 }
 
+#define DRAW_TEXT_P_BUFSIZE 8
+
 static void sys_draw_text_P()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    int16_t  x;
+    int16_t  y;
+    uint24_t font;
+    uint24_t tn;
+    uint24_t tb;
+    asm volatile(R"(
+        ld  %B[x], -%a[ptr]
+        ld  %A[x], -%a[ptr]
+        ld  %B[y], -%a[ptr]
+        ld  %A[y], -%a[ptr]
+        lds %C[font], %[vmfont]+2
+        lds %B[font], %[vmfont]+1
+        lds %A[font], %[vmfont]+0
+        ld  %C[tn], -%a[ptr]
+        ld  %B[tn], -%a[ptr]
+        ld  %A[tn], -%a[ptr]
+        ld  %C[tb], -%a[ptr]
+        ld  %B[tb], -%a[ptr]
+        ld  %A[tb], -%a[ptr]
+        )"
+        : [ptr]    "+&e" (ptr)
+        , [x]      "=&r" (x)
+        , [y]      "=&r" (y)
+        , [font]   "=&r" (font)
+        , [tn]     "=&r" (tn)
+        , [tb]     "=&r" (tb)
+        : [vmfont] ""    (&ards::vm.text_font)
+    );
+#else
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
     uint24_t font = ards::vm.text_font;
     uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
+#endif
     vm_pop_end(ptr);
     
     FX::disable();
@@ -1749,11 +1782,26 @@ static void sys_draw_text_P()
 #else
     shades_draw_chars_begin(x, y);
 #endif
+
+#if DRAW_TEXT_P_BUFSIZE != 0
+    char buf[DRAW_TEXT_P_BUFSIZE];
+    char* bp = &buf[DRAW_TEXT_P_BUFSIZE];
+#endif
     
     char c;
     while(tn != 0)
     {
+#if DRAW_TEXT_P_BUFSIZE != 0
+        if(bp == &buf[DRAW_TEXT_P_BUFSIZE])
+        {
+            ards::detail::fx_read_data_bytes(tb, buf, DRAW_TEXT_P_BUFSIZE);
+            tb += DRAW_TEXT_P_BUFSIZE;
+            bp = buf;
+        }
+        c = (char)ld_inc(bp);
+#else
         c = fx_read_byte_inc(tb);
+#endif
         if(c == '\0') break;
         --tn;
         
@@ -2279,6 +2327,25 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     }
 }
 
+#define FORMAT_EXEC_BUFFER_SIZE 0
+
+#if FORMAT_EXEC_BUFFER_SIZE != 0
+[[ gnu::always_inline ]]
+static char format_exec_read_char(char* buf, char*& fbp, uint24_t& fb)
+{
+    if(fbp == &buf[FORMAT_EXEC_BUFFER_SIZE])
+    {
+        ards::detail::fx_read_data_bytes(fb, buf, FORMAT_EXEC_BUFFER_SIZE);
+        fb += FORMAT_EXEC_BUFFER_SIZE;
+        fbp = buf;
+    }
+    return (char)ld_inc(fbp);
+}
+#define FORMAT_EXEC_NEXT_CHAR format_exec_read_char(format_buf, fbp, fb)
+#else
+#define FORMAT_EXEC_NEXT_CHAR (char)fx_read_byte_inc(fb)
+#endif
+
 [[gnu::flatten]]
 static void format_exec(format_char_func f)
 {
@@ -2305,21 +2372,26 @@ static void format_exec(format_char_func f)
 #endif
         vm_pop_end(ptr);
     }
-        
+
+#if FORMAT_EXEC_BUFFER_SIZE != 0
+    char format_buf[FORMAT_EXEC_BUFFER_SIZE];
+    char* fbp = &format_buf[FORMAT_EXEC_BUFFER_SIZE];
+#endif
+  
     while(fn != 0)
     {
 #if ABC_SHADES != 2
         if(ards::vm.needs_render)
             shades_display();
 #endif
-        char c = (char)fx_read_byte_inc(fb);
+        char c = FORMAT_EXEC_NEXT_CHAR;
         --fn;
         if(c != '%')
         {
             f(c);
             continue;
         }
-        c = (char)fx_read_byte_inc(fb);
+        c = FORMAT_EXEC_NEXT_CHAR;
         --fn;
         switch(c)
         {
@@ -2397,7 +2469,7 @@ static void format_exec(format_char_func f)
                 x = vm_pop<uint32_t>(ptr);
                 vm_pop_end(ptr);
             }
-            int8_t w = (int8_t)(fx_read_byte_inc(fb) - '0');
+            int8_t w = (int8_t)(FORMAT_EXEC_NEXT_CHAR - '0');
             --fn;
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
             break;
@@ -2410,7 +2482,7 @@ static void format_exec(format_char_func f)
                 x = vm_pop<float>(ptr);
                 vm_pop_end(ptr);
             }
-            uint8_t prec = fx_read_byte_inc(fb) - '0';
+            uint8_t prec = FORMAT_EXEC_NEXT_CHAR - '0';
             --fn;
             format_add_float(f, x, prec);
             break;
