@@ -31,10 +31,10 @@ image data
 Glyph Encoding (256 glyphs)
 ================================
 xadv              (1 byte)
+w                 (1 byte)
 xoff              (1 byte)
 yoff              (1 byte)
 offset            (2 bytes)
-w                 (1 byte)
 h                 (1 byte)
 */
 
@@ -105,6 +105,9 @@ void compiler_t::encode_font_ttf(
         // xadv
         data.push_back((uint8_t)std::clamp(adv, 0, 255));
 
+        // w
+        data.push_back((uint8_t)std::clamp(x1 - x0, 0, 248));
+
         // xoff
         data.push_back((uint8_t)std::clamp(lsb, -128, 127));
 
@@ -114,9 +117,6 @@ void compiler_t::encode_font_ttf(
         // offset (defined later)
         data.push_back((uint8_t)0);
         data.push_back((uint8_t)0);
-
-        // w
-        data.push_back((uint8_t)std::clamp(x1 - x0, 1, 248));
 
         // h
         int h = std::clamp(y1 - y0, 1, 248);
@@ -135,10 +135,13 @@ void compiler_t::encode_font_ttf(
     {
         size_t j = start + i * 7;
         
-        int w = data[j + 5];
+        int w = data[j + 1];
         int h = data[j + 6];
 
         idata.resize(w * h);
+
+        if(idata.empty())
+            continue;
         
         stbtt_MakeCodepointBitmap(
             &info,
@@ -178,8 +181,8 @@ void compiler_t::encode_font_ttf(
             return;
         }
 
-        data[j + 3] = uint8_t(offset >> 0);
-        data[j + 4] = uint8_t(offset >> 8);
+        data[j + 4] = uint8_t(offset >> 0);
+        data[j + 5] = uint8_t(offset >> 8);
 
         if(data.size() - image_start - offset < sdata.size() - 5)
         {

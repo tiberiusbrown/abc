@@ -1508,7 +1508,9 @@ void draw_char(
         L%=_delay_14:
             nop
         L%=_delay_13:
-            rjmp .+0
+            nop
+        L%=_delay_12:
+            nop
         L%=_delay_11:
             rjmp .+0
         L%=_delay_9:
@@ -1537,9 +1539,9 @@ void draw_char(
             
             cli
             out  %[spdr], __zero_reg__
-            in   %A[m], %[spdr]
+            in   %[m], %[spdr]
             sei
-
+            
             ld   %A[xv], %a[xp]+
             ld   %B[xv], %a[xp]
             movw %A[t], %A[xv]
@@ -1547,7 +1549,18 @@ void draw_char(
             adc  %B[t], __zero_reg__
             st   %a[xp], %B[t]
             st   -%a[xp], %A[t]
+            
             rjmp .+0
+
+            cli
+            out  %[spdr], __zero_reg__
+            in   %[c], %[spdr]
+            sei
+
+            rcall L%=_delay_11
+
+            cp  %[c], __zero_reg__
+            breq 1f
 
             cli
             out  %[spdr], __zero_reg__
@@ -1582,20 +1595,15 @@ void draw_char(
             out  %[spdr], __zero_reg__
             in   %B[t], %[spdr]
             sei
-
+            
             add  %A[addr], %A[t]
             adc  %B[addr], %B[t]
-            rcall L%=_delay_11
-            
-            cli
-            out  %[spdr], __zero_reg__
-            in   %[c], %[spdr]
-            sei
 
-            rcall L%=_delay_14
-            
+            rcall L%=_delay_12
+
             in   %[h], %[spdr]
-            sbi  %[fxport], %[fxbit]
+
+        1:  sbi  %[fxport], %[fxbit]
 
         )"
         : [addr]   "=&r" (addr)
@@ -1613,6 +1621,8 @@ void draw_char(
         , [font]   "i"   (&ards::vm.text_font)
         , [HEADER] "i"   (FONT_HEADER_BYTES)
         );
+        if(c == 0)
+            return;
         SpritesABC::drawBasicFX(
             xv, y, (uint8_t)c, h, addr, ards::vm.text_mode);
 }

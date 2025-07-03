@@ -37,21 +37,21 @@ static void draw_str(
 
     for(uint8_t cc; (cc = (uint8_t)*str) != '\0'; ++str)
     {
-        int sw = font[int(cc) * FONT_HEADER_PER_CHAR + 5];
+        int sw = font[int(cc) * FONT_HEADER_PER_CHAR + 1];
         int sh = font[int(cc) * FONT_HEADER_PER_CHAR + 6];
-        int offset = font[int(cc) * FONT_HEADER_PER_CHAR + 3];
-        offset += font[int(cc) * FONT_HEADER_PER_CHAR + 4] * 256;
+        int offset = font[int(cc) * FONT_HEADER_PER_CHAR + 4];
+        offset += font[int(cc) * FONT_HEADER_PER_CHAR + 5] * 256;
         for(int r = 0; r < sh; ++r)
         {
             int tr = r + y;
-            tr += (int8_t)font[int(cc) * FONT_HEADER_PER_CHAR + 2]; // yoff
+            tr += (int8_t)font[int(cc) * FONT_HEADER_PER_CHAR + 3]; // yoff
             int tp = r / 8;
             if(tr < 0) continue;
             if(tr >= h) break;
             for(int c = 0; c < sw; ++c)
             {
                 int tc = c + x;
-                tc += (int8_t)font[int(cc) * FONT_HEADER_PER_CHAR + 1]; // xoff
+                tc += (int8_t)font[int(cc) * FONT_HEADER_PER_CHAR + 2]; // xoff
 
                 if(tc < 0)
                     continue;

@@ -2861,10 +2861,10 @@ static uint8_t draw_char_helper(
     uint32_t font = interp->text_font;
     uint32_t glyph = font + (uint8_t)c * FONT_HEADER_PER_CHAR;
     uint8_t xadv = prog8(host, glyph + 0);
-    int8_t xoff = (int8_t)prog8(host, glyph + 1);
-    int8_t yoff = (int8_t)prog8(host, glyph + 2);
-    uint16_t offset = prog16(host, glyph + 3);
-    uint8_t w = prog8(host, glyph + 5);
+    int8_t xoff = (int8_t)prog8(host, glyph + 2);
+    int8_t yoff = (int8_t)prog8(host, glyph + 3);
+    uint16_t offset = prog16(host, glyph + 4);
+    uint8_t w = prog8(host, glyph + 1);
     uint8_t h = prog8(host, glyph + 6);
     uint32_t addr = font + FONT_HEADER_BYTES + offset;
     draw_sprite_helper(
