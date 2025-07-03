@@ -2516,15 +2516,14 @@ static void format_exec_to_buffer(char c)
     asm volatile(R"(
         lds  r30, %[format_user]+0
         lds  r31, %[format_user]+1
-        ldd  r22, Z+2
-        ldd  r23, Z+3
-        cp   r22, __zero_reg__
-        cpc  r23, __zero_reg__
+        ldd  r26, Z+2
+        ldd  r27, Z+3
+        cp   r26, __zero_reg__
+        cpc  r27, __zero_reg__
         breq 1f
-        subi r22, 1
-        sbc  r23, __zero_reg__
-        std  Z+2, r22
-        std  Z+3, r23
+        sbiw r26, 1
+        std  Z+2, r26
+        std  Z+3, r27
         ld   r26, Z
         ldd  r27, Z+1
         st   X+, r24
