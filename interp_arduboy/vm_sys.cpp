@@ -1699,11 +1699,40 @@ static void sys_wrap_text()
 static void sys_draw_text()
 {
     auto ptr = vm_pop_begin();
+#if 1
+    int16_t  x;
+    int16_t  y;
+    uint24_t font;
+    uint16_t tn;
+    uint16_t tb;
+    asm volatile(R"(
+        ld  %B[x], -%a[ptr]
+        ld  %A[x], -%a[ptr]
+        ld  %B[y], -%a[ptr]
+        ld  %A[y], -%a[ptr]
+        lds %C[font], %[vmfont]+2
+        lds %B[font], %[vmfont]+1
+        lds %A[font], %[vmfont]+0
+        ld  %B[tn], -%a[ptr]
+        ld  %A[tn], -%a[ptr]
+        ld  %B[tb], -%a[ptr]
+        ld  %A[tb], -%a[ptr]
+        )"
+        : [ptr]    "+&e" (ptr)
+        , [x]      "=&r" (x)
+        , [y]      "=&r" (y)
+        , [font]   "=&r" (font)
+        , [tn]     "=&r" (tn)
+        , [tb]     "=&r" (tb)
+        : [vmfont] ""    (&ards::vm.text_font)
+    );
+#else
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
     uint24_t font = ards::vm.text_font;
     uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
+#endif
     vm_pop_end(ptr);
     
     FX::disable();
@@ -2267,6 +2296,7 @@ static void format_add_int(
 // TODO: store this stuff in a struct on stack
 static void* format_user;
 
+//[[gnu::noinline]]
 static void format_add_float(format_char_func f, float x, uint8_t prec)
 {
     //if(isnan(x))
