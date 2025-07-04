@@ -2357,13 +2357,15 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     format_add_int(f, n, false, 10, 0);
     
     if(prec > 0)
-        f('.');
-    while(int8_t(--prec) >= 0)
     {
-        r *= 10.f;
-        uint8_t t = (uint8_t)r;
-        r -= t;
-        f((char)('0' + t));
+        f('.');
+        do
+        {
+            r *= 10.f;
+            uint8_t t = (uint8_t)r;
+            r -= t;
+            f((char)('0' + t));
+        } while(--prec != 0);
     }
 }
 
