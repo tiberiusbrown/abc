@@ -9,6 +9,7 @@
   - [`$draw_pixel`](#draw_pixel)
   - [`$draw_rect`](#draw_rect)
   - [`$draw_sprite`](#draw_sprite)
+  - [`$draw_sprite_array`](#draw_sprite_array)
   - [`$draw_sprite_selfmask`](#draw_sprite_selfmask)
   - [`$draw_text`](#draw_text)
   - [`$draw_textf`](#draw_textf)
@@ -222,7 +223,25 @@ Draw a sprite to the display buffer.
 | **x** | The x-coorindate of the top side of the sprite. |
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
-| **frame** | The frame of the sprite to draw form the sprite set. |
+| **frame** | The frame of the sprite to draw from the sprite set. |
+
+## `$draw_sprite_array`
+
+```c
+void $draw_sprite_array(i16 x, i16 y, sprites s, u8[]& frames, u8 cols);
+void $draw_sprite_array(i16 x, i16 y, sprites s, u8[] prog& frames, u8 cols);
+void $draw_sprite_array(i16 x, i16 y, sprites s, u16[]& frames, u8 cols);
+void $draw_sprite_array(i16 x, i16 y, sprites s, u16[] prog& frames, u8 cols);
+```
+
+Draw an array of sprites to the display buffer. 
+
+| Parameter | Description |
+| :-- | :-- |
+| **x** | The x-coorindate of the top side of the first sprite. |
+| **y** | The y-coordinate of the left side of the first sprite. |
+| **s** | The sprite set for the sprites to draw. |
+| **frames** | The frames of the sprites to draw from the sprite set. |
 
 ## `$draw_sprite_selfmask`
 
@@ -237,7 +256,7 @@ Draw a sprite to the display buffer. If the sprite is unmasked, the sprite is ma
 | **x** | The x-coorindate of the top side of the sprite. |
 | **y** | The y-coordinate of the left side of the sprite. |
 | **s** | The sprite set for the sprite to draw. |
-| **frame** | The frame of the sprite to draw form the sprite set. |
+| **frame** | The frame of the sprite to draw from the sprite set. |
 
 ## `$draw_text`
 

@@ -1,8 +1,9 @@
 .shades 4
 .saved 0
-.global use_array 1
+.global draw_type 1
 .global ox 2
 .global oy 2
+.global ram_array 128
 
 $PDF_FONT_ADAFRUIT:
   .b f 03 03 00 fa 00 00 08 03 03 00 fa 00 00 08 03 03
@@ -1656,32 +1657,52 @@ $PD_1:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
   .b 4 00 00 00 00 00
 $PD_2:
-  .b d 55 73 65 20 61 72 72 61 79 3a 20 25 64 30
-$PD_3:
-  .b f 50 72 65 73 73 20 41 20 74 6f 20 73 77 69 74 63
-  .b f 68 0a 62 65 74 77 65 65 6e 20 61 72 72 61 79 2f
-  .b 6 74 69 6c 65 6d 61 70
+  .b d 44 72 61 77 20 54 79 70 65 3a 20 25 75 30
 TM_ARRAY:
-  .b f 12 13 92 3b 86 9b aa 06 ab 25 25 26 1b 11 13 2b
-  .b f 23 a1 a2 a3 1c 86 9b 9a 07 07 07 87 4a 34 34 4b
-  .b f 1b b1 b2 b3 0b 0b 86 87 51 4a 34 34 db 32 32 33
-  .b f 1b c1 c2 c3 11 03 11 13 4a db 32 32 ca 35 35 5b
-  .b f 1c d1 80 d3 11 23 8e 4a db ca 35 35 5b 9c 9d 9e
-  .b f 13 3b 4a 34 34 34 34 db ca 5b 11 13 76 ac ad ae
-  .b f 01 03 5a cb 32 32 ca 35 5b 76 06 06 bb cc cd ce
-  .b f 22 22 2b 5a 35 35 5b 3b 76 ab 72 9a 87 dc dd de
+  .b f 11 12 91 3a 85 9a a9 05 aa 24 24 25 1a 10 12 2a
+  .b f 22 a0 a1 a2 1b 85 9a 99 06 06 06 86 49 33 33 4a
+  .b f 1a b0 b1 b2 0a 0a 85 86 50 49 33 33 da 31 31 32
+  .b f 1a c0 c1 c2 10 02 10 12 49 da 31 31 c9 34 34 5a
+  .b f 1b d0 7f d2 10 22 8d 49 da c9 34 34 5a 9b 9c 9d
+  .b f 12 3a 49 33 33 33 33 da c9 5a 10 12 75 ab ac ad
+  .b f 00 02 59 ca 31 31 c9 34 5a 75 05 05 ba cb cc cd
+  .b f 21 21 2a 59 34 34 5a 3a 75 aa 71 99 86 db dc dd
+TM_ARRAY16:
+  .b f 11 00 12 00 91 00 3a 00 85 00 9a 00 a9 00 05 00
+  .b f aa 00 24 00 24 00 25 00 1a 00 10 00 12 00 2a 00
+  .b f 22 00 a0 00 a1 00 a2 00 1b 00 85 00 9a 00 99 00
+  .b f 06 00 06 00 06 00 86 00 49 00 33 00 33 00 4a 00
+  .b f 1a 00 b0 00 b1 00 b2 00 0a 00 0a 00 85 00 86 00
+  .b f 50 00 49 00 33 00 33 00 da 00 31 00 31 00 32 00
+  .b f 1a 00 c0 00 c1 00 c2 00 10 00 02 00 10 00 12 00
+  .b f 49 00 da 00 31 00 31 00 c9 00 34 00 34 00 5a 00
+  .b f 1b 00 d0 00 7f 00 d2 00 10 00 22 00 8d 00 49 00
+  .b f da 00 c9 00 34 00 34 00 5a 00 9b 00 9c 00 9d 00
+  .b f 12 00 3a 00 49 00 33 00 33 00 33 00 33 00 da 00
+  .b f c9 00 5a 00 10 00 12 00 75 00 ab 00 ac 00 ad 00
+  .b f 00 00 02 00 59 00 ca 00 31 00 31 00 c9 00 34 00
+  .b f 5a 00 75 00 05 00 05 00 ba 00 cb 00 cc 00 cd 00
+  .b f 21 00 21 00 2a 00 59 00 34 00 34 00 5a 00 3a 00
+  .b f 75 00 aa 00 71 00 99 00 86 00 db 00 dc 00 dd 00
 
 $globinit:
   .file <internal>.abc
-  .line 28
+  .line 37
+  push4 2147510234
+  p00
+  pushg ram_array 0
+  p128
+  p0
+  sys   memcpy_P
+  .line 41
   p00
   setg2 ox 0
-  .line 29
+  .line 42
   p00
   setg2 oy 0
-  .line 30
+  .line 43
   p0
-  setg  use_array 0
+  setg  draw_type 0
   p0
   p1
   p0
@@ -1690,10 +1711,10 @@ $globinit:
 
 main:
   .file main.abc
-  .line 34
+  .line 47
   push  40
   sys   set_frame_rate
-  .line 36
+  .line 49
   p32
   sys   pressed
   bz    $L_main_1
@@ -1706,7 +1727,7 @@ main:
   add2b
   setg2 ox 0
 $L_main_1:
-  .line 37
+  .line 50
   p128
   sys   pressed
   bz    $L_main_3
@@ -1719,7 +1740,7 @@ $L_main_1:
   add2b
   setg2 oy 0
 $L_main_3:
-  .line 38
+  .line 51
   p64
   sys   pressed
   bz    $L_main_5
@@ -1732,7 +1753,7 @@ $L_main_3:
   sub2b
   setg2 ox 0
 $L_main_5:
-  .line 39
+  .line 52
   p16
   sys   pressed
   bz    $L_main_7
@@ -1745,23 +1766,29 @@ $L_main_5:
   sub2b
   setg2 oy 0
 $L_main_7:
-  .line 41
+  .line 54
   p8
   sys   just_pressed
-  bz    $L_main_8
-  getg  use_array 0
-  not
-  setg  use_array 0
-$L_main_8:
-  .line 43
-  getg  use_array 0
-  bz    $L_main_32
-  .line 45
+  bz    $L_main_9
+  p4
+  getg  draw_type 0
+  inc
+  setg  draw_type 0
+  getg  draw_type 0
+  cult
+  bz    $L_main_9
   p0
-$L_main_10:
-  .line 47
+  setg  draw_type 0
+$L_main_9:
+  .line 56
+  getg  draw_type 0
+  bnz   $L_main_33
+  .line 58
+  p0
+$L_main_11:
+  .line 60
   alloc 16
-  push3 26625
+  push3 26586
   getl  20
   p0
   p16
@@ -1774,13 +1801,10 @@ $L_main_10:
   p16
   p0
   sys   memcpy_P
-  .line 50
+  .line 63
   getl  16
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1788,14 +1812,9 @@ $L_main_10:
   add2
   getg2 ox 0
   sys   draw_sprite
-  pop
-  .line 50
   getl  15
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1806,14 +1825,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   getl  14
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1824,14 +1838,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   getl  13
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1841,14 +1850,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   getl  12
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1859,14 +1863,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   getl  11
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1876,14 +1875,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   getl  10
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1893,14 +1887,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   getl  9
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1910,14 +1899,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup8
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1928,14 +1912,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup7
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1945,14 +1924,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup6
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1962,14 +1936,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup5
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1979,14 +1948,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup4
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -1996,14 +1960,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup3
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -2013,14 +1972,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
   dup2
-  dec
-  .line 51
-  dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -2030,14 +1984,9 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  pop
-  .line 50
-  dup
-  dec
-  .line 51
   dup
   push4 1296128
-  getl  23
+  getl  22
   p0
   p16
   mul2b
@@ -2047,46 +1996,94 @@ $L_main_10:
   getg2 ox 0
   add2
   sys   draw_sprite
-  popn  17
-  .line 45
+  popn  16
+  .line 58
   inc
   dup
   p8
   cult
-  bnz   $L_main_10
+  bnz   $L_main_11
   pop
-  .line 43
-  jmp   $L_main_33
-$L_main_32:
-  .line 57
+  .line 56
+  jmp   $L_main_41
+$L_main_33:
+  .line 67
+  getg  draw_type 0
+  dec
+  bnz   $L_main_34
+  .line 69
   push4 3338670914
   dupw2
   getg2 oy 0
   getg2 ox 0
   sys   draw_tilemap
-$L_main_33:
-  .line 60
+  .line 67
+  jmp   $L_main_41
+$L_main_34:
+  .line 71
+  getg  draw_type 0
+  p2
+  sub
+  bnz   $L_main_35
+  .line 73
+  p16
+  push4 2147510234
+  p00
+  push3 5063
+  getg2 oy 0
+  getg2 ox 0
+  sys   draw_sprite_array_P
+  .line 71
+  jmp   $L_main_41
+$L_main_35:
+  .line 75
+  getg  draw_type 0
+  p3
+  sub
+  bnz   $L_main_36
+  .line 77
+  p16
+  push4 2147510362
+  p00
+  push3 5063
+  getg2 oy 0
+  getg2 ox 0
+  sys   draw_sprite_array16_P
+  .line 75
+  jmp   $L_main_41
+$L_main_36:
+  .line 79
+  getg  draw_type 0
+  p4
+  sub
+  bnz   $L_main_41
+  .line 81
+  p16
+  pushg ram_array 0
+  p128
+  push4 1296128
+  getg2 oy 0
+  getg2 ox 0
+  sys   draw_sprite_array
+$L_main_41:
+  .line 84
   p0
-  push4 217367
+  p8
+  push3 813
   dupw
   sys   draw_filled_rect
-  .line 61
+  .line 85
   push3 2791
   sys   set_text_font
-  .line 62
-  getg  use_array 0
+  .line 86
+  getg  draw_type 0
   p000
   push4 234907596
   p00
   push4 262153
   sys   draw_textf
-  .line 63
-  push4 654338010
-  p00
-  push4 262161
-  sys   draw_text_P
-  .line 65
+  .line 88
   sys   display
-  .line 32
+  .line 45
   ret
 

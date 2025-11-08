@@ -310,40 +310,40 @@
   18636    $display_noclear()
     125    $random()
      94    $millis()
-    950    $format(b, "%d", 0)
-   1375    $format(b, "%d", 100)
-   1936    $format(b, "%d", 10000)
-   3175    $format(b, "%d", 1000000)
-   4536    $format(b, "%d", 100000000)
-   1441    $format(b, "%d", -100)
-   1986    $format(b, "%d", -10000)
-   3209    $format(b, "%d", -1000000)
-   4571    $format(b, "%d", -100000000)
-    958    $format(b, "%u", 0)
-   1383    $format(b, "%u", 100)
-   1944    $format(b, "%u", 10000)
-   3183    $format(b, "%u", 1000000)
-   4544    $format(b, "%u", 100000000)
-   1615    $format(b, "%.1f", 0.00000001)
-   1575    $format(b, "%.1f", 0.00000037)
-   1585    $format(b, "%.1f", 0.00001369)
-   1587    $format(b, "%.1f", 0.00050653)
-   1555    $format(b, "%.1f", 0.01874160)
-   1709    $format(b, "%.1f", 0.69343934)
-   2028    $format(b, "%.1f", 25.65725517)
-   2434    $format(b, "%.1f", 949.31842041)
-   2902    $format(b, "%.1f", 35124.78125000)
-   4132    $format(b, "%.1f", 1299616.87500000)
-   3497    $format(b, "%.8f", 0.00000001)
-   3644    $format(b, "%.8f", 0.00000037)
-   3867    $format(b, "%.8f", 0.00001369)
-   3899    $format(b, "%.8f", 0.00050653)
-   4175    $format(b, "%.8f", 0.01874160)
-   4402    $format(b, "%.8f", 0.69343934)
-   4683    $format(b, "%.8f", 25.65725517)
-   4998    $format(b, "%.8f", 949.31842041)
-   4903    $format(b, "%.8f", 35124.78125000)
-   5764    $format(b, "%.8f", 1299616.87500000)
+    952    $format(b, "%d", 0)
+   1383    $format(b, "%d", 100)
+   1950    $format(b, "%d", 10000)
+   3195    $format(b, "%d", 1000000)
+   4562    $format(b, "%d", 100000000)
+   1452    $format(b, "%d", -100)
+   2003    $format(b, "%d", -10000)
+   3232    $format(b, "%d", -1000000)
+   4600    $format(b, "%d", -100000000)
+    960    $format(b, "%u", 0)
+   1391    $format(b, "%u", 100)
+   1958    $format(b, "%u", 10000)
+   3203    $format(b, "%u", 1000000)
+   4570    $format(b, "%u", 100000000)
+   1649    $format(b, "%.1f", 0.00000001)
+   1609    $format(b, "%.1f", 0.00000037)
+   1619    $format(b, "%.1f", 0.00001369)
+   1621    $format(b, "%.1f", 0.00050653)
+   1589    $format(b, "%.1f", 0.01874160)
+   1743    $format(b, "%.1f", 0.69343934)
+   2066    $format(b, "%.1f", 25.65725517)
+   2473    $format(b, "%.1f", 949.31842041)
+   2943    $format(b, "%.1f", 35124.78125000)
+   4175    $format(b, "%.1f", 1299616.87500000)
+   3468    $format(b, "%.8f", 0.00000001)
+   3615    $format(b, "%.8f", 0.00000037)
+   3838    $format(b, "%.8f", 0.00001369)
+   3870    $format(b, "%.8f", 0.00050653)
+   4146    $format(b, "%.8f", 0.01874160)
+   4373    $format(b, "%.8f", 0.69343934)
+   4658    $format(b, "%.8f", 25.65725517)
+   4974    $format(b, "%.8f", 949.31842041)
+   4881    $format(b, "%.8f", 35124.78125000)
+   5744    $format(b, "%.8f", 1299616.87500000)
     750    for(u8  i = 10; i != 0; --i) { $assert(1); }
     750    for(u16 i = 10; i != 0; --i) { $assert(1); }
     750    for(u24 i = 10; i != 0; --i) { $assert(1); }
@@ -760,19 +760,35 @@
    1740    draw_sprite(-2, 1) [16x16 masked]
    1720    draw_sprite(0, 0) [16x16 masked]
    1735    draw_sprite(0, 1) [16x16 masked]
-  30615    draw_tilemap(TMAP8 ,  0,  0) [16x16]
-  30642    draw_tilemap(TMAP16,  0,  0) [16x16]
-  32662    draw_tilemap(TMAP8 , -1,  0) [16x16]
-  34293    draw_tilemap(TMAP16, -1,  0) [16x16]
-  35510    draw_tilemap(TMAP8 ,  0, -1) [16x16]
-  35547    draw_tilemap(TMAP16,  0, -1) [16x16]
-  37792    draw_tilemap(TMAP8 , -1, -1) [16x16]
-  39834    draw_tilemap(TMAP16, -1, -1) [16x16]
-  59062    draw_tilemap(TMAP8 ,  0,  0) [8x8]
-  62392    draw_tilemap(TMAP16,  0,  0) [8x8]
-  64687    draw_tilemap(TMAP8 , -1,  0) [8x8]
-  68041    draw_tilemap(TMAP16, -1,  0) [8x8]
-  66140    draw_tilemap(TMAP8 ,  0, -1) [8x8]
-  69896    draw_tilemap(TMAP16,  0, -1) [8x8]
-  72407    draw_tilemap(TMAP8 , -1, -1) [8x8]
-  76190    draw_tilemap(TMAP16, -1, -1) [8x8]
+  30751    draw_tilemap(TMAP8 ,  0,  0) [16x16]
+  30778    draw_tilemap(TMAP16,  0,  0) [16x16]
+  32802    draw_tilemap(TMAP8 , -1,  0) [16x16]
+  34477    draw_tilemap(TMAP16, -1,  0) [16x16]
+  35656    draw_tilemap(TMAP8 ,  0, -1) [16x16]
+  35693    draw_tilemap(TMAP16,  0, -1) [16x16]
+  37943    draw_tilemap(TMAP8 , -1, -1) [16x16]
+  40040    draw_tilemap(TMAP16, -1, -1) [16x16]
+  59302    draw_tilemap(TMAP8 ,  0,  0) [8x8]
+  62720    draw_tilemap(TMAP16,  0,  0) [8x8]
+  65023    draw_tilemap(TMAP8 , -1,  0) [8x8]
+  68465    draw_tilemap(TMAP16, -1,  0) [8x8]
+  66401    draw_tilemap(TMAP8 ,  0, -1) [8x8]
+  70253    draw_tilemap(TMAP16,  0, -1) [8x8]
+  72776    draw_tilemap(TMAP8 , -1, -1) [8x8]
+  76655    draw_tilemap(TMAP16, -1, -1) [8x8]
+  30848    draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [16x16]
+  30888    draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [16x16]
+  32879    draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [16x16]
+  34567    draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [16x16]
+  35713    draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [16x16]
+  35763    draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [16x16]
+  37975    draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [16x16]
+  40085    draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [16x16]
+  58913    draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [8x8]
+  62345    draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [8x8]
+  59013    draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [8x8]
+  62445    draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [8x8]
+  59039    draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [8x8]
+  62471    draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [8x8]
+  59097    draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [8x8]
+  62529    draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [8x8]

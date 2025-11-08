@@ -49,6 +49,28 @@ constexpr tilemap TMAP8 = tilemap{
     34,34,43,90,53,53,91,59,118,171,114,154,135,220,221,222,222,
 };
 
+u8[16 * 8] prog TM_ARRAY = {
+    17,18,145,58,133,154,169,5,170,36,36,37,26,16,18,42,
+    34,160,161,162,27,133,154,153,6,6,6,134,73,51,51,74,
+    26,176,177,178,10,10,133,134,80,73,51,51,218,49,49,50,
+    26,192,193,194,16,2,16,18,73,218,49,49,201,52,52,90,
+    27,208,127,210,16,34,141,73,218,201,52,52,90,155,156,157,
+    18,58,73,51,51,51,51,218,201,90,16,18,117,171,172,173,
+    0,2,89,202,49,49,201,52,90,117,5,5,186,203,204,205,
+    33,33,42,89,52,52,90,58,117,170,113,153,134,219,220,221
+};
+
+u16[16 * 8] prog TM_ARRAY16 = {
+    17,18,145,58,133,154,169,5,170,36,36,37,26,16,18,42,
+    34,160,161,162,27,133,154,153,6,6,6,134,73,51,51,74,
+    26,176,177,178,10,10,133,134,80,73,51,51,218,49,49,50,
+    26,192,193,194,16,2,16,18,73,218,49,49,201,52,52,90,
+    27,208,127,210,16,34,141,73,218,201,52,52,90,155,156,157,
+    18,58,73,51,51,51,51,218,201,90,16,18,117,171,172,173,
+    0,2,89,202,49,49,201,52,90,117,5,5,186,203,204,205,
+    33,33,42,89,52,52,90,58,117,170,113,153,134,219,220,221
+};
+
 void main()
 {
     $debug_printf("nothing (baseline)\n");
@@ -525,6 +547,40 @@ void main()
     $debug_break(); $draw_tilemap(-1, -1, TILES8, TMAP8); $debug_break();
     $debug_printf("draw_tilemap(TMAP16, -1, -1) [8x8]\n");
     $debug_break(); $draw_tilemap(-1, -1, TILES8, TMAP); $debug_break();
+    
+    $debug_printf("draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(0, 0, TILES, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(0, 0, TILES, TM_ARRAY16, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(-1, 0, TILES, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(-1, 0, TILES, TM_ARRAY16, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(0, -1, TILES, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(0, -1, TILES, TM_ARRAY16, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(-1, -1, TILES, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [16x16]\n");
+    $debug_break(); $draw_sprite_array(-1, -1, TILES, TM_ARRAY16, 16); $debug_break();
+    
+    $debug_printf("draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(0, 0, TILES8, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(0, 0, TILES8, TM_ARRAY16, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(-1, 0, TILES8, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(-1, 0, TILES8, TM_ARRAY16, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(0, -1, TILES8, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(0, -1, TILES8, TM_ARRAY16, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(-1, -1, TILES8, TM_ARRAY, 16); $debug_break();
+    $debug_printf("draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [8x8]\n");
+    $debug_break(); $draw_sprite_array(-1, -1, TILES8, TM_ARRAY16, 16); $debug_break();
     
     $assert(0);
 }

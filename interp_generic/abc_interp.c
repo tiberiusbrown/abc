@@ -44,6 +44,10 @@ enum
     SYS_DRAW_FILLED_CIRCLE,
     SYS_DRAW_SPRITE,
     SYS_DRAW_SPRITE_SELFMASK,
+    SYS_DRAW_SPRITE_ARRAY,
+    SYS_DRAW_SPRITE_ARRAY_P,
+    SYS_DRAW_SPRITE_ARRAY16,
+    SYS_DRAW_SPRITE_ARRAY16_P,
     SYS_DRAW_TILEMAP,
     SYS_DRAW_TEXT,
     SYS_DRAW_TEXT_P,
@@ -3417,84 +3421,87 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
 
     switch(sysnum)
     {
-    case SYS_DISPLAY:              return sys_display(interp, h);
-    case SYS_DISPLAY_NOCLEAR:      return sys_display_noclear(interp, h);
-    case SYS_GET_PIXEL:            return sys_get_pixel(interp);
-    case SYS_DRAW_PIXEL:           return sys_draw_pixel(interp);
-    case SYS_DRAW_HLINE:           return sys_draw_hline(interp);
-    case SYS_DRAW_VLINE:           return sys_draw_vline(interp);
-    case SYS_DRAW_LINE:            return sys_draw_line(interp);
-    case SYS_DRAW_RECT:            return sys_draw_rect(interp);
-    case SYS_DRAW_FILLED_RECT:     return sys_draw_filled_rect(interp);
-    case SYS_DRAW_CIRCLE:          return sys_draw_circle(interp);
-    case SYS_DRAW_FILLED_CIRCLE:   return sys_draw_filled_circle(interp);
-    case SYS_DRAW_SPRITE:          return sys_draw_sprite(interp, h);
-    case SYS_DRAW_SPRITE_SELFMASK: return sys_draw_sprite_selfmask(interp, h);
-    case SYS_DRAW_TILEMAP:         return sys_draw_tilemap(interp, h);
-    case SYS_DRAW_TEXT:            return sys_draw_text(interp, h);
-    case SYS_DRAW_TEXT_P:          return sys_draw_text_P(interp, h);
-    case SYS_DRAW_TEXTF:           return sys_draw_textf(interp, h);
-    case SYS_TEXT_WIDTH:           return sys_text_width(interp, h);
-    case SYS_TEXT_WIDTH_P:         return sys_text_width_P(interp, h);
-    case SYS_WRAP_TEXT:            return sys_text_wrap(interp, h);
-    case SYS_SET_TEXT_FONT:        return sys_set_text_font(interp);
-    case SYS_SET_TEXT_COLOR:       return sys_set_text_color(interp);
-    case SYS_SET_FRAME_RATE:       return sys_set_frame_rate(interp);
-    case SYS_IDLE:                 return ABC_RESULT_IDLE;
-    case SYS_DEBUG_BREAK:          return ABC_RESULT_BREAK;
-    case SYS_DEBUG_PRINTF:         return sys_debug_printf(interp, h);
-    case SYS_ASSERT:               return sys_assert(interp);
-    case SYS_BUTTONS:              return sys_buttons(interp, h);
-    case SYS_JUST_PRESSED:         return sys_just_pressed(interp);
-    case SYS_JUST_RELEASED:        return sys_just_released(interp);
-    case SYS_PRESSED:              return sys_pressed(interp, h);
-    case SYS_ANY_PRESSED:          return sys_any_pressed(interp, h);
-    case SYS_NOT_PRESSED:          return sys_not_pressed(interp, h);
-    case SYS_MILLIS:               return sys_millis(interp, h);
-    case SYS_MEMSET:               return sys_memset(interp);
-    case SYS_MEMCPY:               return sys_memcpy(interp);
-    case SYS_MEMCPY_P:             return sys_memcpy_P(interp, h);
-    case SYS_STRLEN:               return sys_strlen(interp);
-    case SYS_STRLEN_P:             return sys_strlen_P(interp, h);
-    case SYS_STRCMP:               return sys_strcmp(interp);
-    case SYS_STRCMP_P:             return sys_strcmp_P(interp, h);
-    case SYS_STRCMP_PP:            return sys_strcmp_PP(interp, h);
-    case SYS_STRCPY:               return sys_strcpy(interp);
-    case SYS_STRCPY_P:             return sys_strcpy_P(interp, h);
-    case SYS_FORMAT:               return sys_format(interp, h);
-    case SYS_MUSIC_PLAY:           return sys_music_play(interp, h);
-    case SYS_MUSIC_PLAYING:        return sys_music_playing(interp);
-    case SYS_MUSIC_STOP:           return sys_music_stop(interp);
-    case SYS_TONES_PLAY:           return sys_tones_play(interp, h);
-    case SYS_TONES_PLAY_PRIMARY:   return sys_tones_play_primary(interp, h);
-    case SYS_TONES_PLAY_AUTO:      return sys_tones_play_auto(interp, h);
-    case SYS_TONES_PLAYING:        return sys_tones_playing(interp);
-    case SYS_TONES_STOP:           return sys_tones_stop(interp);
-    case SYS_AUDIO_ENABLED:        return sys_audio_enabled(interp);
-    case SYS_AUDIO_TOGGLE:         return sys_audio_toggle(interp);
-    case SYS_AUDIO_PLAYING:        return sys_audio_playing(interp);
-    case SYS_AUDIO_STOP:           return sys_audio_stop(interp);
-    case SYS_SAVE_EXISTS:          return sys_save_exists(interp, h);
-    case SYS_SAVE:                 return sys_save(interp, h);
-    case SYS_LOAD:                 return sys_load(interp, h);
-    case SYS_SIN:                  return sys_sin(interp);
-    case SYS_COS:                  return sys_cos(interp);
-    case SYS_TAN:                  return sys_tan(interp);
-    case SYS_ATAN2:                return sys_atan2(interp);
-    case SYS_FLOOR:                return sys_floor(interp);
-    case SYS_CEIL:                 return sys_ceil(interp);
-    case SYS_ROUND:                return sys_round(interp);
-    case SYS_MOD:                  return sys_mod(interp);
-    case SYS_POW:                  return sys_pow(interp);
-    case SYS_SQRT:                 return sys_sqrt(interp);
-    case SYS_GENERATE_RANDOM_SEED: return sys_generate_random_seed(interp, h);
-    case SYS_INIT_RANDOM_SEED:     return sys_init_random_seed(interp, h);
-    case SYS_SET_RANDOM_SEED:      return sys_set_random_seed(interp);
-    case SYS_RANDOM:               return sys_random(interp);
-    case SYS_RANDOM_RANGE:         return sys_random_range(interp);
-    case SYS_TILEMAP_GET:          return sys_tilemap_get(interp, h);
+    case SYS_DISPLAY:               return sys_display(interp, h);
+    case SYS_DISPLAY_NOCLEAR:       return sys_display_noclear(interp, h);
+    case SYS_GET_PIXEL:             return sys_get_pixel(interp);
+    case SYS_DRAW_PIXEL:            return sys_draw_pixel(interp);
+    case SYS_DRAW_HLINE:            return sys_draw_hline(interp);
+    case SYS_DRAW_VLINE:            return sys_draw_vline(interp);
+    case SYS_DRAW_LINE:             return sys_draw_line(interp);
+    case SYS_DRAW_RECT:             return sys_draw_rect(interp);
+    case SYS_DRAW_FILLED_RECT:      return sys_draw_filled_rect(interp);
+    case SYS_DRAW_CIRCLE:           return sys_draw_circle(interp);
+    case SYS_DRAW_FILLED_CIRCLE:    return sys_draw_filled_circle(interp);
+    case SYS_DRAW_SPRITE:           return sys_draw_sprite(interp, h);
+    case SYS_DRAW_SPRITE_SELFMASK:  return sys_draw_sprite_selfmask(interp, h);
+    case SYS_DRAW_SPRITE_ARRAY:     RETURN_ERROR;
+    case SYS_DRAW_SPRITE_ARRAY_P:   RETURN_ERROR;
+    case SYS_DRAW_SPRITE_ARRAY16:   RETURN_ERROR;
+    case SYS_DRAW_SPRITE_ARRAY16_P: RETURN_ERROR;
+    case SYS_DRAW_TILEMAP:          return sys_draw_tilemap(interp, h);
+    case SYS_DRAW_TEXT:             return sys_draw_text(interp, h);
+    case SYS_DRAW_TEXT_P:           return sys_draw_text_P(interp, h);
+    case SYS_DRAW_TEXTF:            return sys_draw_textf(interp, h);
+    case SYS_TEXT_WIDTH:            return sys_text_width(interp, h);
+    case SYS_TEXT_WIDTH_P:          return sys_text_width_P(interp, h);
+    case SYS_WRAP_TEXT:             return sys_text_wrap(interp, h);
+    case SYS_SET_TEXT_FONT:         return sys_set_text_font(interp);
+    case SYS_SET_TEXT_COLOR:        return sys_set_text_color(interp);
+    case SYS_SET_FRAME_RATE:        return sys_set_frame_rate(interp);
+    case SYS_IDLE:                  return ABC_RESULT_IDLE;
+    case SYS_DEBUG_BREAK:           return ABC_RESULT_BREAK;
+    case SYS_DEBUG_PRINTF:          return sys_debug_printf(interp, h);
+    case SYS_ASSERT:                return sys_assert(interp);
+    case SYS_BUTTONS:               return sys_buttons(interp, h);
+    case SYS_JUST_PRESSED:          return sys_just_pressed(interp);
+    case SYS_JUST_RELEASED:         return sys_just_released(interp);
+    case SYS_PRESSED:               return sys_pressed(interp, h);
+    case SYS_ANY_PRESSED:           return sys_any_pressed(interp, h);
+    case SYS_NOT_PRESSED:           return sys_not_pressed(interp, h);
+    case SYS_MILLIS:                return sys_millis(interp, h);
+    case SYS_MEMSET:                return sys_memset(interp);
+    case SYS_MEMCPY:                return sys_memcpy(interp);
+    case SYS_MEMCPY_P:              return sys_memcpy_P(interp, h);
+    case SYS_STRLEN:                return sys_strlen(interp);
+    case SYS_STRLEN_P:              return sys_strlen_P(interp, h);
+    case SYS_STRCMP:                return sys_strcmp(interp);
+    case SYS_STRCMP_P:              return sys_strcmp_P(interp, h);
+    case SYS_STRCMP_PP:             return sys_strcmp_PP(interp, h);
+    case SYS_STRCPY:                return sys_strcpy(interp);
+    case SYS_STRCPY_P:              return sys_strcpy_P(interp, h);
+    case SYS_FORMAT:                return sys_format(interp, h);
+    case SYS_MUSIC_PLAY:            return sys_music_play(interp, h);
+    case SYS_MUSIC_PLAYING:         return sys_music_playing(interp);
+    case SYS_MUSIC_STOP:            return sys_music_stop(interp);
+    case SYS_TONES_PLAY:            return sys_tones_play(interp, h);
+    case SYS_TONES_PLAY_PRIMARY:    return sys_tones_play_primary(interp, h);
+    case SYS_TONES_PLAY_AUTO:       return sys_tones_play_auto(interp, h);
+    case SYS_TONES_PLAYING:         return sys_tones_playing(interp);
+    case SYS_TONES_STOP:            return sys_tones_stop(interp);
+    case SYS_AUDIO_ENABLED:         return sys_audio_enabled(interp);
+    case SYS_AUDIO_TOGGLE:          return sys_audio_toggle(interp);
+    case SYS_AUDIO_PLAYING:         return sys_audio_playing(interp);
+    case SYS_AUDIO_STOP:            return sys_audio_stop(interp);
+    case SYS_SAVE_EXISTS:           return sys_save_exists(interp, h);
+    case SYS_SAVE:                  return sys_save(interp, h);
+    case SYS_LOAD:                  return sys_load(interp, h);
+    case SYS_SIN:                   return sys_sin(interp);
+    case SYS_COS:                   return sys_cos(interp);
+    case SYS_TAN:                   return sys_tan(interp);
+    case SYS_ATAN2:                 return sys_atan2(interp);
+    case SYS_FLOOR:                 return sys_floor(interp);
+    case SYS_CEIL:                  return sys_ceil(interp);
+    case SYS_ROUND:                 return sys_round(interp);
+    case SYS_MOD:                   return sys_mod(interp);
+    case SYS_POW:                   return sys_pow(interp);
+    case SYS_SQRT:                  return sys_sqrt(interp);
+    case SYS_GENERATE_RANDOM_SEED:  return sys_generate_random_seed(interp, h);
+    case SYS_INIT_RANDOM_SEED:      return sys_init_random_seed(interp, h);
+    case SYS_SET_RANDOM_SEED:       return sys_set_random_seed(interp);
+    case SYS_RANDOM:                return sys_random(interp);
+    case SYS_RANDOM_RANGE:          return sys_random_range(interp);
+    case SYS_TILEMAP_GET:           return sys_tilemap_get(interp, h);
     default:
-        assert(0);
         RETURN_ERROR;
     }
 }

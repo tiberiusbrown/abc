@@ -15,6 +15,8 @@
 
 #include <math.h>
 
+#define DRAW_SPRITE_ARRAY_SUPPORT_FX 1
+
 #define TILEMAP_USE_DRAW_SPRITE_HELPER 0
 
 extern uint8_t abc_seed[4];
@@ -1249,61 +1251,23 @@ static uint16_t fx_read_pending_last_uint16_le()
     return t;
 }
 
-static void sys_draw_tilemap()
+// flags: bit 0 = prog
+//        bit 1 = tilemap
+static void draw_sprite_array_helper(
+    int16_t x, int16_t y,
+    uint24_t tm, uint16_t nrow, uint16_t ncol, uint8_t format, uint8_t flags,
+    uint24_t img)
 {
-    auto ptr = vm_pop_begin();
-#if 1
-    int16_t x,y;
-    uint24_t img, tm;
-    asm volatile(R"(
-            ld %B[x], -%a[ptr]
-            ld %A[x], -%a[ptr]
-            ld %B[y], -%a[ptr]
-            ld %A[y], -%a[ptr]
-            ld %C[img], -%a[ptr]
-            ld %B[img], -%a[ptr]
-            ld %A[img], -%a[ptr]
-            ld %C[tm], -%a[ptr]
-            ld %B[tm], -%a[ptr]
-            ld %A[tm], -%a[ptr]
-        )"
-        : [x]   "=&r" (x)
-        , [y]   "=&r" (y)
-        , [img] "=&r" (img)
-        , [tm]  "=&r" (tm)
-        , [ptr] "+&e" (ptr)
-    );
-#else
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint24_t img = vm_pop<uint24_t>(ptr);
-    uint24_t tm = vm_pop<uint24_t>(ptr);
-#endif
-    vm_pop_end(ptr);
-    FX::disable();
+    if(x >= 128) return;
+    if(y >=  64) return;
 
-    if(x >= 128) goto end;
-    if(y >=  64) goto end;
-
-    fx_seek_data(tm);
-    uint8_t format = FX::readPendingUInt8();
-    asm volatile("dec %0\n" : "+r" (format)); // better codegen than format -= 1;
-    uint16_t nrow = fx_read_pending_uint16_le();
-    uint16_t ncol = fx_read_pending_last_uint16_le();
-    tm += 5;
-
-    // sprite dimensions and number
     fx_seek_data(img);
     uint8_t sw = FX::readPendingUInt8();
-#if TILEMAP_USE_DRAW_SPRITE_HELPER
-    uint8_t sh = FX::readPendingLastUInt8();
-#else
     uint8_t sh = FX::readPendingUInt8();
     uint8_t mode = FX::readPendingUInt8();
     uint16_t num_frames = fx_read_pending_last_uint16_le();
 #if ABC_SHADES == 2
     img += 5;
-#endif
 #endif
 
     uint16_t r = 0, c = 0;
@@ -1356,7 +1320,7 @@ static void sys_draw_tilemap()
         int8_t tx = (int8_t)x;
         uint8_t buf[BUF_BYTES];
         uint8_t i = 0;
-        for(uint16_t tc = c; tc < ncol /*&& tx < WIDTH*/; ++tc, /*tx += sw,*/ i += format + 1)
+        for(uint16_t tc = c; tc < ncol; ++tc, i += format + 1)
         {
             uint16_t frame;
             if((i &= (BUF_BYTES - 1)) == 0)
@@ -1365,7 +1329,14 @@ static void sys_draw_tilemap()
                 if(format != 0)
                     t += t;
                 t += tm;
-                ards::detail::fx_read_data_bytes(t, buf, BUF_BYTES);
+                if(!(flags & 1))
+                {
+                    memcpy(buf, (const void*)t, BUF_BYTES);
+                }
+                else
+                {
+                    ards::detail::fx_read_data_bytes(t, buf, BUF_BYTES);
+                }
             }
             {
                 uint8_t const* p = &buf[i];
@@ -1381,9 +1352,9 @@ static void sys_draw_tilemap()
                     : [format] "d"   (format)
                 );
             }
-            if(frame != 0)
+            if(!(flags & 2) || frame != 0)
             {
-                frame -= 1;
+                if(flags & 2) frame -= 1;
 #if ABC_SHADES == 2
 #if TILEMAP_USE_DRAW_SPRITE_HELPER
                 ptr = vm_pop_begin();
@@ -1408,8 +1379,57 @@ static void sys_draw_tilemap()
                 break;
         }
     }
-end:
+}
 
+static void sys_draw_tilemap()
+{
+    auto ptr = vm_pop_begin();
+#if 1
+    int16_t x,y;
+    uint24_t img, tm;
+    asm volatile(R"(
+            ld %B[x], -%a[ptr]
+            ld %A[x], -%a[ptr]
+            ld %B[y], -%a[ptr]
+            ld %A[y], -%a[ptr]
+            ld %C[img], -%a[ptr]
+            ld %B[img], -%a[ptr]
+            ld %A[img], -%a[ptr]
+            ld %C[tm], -%a[ptr]
+            ld %B[tm], -%a[ptr]
+            ld %A[tm], -%a[ptr]
+        )"
+        : [x]   "=&r" (x)
+        , [y]   "=&r" (y)
+        , [img] "=&r" (img)
+        , [tm]  "=&r" (tm)
+        , [ptr] "+&e" (ptr)
+    );
+#else
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t img = vm_pop<uint24_t>(ptr);
+    uint24_t tm = vm_pop<uint24_t>(ptr);
+#endif
+    vm_pop_end(ptr);
+    FX::disable();
+
+    if(x >= 128) goto end;
+    if(y >=  64) goto end;
+
+    fx_seek_data(tm);
+    uint8_t format = FX::readPendingUInt8();
+    asm volatile("dec %0\n" : "+r" (format)); // better codegen than format -= 1;
+    uint16_t nrow = fx_read_pending_uint16_le();
+    uint16_t ncol = fx_read_pending_last_uint16_le();
+    tm += 5;
+
+    draw_sprite_array_helper(
+        x, y,
+        tm, nrow, ncol, format, 0x3,
+        img);
+
+end:
     seek_to_pc();
 }
 
@@ -2238,6 +2258,136 @@ static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
 //struct u32_div_t { uint32_t q, r; };
 //extern "C" u32_div_t __udivmodsi4(uint32_t n, uint32_t d);
 
+struct fast_divmod10_t
+{
+    uint8_t r;
+    uint32_t q;
+};
+
+//[[ gnu::noinline ]]
+static inline fast_divmod10_t fast_divmod10(uint32_t x)
+{
+    // q = (uint32_t)(((uint64_t)x * 0xCCCCCCCDull) >> 35);
+    // r = (uint8_t)(x - q * 10);
+    fast_divmod10_t result;
+    uint8_t t;
+    uint32_t p;
+    /*
+        Step 1: compute X*CC in P3.P2.P1.P0.T
+
+           X3 X2 X1 X0
+                    CC
+           ===========
+                 X0*CC
+              X1*CC
+           X2*CC
+        X3*CC
+        ==============
+        P3 P2 P1 P0 T
+
+        Step 2: compute Q from X*CC
+
+                    X3 X2 X1 X0
+                    CC CC CC CD
+                    ===========
+                    X3 X2 X1 X0
+                 P3 P2 P1 P0 T
+              P3 P2 P1 P0 T
+           P3 P2 P1 P0 T
+        P3 P2 P1 P0 T
+        =======================
+        Q3 Q2 Q1 Q0 X3 X2 X1 X0
+
+        Step 3: compute R
+
+        R = X0 - Q0*10
+
+    */
+    asm volatile(R"(
+
+            ; compute X*CC in P3.P2.P1.P0.T
+            
+            ldi  %[t], 0xcc
+            mul  %B[x], %[t]
+            movw %A[p], r0
+            mul  %D[x], %[t]
+            movw %C[p], r0
+            mul  %C[x], %[t]
+            add  %B[p], r0
+            adc  %C[p], r1
+            clr  __zero_reg__
+            adc  %D[p], __zero_reg__
+            mul  %A[x], %[t]
+            mov  %[t], r0
+            add  %A[p], r1
+            clr  __zero_reg__
+            adc  %B[p], __zero_reg__
+            adc  %C[p], __zero_reg__
+            adc  %D[p], __zero_reg__
+
+            ; compute Q from X*CC
+            
+            ; save X0 for later
+            mov  r0, %A[x]
+
+            clr  %A[q]
+            clr  %B[q]
+            movw %C[q], %A[q]
+            add  %A[x], %[t]
+            adc  %B[x], %A[p]
+            adc  %C[x], %B[p]
+            adc  %D[x], %C[p]
+            adc  %A[q], %D[p]
+            adc  %B[q], __zero_reg__
+            add  %B[x], %[t]
+            adc  %C[x], %A[p]
+            adc  %D[x], %B[p]
+            adc  %A[q], %C[p]
+            adc  %B[q], %D[p]
+            adc  %C[q], __zero_reg__
+            add  %C[x], %[t]
+            adc  %D[x], %A[p]
+            adc  %A[q], %B[p]
+            adc  %B[q], %C[p]
+            adc  %C[q], %D[p]
+            adc  %D[q], __zero_reg__
+            add  %D[x], %[t]
+            adc  %A[q], %A[p]
+            adc  %B[q], %B[p]
+            adc  %C[q], %C[p]
+            adc  %D[q], %D[p]
+
+            ; right shift Q by 3
+            lsr  %D[q]
+            ror  %C[q]
+            ror  %B[q]
+            ror  %A[q]
+            lsr  %D[q]
+            ror  %C[q]
+            ror  %B[q]
+            ror  %A[q]
+            lsr  %D[q]
+            ror  %C[q]
+            ror  %B[q]
+            ror  %A[q]
+
+            ; compute R = X0 - Q0*10
+
+            ldi  %[t], 10
+            mov  %[r], r0 ; restore X0
+            mul  %A[q], %[t]
+            sub  %[r], r0
+            clr  __zero_reg__
+        )"
+        : [q] "=&r" (result.q)
+        , [r] "=&r" (result.r)
+        , [t] "=&d" (t)
+        , [p] "=&r" (p)
+        : [x] "r"   (x)
+    );
+    return result;
+}
+
 static void format_add_int(
     format_char_func f, uint32_t x, bool sign, uint8_t base, int8_t w)
 {
@@ -2264,6 +2414,13 @@ static void format_add_int(
             u32_div_t d = __udivmodsi4(x, 10);
             uint8_t r = d.r;
             x = d.q;
+#elif 0
+            uint8_t r;
+            {
+                fast_divmod10_t d = fast_divmod10(x);
+                r = d.r;
+                x = d.q;
+            }
 #else
             uint8_t r = x % 10;
             x /= 10;
@@ -2313,13 +2470,6 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
     //    f('f');
     //    return;
     //}
-    if(fabs(x) > 4294967040.f)
-    {
-        f('o');
-        f('v');
-        f('f');
-        return;
-    }
     
     if(x < 0.0)
     {
@@ -2351,19 +2501,57 @@ static void format_add_float(format_char_func f, float x, uint8_t prec)
 #endif
         x += r;
     }
-    
-    uint32_t n = (uint32_t)x;
-    float r = x - (double)n;
-    format_add_int(f, n, false, 10, 0);
+
+    {
+        uint8_t n = 1;
+        while(x >= 1e9f)
+        {
+            ++n;
+            x *= 1e-9f;
+        }
+        for(uint8_t i = 0; i < n;)
+        {
+            uint32_t ix = (uint32_t)x;
+            int8_t w = 0;
+            if(i != 0)
+                w = 9;
+            format_add_int(f, ix, false, 10, w);
+            x -= ix;
+            if(++i < n)
+                x *= 1e9f;
+        }
+    }
+
+    //if(prec > 0)
+    //{
+    //    f('.');
+    //    static float const PRECS[10] PROGMEM =
+    //    {
+    //        1e1f, 1e2f, 1e3f, 1e4f, 1e5f, 1e6f, 1e7f, 1e8f, 1e9f,
+    //    };
+    //    float r;
+    //    float const* p = &PRECS[prec - 1];
+    //    asm volatile(R"(
+    //        lpm %A[r], %a[p]+
+    //        lpm %B[r], %a[p]+
+    //        lpm %C[r], %a[p]+
+    //        lpm %D[r], %a[p]+
+    //        )"
+    //        : [r] "=&r" (r)
+    //        , [p] "+&z" (p)
+    //    );
+    //    x *= r;
+    //    format_add_int(f, (uint32_t)x, false, 10, (int8_t)prec);
+    //}
     
     if(prec > 0)
     {
         f('.');
         do
         {
-            r *= 10.f;
-            uint8_t t = (uint8_t)r;
-            r -= t;
+            x *= 10.f;
+            uint8_t t = (uint8_t)x;
+            x -= t;
             f((char)('0' + t));
         } while(--prec != 0);
     }
@@ -3349,6 +3537,178 @@ static void sys_set_text_color()
 }
 #endif
 
+static void draw_sprite_array_helper(uint8_t format, bool prog)
+{
+    int16_t x;
+    int16_t y;
+    uint24_t img;
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+    uint24_t fb;
+    uint24_t fn;
+#else
+    uint16_t fb;
+    uint16_t fn;
+#endif
+    uint8_t cols;
+
+    auto ptr = vm_pop_begin();
+#if 1
+    asm volatile(R"(
+            clr  %C[fn]
+            ld   %B[x], -%a[ptr]
+            ld   %A[x], -%a[ptr]
+            ld   %B[y], -%a[ptr]
+            ld   %A[y], -%a[ptr]
+            ld   %C[img], -%a[ptr]
+            ld   %B[img], -%a[ptr]
+            ld   %A[img], -%a[ptr]
+        )"
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+        R"(
+            cpse %[f], __zero_reg__
+            ld   %C[fn], -%a[ptr]
+        )"
+#endif
+        R"(
+            ld   %B[fn], -%a[ptr]
+            ld   %A[fn], -%a[ptr]
+        )"
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+        R"(
+            cpse %[f], __zero_reg__
+            ld   %C[fb], -%a[ptr]
+        )"
+#endif
+        R"(
+            ld   %B[fb], -%a[ptr]
+            ld   %A[fb], -%a[ptr]
+            ld   %[cols], -%a[ptr]
+        )"
+        : [ptr]  "+&e" (ptr)
+        , [x]    "=&r" (x)
+        , [y]    "=&r" (y)
+        , [img]  "=&r" (img)
+        , [fb]   "=&r" (fb)
+        , [fn]   "=&r" (fn)
+        , [cols] "=&r" (cols)
+        : [f]    "r"   (prog)
+    );
+#else
+    x = vm_pop<int16_t>(ptr);
+    y = vm_pop<int16_t>(ptr);
+    img = vm_pop<uint24_t>(ptr);
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+    if(flags & 0x02)
+    {
+        fn = vm_pop<uint24_t>(ptr);
+        fb = vm_pop<uint24_t>(ptr);
+    }
+    else
+#endif
+    {
+        fn = vm_pop<uint16_t>(ptr);
+        fb = vm_pop<uint16_t>(ptr);
+    }
+    cols = vm_pop<uint8_t>(ptr);
+#endif
+    vm_pop_end(ptr);
+    FX::disable();
+
+    uint8_t nrow = (uint8_t)(fn / cols);
+    if(((uint16_t)(cols) << 8) <= fn)
+        nrow = 255;
+
+    draw_sprite_array_helper(
+        x, y,
+        fb, nrow, cols, format, (uint8_t)prog,
+        img);
+
+#if 0
+    int16_t bx = x;
+    uint8_t c = 0;
+    while(fn != 0)
+    {
+        uint16_t f;
+        asm volatile("clr %B[f]\n" : [f] "=&r" (f));
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+        if(flags & 2)
+        {
+            // read frame from FX
+            fx_seek_data(fb);
+            fb += 1;
+            uint8_t t = FX::readPendingUInt8();
+            asm volatile("mov %A[f], %[t]\n" : [f] "+&r" (f) : [t] "r" (t));
+            if(flags & 1)
+            {
+                fb += 1;
+                t = FX::readPendingLastUInt8();
+                asm volatile("mov %B[f], %[t]\n" : [f] "+&r" (f) : [t] "r" (t));
+            }
+            else
+                (void)FX::readEnd();
+        }
+        else
+#endif
+        {
+            // read frame from RAM
+            void const* p = reinterpret_cast<void const*>(fb);
+            asm volatile(R"(
+                    ld   %A[f], %a[p]+
+                    sbrc %[flags], 0
+                    ld   %B[f], %a[p]+
+                )"
+                : [p]     "+&e" (p)
+                , [f]     "+&r" (f)
+                : [flags] "r"   (flags)
+            );
+            fb = reinterpret_cast<uint16_t>(p);
+        }
+        if(f >= nf)
+            vm_error(ards::ERR_FRM);
+#if ABC_SHADES == 2
+        SpritesABC::drawSizedFX(x, y, sw, sh, img, mode, f);
+#else
+        shades_draw_sprite(x, y, img, f);
+        if(ards::vm.needs_render)
+            shades_display();
+#endif
+        x += sw;
+        if(++c >= cols)
+        {
+            c = 0;
+            x = bx;
+            y += sh;
+        }
+        fn -= 1;
+    }
+#endif
+    seek_to_pc();
+}
+
+static void sys_draw_sprite_array()
+{
+    draw_sprite_array_helper(0, false);
+}
+
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+static void sys_draw_sprite_array_P()
+{
+    draw_sprite_array_helper(0, true);
+}
+#endif
+
+static void sys_draw_sprite_array16()
+{
+    draw_sprite_array_helper(1, false);
+}
+
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+static void sys_draw_sprite_array16_P()
+{
+    draw_sprite_array_helper(1, true);
+}
+#endif
+
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
 
@@ -3391,6 +3751,15 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_draw_sprite_selfmask,
 #else
     sys_draw_sprite,
+#endif
+
+    sys_draw_sprite_array,
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+    sys_draw_sprite_array_P,
+#endif
+    sys_draw_sprite_array16,
+#if DRAW_SPRITE_ARRAY_SUPPORT_FX
+    sys_draw_sprite_array16_P,
 #endif
 
     sys_draw_tilemap,
