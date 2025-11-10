@@ -1,0 +1,156 @@
+.shades 2
+.saved 0
+
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file array_md_slice.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  p1
+  p0
+  p2
+  p0
+  p3
+  p0
+  p4
+  p0
+  p5
+  p0
+  p6
+  p0
+  .line 8
+  refl  12
+  p6
+  p0
+  .line 9
+  p1
+  sys   assert
+  .line 10
+  getl4 4
+  p00
+  uaidx 2
+  getr2
+  p1
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 11
+  getl4 4
+  p1
+  p0
+  uaidx 2
+  getr2
+  p2
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 12
+  getl4 4
+  p2
+  p0
+  uaidx 2
+  getr2
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 13
+  getl4 4
+  p3
+  p0
+  uaidx 2
+  getr2
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 14
+  getl4 4
+  p4
+  p0
+  uaidx 2
+  getr2
+  p5
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 15
+  getl4 4
+  p5
+  p0
+  uaidx 2
+  getr2
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  pop4
+  .line 20
+  refl  8
+  p4
+  p0
+  .line 21
+  p1
+  sys   assert
+  .line 22
+  getl4 4
+  p00
+  uaidx 2
+  getr2
+  p3
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 23
+  getl4 4
+  p1
+  p0
+  uaidx 2
+  getr2
+  p4
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 24
+  getl4 4
+  p2
+  p0
+  uaidx 2
+  getr2
+  p5
+  sub2b
+  bool2
+  not
+  sys   assert
+  .line 25
+  getl4 4
+  p3
+  p0
+  uaidx 2
+  getr2
+  p6
+  sub2b
+  bool2
+  not
+  sys   assert
+  pop4
+  .line 28
+  sys   debug_break
+  .line 1
+  popn  12
+  ret
+

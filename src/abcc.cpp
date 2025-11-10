@@ -125,11 +125,11 @@ int main(int argc, char** argv)
 #endif
 
 #ifndef NDEBUG
-    psrc = "C:/Users/Brown/Documents/GitHub/arduboy_lasertank/src/main.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/arduboy_lasertank/src/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/test/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/func_ref.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/array_md_slice.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
     //parduboy = "C:/Users/Brown/Documents/GitHub/abc/examples/test/test.arduboy";
 #endif

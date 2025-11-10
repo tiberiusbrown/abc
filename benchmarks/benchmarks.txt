@@ -16,6 +16,7 @@ tilesrect                 257725       58138        0.23x
 arithmetic                             36317
 arrays                                  4545
 array_index_cast                         300
+array_md_slice                          3294
 array_ref_bug                           1864
 array_ref_bug2                           849
 basic                                   2225

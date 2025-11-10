@@ -785,7 +785,20 @@ void compiler_t::codegen_convert(
     }
     if(rto.is_array_ref())
     {
-        if((rfrom.is_array() || rfrom.is_array_ref()) &&
+        if(orig_from.is_ref() && rfrom.is_array() &&
+            rfrom.array_md_base_type() == rto.children[0])
+        {
+            // multidimensional array to unsized array reference
+            size_t size = rfrom.array_md_size();
+            compiler_type_t new_type;
+            new_type.prim_size = rfrom.prim_size;
+            new_type.type = compiler_type_t::ARRAY;
+            new_type.children.push_back(rfrom.array_md_base_type());
+            new_type.is_prog = rfrom.is_prog;
+            codegen_convert(f, frame, n, orig_to, new_type);
+            return;
+        }
+        else if((rfrom.is_array() || rfrom.is_array_ref()) &&
             rfrom.children[0] != rto.children[0] &&
             !rto.children[0].is_byte)
         {

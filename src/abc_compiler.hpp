@@ -234,12 +234,35 @@ struct compiler_type_t
         return t;
     }
 
+    // multidimensional array base type
+    compiler_type_t const& array_md_base_type() const
+    {
+        compiler_type_t const* t = &without_ref();
+        while(t->is_array())
+            t = &t->children[0];
+        return *t;
+    }
+
     size_t array_size() const
     {
         auto const& wr = without_ref();
         if(!wr.is_array()) return 0;
         assert(wr.children.size() == 1);
         return wr.prim_size / wr.children[0].prim_size;
+    }
+
+    // multidimensional array total element count
+    size_t array_md_size() const
+    {
+        auto const* wr = &without_ref();
+        if(!wr->is_array()) return 0;
+        size_t t = 1;
+        while(wr->is_array())
+        {
+            t *= wr->array_size();
+            wr = &wr->children[0];
+        }
+        return t;
     }
 
     bool contains_void() const
@@ -774,6 +797,10 @@ private:
     void codegen_dereference(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& n, compiler_type_t const& t);
+    void codegen_int_const(
+        compiler_func_t& f, compiler_frame_t& frame,
+        ast_node_t const& a,
+        int64_t value, compiler_type_t const& t);
     void codegen_int_const(
         compiler_func_t& f, compiler_frame_t& frame,
         ast_node_t const& a);

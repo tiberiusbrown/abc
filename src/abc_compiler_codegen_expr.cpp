@@ -221,13 +221,21 @@ void compiler_t::codegen_float_const(
 
 void compiler_t::codegen_int_const(
     compiler_func_t& f, compiler_frame_t& frame,
-    ast_node_t const& a)
+    ast_node_t const& a,
+    int64_t value, compiler_type_t const& t)
 {
-    uint32_t x = (uint32_t)a.value;
-    auto size = a.comp_type.prim_size;
+    uint32_t x = (uint32_t)value;
+    auto size = t.prim_size;
     frame.size += size;
     for(size_t i = 0; i < size; ++i, x >>= 8)
         f.instrs.push_back({ I_PUSH, a.line(), (uint8_t)x });
+}
+
+void compiler_t::codegen_int_const(
+    compiler_func_t& f, compiler_frame_t& frame,
+    ast_node_t const& a)
+{
+    codegen_int_const(f, frame, a, a.value, a.comp_type);
 }
 
 void compiler_t::codegen_expr(
@@ -1142,6 +1150,15 @@ no_memcpy_optimization:
             codegen_expr(f, frame, a.children[1], false);
             codegen_convert(f, frame, a.children[1],
                 prog ? TYPE_U24 : TYPE_U16, a.children[1].comp_type);
+            if(elem_size > 1u)
+            {
+                codegen_int_const(
+                    f, frame, a.children[1],
+                    (int64_t)elem_size,
+                    prog ? TYPE_U24 : TYPE_U16);
+                f.instrs.push_back({ prog ? I_MUL3 : I_MUL2, a.line() });
+                frame.size -= (prog ? 3 : 2);
+            }
             f.instrs.push_back({ prog ? I_ADD3 : I_ADD2, a.line() });
             frame.size -= (prog ? 3 : 2);
             return;
