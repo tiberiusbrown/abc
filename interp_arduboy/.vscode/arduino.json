@@ -1,8 +1,5 @@
 {
-    "configuration": "core=arduboy-core,boot=cathy3k",
     "board": "arduboy-homemade:avr:arduboy-fx",
-    "sketch": "interp_arduboy.ino",
-    "output": "build/",
     "buildPreferences": [
         [
             "compiler.c.extra_flags",

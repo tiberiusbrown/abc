@@ -12,6 +12,9 @@ extern "C" uint8_t font_get_x_advance(char c);
 extern "C" uint8_t font_get_line_height();
 extern "C" void fx_seek_data(uint24_t addr);
 
+extern "C" void abc_memset(void* dst, uint8_t val, uint16_t n);
+extern "C" void abc_memcpy(void* dst, void const* src, uint16_t n);
+
 void wait_for_frame_timing();
 
 static uint8_t* cmd_ptr;
@@ -260,8 +263,8 @@ static void paint(uint8_t* image, uint16_t clear, uint16_t pages, uint8_t mask)
 
 void shades_swap()
 {
-    memcpy(ards::vm.gs.buf1, ards::vm.gs.buf0, sizeof(ards::vm.gs.buf1));
-    memset(ards::vm.gs.buf0, SHADES_CMD_END, sizeof(ards::vm.gs.buf0));
+    abc_memcpy(ards::vm.gs.buf1, ards::vm.gs.buf0, sizeof(ards::vm.gs.buf1));
+    abc_memset(ards::vm.gs.buf0, SHADES_CMD_END, sizeof(ards::vm.gs.buf0));
     cmd_ptr = &ards::vm.gs.buf0[0];
     batch_ptr = nullptr;
     wait_for_frame_timing();

@@ -19,6 +19,9 @@
 
 #define TILEMAP_USE_DRAW_SPRITE_HELPER 0
 
+extern "C" void abc_memset(void* dst, uint8_t val, uint16_t n);
+extern "C" void abc_memcpy(void* dst, void const* src, uint16_t n);
+
 extern uint8_t abc_seed[4];
 uint8_t abc_seed[4];
 
@@ -1332,7 +1335,7 @@ static void draw_sprite_array_helper(
                 t += tm;
                 if(!(flags & 1))
                 {
-                    memcpy(buf, (const void*)t, BUF_BYTES);
+                    abc_memcpy(buf, (const void*)t, BUF_BYTES);
                 }
                 else
                 {
@@ -1380,58 +1383,6 @@ static void draw_sprite_array_helper(
                 break;
         }
     }
-}
-
-static void sys_draw_tilemap()
-{
-    auto ptr = vm_pop_begin();
-#if 1
-    int16_t x,y;
-    uint24_t img, tm;
-    asm volatile(R"(
-            ld %B[x], -%a[ptr]
-            ld %A[x], -%a[ptr]
-            ld %B[y], -%a[ptr]
-            ld %A[y], -%a[ptr]
-            ld %C[img], -%a[ptr]
-            ld %B[img], -%a[ptr]
-            ld %A[img], -%a[ptr]
-            ld %C[tm], -%a[ptr]
-            ld %B[tm], -%a[ptr]
-            ld %A[tm], -%a[ptr]
-        )"
-        : [x]   "=&r" (x)
-        , [y]   "=&r" (y)
-        , [img] "=&r" (img)
-        , [tm]  "=&r" (tm)
-        , [ptr] "+&e" (ptr)
-    );
-#else
-    int16_t x = vm_pop<int16_t>(ptr);
-    int16_t y = vm_pop<int16_t>(ptr);
-    uint24_t img = vm_pop<uint24_t>(ptr);
-    uint24_t tm = vm_pop<uint24_t>(ptr);
-#endif
-    vm_pop_end(ptr);
-    FX::disable();
-
-    if(x >= 128) goto end;
-    if(y >=  64) goto end;
-
-    fx_seek_data(tm);
-    uint8_t format = FX::readPendingUInt8();
-    asm volatile("dec %0\n" : "+r" (format)); // better codegen than format -= 1;
-    uint16_t nrow = fx_read_pending_uint16_le();
-    uint16_t ncol = fx_read_pending_last_uint16_le();
-    tm += 5;
-
-    draw_sprite_array_helper(
-        x, y,
-        tm, nrow, ncol, format, 0x3,
-        img);
-
-end:
-    seek_to_pc();
 }
 
 static void sys_tilemap_get()
@@ -3538,7 +3489,9 @@ static void sys_set_text_color()
 }
 #endif
 
-static void draw_sprite_array_dispatch(uint8_t format, bool prog)
+// flags: bit 0 = prog
+//        bit 1 = tilemap
+static void draw_sprite_array_dispatch(uint8_t format, uint8_t flags)
 {
     int16_t x;
     int16_t y;
@@ -3553,7 +3506,6 @@ static void draw_sprite_array_dispatch(uint8_t format, bool prog)
     uint8_t cols;
 
     auto ptr = vm_pop_begin();
-#if 1
     asm volatile(R"(
             clr  %C[fn]
             ld   %B[x], -%a[ptr]
@@ -3566,17 +3518,19 @@ static void draw_sprite_array_dispatch(uint8_t format, bool prog)
         )"
 #if DRAW_SPRITE_ARRAY_SUPPORT_FX
         R"(
-            cpse %[f], __zero_reg__
+            sbrc %[f], 0
             ld   %C[fn], -%a[ptr]
         )"
 #endif
         R"(
             ld   %B[fn], -%a[ptr]
             ld   %A[fn], -%a[ptr]
+            sbrc %[f], 1
+            rjmp 1f
         )"
 #if DRAW_SPRITE_ARRAY_SUPPORT_FX
         R"(
-            cpse %[f], __zero_reg__
+            sbrc %[f], 0
             ld   %C[fb], -%a[ptr]
         )"
 #endif
@@ -3584,6 +3538,7 @@ static void draw_sprite_array_dispatch(uint8_t format, bool prog)
             ld   %B[fb], -%a[ptr]
             ld   %A[fb], -%a[ptr]
             ld   %[cols], -%a[ptr]
+        1:
         )"
         : [ptr]  "+&e" (ptr)
         , [x]    "=&r" (x)
@@ -3592,43 +3547,40 @@ static void draw_sprite_array_dispatch(uint8_t format, bool prog)
         , [fb]   "=&r" (fb)
         , [fn]   "=&r" (fn)
         , [cols] "=&r" (cols)
-        : [f]    "r"   (prog)
+        : [f]    "r"   (flags)
     );
-#else
-    x = vm_pop<int16_t>(ptr);
-    y = vm_pop<int16_t>(ptr);
-    img = vm_pop<uint24_t>(ptr);
-#if DRAW_SPRITE_ARRAY_SUPPORT_FX
-    if(flags & 0x02)
-    {
-        fn = vm_pop<uint24_t>(ptr);
-        fb = vm_pop<uint24_t>(ptr);
-    }
-    else
-#endif
-    {
-        fn = vm_pop<uint16_t>(ptr);
-        fb = vm_pop<uint16_t>(ptr);
-    }
-    cols = vm_pop<uint8_t>(ptr);
-#endif
     vm_pop_end(ptr);
     FX::disable();
 
-    uint8_t nrow;
-#if 1
-    nrow = 1;
-    while(__int24(fn -= cols) >= 0 && nrow < 255)
-        nrow += 1;
+    uint16_t nrow;
+    uint16_t ncol;
+
+    if(flags & 0x2)
+    {
+        fx_seek_data(fn);
+        format = FX::readPendingUInt8();
+        asm volatile("dec %0\n" : "+r" (format)); // better codegen than format -= 1;
+        nrow = fx_read_pending_uint16_le();
+        ncol = fx_read_pending_last_uint16_le();
+        fb = fn + 5;
+    }
+    else
+    {
+#if 0
+        uint8_t nr;
+        nr = 1;
+        while(__int24(fn -= cols) >= 0 && nrow < 255)
+            nr += 1;
+        nrow = nr;
 #else
-    nrow = (uint8_t)(fn / cols);
-    if(((uint16_t)(cols) << 8) <= fn)
-        nrow = 255;
+        nrow = (uint16_t)(fn / cols);
 #endif
+        ncol = cols;
+    }
 
     draw_sprite_array_helper(
         x, y,
-        fb, nrow, cols, format, (uint8_t)prog,
+        fb, nrow, ncol, format, flags,
         img);
 
 #if 0
@@ -3695,27 +3647,85 @@ static void draw_sprite_array_dispatch(uint8_t format, bool prog)
 
 static void sys_draw_sprite_array()
 {
-    draw_sprite_array_dispatch(0, false);
+    draw_sprite_array_dispatch(0, 0x0);
 }
 
 #if DRAW_SPRITE_ARRAY_SUPPORT_FX
 static void sys_draw_sprite_array_P()
 {
-    draw_sprite_array_dispatch(0, true);
+    draw_sprite_array_dispatch(0, 0x1);
 }
 #endif
 
 static void sys_draw_sprite_array16()
 {
-    draw_sprite_array_dispatch(1, false);
+    draw_sprite_array_dispatch(1, 0x0);
 }
 
 #if DRAW_SPRITE_ARRAY_SUPPORT_FX
 static void sys_draw_sprite_array16_P()
 {
-    draw_sprite_array_dispatch(1, true);
+    draw_sprite_array_dispatch(1, 0x1);
 }
 #endif
+
+static void sys_draw_tilemap()
+{
+#if 1
+    uint8_t dummy;
+    asm volatile("" : "=r" (dummy));
+    draw_sprite_array_dispatch(dummy, 0x3);
+#else
+    auto ptr = vm_pop_begin();
+#if 1
+    int16_t x,y;
+    uint24_t img, tm;
+    asm volatile(R"(
+            ld %B[x], -%a[ptr]
+            ld %A[x], -%a[ptr]
+            ld %B[y], -%a[ptr]
+            ld %A[y], -%a[ptr]
+            ld %C[img], -%a[ptr]
+            ld %B[img], -%a[ptr]
+            ld %A[img], -%a[ptr]
+            ld %C[tm], -%a[ptr]
+            ld %B[tm], -%a[ptr]
+            ld %A[tm], -%a[ptr]
+        )"
+        : [x]   "=&r" (x)
+        , [y]   "=&r" (y)
+        , [img] "=&r" (img)
+        , [tm]  "=&r" (tm)
+        , [ptr] "+&e" (ptr)
+    );
+#else
+    int16_t x = vm_pop<int16_t>(ptr);
+    int16_t y = vm_pop<int16_t>(ptr);
+    uint24_t img = vm_pop<uint24_t>(ptr);
+    uint24_t tm = vm_pop<uint24_t>(ptr);
+#endif
+    vm_pop_end(ptr);
+    FX::disable();
+
+    if(x >= 128) goto end;
+    if(y >=  64) goto end;
+
+    fx_seek_data(tm);
+    uint8_t format = FX::readPendingUInt8();
+    asm volatile("dec %0\n" : "+r" (format)); // better codegen than format -= 1;
+    uint16_t nrow = fx_read_pending_uint16_le();
+    uint16_t ncol = fx_read_pending_last_uint16_le();
+    tm += 5;
+
+    draw_sprite_array_helper(
+        x, y,
+        tm, nrow, ncol, format, 0x3,
+        img);
+
+end:
+    seek_to_pc();
+#endif
+}
 
 sys_func_t const SYS_FUNCS[] PROGMEM =
 {
