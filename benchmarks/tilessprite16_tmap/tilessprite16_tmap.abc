@@ -1,0 +1,39 @@
+constexpr sprites SPRITE = sprites{
+    16x16
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+};
+
+int offx = 3;
+int offy = 2;
+
+constexpr tilemap TMAP = tilemap{
+    8x4
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+};
+
+void main()
+{
+    $debug_break();
+    
+    $draw_tilemap(offx, offy, SPRITE, TMAP);
+
+    $debug_break();
+}

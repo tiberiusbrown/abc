@@ -789,6 +789,95 @@ void main()
 </table>
 </details>
 
+<details><summary>tilessprite_tmap: 0.66x slowdown (1.52x speedup)</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 90616</td><td>Cycles: 59769</td></tr>
+<tr>
+<td>
+
+```c
+#include <stdint.h>
+#include <Arduboy2.h>
+
+using u8 = uint8_t;
+
+inline void debug_break() { asm volatile("break\n"); }
+
+static constexpr uint8_t SPRITE[] PROGMEM = {
+    8, 8,
+    0x3c, 0x7e, 0xdb, 0xbf, 0xbf, 0xdb, 0x7e, 0x3c
+};
+
+int offx = 3;
+int offy = 2;
+
+int main()
+{
+    // for accurate comparison, prevent inlining with extra call here
+    // presumably real games would not have a single call to drawOverwrite
+    Sprites::drawOverwrite(0, 0, SPRITE, 0);
+
+    debug_break();
+    
+    bool color = false;
+    for(u8 y = 0; y < 8; y = y + 1)
+        for(u8 x = 0; x < 16; x = x + 1)
+            Sprites::drawOverwrite(x * 8 + offx, y * 8 + offy, SPRITE, 0);
+
+    debug_break();
+}
+
+```
+
+</td>
+<td>
+
+```c
+constexpr sprites SPRITE = sprites{
+    8x8
+    ..XXXX..
+    .XXXXXX.
+    XX.XX.XX
+    XXXXXXXX
+    XXXXXXXX
+    XX.XX.XX
+    .XX..XX.
+    ..XXXX..
+};
+
+int offx = 3;
+int offy = 2;
+
+constexpr tilemap TMAP = tilemap{
+    16x8
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+};
+
+void main()
+{
+    
+    $debug_break();
+    
+    $draw_tilemap(offx, offy, SPRITE, TMAP);
+
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
 <details><summary>tilessprite16: 0.64x slowdown (1.57x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
@@ -867,6 +956,101 @@ void main()
     for(u8 y = 0; y < 4; ++y)
         for(u8 x = 0; x < 8; ++x)
             $draw_sprite(x * 16 + offx, y * 16 + offy, SPRITE, 0);
+
+    $debug_break();
+}
+
+```
+
+</td>
+</tr>
+</table>
+</details>
+
+<details><summary>tilessprite16_tmap: 0.48x slowdown (2.11x speedup)</summary>
+<table>
+<tr><th>Native</th><th>ABC</th></tr>
+<tr><td>Cycles: 65088</td><td>Cycles: 30918</td></tr>
+<tr>
+<td>
+
+```c
+#include <stdint.h>
+#include <Arduboy2.h>
+
+using u8 = uint8_t;
+
+inline void debug_break() { asm volatile("break\n"); }
+
+static constexpr uint8_t SPRITE[] PROGMEM = {
+    16, 16,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+};
+
+int offx = 3;
+int offy = 2;
+
+int main()
+{
+    // for accurate comparison, prevent inlining with extra call here
+    // presumably real games would not have a single call to drawOverwrite
+    Sprites::drawOverwrite(0, 0, SPRITE, 0);
+
+    debug_break();
+    
+    bool color = false;
+    for(u8 y = 0; y < 4; y = y + 1)
+        for(u8 x = 0; x < 8; x = x + 1)
+            Sprites::drawOverwrite(x * 16 + offx, y * 16 + offy, SPRITE, 0);
+
+    debug_break();
+}
+
+```
+
+</td>
+<td>
+
+```c
+constexpr sprites SPRITE = sprites{
+    16x16
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    XXXXXXXX........
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+    ........XXXXXXXX
+};
+
+int offx = 3;
+int offy = 2;
+
+constexpr tilemap TMAP = tilemap{
+    8x4
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+};
+
+void main()
+{
+    $debug_break();
+    
+    $draw_tilemap(offx, offy, SPRITE, TMAP);
 
     $debug_break();
 }

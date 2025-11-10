@@ -1,0 +1,46 @@
+.shades 2
+.saved 0
+.global offx 2
+.global offy 2
+
+$PD_0:
+  .b c 08 08 00 01 00 3c 7e db bf bf db 7e 3c
+$PD_1:
+  .b f 01 08 00 10 00 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b f 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01 01
+  .b 4 01 01 01 01 01
+
+$globinit:
+  .file <internal>.abc
+  .line 13
+  p3
+  p0
+  setg2 offx 0
+  .line 14
+  p2
+  p0
+  setg2 offy 0
+  ret
+
+main:
+  .file tilessprite_tmap.abc
+  .line 31
+  sys   debug_break
+  .line 33
+  push2 269
+  p00
+  dupw2
+  getg2 offy 0
+  getg2 offx 0
+  sys   draw_tilemap
+  .line 35
+  sys   debug_break
+  .line 28
+  ret
+

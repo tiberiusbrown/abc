@@ -222,7 +222,9 @@ int abc_benchmarks()
     bench("sieve");
     bench("text");
     bench("tilessprite");
+    bench("tilessprite_tmap");
     bench("tilessprite16");
+    bench("tilessprite16_tmap");
     bench("tilesrect");
 
     out_txt("\n");
