@@ -230,6 +230,20 @@ int sum(int[]& a)
 }
 ```
 
+UARs may be created from multidimensional arrays:
+
+```
+u16[2][3] a = { {1, 2}, {3, 4}, {5, 6} };
+u16[]& r = a;
+$assert(len(r) == 6);
+$assert(r[0] == 1);
+$assert(r[1] == 2);
+$assert(r[2] == 3);
+$assert(r[3] == 4);
+$assert(r[4] == 5);
+$assert(r[5] == 6);
+```
+
 #### Function References
 
 References to functions are a special type of reference that is copyable and reassignable.
