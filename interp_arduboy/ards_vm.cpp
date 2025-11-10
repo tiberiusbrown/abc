@@ -146,7 +146,7 @@ struct LetMeUseBootOLED : public Arduboy2Base
     static void bootOLED() { Arduboy2Base::bootOLED(); }
 };
 
-extern "C" [[gnu::used]] void vm_error(error_t e)
+extern "C" [[gnu::noreturn, gnu::used]] void vm_error(error_t e)
 {
     vm.error = (uint8_t)e;
     //Arduboy2Base::clear();
@@ -165,7 +165,7 @@ extern "C" [[gnu::used]] void vm_error(error_t e)
     FX::disableOLED();
 #endif
 
-    uint8_t n = e > ERR_SIG ? vm.csp / 3 + 1 : 0;
+    uint8_t n = e > ERR_SIG ? vm.csp / 3u + 1 : 0;
     uint8_t curr = 0;
     bool redraw = true;
     constexpr uint8_t NUM_ROWS = 7;

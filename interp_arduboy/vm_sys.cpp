@@ -29,7 +29,8 @@ constexpr uint16_t FONT_HEADER_BYTES =
 
 using sys_func_t = void(*)();
 extern sys_func_t const SYS_FUNCS[] PROGMEM;
-extern "C" void vm_error(ards::error_t e);
+
+extern "C" [[gnu::noreturn]] void vm_error(ards::error_t e);
 
 template<class T>
 [[gnu::always_inline]] inline uint8_t ld_inc(T*& p)
@@ -1366,7 +1367,7 @@ static void draw_sprite_array_helper(
                 draw_sprite_helper(0);
 #else
                 if(frame >= num_frames)
-                    vm_error(ards::ERR_FRM);
+                    return vm_error(ards::ERR_FRM);
                 SpritesABC::drawSizedFX(tx, y, sw, sh, img, mode, frame);
 #endif
 #else
@@ -3537,7 +3538,7 @@ static void sys_set_text_color()
 }
 #endif
 
-static void draw_sprite_array_helper(uint8_t format, bool prog)
+static void draw_sprite_array_dispatch(uint8_t format, bool prog)
 {
     int16_t x;
     int16_t y;
@@ -3687,25 +3688,25 @@ static void draw_sprite_array_helper(uint8_t format, bool prog)
 
 static void sys_draw_sprite_array()
 {
-    draw_sprite_array_helper(0, false);
+    draw_sprite_array_dispatch(0, false);
 }
 
 #if DRAW_SPRITE_ARRAY_SUPPORT_FX
 static void sys_draw_sprite_array_P()
 {
-    draw_sprite_array_helper(0, true);
+    draw_sprite_array_dispatch(0, true);
 }
 #endif
 
 static void sys_draw_sprite_array16()
 {
-    draw_sprite_array_helper(1, false);
+    draw_sprite_array_dispatch(1, false);
 }
 
 #if DRAW_SPRITE_ARRAY_SUPPORT_FX
 static void sys_draw_sprite_array16_P()
 {
-    draw_sprite_array_helper(1, true);
+    draw_sprite_array_dispatch(1, true);
 }
 #endif
 
