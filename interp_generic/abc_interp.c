@@ -1947,7 +1947,10 @@ static uint8_t shades_display_sprite(
     uint16_t num_frames = prog16(host, img + 3);
 
     if(frame >= num_frames)
+    {
+        assert(0);
         return 0;
+    }
 
     if(x + w <= 0) return 1;
     if(y + h <= 0) return 1;
@@ -2011,10 +2014,10 @@ static uint8_t shades_display_char(
     uint32_t font = interp->text_font;
     uint32_t glyph = font + (uint8_t)c * FONT_HEADER_PER_CHAR;
     uint8_t xadv = prog8(host, glyph + 0);
-    int8_t xoff = (int8_t)prog8(host, glyph + 1);
-    int8_t yoff = (int8_t)prog8(host, glyph + 2);
-    uint16_t offset = prog16(host, glyph + 3);
-    uint8_t w = prog8(host, glyph + 5);
+    uint8_t w = prog8(host, glyph + 1);
+    int8_t xoff = (int8_t)prog8(host, glyph + 2);
+    int8_t yoff = (int8_t)prog8(host, glyph + 3);
+    uint16_t offset = prog16(host, glyph + 4);
     uint8_t h = prog8(host, glyph + 6);
     uint32_t addr = font + FONT_HEADER_BYTES + offset;
 
@@ -2103,7 +2106,10 @@ static uint8_t shades_display(abc_interp_t* interp, abc_host_t const* host)
                     x = ty;
                 }
                 if(!shades_display_sprite(interp, host, (int16_t)x, (int16_t)y, img, frame))
+                {
+                    assert(0);
                     return 0;
+                }
             } while(--n != 0);
             break;
         }
@@ -2135,6 +2141,7 @@ static uint8_t shades_display(abc_interp_t* interp, abc_host_t const* host)
             break;
         }
         default:
+            assert(0);
             return 0;
         }
     }
@@ -2589,8 +2596,144 @@ static abc_result_t sys_draw_sprite(abc_interp_t* interp, abc_host_t const* h)
     return ABC_RESULT_NORMAL;
 }
 
+static abc_result_t draw_sprite_array_helper(
+    abc_interp_t* interp, abc_host_t const* h,
+    int16_t x, int16_t y,
+    uint32_t tm, uint16_t nrow, uint16_t ncol, uint8_t format, uint8_t flags,
+    uint32_t img)
+{
+    if(x >= 128 || y >= 64) return ABC_RESULT_NORMAL;
+
+    uint8_t sw = prog8(h, img + 0);
+    uint8_t sh = prog8(h, img + 1);
+    uint8_t mode = prog8(h, img + 2);
+    uint16_t num_frames = prog16(h, img + 3);
+    if(interp->shades == 2)
+        img += 5;
+
+    uint16_t r = 0;
+    uint16_t c = 0;
+    if(y < 0)
+    {
+        r -= y / sh;
+        y += r * sh;
+    }
+    if(x < 0)
+    {
+        c -= x / sw;
+        x += c * sw;
+    }
+
+#define SPRITE_ARRAY_BUF_BYTES 16
+
+    for(; r < nrow && y < 64; ++r, y += sh)
+    {
+        int16_t tx = x;
+        for(uint16_t tc = c; tc < ncol; ++tc)
+        {
+            uint16_t frame;
+            uint32_t t = (uint32_t)r * ncol + tc;
+            if(format != 0)
+                t += t;
+            t += tm;
+            if(flags & 0x1)
+            {
+                frame = prog16(h, t);
+            }
+            else
+            {
+                uint8_t const* p = refptr(interp, (uint16_t)t);
+                if(!p) RETURN_ERROR;
+                frame = ld_inc2(&p);
+            }
+            if(format == 0)
+                frame &= 0xff;
+            if(!(flags & 0x2) || frame != 0)
+            {
+                if(flags & 0x2) frame -= 1;
+                if(interp->shades == 2)
+                {
+                    if(frame >= num_frames)
+                        RETURN_ERROR;
+                    uint32_t timg = img;
+                    uint8_t pages = (sh + 7) >> 3;
+                    uint32_t offset = (uint32_t)pages * sw;
+                    if(mode == 1) offset *= 2;
+                    timg += offset * frame;
+                    draw_sprite_helper(interp, h, timg, tx, y, sw, sh, mode);
+                }
+                else
+                {
+                    shades_draw_sprite(interp, h, tx, y, img, frame);
+                }
+            }
+            if((tx += sw) >= 128)
+                break;
+        }
+    }
+
+#undef SPRITE_ARRAY_BUF_BYTES
+
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t draw_sprite_array_dispatch(
+    abc_interp_t* interp, abc_host_t const* h, uint8_t format, uint8_t flags)
+{
+    int16_t x;
+    int16_t y;
+    uint32_t img;
+    uint32_t fb;
+    uint32_t fn;
+    uint16_t nrow;
+    uint16_t ncol;
+
+    x = (int16_t)pop16(interp);
+    y = (int16_t)pop16(interp);
+    img = pop24(interp);
+    if(flags & 0x2)
+    {
+        fb = pop24(interp);
+        format = prog8(h, fb + 0) - 1;
+        nrow = prog16(h, fb + 1);
+        ncol = prog16(h, fb + 3);
+        fb += 5;
+    }
+    else
+    {
+        fn = (flags & 0x1) ? pop24(interp) : pop16(interp);
+        fb = (flags & 0x1) ? pop24(interp) : pop16(interp);
+        ncol = pop8(interp);
+        nrow = (uint16_t)(fn / ncol);
+    }
+
+    return draw_sprite_array_helper(interp, h, x, y, fb, nrow, ncol, format, flags, img);
+}
+
+static abc_result_t sys_draw_sprite_array(abc_interp_t* interp, abc_host_t const* h)
+{
+    return draw_sprite_array_dispatch(interp, h, 0, 0);
+}
+
+static abc_result_t sys_draw_sprite_array16(abc_interp_t* interp, abc_host_t const* h)
+{
+    return draw_sprite_array_dispatch(interp, h, 1, 0);
+}
+
+static abc_result_t sys_draw_sprite_array_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    return draw_sprite_array_dispatch(interp, h, 0, 0x1);
+}
+
+static abc_result_t sys_draw_sprite_array16_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    return draw_sprite_array_dispatch(interp, h, 1, 0x1);
+}
+
 static abc_result_t sys_draw_tilemap(abc_interp_t* interp, abc_host_t const* h)
 {
+    return draw_sprite_array_dispatch(interp, h, 0, 0x3);
+#if 0
     int32_t x = (int16_t)pop16(interp);
     int32_t y = (int16_t)pop16(interp);
     uint32_t image = pop24(interp);
@@ -2660,6 +2803,7 @@ static abc_result_t sys_draw_tilemap(abc_interp_t* interp, abc_host_t const* h)
     }
 
     return ABC_RESULT_NORMAL;
+#endif
 }
 
 static void draw_fast_vline(
@@ -3434,10 +3578,10 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_DRAW_FILLED_CIRCLE:    return sys_draw_filled_circle(interp);
     case SYS_DRAW_SPRITE:           return sys_draw_sprite(interp, h);
     case SYS_DRAW_SPRITE_SELFMASK:  return sys_draw_sprite_selfmask(interp, h);
-    case SYS_DRAW_SPRITE_ARRAY:     RETURN_ERROR;
-    case SYS_DRAW_SPRITE_ARRAY_P:   RETURN_ERROR;
-    case SYS_DRAW_SPRITE_ARRAY16:   RETURN_ERROR;
-    case SYS_DRAW_SPRITE_ARRAY16_P: RETURN_ERROR;
+    case SYS_DRAW_SPRITE_ARRAY:     return sys_draw_sprite_array(interp, h);
+    case SYS_DRAW_SPRITE_ARRAY_P:   return sys_draw_sprite_array_P(interp, h);;
+    case SYS_DRAW_SPRITE_ARRAY16:   return sys_draw_sprite_array16(interp, h);;
+    case SYS_DRAW_SPRITE_ARRAY16_P: return sys_draw_sprite_array16_P(interp, h);;
     case SYS_DRAW_TILEMAP:          return sys_draw_tilemap(interp, h);
     case SYS_DRAW_TEXT:             return sys_draw_text(interp, h);
     case SYS_DRAW_TEXT_P:           return sys_draw_text_P(interp, h);
@@ -3550,11 +3694,11 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
         interp->cmd_ptr = 0;
         interp->batch_ptr = UINT16_MAX;
         interp->text_font = 0xffffffff;
-        interp->text_color = 1;
         interp->frame_dur = 50;
         interp->shades = h->prog(h->user, 0x13);
         if(interp->shades < 2 || interp->shades > 4)
             interp->shades = 2;
+        interp->text_color = interp->shades - 1;
         if(h->millis)
             interp->frame_start = h->millis(h->user);
         (void)sys_init_random_seed(interp, h);
