@@ -237,11 +237,12 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "The sprite set for the sprite to draw.",
         "The frame of the sprite to draw from the sprite set." } } },
     { SYS_DRAW_SPRITE_ARRAY,    { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U8.with_array_ref(), TYPE_U8 }, {"x", "y", "s", "frames", "cols"}}, CAT_GRAPHICS,
-        "Draw an array of sprites to the display buffer. ", {
-        "The x-coorindate of the top side of the first sprite.",
+        "Draw a 2-D array of sprites to the display buffer, left-to-right, top-to-bottom. ", {
+        "The x-coordinate of the top side of the first sprite.",
         "The y-coordinate of the left side of the first sprite.",
         "The sprite set for the sprites to draw.",
-        "The frames of the sprites to draw from the sprite set." } } },
+        "The frames of the sprites to draw from the sprite set.",
+        "The number of sprites in each row." } } },
     { SYS_DRAW_SPRITE_ARRAY_P,   { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U8.with_prog().with_array_ref(), TYPE_U8}, {"x", "y", "s", "frames", "cols"}}, CAT_GRAPHICS,}},
     { SYS_DRAW_SPRITE_ARRAY16,   { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16.with_array_ref(), TYPE_U8 }, {"x", "y", "s", "frames", "cols"}}, CAT_GRAPHICS, } },
     { SYS_DRAW_SPRITE_ARRAY16_P, { { TYPE_VOID,  { TYPE_I16, TYPE_I16, TYPE_SPRITES, TYPE_U16.with_prog().with_array_ref(), TYPE_U8 }, {"x", "y", "s", "frames", "cols"}}, CAT_GRAPHICS, } },

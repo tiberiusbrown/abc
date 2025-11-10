@@ -234,14 +234,15 @@ void $draw_sprite_array(i16 x, i16 y, sprites s, u16[]& frames, u8 cols);
 void $draw_sprite_array(i16 x, i16 y, sprites s, u16[] prog& frames, u8 cols);
 ```
 
-Draw an array of sprites to the display buffer. 
+Draw a 2-D array of sprites to the display buffer, left-to-right, top-to-bottom. 
 
 | Parameter | Description |
 | :-- | :-- |
-| **x** | The x-coorindate of the top side of the first sprite. |
+| **x** | The x-coordinate of the top side of the first sprite. |
 | **y** | The y-coordinate of the left side of the first sprite. |
 | **s** | The sprite set for the sprites to draw. |
 | **frames** | The frames of the sprites to draw from the sprite set. |
+| **cols** | The number of sprites in each row. |
 
 ## `$draw_sprite_selfmask`
 
