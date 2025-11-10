@@ -3615,9 +3615,16 @@ static void draw_sprite_array_dispatch(uint8_t format, bool prog)
     vm_pop_end(ptr);
     FX::disable();
 
-    uint8_t nrow = (uint8_t)(fn / cols);
+    uint8_t nrow;
+#if 1
+    nrow = 1;
+    while(__int24(fn -= cols) >= 0 && nrow < 255)
+        nrow += 1;
+#else
+    nrow = (uint8_t)(fn / cols);
     if(((uint16_t)(cols) << 8) <= fn)
         nrow = 255;
+#endif
 
     draw_sprite_array_helper(
         x, y,
