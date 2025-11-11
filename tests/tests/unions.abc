@@ -1,0 +1,20 @@
+union foo_t
+{
+    u32   u;
+    float f;
+};
+
+void main()
+{
+    $debug_break();
+    
+    foo_t u;
+    
+    u.f = 1.0;
+    $assert(u.u == 0x3f800000);
+    
+    u.f = -1e8;
+    $assert(u.u == 0xccbebc20);
+    
+    $debug_break();
+}

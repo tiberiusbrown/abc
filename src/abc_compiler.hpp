@@ -39,7 +39,7 @@ enum class AST
     BLOCK,        // children are child statements
     EMPTY_STMT,
     EXPR_STMT,    // child is expr
-    STRUCT_STMT,  // children are ident and decl_stmt*
+    STRUCT_STMT,  // children are struct/union tokem, ident, and decl_stmt*
     ENUM_STMT,    // children are ident and list, if any
     ENUM_ITEM_LIST, // children are enum items
     ENUM_ITEM,    // children are ident [and expr]
@@ -141,6 +141,7 @@ struct compiler_type_t
     {
         PRIM,
         STRUCT,
+        UNION,
         ARRAY,
         REF,
         ARRAY_REF,
@@ -171,6 +172,8 @@ struct compiler_type_t
     bool is_prim() const { return type == PRIM; }
     bool is_array() const { return type == ARRAY; }
     bool is_struct() const { return type == STRUCT; }
+    bool is_union() const { return type == UNION; }
+    bool is_struct_or_union() const { return is_struct() || is_union(); }
     bool is_sprites() const { return type == SPRITES; }
     bool is_font() const { return type == FONT; }
     bool is_tones() const { return type == TONES; }
@@ -228,7 +231,7 @@ struct compiler_type_t
     {
         compiler_type_t t = *this;
         t.is_prog = false;
-        if(is_array() || is_struct())
+        if(is_array() || is_struct_or_union())
             for(auto& child : t.children)
                 child = child.without_prog();
         return t;
@@ -270,7 +273,7 @@ struct compiler_type_t
         if(is_void()) return true;
         if(is_array() || is_any_ref())
             return children[0].contains_void();
-        if(is_struct())
+        if(is_struct_or_union())
             for(auto const& child : children)
                 if(child.contains_void())
                     return true;
@@ -281,7 +284,7 @@ struct compiler_type_t
     {
         if(is_ref())
             return children[0].has_child_ref();
-        if(is_array() || is_struct())
+        if(is_array() || is_struct_or_union())
         {
             for(auto const& child : children)
                 if(child.is_any_ref() || child.has_child_ref())
@@ -294,7 +297,7 @@ struct compiler_type_t
     {
         if(is_ref())
             return children[0].has_nonprog_child_ref();
-        if(is_array() || is_struct())
+        if(is_array() || is_struct_or_union())
         {
             for(auto const& child : children)
                 if(child.is_any_nonprog_ref() || child.has_nonprog_child_ref())

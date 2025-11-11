@@ -679,11 +679,11 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
     {
         assert(a.children.size() == 2);
         type_annotate_recurse(a.children[0], frame);
-        if(!a.children[0].comp_type.without_ref().is_struct())
+        if(!a.children[0].comp_type.without_ref().is_struct_or_union())
         {
             errs.push_back({
                 "\"" + std::string(a.children[0].data) +
-                "\" is not a struct", a.children[0].line_info
+                "\" is not a struct or union", a.children[0].line_info
             });
             break;
         }

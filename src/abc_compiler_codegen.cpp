@@ -40,7 +40,7 @@ compiler_type_t const* compiler_t::resolve_member(
     ast_node_t const& a, std::string const& name, size_t* offset)
 {
     auto const& t = a.comp_type.without_ref();
-    assert(t.is_struct());
+    assert(t.is_struct_or_union());
     assert(t.children.size() == t.members.size());
     for(size_t i = 0; i < t.children.size(); ++i)
     {
@@ -751,10 +751,11 @@ void compiler_t::codegen_convert(
         return;
     }
 
-    if(rfrom.is_struct() && rto.is_struct() && rfrom.struct_name != rto.struct_name)
+    if(rfrom.is_struct_or_union() && rto.is_struct_or_union() &&
+        rfrom.struct_name != rto.struct_name)
     {
         errs.push_back({
-            "Cannot convert between different structs",
+            "Cannot convert between different structs or unions",
             n.line_info });
         return;
     }
@@ -789,7 +790,6 @@ void compiler_t::codegen_convert(
             rfrom.array_md_base_type() == rto.children[0])
         {
             // multidimensional array to unsized array reference
-            size_t size = rfrom.array_md_size();
             compiler_type_t new_type;
             new_type.prim_size = rfrom.prim_size;
             new_type.type = compiler_type_t::ARRAY;
@@ -845,6 +845,7 @@ void compiler_t::codegen_convert(
             errs.push_back({ "Cannot convert array to non-array", n.line_info });
             return;
         }
+        // TODO: handle creating sized single-D array refs from multi-D array refs
         if(rfrom.children[0].without_prog() != rto.children[0])
         {
             errs.push_back({ "Cannot implicitly convert array elements", n.line_info });

@@ -123,7 +123,7 @@ bool compiler_t::convertible(compiler_type_t const& dst, compiler_type_t const& 
     auto const& rsrc = src.without_ref();
     if(rsrc.without_prog() == dst)
         return true;
-    if(rdst.is_struct() && rsrc.is_struct())
+    if(rdst.is_struct_or_union() && rsrc.is_struct_or_union())
         return rdst.struct_name == rsrc.struct_name;
     if(dst.is_array_ref() && src.is_ref() && rsrc.is_array())
         return dst.children[0] == rsrc.children[0];
@@ -265,24 +265,39 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
     {
         compiler_type_t t{};
         t.type = compiler_type_t::STRUCT;
-        t.struct_name = n.children[0].data;
+        if(n.children[0].data == "union")
+            t.type = compiler_type_t::UNION;
+        t.struct_name = n.children[1].data;
         size_t size = 0;
-        for(size_t i = 1; i < n.children.size(); ++i)
+        for(size_t i = 2; i < n.children.size(); ++i)
         {
             auto const& decl = n.children[i];
             for(size_t j = 1; j < decl.children.size(); ++j)
             {
                 auto type = resolve_type(decl.children[0]);
+                std::string name = std::string(decl.children[j].data);
+                if(t.is_union() && !type.is_copyable())
+                {
+                    errs.push_back({
+                        "Union member \"" + name + "\" is not copyable "
+                        "(all members of a union must be copyable)",
+                        decl.children[0].line_info });
+                    return {};
+                }
                 if(type.is_prog)
                 {
                     errs.push_back({
-                        "Struct members cannot be declared 'prog'",
+                        "Struct and union members cannot be declared 'prog'",
                         decl.children[0].line_info });
                     return {};
                 }
                 t.children.emplace_back(std::move(type));
-                t.members.push_back({ std::string(decl.children[j].data), size });
-                size += t.children.back().prim_size;
+                size_t offset = t.is_struct() ? size : 0;
+                t.members.push_back({ name, offset });
+                if(t.is_struct())
+                    size += t.children.back().prim_size;
+                else
+                    size = std::max(size, t.children.back().prim_size);
             }
         }
         t.prim_size = size;
@@ -986,7 +1001,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
         }
         else if(n.type == AST::STRUCT_STMT)
         {
-            std::string name(n.children[0].data);
+            std::string name(n.children[1].data);
             if(symbol_exists(name))
             {
                 errs.push_back({

@@ -800,7 +800,7 @@ no_memcpy_optimization:
                 codegen_convert(f, frame, a, type_noref, a.children[1].comp_type.without_ref());
             }
         }
-        else if(type_noref.is_struct())
+        else if(type_noref.is_struct_or_union())
         {
             if(a.children[1].type == AST::COMPOUND_LITERAL)
                 codegen_expr_compound(f, frame, a.children[1], type_noref);
@@ -1657,12 +1657,19 @@ void compiler_t::codegen_expr_compound(
             frame.size += t.prim_size;
         }
     }
-    else if(type.is_struct())
+    else if(type.is_struct_or_union())
     {
         if(type.children.size() < a.children.size())
         {
             errs.push_back({
                 "Too many elements in struct initializer",
+                a.line_info });
+            return;
+        }
+        if(type.is_union() && a.children.size() > 1)
+        {
+            errs.push_back({
+                "Union initializers may only have one element",
                 a.line_info });
             return;
         }

@@ -12,6 +12,7 @@
       - [Multidimensional Arrays](#multidimensional-arrays)
       - [Strings](#strings)
     - [Aggregates: `struct`](#aggregates-struct)
+      - [`union`](#union)
     - [References](#references)
       - [Unsized Array References](#unsized-array-references)
       - [Function References](#function-references)
@@ -157,19 +158,27 @@ A string literal is of type `char[N] prog`, where `N` is the length of the strin
 
 ### Aggregates: `struct`
 
-As in C/C++, the  `struct` keyword may be used to define an aggregate type.
+As in C/C++, the `struct` keyword may be used to define an aggregate type.
 
 ```c
 struct my_type_t
 {
     int x;
     float f;
-    u8[10] str;
+    char[10] str;
 };
 
-my_type_t foo;
+// ...
+
+my_type_t foo = { 42, 3.5, "Hello" };
+
 my_type_t[3] foo_array;
+foo_array[1].f = -2.25;
 ```
+
+#### `union`
+
+The `union` keyword may be used to create unions, also as in C/C++. In ABC, unions may only have copyable members (e.g., a non-`prog` reference may not be a member of a union).
 
 ### References
 ABC has references (like C++) but not pointers. For any type `T`, the type `T&` is a reference to `T`. As in C++, references cannot be reassigned and must be initialized when declared.

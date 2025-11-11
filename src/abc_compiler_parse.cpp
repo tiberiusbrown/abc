@@ -71,7 +71,8 @@ decl_stmt           <- 'constexpr' type_name decl_stmt_item_list ';' /
                        type_name decl_stmt_item_list ';'
 decl_stmt_item_list <- decl_stmt_item (',' decl_stmt_item)*
 decl_stmt_item      <- ident ('=' expr)?
-struct_stmt         <- 'struct' ident '{' struct_decl_stmt* '}' ';'
+struct_stmt         <- struct_or_union ident '{' struct_decl_stmt* '}' ';'
+struct_or_union     <- 'struct' / 'union'
 struct_decl_stmt    <- type_name ident (',' ident)* ';'
 enum_stmt           <- 'enum' ident? '{' enum_item_list? '}' ';'
 enum_item_list      <- enum_item (',' enum_item)* ','?
@@ -521,6 +522,7 @@ multiline_comment   <- '/*' (! '*/' .)* '*/'
     p["tones_note"       ] = token;
     p["tones_rtttl_item" ] = token;
     p["directive_keyword"] = token;
+    p["struct_or_union"]   = token;
 
     p["bitwise_and_expr"   ] = infix<AST::OP_BITWISE_AND>;
     p["bitwise_or_expr"    ] = infix<AST::OP_BITWISE_OR>;
