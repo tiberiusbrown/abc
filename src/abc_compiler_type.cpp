@@ -202,11 +202,32 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         if(a.children[1].type != AST::COMPOUND_LITERAL)
         {
 
-            if(a.children[0].comp_type.is_any_ref() &&
+            if(a.type == AST::OP_ASSIGN_COMPOUND &&
+                a.children[1].type == AST::FUNC_CALL &&
+                a.children[1].children[0].data.substr(0, 7) == "$strcat")
+            {
+                ast_node_t t = std::move(a.children[1]);
+                t.parent = a.parent;
+                a = std::move(t);
+                return;
+            }
+
+            if(a.type == AST::OP_ASSIGN &&
+                a.children[0].comp_type.is_any_ref() &&
                 a.children[0].comp_type.is_nonprog_string() &&
                 a.children[1].comp_type.is_any_ref() &&
                 a.children[1].comp_type.is_string())
             {
+                if(a.children[1].type == AST::FUNC_CALL &&
+                    a.children[1].children[0].data.substr(0, 7) == "$strcat")
+                {
+                    // string appending: dst += src;
+                    // these are transformed into dst = dst + src;
+                    ast_node_t t = std::move(a.children[1]);
+                    a = std::move(t);
+                    return;
+                }
+
                 // generate calls to strcpy for char array assignment
                 a.comp_type = TYPE_STR;
                 ast_node_t func_call{ a.line_info, AST::FUNC_CALL };
@@ -218,6 +239,7 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
                 func_args.children.emplace_back(std::move(a.children[1]));
                 func_call.children.emplace_back(std::move(ident));
                 func_call.children.emplace_back(std::move(func_args));
+                func_call.parent = a.parent;
                 a = std::move(func_call);
                 type_annotate_recurse(a, frame);
                 return;
@@ -266,7 +288,32 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         for(auto& child : a.children)
             type_annotate_recurse(child, frame);
 
-        // generate calls to strcmp* family of methods
+        // generate calls to strcat
+        if(a.type == AST::OP_ADDITIVE && a.data == "+" && a.parent &&
+            (a.parent->type == AST::OP_ASSIGN || a.parent->type == AST::OP_ASSIGN_COMPOUND) &&
+            a.children[0].comp_type.is_string() &&
+            a.children[0].comp_type.is_any_nonprog_ref() &&
+            a.children[1].comp_type.is_string())
+        {
+            ast_node_t func_call{ a.line_info,  AST::FUNC_CALL };
+            ast_node_t ident{ a.line_info, AST::IDENT };
+            ast_node_t func_args{ a.line_info, AST::FUNC_ARGS };
+            func_call.line_info = a.line_info;
+            ident.line_info = a.line_info;
+            func_args.line_info = a.line_info;
+            ident.data =
+                a.children[1].comp_type.is_prog_string() ? "$strcat_P" : "$strcat";
+            func_args.children.emplace_back(std::move(a.children[0]));
+            func_args.children.emplace_back(std::move(a.children[1]));
+            func_call.children.emplace_back(std::move(ident));
+            func_call.children.emplace_back(std::move(func_args));
+            func_call.parent = a.parent;
+            a = std::move(func_call);
+            type_annotate_recurse(a, frame);
+            return;
+        }
+
+        // generate calls to strcmp
         if(a.type == AST::OP_EQUALITY &&
             a.children[0].comp_type.is_string() &&
             a.children[1].comp_type.is_string())

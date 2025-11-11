@@ -1,0 +1,10 @@
+void main()
+{
+    $debug_break();
+    
+    char[20] s = "Hello";
+    s += " World!";
+    $assert(s == "Hello World!");
+    
+    $debug_break();
+}

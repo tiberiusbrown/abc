@@ -60,6 +60,7 @@
   - [`$tan`](#tan)
 - [Strings](#strings)
   - [`$format`](#format)
+  - [`$strcat`](#strcat)
   - [`$strcmp`](#strcmp)
   - [`$strcpy`](#strcpy)
   - [`$strlen`](#strlen)
@@ -867,6 +868,22 @@ The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to
 | :-- | :-- |
 | **dst** | The destination text string. |
 | **fmt** | The format string to use for constructing the destination text string. |
+
+## `$strcat`
+
+```c
+char[]& $strcat(char[]& dst, char[]& src);
+char[]& $strcat(char[]& dst, char[] prog& src);
+```
+
+Append a copy of one text string to another.
+
+| Parameter | Description |
+| :-- | :-- |
+| **dst** | The destination text string. |
+| **src** | The text string to append. |
+
+**Returns:** A reference to the destination text string.
 
 ## `$strcmp`
 

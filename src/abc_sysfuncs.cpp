@@ -19,6 +19,7 @@ std::unordered_map<std::string, std::vector<std::string>> const sys_overloads =
     { "strlen", { "strlen_P" }},
     { "strcmp", { "strcmp_P", "strcmp_PP" }},
     { "strcpy", { "strcpy_P" }},
+    { "strcat", { "strcat_P" }},
 };
 
 std::unordered_map<std::string, sysfunc_t> const sys_names =
@@ -77,6 +78,8 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "strcmp_PP",             SYS_STRCMP_PP             },
     { "strcpy",                SYS_STRCPY                },
     { "strcpy_P",              SYS_STRCPY_P              },
+    { "strcat",                SYS_STRCAT                },
+    { "strcat_P",              SYS_STRCAT_P              },
     { "format",                SYS_FORMAT                },
     { "music_play",            SYS_MUSIC_PLAY            },
     { "music_playing",         SYS_MUSIC_PLAYING         },
@@ -387,6 +390,12 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "The source text string." },
         "A reference to the destination text string." } },
     { SYS_STRCPY_P,             { { TYPE_STR,   { TYPE_STR, TYPE_STR_PROG }, { "dst", "src" } }, CAT_STRINGS, "" } },
+    { SYS_STRCAT,               { { TYPE_STR,   { TYPE_STR, TYPE_STR }, { "dst", "src" } }, CAT_STRINGS,
+        "Append a copy of one text string to another.", {
+        "The destination text string.",
+        "The text string to append." },
+        "A reference to the destination text string." } },
+    { SYS_STRCAT_P,             { { TYPE_STR,   { TYPE_STR, TYPE_STR_PROG }, { "dst", "src" } }, CAT_STRINGS, "" } },
     { SYS_FORMAT,               { { TYPE_VOID,  { TYPE_STR, TYPE_STR_PROG }, { "dst", "fmt" } }, CAT_STRINGS,
         "Copy formatted text into a text string. " + HELP_FORMAT_STR, {
         "The destination text string.",

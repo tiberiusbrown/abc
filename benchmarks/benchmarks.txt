@@ -48,11 +48,12 @@ ref_to_uar                              1674
 save_load                              29943
 setln_bug                                125
 sieve                               18647577
-slices                                 23432
+slices                                 23454
 slice_bug                                344
 slice_len                                494
 sprites_len                             2750
-strings                                50217
+strings                                50336
+string_append                           2707
 structs                                28183
 structs2                                 526
 struct_ref_bug                           464

@@ -17,5 +17,6 @@
             "compiler.elf2hex.extra_flags",
             "-R .beforedata"
         ]
-    ]
+    ],
+    "sketch": "interp_arduboy.ino"
 }

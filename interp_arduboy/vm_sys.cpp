@@ -2019,7 +2019,7 @@ static void sys_strcmp_PP()
     seek_to_pc();
 }
 
-static void sys_strcpy()
+static void strcpy_strcat_helper(bool cpy)
 {
     auto ptr = vm_pop_begin();
     uint16_t n0 = vm_pop<uint16_t>(ptr);
@@ -2033,6 +2033,20 @@ static void sys_strcpy()
     char const* p1 = reinterpret_cast<char const*>(b1);
     if(n0 != 0)
     {
+        if(!cpy)
+        {
+            for(;;)
+            {
+                uint8_t c = ld_inc(p0);
+                if(c == '\0')
+                {
+                    --p0;
+                    break;
+                }
+                if(--n0 == 0)
+                    break;
+            }
+        }
         for(;;)
         {
             uint8_t c = ld_inc(p1);
@@ -2046,7 +2060,17 @@ static void sys_strcpy()
     vm_push<uint16_t>(nr);
 }
 
-static void sys_strcpy_P()
+static void sys_strcpy()
+{
+    strcpy_strcat_helper(true);
+}
+
+static void sys_strcat()
+{
+    strcpy_strcat_helper(false);
+}
+
+static void strcpy_strcat_helper_P(bool cpy)
 {
     auto ptr = vm_pop_begin();
     uint16_t n0 = vm_pop<uint16_t>(ptr);
@@ -2061,6 +2085,20 @@ static void sys_strcpy_P()
     char* p0 = reinterpret_cast<char*>(b0);
     if(n0 != 0)
     {
+        if(!cpy)
+        {
+            for(;;)
+            {
+                uint8_t c = ld_inc(p0);
+                if(c == '\0')
+                {
+                    --p0;
+                    break;
+                }
+                if(--n0 == 0)
+                    break;
+            }
+        }
         for(;;)
         {
             uint8_t c = FX::readPendingUInt8();
@@ -2074,6 +2112,16 @@ static void sys_strcpy_P()
     vm_push<uint16_t>(br);
     vm_push<uint16_t>(nr);
     seek_to_pc();
+}
+
+static void sys_strcpy_P()
+{
+    strcpy_strcat_helper_P(true);
+}
+
+static void sys_strcat_P()
+{
+    strcpy_strcat_helper_P(false);
 }
 
 #if 1
@@ -3811,6 +3859,8 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_strcmp_PP,
     sys_strcpy,
     sys_strcpy_P,
+    sys_strcat,
+    sys_strcat_P,
     sys_format,
     
     sys_music_play,

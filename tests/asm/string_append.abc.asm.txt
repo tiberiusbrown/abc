@@ -1,0 +1,54 @@
+.shades 2
+.saved 0
+
+$PD_0:
+  .b 4 48 65 6c 6c 6f
+$PD_1:
+  .b 6 20 57 6f 72 6c 64 21
+$PD_2:
+  .b b 48 65 6c 6c 6f 20 57 6f 72 6c 64 21
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file string_append.abc
+  .line 3
+  sys   debug_break
+  .line 5
+  alloc 20
+  p0
+  p1
+  p0
+  p5
+  p00
+  refl  26
+  push2 20
+  sys   strcpy_P
+  pop4
+  .line 6
+  p5
+  p1
+  p0
+  p7
+  p00
+  refl  26
+  push2 20
+  sys   strcat_P
+  pop4
+  .line 7
+  push4 201326860
+  p00
+  refl  26
+  push2 20
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 9
+  sys   debug_break
+  .line 1
+  popn  20
+  ret
+

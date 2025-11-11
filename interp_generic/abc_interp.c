@@ -79,6 +79,8 @@ enum
     SYS_STRCMP_PP,
     SYS_STRCPY,
     SYS_STRCPY_P,
+    SYS_STRCAT,
+    SYS_STRCAT_P,
     SYS_FORMAT,
     SYS_MUSIC_PLAY,
     SYS_MUSIC_PLAYING,
@@ -1546,7 +1548,7 @@ static abc_result_t sys_strcmp_PP(abc_interp_t* interp, abc_host_t const* h)
     return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
 }
 
-static abc_result_t sys_strcpy(abc_interp_t* interp)
+static abc_result_t strcpy_strcat_helper(abc_interp_t* interp, uint8_t cpy)
 {
     uint16_t n0 = pop16(interp);
     uint16_t b0 = pop16(interp);
@@ -1561,6 +1563,20 @@ static abc_result_t sys_strcpy(abc_interp_t* interp)
     if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
     if(n0 != 0)
     {
+        if(!cpy)
+        {
+            for(;;)
+            {
+                uint8_t c = *p0++;
+                if(c == '\0')
+                {
+                    --p0;
+                    break;
+                }
+                if(--n0 == 0)
+                    break;
+            }
+        }
         for(;;)
         {
             uint8_t c = *p1++;
@@ -1575,7 +1591,18 @@ static abc_result_t sys_strcpy(abc_interp_t* interp)
     return ABC_RESULT_NORMAL;
 }
 
-static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
+static abc_result_t sys_strcpy(abc_interp_t* interp)
+{
+    return strcpy_strcat_helper(interp, 1);
+}
+
+static abc_result_t sys_strcat(abc_interp_t* interp)
+{
+    return strcpy_strcat_helper(interp, 0);
+}
+
+static abc_result_t strcpy_strcat_helper_P(
+    abc_interp_t* interp, abc_host_t const* h, uint8_t cpy)
 {
     uint16_t n0 = pop16(interp);
     uint16_t b0 = pop16(interp);
@@ -1588,6 +1615,20 @@ static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
     if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
     if(n0 != 0)
     {
+        if(!cpy)
+        {
+            for(;;)
+            {
+                uint8_t c = *p0++;
+                if(c == '\0')
+                {
+                    --p0;
+                    break;
+                }
+                if(--n0 == 0)
+                    break;
+            }
+        }
         for(;;)
         {
             uint8_t c = h->prog(h->user, b1++);
@@ -1600,6 +1641,16 @@ static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
     push16(interp, br);
     push16(interp, nr);
     return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    return strcpy_strcat_helper_P(interp, h, 1);
+}
+
+static abc_result_t sys_strcat_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    return strcpy_strcat_helper_P(interp, h, 0);
 }
 
 static abc_result_t sys_strlen(abc_interp_t* interp)
@@ -3613,6 +3664,8 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_STRCMP_PP:             return sys_strcmp_PP(interp, h);
     case SYS_STRCPY:                return sys_strcpy(interp);
     case SYS_STRCPY_P:              return sys_strcpy_P(interp, h);
+    case SYS_STRCAT:                return sys_strcat(interp);
+    case SYS_STRCAT_P:              return sys_strcat_P(interp, h);
     case SYS_FORMAT:                return sys_format(interp, h);
     case SYS_MUSIC_PLAY:            return sys_music_play(interp, h);
     case SYS_MUSIC_PLAYING:         return sys_music_playing(interp);
