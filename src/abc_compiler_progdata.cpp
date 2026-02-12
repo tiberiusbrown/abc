@@ -213,7 +213,9 @@ void compiler_t::progdata_expr(
     }
     case compiler_type_t::MUSIC:
     {
-        encode_tones_midi(pd.data, n.children[0].string_literal(), true);
+        std::string error = encode_tones_midi(pd.data, n.children[0].string_literal(), true);
+        if(!error.empty())
+            errs.push_back({ error, n.line_info });
         break;
     }
     case compiler_type_t::TILEMAP:
