@@ -1161,6 +1161,7 @@ std::vector<uint8_t> compiler_t::strlit_data(ast_node_t const& n)
             if(it == data.end()) break;
             switch(*it)
             {
+            case '0' : c = '\0'; break;
             case 'n' : c = '\n'; break;
             case 'r' : c = '\r'; break;
             case 't' : c = '\t'; break;

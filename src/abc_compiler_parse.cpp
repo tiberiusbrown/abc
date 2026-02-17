@@ -211,7 +211,7 @@ string_literal_part <- < '"' < string_literal_char* > '"' >
 string_literal_char <- char_escape /
                        [ !\x23-\x7e]
 char_escape         <- '\\x'[0-9a-fA-F][0-9a-fA-F] /
-                       '\\'[nr\\t"']
+                       '\\'[0nr\\t"']
 
 %whitespace         <- ([ \t\r\n] / comment / multiline_comment)*
 comment             <- '//' (!linebreak .)* linebreak
