@@ -1,0 +1,42 @@
+.shades 2
+.saved 0
+
+$PD_0:
+  .b 6 48 65 6c 6c 6f 21 21
+
+$globinit:
+  .file <internal>.abc
+  .line 1
+  ret
+
+main:
+  .file strcpy_bug.abc
+  .line 9
+  sys   debug_break
+  .line 11
+  p0
+  p1
+  p0
+  p7
+  p00
+  .line 3
+  alloc 32
+  getln 6 38
+  refl  38
+  p32
+  p0
+  sys   strcpy_P
+  pop4
+  .line 4
+  getl  32
+  push  72
+  sub
+  not
+  sys   assert
+  .line 1
+  popn  38
+  .line 13
+  sys   debug_break
+  .line 7
+  ret
+

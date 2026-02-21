@@ -203,7 +203,7 @@ void compiler_t::decl(compiler_func_t& f, compiler_frame_t& frame, ast_node_t& n
             src_type.without_ref().is_copyable() &&
             v->type.prim_size >= memcpy_min_bytes)
         {
-            bool prog = src_type.without_ref().is_prog;
+            bool prog = src_type.without_ref().is_prog || src_type.is_prog_array();
 
             if(!is_global)
             {

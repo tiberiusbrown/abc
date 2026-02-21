@@ -52,6 +52,7 @@ slices                                 23454
 slice_bug                                344
 slice_len                                494
 sprites_len                             2750
+strcpy_bug                              1114
 strings                                50336
 string_append                           2707
 structs                                28183
@@ -59,7 +60,7 @@ structs2                                 526
 struct_ref_bug                           464
 switch                                 15830
 switch_jump_table                     311391
-ternary                                 4699
+ternary                                 6340
 tilemap                                 6385
 uar_slice                               1155
 unions                                   200

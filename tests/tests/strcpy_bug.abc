@@ -1,0 +1,14 @@
+void f(char[] prog& t)
+{
+    char[32] buf = t;
+    $assert(buf[0] == 'H');
+}
+
+void main()
+{
+    $debug_break();
+    
+    f("Hello!!");
+    
+    $debug_break();
+}

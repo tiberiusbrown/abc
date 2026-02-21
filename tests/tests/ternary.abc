@@ -3,12 +3,19 @@ struct foo_t
     u8[3] x;
 };
 
+float max_float(float a, float b) { return a < b ? b : a; }
+
 void main()
 {
     $debug_break();
     
     bool t = true;
     bool f = false;
+    
+    float fa = 1;
+    float fb = -3;
+    $assert((fa < fb ? fa : fb) == -3);
+    $assert(max_float(fa, fb) == 1);
     
     {
         int a = t ? 42 : 56;
