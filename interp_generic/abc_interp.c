@@ -107,6 +107,8 @@ enum
     SYS_MOD,
     SYS_POW,
     SYS_SQRT,
+    SYS_LOG,
+    SYS_LOG10,
     SYS_GENERATE_RANDOM_SEED,
     SYS_INIT_RANDOM_SEED,
     SYS_SET_RANDOM_SEED,
@@ -3558,6 +3560,18 @@ static abc_result_t sys_sqrt(abc_interp_t* interp)
     return pushf(interp, sqrtf(a));
 }
 
+static abc_result_t sys_log(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, logf(a));
+}
+
+static abc_result_t sys_log10(abc_interp_t* interp)
+{
+    float a = popf(interp);
+    return pushf(interp, log10f(a));
+}
+
 static abc_result_t sys_generate_random_seed(abc_interp_t* interp, abc_host_t const* h)
 {
     uint32_t t = 0;
@@ -3692,6 +3706,8 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_MOD:                   return sys_mod(interp);
     case SYS_POW:                   return sys_pow(interp);
     case SYS_SQRT:                  return sys_sqrt(interp);
+    case SYS_LOG:                   return sys_log(interp);
+    case SYS_LOG10:                 return sys_log10(interp);
     case SYS_GENERATE_RANDOM_SEED:  return sys_generate_random_seed(interp, h);
     case SYS_INIT_RANDOM_SEED:      return sys_init_random_seed(interp, h);
     case SYS_SET_RANDOM_SEED:       return sys_set_random_seed(interp);

@@ -106,6 +106,8 @@ std::unordered_map<std::string, sysfunc_t> const sys_names =
     { "mod",                   SYS_MOD                   },
     { "pow",                   SYS_POW                   },
     { "sqrt",                  SYS_SQRT                  },
+    { "log" ,                  SYS_LOG                   },
+    { "log10",                 SYS_LOG10                 },
     { "generate_random_seed",  SYS_GENERATE_RANDOM_SEED  },
     { "init_random_seed",      SYS_INIT_RANDOM_SEED      },
     { "set_random_seed",       SYS_SET_RANDOM_SEED       },
@@ -492,6 +494,14 @@ std::unordered_map<sysfunc_t, sysfunc_info_t> const sysfunc_decls
         "Get the square root of a number.", {
         "The number." },
         "The square root of the number." } },
+    { SYS_LOG,                  { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH,
+        "Get the natural logarithm of a number.", {
+        "The number." },
+        "The natural logarithm of the number." } },
+    { SYS_LOG10,                { { TYPE_FLOAT, { TYPE_FLOAT }, { "x" } }, CAT_MATH,
+        "Get the base-10 logarithm of a number.", {
+        "The number." },
+        "The base-10 logarithm of the number." } },
     { SYS_GENERATE_RANDOM_SEED, { { TYPE_U32,   { }, { } }, CAT_RANDOM,
         "Get a random value generated from true entropy.", {},
         "A random value generated from true entropy." } },

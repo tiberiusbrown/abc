@@ -29,6 +29,8 @@ extern "C" double pow(double, double);
 extern "C" double round(double);
 extern "C" double sin(double);
 extern "C" double sqrt(double);
+extern "C" double log(double);
+extern "C" double log10(double);
 extern "C" double tan(double);
 
 extern "C" void vm_push_u8(uint8_t);
@@ -46,6 +48,8 @@ extern "C" void sys_pow();
 extern "C" void sys_round();
 extern "C" void sys_sin();
 extern "C" void sys_sqrt();
+extern "C" void sys_log();
+extern "C" void sys_log10();
 extern "C" void sys_tan();
 
 using sys_func_t = void(*)();
@@ -576,7 +580,21 @@ I_P8:
 1:  st   Y+, r9
     ldi  r16, 8
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_log:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call log
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+
+    .align 6
 
 I_P16:
     cpi  r28, 254
@@ -586,7 +604,21 @@ I_P16:
 1:  st   Y+, r9
     ldi  r16, 16
     mov  r9, r16
-    dispatch
+    dispatch_noalign
+
+sys_log10:
+    ld   r25, -Y
+    ld   r24, -Y
+    ld   r23, -Y
+    ld   r22, -Y
+    call log
+    st   Y+, r22
+    st   Y+, r23
+    st   Y+, r24
+    st   Y+, r25
+    ret
+
+    .align 6
 
 I_P32:
     cpi  r28, 254

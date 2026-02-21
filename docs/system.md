@@ -52,6 +52,8 @@
   - [`$ceil`](#ceil)
   - [`$cos`](#cos)
   - [`$floor`](#floor)
+  - [`$log`](#log)
+  - [`$log10`](#log10)
   - [`$mod`](#mod)
   - [`$pow`](#pow)
   - [`$round`](#round)
@@ -754,6 +756,34 @@ Get the greatest integer not greater than a number.
 | **x** | The number. |
 
 **Returns:** The greatest integer not greater than the number.
+
+## `$log`
+
+```c
+float $log(float x);
+```
+
+Get the natural logarithm of a number.
+
+| Parameter | Description |
+| :-- | :-- |
+| **x** | The number. |
+
+**Returns:** The natural logarithm of the number.
+
+## `$log10`
+
+```c
+float $log10(float x);
+```
+
+Get the base-10 logarithm of a number.
+
+| Parameter | Description |
+| :-- | :-- |
+| **x** | The number. |
+
+**Returns:** The base-10 logarithm of the number.
 
 ## `$mod`
 

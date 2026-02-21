@@ -3345,6 +3345,68 @@ static void sys_sqrt()
 }
 #endif
 
+#if 1
+extern "C" void sys_log();
+#else
+__attribute__((naked))
+static void sys_log()
+{
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (logf)
+        );
+#else
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push_unsafe<float>(ptr, logf(x));
+    vm_pop_end(ptr);
+#endif
+}
+#endif
+
+#if 1
+extern "C" void sys_log10();
+#else
+__attribute__((naked))
+static void sys_log10()
+{
+#if 1
+    asm volatile(R"(
+            ld   r25, -Y
+            ld   r24, -Y
+            ld   r23, -Y
+            ld   r22, -Y
+            call %x[f]
+            st   Y+, r22
+            st   Y+, r23
+            st   Y+, r24
+            st   Y+, r25
+            ret
+        )"
+        :
+        : [f] "" (log10f)
+        );
+#else
+    auto ptr = vm_pop_begin();
+    float x = vm_pop<float>(ptr);
+    vm_push_unsafe<float>(ptr, log10f(x));
+    vm_pop_end(ptr);
+#endif
+}
+#endif
+
 static void sys_generate_random_seed()
 {
     vm_push<uint32_t>(Arduboy2Base::generateRandomSeed());
@@ -3891,6 +3953,8 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_mod,
     sys_pow,
     sys_sqrt,
+    sys_log,
+    sys_log10,
     sys_generate_random_seed,
     sys_init_random_seed,
     sys_set_random_seed,

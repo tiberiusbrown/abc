@@ -83,6 +83,8 @@ enum sysfunc_t : uint8_t
     SYS_MOD,
     SYS_POW,
     SYS_SQRT,
+    SYS_LOG,
+    SYS_LOG10,
     SYS_GENERATE_RANDOM_SEED,
     SYS_INIT_RANDOM_SEED,
     SYS_SET_RANDOM_SEED,

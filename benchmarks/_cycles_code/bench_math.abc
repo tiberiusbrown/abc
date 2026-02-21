@@ -355,4 +355,30 @@ void bench_math()
         }
     }
     
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$log(%.8f)\n", x);
+            $debug_break();
+            y = $log(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
+    {
+        float x = B;
+        float y;
+        for(u8 i = 0; i < N; ++i)
+        {
+            $debug_printf("$log10(%.8f)\n", x);
+            $debug_break();
+            y = $log10(x);
+            $debug_break();
+            x *= F;
+        }
+    }
+    
 }
