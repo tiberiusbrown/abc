@@ -17,7 +17,7 @@ $PD_1:
   .b 4 01 01 01 01 01
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 13
   p3
   p0
@@ -31,8 +31,10 @@ $globinit:
 main:
   .file tilessprite_tmap.abc
   .line 31
+;     $debug_break();
   sys   debug_break
   .line 33
+;     $draw_tilemap(offx, offy, SPRITE, TMAP);
   push2 269
   p00
   dupw2
@@ -40,7 +42,9 @@ main:
   getg2 offx 0
   sys   draw_tilemap
   .line 35
+;     $debug_break();
   sys   debug_break
   .line 28
+; void main()
   ret
 

@@ -813,14 +813,38 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
         return;
 
     auto& compile_data = compiled_files[filename];
-    ast_node_t& ast = compile_data.second;
-    if(!file_loader || !file_loader(filename, compile_data.first))
+    compile_data.short_filename = fname;
+    ast_node_t& ast = compile_data.ast;
+    if(!file_loader || !file_loader(filename, compile_data.filedata))
     {
         errs.push_back({ "Unable to open module \"" + fname + "\"" });
         return;
     }
 
-    parse(compile_data.first, ast);
+    // extract line indices
+    {
+        auto& lines = compile_data.lines;
+        auto const& data = compile_data.filedata;
+        size_t start = 0;
+        for(size_t i = 0; i < data.size(); ++i)
+        {
+            if(data[i] == '\n')
+            {
+                lines.push_back({ start, i });
+                start = i + 1;
+            }
+            else if(i + 1 < data.size() && data[i] == '\r' && data[i+1] == '\n')
+            {
+                lines.push_back({ start, i });
+                start = i + 2;
+                ++i;
+            }
+        }
+        if(start < data.size())
+            lines.push_back({ start, data.size() });
+    }
+
+    parse(compile_data.filedata, ast);
     if(!errs.empty()) return;
 
     // trim all token whitespace
@@ -958,7 +982,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             auto& f = funcs[name];
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
-            f.filename = current_file;
+            f.filename = filename;
             f.block = std::move(n.children[2]);
             f.line_info = n.line_info;
 

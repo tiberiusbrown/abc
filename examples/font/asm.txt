@@ -632,7 +632,7 @@ $PD_3:
   .b a 48 45 20 4c 41 5a 59 20 44 4f 47
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   p0
   p1
@@ -643,9 +643,11 @@ $globinit:
 loop:
   .file main.abc
   .line 10
+;     char[20] str;
   pz16
   p0000
   .line 11
+;     $format(str, "seconds: %u", $millis() / 1000);
   sys   millis
   push2 1000
   p00
@@ -656,15 +658,18 @@ loop:
   push2 20
   sys   format
   .line 13
+;     $set_text_font(font_styled);
   push3 4907
   sys   set_text_font
   .line 14
+;     $draw_text(1, 60, str);
   refl  20
   push4 3932180
   p1
   p0
   sys   draw_text
   .line 15
+;     $draw_text_P(1, 12, "Hello World!");
   push4 201336655
   p00
   dupw2
@@ -672,14 +677,17 @@ loop:
   p0
   sys   draw_text_P
   .line 17
+;     $set_text_font(font_small);
   push3 2791
   sys   set_text_font
   .line 18
+;     $draw_text_P(1, 23, "the quick brown fox jumps\nover the lazy dog");
   push4 721430363
   p00
   push4 65559
   sys   draw_text_P
   .line 19
+;     $draw_text_P(1, 39, "THE QUICK BROWN FOX JUMPS\nOVER THE LAZY DOG");
   push4 721430406
   p00
   dupw4
@@ -687,8 +695,10 @@ loop:
   p0
   sys   draw_text_P
   .line 21
+;     $display();
   sys   display
   .line 8
+; void loop()
   popn  20
   ret
 
@@ -696,6 +706,7 @@ main:
   .file main.abc
 $L_main_1:
   .line 28
+;         loop();
   call  loop
   call  loop
   call  loop
@@ -705,5 +716,6 @@ $L_main_1:
   call  loop
   call  loop
   .line 27
+;     while(true)
   jmp   $L_main_1
 

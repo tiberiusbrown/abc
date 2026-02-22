@@ -3,57 +3,70 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file loops.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 19
+;         a = 0;
   p00
   .line 13
+;     $assert(a == 42);
   p1
   sys   assert
   .line 17
+;     for(int j = 0; j < 200; ++j)
   p00
 $L_main_16:
   .line 22
+;             int t = i * i;
   p00
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 22
+;             int t = i * i;
   p1
   p0
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 22
+;             int t = i * i;
   p4
   p0
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 22
+;             int t = i * i;
   push2 9
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 17
+;     for(int j = 0; j < 200; ++j)
   p1
   add2b
   dupw
@@ -61,43 +74,53 @@ $L_main_16:
   cslt2
   bz    $L_main_15
   .line 19
+;         a = 0;
   p00
   setl2 4
   .line 22
+;             int t = i * i;
   p00
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 22
+;             int t = i * i;
   p1
   p0
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 22
+;             int t = i * i;
   p4
   p0
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 22
+;             int t = i * i;
   push2 9
   .line 24
+;             a += t;
   dupw5
   dupw3
   add2
   setl2 6
   pop2
   .line 17
+;     for(int j = 0; j < 200; ++j)
   p1
   add2b
   dupw
@@ -107,8 +130,10 @@ $L_main_16:
 $L_main_15:
   pop2
   .line 28
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   pop2
   ret
 

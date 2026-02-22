@@ -4,7 +4,7 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 7
   p0
   p1
@@ -14,25 +14,31 @@ $globinit:
 main:
   .file struct_ref_bug.abc
   .line 11
+;     $debug_break();
   sys   debug_break
   .line 13
+;     if(--foo.x == 0)
   getg  foo 1
   dec
   setg  foo 1
   getg  foo 1
   bnz   $L_main_0
   .line 14
+;         foo.x = 42;
   push  42
   setg  foo 1
 $L_main_0:
   .line 16
+;     $assert(foo.x == 42);
   getg  foo 1
   push  42
   sub
   not
   sys   assert
   .line 18
+;     $debug_break();
   sys   debug_break
   .line 9
+; void main()
   ret
 

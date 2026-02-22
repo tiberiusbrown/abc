@@ -25,7 +25,7 @@ c:
   .b b 00 00 00 00 00 00 00 00 00 00 00 65
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 20
   p0
   p1
@@ -45,50 +45,60 @@ $globinit:
 main:
   .file large_copy.abc
   .line 25
+;     $debug_break();
   sys   debug_break
   .line 27
+;     $assert(a[0] == 7);
   getg  a 0
   p7
   sub
   not
   sys   assert
   .line 28
+;     $assert(a[299] == 101);
   getg  a 299
   push  101
   sub
   not
   sys   assert
   .line 29
+;     $assert(b[0] == 7);
   getg  b 0
   p7
   sub
   not
   sys   assert
   .line 30
+;     $assert(b[299] == 101);
   getg  b 299
   push  101
   sub
   not
   sys   assert
   .line 32
+;     a[0] = 42;
   push  42
   setg  a 0
   .line 33
+;     a[299] = 200;
   push  200
   setg  a 299
   .line 34
+;     b = a;
   pushg a 0
   push2 300
   pushg b 0
   push2 300
   sys   memcpy
   .line 36
+;     $assert(b[0] == 42);
   getg  b 0
   push  42
   sub
   not
   sys   assert
   .line 37
+;     $assert(b[299] == 200);
   getg  b 299
   push2 51200
   sub2b
@@ -96,6 +106,7 @@ main:
   not
   sys   assert
   .line 39
+;     b = c;
   p0
   p1
   push2 11264
@@ -104,30 +115,37 @@ main:
   push2 300
   sys   memcpy_P
   .line 41
+;     $assert(b[0] == 7);
   getg  b 0
   p7
   sub
   not
   sys   assert
   .line 42
+;     $assert(b[299] == 101);
   getg  b 299
   push  101
   sub
   not
   sys   assert
   .line 44
+;     a[0] = 0;
   p0
   setg  a 0
   .line 45
+;     a[299] = 0;
   p0
   setg  a 299
   .line 46
+;     b[0] = 0;
   p0
   setg  b 0
   .line 47
+;     b[299] = 0;
   p0
   setg  b 299
   .line 49
+;     a = b = c;
   p0
   p1
   push2 11264
@@ -141,43 +159,51 @@ main:
   push2 300
   sys   memcpy
   .line 51
+;     $assert(a[0] == 7);
   getg  a 0
   p7
   sub
   not
   sys   assert
   .line 52
+;     $assert(a[299] == 101);
   getg  a 299
   push  101
   sub
   not
   sys   assert
   .line 53
+;     $assert(b[0] == 7);
   getg  b 0
   p7
   sub
   not
   sys   assert
   .line 54
+;     $assert(b[299] == 101);
   getg  b 299
   push  101
   sub
   not
   sys   assert
   .line 56
+;     a = {};
   p0
   pushg a 0
   push2 300
   sys   memset
   .line 57
+;     $assert(a[0] == 0);
   getg  a 0
   not
   sys   assert
   .line 58
+;     $assert(a[299] == 0);
   getg  a 299
   not
   sys   assert
   .line 61
+;         u8[100] d;
   pz16
   pz16
   pz16
@@ -186,9 +212,11 @@ main:
   pz16
   p0000
   .line 62
+;         $assert(d[0] == 0);
   p1
   sys   assert
   .line 63
+;         d = c[0:100];
   p0
   p1
   push2 25600
@@ -197,24 +225,28 @@ main:
   push2 100
   sys   memcpy_P
   .line 64
+;         $assert(d[0] == 7);
   getl  100
   p7
   sub
   not
   sys   assert
   .line 65
+;         d = c[200:300];
   push4 1677722056
   p00
   refl  106
   push2 100
   sys   memcpy_P
   .line 66
+;         $assert(d[99] == 101);
   dup
   push  101
   sub
   not
   sys   assert
   .line 70
+;         u8[100] d = c[0:100];
   p0
   p1
   push2 25600
@@ -223,6 +255,7 @@ main:
   push2 100
   sys   memcpy_P
   .line 71
+;         $assert(d[0] == 7);
   getl  100
   p7
   sub
@@ -230,7 +263,9 @@ main:
   sys   assert
   popn  100
   .line 74
+;     $debug_break();
   sys   debug_break
   .line 23
+; void main()
   ret
 

@@ -13,27 +13,33 @@ BLAH:
   .b 2 03 00 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file array_ref_bug2.abc
   .line 11
+;     $debug_break();
   sys   debug_break
   .line 13
+;     $assert(len(BLAH) == 2);
   p1
   sys   assert
   .line 14
+;     $assert(len(BLAH[0].str) == 5);
   p1
   sys   assert
   .line 15
+;     $assert(len(BLAH[1].str) == 3);
   p1
   sys   assert
   .line 17
+;     char[] prog& str = BLAH[0].str;
   push3 266
   getpn 6
   .line 18
+;     $assert(len(str) == 5);
   getln 3 3
   p5
   p00
@@ -42,8 +48,10 @@ main:
   not
   sys   assert
   .line 20
+;     $debug_break();
   sys   debug_break
   .line 9
+; void main()
   popn  6
   ret
 

@@ -5,31 +5,37 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file save_load.abc
   .line 6
+;     $debug_break();
   sys   debug_break
   .line 8
+;     $assert(!$save_exists());
   sys   save_exists
   not
   sys   assert
   .line 10
+;     x = 1;
   p1
   p0
   setg2 x 0
   .line 11
+;     y = 2;
   p2
   p0
   setg2 y 0
   .line 13
+;     $assert(!$load());
   sys   load
   not
   sys   assert
   .line 15
+;     $assert(x == 1);
   getg2 x 0
   p1
   sub2b
@@ -37,6 +43,7 @@ main:
   not
   sys   assert
   .line 16
+;     $assert(y == 2);
   getg2 y 0
   p2
   sub2b
@@ -44,22 +51,28 @@ main:
   not
   sys   assert
   .line 18
+;     $save();
   sys   save
   .line 20
+;     $assert($save_exists());
   sys   save_exists
   sys   assert
   .line 22
+;     x = 3;
   p3
   p0
   setg2 x 0
   .line 23
+;     y = 4;
   p4
   p0
   setg2 y 0
   .line 25
+;     $assert($load());
   sys   load
   sys   assert
   .line 27
+;     $assert(x == 3);
   getg2 x 0
   p3
   sub2b
@@ -67,6 +80,7 @@ main:
   not
   sys   assert
   .line 28
+;     $assert(y == 2);
   getg2 y 0
   p2
   sub2b
@@ -74,26 +88,33 @@ main:
   not
   sys   assert
   .line 30
+;     y = 4;
   p4
   p0
   setg2 y 0
   .line 31
+;     $save();
   sys   save
   .line 33
+;     $assert($save_exists());
   sys   save_exists
   sys   assert
   .line 35
+;     x = 5;
   p5
   p0
   setg2 x 0
   .line 36
+;     y = 6;
   p6
   p0
   setg2 y 0
   .line 38
+;     $assert($load());
   sys   load
   sys   assert
   .line 40
+;     $assert(x == 5);
   getg2 x 0
   p5
   sub2b
@@ -101,6 +122,7 @@ main:
   not
   sys   assert
   .line 41
+;     $assert(y == 4);
   getg2 y 0
   p4
   sub2b
@@ -108,7 +130,9 @@ main:
   not
   sys   assert
   .line 43
+;     $debug_break();
   sys   debug_break
   .line 4
+; void main()
   ret
 

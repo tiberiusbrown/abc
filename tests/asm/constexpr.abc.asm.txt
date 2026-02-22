@@ -6,24 +6,29 @@ b:
   .b b 01 00 02 00 03 00 04 00 05 00 06 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file constexpr.abc
   .line 12
+;     $debug_break();
   sys   debug_break
   .line 14
+;     $assert(len(a) == 30);
   p1
   sys   assert
   .line 15
+;     $assert(len(b) == 6);
   p1
   sys   assert
   .line 20
+;         $assert(z == 11);
   p1
   sys   assert
   .line 28
+;         a[i] = i + 42;
   push2 42
   setg2 a 0
   push2 43
@@ -86,7 +91,9 @@ main:
   push2 71
   setg2 a 58
   .line 30
+;     $debug_break();
   sys   debug_break
   .line 10
+; void main()
   ret
 

@@ -3,103 +3,135 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file basic.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 7
+;     $assert(t + f == 1);
   p1
   sys   assert
   .line 9
+;     $assert(1);
   p1
   sys   assert
   .line 10
+;     $assert(-1);
   p1
   sys   assert
   .line 11
+;     $assert(2);
   p1
   sys   assert
   .line 12
+;     $assert(2u);
   p1
   sys   assert
   .line 13
+;     $assert(0x10000000);
   p1
   sys   assert
   .line 14
+;     $assert(!0);
   p1
   sys   assert
   .line 15
+;     $assert(!false);
   p1
   sys   assert
   .line 16
+;     $assert(!!true);
   p1
   sys   assert
   .line 17
+;     $assert(!!!false);
   p1
   sys   assert
   .line 19
+;     $assert(0 == 0);
   p1
   sys   assert
   .line 20
+;     $assert(1 == 1);
   p1
   sys   assert
   .line 21
+;     $assert(1 != 0);
   p1
   sys   assert
   .line 22
+;     $assert(1u == 1);
   p1
   sys   assert
   .line 23
+;     $assert(0xff == -1);
   p1
   sys   assert
   .line 24
+;     $assert(1 + 2 == 3);
   p1
   sys   assert
   .line 25
+;     $assert(1 + 2 == 2 + 1);
   p1
   sys   assert
   .line 27
+;     $assert(1 < 2);
   p1
   sys   assert
   .line 28
+;     $assert(2 > 1);
   p1
   sys   assert
   .line 29
+;     $assert(1 <= 2);
   p1
   sys   assert
   .line 30
+;     $assert(2 >= 1);
   p1
   sys   assert
   .line 31
+;     $assert(1 >= 1);
   p1
   sys   assert
   .line 32
+;     $assert(1 <= 1);
   p1
   sys   assert
   .line 33
+;     $assert(-1 <= -1);
   p1
   sys   assert
   .line 34
+;     $assert(-1 < 0);
   p1
   sys   assert
   .line 36
+;     $assert((1 == 1) == true);
   p1
   sys   assert
   .line 37
+;     $assert((1 == 0) == false);
   p1
   sys   assert
   .line 40
+;     $assert(100 + 28 == 128);
   p1
   sys   assert
   .line 41
+;     $assert(100u + 28u == 128);
   p1
   sys   assert
   .line 43
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

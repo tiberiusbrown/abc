@@ -3,162 +3,209 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file switch.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 6
+;         u8 x = 42;
   push2 298
   .line 11
+;         $assert(t);
   sys   assert
   .line 13
+;         t = false;
   p0
   .line 14
+;         switch(x)
   dup2
   .line 16
+;         case(41) { $assert(false); continue; }
   dup
   push  41
   sub
   bz    $L_main_2
   .line 17
+;         case(42) t = true;
   dup
   push  42
   sub
   bz    $L_main_3
   .line 14
+;         switch(x)
   jmp   $L_main_4
 $L_main_2:
   .line 16
+;         case(41) { $assert(false); continue; }
   p0
   sys   assert
 $L_main_3:
   .line 17
+;         case(42) t = true;
   p1
   setl  2
   .line 14
+;         switch(x)
   jmp   $L_main_1
 $L_main_4:
   .line 18
+;         default  $assert(false);
   p0
   sys   assert
 $L_main_1:
   .line 14
+;         switch(x)
   pop
   .line 20
+;         $assert(t);
   sys   assert
   .line 22
+;         t = false;
   push2 54784
   .line 23
+;         x = -42;
   setl  2
   .line 24
+;         switch(x)
   dup2
   .line 26
+;         case(17) { $assert(false); continue; }
   dup
   push  17
   sub
   bz    $L_main_6
   .line 27
+;         case(-42) t = true;
   dup
   push  214
   sub
   bz    $L_main_7
   .line 28
+;         case(-3) { $assert(false); continue; }
   dup
   push  253
   sub
   bz    $L_main_8
   .line 29
+;         case(-7) { $assert(false); continue; }
   dup
   push  249
   sub
   bz    $L_main_9
   .line 24
+;         switch(x)
   jmp   $L_main_10
 $L_main_6:
   .line 26
+;         case(17) { $assert(false); continue; }
   p0
   sys   assert
 $L_main_7:
   .line 27
+;         case(-42) t = true;
   p1
   setl  2
   .line 24
+;         switch(x)
   jmp   $L_main_5
 $L_main_8:
   .line 28
+;         case(-3) { $assert(false); continue; }
   p0
   sys   assert
 $L_main_9:
   .line 29
+;         case(-7) { $assert(false); continue; }
   p0
   sys   assert
 $L_main_10:
   .line 30
+;         default  $assert(false);
   p0
   sys   assert
 $L_main_5:
   .line 24
+;         switch(x)
   pop
   .line 32
+;         $assert(t);
   dup
   sys   assert
   .line 33
+;         x = 42;
   push  42
   setl  2
   .line 35
+;         t = false;
   p0
   setl  1
   .line 36
+;         switch(x)
   dup2
   .line 38
+;         case(41) { $assert(false); continue; }
   dup
   push  41
   sub
   bz    $L_main_12
   .line 39
+;         case(42) { $assert(true); continue; }
   dup
   push  42
   sub
   bz    $L_main_13
   .line 40
+;         case(43) t = true;
   dup
   push  43
   sub
   bz    $L_main_14
   .line 36
+;         switch(x)
   jmp   $L_main_15
 $L_main_12:
   .line 38
+;         case(41) { $assert(false); continue; }
   p0
   sys   assert
 $L_main_13:
   .line 39
+;         case(42) { $assert(true); continue; }
   p1
   sys   assert
 $L_main_14:
   .line 40
+;         case(43) t = true;
   p1
   setl  2
   .line 36
+;         switch(x)
   jmp   $L_main_11
 $L_main_15:
   .line 41
+;         default  $assert(false);
   p0
   sys   assert
 $L_main_11:
   .line 36
+;         switch(x)
   pop
   .line 43
+;         $assert(t);
   sys   assert
   .line 45
+;         t = false;
   p0
   .line 46
+;         switch(x)
   dup2
   .line 48
+;         case(41, 42) t = true;
   dup
   push  41
   sub
@@ -167,27 +214,36 @@ $L_main_11:
   push  42
   sub
   .line 46
+;         switch(x)
   bnz   $L_main_18
 $L_main_17:
   .line 48
+;         case(41, 42) t = true;
   p1
   setl  2
   .line 46
+;         switch(x)
   jmp   $L_main_16
 $L_main_18:
   .line 50
+;             $assert(false);
   p0
   sys   assert
 $L_main_16:
   .line 46
+;         switch(x)
   pop
   .line 52
+;         $assert(t);
   sys   assert
   .line 54
+;         t = false;
   p0
   .line 55
+;         switch(x)
   dup2
   .line 57
+;         case(41, 42, 43) t = true;
   dup
   push  41
   sub
@@ -200,27 +256,36 @@ $L_main_16:
   push  43
   sub
   .line 55
+;         switch(x)
   bnz   $L_main_21
 $L_main_20:
   .line 57
+;         case(41, 42, 43) t = true;
   p1
   setl  2
   .line 55
+;         switch(x)
   jmp   $L_main_19
 $L_main_21:
   .line 59
+;             $assert(false);
   p0
   sys   assert
 $L_main_19:
   .line 55
+;         switch(x)
   pop
   .line 61
+;         $assert(t);
   sys   assert
   .line 63
+;         t = false;
   p0
   .line 64
+;         switch(x)
   dup2
   .line 66
+;         case(42, 43) t = true;
   dup
   push  42
   sub
@@ -229,27 +294,36 @@ $L_main_19:
   push  43
   sub
   .line 64
+;         switch(x)
   bnz   $L_main_24
 $L_main_23:
   .line 66
+;         case(42, 43) t = true;
   p1
   setl  2
   .line 64
+;         switch(x)
   jmp   $L_main_22
 $L_main_24:
   .line 68
+;             $assert(false);
   p0
   sys   assert
 $L_main_22:
   .line 64
+;         switch(x)
   pop
   .line 70
+;         $assert(t);
   sys   assert
   .line 72
+;         t = false;
   p0
   .line 73
+;         switch(x)
   dup2
   .line 75
+;         case(42 ... 43) t = true;
   dup
   push  42
   cult
@@ -260,21 +334,28 @@ $L_main_22:
   bz    $L_main_26
 $L_main_27:
   .line 73
+;         switch(x)
   jmp   $L_main_25
 $L_main_26:
   .line 75
+;         case(42 ... 43) t = true;
   p1
   setl  2
 $L_main_25:
   .line 73
+;         switch(x)
   pop
   .line 77
+;         $assert(t);
   sys   assert
   .line 79
+;         t = false;
   p0
   .line 80
+;         switch(x)
   dup2
   .line 82
+;         case(41 ... 42) t = true;
   dup
   push  41
   cult
@@ -285,21 +366,28 @@ $L_main_25:
   bz    $L_main_29
 $L_main_30:
   .line 80
+;         switch(x)
   jmp   $L_main_28
 $L_main_29:
   .line 82
+;         case(41 ... 42) t = true;
   p1
   setl  2
 $L_main_28:
   .line 80
+;         switch(x)
   pop
   .line 84
+;         $assert(t);
   sys   assert
   .line 86
+;         t = false;
   p0
   .line 87
+;         switch(x)
   dup2
   .line 89
+;         case(42 ... 42) t = true;
   dup
   push  42
   cult
@@ -310,21 +398,28 @@ $L_main_28:
   bz    $L_main_32
 $L_main_33:
   .line 87
+;         switch(x)
   jmp   $L_main_31
 $L_main_32:
   .line 89
+;         case(42 ... 42) t = true;
   p1
   setl  2
 $L_main_31:
   .line 87
+;         switch(x)
   pop
   .line 91
+;         $assert(t);
   sys   assert
   .line 93
+;         t = false;
   p0
   .line 94
+;         switch(x)
   dup2
   .line 96
+;         case(40 ... 45) t = true;
   dup
   push  40
   cult
@@ -335,21 +430,28 @@ $L_main_31:
   bz    $L_main_35
 $L_main_36:
   .line 94
+;         switch(x)
   jmp   $L_main_34
 $L_main_35:
   .line 96
+;         case(40 ... 45) t = true;
   p1
   setl  2
 $L_main_34:
   .line 94
+;         switch(x)
   pop
   .line 98
+;         $assert(t);
   sys   assert
   .line 100
+;         t = false;
   p0
   .line 101
+;         switch(x)
   dup2
   .line 103
+;         case(38, 40 ... 45, 17) t = true;
   dup
   push  38
   sub
@@ -367,21 +469,28 @@ $L_main_39:
   push  17
   sub
   .line 101
+;         switch(x)
   bnz   $L_main_37
 $L_main_38:
   .line 103
+;         case(38, 40 ... 45, 17) t = true;
   p1
   setl  2
 $L_main_37:
   .line 101
+;         switch(x)
   pop
   .line 105
+;         $assert(t);
   sys   assert
   .line 107
+;         t = false;
   p0
   .line 108
+;         switch(x)
   dup2
   .line 110
+;         case(38 ... 40, 42, 17) t = true;
   dup
   push  38
   cult
@@ -399,47 +508,63 @@ $L_main_42:
   push  17
   sub
   .line 108
+;         switch(x)
   bnz   $L_main_40
 $L_main_41:
   .line 110
+;         case(38 ... 40, 42, 17) t = true;
   p1
   setl  2
 $L_main_40:
   .line 108
+;         switch(x)
   pop
   .line 112
+;         $assert(t);
   sys   assert
   .line 114
+;         t = false;
   p0
   .line 115
+;         switch(x)
   dup2
   .line 118
+;         case(41) t = true;
   dup
   push  41
   sub
   bz    $L_main_45
   .line 117
+;         default  { $assert(true); continue; }
   p1
   sys   assert
 $L_main_45:
   .line 118
+;         case(41) t = true;
   p1
   setl  2
   .line 115
+;         switch(x)
   pop
   .line 120
+;         $assert(t);
   sys   assert
   .line 122
+;         t = false;
   p0
   .line 123
+;         switch(x)
   dup2
   .line 125
+;         case(42) { t = true; if(x == 42) break; $assert(false); }
   dup
   push  42
   sub
   .line 123
+;         switch(x)
   bnz   $L_main_48
   .line 125
+;         case(42) { t = true; if(x == 42) break; $assert(false); }
   p1
   setl  2
   dup3
@@ -449,76 +574,99 @@ $L_main_45:
   p0
   sys   assert
   .line 123
+;         switch(x)
   jmp   $L_main_46
 $L_main_48:
   .line 126
+;         default  $assert(false);
   p0
   sys   assert
 $L_main_46:
   .line 123
+;         switch(x)
   pop
   .line 128
+;         $assert(t);
   dup
   sys   assert
   pop2
   .line 132
+;         u32 x = 420000;
   push4 420000
   .line 139
+;         case(420000) t = true;
   p1
   .line 142
+;         $assert(t);
   sys   assert
   .line 144
+;         t = false;
   p0
   .line 145
+;         switch(x)
   getl4 5
   .line 147
+;         case(410000) { $assert(false); continue; }
   getl4 4
   push4 410000
   sub4
   bool4
   bz    $L_main_55
   .line 148
+;         case(420000) { $assert(true); continue; }
   getl4 4
   push4 420000
   sub4
   bool4
   bz    $L_main_56
   .line 149
+;         case(430000) t = true;
   getl4 4
   push4 430000
   sub4
   bool4
   bz    $L_main_57
   .line 145
+;         switch(x)
   jmp   $L_main_58
 $L_main_55:
   .line 147
+;         case(410000) { $assert(false); continue; }
   p0
   sys   assert
 $L_main_56:
   .line 148
+;         case(420000) { $assert(true); continue; }
   p1
   sys   assert
 $L_main_57:
   .line 149
+;         case(430000) t = true;
   p1
   setl  5
   .line 145
+;         switch(x)
   jmp   $L_main_54
 $L_main_58:
   .line 150
+;         default  $assert(false);
   p0
   sys   assert
 $L_main_54:
   .line 145
+;         switch(x)
   pop4
   .line 152
+;         $assert(t);
   sys   assert
   .line 154
+;         t = false;
   p0
   .line 155
+;         switch(x)
   getl4 5
   .line 157
+;         case(410000, 420000) t = true;
   getl4 4
   push4 410000
   sub4
@@ -529,27 +677,36 @@ $L_main_54:
   sub4
   bool4
   .line 155
+;         switch(x)
   bnz   $L_main_61
 $L_main_60:
   .line 157
+;         case(410000, 420000) t = true;
   p1
   setl  5
   .line 155
+;         switch(x)
   jmp   $L_main_59
 $L_main_61:
   .line 159
+;             $assert(false);
   p0
   sys   assert
 $L_main_59:
   .line 155
+;         switch(x)
   pop4
   .line 161
+;         $assert(t);
   sys   assert
   .line 163
+;         t = false;
   p0
   .line 164
+;         switch(x)
   getl4 5
   .line 166
+;         case(410000, 420000, 430000) t = true;
   getl4 4
   push4 410000
   sub4
@@ -565,27 +722,36 @@ $L_main_59:
   sub4
   bool4
   .line 164
+;         switch(x)
   bnz   $L_main_64
 $L_main_63:
   .line 166
+;         case(410000, 420000, 430000) t = true;
   p1
   setl  5
   .line 164
+;         switch(x)
   jmp   $L_main_62
 $L_main_64:
   .line 168
+;             $assert(false);
   p0
   sys   assert
 $L_main_62:
   .line 164
+;         switch(x)
   pop4
   .line 170
+;         $assert(t);
   sys   assert
   .line 172
+;         t = false;
   p0
   .line 173
+;         switch(x)
   getl4 5
   .line 175
+;         case(420000, 430000) t = true;
   getl4 4
   push4 420000
   sub4
@@ -596,27 +762,36 @@ $L_main_62:
   sub4
   bool4
   .line 173
+;         switch(x)
   bnz   $L_main_67
 $L_main_66:
   .line 175
+;         case(420000, 430000) t = true;
   p1
   setl  5
   .line 173
+;         switch(x)
   jmp   $L_main_65
 $L_main_67:
   .line 177
+;             $assert(false);
   p0
   sys   assert
 $L_main_65:
   .line 173
+;         switch(x)
   pop4
   .line 179
+;         $assert(t);
   sys   assert
   .line 181
+;         t = false;
   p0
   .line 182
+;         switch(x)
   getl4 5
   .line 184
+;         case(420000 ... 430000) t = true;
   getl4 4
   push4 420000
   cult4
@@ -627,21 +802,28 @@ $L_main_65:
   bz    $L_main_69
 $L_main_70:
   .line 182
+;         switch(x)
   jmp   $L_main_68
 $L_main_69:
   .line 184
+;         case(420000 ... 430000) t = true;
   p1
   setl  5
 $L_main_68:
   .line 182
+;         switch(x)
   pop4
   .line 186
+;         $assert(t);
   sys   assert
   .line 188
+;         t = false;
   p0
   .line 189
+;         switch(x)
   getl4 5
   .line 191
+;         case(410000 ... 420000) t = true;
   getl4 4
   push4 410000
   cult4
@@ -652,21 +834,28 @@ $L_main_68:
   bz    $L_main_72
 $L_main_73:
   .line 189
+;         switch(x)
   jmp   $L_main_71
 $L_main_72:
   .line 191
+;         case(410000 ... 420000) t = true;
   p1
   setl  5
 $L_main_71:
   .line 189
+;         switch(x)
   pop4
   .line 193
+;         $assert(t);
   sys   assert
   .line 195
+;         t = false;
   p0
   .line 196
+;         switch(x)
   getl4 5
   .line 198
+;         case(420000 ... 420000) t = true;
   getl4 4
   push4 420000
   cult4
@@ -677,21 +866,28 @@ $L_main_71:
   bz    $L_main_75
 $L_main_76:
   .line 196
+;         switch(x)
   jmp   $L_main_74
 $L_main_75:
   .line 198
+;         case(420000 ... 420000) t = true;
   p1
   setl  5
 $L_main_74:
   .line 196
+;         switch(x)
   pop4
   .line 200
+;         $assert(t);
   sys   assert
   .line 202
+;         t = false;
   p0
   .line 203
+;         switch(x)
   getl4 5
   .line 205
+;         case(400000 ... 450000) t = true;
   getl4 4
   push4 400000
   cult4
@@ -702,21 +898,28 @@ $L_main_74:
   bz    $L_main_78
 $L_main_79:
   .line 203
+;         switch(x)
   jmp   $L_main_77
 $L_main_78:
   .line 205
+;         case(400000 ... 450000) t = true;
   p1
   setl  5
 $L_main_77:
   .line 203
+;         switch(x)
   pop4
   .line 207
+;         $assert(t);
   sys   assert
   .line 209
+;         t = false;
   p0
   .line 210
+;         switch(x)
   getl4 5
   .line 212
+;         case(380000, 400000 ... 450000, 170000) t = true;
   getl4 4
   push4 380000
   sub4
@@ -736,21 +939,28 @@ $L_main_82:
   sub4
   bool4
   .line 210
+;         switch(x)
   bnz   $L_main_80
 $L_main_81:
   .line 212
+;         case(380000, 400000 ... 450000, 170000) t = true;
   p1
   setl  5
 $L_main_80:
   .line 210
+;         switch(x)
   pop4
   .line 214
+;         $assert(t);
   sys   assert
   .line 216
+;         t = false;
   p0
   .line 217
+;         switch(x)
   getl4 5
   .line 219
+;         case(380000 ... 400000, 420000, 170000) t = true;
   getl4 4
   push4 380000
   cult4
@@ -770,49 +980,65 @@ $L_main_85:
   sub4
   bool4
   .line 217
+;         switch(x)
   bnz   $L_main_83
 $L_main_84:
   .line 219
+;         case(380000 ... 400000, 420000, 170000) t = true;
   p1
   setl  5
 $L_main_83:
   .line 217
+;         switch(x)
   pop4
   .line 221
+;         $assert(t);
   sys   assert
   .line 223
+;         t = false;
   p0
   .line 224
+;         switch(x)
   getl4 5
   .line 227
+;         case(410000) t = true;
   getl4 4
   push4 410000
   sub4
   bool4
   bz    $L_main_88
   .line 226
+;         default  { $assert(true); continue; }
   p1
   sys   assert
 $L_main_88:
   .line 227
+;         case(410000) t = true;
   p1
   setl  5
   .line 224
+;         switch(x)
   pop4
   .line 229
+;         $assert(t);
   sys   assert
   .line 231
+;         t = false;
   p0
   .line 232
+;         switch(x)
   getl4 5
   .line 234
+;         case(420000) { t = true; if(x == 420000) break; $assert(false); }
   getl4 4
   push4 420000
   sub4
   bool4
   .line 232
+;         switch(x)
   bnz   $L_main_91
   .line 234
+;         case(420000) { t = true; if(x == 420000) break; $assert(false); }
   p1
   setl  5
   getl4 9
@@ -823,28 +1049,37 @@ $L_main_88:
   p0
   sys   assert
   .line 232
+;         switch(x)
   pop4
   .line 237
+;         $assert(t);
   dup
   sys   assert
   popn  5
   .line 240
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 $L_main_91:
   .line 235
+;         default  $assert(false);
   p0
   sys   assert
 $L_main_89:
   .line 232
+;         switch(x)
   pop4
   .line 237
+;         $assert(t);
   dup
   sys   assert
   popn  5
   .line 240
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

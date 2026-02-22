@@ -14,7 +14,7 @@ foop:
   .b 2 04 00 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 13
   push4 131073000
   push4 262147000
@@ -24,8 +24,10 @@ $globinit:
 main:
   .file prog_array_indirect.abc
   .line 25
+;     $debug_break();
   sys   debug_break
   .line 27
+;     $assert(foop[0].data[0] == 100);
   push3 270
   getpn 6
   p000
@@ -37,6 +39,7 @@ main:
   not
   sys   assert
   .line 28
+;     $assert(foop[0].data[1] == 200);
   push3 270
   getpn 6
   p1
@@ -49,6 +52,7 @@ main:
   not
   sys   assert
   .line 29
+;     $assert(foop[0].data[2] == 300);
   push3 270
   getpn 6
   p2
@@ -61,6 +65,7 @@ main:
   not
   sys   assert
   .line 30
+;     $assert(foop[0].data[3] == 400);
   push3 270
   getpn 6
   p3
@@ -73,6 +78,7 @@ main:
   not
   sys   assert
   .line 32
+;     $assert(foo[0].data[0] == 1000);
   push3 265
   getpn 4
   p00
@@ -84,6 +90,7 @@ main:
   not
   sys   assert
   .line 33
+;     $assert(foo[0].data[1] == 2000);
   push3 265
   getpn 4
   p1
@@ -96,6 +103,7 @@ main:
   not
   sys   assert
   .line 34
+;     $assert(foo[0].data[2] == 3000);
   push3 265
   getpn 4
   p2
@@ -108,6 +116,7 @@ main:
   not
   sys   assert
   .line 35
+;     $assert(foo[0].data[3] == 4000);
   push3 265
   getpn 4
   p3
@@ -120,7 +129,9 @@ main:
   not
   sys   assert
   .line 37
+;     $debug_break();
   sys   debug_break
   .line 23
+; void main()
   ret
 

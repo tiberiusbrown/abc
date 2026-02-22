@@ -3,13 +3,14 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 f:
   .file func_ref.abc
   .line 1
+; u8 f(u8 x, i8 y) { return x + y + 2; }
   dup
   dup3
   add
@@ -22,6 +23,7 @@ f:
 g:
   .file func_ref.abc
   .line 2
+; u8 g(u8 x, i8 y) { return x + y + 3; }
   dup
   dup3
   add
@@ -34,10 +36,13 @@ g:
 main:
   .file func_ref.abc
   .line 6
+;     $debug_break();
   sys   debug_break
   .line 8
+;     :u8(u8 x, i8 y)& r = f;
   pushl f 0
   .line 9
+;     $assert(r(0, 0) == 2);
   p000
   getln 3 6
   icall
@@ -46,9 +51,11 @@ main:
   not
   sys   assert
   .line 10
+;     r = g;
   pushl g 0
   setln 3 3
   .line 11
+;     $assert(r(0, 0) == 3);
   p000
   getln 3 6
   icall
@@ -57,8 +64,10 @@ main:
   not
   sys   assert
   .line 13
+;     $debug_break();
   sys   debug_break
   .line 4
+; void main()
   pop3
   ret
 

@@ -4,18 +4,21 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file bubble1.abc
   .line 5
+;     $debug_break();
   sys   debug_break
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   p0
 $L_main_1:
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -24,12 +27,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -38,12 +43,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -52,12 +59,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -66,12 +75,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -80,12 +91,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -94,12 +107,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -108,12 +123,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 8
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -122,6 +139,7 @@ $L_main_1:
   aixb1 64
   setr
   .line 7
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
@@ -130,9 +148,11 @@ $L_main_1:
 $L_main_0:
   pop
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   p0
 $L_main_4:
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -147,12 +167,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -167,12 +189,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -187,12 +211,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -207,12 +233,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -227,12 +255,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -247,12 +277,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -267,12 +299,14 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_3
   .line 11
+;         $assert(A[i] > A[i + 1]);
   pushg A 0
   dup3
   p0
@@ -287,6 +321,7 @@ $L_main_4:
   cslt
   sys   assert
   .line 10
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
@@ -295,11 +330,14 @@ $L_main_4:
 $L_main_3:
   pop
   .line 13
+;     u8 n = len(A);
   p64
 $L_main_7:
   .line 16
+;         u8 n2 = 0;
   p0
   .line 17
+;         for(u8 i = 1; i < n; ++i)
   p1
   dup
   dup4
@@ -307,15 +345,18 @@ $L_main_7:
   bz    $L_main_8
 $L_main_9:
   .line 19
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 20
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 21
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -323,39 +364,47 @@ $L_main_9:
   cslt
   bz    $L_main_11
   .line 23
+;                 i8 t = a;
   dupw3
   getr
   .line 24
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 25
+;                 b = t;
   dup
   dupw3
   setr
   .line 26
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_11:
   pop4
   .line 17
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
   cult
   bz    $L_main_8
   .line 19
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 20
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 21
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -363,39 +412,47 @@ $L_main_11:
   cslt
   bz    $L_main_12
   .line 23
+;                 i8 t = a;
   dupw3
   getr
   .line 24
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 25
+;                 b = t;
   dup
   dupw3
   setr
   .line 26
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_12:
   pop4
   .line 17
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
   cult
   bz    $L_main_8
   .line 19
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 20
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 21
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -403,39 +460,47 @@ $L_main_12:
   cslt
   bz    $L_main_13
   .line 23
+;                 i8 t = a;
   dupw3
   getr
   .line 24
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 25
+;                 b = t;
   dup
   dupw3
   setr
   .line 26
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_13:
   pop4
   .line 17
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
   cult
   bz    $L_main_8
   .line 19
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 20
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 21
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -443,24 +508,29 @@ $L_main_13:
   cslt
   bz    $L_main_14
   .line 23
+;                 i8 t = a;
   dupw3
   getr
   .line 24
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 25
+;                 b = t;
   dup
   dupw3
   setr
   .line 26
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_14:
   pop4
   .line 17
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
@@ -469,16 +539,20 @@ $L_main_14:
 $L_main_8:
   pop
   .line 29
+;         n = n2;
   setl  1
   .line 14
+;     while(n > 1)
   p1
   dup2
   cult
   bnz   $L_main_7
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   p0
 $L_main_16:
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -493,12 +567,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -513,12 +589,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -533,12 +611,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -553,12 +633,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -573,12 +655,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -593,12 +677,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -613,12 +699,14 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
   cult
   bz    $L_main_15
   .line 33
+;         $assert(A[i] < A[i + 1]);
   pushg A 0
   dup3
   aixb1 64
@@ -633,6 +721,7 @@ $L_main_16:
   cslt
   sys   assert
   .line 32
+;     for(u8 i = 0; i < len(A) - 1; ++i)
   inc
   dup
   push  63
@@ -641,8 +730,10 @@ $L_main_16:
 $L_main_15:
   pop
   .line 35
+;     $debug_break();
   sys   debug_break
   .line 3
+; void main()
   pop
   ret
 

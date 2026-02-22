@@ -12,7 +12,7 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 8
   pushg a1 0
   p4
@@ -38,89 +38,112 @@ $globinit:
 main:
   .file references.abc
   .line 15
+;     $debug_break();
   sys   debug_break
   .line 17
+;     $assert(a1[2] == 0);
   getg  a1 2
   not
   sys   assert
   .line 18
+;     $assert(a2[2] == 0);
   getg2 a2 4
   bool2
   not
   sys   assert
   .line 19
+;     $assert(a3[2] == 0);
   getgn 3 a3 6
   bool3
   not
   sys   assert
   .line 20
+;     $assert(a4[2] == 0);
   getg4 a4 8
   bool4
   not
   sys   assert
   .line 24
+;         a1[i] = 0x42;
   push  66
   setg  a1 0
   .line 25
+;         a2[i] = 0x4200;
   push2 16896
   setg2 a2 0
   .line 26
+;         a3[i] = 0x420000;
   p00
   push  66
   setgn 3 a3 0
   .line 27
+;         a4[i] = 0x42000000;
   p000
   push  66
   setg4 a4 0
   .line 24
+;         a1[i] = 0x42;
   push  66
   setg  a1 1
   .line 25
+;         a2[i] = 0x4200;
   push2 16896
   setg2 a2 2
   .line 26
+;         a3[i] = 0x420000;
   p00
   push  66
   setgn 3 a3 3
   .line 27
+;         a4[i] = 0x42000000;
   p000
   push  66
   setg4 a4 4
   .line 24
+;         a1[i] = 0x42;
   push  66
   setg  a1 2
   .line 25
+;         a2[i] = 0x4200;
   push2 16896
   setg2 a2 4
   .line 26
+;         a3[i] = 0x420000;
   p00
   push  66
   setgn 3 a3 6
   .line 27
+;         a4[i] = 0x42000000;
   p000
   push  66
   setg4 a4 8
   .line 24
+;         a1[i] = 0x42;
   push  66
   setg  a1 3
   .line 25
+;         a2[i] = 0x4200;
   push2 16896
   setg2 a2 6
   .line 26
+;         a3[i] = 0x420000;
   p00
   push  66
   setgn 3 a3 9
   .line 27
+;         a4[i] = 0x42000000;
   p000
   push  66
   setg4 a4 12
   .line 30
+;     $assert(a1[2] == 0x42);
   getg  a1 2
   push  66
   sub
   not
   sys   assert
   .line 31
+;     $assert(a2[2] == 0x4200);
   getg2 a2 4
   push2 16896
   sub2
@@ -128,6 +151,7 @@ main:
   not
   sys   assert
   .line 32
+;     $assert(a3[2] == 0x420000);
   getgn 3 a3 6
   p00
   push  66
@@ -136,6 +160,7 @@ main:
   not
   sys   assert
   .line 33
+;     $assert(a4[2] == 0x42000000);
   getg4 a4 8
   p000
   push  66
@@ -144,19 +169,24 @@ main:
   not
   sys   assert
   .line 36
+;         u32 loc = 0;
   p0000
   .line 37
+;         u32& r = loc;
   refl  4
   .line 38
+;         $assert(loc == 0);
   getl4 6
   bool4
   not
   sys   assert
   .line 39
+;         r = 0xcafebabe;
   push4 3405691582
   dupw5
   setrn 4
   .line 40
+;         $assert(loc == 0xcafebabe);
   getl4 6
   push4 3405691582
   sub4
@@ -164,6 +194,7 @@ main:
   not
   sys   assert
   .line 41
+;         $assert(r   == 0xcafebabe);
   dupw
   getrn 4
   push4 3405691582
@@ -172,6 +203,7 @@ main:
   not
   sys   assert
   .line 42
+;         $assert((loc & 0xff00ff00) == 0xca00ba00);
   getl4 6
   push2 65280
   dupw
@@ -182,6 +214,7 @@ main:
   not
   sys   assert
   .line 43
+;         $assert((r   & 0xff00ff00) == 0xca00ba00);
   dupw
   getrn 4
   push2 65280
@@ -194,20 +227,25 @@ main:
   sys   assert
   popn  6
   .line 47
+;         a3[1] = 0;
   p000
   setgn 3 a3 3
   .line 48
+;         u24& r = a3[1];
   pushg a3 3
   .line 49
+;         $assert(a3[1] == 0);
   getgn 3 a3 3
   bool3
   not
   sys   assert
   .line 50
+;         r = 0x123456;
   push3 1193046
   dupw4
   setrn 3
   .line 51
+;         $assert(a3[1] == 0x123456);
   getgn 3 a3 3
   push3 1193046
   sub3
@@ -215,6 +253,7 @@ main:
   not
   sys   assert
   .line 52
+;         $assert(r     == 0x123456);
   dupw
   getrn 3
   push3 1193046
@@ -223,6 +262,7 @@ main:
   not
   sys   assert
   .line 53
+;         $assert((a3[1] & 0x0ffff0) == 0x023450);
   getgn 3 a3 3
   p0
   push4 1048560
@@ -234,6 +274,7 @@ main:
   not
   sys   assert
   .line 54
+;         $assert((r     & 0x0ffff0) == 0x023450);
   dupw
   getrn 3
   p0
@@ -247,16 +288,20 @@ main:
   sys   assert
   pop2
   .line 58
+;         a1[1] = 3;
   p3
   setg  a1 1
   .line 59
+;         a1[2] = 7;
   p7
   setg  a1 2
   .line 60
+;         u8[]& r = a1;
   pushg a1 0
   p4
   p0
   .line 61
+;         $assert(r[1] == 3);
   getl4 4
   p1
   p0
@@ -267,6 +312,7 @@ main:
   not
   sys   assert
   .line 62
+;         $assert(r[2] == 7);
   getl4 4
   p2
   p0
@@ -277,6 +323,7 @@ main:
   not
   sys   assert
   .line 63
+;         $assert(len(r) == 4);
   dupw
   p4
   sub2b
@@ -285,18 +332,22 @@ main:
   sys   assert
   pop4
   .line 67
+;         a2[1] = 3;
   p3
   p0
   setg2 a2 2
   .line 68
+;         a2[2] = 7;
   p7
   p0
   setg2 a2 4
   .line 69
+;         u16[]& r = a2;
   pushg a2 0
   p4
   p0
   .line 70
+;         $assert(r[1] == 3);
   getl4 4
   p1
   p0
@@ -308,6 +359,7 @@ main:
   not
   sys   assert
   .line 71
+;         $assert(r[2] == 7);
   getl4 4
   p2
   p0
@@ -319,6 +371,7 @@ main:
   not
   sys   assert
   .line 72
+;         $assert(len(r) == 4);
   dupw
   p4
   sub2b
@@ -327,18 +380,22 @@ main:
   sys   assert
   pop4
   .line 76
+;         a3[1] = 3;
   p3
   p00
   setgn 3 a3 3
   .line 77
+;         a3[2] = 7;
   p7
   p00
   setgn 3 a3 6
   .line 78
+;         u24[]& r = a3;
   pushg a3 0
   p4
   p0
   .line 79
+;         $assert(r[1] == 3);
   getl4 4
   p1
   p0
@@ -351,6 +408,7 @@ main:
   not
   sys   assert
   .line 80
+;         $assert(r[2] == 7);
   getl4 4
   p2
   p0
@@ -363,6 +421,7 @@ main:
   not
   sys   assert
   .line 81
+;         $assert(len(r) == 4);
   dupw
   p4
   sub2b
@@ -371,18 +430,22 @@ main:
   sys   assert
   pop4
   .line 85
+;         a4[1] = 3;
   p3
   p000
   setg4 a4 4
   .line 86
+;         a4[2] = 7;
   p7
   p000
   setg4 a4 8
   .line 87
+;         u32[]& r = a4;
   pushg a4 0
   p4
   p0
   .line 88
+;         $assert(r[1] == 3);
   getl4 4
   p1
   p0
@@ -395,6 +458,7 @@ main:
   not
   sys   assert
   .line 89
+;         $assert(r[2] == 7);
   getl4 4
   p2
   p0
@@ -407,6 +471,7 @@ main:
   not
   sys   assert
   .line 90
+;         $assert(len(r) == 4);
   dupw
   p4
   sub2b
@@ -415,9 +480,11 @@ main:
   sys   assert
   pop4
   .line 97
+;         $assert(y == 2);
   p1
   sys   assert
   .line 100
+;     $assert(len(ra1) == 4);
   getg2 ra1 2
   p4
   sub2b
@@ -425,6 +492,7 @@ main:
   not
   sys   assert
   .line 101
+;     $assert(len(ra2) == 4);
   getg2 ra2 2
   p4
   sub2b
@@ -432,6 +500,7 @@ main:
   not
   sys   assert
   .line 102
+;     $assert(len(ra3) == 4);
   getg2 ra3 2
   p4
   sub2b
@@ -439,6 +508,7 @@ main:
   not
   sys   assert
   .line 103
+;     $assert(len(ra4) == 4);
   getg2 ra4 2
   p4
   sub2b
@@ -446,7 +516,9 @@ main:
   not
   sys   assert
   .line 105
+;     $debug_break();
   sys   debug_break
   .line 13
+; void main()
   ret
 

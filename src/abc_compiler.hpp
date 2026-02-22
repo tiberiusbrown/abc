@@ -940,7 +940,14 @@ private:
     std::vector<std::pair<std::string, size_t>> continue_stack;
 
     // track files already parsed
-    std::map<std::string, std::pair<std::vector<char>, ast_node_t>> compiled_files;
+    struct compiled_file_data_t
+    {
+        std::string short_filename;
+        std::vector<char> filedata;
+        std::vector<std::pair<size_t, size_t>> lines;
+        ast_node_t ast;
+    };
+    std::map<std::string, compiled_file_data_t> compiled_files;
     std::vector<std::string> debug_filenames;
     std::unordered_set<std::string> import_set;
 

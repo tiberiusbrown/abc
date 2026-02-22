@@ -69,20 +69,23 @@ $PD_0:
   .b 4 00 00 00 00 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file main.abc
   .line 3
+;     $draw_sprite(0, 0, sprites{ "sprite.png" }, 0);
   p000
   p1
   p0000
   dup
   sys   draw_sprite
   .line 5
+;     $display();
   sys   display
   .line 1
+; void main()
   ret
 

@@ -326,7 +326,7 @@ $PD_5:
   .b 6 73 65 63 6f 6e 64 73
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 13
   push2 60
   setg2 x 0
@@ -345,34 +345,42 @@ $globinit:
 loop:
   .file main.abc
   .line 28
+;     if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_loop_0
   .line 30
+;         $tones_play_auto(tones{ B5 100 E6 200 });
   push3 5063
   sys   tones_play_auto
   .line 31
+;         ++coins;
   getg2 coins 0
   p1
   add2b
   setg2 coins 0
 $L_loop_0:
   .line 34
+;     if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   bz    $L_loop_1
   .line 35
+;         $tones_play_primary(SONG);
   push3 4951
   sys   tones_play_primary
 $L_loop_1:
   .line 38
+;         "Hello World!\n"
   push4 1157632973
   p00
   .line 37
+;     $draw_text(0, 5,
   p5
   p000
   sys   draw_text_P
   .line 41
+;     $draw_textf(0, 30, "Coins collected: %d", coins);
   getg2 coins 0
   sext2
   push3 5138
@@ -382,6 +390,7 @@ $L_loop_1:
   p000
   sys   draw_textf
   .line 42
+;     $draw_textf(0, 55, "Running for %.2f seconds", float($millis()) / 1000);
   sys   millis
   u2f
   p00
@@ -393,6 +402,7 @@ $L_loop_1:
   p000
   sys   draw_textf
   .line 44
+;     if($pressed(UP_BUTTON   )) --y;
   p128
   sys   pressed
   bz    $L_loop_2
@@ -402,6 +412,7 @@ $L_loop_1:
   setg2 y 0
 $L_loop_2:
   .line 45
+;     if($pressed(DOWN_BUTTON )) ++y;
   p16
   sys   pressed
   bz    $L_loop_3
@@ -411,6 +422,7 @@ $L_loop_2:
   setg2 y 0
 $L_loop_3:
   .line 46
+;     if($pressed(LEFT_BUTTON )) --x;
   p32
   sys   pressed
   bz    $L_loop_4
@@ -420,6 +432,7 @@ $L_loop_3:
   setg2 x 0
 $L_loop_4:
   .line 47
+;     if($pressed(RIGHT_BUTTON)) ++x;
   p64
   sys   pressed
   bz    $L_loop_5
@@ -429,26 +442,32 @@ $L_loop_4:
   setg2 x 0
 $L_loop_5:
   .line 48
+;     $draw_sprite(x, y, BALL, 0);
   p00
   push3 4930
   getg2 y 0
   getg2 x 0
   sys   draw_sprite
   .line 50
+;     $display();
   sys   display
   .line 26
+; void loop()
   ret
 
 main:
   .file main.abc
   .line 55
+;     $set_frame_rate(50);
   push  50
   sys   set_frame_rate
   .line 56
+;     $set_text_font(FONT_BR5D);
   push3 2791
   sys   set_text_font
 $L_main_1:
   .line 58
+;         loop();
   call  loop
   call  loop
   call  loop
@@ -458,5 +477,6 @@ $L_main_1:
   call  loop
   call  loop
   .line 57
+;     while(true)
   jmp   $L_main_1
 

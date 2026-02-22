@@ -325,7 +325,7 @@ $PD_7:
   .b 4 50 4f 4e 47 21
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   p0
   p1
@@ -336,10 +336,12 @@ $globinit:
 loop:
   .file frame.abc
   .line 16
+;     if($pressed(UP_BUTTON))
   p128
   sys   pressed
   bz    $L_loop_3
   .line 17
+;         py0 -= PADDLE_SPEED;
   getg4 py0 0
   p00
   push2 16256
@@ -347,10 +349,12 @@ loop:
   setg4 py0 0
 $L_loop_3:
   .line 18
+;     if($pressed(DOWN_BUTTON))
   p16
   sys   pressed
   bz    $L_loop_4
   .line 19
+;         py0 += PADDLE_SPEED;
   getg4 py0 0
   p00
   push2 16256
@@ -358,6 +362,7 @@ $L_loop_3:
   setg4 py0 0
 $L_loop_4:
   .line 21
+;     if(!ai_serving && vx > 0 && bx > 40)
   getg  ai_serving 0
   bnz   $L_loop_8
   p0000
@@ -370,6 +375,7 @@ $L_loop_4:
   cflt
   bz    $L_loop_8
   .line 23
+;         int dy = by - py1 - (PADDLE_HEIGHT - BALL_SIZE) / 2;
   getg4 by 0
   getg4 py1 0
   fsub
@@ -379,6 +385,7 @@ $L_loop_4:
   f2i
   pop2
   .line 24
+;         if(dy > vy)
   getg4 vy 0
   dupw5
   sext2
@@ -386,6 +393,7 @@ $L_loop_4:
   cflt
   bz    $L_loop_6
   .line 25
+;             py1 += PADDLE_SPEED;
   getg4 py1 0
   p00
   push2 16256
@@ -393,6 +401,7 @@ $L_loop_4:
   setg4 py1 0
 $L_loop_6:
   .line 26
+;         if(dy < vy)
   dupw
   sext2
   i2f
@@ -400,6 +409,7 @@ $L_loop_6:
   cflt
   bz    $L_loop_7
   .line 27
+;             py1 -= PADDLE_SPEED;
   getg4 py1 0
   p00
   push2 16256
@@ -409,96 +419,116 @@ $L_loop_7:
   pop2
 $L_loop_8:
   .line 30
+;     if(py0 < TOP_Y)
   getg4 py0 0
   p00
   push2 16608
   cflt
   bz    $L_loop_9
   .line 31
+;         py0 = TOP_Y;
   p00
   push2 16608
   setg4 py0 0
 $L_loop_9:
   .line 32
+;     if(py0 > BOT_Y - PADDLE_HEIGHT)
   p00
   push2 16940
   getg4 py0 0
   cflt
   bz    $L_loop_10
   .line 33
+;         py0 = BOT_Y - PADDLE_HEIGHT;
   p00
   push2 16940
   setg4 py0 0
 $L_loop_10:
   .line 34
+;     if(py1 < TOP_Y)
   getg4 py1 0
   p00
   push2 16608
   cflt
   bz    $L_loop_11
   .line 35
+;         py1 = TOP_Y;
   p00
   push2 16608
   setg4 py1 0
 $L_loop_11:
   .line 36
+;     if(py1 > BOT_Y - PADDLE_HEIGHT)
   p00
   push2 16940
   getg4 py1 0
   cflt
   bz    $L_loop_12
   .line 37
+;         py1 = BOT_Y - PADDLE_HEIGHT;
   p00
   push2 16940
   setg4 py1 0
 $L_loop_12:
   .line 39
+;     if(serving)
   getg  serving 0
   bz    $L_loop_14
   .line 41
+;         bx = PADDLE_WIDTH;
   p00
   p128
   p64
   setg4 bx 0
   .line 42
+;         by = py0 + (PADDLE_HEIGHT - BALL_SIZE) / 2;
   getg4 py0 0
   p000
   push  65
   fadd
   setg4 by 0
   .line 43
+;         if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_loop_13
   .line 45
+;             serving = false;
   p0
   setg  serving 0
   .line 46
+;             vx = BALL_SPEED;
   p00
   push2 16256
   setg4 vx 0
   .line 47
+;             vy = -BALL_SPEED;
   p00
   push2 49024
   setg4 vy 0
 $L_loop_13:
   .line 39
+;     if(serving)
   jmp   $L_loop_28
 $L_loop_14:
   .line 50
+;     else if(ai_serving)
   getg  ai_serving 0
   bz    $L_loop_16
   .line 52
+;         bx = 128 - PADDLE_WIDTH - BALL_SIZE;
   p00
   push2 17136
   setg4 bx 0
   .line 53
+;         by = py1 + (PADDLE_HEIGHT - BALL_SIZE) / 2;
   getg4 py1 0
   p000
   push  65
   fadd
   setg4 by 0
   .line 54
+;         if(--ai_serving_wait <= 0)
   p00
   getg2 ai_serving_wait 0
   p1
@@ -508,71 +538,86 @@ $L_loop_14:
   cslt2
   bnz   $L_loop_15
   .line 56
+;            ai_serving = false;
   p0
   setg  ai_serving 0
   .line 57
+;            vx = -BALL_SPEED;
   p00
   push2 49024
   setg4 vx 0
   .line 58
+;            vy = -BALL_SPEED;
   p00
   push2 49024
   setg4 vy 0
 $L_loop_15:
   .line 50
+;     else if(ai_serving)
   jmp   $L_loop_28
 $L_loop_16:
   .line 63
+;         bx += vx;
   getg4 bx 0
   getg4 vx 0
   fadd
   setg4 bx 0
   .line 64
+;         by += vy;
   getg4 by 0
   getg4 vy 0
   fadd
   setg4 by 0
   .line 65
+;         if(by < TOP_Y)
   getg4 by 0
   p00
   push2 16608
   cflt
   bz    $L_loop_18
   .line 67
+;             by = TOP_Y;
   p00
   push2 16608
   setg4 by 0
   .line 10
+;     vy = -vy;
   getg4 vy 0
   p000
   p128
   xor4
   setg4 vy 0
   .line 11
+;     $tones_play(SFX_BOUNCE_WALL);
   push3 4920
   sys   tones_play
 $L_loop_18:
   .line 70
+;         if(by > BOT_Y - BALL_SIZE)
   p00
   push2 17004
   getg4 by 0
   cflt
   bz    $L_loop_20
   .line 72
+;             by = BOT_Y - BALL_SIZE;
   p00
   push2 17004
   setg4 by 0
   .line 10
+;     vy = -vy;
   getg4 vy 0
   p000
   p128
   xor4
   setg4 vy 0
   .line 11
+;     $tones_play(SFX_BOUNCE_WALL);
   push3 4920
   sys   tones_play
 $L_loop_20:
   .line 75
+;         if(bx < PADDLE_WIDTH)
   getg4 bx 0
   p00
   p128
@@ -580,11 +625,13 @@ $L_loop_20:
   cflt
   bz    $L_loop_24
   .line 77
+;             bx = PADDLE_WIDTH;
   p00
   p128
   p64
   setg4 bx 0
   .line 78
+;             if(by >= py0 && by <= py0 + PADDLE_HEIGHT - BALL_SIZE)
   getg4 by 0
   getg4 py0 0
   cflt
@@ -601,6 +648,7 @@ $L_loop_20:
   cflt
   bnz   $L_loop_23
   .line 3
+;     vx *= -1.05;
   getg4 vx 0
   push  102
   dup
@@ -608,6 +656,7 @@ $L_loop_20:
   fmul
   setg4 vx 0
   .line 4
+;     vy *= 1.05;
   getg4 vy 0
   push  102
   dup
@@ -615,34 +664,42 @@ $L_loop_20:
   fmul
   setg4 vy 0
   .line 5
+;     $tones_play(SFX_BOUNCE_PADDLE);
   push3 4924
   sys   tones_play
   .line 78
+;             if(by >= py0 && by <= py0 + PADDLE_HEIGHT - BALL_SIZE)
   jmp   $L_loop_24
 $L_loop_23:
   .line 82
+;                 serving = true;
   p1
   setg  serving 0
   .line 83
+;                 ++s1;
   getg2 s1 0
   p1
   add2b
   setg2 s1 0
   .line 84
+;                 $tones_play(SFX_LOSS);
   push3 4928
   sys   tones_play
 $L_loop_24:
   .line 87
+;         if(bx > 128 - PADDLE_WIDTH - BALL_SIZE)
   p00
   push2 17136
   getg4 bx 0
   cflt
   bz    $L_loop_28
   .line 89
+;             bx = 128 - PADDLE_WIDTH - BALL_SIZE;
   p00
   push2 17136
   setg4 bx 0
   .line 90
+;             if(by >= py1 && by <= py1 + PADDLE_HEIGHT - BALL_SIZE)
   getg4 by 0
   getg4 py1 0
   cflt
@@ -659,6 +716,7 @@ $L_loop_24:
   cflt
   bnz   $L_loop_27
   .line 3
+;     vx *= -1.05;
   getg4 vx 0
   push  102
   dup
@@ -666,6 +724,7 @@ $L_loop_24:
   fmul
   setg4 vx 0
   .line 4
+;     vy *= 1.05;
   getg4 vy 0
   push  102
   dup
@@ -673,27 +732,34 @@ $L_loop_24:
   fmul
   setg4 vy 0
   .line 5
+;     $tones_play(SFX_BOUNCE_PADDLE);
   push3 4924
   sys   tones_play
   .line 90
+;             if(by >= py1 && by <= py1 + PADDLE_HEIGHT - BALL_SIZE)
   jmp   $L_loop_28
 $L_loop_27:
   .line 94
+;                 ai_serving = true;
   p1
   setg  ai_serving 0
   .line 95
+;                 ai_serving_wait = 20;
   push2 20
   setg2 ai_serving_wait 0
   .line 96
+;                 ++s0;
   getg2 s0 0
   p1
   add2b
   setg2 s0 0
   .line 97
+;                 $tones_play(SFX_WIN);
   push3 4948
   sys   tones_play
 $L_loop_28:
   .line 106
+;     $draw_filled_rect(0, TOP_Y - 1, 128, 1, WHITE);
   p1
   dup
   p128
@@ -701,6 +767,7 @@ $L_loop_28:
   p000
   sys   draw_filled_rect
   .line 107
+;     $draw_textf(0, 5, "%d", s0);
   getg2 s0 0
   sext2
   push4 50336616
@@ -709,8 +776,10 @@ $L_loop_28:
   p000
   sys   draw_textf
   .line 110
+;         char[8] buf;
   pz8
   .line 111
+;         $format(buf, "%d", s1);
   getg2 s1 0
   sext2
   push4 50336616
@@ -720,6 +789,7 @@ $L_loop_28:
   p0
   sys   format
   .line 112
+;         $draw_text(129 - $text_width(buf), 5, buf);
   refl  8
   p8
   p0
@@ -733,12 +803,14 @@ $L_loop_28:
   sys   draw_text
   popn  8
   .line 115
+;     $draw_text_P(52, 5, "PONG!");
   push4 83891051
   p00
   dupw2
   push2 52
   sys   draw_text_P
   .line 118
+;     $draw_filled_rect(0, $round(py0), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
   push3 267265
   getg4 py0 0
   sys   round
@@ -747,6 +819,7 @@ $L_loop_28:
   p00
   sys   draw_filled_rect
   .line 119
+;     $draw_filled_rect(128 - PADDLE_WIDTH, $round(py1), PADDLE_WIDTH, PADDLE_HEIGHT, WHITE);
   push3 267265
   getg4 py1 0
   sys   round
@@ -755,6 +828,7 @@ $L_loop_28:
   push2 124
   sys   draw_filled_rect
   .line 122
+;     $draw_sprite($round(bx), $round(by), img_ball, 0);
   p00
   push3 4907
   getg4 by 0
@@ -767,6 +841,7 @@ $L_loop_28:
   pop2
   sys   draw_sprite
   .line 125
+;     $draw_filled_rect(0, BOT_Y, 128, 1, WHITE);
   p1
   dup
   p128
@@ -775,36 +850,45 @@ $L_loop_28:
   sys   draw_filled_rect
   .file main.abc
   .line 17
+;     $display();
   sys   display
   .line 12
+; void loop()
   ret
 
 main:
   .file main.abc
   .line 7
+;     $set_frame_rate(40);
   push  40
   sys   set_frame_rate
   .line 8
+;     $set_text_font(f);
   push3 2791
   sys   set_text_font
   .file frame.abc
   .line 131
+;     py0 = midy;
   p00
   push2 16840
   setg4 py0 0
   .line 132
+;     py1 = midy;
   p00
   push2 16840
   setg4 py1 0
   .line 134
+;     serving = true;
   p1
   setg  serving 0
   .line 135
+;     ai_serving = false;
   p0
   setg  ai_serving 0
   .file main.abc
 $L_main_1:
   .line 24
+;         loop();
   call  loop
   call  loop
   call  loop
@@ -814,5 +898,6 @@ $L_main_1:
   call  loop
   call  loop
   .line 23
+;     while(true)
   jmp   $L_main_1
 

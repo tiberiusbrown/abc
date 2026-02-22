@@ -4,16 +4,18 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file bubble1.abc
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   p0
 $L_main_1:
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -22,12 +24,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -36,12 +40,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -50,12 +56,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -64,12 +72,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -78,12 +88,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -92,12 +104,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -106,12 +120,14 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
   cult
   bz    $L_main_0
   .line 6
+;         A[i] = len(A) - i;
   p64
   dup2
   sub
@@ -120,6 +136,7 @@ $L_main_1:
   aixb1 64
   setr
   .line 5
+;     for(u8 i = 0; i < len(A); ++i)
   inc
   dup
   p64
@@ -128,13 +145,17 @@ $L_main_1:
 $L_main_0:
   pop
   .line 8
+;     $debug_break();
   sys   debug_break
   .line 10
+;     u8 n = len(A);
   p64
 $L_main_4:
   .line 13
+;         u8 n2 = 0;
   p0
   .line 14
+;         for(u8 i = 1; i < n; ++i)
   p1
   dup
   dup4
@@ -142,15 +163,18 @@ $L_main_4:
   bz    $L_main_5
 $L_main_6:
   .line 16
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 17
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 18
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -158,39 +182,47 @@ $L_main_6:
   cslt
   bz    $L_main_8
   .line 20
+;                 i8 t = a;
   dupw3
   getr
   .line 21
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 22
+;                 b = t;
   dup
   dupw3
   setr
   .line 23
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_8:
   pop4
   .line 14
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
   cult
   bz    $L_main_5
   .line 16
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 17
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 18
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -198,39 +230,47 @@ $L_main_8:
   cslt
   bz    $L_main_9
   .line 20
+;                 i8 t = a;
   dupw3
   getr
   .line 21
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 22
+;                 b = t;
   dup
   dupw3
   setr
   .line 23
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_9:
   pop4
   .line 14
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
   cult
   bz    $L_main_5
   .line 16
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 17
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 18
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -238,39 +278,47 @@ $L_main_9:
   cslt
   bz    $L_main_10
   .line 20
+;                 i8 t = a;
   dupw3
   getr
   .line 21
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 22
+;                 b = t;
   dup
   dupw3
   setr
   .line 23
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_10:
   pop4
   .line 14
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
   cult
   bz    $L_main_5
   .line 16
+;             i8& a = A[u8(i - 1)];
   pushg A 0
   dup3
   dec
   aixb1 64
   .line 17
+;             i8& b = A[i];
   pushg A 0
   dup5
   aixb1 64
   .line 18
+;             if(a > b)
   dupw
   getr
   dupw4
@@ -278,24 +326,29 @@ $L_main_10:
   cslt
   bz    $L_main_11
   .line 20
+;                 i8 t = a;
   dupw3
   getr
   .line 21
+;                 a = b;
   dupw2
   getr
   dupw5
   setr
   .line 22
+;                 b = t;
   dup
   dupw3
   setr
   .line 23
+;                 n2 = i;
   dup6
   setl  7
   pop
 $L_main_11:
   pop4
   .line 14
+;         for(u8 i = 1; i < n; ++i)
   inc
   dup
   dup4
@@ -304,15 +357,19 @@ $L_main_11:
 $L_main_5:
   pop
   .line 26
+;         n = n2;
   setl  1
   .line 11
+;     while(n > 1)
   p1
   dup2
   cult
   bnz   $L_main_4
   .line 29
+;     $debug_break();
   sys   debug_break
   .line 3
+; void main()
   pop
   ret
 

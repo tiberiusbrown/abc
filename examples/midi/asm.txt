@@ -405,7 +405,7 @@ $PD_4:
   .b 1 75 30
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   p0
   setg  want_music 0
@@ -418,41 +418,51 @@ $globinit:
 main:
   .file main.abc
   .line 5
+;     if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_main_0
   .line 6
+;         $tones_play_auto(tones{ C6 500 });
   push3 5965
   sys   tones_play_auto
 $L_main_0:
   .line 7
+;     if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   bz    $L_main_1
   .line 8
+;         want_music = !want_music;
   getg  want_music 0
   not
   setg  want_music 0
 $L_main_1:
   .line 10
+;     if(want_music && !$music_playing())
   getg  want_music 0
   bz    $L_main_3
   sys   music_playing
   bnz   $L_main_3
   .line 11
+;         $music_play(music{ "song.mid" });
   push3 5969
   sys   music_play
 $L_main_3:
   .line 12
+;     if(!want_music)
   getg  want_music 0
   bnz   $L_main_4
   .line 13
+;         $music_stop();
   sys   music_stop
 $L_main_4:
   .line 15
+;     $set_text_font(FONT_PIXELOIDSANS);
   push3 2791
   sys   set_text_font
   .line 17
+;     $draw_text_P(0, 10, "Press A to play tones\nPress B to toggle music");
   p16
   push3 2949145
   p00
@@ -460,6 +470,7 @@ $L_main_4:
   p000
   sys   draw_text_P
   .line 19
+;     $draw_textf(0, 50, "Music playing: %u", $music_playing());
   sys   music_playing
   p000
   push4 301996349
@@ -468,6 +479,7 @@ $L_main_4:
   p000
   sys   draw_textf
   .line 20
+;     $draw_textf(0, 60, "Tones playing: %u", $tones_playing());
   sys   tones_playing
   p000
   push4 301996367
@@ -476,7 +488,9 @@ $L_main_4:
   p000
   sys   draw_textf
   .line 22
+;     $display();
   sys   display
   .line 3
+; void main()
   ret
 

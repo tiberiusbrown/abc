@@ -6,31 +6,37 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file float.abc
   .line 9
+;     $debug_break();
   sys   debug_break
   .line 11
+;     $assert(len(A) == 7);
   p1
   sys   assert
   .line 13
+;     x = 1.5;
   p00
   push2 16320
   setg4 x 0
   .line 14
+;     y = 1.5;
   p00
   push2 16320
   setg4 y 0
   .line 15
+;     $assert(x == y);
   getg4 x 0
   getg4 y 0
   cfeq
   sys   assert
   .line 16
+;     $assert(int(x) == 1);
   getg4 x 0
   f2i
   pop2
@@ -40,6 +46,7 @@ main:
   not
   sys   assert
   .line 17
+;     $assert(int(y) == 1);
   getg4 y 0
   f2i
   pop2
@@ -49,86 +56,101 @@ main:
   not
   sys   assert
   .line 18
+;     y = 2;
   p000
   p64
   setg4 y 0
   .line 20
+;     $assert(y == 2);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 21
+;     $assert(y == 2.0);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 22
+;     $assert(y == 2e0);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 23
+;     $assert(y == 2.0e0);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 24
+;     $assert(y == 20e-1);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 25
+;     $assert(y == 0.2e1);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 26
+;     $assert(y == 0.2e+1);
   getg4 y 0
   p000
   p64
   cfeq
   sys   assert
   .line 27
+;     $assert(!(x == y));
   getg4 x 0
   getg4 y 0
   cfeq
   not
   sys   assert
   .line 28
+;     $assert(x != y);
   getg4 x 0
   getg4 y 0
   cfeq
   not
   sys   assert
   .line 29
+;     $assert(x < y);
   getg4 x 0
   getg4 y 0
   cflt
   sys   assert
   .line 30
+;     $assert(x <= y);
   getg4 y 0
   getg4 x 0
   cflt
   not
   sys   assert
   .line 31
+;     $assert(y > x);
   getg4 x 0
   getg4 y 0
   cflt
   sys   assert
   .line 32
+;     $assert(y >= x);
   getg4 y 0
   getg4 x 0
   cflt
   not
   sys   assert
   .line 33
+;     $assert(int(y) == 2);
   getg4 y 0
   f2i
   pop2
@@ -138,69 +160,81 @@ main:
   not
   sys   assert
   .line 34
+;     y = -y;
   getg4 y 0
   p000
   p128
   xor4
   setg4 y 0
   .line 35
+;     $assert(y == -2);
   getg4 y 0
   p000
   push  192
   cfeq
   sys   assert
   .line 36
+;     $assert(y == -2.0);
   getg4 y 0
   p000
   push  192
   cfeq
   sys   assert
   .line 37
+;     $assert(y == -2e0);
   getg4 y 0
   p000
   push  192
   cfeq
   sys   assert
   .line 38
+;     $assert(y == -2.0e0);
   getg4 y 0
   p000
   push  192
   cfeq
   sys   assert
   .line 39
+;     $assert(y < 0);
   getg4 y 0
   p0000
   cslt4
   sys   assert
   .line 40
+;     $assert(x != y);
   getg4 x 0
   getg4 y 0
   cfeq
   not
   sys   assert
   .line 41
+;     $assert(x > y);
   getg4 y 0
   getg4 x 0
   cflt
   sys   assert
   .line 42
+;     $assert(x >= y);
   getg4 x 0
   getg4 y 0
   cflt
   not
   sys   assert
   .line 43
+;     $assert(y < x);
   getg4 y 0
   getg4 x 0
   cflt
   sys   assert
   .line 44
+;     $assert(y <= x);
   getg4 x 0
   getg4 y 0
   cflt
   not
   sys   assert
   .line 45
+;     $assert(int(y) == -2);
   getg4 y 0
   f2i
   pop2
@@ -210,6 +244,7 @@ main:
   not
   sys   assert
   .line 47
+;     $assert(x + y < 0);
   getg4 x 0
   getg4 y 0
   fadd
@@ -217,6 +252,7 @@ main:
   cslt4
   sys   assert
   .line 48
+;     $assert(x + y == -0.5);
   getg4 x 0
   getg4 y 0
   fadd
@@ -225,6 +261,7 @@ main:
   cfeq
   sys   assert
   .line 49
+;     $assert(x + y == -1.0 / 2);
   getg4 x 0
   getg4 y 0
   fadd
@@ -233,6 +270,7 @@ main:
   cfeq
   sys   assert
   .line 50
+;     $assert(x + y == 1.0 / -2);
   getg4 x 0
   getg4 y 0
   fadd
@@ -241,6 +279,7 @@ main:
   cfeq
   sys   assert
   .line 51
+;     $assert(x + y == -1 / 2.0);
   getg4 x 0
   getg4 y 0
   fadd
@@ -249,6 +288,7 @@ main:
   cfeq
   sys   assert
   .line 52
+;     $assert(x + y == 1 / -2.0);
   getg4 x 0
   getg4 y 0
   fadd
@@ -257,6 +297,7 @@ main:
   cfeq
   sys   assert
   .line 53
+;     $assert(x + y != 1 / 2);
   getg4 x 0
   getg4 y 0
   fadd
@@ -265,6 +306,7 @@ main:
   not
   sys   assert
   .line 55
+;     $assert(x - y == 3.5);
   getg4 x 0
   getg4 y 0
   fsub
@@ -273,6 +315,7 @@ main:
   cfeq
   sys   assert
   .line 56
+;     $assert(x * y == -3);
   getg4 x 0
   getg4 y 0
   fmul
@@ -281,6 +324,7 @@ main:
   cfeq
   sys   assert
   .line 57
+;     $assert(x / y == -0.75);
   getg4 x 0
   getg4 y 0
   fdiv
@@ -289,12 +333,14 @@ main:
   cfeq
   sys   assert
   .line 59
+;     $assert(x == 1.5);
   getg4 x 0
   p00
   push2 16320
   cfeq
   sys   assert
   .line 60
+;     $assert(++x == 2.5);
   getg4 x 0
   p00
   push2 16256
@@ -307,6 +353,7 @@ main:
   cfeq
   sys   assert
   .line 61
+;     $assert(x == 2.5);
   getg4 x 0
   p00
   p32
@@ -314,6 +361,7 @@ main:
   cfeq
   sys   assert
   .line 63
+;     $assert(x == 2.5);
   getg4 x 0
   p00
   p32
@@ -321,6 +369,7 @@ main:
   cfeq
   sys   assert
   .line 64
+;     $assert(x++ == 2.5);
   pushg x 0
   pincf
   p00
@@ -329,18 +378,21 @@ main:
   cfeq
   sys   assert
   .line 65
+;     $assert(x == 3.5);
   getg4 x 0
   p00
   push2 16480
   cfeq
   sys   assert
   .line 67
+;     $assert(x == 3.5);
   getg4 x 0
   p00
   push2 16480
   cfeq
   sys   assert
   .line 68
+;     $assert(--x == 2.5);
   getg4 x 0
   p00
   push2 16256
@@ -353,6 +405,7 @@ main:
   cfeq
   sys   assert
   .line 69
+;     $assert(x == 2.5);
   getg4 x 0
   p00
   p32
@@ -360,6 +413,7 @@ main:
   cfeq
   sys   assert
   .line 71
+;     $assert(x == 2.5);
   getg4 x 0
   p00
   p32
@@ -367,6 +421,7 @@ main:
   cfeq
   sys   assert
   .line 72
+;     $assert(x-- == 2.5);
   pushg x 0
   pdecf
   p00
@@ -375,13 +430,16 @@ main:
   cfeq
   sys   assert
   .line 73
+;     $assert(x == 1.5);
   getg4 x 0
   p00
   push2 16320
   cfeq
   sys   assert
   .line 75
+;     $debug_break();
   sys   debug_break
   .line 7
+; void main()
   ret
 

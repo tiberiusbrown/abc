@@ -3,15 +3,17 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file pre_incdec.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 6
+;         int[4] x = { 1, 2, 3, 4 };
   p1
   p0
   p2
@@ -21,10 +23,12 @@ main:
   p4
   p0
   .line 7
+;         x[1]++;
   refl  6
   pinc2
   pop2
   .line 8
+;         $assert(x[0] == 1);
   dupw7
   p1
   sub2b
@@ -32,6 +36,7 @@ main:
   not
   sys   assert
   .line 9
+;         $assert(x[1] == 3);
   dupw5
   p3
   sub2b
@@ -39,6 +44,7 @@ main:
   not
   sys   assert
   .line 10
+;         $assert(x[2] == 3);
   dupw3
   p3
   sub2b
@@ -46,6 +52,7 @@ main:
   not
   sys   assert
   .line 11
+;         $assert(x[3] == 4);
   dupw
   p4
   sub2b
@@ -53,11 +60,13 @@ main:
   not
   sys   assert
   .line 12
+;         int y = (x[2]++) + 1;
   refl  4
   pinc2
   p1
   add2b
   .line 13
+;         $assert(x[0] == 1);
   getl2 10
   p1
   sub2b
@@ -65,6 +74,7 @@ main:
   not
   sys   assert
   .line 14
+;         $assert(x[1] == 3);
   dupw7
   p3
   sub2b
@@ -72,6 +82,7 @@ main:
   not
   sys   assert
   .line 15
+;         $assert(x[2] == 4);
   dupw5
   p4
   sub2b
@@ -79,6 +90,7 @@ main:
   not
   sys   assert
   .line 16
+;         $assert(x[3] == 4);
   dupw3
   p4
   sub2b
@@ -86,6 +98,7 @@ main:
   not
   sys   assert
   .line 17
+;         $assert(y == 4);
   dupw
   p4
   sub2b
@@ -94,19 +107,23 @@ main:
   sys   assert
   popn  10
   .line 21
+;         u8 x = 2;
   p2
   .line 22
+;         u8 y = (x++) * 3;
   refl  1
   pinc
   p3
   mul
   .line 23
+;         $assert(x == 3);
   dup2
   p3
   sub
   not
   sys   assert
   .line 24
+;         $assert(y == 6);
   dup
   p6
   sub
@@ -114,14 +131,17 @@ main:
   sys   assert
   pop2
   .line 28
+;         u16 x = 2;
   p2
   p0
   .line 29
+;         u16 y = (x++) * 3;
   refl  2
   pinc2
   p3
   mul2b
   .line 30
+;         $assert(x == 3);
   dupw3
   p3
   sub2b
@@ -129,6 +149,7 @@ main:
   not
   sys   assert
   .line 31
+;         $assert(y == 6);
   dupw
   p6
   sub2b
@@ -137,15 +158,18 @@ main:
   sys   assert
   pop4
   .line 35
+;         u24 x = 2;
   p2
   p00
   .line 36
+;         u24 y = (x++) * 3;
   refl  3
   pinc3
   p3
   p00
   mul3
   .line 37
+;         $assert(x == 3);
   getln 3 6
   p3
   p00
@@ -154,6 +178,7 @@ main:
   not
   sys   assert
   .line 38
+;         $assert(y == 6);
   getln 3 3
   p6
   p00
@@ -163,15 +188,18 @@ main:
   sys   assert
   popn  6
   .line 42
+;         u32 x = 2;
   p2
   p000
   .line 43
+;         u32 y = (x++) * 3;
   refl  4
   pinc4
   p3
   p000
   mul4
   .line 44
+;         $assert(x == 3);
   getl4 8
   p3
   p000
@@ -180,6 +208,7 @@ main:
   not
   sys   assert
   .line 45
+;         $assert(y == 6);
   getl4 4
   p6
   p000
@@ -189,18 +218,22 @@ main:
   sys   assert
   popn  8
   .line 49
+;         u8 x = 2;
   p2
   .line 50
+;         u8 y = (x--) * 3;
   refl  1
   pdec
   p3
   mul
   .line 51
+;         $assert(x == 1);
   dup2
   dec
   not
   sys   assert
   .line 52
+;         $assert(y == 6);
   dup
   p6
   sub
@@ -208,14 +241,17 @@ main:
   sys   assert
   pop2
   .line 56
+;         u16 x = 2;
   p2
   p0
   .line 57
+;         u16 y = (x--) * 3;
   refl  2
   pdec2
   p3
   mul2b
   .line 58
+;         $assert(x == 1);
   dupw3
   p1
   sub2b
@@ -223,6 +259,7 @@ main:
   not
   sys   assert
   .line 59
+;         $assert(y == 6);
   dupw
   p6
   sub2b
@@ -231,15 +268,18 @@ main:
   sys   assert
   pop4
   .line 63
+;         u24 x = 2;
   p2
   p00
   .line 64
+;         u24 y = (x--) * 3;
   refl  3
   pdec3
   p3
   p00
   mul3
   .line 65
+;         $assert(x == 1);
   getln 3 6
   p1
   p00
@@ -248,6 +288,7 @@ main:
   not
   sys   assert
   .line 66
+;         $assert(y == 6);
   getln 3 3
   p6
   p00
@@ -257,15 +298,18 @@ main:
   sys   assert
   popn  6
   .line 70
+;         u32 x = 2;
   p2
   p000
   .line 71
+;         u32 y = (x--) * 3;
   refl  4
   pdec4
   p3
   p000
   mul4
   .line 72
+;         $assert(x == 1);
   getl4 8
   p1
   p000
@@ -274,6 +318,7 @@ main:
   not
   sys   assert
   .line 73
+;         $assert(y == 6);
   getl4 4
   p6
   p000
@@ -283,7 +328,9 @@ main:
   sys   assert
   popn  8
   .line 76
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

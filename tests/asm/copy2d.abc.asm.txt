@@ -5,15 +5,17 @@ d:
   .b b 00 00 01 01 02 02 03 03 04 04 05 05
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file copy2d.abc
   .line 14
+;     $debug_break();
   sys   debug_break
   .line 16
+;     map_data[3][2] c = d;
   p1
   dup
   p2
@@ -25,40 +27,48 @@ main:
   p5
   dup
   .line 18
+;     $assert(c[0][0].tile == 0);
   p1
   sys   assert
   .line 19
+;     $assert(c[0][1].tile == 1);
   getl  10
   dec
   not
   sys   assert
   .line 20
+;     $assert(c[0][2].tile == 2);
   dup8
   p2
   sub
   not
   sys   assert
   .line 21
+;     $assert(c[1][0].tile == 3);
   dup6
   p3
   sub
   not
   sys   assert
   .line 22
+;     $assert(c[1][1].tile == 4);
   dup4
   p4
   sub
   not
   sys   assert
   .line 23
+;     $assert(c[1][2].tile == 5);
   dup2
   p5
   sub
   not
   sys   assert
   .line 25
+;     $debug_break();
   sys   debug_break
   .line 12
+; void main()
   popn  10
   ret
 

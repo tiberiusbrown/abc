@@ -174,7 +174,7 @@ $PD_2:
   .b a 48 45 20 4c 41 5a 59 0a 44 4f 47
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   p0
   p1
@@ -185,13 +185,16 @@ $globinit:
 main:
   .file text.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 5
+;     $set_text_font(FONT_ADAFRUIT);
   p0
   p1
   p0
   sys   set_text_font
   .line 6
+;     $draw_textf(0, 8, "Running: %u seconds", $millis() / 1000);
   sys   millis
   push2 1000
   p00
@@ -202,19 +205,23 @@ main:
   p000
   sys   draw_textf
   .line 7
+;     $draw_text_P(0, 17, "the quick brown fox\njumps over the lazy\ndog");
   push4 721423099
   p00
   push  17
   p000
   sys   draw_text_P
   .line 8
+;     $draw_text_P(0, 44, "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG");
   push4 721423142
   p00
   push  44
   p000
   sys   draw_text_P
   .line 10
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

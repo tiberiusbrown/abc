@@ -12809,17 +12809,19 @@ $PD_1:
   .b 4 00 00 00 00 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file main.abc
   .line 10
+;     $set_frame_rate(60);
   push  60
   sys   set_frame_rate
 $L_main_1:
   .line 14
+;         $draw_tilemap(x, y, TILES, TMAP);
   p0
   p1
   p0
@@ -12830,6 +12832,7 @@ $L_main_1:
   getg2 x 0
   sys   draw_tilemap
   .line 16
+;         if($pressed(LEFT_BUTTON )) x += 1;
   p32
   sys   pressed
   bz    $L_main_2
@@ -12839,6 +12842,7 @@ $L_main_1:
   setg2 x 0
 $L_main_2:
   .line 17
+;         if($pressed(RIGHT_BUTTON)) x -= 1;
   p64
   sys   pressed
   bz    $L_main_3
@@ -12848,6 +12852,7 @@ $L_main_2:
   setg2 x 0
 $L_main_3:
   .line 18
+;         if($pressed(UP_BUTTON   )) y += 1;
   p128
   sys   pressed
   bz    $L_main_4
@@ -12857,6 +12862,7 @@ $L_main_3:
   setg2 y 0
 $L_main_4:
   .line 19
+;         if($pressed(DOWN_BUTTON )) y -= 1;
   p16
   sys   pressed
   bz    $L_main_5
@@ -12866,8 +12872,10 @@ $L_main_4:
   setg2 y 0
 $L_main_5:
   .line 21
+;         $display();
   sys   display
   .line 14
+;         $draw_tilemap(x, y, TILES, TMAP);
   p0
   p1
   p0
@@ -12878,6 +12886,7 @@ $L_main_5:
   getg2 x 0
   sys   draw_tilemap
   .line 16
+;         if($pressed(LEFT_BUTTON )) x += 1;
   p32
   sys   pressed
   bz    $L_main_6
@@ -12887,6 +12896,7 @@ $L_main_5:
   setg2 x 0
 $L_main_6:
   .line 17
+;         if($pressed(RIGHT_BUTTON)) x -= 1;
   p64
   sys   pressed
   bz    $L_main_7
@@ -12896,6 +12906,7 @@ $L_main_6:
   setg2 x 0
 $L_main_7:
   .line 18
+;         if($pressed(UP_BUTTON   )) y += 1;
   p128
   sys   pressed
   bz    $L_main_8
@@ -12905,6 +12916,7 @@ $L_main_7:
   setg2 y 0
 $L_main_8:
   .line 19
+;         if($pressed(DOWN_BUTTON )) y -= 1;
   p16
   sys   pressed
   bz    $L_main_9
@@ -12914,8 +12926,10 @@ $L_main_8:
   setg2 y 0
 $L_main_9:
   .line 21
+;         $display();
   sys   display
   .line 14
+;         $draw_tilemap(x, y, TILES, TMAP);
   p0
   p1
   p0
@@ -12926,6 +12940,7 @@ $L_main_9:
   getg2 x 0
   sys   draw_tilemap
   .line 16
+;         if($pressed(LEFT_BUTTON )) x += 1;
   p32
   sys   pressed
   bz    $L_main_10
@@ -12935,6 +12950,7 @@ $L_main_9:
   setg2 x 0
 $L_main_10:
   .line 17
+;         if($pressed(RIGHT_BUTTON)) x -= 1;
   p64
   sys   pressed
   bz    $L_main_11
@@ -12944,6 +12960,7 @@ $L_main_10:
   setg2 x 0
 $L_main_11:
   .line 18
+;         if($pressed(UP_BUTTON   )) y += 1;
   p128
   sys   pressed
   bz    $L_main_12
@@ -12953,6 +12970,7 @@ $L_main_11:
   setg2 y 0
 $L_main_12:
   .line 19
+;         if($pressed(DOWN_BUTTON )) y -= 1;
   p16
   sys   pressed
   bz    $L_main_13
@@ -12962,8 +12980,10 @@ $L_main_12:
   setg2 y 0
 $L_main_13:
   .line 21
+;         $display();
   sys   display
   .line 14
+;         $draw_tilemap(x, y, TILES, TMAP);
   p0
   p1
   p0
@@ -12974,6 +12994,7 @@ $L_main_13:
   getg2 x 0
   sys   draw_tilemap
   .line 16
+;         if($pressed(LEFT_BUTTON )) x += 1;
   p32
   sys   pressed
   bz    $L_main_14
@@ -12983,6 +13004,7 @@ $L_main_13:
   setg2 x 0
 $L_main_14:
   .line 17
+;         if($pressed(RIGHT_BUTTON)) x -= 1;
   p64
   sys   pressed
   bz    $L_main_15
@@ -12992,6 +13014,7 @@ $L_main_14:
   setg2 x 0
 $L_main_15:
   .line 18
+;         if($pressed(UP_BUTTON   )) y += 1;
   p128
   sys   pressed
   bz    $L_main_16
@@ -13001,6 +13024,7 @@ $L_main_15:
   setg2 y 0
 $L_main_16:
   .line 19
+;         if($pressed(DOWN_BUTTON )) y -= 1;
   p16
   sys   pressed
   bz    $L_main_17
@@ -13010,7 +13034,9 @@ $L_main_16:
   setg2 y 0
 $L_main_17:
   .line 21
+;         $display();
   sys   display
   .line 12
+;     while(true)
   jmp   $L_main_1
 

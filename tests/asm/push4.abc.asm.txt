@@ -3,19 +3,23 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file push4.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 7
+;     $assert(x == 0xaabbccdd);
   p1
   sys   assert
   .line 9
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

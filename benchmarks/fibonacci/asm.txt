@@ -4,13 +4,14 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 fib:
   .file fibonacci.abc
   .line 3
+;     if(n <= 1) return n;
   p1
   dup2
   cult
@@ -22,6 +23,7 @@ fib:
   ret
 $L_fib_0:
   .line 4
+;     return fib(n - 1) + fib(n - 2);
   p00
   dup3
   dec
@@ -39,8 +41,10 @@ $L_fib_0:
 main:
   .file fibonacci.abc
   .line 11
+;     $debug_break();
   sys   debug_break
   .line 13
+;         f = fib(12);
   p00
   push  12
   call  fib
@@ -82,7 +86,9 @@ main:
   call  fib
   setg2 f 0
   .line 14
+;     $debug_break();
   sys   debug_break
   .line 9
+; void main()
   ret
 

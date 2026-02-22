@@ -4,20 +4,24 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file comp_assign_bug.abc
   .line 10
+;     $debug_break();
   sys   debug_break
   .line 12
+;     f.x = 0x42;
   push  66
   setg  f 0
   .line 13
+;     foo_t& r = f;
   pushg f 0
   .line 14
+;     r.x |= 0x01;
   dupw
   dupw
   getr
@@ -27,6 +31,7 @@ main:
   setr
   pop2
   .line 15
+;     $assert(r.x == 0x43);
   dupw
   getr
   push  67
@@ -34,8 +39,10 @@ main:
   not
   sys   assert
   .line 17
+;     $debug_break();
   sys   debug_break
   .line 8
+; void main()
   pop2
   ret
 

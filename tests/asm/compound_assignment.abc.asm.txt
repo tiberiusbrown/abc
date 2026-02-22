@@ -3,27 +3,32 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file compound_assignment.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 7
+;         x += 1;
   p3
   p0
   .line 8
+;         $assert(x == 3);
   p1
   sys   assert
   .line 9
+;         int y = (x += 3) + 1;
   p3
   add2b
   dupw
   p1
   add2b
   .line 10
+;         $assert(x == 6);
   dupw3
   p6
   sub2b
@@ -31,6 +36,7 @@ main:
   not
   sys   assert
   .line 11
+;         $assert(y == 7);
   dupw
   p7
   sub2b
@@ -39,19 +45,24 @@ main:
   sys   assert
   pop4
   .line 15
+;         int[4] x = { 1, 2, 3, 4 };
   p1
   p0
   .line 16
+;         x[1] += 1;
   p3
   dupw
   .line 15
+;         int[4] x = { 1, 2, 3, 4 };
   p0
   p4
   p0
   .line 17
+;         $assert(x[0] == 1);
   p1
   sys   assert
   .line 18
+;         $assert(x[1] == 3);
   dupw5
   p3
   sub2b
@@ -59,6 +70,7 @@ main:
   not
   sys   assert
   .line 19
+;         $assert(x[2] == 3);
   dupw3
   p3
   sub2b
@@ -66,6 +78,7 @@ main:
   not
   sys   assert
   .line 20
+;         $assert(x[3] == 4);
   dupw
   p4
   sub2b
@@ -73,6 +86,7 @@ main:
   not
   sys   assert
   .line 21
+;         int y = (x[2] += 3) + 1;
   dupw3
   p3
   add2b
@@ -81,6 +95,7 @@ main:
   p1
   add2b
   .line 22
+;         $assert(x[0] == 1);
   getl2 10
   p1
   sub2b
@@ -88,6 +103,7 @@ main:
   not
   sys   assert
   .line 23
+;         $assert(x[1] == 3);
   dupw7
   p3
   sub2b
@@ -95,6 +111,7 @@ main:
   not
   sys   assert
   .line 24
+;         $assert(x[2] == 6);
   dupw5
   p6
   sub2b
@@ -102,6 +119,7 @@ main:
   not
   sys   assert
   .line 25
+;         $assert(x[3] == 4);
   dupw3
   p4
   sub2b
@@ -109,6 +127,7 @@ main:
   not
   sys   assert
   .line 26
+;         $assert(y == 7);
   dupw
   p7
   sub2b
@@ -117,18 +136,22 @@ main:
   sys   assert
   popn  10
   .line 31
+;         x -= 1;
   p1
   p0
   .line 32
+;         $assert(x == 1);
   p1
   sys   assert
   .line 33
+;         int y = (x -= 3) + 1;
   p3
   sub2b
   dupw
   p1
   add2b
   .line 34
+;         $assert(x == -2);
   dupw3
   p2
   add2b
@@ -136,6 +159,7 @@ main:
   not
   sys   assert
   .line 35
+;         $assert(y == -1);
   dupw
   p1
   add2b
@@ -144,18 +168,22 @@ main:
   sys   assert
   pop4
   .line 40
+;         x *= 2;
   p4
   p0
   .line 41
+;         $assert(x == 4);
   p1
   sys   assert
   .line 42
+;         int y = (x *= 3) + 1;
   p3
   mul2b
   dupw
   p1
   add2b
   .line 43
+;         $assert(x == 12);
   dupw3
   push  12
   sub2b
@@ -163,6 +191,7 @@ main:
   not
   sys   assert
   .line 44
+;         $assert(y == 13);
   dupw
   push  13
   sub2b
@@ -171,10 +200,13 @@ main:
   sys   assert
   pop4
   .line 49
+;         x /= 3;
   push3 65569
   .line 50
+;         $assert(x == 33);
   sys   assert
   .line 51
+;         int y = (x /= 11) + 1;
   sext2
   push  11
   p000
@@ -184,6 +216,7 @@ main:
   p1
   add2b
   .line 52
+;         $assert(x == 3);
   dupw3
   p3
   sub2b
@@ -191,6 +224,7 @@ main:
   not
   sys   assert
   .line 53
+;         $assert(y == 4);
   dupw
   p4
   sub2b
@@ -199,10 +233,13 @@ main:
   sys   assert
   pop4
   .line 58
+;         x %= 11;
   push3 65546
   .line 59
+;         $assert(x == 10);
   sys   assert
   .line 60
+;         int y = (x %= 4) + 1;
   sext2
   p4
   p000
@@ -212,6 +249,7 @@ main:
   p1
   add2b
   .line 61
+;         $assert(x == 2);
   dupw3
   p2
   sub2b
@@ -219,6 +257,7 @@ main:
   not
   sys   assert
   .line 62
+;         $assert(y == 3);
   dupw
   p3
   sub2b
@@ -227,16 +266,20 @@ main:
   sys   assert
   pop4
   .line 67
+;         x >>= 2;
   push3 65560
   .line 68
+;         $assert(x == 24);
   sys   assert
   .line 69
+;         int y = (x >>= 1) + 1;
   p1
   asr2
   dupw
   p1
   add2b
   .line 70
+;         $assert(x == 12);
   dupw3
   push  12
   sub2b
@@ -244,6 +287,7 @@ main:
   not
   sys   assert
   .line 71
+;         $assert(y == 13);
   dupw
   push  13
   sub2b
@@ -252,16 +296,20 @@ main:
   sys   assert
   pop4
   .line 76
+;         x >>= 2;
   push3 131047
   .line 77
+;         $assert(x == -25);
   sys   assert
   .line 78
+;         int y = (x >>= 1) + 1;
   p1
   asr2
   dupw
   p1
   add2b
   .line 79
+;         $assert(x == -13);
   dupw3
   push  13
   add2b
@@ -269,6 +317,7 @@ main:
   not
   sys   assert
   .line 80
+;         $assert(y == -12);
   dupw
   push  12
   add2b
@@ -277,18 +326,22 @@ main:
   sys   assert
   pop4
   .line 85
+;         x <<= 2;
   p8
   p0
   .line 86
+;         $assert(x == 8);
   p1
   sys   assert
   .line 87
+;         int y = (x <<= 1) + 1;
   p1
   lsl2
   dupw
   p1
   add2b
   .line 88
+;         $assert(x == 16);
   dupw3
   p16
   sub2b
@@ -296,6 +349,7 @@ main:
   not
   sys   assert
   .line 89
+;         $assert(y == 17);
   dupw
   push  17
   sub2b
@@ -304,21 +358,26 @@ main:
   sys   assert
   pop4
   .line 94
+;         x &= 0xf0;
   push2 416
   .line 95
+;         $assert(x == 0xa0);
   sys   assert
   .line 96
+;         u8 y = (x &= 0x70) + 1;
   push  112
   and
   dup
   inc
   .line 97
+;         $assert(x == 0x20);
   dup2
   p32
   sub
   not
   sys   assert
   .line 98
+;         $assert(y == 0x21);
   dup
   push  33
   sub
@@ -326,21 +385,26 @@ main:
   sys   assert
   pop2
   .line 103
+;         x |= 0xf0;
   push2 498
   .line 104
+;         $assert(x == 0xf2);
   sys   assert
   .line 105
+;         u8 y = (x |= 0x16) + 1;
   push  22
   or
   dup
   inc
   .line 106
+;         $assert(x == 0xf6);
   dup2
   push  246
   sub
   not
   sys   assert
   .line 107
+;         $assert(y == 0xf7);
   dup
   push  247
   sub
@@ -348,21 +412,26 @@ main:
   sys   assert
   pop2
   .line 112
+;         x ^= 0xf0;
   push2 338
   .line 113
+;         $assert(x == 0x52);
   sys   assert
   .line 114
+;         u8 y = (x ^= 0x16) + 1;
   push  22
   xor
   dup
   inc
   .line 115
+;         $assert(x == 0x44);
   dup2
   push  68
   sub
   not
   sys   assert
   .line 116
+;         $assert(y == 0x45);
   dup
   push  69
   sub
@@ -370,7 +439,9 @@ main:
   sys   assert
   pop2
   .line 119
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

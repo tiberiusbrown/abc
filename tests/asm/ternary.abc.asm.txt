@@ -3,26 +3,32 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file ternary.abc
   .line 10
+;     $debug_break();
   sys   debug_break
   .line 12
+;     bool t = true;
   p1
   .line 13
+;     bool f = false;
   p000
   .line 15
+;     float fa = 1;
   p128
   push  63
   .line 16
+;     float fb = -3;
   p00
   p64
   push  192
   .line 17
+;     $assert((fa < fb ? fa : fb) == -3);
   p00
   getl4 8
   dupw7
@@ -38,10 +44,12 @@ $L_main_1:
   cfeq
   sys   assert
   .line 18
+;     $assert(max_float(fa, fb) == 1);
   p0000
   getl4 8
   getl4 16
   .line 6
+; float max_float(float a, float b) { return a < b ? b : a; }
   getl4 4
   getl4 12
   cflt
@@ -55,23 +63,28 @@ $L_main_26:
   setl4 12
   popn  8
   .line 18
+;     $assert(max_float(fa, fb) == 1);
   p00
   push2 16256
   cfeq
   sys   assert
   .line 21
+;         int a = t ? 42 : 56;
   getl  10
   bz    $L_main_2
   push2 42
   .line 22
+;         int b = f ? 42 : 56;
   getl  11
   bz    $L_main_4
   push  42
   jmp   $L_main_5
 $L_main_2:
   .line 21
+;         int a = t ? 42 : 56;
   push2 56
   .line 22
+;         int b = f ? 42 : 56;
   getl  11
   bz    $L_main_4
   push  42
@@ -81,6 +94,7 @@ $L_main_4:
 $L_main_5:
   sext
   .line 24
+;         $assert(a == 42);
   dupw3
   push  42
   sub2b
@@ -88,6 +102,7 @@ $L_main_5:
   not
   sys   assert
   .line 25
+;         $assert(b == 56);
   dupw
   push  56
   sub2b
@@ -95,29 +110,36 @@ $L_main_5:
   not
   sys   assert
   .line 26
+;         $assert(true  ? 42 : 56 == 42);
   p1
   sys   assert
   .line 27
+;         $assert(t     ? 42 : 56 == 42);
   getl  14
   bz    $L_main_6
   p1
   sys   assert
   .line 28
+;         $assert(false ? 42 : 56 == 56);
   p1
   sys   assert
   .line 29
+;         $assert(f     ? 42 : 56 == 56);
   getl  13
   bz    $L_main_8
   p1
   jmp   $L_main_9
 $L_main_6:
   .line 27
+;         $assert(t     ? 42 : 56 == 42);
   p0
   sys   assert
   .line 28
+;         $assert(false ? 42 : 56 == 56);
   p1
   sys   assert
   .line 29
+;         $assert(f     ? 42 : 56 == 56);
   getl  13
   bz    $L_main_8
   p1
@@ -128,12 +150,16 @@ $L_main_9:
   sys   assert
   pop4
   .line 33
+;         foo_t a = { { 41, 42, 43 } };
   push4 925575721
   .line 34
+;         foo_t b = { { 55, 56, 57 } };
   push3 80184
   .line 36
+;         $assert((true  ? a : b).x[1] == 42);
   sys   assert
   .line 37
+;         $assert((t     ? a : b).x[1] == 42);
   getl  16
   bz    $L_main_10
   refl  6
@@ -149,12 +175,14 @@ $L_main_11:
   not
   sys   assert
   .line 38
+;         $assert((false ? a : b).x[1] == 56);
   dup2
   push  56
   sub
   not
   sys   assert
   .line 39
+;         $assert((f     ? a : b).x[1] == 56);
   getl  15
   bz    $L_main_12
   refl  6
@@ -170,6 +198,7 @@ $L_main_13:
   not
   sys   assert
   .line 41
+;         foo_t c = t ? a : b;
   getl  16
   bz    $L_main_14
   getln 3 6
@@ -178,12 +207,14 @@ $L_main_14:
   getln 3 3
 $L_main_15:
   .line 42
+;         $assert(c.x[1] == 42);
   dup2
   push  42
   sub
   not
   sys   assert
   .line 43
+;         c = f ? a : b;
   getl  18
   bz    $L_main_16
   getln 3 9
@@ -193,12 +224,14 @@ $L_main_16:
 $L_main_17:
   setln 3 3
   .line 44
+;         $assert(c.x[1] == 56);
   dup2
   push  56
   sub
   not
   sys   assert
   .line 45
+;         $assert((c = f ? b : a).x[1] == 42);
   getl  18
   bz    $L_main_18
   refl  6
@@ -214,12 +247,14 @@ $L_main_19:
   not
   sys   assert
   .line 46
+;         $assert(c.x[2] == 43);
   dup
   push  43
   sub
   not
   sys   assert
   .line 48
+;         u8[3] d = t ? a.x[0:3] : b.x[0:3];
   getl  19
   bz    $L_main_20
   getln 3 9
@@ -228,24 +263,28 @@ $L_main_20:
   getln 3 6
 $L_main_21:
   .line 49
+;         $assert(d[0] == 41);
   dup3
   push  41
   sub
   not
   sys   assert
   .line 50
+;         $assert(d[1] == 42);
   dup2
   push  42
   sub
   not
   sys   assert
   .line 51
+;         $assert(d[2] == 43);
   dup
   push  43
   sub
   not
   sys   assert
   .line 52
+;         d = f ? a.x[0:3] : b.x[0:3];
   getl  21
   bz    $L_main_22
   getln 3 12
@@ -255,18 +294,21 @@ $L_main_22:
 $L_main_23:
   setln 3 3
   .line 53
+;         $assert(d[0] == 55);
   dup3
   push  55
   sub
   not
   sys   assert
   .line 54
+;         $assert(d[1] == 56);
   dup2
   push  56
   sub
   not
   sys   assert
   .line 55
+;         $assert(d[2] == 57);
   dup
   push  57
   sub
@@ -274,8 +316,10 @@ $L_main_23:
   sys   assert
   popn  12
   .line 58
+;     $debug_break();
   sys   debug_break
   .line 8
+; void main()
   popn  10
   ret
 

@@ -5,36 +5,43 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file structs2.abc
   .line 8
+;     $debug_break();
   sys   debug_break
   .line 10
+;     t = 4;
   p4
   p0
   setg2 t 0
   .line 11
+;     p[0] = { t, 2 };
   getg  t 0
   p2
   setg2 p 0
   .line 13
+;     $assert(p[0].x == 4);
   getg  p 0
   p4
   sub
   not
   sys   assert
   .line 14
+;     $assert(p[0].y == 2);
   getg  p 1
   p2
   sub
   not
   sys   assert
   .line 16
+;     $debug_break();
   sys   debug_break
   .line 6
+; void main()
   ret
 

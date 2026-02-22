@@ -3683,307 +3683,393 @@ maps:
   .rp $PD_2
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 add_object:
   .file map.abc
   .line 208
+;     ++total_objects;
   getg2 total_objects 0
   p1
   add2b
   setg2 total_objects 0
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 0
   bnz   $L_add_object_5
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 0
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_5:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 15
   bnz   $L_add_object_7
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 15
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_7:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 30
   bnz   $L_add_object_9
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 30
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_9:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 45
   bnz   $L_add_object_11
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 45
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_11:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 60
   bnz   $L_add_object_13
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 60
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_13:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 75
   bnz   $L_add_object_15
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 75
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_15:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 90
   bnz   $L_add_object_17
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 90
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_17:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 105
   bnz   $L_add_object_19
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 105
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_19:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 120
   bnz   $L_add_object_21
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 120
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_21:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 135
   bnz   $L_add_object_23
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 135
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_23:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 150
   bnz   $L_add_object_25
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 150
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_25:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 165
   bnz   $L_add_object_27
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 165
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_27:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 180
   bnz   $L_add_object_29
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 180
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_29:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 195
   bnz   $L_add_object_31
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 195
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_31:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 210
   bnz   $L_add_object_33
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 210
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_33:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 225
   bnz   $L_add_object_35
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 225
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_35:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 240
   bnz   $L_add_object_37
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 240
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_37:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 255
   bnz   $L_add_object_39
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 255
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_39:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 270
   bnz   $L_add_object_41
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 270
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_41:
   .line 211
+;         if(objects[i].type == OBJ_NONE)
   getg  objects 285
   bnz   $L_add_object_4
   .line 213
+;             objects[i] = obj;
   getln 15 15
   setgn 15 objects 285
   .line 214
+;             return;
   popn  15
   ret
 $L_add_object_4:
   .line 206
+; void add_object(map_object_t obj)
   popn  15
   ret
 
 load_map:
   .file map.abc
   .line 37
+;     player_facing_right = true;
   p1
   setg  player_facing_right 0
   .line 38
+;     keys = 0;
   p0
   setg  keys 0
   .line 39
+;     invincibility_frames = INVINCIBILITY_LEVEL_START;
   push  75
   setg  invincibility_frames 0
   .line 40
+;     jump_frames_remaining = 0;
   p0
   setg  jump_frames_remaining 0
   .line 41
+;     vx = 0;
   p0000
   setg4 vx 0
   .line 42
+;     vy = 0;
   p0000
   setg4 vy 0
   .line 43
+;     level_start_frames = LEVEL_START_FRAMES;
   push  90
   setg  level_start_frames 0
   .line 44
+;     death_frames = 0;
   p0
   setg  death_frames 0
   .line 45
+;     state = STATE_LEVEL;
   p2
   setg  state 0
   .line 46
+;     score = 0;
   p00
   setg2 score 0
   .line 47
+;     hearts = MAX_HEARTS;
   p3
   setg  hearts 0
   .line 48
+;     level_frames_remaining = TIME_LIMIT_FRAMES;
   push2 9000
   setg2 level_frames_remaining 0
   .line 49
+;     keys_required = 0;
   p0
   setg  keys_required 0
   .line 50
+;     player_on_ground = true;
   p1
   setg  player_on_ground 0
   .line 52
+;     u8[] prog& map = maps[current_map].map;
   push3 54737
   getg  current_map 0
   pidxb 17 12
   getpn 6
   .line 53
+;     u8 w = maps[current_map].w;
   push3 54743
   getg  current_map 0
   pidxb 17 12
   getp
   .line 54
+;     u8 h = maps[current_map].h;
   push3 54744
   getg  current_map 0
   pidxb 17 12
   getp
   .line 55
+;     map_width = w;
   dup2
   setg  map_width 0
   .line 56
+;     map_height = h;
   dup
   setg  map_height 0
   .line 59
+;     objects = {};
   p0
   pushg objects 0
   push2 300
   sys   memset
   .line 61
+;     total_objects = 0;
   p00
   setg2 total_objects 0
   .line 64
+;     for(u8 y = 0; y < h; ++y)
   p00
   dup3
   cult
   bz    $L_load_map_0
 $L_load_map_1:
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   p00
   dup5
   cult
   bz    $L_load_map_3
 $L_load_map_4:
   .line 68
+;             u8 t = map[y * w + x] - 1;
   getln 6 10
   dup8
   p0
@@ -3996,17 +4082,20 @@ $L_load_map_4:
   getp
   dec
   .line 69
+;             process_map_tile(x, y, t);
   dup
   dupw3
   call  process_map_tile
   pop
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   inc
   dup
   dup5
   cult
   bz    $L_load_map_3
   .line 68
+;             u8 t = map[y * w + x] - 1;
   getln 6 10
   dup8
   p00
@@ -4019,17 +4108,20 @@ $L_load_map_4:
   getp
   dec
   .line 69
+;             process_map_tile(x, y, t);
   dup
   dupw3
   call  process_map_tile
   pop
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   inc
   dup
   dup5
   cult
   bz    $L_load_map_3
   .line 68
+;             u8 t = map[y * w + x] - 1;
   getln 6 10
   dup8
   p00
@@ -4042,17 +4134,20 @@ $L_load_map_4:
   getp
   dec
   .line 69
+;             process_map_tile(x, y, t);
   dup
   dupw3
   call  process_map_tile
   pop
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   inc
   dup
   dup5
   cult
   bz    $L_load_map_3
   .line 68
+;             u8 t = map[y * w + x] - 1;
   getln 6 10
   dup8
   p00
@@ -4065,17 +4160,20 @@ $L_load_map_4:
   getp
   dec
   .line 69
+;             process_map_tile(x, y, t);
   dup
   dupw3
   call  process_map_tile
   pop
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   inc
   dup
   dup5
   cult
   bz    $L_load_map_3
   .line 68
+;             u8 t = map[y * w + x] - 1;
   getln 6 10
   dup8
   p00
@@ -4088,17 +4186,20 @@ $L_load_map_4:
   getp
   dec
   .line 69
+;             process_map_tile(x, y, t);
   dup
   dupw3
   call  process_map_tile
   pop
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   inc
   dup
   dup5
   cult
   bz    $L_load_map_3
   .line 68
+;             u8 t = map[y * w + x] - 1;
   getln 6 10
   dup8
   p00
@@ -4111,11 +4212,13 @@ $L_load_map_4:
   getp
   dec
   .line 69
+;             process_map_tile(x, y, t);
   dup
   dupw3
   call  process_map_tile
   pop
   .line 66
+;         for(u8 x = 0; x < w; ++x)
   inc
   dup
   dup5
@@ -4124,6 +4227,7 @@ $L_load_map_4:
 $L_load_map_3:
   pop
   .line 64
+;     for(u8 y = 0; y < h; ++y)
   inc
   dup
   dup3
@@ -4132,6 +4236,7 @@ $L_load_map_3:
 $L_load_map_0:
   pop
   .line 73
+;     if(w == 64 && h == 8)
   dup2
   p64
   sub
@@ -4141,92 +4246,119 @@ $L_load_map_0:
   sub
   bnz   $L_load_map_7
   .line 75
+;         process_map_tile(9, 5, TILE_MOB);
   push3 591352
   call  process_map_tile
   .line 76
+;         process_map_tile(14, 3, TILE_COIN);
   push3 918513
   call  process_map_tile
   .line 77
+;         process_map_tile(14, 6, TILE_MOB);
   push3 919288
   call  process_map_tile
   .line 78
+;         process_map_tile(19, 6, TILE_MOB);
   push3 1246968
   call  process_map_tile
   .line 79
+;         process_map_tile(26, 6, TILE_MOB);
   push3 1705720
   call  process_map_tile
   .line 80
+;         process_map_tile(26, 4, TILE_COIN);
   push3 1705201
   call  process_map_tile
   .line 81
+;         process_map_tile(28, 6, TILE_MOB);
   push3 1836792
   call  process_map_tile
   .line 82
+;         process_map_tile(18, 1, TILE_COIN);
   push3 1180145
   call  process_map_tile
   .line 83
+;         process_map_tile(30, 1, TILE_HEART);
   push3 1966582
   call  process_map_tile
   .line 84
+;         process_map_tile(21, 3, TILE_COIN);
   push3 1377265
   call  process_map_tile
   .line 85
+;         process_map_tile(36, 6, TILE_MOB_HELM);
   push3 2361082
   call  process_map_tile
   .line 86
+;         process_map_tile(44, 3, TILE_MOB);
   push3 2884600
   call  process_map_tile
   .line 87
+;         process_map_tile(52, 1, TILE_SUPERCOIN);
   push3 3408371
   call  process_map_tile
   .line 88
+;         process_map_tile(52, 6, TILE_MOB_HORN);
   push3 3409657
   call  process_map_tile
   .line 89
+;         process_map_tile(60, 2, TILE_COIN);
   push3 3932913
   call  process_map_tile
 $L_load_map_7:
   .line 92
+;     if(total_objects > MAX_OBJECTS)
   push2 20
   getg2 total_objects 0
   cult2
   bz    $L_load_map_8
   .line 94
+;         $debug_printf("Objects: %u\n", total_objects);
   getg2 total_objects 0
   p00
   push4 218150132
   p00
   sys   debug_printf
   .line 95
+;         $assert(false);
   p0
   sys   assert
 $L_load_map_8:
   .line 98
+;     $tones_play_primary(SOUND_LEVEL_START);
   push3 46238
   sys   tones_play_primary
   .line 35
+; void load_map()
   popn  8
   ret
 
 loop:
   .file benchmark.abc
   .line 22
+;     $debug_break();
   sys   debug_break
   .line 24
+;     update();
   call  update
   .line 25
+;     render();
   call  render
   .line 27
+;     $debug_break();
   sys   debug_break
   .line 17
+; void loop()
   ret
 
 main:
   .file benchmark.abc
   .line 32
+;     setup();
   call  setup
 $L_main_1:
   .line 34
+;         loop();
   call  loop
   call  loop
   call  loop
@@ -4236,62 +4368,75 @@ $L_main_1:
   call  loop
   call  loop
   .line 33
+;     while(true)
   jmp   $L_main_1
 
 mob_solid:
   .file map.abc
   .line 179
+;     if(x < 0)
   dupw
   p00
   cslt2
   bz    $L_mob_solid_0
   .line 180
+;         return true;
   popn  6
   p1
   ret
 $L_mob_solid_0:
   .line 183
+;     if(y < 0)
   dupw3
   p00
   cslt2
   bz    $L_mob_solid_1
   .line 184
+;         return false;
   popn  6
   p0
   ret
 $L_mob_solid_1:
   .line 186
+;     x >>= 4;
   p4
   asr2
   .line 187
+;     y >>= 4;
   dupw3
   p4
   asr2
   setl2 4
   .line 188
+;     u8 w = map_width;
   getg  map_width 0
   .line 191
+;     if(x >= w)
   getln 3 3
   p0
   cslt2
   bnz   $L_mob_solid_2
   .line 192
+;         return true;
   popn  7
   p1
   ret
 $L_mob_solid_2:
   .line 195
+;     if(y >= map_height)
   dupw4
   getg  map_height 0
   p0
   cslt2
   bnz   $L_mob_solid_3
   .line 196
+;         return false;
   popn  7
   p0
   ret
 $L_mob_solid_3:
   .line 197
+;     u8 t = maps[current_map].map[y * w + x];
   push3 54737
   getg  current_map 0
   pidxb 17 12
@@ -4307,8 +4452,10 @@ $L_mob_solid_3:
   upidx 1
   getp
   .line 198
+;     t -= 1;
   dec
   .line 199
+;     if(t >= 240) return false;
   dup
   push  240
   cult
@@ -4318,6 +4465,7 @@ $L_mob_solid_3:
   ret
 $L_mob_solid_4:
   .line 200
+;     if(t < 64) return true;
   dup
   p64
   cult
@@ -4327,6 +4475,7 @@ $L_mob_solid_4:
   ret
 $L_mob_solid_5:
   .line 201
+;     if(bottom && t < 96) return true;
   dup7
   bz    $L_mob_solid_7
   dup
@@ -4338,6 +4487,7 @@ $L_mob_solid_5:
   ret
 $L_mob_solid_7:
   .line 202
+;     if(t >= 176 && (t & 15) >= 8) return true;
   dup
   push  176
   cult
@@ -4353,6 +4503,7 @@ $L_mob_solid_7:
   ret
 $L_mob_solid_9:
   .line 203
+;     return false;
   popn  8
   p0
   ret
@@ -4360,6 +4511,7 @@ $L_mob_solid_9:
 process_map_tile:
   .file map.abc
   .line 105
+;     if(t < TILE_DOOR0) return;
   dup3
   push  156
   cult
@@ -4368,11 +4520,13 @@ process_map_tile:
   ret
 $L_process_map_tile_0:
   .line 107
+;     if(t == TILE_PLAYER)
   dup3
   push  240
   sub
   bnz   $L_process_map_tile_5
   .line 110
+;         px = x * 16 + PXOFF;
   dup
   p0
   p16
@@ -4384,6 +4538,7 @@ $L_process_map_tile_0:
   fadd
   setg4 px 0
   .line 111
+;         py = y * 16 + PYOFF;
   dup2
   p0
   p16
@@ -4395,6 +4550,7 @@ $L_process_map_tile_0:
   fadd
   setg4 py 0
   .line 112
+;         camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;
   getg4 px 0
   p00
   push2 17024
@@ -4404,12 +4560,14 @@ $L_process_map_tile_0:
   fadd
   setg4 camx 0
   .line 113
+;         camy = py - CAMERA_OFFSET_Y;
   getg4 py 0
   p00
   push2 16864
   fsub
   setg4 camy 0
   .line 114
+;         float xmax = map_width * 16 - 129;
   getg  map_width 0
   p0
   p16
@@ -4421,6 +4579,7 @@ $L_process_map_tile_0:
   sext
   i2f
   .line 115
+;         float ymax = map_height * 16 - 65;
   getg  map_height 0
   p0
   p16
@@ -4432,6 +4591,7 @@ $L_process_map_tile_0:
   sext
   i2f
   .line 116
+;         if(camx < 0) camx = 0;
   getg4 camx 0
   p0000
   cslt4
@@ -4440,6 +4600,7 @@ $L_process_map_tile_0:
   setg4 camx 0
 $L_process_map_tile_1:
   .line 117
+;         if(camy < 0) camy = 0;
   getg4 camy 0
   p0000
   cslt4
@@ -4448,6 +4609,7 @@ $L_process_map_tile_1:
   setg4 camy 0
 $L_process_map_tile_2:
   .line 118
+;         if(camx > xmax) camx = xmax;
   getl4 8
   getg4 camx 0
   cflt
@@ -4456,6 +4618,7 @@ $L_process_map_tile_2:
   setg4 camx 0
 $L_process_map_tile_3:
   .line 119
+;         if(camy > ymax) camy = ymax;
   getl4 4
   getg4 camy 0
   cflt
@@ -4464,18 +4627,22 @@ $L_process_map_tile_3:
   setg4 camy 0
 $L_process_map_tile_4:
   .line 120
+;         dcamx = 0;
   p0000
   setg4 dcamx 0
   popn  11
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   ret
 $L_process_map_tile_5:
   .line 122
+;     else if(t == TILE_COIN)
   dup3
   push  241
   sub
   bnz   $L_process_map_tile_6
   .line 124
+;         add_object({ OBJ_COIN, x * 16, y * 16, 3, 3, 10, 10 });
   p1
   dup2
   p0
@@ -4493,15 +4660,18 @@ $L_process_map_tile_5:
   p00
   call  add_object
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   pop3
   ret
 $L_process_map_tile_6:
   .line 126
+;     else if(t == TILE_SUPERCOIN)
   dup3
   push  243
   sub
   bnz   $L_process_map_tile_7
   .line 128
+;         add_object({ OBJ_SUPERCOIN, x * 16, y * 16, 3, 3, 10, 10 });
   p3
   dup2
   p0
@@ -4519,15 +4689,18 @@ $L_process_map_tile_6:
   p00
   call  add_object
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   pop3
   ret
 $L_process_map_tile_7:
   .line 130
+;     else if(t == TILE_KEY)
   dup3
   push  242
   sub
   bnz   $L_process_map_tile_8
   .line 132
+;         add_object({ OBJ_KEY, x * 16, y * 16, 2, 4, 12, 8 });
   p2
   dup2
   p0
@@ -4544,15 +4717,18 @@ $L_process_map_tile_7:
   p00
   call  add_object
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   pop3
   ret
 $L_process_map_tile_8:
   .line 134
+;     else if(t == TILE_HEART)
   dup3
   push  246
   sub
   bnz   $L_process_map_tile_9
   .line 136
+;         add_object({ OBJ_HEART, x * 16, y * 16, 2, 3, 12, 10 });
   p6
   dup2
   p0
@@ -4569,10 +4745,12 @@ $L_process_map_tile_8:
   p00
   call  add_object
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   pop3
   ret
 $L_process_map_tile_9:
   .line 138
+;     else if(t >= TILE_MOB && t <= TILE_MOB_HELM)
   dup3
   push  248
   cult
@@ -4582,28 +4760,35 @@ $L_process_map_tile_9:
   cult
   bnz   $L_process_map_tile_34
   .line 140
+;         u8 xo = 3;
   p3
   .line 141
+;         u8 yo = 5;
   p5
   .line 142
+;         if(t == TILE_MOB_HELM)
   dup5
   push  250
   sub
   bnz   $L_process_map_tile_11
   .line 144
+;             xo = 2;
   p2
   setl  2
   .line 145
+;             yo = 3;
   p3
   setl  1
 $L_process_map_tile_11:
   .line 147
+;         u8 w = 16 - xo * 2;
   p16
   dup3
   p2
   mul
   sub
   .line 148
+;         i16 a = x * 16 + xo - 1;
   dup4
   p0
   p16
@@ -4613,6 +4798,7 @@ $L_process_map_tile_11:
   p1
   sub2b
   .line 149
+;         i16 b = x * 16 + xo + w + 1;
   dup6
   p0
   p16
@@ -4624,6 +4810,7 @@ $L_process_map_tile_11:
   p1
   add2b
   .line 150
+;         i16 yc = y * 16 + 8;
   getl  9
   p0
   p16
@@ -4631,6 +4818,7 @@ $L_process_map_tile_11:
   p8
   add2b
   .line 151
+;         i16 yd = y * 16 + 16;
   getl  11
   p0
   p16
@@ -4638,6 +4826,7 @@ $L_process_map_tile_11:
   p16
   add2b
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4651,11 +4840,13 @@ $L_process_map_tile_11:
   bz    $L_process_map_tile_47
 $L_process_map_tile_14:
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4668,11 +4859,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4685,11 +4878,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4702,11 +4897,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4719,11 +4916,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4736,11 +4935,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4753,11 +4954,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4770,11 +4973,13 @@ $L_process_map_tile_14:
   call  mob_solid
   bz    $L_process_map_tile_47
   .line 153
+;             a -= 16;
   dupw7
   p16
   sub2b
   setl2 8
   .line 152
+;         while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
   p00
   dupw5
   getl2 12
@@ -4788,6 +4993,7 @@ $L_process_map_tile_14:
   bnz   $L_process_map_tile_14
 $L_process_map_tile_47:
   .line 154
+;         a += 18 - xo * 2;
   dupw7
   push2 18
   getl  15
@@ -4798,6 +5004,7 @@ $L_process_map_tile_47:
   add2
   setl2 8
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4811,11 +5018,13 @@ $L_process_map_tile_47:
   bz    $L_process_map_tile_48
 $L_process_map_tile_25:
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4828,11 +5037,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4845,11 +5056,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4862,11 +5075,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4879,11 +5094,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4896,11 +5113,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4913,11 +5132,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4930,11 +5151,13 @@ $L_process_map_tile_25:
   call  mob_solid
   bz    $L_process_map_tile_48
   .line 156
+;             b += 16;
   dupw5
   p16
   add2b
   setl2 6
   .line 155
+;         while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
   p00
   dupw5
   getl2 10
@@ -4948,6 +5171,7 @@ $L_process_map_tile_25:
   bnz   $L_process_map_tile_25
 $L_process_map_tile_48:
   .line 157
+;         b -= 34 - xo * 2;
   dupw5
   push2 34
   getl  15
@@ -4958,6 +5182,7 @@ $L_process_map_tile_48:
   sub2
   setl2 6
   .line 158
+;         add_object({ t - 240, x * 16, y * 16, xo, yo, w, 16 - yo, true, 0, a, b });
   getl  14
   p00
   push  240
@@ -4984,14 +5209,17 @@ $L_process_map_tile_48:
   call  add_object
   popn  14
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   ret
 $L_process_map_tile_34:
   .line 160
+;     else if(t == TILE_MOB_BAT)
   dup3
   push  251
   sub
   bnz   $L_process_map_tile_35
   .line 162
+;         u8 tt = ((x * 37 + y * 23) & 15) * 3;
   dup
   push  37
   mul
@@ -5004,6 +5232,7 @@ $L_process_map_tile_34:
   p3
   mul
   .line 163
+;         add_object({ OBJ_MOB_BAT, x * 16 + tt, y * 16, 1, 4, 14, 9, true, 0, x * 16, (x + 3) * 16 });
   push  11
   dup3
   p0
@@ -5036,14 +5265,17 @@ $L_process_map_tile_34:
   call  add_object
   pop4
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   ret
 $L_process_map_tile_35:
   .line 165
+;     else if(t == TILE_MOB_FLY)
   dup3
   push  252
   sub
   bnz   $L_process_map_tile_36
   .line 167
+;         u8 tt = ((x * 37 + y * 23) & 15) * 3;
   dup
   push  37
   mul
@@ -5056,6 +5288,7 @@ $L_process_map_tile_35:
   p3
   mul
   .line 168
+;         add_object({ OBJ_MOB_FLY, x * 16, y * 16 + tt, 2, 2, 12, 14, true, 0, y * 16, (y + 3) * 16 });
   push  12
   dup3
   p0
@@ -5088,9 +5321,11 @@ $L_process_map_tile_35:
   call  add_object
   pop4
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   ret
 $L_process_map_tile_36:
   .line 170
+;     else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
   dup3
   push  156
   cult
@@ -5100,40 +5335,48 @@ $L_process_map_tile_36:
   cult
   bnz   $L_process_map_tile_46
   .line 172
+;         keys_required = t - TILE_DOOR0;
   dup3
   push  156
   sub
   setg  keys_required 0
 $L_process_map_tile_46:
   .line 103
+; void process_map_tile(u8 x, u8 y, u8 t)
   pop3
   ret
 
 render:
   .file render.abc
   .line 13
+;     switch(state)
   getg  state 0
   .line 15
+;     case(STATE_LEVEL)                    render_level();
   dup
   p2
   sub
   bz    $L_render_1
   .line 16
+;     case(STATE_LEVEL_COMPLETE)           render_level_complete();
   dup
   p5
   sub
   bz    $L_render_2
   .line 17
+;     case(STATE_PAUSE)                    render_pause(false);
   dup
   p3
   sub
   bz    $L_render_3
   .line 18
+;     case(STATE_CONFIRM)                  render_pause(true);
   dup
   push  9
   sub
   bz    $L_render_4
   .line 19
+;     case(STATE_INTRO, STATE_SCORE_TALLY) render_intro();
   dup
   dec
   bz    $L_render_5
@@ -5142,133 +5385,167 @@ render:
   sub
   bz    $L_render_5
   .line 20
+;     case(STATE_MENU)                     render_menu();
   dup
   bz    $L_render_6
   .line 21
+;     case(STATE_VICTORY)                  render_victory();
   dup
   p7
   sub
   bz    $L_render_7
   .line 22
+;     case(STATE_LEVEL_SELECT)             render_level_select();
   dup
   p8
   sub
   bz    $L_render_8
   .line 23
+;     case(STATE_GAME_OVER)                render_game_over();
   dup
   p4
   sub
   bz    $L_render_9
   .line 24
+;     case(STATE_CREDITS)                  render_credits();
   dup
   push  10
   sub
   bz    $L_render_10
   .line 13
+;     switch(state)
   pop
   .line 11
+; void render()
   ret
 $L_render_1:
   .line 15
+;     case(STATE_LEVEL)                    render_level();
   call  render_level
   .line 13
+;     switch(state)
   pop
   .line 11
+; void render()
   ret
 $L_render_2:
   .line 380
+;     render_level();
   call  render_level
   .line 13
+;     switch(state)
   pop
   .line 11
+; void render()
   ret
 $L_render_3:
   .line 17
+;     case(STATE_PAUSE)                    render_pause(false);
   p0
   .line 50
+;     render_level();
   call  render_level
   .line 51
+;     $draw_sprite(0, 0, sprites{ "assets/pause.png" }, 0);
   p00
   push2 46672
   p0000
   dup
   sys   draw_sprite
   .line 55
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 56
+;     if(confirm)
   dup
   bz    $L_render_110
   .line 58
+;         $draw_text(68, 8, "Delete Save");
   push4 184598101
   p00
   p8
   push3 17408
   sys   draw_text_P
   .line 59
+;         $draw_text(x, y + h * 0, "No");
   push4 33603168
   p00
   push4 4915224
   sys   draw_text_P
   .line 60
+;         $draw_text(x, y + h * 1, "Yes");
   push4 50380404
   p00
   push4 4915236
   sys   draw_text_P
   .line 56
+;     if(confirm)
   jmp   $L_render_114
 $L_render_110:
   .line 64
+;         $draw_text(80, 8, "Paused");
   push4 100712055
   p00
   p8
   push3 20480
   sys   draw_text_P
   .line 65
+;         $draw_text(x, y + h * 0, "Resume");
   push4 100709911
   p00
   push4 4915224
   sys   draw_text_P
   .line 66
+;         if(sound_on)
   getg  sound_on 0
   bz    $L_render_111
   .line 67
+;             $draw_text(x, y + h * 1, "Sound: On");
   push4 151041590
   p00
   push4 4915236
   sys   draw_text_P
   .line 66
+;         if(sound_on)
   jmp   $L_render_112
 $L_render_111:
   .line 69
+;             $draw_text(x, y + h * 1, "Sound: Off");
   push4 167818815
   p00
   push4 4915236
   sys   draw_text_P
 $L_render_112:
   .line 70
+;         $draw_text(x, y + h * 2, "Main Menu");
   push4 151043709
   p00
   push4 4915248
   sys   draw_text_P
   .line 71
+;         if(single_level)
   getg  single_level 0
   bz    $L_render_113
   .line 72
+;             $draw_text(x, y + h * 3, "Restart");
   push4 117489286
   p00
   push4 4915260
   sys   draw_text_P
   .line 71
+;         if(single_level)
   jmp   $L_render_114
 $L_render_113:
   .line 74
+;             $draw_text(x, y + h * 3, "End Game");
   push4 134266509
   p00
   push4 4915260
   sys   draw_text_P
 $L_render_114:
   .line 76
+;     $draw_text(66, y + h * pause_menui, ">");
   p7
   p8
   p0
@@ -5281,102 +5558,126 @@ $L_render_114:
   push2 66
   sys   draw_text_P
   .line 77
+;     $draw_filled_rect(66, 9, 62, 2, WHITE);
   p1
   p2
   push4 1107298622
   p0
   sys   draw_filled_rect
   .line 48
+; void render_pause(bool confirm)
   pop2
   .line 11
+; void render()
   ret
 $L_render_4:
   .line 18
+;     case(STATE_CONFIRM)                  render_pause(true);
   p1
   .line 50
+;     render_level();
   call  render_level
   .line 51
+;     $draw_sprite(0, 0, sprites{ "assets/pause.png" }, 0);
   p00
   push2 46672
   p0000
   dup
   sys   draw_sprite
   .line 55
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 56
+;     if(confirm)
   dup
   bz    $L_render_117
   .line 58
+;         $draw_text(68, 8, "Delete Save");
   push4 184598101
   p00
   p8
   push3 17408
   sys   draw_text_P
   .line 59
+;         $draw_text(x, y + h * 0, "No");
   push4 33603168
   p00
   push4 4915224
   sys   draw_text_P
   .line 60
+;         $draw_text(x, y + h * 1, "Yes");
   push4 50380404
   p00
   push4 4915236
   sys   draw_text_P
   .line 56
+;     if(confirm)
   jmp   $L_render_121
 $L_render_117:
   .line 64
+;         $draw_text(80, 8, "Paused");
   push4 100712055
   p00
   p8
   push3 20480
   sys   draw_text_P
   .line 65
+;         $draw_text(x, y + h * 0, "Resume");
   push4 100709911
   p00
   push4 4915224
   sys   draw_text_P
   .line 66
+;         if(sound_on)
   getg  sound_on 0
   bz    $L_render_118
   .line 67
+;             $draw_text(x, y + h * 1, "Sound: On");
   push4 151041590
   p00
   push4 4915236
   sys   draw_text_P
   .line 66
+;         if(sound_on)
   jmp   $L_render_119
 $L_render_118:
   .line 69
+;             $draw_text(x, y + h * 1, "Sound: Off");
   push4 167818815
   p00
   push4 4915236
   sys   draw_text_P
 $L_render_119:
   .line 70
+;         $draw_text(x, y + h * 2, "Main Menu");
   push4 151043709
   p00
   push4 4915248
   sys   draw_text_P
   .line 71
+;         if(single_level)
   getg  single_level 0
   bz    $L_render_120
   .line 72
+;             $draw_text(x, y + h * 3, "Restart");
   push4 117489286
   p00
   push4 4915260
   sys   draw_text_P
   .line 71
+;         if(single_level)
   jmp   $L_render_121
 $L_render_120:
   .line 74
+;             $draw_text(x, y + h * 3, "End Game");
   push4 134266509
   p00
   push4 4915260
   sys   draw_text_P
 $L_render_121:
   .line 76
+;     $draw_text(66, y + h * pause_menui, ">");
   p7
   p8
   p0
@@ -5389,20 +5690,25 @@ $L_render_121:
   push2 66
   sys   draw_text_P
   .line 77
+;     $draw_filled_rect(66, 9, 62, 2, WHITE);
   p1
   p2
   push4 1107298622
   p0
   sys   draw_filled_rect
   .line 48
+; void render_pause(bool confirm)
   pop2
   .line 11
+; void render()
   ret
 $L_render_5:
   .line 304
+;     $set_text_font(SCORE_FONT);
   push3 40144
   sys   set_text_font
   .line 305
+;     $draw_textf(43, 27, "%06u", total_score);
   getgn 3 total_score 0
   p0
   push4 50378070
@@ -5410,24 +5716,29 @@ $L_render_5:
   push4 2818075
   sys   draw_textf
   .line 306
+;     if(level_frames_remaining != 0)
   getg2 level_frames_remaining 0
   bool2
   bz    $L_render_34
   .line 308
+;         $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 309
+;         $draw_text(25, 7, "Level Complete!");
   push4 251704665
   p00
   p7
   push3 6400
   sys   draw_text_P
   .line 310
+;         $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 311
+;         $draw_textf(41, 35, "%05u", score);
   getg2 score 0
   p00
   push4 50378088
@@ -5435,9 +5746,11 @@ $L_render_5:
   push4 2687011
   sys   draw_textf
   .line 312
+;         char[10] buf;
   pz8
   p00
   .line 315
+;             (level_frames_remaining % 50) * 2);
   getg2 level_frames_remaining 0
   p00
   push  50
@@ -5447,23 +5760,27 @@ $L_render_5:
   p000
   mul4
   .line 314
+;             level_frames_remaining / 50,
   getg2 level_frames_remaining 0
   p00
   push  50
   p000
   udiv4
   .line 313
+;         $format(buf, "%u.%02u",
   push4 117486955
   p00
   refl  24
   push2 10
   sys   format
   .line 316
+;         u8 w = $text_width(buf);
   refl  10
   push2 10
   sys   text_width
   pop
   .line 317
+;         $draw_text(87 - w, 35, buf);
   refl  11
   push4 2293770
   push2 87
@@ -5472,26 +5789,32 @@ $L_render_5:
   sys   draw_text
   popn  11
   .line 306
+;     if(level_frames_remaining != 0)
   jmp   $L_render_37
 $L_render_34:
   .line 321
+;         $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 322
+;         if(current_map >= NUM_MAPS)
   getg  current_map 0
   push  12
   cult
   bnz   $L_render_35
   .line 323
+;             $draw_text(24, 7, "Congratulations!");
   push4 268481906
   p00
   p7
   push3 6144
   sys   draw_text_P
   .line 322
+;         if(current_map >= NUM_MAPS)
   jmp   $L_render_36
 $L_render_35:
   .line 325
+;             $draw_text(37, 7, "Get Ready!");
   push4 167818626
   p00
   p7
@@ -5499,29 +5822,35 @@ $L_render_35:
   sys   draw_text_P
 $L_render_36:
   .line 327
+;         if(total_score != 0)
   getgn 3 total_score 0
   bool3
   bz    $L_render_37
   .line 329
+;             $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 331
+;             $draw_text(94, y + 5, "Total Time");
   push4 167818649
   p00
   push4 6160405
   sys   draw_text_P
   .line 332
+;             $draw_filled_rect(94, y + 6, 34, 1, WHITE);
   p1
   dup
   push4 1577063970
   p0
   sys   draw_filled_rect
   .line 333
+;             char[10] buf;
   pz8
   p00
   .line 336
+;                 (total_time % 50) * 2);
   getgn 3 total_time 0
   p0
   push  50
@@ -5531,23 +5860,27 @@ $L_render_36:
   p000
   mul4
   .line 335
+;                 total_time / 50,
   getgn 3 total_time 0
   p0
   push  50
   p000
   udiv4
   .line 334
+;             $format(buf, "%u.%02u",
   push4 117486955
   p00
   refl  24
   push2 10
   sys   format
   .line 337
+;             u8 w = $text_width(buf);
   refl  10
   push2 10
   sys   text_width
   pop
   .line 338
+;             $draw_text(111 - w / 2, y + 13, buf);
   refl  11
   push4 1900554
   push2 111
@@ -5561,6 +5894,7 @@ $L_render_36:
   popn  11
 $L_render_37:
   .line 341
+;     if(state == STATE_INTRO && level_frames_remaining != 0)
   getg  state 0
   dec
   bnz   $L_render_40
@@ -5568,37 +5902,45 @@ $L_render_37:
   bool2
   bz    $L_render_40
   .line 344
+;         $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 345
+;         if(was_best_time)
   getg  was_best_time 0
   bz    $L_render_39
   .line 347
+;             $draw_text(93, y - 3, "New Level");
   push4 151041443
   p00
   push4 6094885
   sys   draw_text_P
   .line 348
+;             $draw_text(93, y + 4, "Best Time!");
   push4 167818668
   p00
   push4 6094892
   sys   draw_text_P
   .line 349
+;             $draw_filled_rect(91, y + 6, 37, 1, WHITE);
   p1
   dup
   push4 1526738469
   p0
   sys   draw_filled_rect
   .line 350
+;             char[10] buf;
   pz8
   p00
   .line 351
+;             u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
   push2 9000
   getg2 level_frames_remaining 0
   sub2
   .line 354
+;                 (time_taken % 50) * 2);
   dupw
   p00
   push  50
@@ -5608,23 +5950,27 @@ $L_render_37:
   p000
   mul4
   .line 353
+;                 time_taken / 50,
   dupw5
   p00
   push  50
   p000
   udiv4
   .line 352
+;             $format(buf, "%u.%02u",
   push4 117486955
   p00
   refl  26
   push2 10
   sys   format
   .line 355
+;             u8 w = $text_width(buf);
   refl  12
   push2 10
   sys   text_width
   pop
   .line 356
+;             $draw_text(110 - w / 2, y + 13, buf);
   refl  13
   push4 3473418
   push2 110
@@ -5638,32 +5984,39 @@ $L_render_37:
   popn  13
 $L_render_39:
   .line 358
+;         if(was_high_score)
   getg  was_high_score 0
   bz    $L_render_40
   .line 360
+;             $draw_text(2, y - 3, "New Level");
   push4 151041443
   p00
   push4 131109
   sys   draw_text_P
   .line 361
+;             $draw_text(1, y + 4, "High Score!");
   push4 184595894
   p00
   push4 65580
   sys   draw_text_P
   .line 362
+;             $draw_filled_rect(0, y + 6, 37, 1, WHITE);
   p1
   dup
   push2 11813
   p000
   sys   draw_filled_rect
   .line 363
+;             char[10] buf;
   pz8
   p00
   .line 364
+;             u16 map_score = score + level_frames_remaining;
   getg2 score 0
   getg2 level_frames_remaining 0
   add2
   .line 365
+;             $format(buf, "%05u", map_score);
   dupw
   p00
   push4 50378088
@@ -5672,11 +6025,13 @@ $L_render_39:
   push2 10
   sys   format
   .line 366
+;             u8 w = $text_width(buf);
   refl  12
   push2 10
   sys   text_width
   pop
   .line 367
+;             $draw_text(17 - w / 2, y + 13, buf);
   refl  13
   push4 3473418
   push2 17
@@ -5690,6 +6045,7 @@ $L_render_39:
   popn  13
 $L_render_40:
   .line 370
+;     $draw_sprite(56, 37, PLAYER, 7 + ((frame_count >> 3) & 0x3));
   p7
   p0
   getg  frame_count 0
@@ -5702,11 +6058,13 @@ $L_render_40:
   push3 14336
   sys   draw_sprite
   .line 371
+;     $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 372
+;     $draw_textf(72, 49, "x%u", lives);
   getg  lives 0
   p000
   push4 67155393
@@ -5714,9 +6072,11 @@ $L_render_40:
   push4 4718641
   sys   draw_textf
   .line 373
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 374
+;     if((frame_count & 0x3f) < 0x30)
   getg  frame_count 0
   push  63
   and
@@ -5724,6 +6084,7 @@ $L_render_40:
   cult
   bz    $L_render_41
   .line 375
+;         $draw_text(44, 64, "Press A");
   push4 117487045
   p00
   p64
@@ -5731,16 +6092,20 @@ $L_render_40:
   sys   draw_text_P
 $L_render_41:
   .line 13
+;     switch(state)
   pop
   .line 11
+; void render()
   ret
 $L_render_6:
   .line 282
+;     $draw_sprite_selfmask(13, 2, TITLE, 0);
   p00
   push4 33594367
   push3 3328
   sys   draw_sprite_selfmask
   .line 283
+;     $draw_sprite(menu_spritex - 16, -2, OBJECTS, menu_sprite + (frame_count & 0x30));
   getg  menu_sprite 0
   p0
   getg  frame_count 0
@@ -5754,6 +6119,7 @@ $L_render_6:
   sub2b
   sys   draw_sprite
   .line 284
+;     $draw_filled_rect(0, 14, 128, 2, WHITE);
   p1
   p2
   p128
@@ -5761,53 +6127,65 @@ $L_render_6:
   p000
   sys   draw_filled_rect
   .line 288
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 289
+;     if(save_exists)
   getg  save_exists 0
   bz    $L_render_82
   .line 290
+;         $draw_text(x, y, "Resume Game");
   push4 184595991
   p00
   push4 2162717
   sys   draw_text_P
   .line 289
+;     if(save_exists)
   jmp   $L_render_83
 $L_render_82:
   .line 292
+;         $draw_text(x, y, "New Game");
   push4 134264354
   p00
   push4 2162717
   sys   draw_text_P
 $L_render_83:
   .line 293
+;     $draw_text(x, y + h * 1, "Level Select");
   push4 201373226
   p00
   push4 2162728
   sys   draw_text_P
   .line 294
+;     if(sound_on)
   getg  sound_on 0
   bz    $L_render_84
   .line 295
+;         $draw_text(x, y + h * 2, "Sound: On");
   push4 151041590
   p00
   push4 2162739
   sys   draw_text_P
   .line 294
+;     if(sound_on)
   jmp   $L_render_85
 $L_render_84:
   .line 297
+;         $draw_text(x, y + h * 2, "Sound: Off");
   push4 167818815
   p00
   push4 2162739
   sys   draw_text_P
 $L_render_85:
   .line 298
+;     $draw_text(x, y + h * 3, "Credits");
   push4 117487177
   p00
   push4 2162750
   sys   draw_text_P
   .line 299
+;     $draw_sprite(x - 19, y - 13 + menui * h, PLAYER, 7 + ((frame_count >> 3) & 3));
   p7
   p0
   getg  frame_count 0
@@ -5825,14 +6203,18 @@ $L_render_85:
   push2 14
   sys   draw_sprite
   .line 13
+;     switch(state)
   pop
   .line 11
+; void render()
   ret
 $L_render_7:
   .line 133
+;     for(u8 i = 0; i < 5; ++i)
   p0
 $L_render_88:
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -5843,11 +6225,13 @@ $L_render_88:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_89
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -5861,6 +6245,7 @@ $L_render_88:
 $L_render_89:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -5873,11 +6258,13 @@ $L_render_89:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_91
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -5892,6 +6279,7 @@ $L_render_89:
 $L_render_91:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -5904,11 +6292,13 @@ $L_render_91:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_93
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -5923,6 +6313,7 @@ $L_render_91:
 $L_render_93:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -5935,11 +6326,13 @@ $L_render_93:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_95
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -5953,6 +6346,7 @@ $L_render_93:
 $L_render_95:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -5965,11 +6359,13 @@ $L_render_95:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_97
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -5984,6 +6380,7 @@ $L_render_95:
 $L_render_97:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -5996,11 +6393,13 @@ $L_render_97:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_99
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6014,6 +6413,7 @@ $L_render_97:
 $L_render_99:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6026,11 +6426,13 @@ $L_render_99:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_101
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6044,6 +6446,7 @@ $L_render_99:
 $L_render_101:
   pop
   .line 136
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6056,11 +6459,13 @@ $L_render_101:
   getp
   dec
   .line 137
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_103
   .line 138
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6074,6 +6479,7 @@ $L_render_101:
 $L_render_103:
   pop
   .line 133
+;     for(u8 i = 0; i < 5; ++i)
   inc
   dup
   p5
@@ -6081,9 +6487,11 @@ $L_render_103:
   bnz   $L_render_88
   pop
   .line 141
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 142
+;     $draw_text(1, 8, "Game Complete!");
   push4 234929813
   p00
   p8
@@ -6092,9 +6500,11 @@ $L_render_103:
   p0
   sys   draw_text_P
   .line 147
+;     $set_text_font(SCORE_FONT);
   push3 40144
   sys   set_text_font
   .line 148
+;     $draw_textf(x + 6, y + 10, "%06u", total_score);
   getgn 3 total_score 0
   p0
   push4 50378070
@@ -6102,9 +6512,11 @@ $L_render_103:
   push4 1245206
   sys   draw_textf
   .line 150
+;         char[10] buf;
   pz8
   p00
   .line 151
+;         $format(buf, "%u.%02u", total_time / 50, (total_time % 50) * 2);
   getgn 3 total_time 0
   p0
   push  50
@@ -6124,11 +6536,13 @@ $L_render_103:
   push2 10
   sys   format
   .line 152
+;         u8 w = $text_width(buf);
   refl  10
   push2 10
   sys   text_width
   pop
   .line 153
+;         $draw_text(x + 27 - w / 2, y + 32, buf);
   refl  11
   push4 2883594
   push2 40
@@ -6141,23 +6555,28 @@ $L_render_103:
   sys   draw_text
   popn  11
   .line 156
+;     $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 157
+;     if(was_high_score)
   getg  was_high_score 0
   bz    $L_render_106
   .line 158
+;         $draw_text(x, y + 17, "New High Score!");
   push4 251671449
   p00
   push4 851997
   sys   draw_text_P
 $L_render_106:
   .line 159
+;     if(was_best_time)
   getg  was_best_time 0
   bz    $L_render_107
   .line 160
+;         $draw_text(x + 1, y + 40, "New Best Time!");
   push4 234894248
   p00
   push  52
@@ -6166,12 +6585,14 @@ $L_render_106:
   sys   draw_text_P
 $L_render_107:
   .line 163
+;         u8 i = (frame_count >> 3) & 7;
   getg  frame_count 0
   p3
   lsr
   p7
   and
   .line 164
+;         $draw_sprite(76, VICTORY_OFFY[i], PLAYER, VICTORY_FRAMES[i]);
   push3 48843
   dup4
   pidxb 1 8
@@ -6187,39 +6608,47 @@ $L_render_107:
   sys   draw_sprite
   pop2
   .line 11
+; void render()
   ret
 $L_render_8:
   .line 170
+;     $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 172
+;     $draw_text(10, 5, "Name");
   push4 67155420
   p00
   p5
   push3 2560
   sys   draw_text_P
   .line 173
+;     $draw_text(60, 5, "High Score");
   push4 167818678
   p00
   p5
   push3 15360
   sys   draw_text_P
   .line 174
+;     $draw_text(97, 5, "Best Time");
   push4 151041452
   p00
   p5
   push3 24832
   sys   draw_text_P
   .line 176
+;     for(u8 i = 0; i < LEVEL_SELECT_ROWS; ++i)
   p0
 $L_render_46:
   .line 178
+;         u8 j = i + levelseloff;
   dup
   getg  levelseloff 0
   add
   .line 179
+;         if(j >= NUM_MAPS) break;
   dup
   push  12
   cult
@@ -6228,19 +6657,23 @@ $L_render_46:
   jmp   $L_render_57
 $L_render_47:
   .line 180
+;         u8 y = i * 7 + 14;
   dup2
   p7
   mul
   push  14
   add
   .line 182
+;         if(i == levelseli)
   dup3
   getg  levelseli 0
   sub
   bnz   $L_render_50
   .line 184
+;             i16 x = 0;
   p00
   .line 185
+;             u8 w = $text_width(maps[j].name);
   push3 54731
   dup7
   pidxb 17 12
@@ -6248,6 +6681,7 @@ $L_render_47:
   sys   text_width_P
   pop
   .line 186
+;             if(w > 48 && frame_count >= 50)
   push  48
   dup2
   cult
@@ -6257,6 +6691,7 @@ $L_render_47:
   cult
   bnz   $L_render_49
   .line 188
+;                 x = (frame_count - 50) >> 2;
   getg  frame_count 0
   push2 12800
   sub2b
@@ -6264,6 +6699,7 @@ $L_render_47:
   asr2
   setl2 3
   .line 189
+;                 if(x > w - 48)
   dup
   push2 12288
   sub2b
@@ -6271,12 +6707,14 @@ $L_render_47:
   cslt2
   bz    $L_render_49
   .line 190
+;                     x = w - 48;
   dup
   push2 12288
   sub2b
   setl2 3
 $L_render_49:
   .line 192
+;             $draw_text(10 - x, y, maps[j].name);
   push3 54731
   dup8
   pidxb 17 12
@@ -6287,6 +6725,7 @@ $L_render_49:
   sub2
   sys   draw_text_P
   .line 193
+;             $draw_filled_rect(0, y - 5, 10, 6, BLACK);
   p0
   push2 2566
   dup7
@@ -6296,6 +6735,7 @@ $L_render_49:
   p00
   sys   draw_filled_rect
   .line 194
+;             $draw_text(0, y, "->");
   push4 33600992
   p00
   getl  10
@@ -6303,9 +6743,11 @@ $L_render_49:
   sys   draw_text_P
   pop3
   .line 182
+;         if(i == levelseli)
   jmp   $L_render_51
 $L_render_50:
   .line 198
+;             $draw_text(10, y, maps[j].name);
   push3 54731
   dup5
   pidxb 17 12
@@ -6314,6 +6756,7 @@ $L_render_50:
   push3 2560
   sys   draw_text_P
   .line 199
+;             $draw_textf(0, y, "%02u", j + 1);
   dup2
   p0
   p1
@@ -6326,6 +6769,7 @@ $L_render_50:
   sys   draw_textf
 $L_render_51:
   .line 201
+;         $draw_filled_rect(57, y - 5, 71, 6, BLACK);
   p0
   push2 18182
   dup4
@@ -6335,6 +6779,7 @@ $L_render_51:
   push2 57
   sys   draw_filled_rect
   .line 203
+;         if(map_high_scores[j] != 0)
   pushg map_high_scores 0
   dup4
   aidxb 2 12
@@ -6342,6 +6787,7 @@ $L_render_51:
   bool2
   bz    $L_render_52
   .line 204
+;             $draw_textf(67, y, "%05u", map_high_scores[j]);
   pushg map_high_scores 0
   dup4
   aidxb 2 12
@@ -6353,9 +6799,11 @@ $L_render_51:
   push3 17152
   sys   draw_textf
   .line 203
+;         if(map_high_scores[j] != 0)
   jmp   $L_render_53
 $L_render_52:
   .line 206
+;             $draw_text(75, y, "-");
   push4 16790890
   p00
   dup7
@@ -6363,6 +6811,7 @@ $L_render_52:
   sys   draw_text_P
 $L_render_53:
   .line 208
+;         if(map_best_times[j] != 0)
   pushg map_best_times 0
   dup4
   aidxb 2 12
@@ -6370,14 +6819,17 @@ $L_render_53:
   bool2
   bz    $L_render_54
   .line 210
+;             u16 t = map_best_times[j];
   pushg map_best_times 0
   dup4
   aidxb 2 12
   getr2
   .line 211
+;             char[10] buf;
   pz8
   p00
   .line 212
+;             $format(buf, "%u.%02u", t / 50, (t % 50) * 2);
   getl2 12
   p00
   push  50
@@ -6397,11 +6849,13 @@ $L_render_53:
   push2 10
   sys   format
   .line 213
+;             u8 w = $text_width(buf);
   refl  10
   push2 10
   sys   text_width
   pop
   .line 214
+;             $draw_text(124 - w, y, buf);
   refl  11
   push2 10
   getl  18
@@ -6411,9 +6865,11 @@ $L_render_53:
   sys   draw_text
   popn  13
   .line 208
+;         if(map_best_times[j] != 0)
   jmp   $L_render_55
 $L_render_54:
   .line 217
+;             $draw_text(110, y, "-");
   push4 16790890
   p00
   dup7
@@ -6422,6 +6878,7 @@ $L_render_54:
 $L_render_55:
   pop2
   .line 176
+;     for(u8 i = 0; i < LEVEL_SELECT_ROWS; ++i)
   inc
   dup
   p5
@@ -6430,24 +6887,28 @@ $L_render_55:
 $L_render_57:
   pop
   .line 223
+;         $draw_hline(0, 7, 128, WHITE);
   p1
   p128
   p7
   p000
   sys   draw_hline
   .line 224
+;         $draw_hline(0, y, 128, WHITE);
   p1
   p128
   push  44
   p000
   sys   draw_hline
   .line 225
+;         $draw_hline(0, y2, 128, WHITE);
   p1
   p128
   push  60
   p000
   sys   draw_hline
   .line 226
+;         $draw_vline(8, 0, y2, WHITE);
   p1
   push  60
   p00
@@ -6455,37 +6916,46 @@ $L_render_57:
   p0
   sys   draw_vline
   .line 227
+;         $draw_vline(58, 0, y2, WHITE);
   p1
   push  60
   p00
   push2 58
   sys   draw_vline
   .line 228
+;         $draw_vline(95, 0, y2, WHITE);
   p1
   push  60
   p00
   push2 95
   sys   draw_vline
   .line 229
+;         $draw_text(10, y + 7, "Entire Game");
   push4 184595955
   p00
   push4 655411
   sys   draw_text_P
   .line 230
+;         $draw_text(10, y + 14, "Sum of Best");
   push4 184595966
   p00
   push4 655418
   sys   draw_text_P
   .line 232
+;         bool has_sum_score = true;
   p1
   .line 233
+;         bool has_sum_time = true;
   dup
   .line 234
+;         u24 sum_score = 0;
   p0000
   .line 235
+;         u24 sum_time = 0;
   p000
 $L_render_58:
   .line 238
+;             if(map_high_scores[i] != 0)
   pushg map_high_scores 0
   dup3
   aidxb 2 12
@@ -6493,6 +6963,7 @@ $L_render_58:
   bool2
   bz    $L_render_59
   .line 239
+;                 sum_score += map_high_scores[i];
   getln 3 7
   pushg map_high_scores 0
   dup6
@@ -6502,13 +6973,16 @@ $L_render_58:
   add3
   setln 3 7
   .line 238
+;             if(map_high_scores[i] != 0)
   jmp   $L_render_60
 $L_render_59:
   .line 241
+;                 has_sum_score = false;
   p0
   setl  9
 $L_render_60:
   .line 242
+;             if(map_best_times[i] != 0)
   pushg map_best_times 0
   dup3
   aidxb 2 12
@@ -6516,6 +6990,7 @@ $L_render_60:
   bool2
   bz    $L_render_61
   .line 243
+;                 sum_time += map_best_times[i];
   getln 3 4
   pushg map_best_times 0
   dup6
@@ -6525,19 +7000,23 @@ $L_render_60:
   add3
   setln 3 4
   .line 242
+;             if(map_best_times[i] != 0)
   jmp   $L_render_62
 $L_render_61:
   .line 245
+;                 has_sum_time = false;
   p0
   setl  8
 $L_render_62:
   .line 236
+;         for(u8 i = 0; i < NUM_MAPS; ++i)
   inc
   dup
   push  12
   cult
   bz    $L_render_71
   .line 238
+;             if(map_high_scores[i] != 0)
   pushg map_high_scores 0
   dup3
   aidxb 2 12
@@ -6545,6 +7024,7 @@ $L_render_62:
   bool2
   bz    $L_render_63
   .line 239
+;                 sum_score += map_high_scores[i];
   getln 3 7
   pushg map_high_scores 0
   dup6
@@ -6554,13 +7034,16 @@ $L_render_62:
   add3
   setln 3 7
   .line 238
+;             if(map_high_scores[i] != 0)
   jmp   $L_render_64
 $L_render_63:
   .line 241
+;                 has_sum_score = false;
   p0
   setl  9
 $L_render_64:
   .line 242
+;             if(map_best_times[i] != 0)
   pushg map_best_times 0
   dup3
   aidxb 2 12
@@ -6568,6 +7051,7 @@ $L_render_64:
   bool2
   bz    $L_render_65
   .line 243
+;                 sum_time += map_best_times[i];
   getln 3 4
   pushg map_best_times 0
   dup6
@@ -6577,19 +7061,23 @@ $L_render_64:
   add3
   setln 3 4
   .line 242
+;             if(map_best_times[i] != 0)
   jmp   $L_render_66
 $L_render_65:
   .line 245
+;                 has_sum_time = false;
   p0
   setl  8
 $L_render_66:
   .line 236
+;         for(u8 i = 0; i < NUM_MAPS; ++i)
   inc
   dup
   push  12
   cult
   bz    $L_render_71
   .line 238
+;             if(map_high_scores[i] != 0)
   pushg map_high_scores 0
   dup3
   aidxb 2 12
@@ -6597,6 +7085,7 @@ $L_render_66:
   bool2
   bz    $L_render_67
   .line 239
+;                 sum_score += map_high_scores[i];
   getln 3 7
   pushg map_high_scores 0
   dup6
@@ -6606,13 +7095,16 @@ $L_render_66:
   add3
   setln 3 7
   .line 238
+;             if(map_high_scores[i] != 0)
   jmp   $L_render_68
 $L_render_67:
   .line 241
+;                 has_sum_score = false;
   p0
   setl  9
 $L_render_68:
   .line 242
+;             if(map_best_times[i] != 0)
   pushg map_best_times 0
   dup3
   aidxb 2 12
@@ -6620,6 +7112,7 @@ $L_render_68:
   bool2
   bz    $L_render_69
   .line 243
+;                 sum_time += map_best_times[i];
   getln 3 4
   pushg map_best_times 0
   dup6
@@ -6629,13 +7122,16 @@ $L_render_68:
   add3
   setln 3 4
   .line 242
+;             if(map_best_times[i] != 0)
   jmp   $L_render_70
 $L_render_69:
   .line 245
+;                 has_sum_time = false;
   p0
   setl  8
 $L_render_70:
   .line 236
+;         for(u8 i = 0; i < NUM_MAPS; ++i)
   inc
   dup
   push  12
@@ -6644,10 +7140,12 @@ $L_render_70:
 $L_render_71:
   pop
   .line 248
+;         if(high_score != 0)
   getgn 3 high_score 0
   bool3
   bz    $L_render_72
   .line 249
+;             $draw_textf(65, y + 7, "%06u", high_score);
   getgn 3 high_score 0
   p0
   push4 50378070
@@ -6655,18 +7153,22 @@ $L_render_71:
   push4 4259891
   sys   draw_textf
   .line 248
+;         if(high_score != 0)
   jmp   $L_render_73
 $L_render_72:
   .line 251
+;             $draw_text(75, y + 7, "-");
   push4 16790890
   p00
   push4 4915251
   sys   draw_text_P
 $L_render_73:
   .line 253
+;         if(has_sum_score)
   dup8
   bz    $L_render_74
   .line 254
+;             $draw_textf(65, y + 14, "%06u", sum_score);
   getln 3 6
   p0
   push4 50378070
@@ -6674,22 +7176,27 @@ $L_render_73:
   push4 4259898
   sys   draw_textf
   .line 253
+;         if(has_sum_score)
   jmp   $L_render_75
 $L_render_74:
   .line 256
+;             $draw_text(75, y + 14, "-");
   push4 16790890
   p00
   push4 4915258
   sys   draw_text_P
 $L_render_75:
   .line 258
+;         if(best_time != 0)
   getgn 3 best_time 0
   bool3
   bz    $L_render_76
   .line 260
+;             char[10] buf;
   pz8
   p00
   .line 261
+;             $format(buf, "%u.%02u", best_time / 50, (best_time % 50) * 2);
   getgn 3 best_time 0
   p0
   push  50
@@ -6709,11 +7216,13 @@ $L_render_75:
   push2 10
   sys   format
   .line 262
+;             u8 w = $text_width(buf);
   refl  10
   push2 10
   sys   text_width
   pop
   .line 263
+;             $draw_text(124 - w, y + 7, buf);
   refl  11
   push4 3342346
   push2 124
@@ -6722,21 +7231,26 @@ $L_render_75:
   sys   draw_text
   popn  11
   .line 258
+;         if(best_time != 0)
   jmp   $L_render_77
 $L_render_76:
   .line 266
+;             $draw_text(110, y + 7, "-");
   push4 16790890
   p00
   push4 7209011
   sys   draw_text_P
 $L_render_77:
   .line 268
+;         if(has_sum_time)
   dup7
   bz    $L_render_78
   .line 270
+;             char[10] buf;
   pz8
   p00
   .line 271
+;             $format(buf, "%u.%02u", sum_time / 50, (sum_time % 50) * 2);
   getln 3 13
   p0
   push  50
@@ -6756,11 +7270,13 @@ $L_render_77:
   push2 10
   sys   format
   .line 272
+;             u8 w = $text_width(buf);
   refl  10
   push2 10
   sys   text_width
   pop
   .line 273
+;             $draw_text(124 - w, y + 14, buf);
   refl  11
   push4 3801098
   push2 124
@@ -6769,21 +7285,26 @@ $L_render_77:
   sys   draw_text
   popn  20
   .line 11
+; void render()
   ret
 $L_render_78:
   .line 276
+;             $draw_text(110, y + 14, "-");
   push4 16790890
   p00
   push4 7209018
   sys   draw_text_P
   popn  9
   .line 11
+; void render()
   ret
 $L_render_9:
   .line 90
+;     for(u8 i = 0; i < 5; ++i)
   p0
 $L_render_12:
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6794,11 +7315,13 @@ $L_render_12:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_13
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6812,6 +7335,7 @@ $L_render_12:
 $L_render_13:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6824,11 +7348,13 @@ $L_render_13:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_15
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6843,6 +7369,7 @@ $L_render_13:
 $L_render_15:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6855,11 +7382,13 @@ $L_render_15:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_17
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6874,6 +7403,7 @@ $L_render_15:
 $L_render_17:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6886,11 +7416,13 @@ $L_render_17:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_19
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6904,6 +7436,7 @@ $L_render_17:
 $L_render_19:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6916,11 +7449,13 @@ $L_render_19:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_21
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6935,6 +7470,7 @@ $L_render_19:
 $L_render_21:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6947,11 +7483,13 @@ $L_render_21:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_23
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6965,6 +7503,7 @@ $L_render_21:
 $L_render_23:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -6977,11 +7516,13 @@ $L_render_23:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_25
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -6995,6 +7536,7 @@ $L_render_23:
 $L_render_25:
   pop
   .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
   dup4
   p00
@@ -7007,11 +7549,13 @@ $L_render_25:
   getp
   dec
   .line 94
+;             if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_27
   .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
   push4 3412224
   dup7
@@ -7025,6 +7569,7 @@ $L_render_25:
 $L_render_27:
   pop
   .line 90
+;     for(u8 i = 0; i < 5; ++i)
   inc
   dup
   p5
@@ -7032,9 +7577,11 @@ $L_render_27:
   bnz   $L_render_12
   pop
   .line 98
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 99
+;     $draw_text(1, 8, "Game Over...");
   push4 201373002
   p00
   p8
@@ -7043,12 +7590,14 @@ $L_render_27:
   p0
   sys   draw_text_P
   .line 102
+;         u8 i = (frame_count >> 4) & 3;
   getg  frame_count 0
   p4
   lsr
   p3
   and
   .line 103
+;         $draw_sprite(76, 8, OBJECTS, 8 + i * 16);
   p8
   p0
   dup3
@@ -7060,6 +7609,7 @@ $L_render_27:
   push3 19456
   sys   draw_sprite
   .line 104
+;         $draw_sprite(27, 15, OBJECTS, 12 + i * 16);
   push2 12
   dup3
   p0
@@ -7070,10 +7620,12 @@ $L_render_27:
   push3 6912
   sys   draw_sprite
   .line 105
+;         i = (i + 1) & 3;
   inc
   p3
   and
   .line 106
+;         $draw_sprite(13, 40, OBJECTS, 10 + i * 16);
   push2 10
   dup3
   p0
@@ -7084,10 +7636,12 @@ $L_render_27:
   push3 3328
   sys   draw_sprite
   .line 107
+;         i = (i + 1) & 3;
   inc
   p3
   and
   .line 108
+;         $draw_sprite(38, 40, OBJECTS, 9 + i * 16);
   push2 9
   dup3
   p0
@@ -7098,10 +7652,12 @@ $L_render_27:
   push3 9728
   sys   draw_sprite
   .line 109
+;         i = (i + 1) & 3;
   inc
   p3
   and
   .line 110
+;         $draw_sprite(74, 40, OBJECTS, 9 + i * 16);
   push2 9
   dup3
   p0
@@ -7112,6 +7668,7 @@ $L_render_27:
   push3 18944
   sys   draw_sprite
   .line 111
+;         $draw_sprite(58, 21, OBJECTS, 11 + i * 16);
   push2 11
   dup3
   p0
@@ -7122,6 +7679,7 @@ $L_render_27:
   push3 14848
   sys   draw_sprite
   .line 112
+;         $draw_sprite(56, 39, OBJECTS, 64);
   p64
   p0
   push4 654341142
@@ -7129,18 +7687,22 @@ $L_render_27:
   sys   draw_sprite
   pop2
   .line 11
+; void render()
   ret
 $L_render_10:
   .line 30
+;     i16 y = 61 - creditsy;
   push2 61
   getg  creditsy 0
   sub2b
   .line 32
+;     $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 33
+;     $draw_text(41, y + 18, "Programming");
   p1
   push3 721077
   p00
@@ -7150,6 +7712,7 @@ $L_render_10:
   push2 41
   sys   draw_text_P
   .line 34
+;     $draw_text(37, y + 45, "Tiles and Sprites");
   push4 285259020
   p00
   dupw7
@@ -7158,6 +7721,7 @@ $L_render_10:
   push2 37
   sys   draw_text_P
   .line 35
+;     $draw_text(54, y + 72, "Levels");
   push4 100709661
   p00
   dupw7
@@ -7166,9 +7730,11 @@ $L_render_10:
   push2 54
   sys   draw_text_P
   .line 37
+;     $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 38
+;     $draw_text(32, y + 28, "Peter Brown");
   push4 184595747
   p00
   dupw7
@@ -7178,6 +7744,7 @@ $L_render_10:
   p0
   sys   draw_text_P
   .line 39
+;     $draw_text(41, y + 55, "Kenney.nl");
   push4 151041335
   p00
   dupw7
@@ -7186,6 +7753,7 @@ $L_render_10:
   push2 41
   sys   draw_text_P
   .line 40
+;     $draw_text(34, y + 82, "Luke Brown");
   p64
   push3 655541
   p00
@@ -7195,6 +7763,7 @@ $L_render_10:
   push2 34
   sys   draw_text_P
   .line 41
+;     $draw_text(32, y + 93, "Peter Brown");
   push4 184595747
   p00
   dupw7
@@ -7204,16 +7773,19 @@ $L_render_10:
   p0
   sys   draw_text_P
   .line 43
+;     $draw_filled_rect(0, 0, 128, 17, BLACK);
   p0
   push2 32785
   p0000
   sys   draw_filled_rect
   .line 44
+;     $draw_sprite(13, 2, TITLE, 0);
   p00
   push4 33594367
   push3 3328
   sys   draw_sprite
   .line 45
+;     $draw_filled_rect(0, 14, 128, 2, WHITE);
   p1
   p2
   p128
@@ -7221,23 +7793,28 @@ $L_render_10:
   p000
   sys   draw_filled_rect
   .line 28
+; void render_credits()
   pop3
   .line 11
+; void render()
   ret
 
 render_level:
   .file render.abc
   .line 386
+;     int icamx = int($round(camx));
   getg4 camx 0
   sys   round
   f2i
   pop2
   .line 387
+;     int icamy = int($round(camy));
   getg4 camy 0
   sys   round
   f2i
   pop2
   .line 391
+;         i8 cx = icamx / 16;
   dupw3
   sext2
   p16
@@ -7245,6 +7822,7 @@ render_level:
   div4
   pop3
   .line 392
+;         i8 cy = icamy / 16;
   dupw2
   sext2
   p16
@@ -7252,6 +7830,7 @@ render_level:
   div4
   pop3
   .line 393
+;         i8 xoff = -(icamx & 15);
   p00
   dupw7
   push2 15
@@ -7259,6 +7838,7 @@ render_level:
   sub2
   pop
   .line 394
+;         i8 yoff = -(icamy & 15);
   p00
   dupw6
   push2 15
@@ -7266,18 +7846,22 @@ render_level:
   sub2
   pop
   .line 395
+;         u8[] prog& m = maps[current_map].map;
   push3 54737
   getg  current_map 0
   pidxb 17 12
   getpn 6
   .line 396
+;         u8 w = map_width;
   getg  map_width 0
   .line 400
+;             sprites background = maps[current_map].background;
   push3 54745
   getg  current_map 0
   pidxb 17 12
   getpn 3
   .line 402
+;             i16 tx = -((icamx >> SHIFT) & 255);
   p00
   getl2 20
   p2
@@ -7286,6 +7870,7 @@ render_level:
   and2
   sub2
   .line 403
+;             u16 h = map_height * 16 - (icamy + 64);
   getg  map_height 0
   p0
   p16
@@ -7295,12 +7880,14 @@ render_level:
   add2b
   sub2
   .line 404
+;             i16 ty = ((h >> SHIFT) & 63);
   dupw
   p2
   lsr2
   push2 63
   and2
   .line 405
+;             $draw_sprite(tx      , ty - 64, background, 0);
   p00
   getln 3 11
   dupw6
@@ -7309,6 +7896,7 @@ render_level:
   getl2 13
   sys   draw_sprite
   .line 406
+;             $draw_sprite(tx + 128, ty - 64, background, 1);
   p1
   p0
   getln 3 11
@@ -7320,26 +7908,31 @@ render_level:
   add2b
   sys   draw_sprite
   .line 407
+;             if(h >= 64 * (1 << SHIFT))
   dupw3
   p0
   p1
   cult2
   bnz   $L_render_level_2
   .line 409
+;                 if(tx >= -128)
   dupw5
   push2 65408
   cslt2
   bnz   $L_render_level_0
   .line 410
+;                     $draw_sprite(tx      , ty, background, 0);
   p00
   getln 3 11
   dupw6
   getl2 13
   sys   draw_sprite
   .line 409
+;                 if(tx >= -128)
   jmp   $L_render_level_1
 $L_render_level_0:
   .line 412
+;                     $draw_sprite(tx + 256, ty, background, 0);
   p00
   getln 3 11
   dupw6
@@ -7350,6 +7943,7 @@ $L_render_level_0:
   sys   draw_sprite
 $L_render_level_1:
   .line 413
+;                 $draw_sprite(tx + 128, ty, background, 1);
   p1
   p0
   getln 3 11
@@ -7359,14 +7953,17 @@ $L_render_level_1:
   add2b
   sys   draw_sprite
   .line 407
+;             if(h >= 64 * (1 << SHIFT))
   jmp   $L_render_level_5
 $L_render_level_2:
   .line 417
+;                 if(tx >= -128)
   dupw5
   push2 65408
   cslt2
   bnz   $L_render_level_3
   .line 418
+;                     $draw_sprite(tx      , ty, background, 2);
   p2
   p0
   getln 3 11
@@ -7374,9 +7971,11 @@ $L_render_level_2:
   getl2 13
   sys   draw_sprite
   .line 417
+;                 if(tx >= -128)
   jmp   $L_render_level_4
 $L_render_level_3:
   .line 420
+;                     $draw_sprite(tx + 256, ty, background, 2);
   p2
   p0
   getln 3 11
@@ -7388,6 +7987,7 @@ $L_render_level_3:
   sys   draw_sprite
 $L_render_level_4:
   .line 421
+;                 $draw_sprite(tx + 128, ty, background, 3);
   p3
   p0
   getln 3 11
@@ -7399,9 +7999,11 @@ $L_render_level_4:
 $L_render_level_5:
   popn  9
   .line 425
+;         for(u8 i = 0; i < 5; ++i)
   p0
 $L_render_level_7:
   .line 427
+;             u16 index = (i + cy) * w + cx;
   dup
   p0
   getl  13
@@ -7413,6 +8015,7 @@ $L_render_level_7:
   sext
   add2
   .line 428
+;             u8[9] row = m[index +: 9];
   getln 6 10
   dupw7
   p0
@@ -7423,19 +8026,23 @@ $L_render_level_7:
   pop3
   getpn 9
   .line 431
+;                 u8 t = row[j] - 1;
   getl  9
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_17
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_16
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7444,6 +8051,7 @@ $L_render_level_7:
   add
 $L_render_level_16:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7458,19 +8066,23 @@ $L_render_level_16:
 $L_render_level_17:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup8
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_20
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_19
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7479,6 +8091,7 @@ $L_render_level_17:
   add
 $L_render_level_19:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7495,19 +8108,23 @@ $L_render_level_19:
 $L_render_level_20:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup7
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_23
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_22
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7516,6 +8133,7 @@ $L_render_level_20:
   add
 $L_render_level_22:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7532,19 +8150,23 @@ $L_render_level_22:
 $L_render_level_23:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup6
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_26
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_25
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7553,6 +8175,7 @@ $L_render_level_23:
   add
 $L_render_level_25:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7569,19 +8192,23 @@ $L_render_level_25:
 $L_render_level_26:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup5
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_29
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_28
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7590,6 +8217,7 @@ $L_render_level_26:
   add
 $L_render_level_28:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7606,19 +8234,23 @@ $L_render_level_28:
 $L_render_level_29:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup4
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_32
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_31
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7627,6 +8259,7 @@ $L_render_level_29:
   add
 $L_render_level_31:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7643,19 +8276,23 @@ $L_render_level_31:
 $L_render_level_32:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup3
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_35
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_34
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7664,6 +8301,7 @@ $L_render_level_32:
   add
 $L_render_level_34:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7680,19 +8318,23 @@ $L_render_level_34:
 $L_render_level_35:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup2
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_38
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_37
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7701,6 +8343,7 @@ $L_render_level_35:
   add
 $L_render_level_37:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7717,19 +8360,23 @@ $L_render_level_37:
 $L_render_level_38:
   pop
   .line 431
+;                 u8 t = row[j] - 1;
   dup
   dec
   .line 432
+;                 if(t < 240)
   dup
   push  240
   cult
   bz    $L_render_level_41
   .line 434
+;                     if(t >= 176)
   dup
   push  176
   cult
   bnz   $L_render_level_40
   .line 435
+;                         t += ((frame_count << 2) & 0x30);
   getg  frame_count 0
   p4
   mul
@@ -7738,6 +8385,7 @@ $L_render_level_38:
   add
 $L_render_level_40:
   .line 436
+;                     $draw_sprite(i8(j * 16 + xoff), i8(i * 16 + yoff), TILES, t);
   dup
   push4 3412224
   getl  18
@@ -7754,6 +8402,7 @@ $L_render_level_40:
 $L_render_level_41:
   popn  12
   .line 425
+;         for(u8 i = 0; i < 5; ++i)
   inc
   dup
   p5
@@ -7761,24 +8410,31 @@ $L_render_level_41:
   bnz   $L_render_level_7
   popn  12
   .line 444
+;         for(u8 i = 0; i < MAX_OBJECTS; ++i)
   p0
 $L_render_level_43:
   .line 446
+;             map_object_t& obj = objects[i];
   pushg objects 0
   dup3
   aidxb 15 20
   .line 447
+;             u8 t = obj.type;
   dupw
   getr
   .line 448
+;             if(t == OBJ_NONE)
   bnzp  $L_render_level_45
   .line 449
+;                 continue;
   pop2
   jmp   $L_render_level_44
 $L_render_level_45:
   .line 451
+;             u8 index;
   p0
   .line 452
+;             if(t >= OBJ_MOB && obj.death_frames != 0)
   dup2
   p8
   cult
@@ -7789,6 +8445,7 @@ $L_render_level_45:
   getr
   bz    $L_render_level_49
   .line 454
+;                 if(obj.death_frames & 0x4)
   dupw3
   push  10
   add2b
@@ -7797,24 +8454,30 @@ $L_render_level_45:
   and
   bz    $L_render_level_47
   .line 455
+;                     continue;
   pop4
   jmp   $L_render_level_44
 $L_render_level_47:
   .line 457
+;                     index = t + 64;
   dup2
   p64
   add
   setl  1
   .line 452
+;             if(t >= OBJ_MOB && obj.death_frames != 0)
   jmp   $L_render_level_51
 $L_render_level_49:
   .line 461
+;                 index = t;
   dup2
   setl  1
   .line 462
+;                 if(death_frames == 0)
   getg  death_frames 0
   bnz   $L_render_level_51
   .line 463
+;                     index += ((frame_count + i * 173) & 0x30);
   dup
   getg  frame_count 0
   dup7
@@ -7827,9 +8490,11 @@ $L_render_level_49:
   setl  1
 $L_render_level_51:
   .line 468
+;                 index);
   dup
   push4 7607808
   .line 467
+;                 obj.x - icamx, obj.y - icamy, OBJECTS,
   dupw8
   p3
   add2b
@@ -7843,31 +8508,39 @@ $L_render_level_51:
   getl2 18
   sub2
   .line 466
+;             $draw_sprite(
   sys   draw_sprite
   pop4
 $L_render_level_44:
   .line 444
+;         for(u8 i = 0; i < MAX_OBJECTS; ++i)
   inc
   dup
   push  20
   cult
   bz    $L_render_level_42
   .line 446
+;             map_object_t& obj = objects[i];
   pushg objects 0
   dup3
   aidxb 15 20
   .line 447
+;             u8 t = obj.type;
   dupw
   getr
   .line 448
+;             if(t == OBJ_NONE)
   bnzp  $L_render_level_52
   .line 449
+;                 continue;
   pop2
   jmp   $L_render_level_44
 $L_render_level_52:
   .line 451
+;             u8 index;
   p0
   .line 452
+;             if(t >= OBJ_MOB && obj.death_frames != 0)
   dup2
   p8
   cult
@@ -7878,6 +8551,7 @@ $L_render_level_52:
   getr
   bz    $L_render_level_56
   .line 454
+;                 if(obj.death_frames & 0x4)
   dupw3
   push  10
   add2b
@@ -7886,24 +8560,30 @@ $L_render_level_52:
   and
   bz    $L_render_level_54
   .line 455
+;                     continue;
   pop4
   jmp   $L_render_level_44
 $L_render_level_54:
   .line 457
+;                     index = t + 64;
   dup2
   p64
   add
   setl  1
   .line 452
+;             if(t >= OBJ_MOB && obj.death_frames != 0)
   jmp   $L_render_level_58
 $L_render_level_56:
   .line 461
+;                 index = t;
   dup2
   setl  1
   .line 462
+;                 if(death_frames == 0)
   getg  death_frames 0
   bnz   $L_render_level_58
   .line 463
+;                     index += ((frame_count + i * 173) & 0x30);
   dup
   getg  frame_count 0
   dup7
@@ -7916,9 +8596,11 @@ $L_render_level_56:
   setl  1
 $L_render_level_58:
   .line 468
+;                 index);
   dup
   push4 7607808
   .line 467
+;                 obj.x - icamx, obj.y - icamy, OBJECTS,
   dupw8
   p3
   add2b
@@ -7932,9 +8614,11 @@ $L_render_level_58:
   getl2 18
   sub2
   .line 466
+;             $draw_sprite(
   sys   draw_sprite
   pop4
   .line 444
+;         for(u8 i = 0; i < MAX_OBJECTS; ++i)
   inc
   dup
   push  20
@@ -7943,6 +8627,7 @@ $L_render_level_58:
 $L_render_level_42:
   pop
   .line 473
+;     if(invincibility_frames == 0 || (frame_count & 0x04) == 0)
   getg  invincibility_frames 0
   bz    $L_render_level_79
   getg  frame_count 0
@@ -7951,21 +8636,27 @@ $L_render_level_42:
   bnz   $L_render_level_65
 $L_render_level_79:
   .line 475
+;         u8 index = 0;
   p0
   .line 476
+;         if(player_facing_right)
   getg  player_facing_right 0
   bz    $L_render_level_60
   .line 477
+;             index += 7;
   p7
   add
 $L_render_level_60:
   .line 478
+;         if(player_on_ground)
   getg  player_on_ground 0
   bz    $L_render_level_62
   .line 480
+;             if(player_moving)
   getg  player_moving 0
   bz    $L_render_level_61
   .line 481
+;                 index += ((frame_count >> 3) & 3);
   getg  frame_count 0
   p3
   lsr
@@ -7974,23 +8665,29 @@ $L_render_level_60:
   add
 $L_render_level_61:
   .line 478
+;         if(player_on_ground)
   jmp   $L_render_level_63
 $L_render_level_62:
   .line 485
+;             index += 4;
   p4
   add
 $L_render_level_63:
   .line 487
+;         if(death_frames != 0)
   getg  death_frames 0
   bz    $L_render_level_64
   .line 488
+;             index = 5;
   p5
   setl  1
 $L_render_level_64:
   .line 493
+;             PLAYER, index);
   dup
   push4 8919808
   .line 492
+;             i16($round(py)) - icamy - i16(PYOFF),
   getg4 py 0
   sys   round
   f2i
@@ -8000,6 +8697,7 @@ $L_render_level_64:
   push  10
   sub2b
   .line 491
+;             i16($round(px) - camx) - i16(PXOFF),
   getg4 px 0
   sys   round
   getg4 camx 0
@@ -8009,10 +8707,12 @@ $L_render_level_64:
   p8
   sub2b
   .line 490
+;         $draw_sprite(
   sys   draw_sprite
   pop
 $L_render_level_65:
   .line 498
+;         $draw_sprite(119 - i * 9, 0, IMG_HEART, i < hearts);
   p0
   getg  hearts 0
   cult
@@ -8038,12 +8738,14 @@ $L_render_level_65:
   push2 101
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   p00
   getg  keys_required 0
   cult
   bz    $L_render_level_73
 $L_render_level_74:
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8057,12 +8759,14 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_73
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8076,12 +8780,14 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_73
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8095,12 +8801,14 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_73
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8114,12 +8822,14 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_73
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8133,12 +8843,14 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_73
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8152,12 +8864,14 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
   cult
   bz    $L_render_level_73
   .line 500
+;         $draw_sprite(119 - i * 9, 8, IMG_KEY, i >= keys);
   dup
   getg  keys 0
   cult
@@ -8171,6 +8885,7 @@ $L_render_level_74:
   sub2
   sys   draw_sprite
   .line 499
+;     for(u8 i = 0; i < keys_required; ++i)
   inc
   dup
   getg  keys_required 0
@@ -8179,12 +8894,14 @@ $L_render_level_74:
 $L_render_level_73:
   pop
   .line 501
+;     $draw_filled_rect(0, 0, 20, 6, BLACK);
   p0
   p6
   push  20
   p0000
   sys   draw_filled_rect
   .line 502
+;     $draw_filled_rect(57, 0, 13, 6, BLACK);
   p0
   p6
   push  13
@@ -8192,11 +8909,13 @@ $L_render_level_73:
   push2 57
   sys   draw_filled_rect
   .line 503
+;     $set_text_font(FONT_BR5D);
   p0
   p1
   p0
   sys   set_text_font
   .line 504
+;     $draw_textf(0, 5, "%05u", score);
   getg2 score 0
   p00
   push4 50378088
@@ -8205,6 +8924,7 @@ $L_render_level_73:
   p000
   sys   draw_textf
   .line 505
+;     $draw_textf(58, 5, "%03u", u16(level_frames_remaining + 49) / 50);
   getg2 level_frames_remaining 0
   push2 12544
   add3b
@@ -8219,21 +8939,26 @@ $L_render_level_73:
   push3 14848
   sys   draw_textf
   .line 508
+;     if(level_start_frames != 0)
   getg  level_start_frames 0
   bz    $L_render_level_78
   .line 510
+;         $set_text_font(MAIN_FONT);
   push3 2395
   sys   set_text_font
   .line 511
+;         char[] prog& name = maps[current_map].name;
   push3 54731
   getg  current_map 0
   pidxb 17 12
   getpn 6
   .line 512
+;         u8 w = $text_width(name);
   getln 6 6
   sys   text_width_P
   pop
   .line 515
+;         i16 x = 64 - w / 2;
   p64
   p0
   dup3
@@ -8243,13 +8968,16 @@ $L_render_level_73:
   pop2
   sub2
   .line 516
+;         i16 xo = 0;
   p00
   .line 519
+;         if(level_start_frames >= END_FRAME)
   getg  level_start_frames 0
   push  78
   cult
   bnz   $L_render_level_76
   .line 520
+;             xo += (level_start_frames - END_FRAME) * 10;
   getg  level_start_frames 0
   push2 19968
   sub2b
@@ -8258,11 +8986,13 @@ $L_render_level_73:
   add2
 $L_render_level_76:
   .line 521
+;         if(level_start_frames <= TRANSITION_FRAMES)
   push  12
   getg  level_start_frames 0
   cult
   bnz   $L_render_level_77
   .line 522
+;             xo -= (TRANSITION_FRAMES - level_start_frames) * 10;
   push2 12
   getg  level_start_frames 0
   sub2b
@@ -8271,11 +9001,13 @@ $L_render_level_76:
   sub2
 $L_render_level_77:
   .line 523
+;         $draw_filled_rect(xo, y - 1, 128, h, BLACK);
   p0
   push4 1540109
   dupw6
   sys   draw_filled_rect
   .line 524
+;         $draw_text(x + xo, y + 8, name);
   getln 6 11
   p32
   p0
@@ -8285,22 +9017,26 @@ $L_render_level_77:
   popn  11
 $L_render_level_78:
   .line 383
+; void render_level()
   pop4
   ret
 
 resolve_player_collision:
   .file update.abc
   .line 507
+;     u8[] prog& mapdata = maps[current_map].map;
   push3 54737
   getg  current_map 0
   pidxb 17 12
   getpn 6
   .line 510
+;     if(vx < 0 && (
   getg4 vx 0
   p0000
   cslt4
   bz    $L_resolve_player_collision_3
   .line 511
+;         solid(mapdata, px - PHEH, py - (PHEV - 1), false) ||
   p00
   getg4 py 0
   p00
@@ -8314,6 +9050,7 @@ resolve_player_collision:
   call  solid
   bnz   $L_resolve_player_collision_18
   .line 512
+;         solid(mapdata, px - PHEH, py + (PHEV - 1), false) ))
   p00
   getg4 py 0
   p00
@@ -8326,9 +9063,11 @@ resolve_player_collision:
   getln 6 16
   call  solid
   .line 510
+;     if(vx < 0 && (
   bz    $L_resolve_player_collision_3
 $L_resolve_player_collision_18:
   .line 514
+;         float t = 16 - $mod(px - (PHEH - 0.1 - 16), 16);
   p00
   p128
   push  65
@@ -8340,6 +9079,7 @@ $L_resolve_player_collision_18:
   sys   mod
   fsub
   .line 515
+;         if(t <= PLAYER_MAX_VEL_X)
   p00
   p128
   p64
@@ -8347,6 +9087,7 @@ $L_resolve_player_collision_18:
   cflt
   bnz   $L_resolve_player_collision_2
   .line 516
+;             px += t;
   getg4 px 0
   getl4 8
   fadd
@@ -8354,14 +9095,17 @@ $L_resolve_player_collision_18:
 $L_resolve_player_collision_2:
   pop4
   .line 510
+;     if(vx < 0 && (
   jmp   $L_resolve_player_collision_8
 $L_resolve_player_collision_3:
   .line 520
+;     else if(vx > 0 && (
   p0000
   getg4 vx 0
   cslt4
   bz    $L_resolve_player_collision_8
   .line 521
+;         solid(mapdata, px + PHEH, py - (PHEV - 1), false) ||
   p00
   getg4 py 0
   p00
@@ -8375,6 +9119,7 @@ $L_resolve_player_collision_3:
   call  solid
   bnz   $L_resolve_player_collision_19
   .line 522
+;         solid(mapdata, px + PHEH, py + (PHEV - 1), false) ))
   p00
   getg4 py 0
   p00
@@ -8387,9 +9132,11 @@ $L_resolve_player_collision_3:
   getln 6 16
   call  solid
   .line 520
+;     else if(vx > 0 && (
   bz    $L_resolve_player_collision_8
 $L_resolve_player_collision_19:
   .line 524
+;         float t = $mod(px + (PHEH - 0.1), 16);
   p00
   push2 16768
   getg4 px 0
@@ -8397,6 +9144,7 @@ $L_resolve_player_collision_19:
   fadd
   sys   mod
   .line 525
+;         if(t <= PLAYER_MAX_VEL_X)
   p00
   p128
   p64
@@ -8404,6 +9152,7 @@ $L_resolve_player_collision_19:
   cflt
   bnz   $L_resolve_player_collision_6
   .line 526
+;             px -= t;
   getg4 px 0
   getl4 8
   fsub
@@ -8412,11 +9161,13 @@ $L_resolve_player_collision_6:
   pop4
 $L_resolve_player_collision_8:
   .line 530
+;     if(vy < 0 && (
   getg4 vy 0
   p0000
   cslt4
   bz    $L_resolve_player_collision_12
   .line 531
+;         solid(mapdata, px - (PHEH - 1), py - PHEV, false) ||
   p00
   getg4 py 0
   p00
@@ -8430,6 +9181,7 @@ $L_resolve_player_collision_8:
   call  solid
   bnz   $L_resolve_player_collision_20
   .line 532
+;         solid(mapdata, px + (PHEH - 1), py - PHEV, false) ))
   p00
   getg4 py 0
   p00
@@ -8442,9 +9194,11 @@ $L_resolve_player_collision_8:
   getln 6 16
   call  solid
   .line 530
+;     if(vy < 0 && (
   bz    $L_resolve_player_collision_12
 $L_resolve_player_collision_20:
   .line 534
+;         float t = 16 - $mod(py - (PHEV - 0.1 - 16), 16);
   p00
   p128
   push  65
@@ -8456,18 +9210,22 @@ $L_resolve_player_collision_20:
   sys   mod
   fsub
   .line 535
+;         if(t <= PLAYER_MAX_VEL_Y)
   p00
   push2 16576
   getl4 8
   cflt
   bnz   $L_resolve_player_collision_11
   .line 537
+;             vy = 0;
   p0000
   setg4 vy 0
   .line 538
+;             jump_frames_remaining = 0;
   p0
   setg  jump_frames_remaining 0
   .line 539
+;             py += t;
   getg4 py 0
   getl4 8
   fadd
@@ -8475,14 +9233,17 @@ $L_resolve_player_collision_20:
 $L_resolve_player_collision_11:
   popn  10
   .line 505
+; void resolve_player_collision()
   ret
 $L_resolve_player_collision_12:
   .line 544
+;     else if(vy > 0 && (
   p0000
   getg4 vy 0
   cslt4
   bz    $L_resolve_player_collision_17
   .line 545
+;         solid(mapdata, px - (PHEH - 1), py + PHEV, true) ||
   p0
   p1
   getg4 py 0
@@ -8497,6 +9258,7 @@ $L_resolve_player_collision_12:
   call  solid
   bnz   $L_resolve_player_collision_21
   .line 546
+;         solid(mapdata, px + (PHEH - 1), py + PHEV, true) ))
   p0
   p1
   getg4 py 0
@@ -8510,9 +9272,11 @@ $L_resolve_player_collision_12:
   getln 6 16
   call  solid
   .line 544
+;     else if(vy > 0 && (
   bz    $L_resolve_player_collision_17
 $L_resolve_player_collision_21:
   .line 548
+;         float t = $mod(py + (PHEV - 0.1), 16);
   p00
   push2 16768
   getg4 py 0
@@ -8520,105 +9284,127 @@ $L_resolve_player_collision_21:
   fadd
   sys   mod
   .line 549
+;         if(t <= PLAYER_MAX_VEL_Y)
   p00
   push2 16576
   getl4 8
   cflt
   bnz   $L_resolve_player_collision_15
   .line 551
+;             vy = 0;
   p0000
   setg4 vy 0
   .line 552
+;             py -= t;
   getg4 py 0
   getl4 8
   fsub
   setg4 py 0
   .line 555
+;             player_on_ground = PLAYER_ON_GROUND_FRAMES;
   p5
   setg  player_on_ground 0
 $L_resolve_player_collision_15:
   pop4
 $L_resolve_player_collision_17:
   .line 505
+; void resolve_player_collision()
   popn  6
   ret
 
 setup:
   .file benchmark.abc
   .line 12
+;     $set_frame_rate(50);
   push  50
   sys   set_frame_rate
   .line 13
+;     current_map = 0;
   p0
   setg  current_map 0
   .line 14
+;     load_map();
   jmp   load_map
 
 solid:
   .file update.abc
   .line 731
+;     int ix = $floor(x);
   getl4 10
   sys   floor
   f2i
   pop2
   .line 732
+;     int iy = $floor(y);
   getl4 16
   sys   floor
   f2i
   pop2
   .line 735
+;     if(ix < 0)
   dupw3
   p00
   cslt2
   bz    $L_solid_0
   .line 736
+;         return true;
   popn  20
   p1
   ret
 $L_solid_0:
   .line 739
+;     if(iy < 0)
   dupw
   p00
   cslt2
   bz    $L_solid_1
   .line 740
+;         return false;
   popn  20
   p0
   ret
 $L_solid_1:
   .line 742
+;     ix >>= 4;
   dupw3
   p4
   asr2
   setl2 4
   .line 743
+;     iy >>= 4;
   p4
   asr2
   .line 744
+;     u8 w = map_width;
   getg  map_width 0
   .line 747
+;     if(ix >= w)
   dupw4
   dup3
   p0
   cslt2
   bnz   $L_solid_2
   .line 748
+;         return true;
   popn  21
   p1
   ret
 $L_solid_2:
   .line 751
+;     if(iy >= map_height)
   dupw2
   getg  map_height 0
   p0
   cslt2
   bnz   $L_solid_3
   .line 752
+;         return false;
   popn  21
   p0
   ret
 $L_solid_3:
   .line 753
+;     u8 t = mapdata[u16(iy * w + ix)] - 1;
   getln 6 11
   getln 3 9
   mul2b
@@ -8629,6 +9415,7 @@ $L_solid_3:
   getp
   dec
   .line 754
+;     if(t >= 240) return false;
   dup
   push  240
   cult
@@ -8638,39 +9425,50 @@ $L_solid_3:
   ret
 $L_solid_4:
   .line 755
+;     if(t == TILE_SPIKE)
   dup
   push  15
   sub
   bnz   $L_solid_18
   .line 713
+;     if(invincibility_frames != 0)
   getg  invincibility_frames 0
   .line 714
+;         return;
   bnz   $L_solid_18
   .line 715
+;     if(death_frames != 0)
   getg  death_frames 0
   .line 716
+;         return;
   bnz   $L_solid_18
   .line 717
+;     if(--hearts != 0)
   getg  hearts 0
   dec
   setg  hearts 0
   getg  hearts 0
   bz    $L_solid_15
   .line 719
+;         invincibility_frames = INVINCIBILITY_DAMAGE;
   push  75
   setg  invincibility_frames 0
   .line 720
+;         $tones_play_auto(SOUND_DAMAGE);
   push3 46252
   sys   tones_play_auto
   .line 721
+;         vy = -1.5;
   p00
   push2 49088
   setg4 vy 0
   .line 722
+;         vx = 1.5;
   p00
   push2 16320
   setg4 vx 0
   .line 723
+;         if(player_facing_right) vx = -1.5;
   getg  player_facing_right 0
   bz    $L_solid_14
   p00
@@ -8678,6 +9476,7 @@ $L_solid_4:
   setg4 vx 0
 $L_solid_14:
   .line 757
+;     if(t < 64) return true;
   dup
   p64
   cult
@@ -8687,41 +9486,53 @@ $L_solid_14:
   ret
 $L_solid_15:
   .line 696
+;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
+;         return;
   bnz   $L_solid_18
   .line 698
+;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
   setg  death_frames 0
   .line 699
+;     if(!single_level)
   getg  single_level 0
   bnz   $L_solid_17
   .line 701
+;         saved_current_map = current_map;
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
+;         saved_total_score = total_score;
   getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
+;         saved_total_time = total_time;
   getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
+;         saved_lives = lives - 1;
   getg  lives 0
   dec
   setg  saved_lives 0
   .line 705
+;         save_exists = (saved_lives > 0);
   p0
   getg  saved_lives 0
   cult
   setg  save_exists 0
   .line 706
+;         $save();
   sys   save
 $L_solid_17:
   .line 708
+;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
 $L_solid_18:
   .line 757
+;     if(t < 64) return true;
   dup
   p64
   cult
@@ -8731,6 +9542,7 @@ $L_solid_18:
   ret
 $L_solid_6:
   .line 758
+;     if(bottom && t < 96) return true;
   getl  21
   bz    $L_solid_8
   dup
@@ -8742,6 +9554,7 @@ $L_solid_6:
   ret
 $L_solid_8:
   .line 759
+;     if(t >= 176 && (t & 15) >= 8) return true;
   dup
   push  176
   cult
@@ -8757,6 +9570,7 @@ $L_solid_8:
   ret
 $L_solid_10:
   .line 760
+;     return false;
   popn  22
   p0
   ret
@@ -8764,458 +9578,585 @@ $L_solid_10:
 update:
   .file update.abc
   .line 3
+;     switch(state)
   getg  state 0
   .line 5
+;     case(STATE_LEVEL)          update_level();
   dup
   p2
   sub
   bz    $L_update_1
   .line 6
+;     case(STATE_INTRO)          update_intro();
   dup
   dec
   bz    $L_update_2
   .line 7
+;     case(STATE_LEVEL_COMPLETE) update_level_complete();
   dup
   p5
   sub
   bz    $L_update_3
   .line 8
+;     case(STATE_PAUSE)          update_pause();
   dup
   p3
   sub
   bz    $L_update_4
   .line 9
+;     case(STATE_CONFIRM)        update_confirm();
   dup
   push  9
   sub
   bz    $L_update_5
   .line 10
+;     case(STATE_SCORE_TALLY)    update_score_tally();
   dup
   p6
   sub
   bz    $L_update_6
   .line 11
+;     case(STATE_MENU)           update_menu();
   dup
   bz    $L_update_7
   .line 12
+;     case(STATE_LEVEL_SELECT)   update_level_select();
   dup
   p8
   sub
   bz    $L_update_8
   .line 13
+;     case(STATE_VICTORY)        update_victory();
   dup
   p7
   sub
   bz    $L_update_9
   .line 14
+;     case(STATE_GAME_OVER)      update_game_over();
   dup
   p4
   sub
   bz    $L_update_10
   .line 15
+;     case(STATE_CREDITS)        update_credits();
   dup
   push  10
   sub
   bz    $L_update_11
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_1:
   .line 5
+;     case(STATE_LEVEL)          update_level();
   call  update_level
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_2:
   .line 6
+;     case(STATE_INTRO)          update_intro();
   call  update_intro
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_3:
   .line 285
+;     if(frame_count == 80)
   getg  frame_count 0
   push  80
   sub
   bnz   $L_update_13
   .line 287
+;         state = STATE_INTRO;
   p1
   setg  state 0
   .line 288
+;         frame_count = 0;
   p0
   setg  frame_count 0
   .line 289
+;         current_map += 1;
   getg  current_map 0
   inc
   setg  current_map 0
 $L_update_13:
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_4:
   .line 66
+;     if($just_pressed(UP_BUTTON))
   p128
   sys   just_pressed
   bz    $L_update_75
   .line 68
+;         if(pause_menui > 0)
   p0
   getg  pause_menui 0
   cult
   bz    $L_update_74
   .line 69
+;             pause_menui -= 1;
   getg  pause_menui 0
   dec
   setg  pause_menui 0
 $L_update_74:
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_75:
   .line 71
+;     else if($just_pressed(DOWN_BUTTON))
   p16
   sys   just_pressed
   bz    $L_update_77
   .line 73
+;         if(pause_menui < 3)
   getg  pause_menui 0
   p3
   cult
   bz    $L_update_76
   .line 74
+;             pause_menui += 1;
   getg  pause_menui 0
   inc
   setg  pause_menui 0
 $L_update_76:
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_77:
   .line 76
+;     else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_update_87
   .line 78
+;         if(pause_menui == 0)
   getg  pause_menui 0
   bnz   $L_update_78
   .line 79
+;             state = STATE_LEVEL;
   p2
   setg  state 0
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_78:
   .line 80
+;         else if(pause_menui == 1)
   getg  pause_menui 0
   dec
   bnz   $L_update_81
   .line 82
+;             sound_on = !sound_on;
   getg  sound_on 0
   not
   setg  sound_on 0
   .line 160
+;     if(sound_on != $audio_enabled())
   getg  sound_on 0
   sys   audio_enabled
   sub
   bz    $L_update_79
   .line 161
+;         $audio_toggle();
   sys   audio_toggle
 $L_update_79:
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_81:
   .line 85
+;         else if(pause_menui == 2)
   getg  pause_menui 0
   p2
   sub
   bz    $L_update_86
   .line 87
+;         else if(pause_menui == 3)
   getg  pause_menui 0
   p3
   sub
   bnz   $L_update_86
   .line 89
+;             if(single_level)
   getg  single_level 0
   bz    $L_update_85
   .line 91
+;                 u8 level = current_map;
   getg  current_map 0
   .line 93
+;                 current_map = level;
   dup
   setg  current_map 0
   .line 94
+;                 single_level = true;
   p1
   setg  single_level 0
   .line 95
+;                 lives = 99;
   push  99
   setg  lives 0
   .line 96
+;                 state = STATE_INTRO;
   p1
   setg  state 0
   pop
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_85:
   .line 100
+;                 pause_menui = 0;
   p0
   setg  pause_menui 0
   .line 101
+;                 state = STATE_CONFIRM;
   push  9
   setg  state 0
 $L_update_86:
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_87:
   .line 105
+;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   bz    $L_update_88
   .line 106
+;         state = STATE_LEVEL;
   p2
   setg  state 0
 $L_update_88:
   .line 107
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_5:
   .line 30
+;     if($just_pressed(UP_BUTTON))
   p128
   sys   just_pressed
   bz    $L_update_17
   .line 32
+;         if(pause_menui > 0)
   p0
   getg  pause_menui 0
   cult
   bz    $L_update_16
   .line 33
+;             pause_menui -= 1;
   getg  pause_menui 0
   dec
   setg  pause_menui 0
 $L_update_16:
   .line 61
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_17:
   .line 35
+;     else if($just_pressed(DOWN_BUTTON))
   p16
   sys   just_pressed
   bz    $L_update_19
   .line 37
+;         if(pause_menui < 1)
   getg  pause_menui 0
   p1
   cult
   bz    $L_update_18
   .line 38
+;             pause_menui += 1;
   getg  pause_menui 0
   inc
   setg  pause_menui 0
 $L_update_18:
   .line 61
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_19:
   .line 40
+;     else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_update_24
   .line 42
+;         if(pause_menui == 0)
   getg  pause_menui 0
   bnz   $L_update_20
   .line 44
+;             state = STATE_LEVEL;
   p2
   setg  state 0
   .line 61
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_20:
   .line 46
+;         else if(pause_menui == 1)
   getg  pause_menui 0
   dec
   bnz   $L_update_21
   .line 48
+;             if(save_exists)
   getg  save_exists 0
   bz    $L_update_21
   .line 50
+;                 save_exists = false;
   p0
   setg  save_exists 0
   .line 51
+;                 $save();
   sys   save
 $L_update_21:
   .line 61
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_24:
   .line 56
+;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   bz    $L_update_25
   .line 58
+;         pause_menui = 3;
   p3
   setg  pause_menui 0
   .line 59
+;         state = STATE_PAUSE;
   p3
   setg  state 0
 $L_update_25:
   .line 61
+;     --frame_count;
   getg  frame_count 0
   dec
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_6:
   .line 10
+;     case(STATE_SCORE_TALLY)    update_score_tally();
   call  update_score_tally
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_7:
   .line 166
+;     if(frame_count & 1)
   getg  frame_count 0
   p1
   and
   bz    $L_update_52
   .line 167
+;         menu_spritex += 1;
   getg2 menu_spritex 0
   p1
   add2b
   setg2 menu_spritex 0
 $L_update_52:
   .line 168
+;     if(menu_spritex > 160)
   push2 160
   getg2 menu_spritex 0
   cslt2
   bz    $L_update_54
   .line 170
+;         if(++menu_sprite > 11)
   push  11
   getg  menu_sprite 0
   inc
@@ -9224,106 +10165,136 @@ $L_update_52:
   cult
   bz    $L_update_53
   .line 171
+;             menu_sprite = 8;
   p8
   setg  menu_sprite 0
 $L_update_53:
   .line 172
+;         menu_spritex = 0;
   p00
   setg2 menu_spritex 0
 $L_update_54:
   .line 174
+;     if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_update_63
   .line 176
+;         if(menui == 0)
   getg  menui 0
   bnz   $L_update_58
   .line 178
+;             single_level = false;
   p0
   setg  single_level 0
   .line 179
+;             if(!save_exists)
   getg  save_exists 0
   bz    $L_update_57
   .line 183
+;                 current_map = saved_current_map;
   getg  saved_current_map 0
   setg  current_map 0
   .line 184
+;                 total_score = saved_total_score;
   getgn 3 saved_total_score 0
   setgn 3 total_score 0
   .line 185
+;                 total_time = saved_total_time;
   getgn 3 saved_total_time 0
   setgn 3 total_time 0
   .line 186
+;                 score = 0;
   p00
   setg2 score 0
   .line 187
+;                 level_frames_remaining = 0;
   p00
   setg2 level_frames_remaining 0
   .line 188
+;                 lives = saved_lives;
   getg  saved_lives 0
   setg  lives 0
 $L_update_57:
   .line 190
+;             state = STATE_INTRO;
   p1
   setg  state 0
   .line 176
+;         if(menui == 0)
   jmp   $L_update_63
 $L_update_58:
   .line 192
+;         else if(menui == 1)
   getg  menui 0
   dec
   bnz   $L_update_59
   .line 194
+;             levelseli = 0;
   p0
   setg  levelseli 0
   .line 195
+;             levelseloff = 0;
   p0
   setg  levelseloff 0
   .line 196
+;             frame_count = 0;
   p0
   setg  frame_count 0
   .line 197
+;             state = STATE_LEVEL_SELECT;
   p8
   setg  state 0
   .line 192
+;         else if(menui == 1)
   jmp   $L_update_63
 $L_update_59:
   .line 199
+;         else if(menui == 2)
   getg  menui 0
   p2
   sub
   bnz   $L_update_62
   .line 201
+;             sound_on = !sound_on;
   getg  sound_on 0
   not
   setg  sound_on 0
   .line 160
+;     if(sound_on != $audio_enabled())
   getg  sound_on 0
   sys   audio_enabled
   sub
   bz    $L_update_60
   .line 161
+;         $audio_toggle();
   sys   audio_toggle
 $L_update_60:
   .line 199
+;         else if(menui == 2)
   jmp   $L_update_63
 $L_update_62:
   .line 204
+;         else if(menui == 3)
   getg  menui 0
   p3
   sub
   bnz   $L_update_63
   .line 206
+;             frame_count = 0;
   p0
   setg  frame_count 0
   .line 207
+;             creditsy = 0;
   p0
   setg  creditsy 0
   .line 208
+;             state = STATE_CREDITS;
   push  10
   setg  state 0
 $L_update_63:
   .line 211
+;     if($just_pressed(UP_BUTTON) && menui > 0)
   p128
   sys   just_pressed
   bz    $L_update_65
@@ -9332,11 +10303,13 @@ $L_update_63:
   cult
   bz    $L_update_65
   .line 212
+;         menui -= 1;
   getg  menui 0
   dec
   setg  menui 0
 $L_update_65:
   .line 213
+;     if($just_pressed(DOWN_BUTTON) && menui < 3)
   p16
   sys   just_pressed
   bz    $L_update_67
@@ -9345,96 +10318,122 @@ $L_update_65:
   cult
   bz    $L_update_67
   .line 214
+;         menui += 1;
   getg  menui 0
   inc
   setg  menui 0
 $L_update_67:
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_8:
   .line 124
+;     if($just_pressed(UP_BUTTON))
   p128
   sys   just_pressed
   bz    $L_update_41
   .line 126
+;         if(levelseli == 0)
   getg  levelseli 0
   bnz   $L_update_39
   .line 128
+;             if(levelseloff > 0)
   p0
   getg  levelseloff 0
   cult
   bz    $L_update_38
   .line 129
+;                 levelseloff -= 1;
   getg  levelseloff 0
   dec
   setg  levelseloff 0
 $L_update_38:
   .line 133
+;         frame_count = 0;
   p0
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_39:
   .line 132
+;             levelseli -= 1;
   getg  levelseli 0
   dec
   setg  levelseli 0
   .line 133
+;         frame_count = 0;
   p0
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_41:
   .line 135
+;     else if($just_pressed(DOWN_BUTTON))
   p16
   sys   just_pressed
   bz    $L_update_45
   .line 137
+;         if(levelseli == LEVEL_SELECT_ROWS - 1)
   getg  levelseli 0
   p4
   sub
   bnz   $L_update_43
   .line 139
+;             if(levelseloff < NUM_MAPS - LEVEL_SELECT_ROWS)
   getg  levelseloff 0
   p7
   cult
   bz    $L_update_42
   .line 140
+;                 levelseloff += 1;
   getg  levelseloff 0
   inc
   setg  levelseloff 0
 $L_update_42:
   .line 144
+;         frame_count = 0;
   p0
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_43:
   .line 142
+;         else if(levelseli + levelseloff + 1 < NUM_MAPS)
   getg  levelseli 0
   p0
   getg  levelseloff 0
@@ -9447,88 +10446,112 @@ $L_update_43:
   cslt3
   bz    $L_update_44
   .line 143
+;             levelseli += 1;
   getg  levelseli 0
   inc
   setg  levelseli 0
 $L_update_44:
   .line 144
+;         frame_count = 0;
   p0
   setg  frame_count 0
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_45:
   .line 146
+;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   bnz   $L_update_49
   .line 148
+;     else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_update_49
   .line 151
+;         current_map = levelseli + levelseloff;
   getg  levelseli 0
   getg  levelseloff 0
   add
   setg  current_map 0
   .line 152
+;         single_level = true;
   p1
   setg  single_level 0
   .line 153
+;         lives = 99;
   push  99
   setg  lives 0
   .line 154
+;         state = STATE_INTRO;
   p1
   setg  state 0
 $L_update_49:
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_9:
   .line 118
+;     if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   pop
 $L_update_71:
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_10:
   .line 112
+;     if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   pop
 $L_update_35:
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 $L_update_11:
   .line 22
+;     if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   pop
 $L_update_29:
   .line 24
+;     if(!(frame_count & 3) && ++creditsy == 140)
   getg  frame_count 0
   p3
   and
@@ -9542,25 +10565,31 @@ $L_update_29:
   bool2
   bnz   $L_update_31
   .line 25
+;         creditsy = 0;
   p0
   setg  creditsy 0
 $L_update_31:
   .line 3
+;     switch(state)
   pop
   .line 17
+;     ++frame_count;
   getg  frame_count 0
   inc
   setg  frame_count 0
   .line 1
+; void update()
   ret
 
 update_intro:
   .file update.abc
   .line 272
+;     if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_update_intro_3
   .line 274
+;         if(score == 0 || level_frames_remaining == 0)
   getg2 score 0
   bool2
   bz    $L_update_intro_8
@@ -9569,27 +10598,34 @@ update_intro:
   bnz   $L_update_intro_1
 $L_update_intro_8:
   .line 275
+;             load_map();
   jmp   load_map
 $L_update_intro_1:
   .line 277
+;             state = STATE_SCORE_TALLY;
   p6
   setg  state 0
   .line 270
+; void update_intro()
   ret
 $L_update_intro_3:
   .line 279
+;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   pop
 $L_update_intro_5:
   .line 270
+; void update_intro()
   ret
 
 update_level:
   .file update.abc
   .line 328
+;     float ax = 0;
   pz8
   .line 331
+;     player_moving = (vx < -0.3 || vx > 0.3);
   getg4 vx 0
   push2 39322
   dup
@@ -9604,26 +10640,32 @@ update_level:
 $L_update_level_0:
   setg  player_moving 0
   .line 335
+;         float a = PLAYER_MOVE_AIR_ACCEL;
   p000
   push  62
   .line 336
+;         if(player_on_ground)
   getg  player_on_ground 0
   bz    $L_update_level_1
   .line 337
+;             a = PLAYER_MOVE_ACCEL;
   p00
   push2 16000
   setl4 4
 $L_update_level_1:
   .line 339
+;         if($pressed(LEFT_BUTTON ))
   p32
   sys   pressed
   bz    $L_update_level_4
   .line 341
+;             ax -= a;
   getl4 12
   getl4 8
   fsub
   setl4 12
   .line 342
+;             if(vx < -PLAYER_MAX_MOVE_VEL_X && ax < 0)
   getg4 vx 0
   p00
   push2 49280
@@ -9634,26 +10676,32 @@ $L_update_level_1:
   cslt4
   bz    $L_update_level_3
   .line 343
+;                 ax = 0;
   p0000
   setl4 12
 $L_update_level_3:
   .line 344
+;             player_facing_right = false;
   p0
   setg  player_facing_right 0
   .line 345
+;             player_moving = true;
   p1
   setg  player_moving 0
 $L_update_level_4:
   .line 347
+;         if($pressed(RIGHT_BUTTON))
   p64
   sys   pressed
   bz    $L_update_level_7
   .line 349
+;             ax += a;
   getl4 12
   getl4 8
   fadd
   setl4 12
   .line 350
+;             if(vx > PLAYER_MAX_MOVE_VEL_X && ax > 0)
   p00
   p128
   p64
@@ -9665,48 +10713,60 @@ $L_update_level_4:
   cslt4
   bz    $L_update_level_6
   .line 351
+;                 ax = 0;
   p0000
   setl4 12
 $L_update_level_6:
   .line 352
+;             player_facing_right = true;
   p1
   setg  player_facing_right 0
   .line 353
+;             player_moving = true;
   p1
   setg  player_moving 0
 $L_update_level_7:
   pop4
   .line 358
+;     if(player_on_ground && $just_pressed(A_BUTTON))
   getg  player_on_ground 0
   bz    $L_update_level_9
   p8
   sys   just_pressed
   bz    $L_update_level_9
   .line 360
+;         jump_frames_remaining = PLAYER_JUMP_FRAMES;
   push  15
   setg  jump_frames_remaining 0
   .line 361
+;         $tones_play_auto(SOUND_JUMP);
   push3 42059
   sys   tones_play_auto
 $L_update_level_9:
   .line 364
+;     if(!$pressed(A_BUTTON))
   p8
   sys   pressed
   bnz   $L_update_level_10
   .line 365
+;         jump_frames_remaining = 0;
   p0
   setg  jump_frames_remaining 0
   .line 364
+;     if(!$pressed(A_BUTTON))
   jmp   $L_update_level_15
 $L_update_level_10:
   .line 366
+;     else if(jump_frames_remaining != 0)
   getg  jump_frames_remaining 0
   bz    $L_update_level_15
   .line 368
+;         --jump_frames_remaining;
   getg  jump_frames_remaining 0
   dec
   setg  jump_frames_remaining 0
   .line 369
+;         if(vx < -PLAYER_FAST_VEL || vx > PLAYER_FAST_VEL)
   getg4 vx 0
   push4 3218708890
   cflt
@@ -9717,20 +10777,24 @@ $L_update_level_10:
   bz    $L_update_level_12
 $L_update_level_130:
   .line 370
+;             vy = -PLAYER_JUMP_VEL_FAST;
   push  51
   dup
   push2 49171
   setg4 vy 0
   .line 369
+;         if(vx < -PLAYER_FAST_VEL || vx > PLAYER_FAST_VEL)
   jmp   $L_update_level_15
 $L_update_level_12:
   .line 372
+;             vy = -PLAYER_JUMP_VEL;
   push  51
   dup
   push2 49139
   setg4 vy 0
 $L_update_level_15:
   .line 377
+;         u8 ix = u16($floor(px)) >> 4;
   getg4 px 0
   sys   floor
   f2u
@@ -9739,6 +10803,7 @@ $L_update_level_15:
   lsr2
   pop
   .line 378
+;         u8 iy = u16($floor(py)) >> 4;
   getg4 py 0
   sys   floor
   f2u
@@ -9747,10 +10812,13 @@ $L_update_level_15:
   lsr2
   pop
   .line 379
+;         u8 w = map_width;
   getg  map_width 0
   .line 380
+;         u8 h = map_height;
   getg  map_height 0
   .line 381
+;         if(ix < w && iy < h)
   dup4
   dup3
   cult
@@ -9760,6 +10828,7 @@ $L_update_level_15:
   cult
   bz    $L_update_level_34
   .line 383
+;             u8 t = maps[current_map].map[iy * w + ix];
   push3 54737
   getg  current_map 0
   pidxb 17 12
@@ -9774,16 +10843,20 @@ $L_update_level_15:
   upidx 1
   getp
   .line 384
+;             if(t != 0)
   dup
   bz    $L_update_level_33
   .line 386
+;                 --t;
   dec
   .line 387
+;                 if(t == TILE_AIR_UP)
   dup
   push  177
   sub
   bnz   $L_update_level_17
   .line 388
+;                     vy += (-FAN_AIR_VEL - vy) * FAN_AIR_FACTOR;
   getg4 vy 0
   p00
   push2 49088
@@ -9795,14 +10868,17 @@ $L_update_level_15:
   fadd
   setg4 vy 0
   .line 387
+;                 if(t == TILE_AIR_UP)
   jmp   $L_update_level_33
 $L_update_level_17:
   .line 389
+;                 else if(t == TILE_AIR_RIGHT)
   dup
   push  178
   sub
   bnz   $L_update_level_18
   .line 390
+;                     vx += (FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
   getg4 vx 0
   p00
   push2 16320
@@ -9814,14 +10890,17 @@ $L_update_level_17:
   fadd
   setg4 vx 0
   .line 389
+;                 else if(t == TILE_AIR_RIGHT)
   jmp   $L_update_level_33
 $L_update_level_18:
   .line 391
+;                 else if(t == TILE_AIR_LEFT)
   dup
   push  179
   sub
   bnz   $L_update_level_19
   .line 392
+;                     vx += (-FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
   getg4 vx 0
   p00
   push2 49088
@@ -9833,59 +10912,73 @@ $L_update_level_18:
   fadd
   setg4 vx 0
   .line 391
+;                 else if(t == TILE_AIR_LEFT)
   jmp   $L_update_level_33
 $L_update_level_19:
   .line 393
+;                 else if(t == TILE_SPRING)
   dup
   push  180
   sub
   bnz   $L_update_level_20
   .line 395
+;                     vy = -PLAYER_SPRING_VEL;
   push  102
   dup
   push2 49318
   setg4 vy 0
   .line 396
+;                     $tones_play_primary(SOUND_SPRING);
   push3 42083
   sys   tones_play_primary
   .line 393
+;                 else if(t == TILE_SPRING)
   jmp   $L_update_level_33
 $L_update_level_20:
   .line 398
+;                 else if(t == TILE_SPRING_R)
   dup
   push  181
   sub
   bnz   $L_update_level_21
   .line 400
+;                     vx = PLAYER_SPRING_VEL_H;
   push  102
   dup
   dup
   p64
   setg4 vx 0
   .line 401
+;                     $tones_play_primary(SOUND_SPRING);
   push3 42083
   sys   tones_play_primary
   .line 398
+;                 else if(t == TILE_SPRING_R)
   jmp   $L_update_level_33
 $L_update_level_21:
   .line 403
+;                 else if(t == TILE_SPRING_L)
   dup
   push  182
   sub
   bnz   $L_update_level_22
   .line 405
+;                     vx = -PLAYER_SPRING_VEL_H;
   push  102
   dup
   dup
   push  192
   setg4 vx 0
   .line 406
+;                     $tones_play_primary(SOUND_SPRING);
   push3 42083
   sys   tones_play_primary
   .line 403
+;                 else if(t == TILE_SPRING_L)
   jmp   $L_update_level_33
 $L_update_level_22:
   .line 408
+;                 else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
   dup
   push  156
   cult
@@ -9895,6 +10988,7 @@ $L_update_level_22:
   cult
   bnz   $L_update_level_33
   .line 410
+;                     if(player_on_ground && keys >= t - TILE_DOOR0)
   getg  player_on_ground 0
   bz    $L_update_level_33
   getg  keys 0
@@ -9905,25 +10999,31 @@ $L_update_level_22:
   cult2
   bnz   $L_update_level_33
   .line 295
+;     state = STATE_LEVEL_COMPLETE;
   p5
   setg  state 0
   .line 296
+;     frame_count = 0;
   p0
   setg  frame_count 0
   .line 297
+;     player_moving = false;
   p0
   setg  player_moving 0
   .line 299
+;     u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
   push2 9000
   getg2 level_frames_remaining 0
   sub2
   .line 300
+;     total_time += time_taken;
   getgn 3 total_time 0
   dupw4
   p0
   add3
   setgn 3 total_time 0
   .line 302
+;         map_best_times[current_map] == 0 ||
   pushg map_best_times 0
   getg  current_map 0
   aidxb 2 12
@@ -9932,6 +11032,7 @@ $L_update_level_22:
   not
   bnzp  $L_update_level_61
   .line 303
+;         time_taken < map_best_times[current_map]);
   dupw
   pushg map_best_times 0
   getg  current_map 0
@@ -9940,11 +11041,14 @@ $L_update_level_22:
   cult2
 $L_update_level_61:
   .line 301
+;     was_best_time = (
   setg  was_best_time 0
   .line 304
+;     if(was_best_time)
   getg  was_best_time 0
   bz    $L_update_level_62
   .line 305
+;         map_best_times[current_map] = time_taken;
   dupw
   pushg map_best_times 0
   getg  current_map 0
@@ -9952,12 +11056,14 @@ $L_update_level_61:
   setr2
 $L_update_level_62:
   .line 307
+;     u24 map_score = score + level_frames_remaining;
   getg2 score 0
   p0
   getg2 level_frames_remaining 0
   p0
   add3
   .line 308
+;     was_high_score = (map_score > map_high_scores[current_map]);
   pushg map_high_scores 0
   getg  current_map 0
   aidxb 2 12
@@ -9967,9 +11073,11 @@ $L_update_level_62:
   cult3
   setg  was_high_score 0
   .line 309
+;     if(was_high_score)
   getg  was_high_score 0
   bz    $L_update_level_63
   .line 310
+;         map_high_scores[current_map] = map_score;
   dupw2
   pushg map_high_scores 0
   getg  current_map 0
@@ -9977,46 +11085,58 @@ $L_update_level_62:
   setr2
 $L_update_level_63:
   .line 312
+;     if(!single_level)
   getg  single_level 0
   bnz   $L_update_level_64
   .line 314
+;         saved_current_map = current_map + 1;
   getg  current_map 0
   inc
   setg  saved_current_map 0
   .line 315
+;         saved_total_score = total_score + map_score;
   getgn 3 total_score 0
   getln 3 6
   add3
   setgn 3 saved_total_score 0
   .line 316
+;         saved_total_time = total_time;
   getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 317
+;         saved_lives = lives;
   getg  lives 0
   setg  saved_lives 0
   .line 318
+;         save_exists = (saved_current_map < NUM_MAPS);
   getg  saved_current_map 0
   push  12
   cult
   setg  save_exists 0
 $L_update_level_64:
   .line 320
+;     $save();
   sys   save
   .line 322
+;     $tones_play_primary(SOUND_LEVEL_COMPLETE);
   push3 46300
   sys   tones_play_primary
   .line 293
+; void level_complete()
   popn  18
   .line 413
+;                         return;
   ret
 $L_update_level_33:
   pop
 $L_update_level_34:
   pop4
   .line 421
+;     if(player_on_ground)
   getg  player_on_ground 0
   bz    $L_update_level_35
   .line 422
+;         ax += (-PLAYER_FRICTION * vx);
   getl4 8
   push4 3189348762
   getg4 vx 0
@@ -10024,9 +11144,11 @@ $L_update_level_34:
   fadd
   setl4 8
   .line 421
+;     if(player_on_ground)
   jmp   $L_update_level_36
 $L_update_level_35:
   .line 424
+;         ax += (-PLAYER_FRICTION_AIR * vx);
   getl4 8
   push4 3175926989
   getg4 vx 0
@@ -10035,89 +11157,112 @@ $L_update_level_35:
   setl4 8
 $L_update_level_36:
   .line 427
+;     ay += GRAVITY;
   push4 1045220557
   fadd
   .line 430
+;     vx += ax;
   getg4 vx 0
   getl4 12
   fadd
   setg4 vx 0
   .line 431
+;     vy += ay;
   getg4 vy 0
   getl4 8
   fadd
   setg4 vy 0
   .line 433
+;     if(death_frames != 0)
   getg  death_frames 0
   bz    $L_update_level_44
   .line 435
+;         ax = 0;
   p0000
   setl4 8
   .line 436
+;         ay = 0;
   p0000
   setl4 4
   .line 437
+;         vx = 0;
   p0000
   setg4 vx 0
   .line 438
+;         if(--death_frames == 0)
   getg  death_frames 0
   dec
   setg  death_frames 0
   getg  death_frames 0
   bnz   $L_update_level_39
   .line 440
+;             score = 0;
   p00
   setg2 score 0
   .line 441
+;             if(!single_level)
   getg  single_level 0
   bnz   $L_update_level_37
   .line 442
+;                 lives -= 1;
   getg  lives 0
   dec
   setg  lives 0
 $L_update_level_37:
   .line 443
+;             level_frames_remaining = 0;
   p00
   setg2 level_frames_remaining 0
   .line 444
+;             state = STATE_INTRO;
   p1
   setg  state 0
   .line 445
+;             frame_count = 0;
   p0
   setg  frame_count 0
   .line 446
+;             if(lives == 0)
   getg  lives 0
   bnz   $L_update_level_38
   .line 447
+;                 state = STATE_GAME_OVER;
   p4
   setg  state 0
 $L_update_level_38:
   .line 448
+;             return;
   popn  8
   ret
 $L_update_level_39:
   .line 450
+;         else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
   push  70
   getg  death_frames 0
   cult
   bz    $L_update_level_40
   .line 451
+;             vy = 0;
   p0000
   setg4 vy 0
   .line 450
+;         else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
   jmp   $L_update_level_44
 $L_update_level_40:
   .line 452
+;         else if(death_frames == DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
   getg  death_frames 0
   push  70
   sub
   bnz   $L_update_level_44
   .line 453
+;             vy = -DEATH_VEL;
   p00
   push2 49232
   setg4 vy 0
 $L_update_level_44:
   .line 457
+;     if     (vx < -PLAYER_MAX_VEL_X) vx = -PLAYER_MAX_VEL_X;
   getg4 vx 0
   p00
   push2 49280
@@ -10129,6 +11274,7 @@ $L_update_level_44:
   jmp   $L_update_level_47
 $L_update_level_45:
   .line 458
+;     else if(vx >  PLAYER_MAX_VEL_X) vx =  PLAYER_MAX_VEL_X;
   p00
   p128
   p64
@@ -10141,6 +11287,7 @@ $L_update_level_45:
   setg4 vx 0
 $L_update_level_47:
   .line 459
+;     if     (vy < -PLAYER_MAX_VEL_Y) vy = -PLAYER_MAX_VEL_Y;
   getg4 vy 0
   p00
   push  192
@@ -10154,6 +11301,7 @@ $L_update_level_47:
   jmp   $L_update_level_50
 $L_update_level_48:
   .line 460
+;     else if(vy >  PLAYER_MAX_VEL_Y) vy =  PLAYER_MAX_VEL_Y;
   p00
   push2 16576
   getg4 vy 0
@@ -10164,16 +11312,19 @@ $L_update_level_48:
   setg4 vy 0
 $L_update_level_50:
   .line 463
+;     px += vx;
   getg4 px 0
   getg4 vx 0
   fadd
   setg4 px 0
   .line 464
+;     py += vy;
   getg4 py 0
   getg4 vy 0
   fadd
   setg4 py 0
   .line 468
+;         float xmax = map_width * 16 - PHEH;
   getg  map_width 0
   p0
   p16
@@ -10184,6 +11335,7 @@ $L_update_level_50:
   push2 16608
   fsub
   .line 469
+;         if(px < PHEH) px = PHEH;
   getg4 px 0
   p00
   push2 16608
@@ -10194,6 +11346,7 @@ $L_update_level_50:
   setg4 px 0
 $L_update_level_51:
   .line 470
+;         if(px > xmax) px = xmax;
   getl4 4
   getg4 px 0
   cflt
@@ -10203,19 +11356,24 @@ $L_update_level_51:
 $L_update_level_52:
   pop4
   .line 473
+;     if(player_on_ground != 0)
   getg  player_on_ground 0
   bz    $L_update_level_53
   .line 474
+;         --player_on_ground;
   getg  player_on_ground 0
   dec
   setg  player_on_ground 0
 $L_update_level_53:
   .line 476
+;     if(death_frames == 0)
   getg  death_frames 0
   bnz   $L_update_level_69
   .line 478
+;         resolve_player_collision();
   call  resolve_player_collision
   .line 562
+;     i16 px0 = i16($round(px)) + i16(-PXOFF + 1);
   getg4 px 0
   sys   round
   f2i
@@ -10223,6 +11381,7 @@ $L_update_level_53:
   p7
   sub2b
   .line 563
+;     i16 py0 = i16($round(py)) + i16(-PYOFF + 1);
   getg4 py 0
   sys   round
   f2i
@@ -10230,33 +11389,42 @@ $L_update_level_53:
   push  9
   sub2b
   .line 564
+;     i16 px1 = px0 + i16(PHEH * 2 - 1);
   dupw3
   push  13
   add2b
   .line 565
+;     i16 py1 = py0 + i16(PHEV * 2 - 1);
   dupw3
   push  11
   add2b
   .line 566
+;     mob_jumped = false;
   p0
   setg  mob_jumped 0
   .line 567
+;     for(u8 i = 0; i < MAX_OBJECTS; ++i)
   p0
 $L_update_level_88:
   .line 569
+;         map_object_t& obj = objects[i];
   pushg objects 0
   dup3
   aidxb 15 20
   .line 570
+;         u8 type = obj.type;
   dupw
   getr
   .line 571
+;         if(type == OBJ_NONE)
   bnzp  $L_update_level_89
   .line 572
+;             continue;
   pop2
   jmp   $L_update_level_126
 $L_update_level_89:
   .line 574
+;         if(type >= OBJ_MOB && (frame_count & 1))
   dup
   p8
   cult
@@ -10266,12 +11434,14 @@ $L_update_level_89:
   and
   bz    $L_update_level_102
   .line 576
+;             if(obj.death_frames != 0)
   dupw2
   push  10
   add2b
   getr
   bz    $L_update_level_92
   .line 578
+;                 if(--obj.death_frames == 0)
   dupw2
   push  10
   add2b
@@ -10283,49 +11453,59 @@ $L_update_level_89:
   getr
   bnz   $L_update_level_91
   .line 579
+;                     obj.type = OBJ_NONE;
   p0
   dupw3
   setr
 $L_update_level_91:
   .line 580
+;                 continue;
   pop3
   jmp   $L_update_level_126
 $L_update_level_92:
   .line 582
+;             if(type <= OBJ_MOB_BAT)
   push  11
   dup2
   cult
   bnz   $L_update_level_97
   .line 584
+;                 i16 x = obj.x;
   dupw2
   p1
   add2b
   getr2
   .line 585
+;                 if(obj.moving_right)
   dupw4
   push  9
   add2b
   getr
   bz    $L_update_level_94
   .line 587
+;                     i16 b = obj.b;
   dupw4
   push  13
   add2b
   getr2
   .line 588
+;                     x += 1;
   dupw3
   p1
   add2b
   setl2 4
   .line 589
+;                     if(x > b)
   dupw
   dupw5
   cslt2
   bz    $L_update_level_93
   .line 591
+;                         x = b;
   dupw
   setl2 4
   .line 592
+;                         obj.moving_right = false;
   p0
   dupw7
   push  9
@@ -10334,6 +11514,7 @@ $L_update_level_92:
 $L_update_level_93:
   pop2
   .line 605
+;                 obj.x = x;
   dupw
   dupw6
   p1
@@ -10341,26 +11522,32 @@ $L_update_level_93:
   setr2
   pop2
   .line 582
+;             if(type <= OBJ_MOB_BAT)
   jmp   $L_update_level_102
 $L_update_level_94:
   .line 597
+;                     i16 a = obj.a;
   dupw4
   push  11
   add2b
   getr2
   .line 598
+;                     x -= 1;
   dupw3
   p1
   sub2b
   setl2 4
   .line 599
+;                     if(x < a)
   getl4 4
   cslt2
   bz    $L_update_level_95
   .line 601
+;                         x = a;
   dupw
   setl2 4
   .line 602
+;                         obj.moving_right = true;
   p1
   dupw7
   push  9
@@ -10369,6 +11556,7 @@ $L_update_level_94:
 $L_update_level_95:
   pop2
   .line 605
+;                 obj.x = x;
   dupw
   dupw6
   p1
@@ -10376,43 +11564,52 @@ $L_update_level_95:
   setr2
   pop2
   .line 582
+;             if(type <= OBJ_MOB_BAT)
   jmp   $L_update_level_102
 $L_update_level_97:
   .line 607
+;             else if(type == OBJ_MOB_FLY)
   dup
   push  12
   sub
   bnz   $L_update_level_102
   .line 609
+;                 i16 y = obj.y;
   dupw2
   p3
   add2b
   getr2
   .line 610
+;                 if(obj.moving_right)
   dupw4
   push  9
   add2b
   getr
   bz    $L_update_level_99
   .line 612
+;                     i16 b = obj.b;
   dupw4
   push  13
   add2b
   getr2
   .line 613
+;                     y += 1;
   dupw3
   p1
   add2b
   setl2 4
   .line 614
+;                     if(y > b)
   dupw
   dupw5
   cslt2
   bz    $L_update_level_98
   .line 616
+;                         y = b;
   dupw
   setl2 4
   .line 617
+;                         obj.moving_right = false;
   p0
   dupw7
   push  9
@@ -10421,26 +11618,32 @@ $L_update_level_97:
 $L_update_level_98:
   pop2
   .line 610
+;                 if(obj.moving_right)
   jmp   $L_update_level_101
 $L_update_level_99:
   .line 622
+;                     i16 a = obj.a;
   dupw4
   push  11
   add2b
   getr2
   .line 623
+;                     y -= 1;
   dupw3
   p1
   sub2b
   setl2 4
   .line 624
+;                     if(y < a)
   getl4 4
   cslt2
   bz    $L_update_level_100
   .line 626
+;                         y = a;
   dupw
   setl2 4
   .line 627
+;                         obj.moving_right = true;
   p1
   dupw7
   push  9
@@ -10450,6 +11653,7 @@ $L_update_level_100:
   pop2
 $L_update_level_101:
   .line 630
+;                 obj.y = y;
   dupw
   dupw6
   p3
@@ -10458,6 +11662,7 @@ $L_update_level_101:
   pop2
 $L_update_level_102:
   .line 635
+;         i16 x = obj.x + obj.xo;
   dupw2
   p1
   add2b
@@ -10468,6 +11673,7 @@ $L_update_level_102:
   getr
   add2b
   .line 636
+;         i16 y = obj.y + obj.xo;
   dupw4
   p3
   add2b
@@ -10478,17 +11684,21 @@ $L_update_level_102:
   getr
   add2b
   .line 637
+;         if( px1 >= x &&
   getl2 12
   dupw5
   cslt2
   bnz   $L_update_level_124
   .line 638
+;             py1 >= y &&
   getl2 10
   dupw3
   cslt2
   .line 637
+;         if( px1 >= x &&
   bnz   $L_update_level_124
   .line 639
+;             px0 < i16(x + obj.w) &&
   getl2 16
   dupw5
   getl2 11
@@ -10498,8 +11708,10 @@ $L_update_level_102:
   add2b
   cslt2
   .line 637
+;         if( px1 >= x &&
   bz    $L_update_level_124
   .line 640
+;             py0 < i16(y + obj.h))
   getl2 14
   dupw3
   getl2 11
@@ -10509,96 +11721,121 @@ $L_update_level_102:
   add2b
   cslt2
   .line 637
+;         if( px1 >= x &&
   bz    $L_update_level_124
   .line 642
+;             touch_object(obj);
   dupw6
   .line 765
+;     u8 type = obj.type;
   dupw
   getr
   .line 766
+;     if(type == OBJ_COIN)
   dup
   dec
   bnz   $L_update_level_104
   .line 768
+;         score += SCORE_COIN;
   getg2 score 0
   push2 500
   add2
   setg2 score 0
   .line 769
+;         obj.type = OBJ_NONE;
   p0
   dupw3
   setr
   .line 770
+;         $tones_play_primary(SOUND_COIN);
   push3 42113
   sys   tones_play_primary
   .line 766
+;     if(type == OBJ_COIN)
   jmp   $L_update_level_123
 $L_update_level_104:
   .line 772
+;     else if(type == OBJ_KEY)
   dup
   p2
   sub
   bnz   $L_update_level_105
   .line 774
+;         keys += 1;
   getg  keys 0
   inc
   setg  keys 0
   .line 775
+;         obj.type = OBJ_NONE;
   p0
   dupw3
   setr
   .line 776
+;         $tones_play_auto(SOUND_KEY);
   push3 42129
   sys   tones_play_auto
   .line 772
+;     else if(type == OBJ_KEY)
   jmp   $L_update_level_123
 $L_update_level_105:
   .line 778
+;     else if(type == OBJ_SUPERCOIN)
   dup
   p3
   sub
   bnz   $L_update_level_106
   .line 780
+;         score += SCORE_SUPERCOIN;
   getg2 score 0
   push2 5000
   add2
   setg2 score 0
   .line 781
+;         obj.type = OBJ_NONE;
   p0
   dupw3
   setr
   .line 782
+;         $tones_play_auto(SOUND_SUPERCOIN);
   push3 42119
   sys   tones_play_auto
   .line 778
+;     else if(type == OBJ_SUPERCOIN)
   jmp   $L_update_level_123
 $L_update_level_106:
   .line 784
+;     else if(type == OBJ_HEART)
   dup
   p6
   sub
   bnz   $L_update_level_108
   .line 786
+;         if(lives < 99)
   getg  lives 0
   push  99
   cult
   bz    $L_update_level_107
   .line 787
+;             lives += 1;
   getg  lives 0
   inc
   setg  lives 0
 $L_update_level_107:
   .line 788
+;         obj.type = OBJ_NONE;
   p0
   dupw3
   setr
   .line 789
+;         $tones_play_auto(SOUND_HEAL);
   push3 46258
   sys   tones_play_auto
   .line 784
+;     else if(type == OBJ_HEART)
   jmp   $L_update_level_123
 $L_update_level_108:
   .line 791
+;     else if(type >= OBJ_MOB && type <= OBJ_MOB_FLY)
   dup
   p8
   cult
@@ -10608,16 +11845,19 @@ $L_update_level_108:
   cult
   bnz   $L_update_level_123
   .line 793
+;         if(obj.death_frames != 0)
   dupw2
   push  10
   add2b
   getr
   bz    $L_update_level_110
   .line 794
+;             return;
   pop3
   jmp   $L_update_level_124
 $L_update_level_110:
   .line 795
+;         if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
   dup
   push  9
   sub
@@ -10644,40 +11884,51 @@ $L_update_level_110:
   bnz   $L_update_level_121
 $L_update_level_132:
   .line 797
+;             if(obj.death_frames == 0)
   dupw2
   push  10
   add2b
   getr
   bnz   $L_update_level_118
   .line 713
+;     if(invincibility_frames != 0)
   getg  invincibility_frames 0
   .line 714
+;         return;
   bnz   $L_update_level_118
   .line 715
+;     if(death_frames != 0)
   getg  death_frames 0
   .line 716
+;         return;
   bnz   $L_update_level_118
   .line 717
+;     if(--hearts != 0)
   getg  hearts 0
   dec
   setg  hearts 0
   getg  hearts 0
   bz    $L_update_level_115
   .line 719
+;         invincibility_frames = INVINCIBILITY_DAMAGE;
   push  75
   setg  invincibility_frames 0
   .line 720
+;         $tones_play_auto(SOUND_DAMAGE);
   push3 46252
   sys   tones_play_auto
   .line 721
+;         vy = -1.5;
   p00
   push2 49088
   setg4 vy 0
   .line 722
+;         vx = 1.5;
   p00
   push2 16320
   setg4 vx 0
   .line 723
+;         if(player_facing_right) vx = -1.5;
   getg  player_facing_right 0
   bz    $L_update_level_114
   p00
@@ -10685,88 +11936,112 @@ $L_update_level_132:
   setg4 vx 0
 $L_update_level_114:
   .line 795
+;         if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
   jmp   $L_update_level_123
 $L_update_level_115:
   .line 696
+;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
+;         return;
   bnz   $L_update_level_118
   .line 698
+;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
   setg  death_frames 0
   .line 699
+;     if(!single_level)
   getg  single_level 0
   bnz   $L_update_level_117
   .line 701
+;         saved_current_map = current_map;
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
+;         saved_total_score = total_score;
   getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
+;         saved_total_time = total_time;
   getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
+;         saved_lives = lives - 1;
   getg  lives 0
   dec
   setg  saved_lives 0
   .line 705
+;         save_exists = (saved_lives > 0);
   p0
   getg  saved_lives 0
   cult
   setg  save_exists 0
   .line 706
+;         $save();
   sys   save
 $L_update_level_117:
   .line 708
+;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
 $L_update_level_118:
   .line 795
+;         if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
   jmp   $L_update_level_123
 $L_update_level_121:
   .line 800
+;         else if(!mob_jumped)
   getg  mob_jumped 0
   bnz   $L_update_level_123
   .line 802
+;             mob_jumped = true;
   p1
   setg  mob_jumped 0
   .line 803
+;             py -= vy;
   getg4 py 0
   getg4 vy 0
   fsub
   setg4 py 0
   .line 804
+;             if(type == OBJ_MOB_HELM)
   dup
   push  10
   sub
   bnz   $L_update_level_122
   .line 805
+;                 obj.type = OBJ_MOB;
   p8
   dupw3
   setr
   .line 804
+;             if(type == OBJ_MOB_HELM)
   jmp   $L_update_level_123
 $L_update_level_122:
   .line 808
+;                 obj.death_frames = MOB_DEATH_FRAMES;
   push  20
   dupw3
   push  10
   add2b
   setr
   .line 809
+;                 score += SCORE_MOB;
   getg2 score 0
   push2 1000
   add2
   setg2 score 0
 $L_update_level_123:
   .line 763
+; void touch_object(map_object_t& obj)
   pop3
 $L_update_level_124:
   .line 642
+;             touch_object(obj);
   popn  7
 $L_update_level_126:
   .line 567
+;     for(u8 i = 0; i < MAX_OBJECTS; ++i)
   inc
   dup
   push  20
@@ -10774,32 +12049,40 @@ $L_update_level_126:
   bnz   $L_update_level_88
   pop
   .line 645
+;     if(mob_jumped)
   getg  mob_jumped 0
   bz    $L_update_level_128
   .line 647
+;         vy = -2.0;
   p000
   push  192
   setg4 vy 0
   .line 648
+;         jump_frames_remaining = PLAYER_JUMP_FRAMES;
   push  15
   setg  jump_frames_remaining 0
   .line 649
+;         $tones_play_auto(SOUND_MOB_JUMP);
   push3 42071
   sys   tones_play_auto
 $L_update_level_128:
   .line 560
+; void update_map_objects()
   popn  8
   .line 655
+;     float tcamy = py - CAMERA_OFFSET_Y;
   getg4 py 0
   p00
   push2 16864
   fsub
   .line 656
+;     float tcamx = px - CAMERA_OFFSET_X;
   getg4 px 0
   p00
   push2 17024
   fsub
   .line 657
+;     float xmax = map_width * 16 - 129;
   getg  map_width 0
   p0
   p16
@@ -10811,6 +12094,7 @@ $L_update_level_128:
   sext
   i2f
   .line 658
+;     float ymax = map_height * 16 - 65;
   getg  map_height 0
   p0
   p16
@@ -10822,6 +12106,7 @@ $L_update_level_128:
   sext
   i2f
   .line 660
+;     tcamx += vx * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
   getl4 12
   getg4 vx 0
   p00
@@ -10830,18 +12115,22 @@ $L_update_level_128:
   fadd
   setl4 12
   .line 662
+;     if(player_facing_right)
   getg  player_facing_right 0
   bz    $L_update_level_75
   .line 663
+;         tcamx += CAMERA_OFFSET_X_DELTA;
   getl4 12
   p000
   push  65
   fadd
   setl4 12
   .line 662
+;     if(player_facing_right)
   jmp   $L_update_level_76
 $L_update_level_75:
   .line 665
+;         tcamx -= CAMERA_OFFSET_X_DELTA;
   getl4 12
   p000
   push  65
@@ -10849,49 +12138,59 @@ $L_update_level_75:
   setl4 12
 $L_update_level_76:
   .line 668
+;         float dy = tcamy - camy;
   getl4 16
   getg4 camy 0
   fsub
   .line 669
+;         if(dy > CAMERA_Y_HYSTERESIS)
   p00
   push2 16608
   getl4 8
   cflt
   bz    $L_update_level_77
   .line 670
+;             tcamy -= CAMERA_Y_HYSTERESIS;
   getl4 20
   p00
   push2 16608
   fsub
   setl4 20
   .line 669
+;         if(dy > CAMERA_Y_HYSTERESIS)
   jmp   $L_update_level_79
 $L_update_level_77:
   .line 671
+;         else if(dy < -CAMERA_Y_HYSTERESIS)
   getl4 4
   p00
   push2 49376
   cflt
   bz    $L_update_level_78
   .line 672
+;             tcamy += CAMERA_Y_HYSTERESIS;
   getl4 20
   p00
   push2 16608
   fadd
   setl4 20
   .line 671
+;         else if(dy < -CAMERA_Y_HYSTERESIS)
   jmp   $L_update_level_79
 $L_update_level_78:
   .line 674
+;             tcamy = camy;
   getg4 camy 0
   setl4 20
 $L_update_level_79:
   pop4
   .line 677
+;     if($pressed(UP_BUTTON))
   p128
   sys   pressed
   bz    $L_update_level_80
   .line 678
+;         tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
   getl4 16
   p00
   push2 16816
@@ -10899,10 +12198,12 @@ $L_update_level_79:
   setl4 16
 $L_update_level_80:
   .line 679
+;     if($pressed(DOWN_BUTTON))
   p16
   sys   pressed
   bz    $L_update_level_81
   .line 680
+;         tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
   getl4 16
   p00
   push2 16832
@@ -10910,6 +12211,7 @@ $L_update_level_80:
   setl4 16
 $L_update_level_81:
   .line 681
+;     if(tcamx < 0) tcamx = 0;
   getl4 12
   p0000
   cslt4
@@ -10918,6 +12220,7 @@ $L_update_level_81:
   setl4 12
 $L_update_level_82:
   .line 682
+;     if(tcamy < 0) tcamy = 0;
   getl4 16
   p0000
   cslt4
@@ -10926,6 +12229,7 @@ $L_update_level_82:
   setl4 16
 $L_update_level_83:
   .line 683
+;     if(tcamx > xmax) tcamx = xmax;
   getl4 8
   getl4 16
   cflt
@@ -10934,6 +12238,7 @@ $L_update_level_83:
   setl4 12
 $L_update_level_84:
   .line 684
+;     if(tcamy > ymax) tcamy = ymax;
   getl4 4
   getl4 20
   cflt
@@ -10942,6 +12247,7 @@ $L_update_level_84:
   setl4 16
 $L_update_level_85:
   .line 685
+;     camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
   getg4 camy 0
   getl4 20
   getg4 camy 0
@@ -10951,6 +12257,7 @@ $L_update_level_85:
   fadd
   setg4 camy 0
   .line 688
+;         (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
   getl4 12
   getg4 camx 0
   fsub
@@ -10958,13 +12265,16 @@ $L_update_level_85:
   push3 4463680
   fmul
   .line 689
+;         dcamx * CAMERA_UPDATE_X_BETA;
   getg4 dcamx 0
   p00
   push2 16968
   fmul
   .line 688
+;         (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
   fsub
   .line 690
+;     camx += dcamx * CAMERA_UPDATE_X_DT;
   getg4 camx 0
   getg4 dcamx 0
   push4 998445679
@@ -10972,6 +12282,7 @@ $L_update_level_85:
   fadd
   setg4 camx 0
   .line 691
+;     dcamx += d2camx * CAMERA_UPDATE_X_DT;
   getg4 dcamx 0
   getl4 8
   push4 998445679
@@ -10979,8 +12290,10 @@ $L_update_level_85:
   fadd
   setg4 dcamx 0
   .line 653
+; void update_camera_position()
   popn  20
   .line 482
+;         if(--level_frames_remaining == 0)
   getg2 level_frames_remaining 0
   p1
   sub2b
@@ -10989,49 +12302,63 @@ $L_update_level_85:
   bool2
   bnz   $L_update_level_69
   .line 696
+;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
+;         return;
   bnz   $L_update_level_69
   .line 698
+;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
   setg  death_frames 0
   .line 699
+;     if(!single_level)
   getg  single_level 0
   bnz   $L_update_level_68
   .line 701
+;         saved_current_map = current_map;
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
+;         saved_total_score = total_score;
   getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
+;         saved_total_time = total_time;
   getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
+;         saved_lives = lives - 1;
   getg  lives 0
   dec
   setg  saved_lives 0
   .line 705
+;         save_exists = (saved_lives > 0);
   p0
   getg  saved_lives 0
   cult
   setg  save_exists 0
   .line 706
+;         $save();
   sys   save
 $L_update_level_68:
   .line 708
+;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
 $L_update_level_69:
   .line 488
+;     if(invincibility_frames != 0)
   getg  invincibility_frames 0
   bz    $L_update_level_56
   .line 489
+;         --invincibility_frames;
   getg  invincibility_frames 0
   dec
   setg  invincibility_frames 0
 $L_update_level_56:
   .line 492
+;     if(py > map_height * 16)
   getg  map_height 0
   p0
   p16
@@ -11042,181 +12369,226 @@ $L_update_level_56:
   cflt
   bz    $L_update_level_73
   .line 696
+;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
+;         return;
   bnz   $L_update_level_73
   .line 698
+;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
   setg  death_frames 0
   .line 699
+;     if(!single_level)
   getg  single_level 0
   bnz   $L_update_level_72
   .line 701
+;         saved_current_map = current_map;
   getg  current_map 0
   setg  saved_current_map 0
   .line 702
+;         saved_total_score = total_score;
   getgn 3 total_score 0
   setgn 3 saved_total_score 0
   .line 703
+;         saved_total_time = total_time;
   getgn 3 total_time 0
   setgn 3 saved_total_time 0
   .line 704
+;         saved_lives = lives - 1;
   getg  lives 0
   dec
   setg  saved_lives 0
   .line 705
+;         save_exists = (saved_lives > 0);
   p0
   getg  saved_lives 0
   cult
   setg  save_exists 0
   .line 706
+;         $save();
   sys   save
 $L_update_level_72:
   .line 708
+;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
 $L_update_level_73:
   .line 495
+;     if(level_start_frames != 0)
   getg  level_start_frames 0
   bz    $L_update_level_58
   .line 496
+;         --level_start_frames;
   getg  level_start_frames 0
   dec
   setg  level_start_frames 0
 $L_update_level_58:
   .line 498
+;     if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   bz    $L_update_level_59
   .line 500
+;         pause_menui = 0;
   p0
   setg  pause_menui 0
   .line 501
+;         state = STATE_PAUSE;
   p3
   setg  state 0
 $L_update_level_59:
   .line 325
+; void update_level()
   popn  8
   ret
 
 update_score_tally:
   .file update.abc
   .line 219
+;     if(score > 0)
   p00
   getg2 score 0
   cult2
   bz    $L_update_score_tally_2
   .line 222
+;         u8 t = STEP;
   push  197
   .line 223
+;         if(score < STEP)
   getg2 score 0
   push2 197
   cult2
   bz    $L_update_score_tally_0
   .line 224
+;             t = score;
   pop
   getg  score 0
 $L_update_score_tally_0:
   .line 225
+;         score -= t;
   getg2 score 0
   dup3
   sub2b
   setg2 score 0
   .line 226
+;         total_score += t;
   getgn 3 total_score 0
   dup4
   add3b
   setgn 3 total_score 0
   .line 227
+;         if((frame_count & 3) == 0)
   getg  frame_count 0
   p3
   and
   bnz   $L_update_score_tally_1
   .line 228
+;             $tones_play(tones{G4 12});
   push3 13238
   sys   tones_play
 $L_update_score_tally_1:
   pop
   .line 219
+;     if(score > 0)
   jmp   $L_update_score_tally_6
 $L_update_score_tally_2:
   .line 230
+;     else if(level_frames_remaining > 0)
   p00
   getg2 level_frames_remaining 0
   cult2
   bz    $L_update_score_tally_6
   .line 233
+;         u8 t = STEP;
   push  117
   .line 234
+;         if(level_frames_remaining < STEP)
   getg2 level_frames_remaining 0
   push2 117
   cult2
   bz    $L_update_score_tally_3
   .line 235
+;             t = level_frames_remaining;
   pop
   getg  level_frames_remaining 0
 $L_update_score_tally_3:
   .line 236
+;         level_frames_remaining -= t;
   getg2 level_frames_remaining 0
   dup3
   sub2b
   setg2 level_frames_remaining 0
   .line 237
+;         total_score += t;
   getgn 3 total_score 0
   dup4
   add3b
   setgn 3 total_score 0
   .line 238
+;         if((frame_count & 3) == 0)
   getg  frame_count 0
   p3
   and
   bnz   $L_update_score_tally_4
   .line 239
+;             $tones_play(tones{G4 12});
   push3 13238
   sys   tones_play
 $L_update_score_tally_4:
   pop
 $L_update_score_tally_6:
   .line 241
+;     if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_update_score_tally_14
   .line 243
+;         total_score += score;
   getgn 3 total_score 0
   getg2 score 0
   p0
   add3
   setgn 3 total_score 0
   .line 244
+;         total_score += level_frames_remaining;
   getgn 3 total_score 0
   getg2 level_frames_remaining 0
   p0
   add3
   setgn 3 total_score 0
   .line 245
+;         if(single_level)
   getg  single_level 0
   bz    $L_update_score_tally_7
   .line 247
+;             frame_count = 0;
   p0
   setg  frame_count 0
   .line 248
+;             state = STATE_LEVEL_SELECT;
   p8
   setg  state 0
   .line 217
+; void update_score_tally()
   ret
 $L_update_score_tally_7:
   .line 250
+;         else if(current_map < NUM_MAPS)
   getg  current_map 0
   push  12
   cult
   .line 251
+;             load_map();
   bnz   load_map
   .line 254
+;             was_high_score = (total_score > high_score);
   getgn 3 high_score 0
   getgn 3 total_score 0
   cult3
   setg  was_high_score 0
   .line 255
+;             was_best_time = (best_time == 0 || total_time < best_time);
   getgn 3 best_time 0
   bool3
   not
@@ -11227,38 +12599,49 @@ $L_update_score_tally_7:
 $L_update_score_tally_9:
   setg  was_best_time 0
   .line 256
+;             if(was_high_score)
   getg  was_high_score 0
   bz    $L_update_score_tally_10
   .line 257
+;                 high_score = total_score;
   getgn 3 total_score 0
   setgn 3 high_score 0
 $L_update_score_tally_10:
   .line 258
+;             if(was_best_time)
   getg  was_best_time 0
   bz    $L_update_score_tally_11
   .line 259
+;                 best_time = total_time;
   getgn 3 total_time 0
   setgn 3 best_time 0
 $L_update_score_tally_11:
   .line 260
+;             current_map = 0;
   p0
   setg  current_map 0
   .line 261
+;             save_exists = false;
   p0
   setg  save_exists 0
   .line 262
+;             $save();
   sys   save
   .line 263
+;             state = STATE_VICTORY;
   p7
   setg  state 0
   .line 217
+; void update_score_tally()
   ret
 $L_update_score_tally_14:
   .line 266
+;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
   pop
 $L_update_score_tally_16:
   .line 217
+; void update_score_tally()
   ret
 

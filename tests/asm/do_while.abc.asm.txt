@@ -3,83 +3,102 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file do_while.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 5
+;     u8 i = 0;
   p0
 $L_main_1:
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_0
   .line 7
+;         i += 3;
   p3
   add
   .line 8
+;     } while(i < 10);
   dup
   push  10
   cult
   bnz   $L_main_1
 $L_main_0:
   .line 10
+;     $assert(i == 12);
   dup
   push  12
   sub
@@ -87,88 +106,109 @@ $L_main_0:
   sys   assert
 $L_main_3:
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bz    $L_main_2
   .line 13
+;         i += 7;
   p7
   add
   .line 14
+;     } while(i < 10);
   dup
   push  10
   cult
   bnz   $L_main_3
 $L_main_2:
   .line 16
+;     $assert(i == 19);
   dup
   push  19
   sub
   not
   sys   assert
   .line 19
+;         i += 7;
   p7
   add
   .line 24
+;     $assert(i == 26);
   dup
   push  26
   sub
   not
   sys   assert
   .line 26
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   pop
   ret
 

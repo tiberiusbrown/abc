@@ -4,29 +4,35 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file gtgb.abc
   .line 5
+;     $debug_break();
   sys   debug_break
   .line 7
+;     $assert(a == 0);
   getg  a 0
   not
   sys   assert
   .line 8
+;     a = 42;
   push  42
   setg  a 0
   .line 9
+;     $assert(a == 42);
   getg  a 0
   push  42
   sub
   not
   sys   assert
   .line 11
+;     $debug_break();
   sys   debug_break
   .line 3
+; void main()
   ret
 

@@ -4,18 +4,21 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file sieve.abc
   .line 7
+;     $debug_break();
   sys   debug_break
   .line 9
+;     for(u8 i = 2; i < SQRT_N; ++i)
   p2
 $L_main_1:
   .line 11
+;         if(!A[i])
   pushg A 0
   dup3
   p0
@@ -23,6 +26,7 @@ $L_main_1:
   getr
   bnz   $L_main_2
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dup
   p0
   dup3
@@ -33,12 +37,14 @@ $L_main_1:
   bz    $L_main_3
 $L_main_4:
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -48,12 +54,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -63,12 +71,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -78,12 +88,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -93,12 +105,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -108,12 +122,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -123,12 +139,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -138,12 +156,14 @@ $L_main_4:
   cult2
   bz    $L_main_3
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -156,12 +176,14 @@ $L_main_3:
   pop2
 $L_main_2:
   .line 9
+;     for(u8 i = 2; i < SQRT_N; ++i)
   inc
   dup
   push  30
   cult
   bz    $L_main_0
   .line 11
+;         if(!A[i])
   pushg A 0
   dup3
   p0
@@ -169,6 +191,7 @@ $L_main_2:
   getr
   bnz   $L_main_10
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dup
   p0
   dup3
@@ -179,12 +202,14 @@ $L_main_2:
   bz    $L_main_7
 $L_main_8:
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -194,12 +219,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -209,12 +236,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -224,12 +253,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -239,12 +270,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -254,12 +287,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -269,12 +304,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -284,12 +321,14 @@ $L_main_8:
   cult2
   bz    $L_main_7
   .line 13
+;                 A[j] = true;
   p1
   pushg A 0
   dupw4
   aidx  1 900
   setr
   .line 12
+;             for(u16 j = i * i; j < N; j += i)
   dupw
   dup5
   add2b
@@ -302,6 +341,7 @@ $L_main_7:
   pop2
 $L_main_10:
   .line 9
+;     for(u8 i = 2; i < SQRT_N; ++i)
   inc
   dup
   push  30
@@ -310,7 +350,9 @@ $L_main_10:
 $L_main_0:
   pop
   .line 16
+;     $debug_break();
   sys   debug_break
   .line 5
+; void main()
   ret
 

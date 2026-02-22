@@ -3,18 +3,21 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file tilesrect.abc
   .line 4
+;     $debug_break();
   sys   debug_break
   .line 6
+;     bool color = false;
   p00
 $L_main_1:
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -23,12 +26,15 @@ $L_main_1:
   mul
   p000
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -39,12 +45,15 @@ $L_main_1:
   p8
   p0
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -55,12 +64,15 @@ $L_main_1:
   p16
   p0
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -69,12 +81,15 @@ $L_main_1:
   mul
   push3 6144
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -85,12 +100,15 @@ $L_main_1:
   p32
   p0
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -99,12 +117,15 @@ $L_main_1:
   mul
   push3 10240
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -113,12 +134,15 @@ $L_main_1:
   mul
   push3 12288
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -127,12 +151,15 @@ $L_main_1:
   mul
   push3 14336
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -143,12 +170,15 @@ $L_main_1:
   p64
   p0
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -157,12 +187,15 @@ $L_main_1:
   mul
   push3 18432
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -171,12 +204,15 @@ $L_main_1:
   mul
   push3 20480
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -185,12 +221,15 @@ $L_main_1:
   mul
   push3 22528
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -199,12 +238,15 @@ $L_main_1:
   mul
   push3 24576
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -213,12 +255,15 @@ $L_main_1:
   mul
   push3 26624
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -227,12 +272,15 @@ $L_main_1:
   mul
   push3 28672
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 12
+;                 u8(x * 8), u8(y * 8), 8, 8, color);
   dup2
   p8
   dup
@@ -241,16 +289,20 @@ $L_main_1:
   mul
   push3 30720
   .line 11
+;             $draw_filled_rect(
   sys   draw_filled_rect
   .line 13
+;             color = !color;
   dup2
   not
   setl  2
   .line 15
+;         color = !color;
   dup2
   not
   setl  2
   .line 7
+;     for(u8 y = 0; y < 8; y += 1)
   inc
   dup
   p8
@@ -258,8 +310,10 @@ $L_main_1:
   bnz   $L_main_1
   pop
   .line 18
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   pop
   ret
 

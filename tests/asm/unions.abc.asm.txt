@@ -3,23 +3,29 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file unions.abc
   .line 9
+;     $debug_break();
   sys   debug_break
   .line 13
+;     u.f = 1.0;
   p1
   .line 14
+;     $assert(u.u == 0x3f800000);
   sys   assert
   .line 17
+;     $assert(u.u == 0xccbebc20);
   p1
   sys   assert
   .line 19
+;     $debug_break();
   sys   debug_break
   .line 7
+; void main()
   ret
 

@@ -4,24 +4,30 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file if_statement.abc
   .line 30
+;     $debug_break();
   sys   debug_break
   .line 37
+;     bool f = false;
   p0
   .line 38
+;     bool t = true;
   p1
   .line 51
+;     test_logical_and(true , true , true );
   dup
   dupw
   .line 3
+;     bool t = false;
   dupw4
   .line 4
+;     if(a && b) t = true;
   bz    $L_main_15
   dup3
   bz    $L_main_15
@@ -29,19 +35,24 @@ main:
   setl  1
 $L_main_15:
   .line 5
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 1
+; void test_logical_and(bool a, bool b, bool result)
   pop4
   .line 52
+;     test_logical_and(true , false, false);
   p00
   p1
   .line 3
+;     bool t = false;
   dupw
   .line 4
+;     if(a && b) t = true;
   bz    $L_main_19
   dup3
   bz    $L_main_19
@@ -49,18 +60,22 @@ $L_main_15:
   setl  1
 $L_main_19:
   .line 5
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 1
+; void test_logical_and(bool a, bool b, bool result)
   pop4
   .line 53
+;     test_logical_and(false, true , false);
   p0
   p1
   p000
   .line 4
+;     if(a && b) t = true;
   bz    $L_main_23
   dup3
   bz    $L_main_23
@@ -68,16 +83,20 @@ $L_main_19:
   setl  1
 $L_main_23:
   .line 5
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 1
+; void test_logical_and(bool a, bool b, bool result)
   pop4
   .line 54
+;     test_logical_and(false, false, false);
   p0000
   .line 4
+;     if(a && b) t = true;
   dup
   bz    $L_main_27
   dup3
@@ -86,20 +105,25 @@ $L_main_23:
   setl  1
 $L_main_27:
   .line 5
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 1
+; void test_logical_and(bool a, bool b, bool result)
   pop4
   .line 56
+;     test_logical_or (true , true , true );
   p1
   dup
   dup
   .line 10
+;     bool t = false;
   p0
   .line 11
+;     if(a || b) t = true;
   p1
   bnz   $L_main_53
   dup3
@@ -109,18 +133,22 @@ $L_main_53:
   setl  1
 $L_main_39:
   .line 12
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 8
+; void test_logical_or(bool a, bool b, bool result)
   pop4
   .line 57
+;     test_logical_or (true , false, true );
   p1
   p0
   dupw
   .line 11
+;     if(a || b) t = true;
   p1
   bnz   $L_main_54
   dup3
@@ -130,18 +158,22 @@ $L_main_54:
   setl  1
 $L_main_43:
   .line 12
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 8
+; void test_logical_or(bool a, bool b, bool result)
   pop4
   .line 58
+;     test_logical_or (false, true , true );
   p1
   dup
   p000
   .line 11
+;     if(a || b) t = true;
   bnz   $L_main_55
   dup3
   bz    $L_main_47
@@ -150,16 +182,20 @@ $L_main_55:
   setl  1
 $L_main_47:
   .line 12
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 8
+; void test_logical_or(bool a, bool b, bool result)
   pop4
   .line 59
+;     test_logical_or (false, false, false);
   p0000
   .line 11
+;     if(a || b) t = true;
   dup
   bnz   $L_main_56
   dup3
@@ -169,68 +205,90 @@ $L_main_56:
   setl  1
 $L_main_51:
   .line 12
+;     $assert(t == result);
   dup
   dup5
   sub
   not
   sys   assert
   .line 8
+; void test_logical_or(bool a, bool b, bool result)
   pop4
   .line 66
+;         bool t = true;
   p1
   .line 67
+;         t || dont_call_me();
   dup
   bnzp  $L_main_9
   .line 17
+;     $assert(false);
   p0
   sys   assert
 $L_main_9:
   .line 67
+;         t || dont_call_me();
   pop
   .line 71
+;         bool t = false;
   p00
   .line 72
+;         t && dont_call_me();
   bzp   $L_main_10
   .line 17
+;     $assert(false);
   p0
   sys   assert
 $L_main_10:
   .line 72
+;         t && dont_call_me();
   pop
   .line 76
+;         bool t = true;
   p1
   .line 77
+;         gf = false;
   p0
   setg  gf 0
   .line 78
+;         t && call_me();
   dup
   bzp   $L_main_11
   .line 24
+;     gf = true;
   p1
   setg  gf 0
 $L_main_11:
   .line 79
+;         $assert(gf);
   getg  gf 0
   sys   assert
   pop
   .line 83
+;         bool t = false;
   p00
   .line 84
+;         gf = false;
   setg  gf 0
   .line 85
+;         t || call_me();
   dup
   bnzp  $L_main_12
   .line 24
+;     gf = true;
   p1
   setg  gf 0
 $L_main_12:
   .line 86
+;         $assert(gf);
   getg  gf 0
   sys   assert
   pop
   .line 89
+;     $debug_break();
   sys   debug_break
   .line 28
+; void main()
   pop2
   ret
 

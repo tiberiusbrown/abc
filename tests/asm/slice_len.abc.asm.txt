@@ -3,22 +3,26 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file slice_len.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 5
+;     u8[4] a = { 1, 2, 3, 4 };
   p1
   p2
   p3
   p4
   .line 7
+;     u8[2]& slice = a[1+:2];
   refl  3
   .line 8
+;     $assert(slice[0] == 2);
   dupw
   getr
   p2
@@ -26,6 +30,7 @@ main:
   not
   sys   assert
   .line 9
+;     $assert(slice[1] == 3);
   dupw
   p1
   add2b
@@ -35,8 +40,10 @@ main:
   not
   sys   assert
   .line 11
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   popn  6
   ret
 

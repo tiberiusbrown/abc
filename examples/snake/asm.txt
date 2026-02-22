@@ -467,7 +467,7 @@ $PD_5:
   .b e 48 49 47 48 20 53 43 4f 52 45 3a 20 25 75 30
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   p0
   p1
@@ -478,6 +478,7 @@ $globinit:
 game_loop:
   .file main.abc
   .line 126
+;     $memcpy(dead, dead);
   pushg dead 0
   p1
   p0
@@ -486,14 +487,17 @@ game_loop:
   p0
   sys   memcpy
   .line 128
+;     if(dead != 0)
   getg  dead 0
   bz    $L_game_loop_0
   .line 130
+;         pos p = snake[snake_head];
   pushg snake 0
   getg2 snake_head 0
   aidx  2 448
   getr2
   .line 131
+;         $draw_filled_circle(p.x * SP + OX, p.y * SP + OY, dead + 3, WHITE);
   p1
   getg  dead 0
   p3
@@ -510,6 +514,7 @@ game_loop:
   mul2b
   sys   draw_filled_circle
   .line 132
+;         $draw_filled_circle(p.x * SP + OX, p.y * SP + OY, dead, BLACK);
   p0
   getg  dead 0
   dup3
@@ -524,15 +529,18 @@ game_loop:
   mul2b
   sys   draw_filled_circle
   .line 133
+;         dead += 3;
   getg  dead 0
   p3
   add
   setg  dead 0
   pop2
   .line 128
+;     if(dead != 0)
   jmp   $L_game_loop_11
 $L_game_loop_0:
   .line 137
+;         if(dir != 1 && $pressed(RIGHT_BUTTON)) ndir = 0;
   getg  dir 0
   dec
   bz    $L_game_loop_2
@@ -543,6 +551,7 @@ $L_game_loop_0:
   setg  ndir 0
 $L_game_loop_2:
   .line 138
+;         if(dir != 0 && $pressed( LEFT_BUTTON)) ndir = 1;
   getg  dir 0
   bz    $L_game_loop_4
   p32
@@ -552,6 +561,7 @@ $L_game_loop_2:
   setg  ndir 0
 $L_game_loop_4:
   .line 139
+;         if(dir != 3 && $pressed( DOWN_BUTTON)) ndir = 2;
   getg  dir 0
   p3
   sub
@@ -563,6 +573,7 @@ $L_game_loop_4:
   setg  ndir 0
 $L_game_loop_6:
   .line 140
+;         if(dir != 2 && $pressed(   UP_BUTTON)) ndir = 3;
   getg  dir 0
   p2
   sub
@@ -574,6 +585,7 @@ $L_game_loop_6:
   setg  ndir 0
 $L_game_loop_8:
   .line 142
+;         if(((++frame) & 3) == 0)
   getg  frame 0
   inc
   setg  frame 0
@@ -582,32 +594,39 @@ $L_game_loop_8:
   and
   bnz   $L_game_loop_11
   .line 144
+;             advance_snake(growth > 0);
   p0
   getg  growth 0
   cult
   .line 83
+;     pos p = snake[snake_head];
   pushg snake 0
   getg2 snake_head 0
   aidx  2 448
   getr2
   .line 84
+;     if(snake_head-- == 0)
   pushg snake_head 0
   pdec2
   bool2
   bnz   $L_game_loop_13
   .line 85
+;         snake_head = len(snake) - 1;
   push2 447
   setg2 snake_head 0
 $L_game_loop_13:
   .line 87
+;     dir = ndir;
   getg  ndir 0
   setg  dir 0
   .line 88
+;     if(dir == 0) p.x += 1;
   getg  dir 0
   bnz   $L_game_loop_14
   linc  2
 $L_game_loop_14:
   .line 89
+;     if(dir == 1) p.x -= 1;
   getg  dir 0
   dec
   bnz   $L_game_loop_15
@@ -616,6 +635,7 @@ $L_game_loop_14:
   setl  2
 $L_game_loop_15:
   .line 90
+;     if(dir == 2) p.y += 1;
   getg  dir 0
   p2
   sub
@@ -623,6 +643,7 @@ $L_game_loop_15:
   inc
 $L_game_loop_16:
   .line 91
+;     if(dir == 3) p.y -= 1;
   getg  dir 0
   p3
   sub
@@ -630,6 +651,7 @@ $L_game_loop_16:
   dec
 $L_game_loop_17:
   .line 93
+;     if(p.x == food.x && p.y == food.y)
   dup2
   getg  food 0
   sub
@@ -639,20 +661,25 @@ $L_game_loop_17:
   sub
   bnz   $L_game_loop_19
   .line 95
+;         score += 1;
   getg  score 0
   inc
   setg  score 0
   .line 96
+;         growth += 3;
   getg  growth 0
   p3
   add
   setg  growth 0
   .line 97
+;         food = randomize_food();
   p0000
   .line 47
+;     for(u8 i = 0; i < 50; ++i)
   dup
 $L_game_loop_28:
   .line 49
+;         f.x = $random_range(0, W - 1);
   push  31
   p0000
   p000
@@ -660,6 +687,7 @@ $L_game_loop_28:
   pop3
   setl  3
   .line 50
+;         f.y = $random_range(0, H - 1);
   push  13
   p0000
   p000
@@ -667,6 +695,7 @@ $L_game_loop_28:
   pop3
   setl  2
   .line 51
+;         if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup2
   p4
   mul
@@ -678,18 +707,21 @@ $L_game_loop_28:
   sys   get_pixel
   bnz   $L_game_loop_29
   .line 52
+;             return f;
   dupw2
   setl2 5
   pop3
   jmp   $L_game_loop_44
 $L_game_loop_29:
   .line 47
+;     for(u8 i = 0; i < 50; ++i)
   inc
   dup
   push  50
   cult
   bz    $L_game_loop_33
   .line 49
+;         f.x = $random_range(0, W - 1);
   push  31
   p0000
   p000
@@ -697,6 +729,7 @@ $L_game_loop_29:
   pop3
   setl  3
   .line 50
+;         f.y = $random_range(0, H - 1);
   push  13
   p0000
   p000
@@ -704,6 +737,7 @@ $L_game_loop_29:
   pop3
   setl  2
   .line 51
+;         if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup2
   p4
   mul
@@ -715,18 +749,21 @@ $L_game_loop_29:
   sys   get_pixel
   bnz   $L_game_loop_30
   .line 52
+;             return f;
   dupw2
   setl2 5
   pop3
   jmp   $L_game_loop_44
 $L_game_loop_30:
   .line 47
+;     for(u8 i = 0; i < 50; ++i)
   inc
   dup
   push  50
   cult
   bz    $L_game_loop_33
   .line 49
+;         f.x = $random_range(0, W - 1);
   push  31
   p0000
   p000
@@ -734,6 +771,7 @@ $L_game_loop_30:
   pop3
   setl  3
   .line 50
+;         f.y = $random_range(0, H - 1);
   push  13
   p0000
   p000
@@ -741,6 +779,7 @@ $L_game_loop_30:
   pop3
   setl  2
   .line 51
+;         if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup2
   p4
   mul
@@ -752,18 +791,21 @@ $L_game_loop_30:
   sys   get_pixel
   bnz   $L_game_loop_31
   .line 52
+;             return f;
   dupw2
   setl2 5
   pop3
   jmp   $L_game_loop_44
 $L_game_loop_31:
   .line 47
+;     for(u8 i = 0; i < 50; ++i)
   inc
   dup
   push  50
   cult
   bz    $L_game_loop_33
   .line 49
+;         f.x = $random_range(0, W - 1);
   push  31
   p0000
   p000
@@ -771,6 +813,7 @@ $L_game_loop_31:
   pop3
   setl  3
   .line 50
+;         f.y = $random_range(0, H - 1);
   push  13
   p0000
   p000
@@ -778,6 +821,7 @@ $L_game_loop_31:
   pop3
   setl  2
   .line 51
+;         if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup2
   p4
   mul
@@ -789,12 +833,14 @@ $L_game_loop_31:
   sys   get_pixel
   bnz   $L_game_loop_32
   .line 52
+;             return f;
   dupw2
   setl2 5
   pop3
   jmp   $L_game_loop_44
 $L_game_loop_32:
   .line 47
+;     for(u8 i = 0; i < 50; ++i)
   inc
   dup
   push  50
@@ -803,6 +849,7 @@ $L_game_loop_32:
 $L_game_loop_33:
   pop
   .line 54
+;     for(f.y = 0; f.y < H; ++f.y)
   p0
   setl  1
   dup
@@ -811,6 +858,7 @@ $L_game_loop_33:
   bz    $L_game_loop_43
 $L_game_loop_34:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   p0
   setl  2
   dup2
@@ -819,6 +867,7 @@ $L_game_loop_34:
   bz    $L_game_loop_42
 $L_game_loop_35:
   .line 56
+;             if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup
   p4
   mul
@@ -830,16 +879,19 @@ $L_game_loop_35:
   sys   get_pixel
   bnz   $L_game_loop_36
   .line 57
+;                 return f;
   setl2 2
   jmp   $L_game_loop_44
 $L_game_loop_36:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   linc  2
   dup2
   p32
   cult
   bz    $L_game_loop_42
   .line 56
+;             if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup
   p4
   mul
@@ -851,16 +903,19 @@ $L_game_loop_36:
   sys   get_pixel
   bnz   $L_game_loop_37
   .line 57
+;                 return f;
   setl2 2
   jmp   $L_game_loop_44
 $L_game_loop_37:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   linc  2
   dup2
   p32
   cult
   bz    $L_game_loop_42
   .line 56
+;             if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup
   p4
   mul
@@ -872,16 +927,19 @@ $L_game_loop_37:
   sys   get_pixel
   bnz   $L_game_loop_38
   .line 57
+;                 return f;
   setl2 2
   jmp   $L_game_loop_44
 $L_game_loop_38:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   linc  2
   dup2
   p32
   cult
   bz    $L_game_loop_42
   .line 56
+;             if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup
   p4
   mul
@@ -893,16 +951,19 @@ $L_game_loop_38:
   sys   get_pixel
   bnz   $L_game_loop_39
   .line 57
+;                 return f;
   setl2 2
   jmp   $L_game_loop_44
 $L_game_loop_39:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   linc  2
   dup2
   p32
   cult
   bz    $L_game_loop_42
   .line 56
+;             if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup
   p4
   mul
@@ -914,16 +975,19 @@ $L_game_loop_39:
   sys   get_pixel
   bnz   $L_game_loop_40
   .line 57
+;                 return f;
   setl2 2
   jmp   $L_game_loop_44
 $L_game_loop_40:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   linc  2
   dup2
   p32
   cult
   bz    $L_game_loop_42
   .line 56
+;             if(!$get_pixel(f.x * SP + OX, f.y * SP + OY))
   dup
   p4
   mul
@@ -935,10 +999,12 @@ $L_game_loop_40:
   sys   get_pixel
   bnz   $L_game_loop_41
   .line 57
+;                 return f;
   setl2 2
   jmp   $L_game_loop_44
 $L_game_loop_41:
   .line 55
+;         for(f.x = 0; f.x < W; ++f.x)
   linc  2
   dup2
   p32
@@ -946,6 +1012,7 @@ $L_game_loop_41:
   bnz   $L_game_loop_35
 $L_game_loop_42:
   .line 54
+;     for(f.y = 0; f.y < H; ++f.y)
   inc
   dup
   push  14
@@ -953,17 +1020,22 @@ $L_game_loop_42:
   bnz   $L_game_loop_34
 $L_game_loop_43:
   .line 58
+;     return { 0, 0 };
   p00
   setl2 4
   pop2
 $L_game_loop_44:
   .line 97
+;         food = randomize_food();
   setg2 food 0
   .line 41
+;         }, 0);
   p00
   .line 35
+;         sprites{
   push3 7279
   .line 34
+;         food.x * SP + OX, food.y * SP + OY,
   getg  food 1
   sext
   p4
@@ -975,9 +1047,11 @@ $L_game_loop_44:
   p4
   mul2b
   .line 33
+;     $draw_sprite(
   sys   draw_sprite
 $L_game_loop_19:
   .line 101
+;     if(p.x < 0 || p.x >= W || p.y < 0 || p.y >= H ||
   dup2
   p0
   cslt
@@ -995,6 +1069,7 @@ $L_game_loop_19:
   cult
   bz    $L_game_loop_48
   .line 102
+;         $get_pixel(p.x * SP + OX, p.y * SP + OY))
   dup
   p4
   mul
@@ -1005,29 +1080,36 @@ $L_game_loop_19:
   mul
   sys   get_pixel
   .line 101
+;     if(p.x < 0 || p.x >= W || p.y < 0 || p.y >= H ||
   bz    $L_game_loop_21
 $L_game_loop_48:
   .line 104
+;         dead = 1;
   p1
   setg  dead 0
   .line 105
+;         if(score > high_score)
   getg  high_score 0
   getg  score 0
   cult
   bz    $L_game_loop_21
   .line 107
+;             high_score = score;
   getg  score 0
   setg  high_score 0
   .line 108
+;             $save();
   sys   save
 $L_game_loop_21:
   .line 111
+;     snake[snake_head] = p;
   dupw
   pushg snake 0
   getg2 snake_head 0
   aidx  2 448
   setr2
   .line 113
+;     $draw_filled_rect(p.x * SP + OX, p.y * SP + OY, SP, SP, WHITE);
   p1
   p4
   dup
@@ -1043,24 +1125,29 @@ $L_game_loop_21:
   mul2b
   sys   draw_filled_rect
   .line 115
+;     if(!grow)
   dup3
   bnz   $L_game_loop_23
   .line 117
+;         if(snake_tail-- == 0)
   pushg snake_tail 0
   pdec2
   bool2
   bnz   $L_game_loop_22
   .line 118
+;             snake_tail = len(snake) - 1;
   push2 447
   setg2 snake_tail 0
 $L_game_loop_22:
   .line 119
+;         p = snake[snake_tail];
   pushg snake 0
   getg2 snake_tail 0
   aidx  2 448
   getr2
   setl2 2
   .line 120
+;         $draw_filled_rect(p.x * SP + OX, p.y * SP + OY, SP, SP, BLACK);
   p0
   p4
   dup
@@ -1077,24 +1164,29 @@ $L_game_loop_22:
   sys   draw_filled_rect
 $L_game_loop_23:
   .line 81
+; void advance_snake(bool grow)
   pop3
   .line 145
+;             if(growth > 0)
   p0
   getg  growth 0
   cult
   bz    $L_game_loop_11
   .line 146
+;                 --growth;
   getg  growth 0
   dec
   setg  growth 0
 $L_game_loop_11:
   .line 150
+;     $draw_filled_rect(0, 0, 128, 8, BLACK);
   p0
   p8
   p128
   p0000
   sys   draw_filled_rect
   .line 151
+;     $draw_filled_rect(0, 6, 128, 2, WHITE);
   p1
   p2
   p128
@@ -1102,9 +1194,11 @@ $L_game_loop_11:
   p000
   sys   draw_filled_rect
   .line 152
+;     $set_text_font(f);
   push3 2791
   sys   set_text_font
   .line 153
+;     $draw_textf(0, 5, "Score: %u", score);
   getg  score 0
   p000
   push4 167779452
@@ -1113,38 +1207,50 @@ $L_game_loop_11:
   p000
   sys   draw_textf
   .line 155
+;     $display_noclear();
   sys   display_noclear
   .line 124
+; void game_loop()
   ret
 
 main:
   .file main.abc
   .line 198
+;     $load();
   sys   load
   pop
   .line 199
+;     $init_random_seed();
   sys   init_random_seed
   .line 200
+;     $set_frame_rate(40);
   push  40
   sys   set_frame_rate
   .line 160
+;     u8 cx, cy, cr = 0;
   p000
   .line 163
+;         if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_main_11
   .line 165
+;             $init_random_seed();
   sys   init_random_seed
   .line 166
+;             break;
   jmp   $L_main_17
 $L_main_11:
   .line 169
+;         if(cr == 0)
   dup
   bnz   $L_main_12
   .line 171
+;             cr = 1;
   p1
   setl  1
   .line 172
+;             cx = $random_range(10, 117);
   push  117
   p000
   push  10
@@ -1153,6 +1259,7 @@ $L_main_11:
   pop3
   setl  3
   .line 173
+;             cy = $random_range(10, 53);
   push  53
   p000
   push  10
@@ -1162,6 +1269,7 @@ $L_main_11:
   setl  2
 $L_main_12:
   .line 175
+;         $draw_filled_circle(cx, cy, cr + 3, WHITE);
   p1
   dup2
   p3
@@ -1172,6 +1280,7 @@ $L_main_12:
   p0
   sys   draw_filled_circle
   .line 176
+;         $draw_filled_circle(cx, cy, cr, BLACK);
   p0
   dup2
   dup4
@@ -1180,37 +1289,45 @@ $L_main_12:
   p0
   sys   draw_filled_circle
   .line 177
+;         if((cr += 1) > 50)
   push  50
   linc  2
   dup2
   cult
   bz    $L_main_13
   .line 178
+;             cr = 0;
   p0
   setl  1
 $L_main_13:
   .line 180
+;         $draw_filled_rect(37, 26, 53, 7, BLACK);
   p0
   p7
   push4 620763701
   p0
   sys   draw_filled_rect
   .line 181
+;         $set_text_font(FONT_CHUNKYSANS6);
   push3 4930
   sys   set_text_font
   .line 182
+;         $draw_text_P(38, 32, "ABC SNAKE");
   push4 151002246
   p00
   p32
   push3 9728
   sys   draw_text_P
   .line 184
+;         $set_text_font(f);
   push3 2791
   sys   set_text_font
   .line 185
+;         char[20] buf;
   pz16
   p0000
   .line 186
+;         $format(buf, "HIGH SCORE: %u", high_score);
   getg  high_score 0
   p000
   push4 251665551
@@ -1219,11 +1336,13 @@ $L_main_13:
   push2 20
   sys   format
   .line 187
+;         u8 w = $text_width(buf);
   refl  20
   push2 20
   sys   text_width
   pop
   .line 188
+;         u8 x = 64 - w / 2;
   p64
   dup2
   p000
@@ -1232,6 +1351,7 @@ $L_main_13:
   pop3
   sub
   .line 189
+;         $draw_filled_rect(x - 1, 34, w + 1, 7, BLACK);
   p0
   p7
   dup4
@@ -1243,30 +1363,38 @@ $L_main_13:
   sub2b
   sys   draw_filled_rect
   .line 190
+;         $draw_text(x, 40, buf);
   refl  22
   push4 2621460
   dup7
   p0
   sys   draw_text
   .line 192
+;         $display();
   sys   display
   popn  22
   .line 163
+;         if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_main_14
   .line 165
+;             $init_random_seed();
   sys   init_random_seed
   .line 166
+;             break;
   jmp   $L_main_17
 $L_main_14:
   .line 169
+;         if(cr == 0)
   dup
   bnz   $L_main_15
   .line 171
+;             cr = 1;
   p1
   setl  1
   .line 172
+;             cx = $random_range(10, 117);
   push  117
   p000
   push  10
@@ -1275,6 +1403,7 @@ $L_main_14:
   pop3
   setl  3
   .line 173
+;             cy = $random_range(10, 53);
   push  53
   p000
   push  10
@@ -1284,6 +1413,7 @@ $L_main_14:
   setl  2
 $L_main_15:
   .line 175
+;         $draw_filled_circle(cx, cy, cr + 3, WHITE);
   p1
   dup2
   p3
@@ -1294,6 +1424,7 @@ $L_main_15:
   p0
   sys   draw_filled_circle
   .line 176
+;         $draw_filled_circle(cx, cy, cr, BLACK);
   p0
   dup2
   dup4
@@ -1302,37 +1433,45 @@ $L_main_15:
   p0
   sys   draw_filled_circle
   .line 177
+;         if((cr += 1) > 50)
   push  50
   linc  2
   dup2
   cult
   bz    $L_main_16
   .line 178
+;             cr = 0;
   p0
   setl  1
 $L_main_16:
   .line 180
+;         $draw_filled_rect(37, 26, 53, 7, BLACK);
   p0
   p7
   push4 620763701
   p0
   sys   draw_filled_rect
   .line 181
+;         $set_text_font(FONT_CHUNKYSANS6);
   push3 4930
   sys   set_text_font
   .line 182
+;         $draw_text_P(38, 32, "ABC SNAKE");
   push4 151002246
   p00
   p32
   push3 9728
   sys   draw_text_P
   .line 184
+;         $set_text_font(f);
   push3 2791
   sys   set_text_font
   .line 185
+;         char[20] buf;
   pz16
   p0000
   .line 186
+;         $format(buf, "HIGH SCORE: %u", high_score);
   getg  high_score 0
   p000
   push4 251665551
@@ -1341,11 +1480,13 @@ $L_main_16:
   push2 20
   sys   format
   .line 187
+;         u8 w = $text_width(buf);
   refl  20
   push2 20
   sys   text_width
   pop
   .line 188
+;         u8 x = 64 - w / 2;
   p64
   dup2
   p000
@@ -1354,6 +1495,7 @@ $L_main_16:
   pop3
   sub
   .line 189
+;         $draw_filled_rect(x - 1, 34, w + 1, 7, BLACK);
   p0
   p7
   dup4
@@ -1365,35 +1507,44 @@ $L_main_16:
   sub2b
   sys   draw_filled_rect
   .line 190
+;         $draw_text(x, 40, buf);
   refl  22
   push4 2621460
   dup7
   p0
   sys   draw_text
   .line 192
+;         $display();
   sys   display
   popn  22
   .line 163
+;         if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
   bz    $L_main_11
   .line 165
+;             $init_random_seed();
   sys   init_random_seed
 $L_main_17:
   .line 158
+; void main_menu()
   pop3
   .line 63
+;     snake_head = 0;
   p00
   setg2 snake_head 0
   .line 64
+;     snake_tail = 4;
   p4
   p0
   setg2 snake_tail 0
   .line 65
+;     snake[0] = { snake_tail, H / 2 };
   getg  snake_tail 0
   p7
   setg2 snake 0
   .line 66
+;     for(u16 i = 1; i != snake_tail; ++i)
   p1
   p0
   dupw
@@ -1403,6 +1554,7 @@ $L_main_17:
   bz    $L_main_5
 $L_main_3:
   .line 68
+;         snake[i] = snake[i-1];
   pushg snake 0
   dupw3
   p0
@@ -1417,6 +1569,7 @@ $L_main_3:
   aidx  2 448
   setr2
   .line 69
+;         snake[i].x -= 1;
   pushg snake 0
   dupw3
   aidx  2 448
@@ -1427,6 +1580,7 @@ $L_main_3:
   setr
   pop2
   .line 66
+;     for(u16 i = 1; i != snake_tail; ++i)
   p1
   add2b
   dupw
@@ -1435,6 +1589,7 @@ $L_main_3:
   bool2
   bz    $L_main_5
   .line 68
+;         snake[i] = snake[i-1];
   pushg snake 0
   dupw3
   p00
@@ -1449,6 +1604,7 @@ $L_main_3:
   aidx  2 448
   setr2
   .line 69
+;         snake[i].x -= 1;
   pushg snake 0
   dupw3
   aidx  2 448
@@ -1459,6 +1615,7 @@ $L_main_3:
   setr
   pop2
   .line 66
+;     for(u16 i = 1; i != snake_tail; ++i)
   p1
   add2b
   dupw
@@ -1467,6 +1624,7 @@ $L_main_3:
   bool2
   bz    $L_main_5
   .line 68
+;         snake[i] = snake[i-1];
   pushg snake 0
   dupw3
   p00
@@ -1481,6 +1639,7 @@ $L_main_3:
   aidx  2 448
   setr2
   .line 69
+;         snake[i].x -= 1;
   pushg snake 0
   dupw3
   aidx  2 448
@@ -1491,6 +1650,7 @@ $L_main_3:
   setr
   pop2
   .line 66
+;     for(u16 i = 1; i != snake_tail; ++i)
   p1
   add2b
   dupw
@@ -1499,6 +1659,7 @@ $L_main_3:
   bool2
   bz    $L_main_5
   .line 68
+;         snake[i] = snake[i-1];
   pushg snake 0
   dupw3
   p00
@@ -1513,6 +1674,7 @@ $L_main_3:
   aidx  2 448
   setr2
   .line 69
+;         snake[i].x -= 1;
   pushg snake 0
   dupw3
   aidx  2 448
@@ -1523,6 +1685,7 @@ $L_main_3:
   setr
   pop2
   .line 66
+;     for(u16 i = 1; i != snake_tail; ++i)
   p1
   add2b
   dupw
@@ -1531,6 +1694,7 @@ $L_main_3:
   bool2
   bz    $L_main_5
   .line 68
+;         snake[i] = snake[i-1];
   pushg snake 0
   dupw3
   p00
@@ -1545,6 +1709,7 @@ $L_main_3:
   aidx  2 448
   setr2
   .line 69
+;         snake[i].x -= 1;
   pushg snake 0
   dupw3
   aidx  2 448
@@ -1555,6 +1720,7 @@ $L_main_3:
   setr
   pop2
   .line 66
+;     for(u16 i = 1; i != snake_tail; ++i)
   p1
   add2b
   dupw
@@ -1565,21 +1731,27 @@ $L_main_3:
 $L_main_5:
   pop2
   .line 71
+;     dir = 0;
   p0
   setg  dir 0
   .line 72
+;     ndir = 0;
   p0
   setg  ndir 0
   .line 73
+;     dead = 0;
   p0
   setg  dead 0
   .line 74
+;     growth = 0;
   p0
   setg  growth 0
   .line 75
+;     score = 0;
   p0
   setg  score 0
   .line 76
+;     food.x = $random_range(W / 2, W - 1);
   push  31
   p000
   p16
@@ -1588,6 +1760,7 @@ $L_main_5:
   pop3
   setg  food 0
   .line 77
+;     food.y = $random_range(0, H - 1);
   push  13
   p0000
   p000
@@ -1595,10 +1768,13 @@ $L_main_5:
   pop3
   setg  food 1
   .line 41
+;         }, 0);
   p00
   .line 35
+;         sprites{
   push3 7279
   .line 34
+;         food.x * SP + OX, food.y * SP + OY,
   getg  food 1
   sext
   p4
@@ -1610,70 +1786,89 @@ $L_main_5:
   p4
   mul2b
   .line 33
+;     $draw_sprite(
   sys   draw_sprite
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
 $L_main_1:
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bz    $L_main_0
   .line 204
+;         game_loop();
   call  game_loop
   .line 203
+;     while(dead < 160)
   getg  dead 0
   push  160
   cult
   bnz   $L_main_1
 $L_main_0:
   .line 196
+; void main()
   ret
 

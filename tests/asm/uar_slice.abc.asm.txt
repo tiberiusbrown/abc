@@ -7,24 +7,28 @@ $PD_1:
   .b 3 65 6c 6c 6f
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file uar_slice.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 5
+;     char[10] str = "Hello";
   push3 7103816
   dup
   push  111
   p0000
   dup
   .line 6
+;     char[]& r = str;
   refl  10
   push3 65546
   .line 7
+;     $assert(r[1:4] == "ell");
   dup
   p0
   p3
@@ -42,8 +46,10 @@ main:
   not
   sys   assert
   .line 9
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   popn  14
   ret
 

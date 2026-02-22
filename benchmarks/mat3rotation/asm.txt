@@ -4,64 +4,79 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file mat3rotation.abc
   .line 38
+;     $debug_break();
   sys   debug_break
   .line 40
+;     r = rot(1.23, 4.56, 0.789);
   alloc 36
   push4 1061813223
   push4 1083304837
   push4 1067282596
   .line 8
+;     mat3 m;
   pz16
   pz16
   p0000
   .line 10
+;     float sa = $sin(a);
   getl4 40
   sys   sin
   .line 11
+;     float ca = $cos(a);
   getl4 44
   sys   cos
   .line 12
+;     float sb = $sin(b);
   getl4 52
   sys   sin
   .line 13
+;     float cb = $cos(b);
   getl4 56
   sys   cos
   .line 14
+;     float sc = $sin(c);
   getl4 64
   sys   sin
   .line 15
+;     float cc = $cos(c);
   getl4 68
   sys   cos
   .line 16
+;     float sasb = sa * sb;
   getl4 24
   getl4 20
   fmul
   .line 17
+;     float casb = ca * sb;
   getln 8 24
   fmul
   .line 19
+;     m.d[0] = cb * cc;
   getl4 20
   getl4 16
   fmul
   setl4 68
   .line 20
+;     m.d[1] = cb * sc;
   getln 8 20
   fmul
   setl4 64
   .line 21
+;     m.d[2] = -sb;
   getl4 24
   p000
   p128
   xor4
   setl4 60
   .line 23
+;     m.d[3] = sasb * cc - ca * sc;
   getl4 8
   getl4 16
   fmul
@@ -71,6 +86,7 @@ main:
   fsub
   setl4 56
   .line 24
+;     m.d[4] = sasb * sc + ca * cc;
   getl4 8
   getl4 20
   fmul
@@ -80,11 +96,13 @@ main:
   fadd
   setl4 52
   .line 25
+;     m.d[5] = sa * cb;
   getl4 32
   getl4 24
   fmul
   setl4 48
   .line 27
+;     m.d[6] = casb * cc + sa * sc;
   getl4 4
   getl4 16
   fmul
@@ -94,6 +112,7 @@ main:
   fadd
   setl4 44
   .line 28
+;     m.d[7] = casb * sc - sa * cc;
   getl4 4
   getl4 20
   fmul
@@ -103,18 +122,23 @@ main:
   fsub
   setl4 40
   .line 29
+;     m.d[8] = ca * cb;
   getl4 28
   getl4 24
   fmul
   setl4 36
   .line 31
+;     return m;
   getln 36 68
   setln 36 116
   popn  80
   .line 40
+;     r = rot(1.23, 4.56, 0.789);
   setgn 36 r 0
   .line 42
+;     $debug_break();
   sys   debug_break
   .line 36
+; void main()
   ret
 

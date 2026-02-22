@@ -80,24 +80,29 @@ $PD_8:
   .b 4 62 6c 61 68 32
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file strings.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 5
+;     $assert('e' == 'e');
   p1
   sys   assert
   .line 6
+;     $assert("hello"[1] == 'e');
   p1
   sys   assert
   .line 7
+;     $assert("  hi"[1] == ' ');
   p1
   sys   assert
   .line 9
+;     $assert($strlen("what") == 4);
   push4 67109148
   p00
   sys   strlen_P
@@ -108,8 +113,10 @@ main:
   not
   sys   assert
   .line 11
+;     char[4] str = "blah";
   push4 1751215202
   .line 12
+;     $assert($strcmp(str, "blah" ) == 0);
   push4 67109172
   p00
   refl  10
@@ -119,6 +126,7 @@ main:
   not
   sys   assert
   .line 13
+;     $assert($strcmp(str, "what" ) <  0);
   push4 67109148
   p00
   refl  10
@@ -129,6 +137,7 @@ main:
   cslt
   sys   assert
   .line 14
+;     $assert($strcmp(str, "aaaa" ) >  0);
   p0
   push4 67109288
   p00
@@ -139,6 +148,7 @@ main:
   cslt
   sys   assert
   .line 15
+;     $assert($strcmp(str, "bla"  ) >  0);
   p0
   push4 50331956
   p00
@@ -149,6 +159,7 @@ main:
   cslt
   sys   assert
   .line 16
+;     $assert($strcmp(str, "blah2") <  0);
   push4 83886508
   p00
   refl  10
@@ -159,6 +170,7 @@ main:
   cslt
   sys   assert
   .line 18
+;     $assert($strlen(str) == 4);
   refl  4
   p4
   p0
@@ -169,8 +181,10 @@ main:
   not
   sys   assert
   .line 20
+;     char[4] str2;
   p0000
   .line 22
+;     str2 = "blah" ; $assert($strcmp(str, str2) == 0);
   push4 67109172
   p00
   refl  10
@@ -188,6 +202,7 @@ main:
   not
   sys   assert
   .line 23
+;     str2 = "what" ; $assert($strcmp(str, str2) <  0);
   push4 67109148
   p00
   refl  10
@@ -206,6 +221,7 @@ main:
   cslt
   sys   assert
   .line 24
+;     str2 = "aaaa" ; $assert($strcmp(str, str2) >  0);
   push4 67109288
   p00
   refl  10
@@ -224,6 +240,7 @@ main:
   cslt
   sys   assert
   .line 26
+;     str = "hi"    ; $assert(str == "hi"    );
   p7
   p1
   p0
@@ -246,6 +263,7 @@ main:
   not
   sys   assert
   .line 27
+;     str = "longer"; $assert(str == "long"  );
   push4 100663561
   p00
   refl  14
@@ -262,6 +280,7 @@ main:
   not
   sys   assert
   .line 28
+;     str = "wheezy"; $assert(str != "wheezy");
   push4 100663567
   p00
   refl  14
@@ -278,6 +297,7 @@ main:
   bool
   sys   assert
   .line 34
+;     $format(str, "%u", 42000);
   p16
   push  164
   p00
@@ -288,6 +308,7 @@ main:
   p0
   sys   format
   .line 35
+;     $assert(str == "4200");
   push4 67109144
   p00
   refl  14
@@ -297,6 +318,7 @@ main:
   not
   sys   assert
   .line 36
+;     $assert(str2 == "aaaa");
   push4 67109288
   p00
   refl  10
@@ -306,6 +328,7 @@ main:
   not
   sys   assert
   .line 38
+;     $format(str, "%u", 42);
   push  42
   p000
   push4 50331925
@@ -315,6 +338,7 @@ main:
   p0
   sys   format
   .line 39
+;     $assert(str == "42");
   push4 33554712
   p00
   refl  14
@@ -324,6 +348,7 @@ main:
   not
   sys   assert
   .line 41
+;     $format(str, "%03u", 42);
   push  42
   p000
   p32
@@ -336,6 +361,7 @@ main:
   p0
   sys   format
   .line 42
+;     $assert(str == "042");
   push4 50331939
   p00
   refl  14
@@ -345,6 +371,7 @@ main:
   not
   sys   assert
   .line 44
+;     $format(str, "%04u", 42);
   push  42
   p000
   push4 50331942
@@ -354,6 +381,7 @@ main:
   p0
   sys   format
   .line 45
+;     $assert(str == "0042");
   push4 67109161
   p00
   refl  14
@@ -363,6 +391,7 @@ main:
   not
   sys   assert
   .line 47
+;     $format(str, "%.2f", 2.51);
   push4 1075880919
   push4 50331949
   p00
@@ -371,6 +400,7 @@ main:
   p0
   sys   format
   .line 48
+;     $assert(str == "2.51");
   push4 67109168
   p00
   refl  14
@@ -380,6 +410,7 @@ main:
   not
   sys   assert
   .line 50
+;     $format(str, "%.2f", 3.51499);
   push4 1080096153
   push4 50331949
   p00
@@ -388,6 +419,7 @@ main:
   p0
   sys   format
   .line 51
+;     $assert(str == "3.51");
   push4 67109176
   p00
   refl  14
@@ -397,6 +429,7 @@ main:
   not
   sys   assert
   .line 53
+;     $format(str, "%.2f", 4.51501);
   push4 1083210486
   push4 50331949
   p00
@@ -405,6 +438,7 @@ main:
   p0
   sys   format
   .line 54
+;     $assert(str == "4.52");
   push4 67109180
   p00
   refl  14
@@ -414,6 +448,7 @@ main:
   not
   sys   assert
   .line 56
+;     $format(str, "%.1f", 5.515);
   push4 1085307617
   dup
   p1
@@ -425,6 +460,7 @@ main:
   p0
   sys   format
   .line 57
+;     $assert(str == "5.5");
   push4 50331971
   p00
   refl  14
@@ -434,6 +470,7 @@ main:
   not
   sys   assert
   .line 59
+;     $format(str, "%.1f", 6.55001);
   push4 1087478191
   dup
   p1
@@ -445,6 +482,7 @@ main:
   p0
   sys   format
   .line 60
+;     $assert(str == "6.6");
   push4 50331974
   p00
   refl  14
@@ -454,12 +492,15 @@ main:
   not
   sys   assert
   .line 63
+;         char[10] str;
   pz16
   .line 64
+;         char[20] str2;
   pz8
   p0000
   p00
   .line 65
+;         str = "What";
   push4 67109193
   p00
   refl  36
@@ -467,6 +508,7 @@ main:
   sys   strcpy_P
   pop4
   .line 66
+;         str2 = str;
   refl  30
   push2 10
   refl  24
@@ -474,6 +516,7 @@ main:
   sys   strcpy
   pop4
   .line 67
+;         $assert(str == str2);
   refl  20
   push2 20
   refl  34
@@ -482,6 +525,7 @@ main:
   not
   sys   assert
   .line 68
+;         $assert(str == "What");
   push4 67109193
   p00
   refl  36
@@ -490,6 +534,7 @@ main:
   not
   sys   assert
   .line 69
+;         $assert("What" == str);
   push4 67109193
   p00
   refl  36
@@ -498,6 +543,7 @@ main:
   not
   sys   assert
   .line 70
+;         $assert("What" == "What");
   push4 67109193
   p00
   getl4 6
@@ -506,6 +552,7 @@ main:
   not
   sys   assert
   .line 71
+;         $assert("What?" != str);
   push4 83886413
   p00
   refl  36
@@ -515,11 +562,13 @@ main:
   sys   assert
   popn  30
   .line 75
+;         char[64] t;
   pz16
   pz16
   pz16
   pz16
   .line 76
+;         t = "the quick brown fox jumps over the lazy dog";
   push4 721420626
   p00
   refl  70
@@ -528,6 +577,7 @@ main:
   sys   strcpy_P
   pop4
   .line 77
+;         $assert(t == "the quick brown fox jumps over the lazy dog");
   push4 721420626
   p00
   refl  70
@@ -537,6 +587,7 @@ main:
   not
   sys   assert
   .line 81
+;         char[64] t = "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG";
   push4 721420669
   p00
   refl  70
@@ -545,6 +596,7 @@ main:
   sys   strcpy_P
   pop4
   .line 82
+;         $assert(t == "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG");
   push4 721420669
   p00
   refl  70
@@ -555,8 +607,10 @@ main:
   sys   assert
   popn  64
   .line 85
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   popn  8
   ret
 

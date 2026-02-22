@@ -9,15 +9,17 @@ $PD_2:
   .b b 48 65 6c 6c 6f 20 57 6f 72 6c 64 21
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file string_append.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 5
+;     char[20] s = "Hello";
   alloc 20
   p0
   p1
@@ -29,6 +31,7 @@ main:
   sys   strcpy_P
   pop4
   .line 6
+;     s += " World!";
   p5
   p1
   p0
@@ -39,6 +42,7 @@ main:
   sys   strcat_P
   pop4
   .line 7
+;     $assert(s == "Hello World!");
   push4 201326860
   p00
   refl  26
@@ -47,8 +51,10 @@ main:
   not
   sys   assert
   .line 9
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   popn  20
   ret
 

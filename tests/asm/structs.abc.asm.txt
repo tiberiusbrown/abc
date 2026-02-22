@@ -9,21 +9,25 @@ pe:
   .b f 01 00 02 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file structs.abc
   .line 20
+;     $debug_break();
   sys   debug_break
   .line 22
+;     $assert(pe.x == 1);
   p1
   sys   assert
   .line 23
+;     $assert(pe.y == 2);
   p1
   sys   assert
   .line 25
+;         $assert(pe.attrs[i] == 0);
   p1
   sys   assert
   p1
@@ -49,16 +53,19 @@ main:
   p1
   sys   assert
   .line 27
+;     $assert(e.x == 0);
   getg2 e 0
   bool2
   not
   sys   assert
   .line 28
+;     $assert(e.y == 0);
   getg2 e 2
   bool2
   not
   sys   assert
   .line 30
+;         $assert(e.attrs[i] == 0);
   getg  e 4
   not
   sys   assert
@@ -96,9 +103,11 @@ main:
   not
   sys   assert
   .line 32
+;     e.attrs[4] = 42;
   push  42
   setg  e 8
   .line 38
+;             $assert(e.attrs[i] == 0);
   getg  e 4
   not
   sys   assert
@@ -112,12 +121,14 @@ main:
   not
   sys   assert
   .line 36
+;             $assert(e.attrs[i] == 42);
   getg  e 8
   push  42
   sub
   not
   sys   assert
   .line 38
+;             $assert(e.attrs[i] == 0);
   getg  e 9
   not
   sys   assert
@@ -140,18 +151,23 @@ main:
   not
   sys   assert
   .line 41
+;     enemies[2].x = 42;
   push2 42
   setg2 enemies 32
   .line 42
+;     enemies[2].y = 65;
   push2 65
   setg2 enemies 34
   .line 43
+;     enemies[2].attrs[3] = 88;
   push  88
   setg  enemies 39
   .line 44
+;     for(u8 j = 0; j < 4; ++j)
   p0
 $L_main_51:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -159,6 +175,7 @@ $L_main_51:
   p0
   bz    $L_main_62
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -168,9 +185,11 @@ $L_main_51:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_60
 $L_main_62:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -179,6 +198,7 @@ $L_main_62:
   sys   assert
 $L_main_60:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -186,6 +206,7 @@ $L_main_60:
   p0
   bz    $L_main_66
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -197,9 +218,11 @@ $L_main_60:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_64
 $L_main_66:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -210,6 +233,7 @@ $L_main_66:
   sys   assert
 $L_main_64:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -217,6 +241,7 @@ $L_main_64:
   p0
   bz    $L_main_70
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -228,9 +253,11 @@ $L_main_64:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_68
 $L_main_70:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -241,6 +268,7 @@ $L_main_70:
   sys   assert
 $L_main_68:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -248,6 +276,7 @@ $L_main_68:
   p1
   bz    $L_main_74
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -259,9 +288,11 @@ $L_main_68:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_72
 $L_main_74:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -272,6 +303,7 @@ $L_main_74:
   sys   assert
 $L_main_72:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -279,6 +311,7 @@ $L_main_72:
   p0
   bz    $L_main_78
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -290,9 +323,11 @@ $L_main_72:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_76
 $L_main_78:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -303,6 +338,7 @@ $L_main_78:
   sys   assert
 $L_main_76:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -310,6 +346,7 @@ $L_main_76:
   p0
   bz    $L_main_82
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -321,9 +358,11 @@ $L_main_76:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_80
 $L_main_82:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -334,6 +373,7 @@ $L_main_82:
   sys   assert
 $L_main_80:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -341,6 +381,7 @@ $L_main_80:
   p0
   bz    $L_main_86
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -352,9 +393,11 @@ $L_main_80:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_84
 $L_main_86:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -365,6 +408,7 @@ $L_main_86:
   sys   assert
 $L_main_84:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -372,6 +416,7 @@ $L_main_84:
   p0
   bz    $L_main_90
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -383,9 +428,11 @@ $L_main_84:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_88
 $L_main_90:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -396,6 +443,7 @@ $L_main_90:
   sys   assert
 $L_main_88:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -403,6 +451,7 @@ $L_main_88:
   p0
   bz    $L_main_94
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -414,9 +463,11 @@ $L_main_88:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_92
 $L_main_94:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -427,6 +478,7 @@ $L_main_94:
   sys   assert
 $L_main_92:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -434,6 +486,7 @@ $L_main_92:
   p0
   bz    $L_main_98
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -445,9 +498,11 @@ $L_main_92:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_96
 $L_main_98:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -458,6 +513,7 @@ $L_main_98:
   sys   assert
 $L_main_96:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -465,6 +521,7 @@ $L_main_96:
   p0
   bz    $L_main_102
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -476,9 +533,11 @@ $L_main_96:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_100
 $L_main_102:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -489,6 +548,7 @@ $L_main_102:
   sys   assert
 $L_main_100:
   .line 48
+;             if(j == 2 && i == 3)
   dup
   p2
   sub
@@ -496,6 +556,7 @@ $L_main_100:
   p0
   bz    $L_main_106
   .line 49
+;                 $assert(enemies[j].attrs[i] == 88);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -507,9 +568,11 @@ $L_main_100:
   not
   sys   assert
   .line 48
+;             if(j == 2 && i == 3)
   jmp   $L_main_52
 $L_main_106:
   .line 51
+;                 $assert(enemies[j].attrs[i] == 0);
   pushg enemies 4
   dup3
   aidxb 16 4
@@ -520,6 +583,7 @@ $L_main_106:
   sys   assert
 $L_main_52:
   .line 44
+;     for(u8 j = 0; j < 4; ++j)
   inc
   dup
   p4
@@ -527,6 +591,7 @@ $L_main_52:
   bnz   $L_main_51
   pop
   .line 54
+;     $assert(enemies[2].x == 42);
   getg2 enemies 32
   push  42
   sub2b
@@ -534,6 +599,7 @@ $L_main_52:
   not
   sys   assert
   .line 55
+;     $assert(enemies[2].y == 65);
   getg2 enemies 34
   push  65
   sub2b
@@ -541,8 +607,10 @@ $L_main_52:
   not
   sys   assert
   .line 57
+;     f(enemies[2]);
   pushg enemies 32
   .line 15
+;     er.y = 2;
   p2
   p0
   dupw3
@@ -550,8 +618,10 @@ $L_main_52:
   add2b
   setr2
   .line 13
+; void f(enemy_t& er)
   pop2
   .line 58
+;     $assert(enemies[2].x == 42);
   getg2 enemies 32
   push  42
   sub2b
@@ -559,6 +629,7 @@ $L_main_52:
   not
   sys   assert
   .line 59
+;     $assert(enemies[2].y == 2);
   getg2 enemies 34
   p2
   sub2b
@@ -566,6 +637,7 @@ $L_main_52:
   not
   sys   assert
   .line 61
+;     enemies[2] = { 3, 4, { 5, } };
   p0
   p1
   p0
@@ -576,6 +648,7 @@ $L_main_52:
   p0
   sys   memcpy_P
   .line 62
+;     $assert(enemies[2].x == 3);
   getg2 enemies 32
   p3
   sub2b
@@ -583,6 +656,7 @@ $L_main_52:
   not
   sys   assert
   .line 63
+;     $assert(enemies[2].y == 4);
   getg2 enemies 34
   p4
   sub2b
@@ -590,12 +664,14 @@ $L_main_52:
   not
   sys   assert
   .line 64
+;     $assert(enemies[2].attrs[0] == 5);
   getg  enemies 36
   p5
   sub
   not
   sys   assert
   .line 66
+;         $assert(enemies[2].attrs[i] == 0);
   getg  enemies 37
   not
   sys   assert
@@ -630,7 +706,9 @@ $L_main_52:
   not
   sys   assert
   .line 68
+;     $debug_break();
   sys   debug_break
   .line 18
+; void main()
   ret
 

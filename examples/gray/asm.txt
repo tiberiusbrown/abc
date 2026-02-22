@@ -1686,7 +1686,7 @@ TM_ARRAY16:
   .b f 75 00 aa 00 71 00 99 00 86 00 db 00 dc 00 dd 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 37
   push4 2147510234
   p00
@@ -1712,9 +1712,11 @@ $globinit:
 main:
   .file main.abc
   .line 47
+;     $set_frame_rate(40);
   push  40
   sys   set_frame_rate
   .line 49
+;     if($pressed(LEFT_BUTTON ) && ox <    0) ++ox;
   p32
   sys   pressed
   bz    $L_main_1
@@ -1728,6 +1730,7 @@ main:
   setg2 ox 0
 $L_main_1:
   .line 50
+;     if($pressed(UP_BUTTON   ) && oy <    0) ++oy;
   p128
   sys   pressed
   bz    $L_main_3
@@ -1741,6 +1744,7 @@ $L_main_1:
   setg2 oy 0
 $L_main_3:
   .line 51
+;     if($pressed(RIGHT_BUTTON) && ox > -128) --ox;
   p64
   sys   pressed
   bz    $L_main_5
@@ -1754,6 +1758,7 @@ $L_main_3:
   setg2 ox 0
 $L_main_5:
   .line 52
+;     if($pressed(DOWN_BUTTON ) && oy >  -64) --oy;
   p16
   sys   pressed
   bz    $L_main_7
@@ -1767,6 +1772,7 @@ $L_main_5:
   setg2 oy 0
 $L_main_7:
   .line 54
+;     if($just_pressed(A_BUTTON) && ++draw_type > 4) draw_type = 0;
   p8
   sys   just_pressed
   bz    $L_main_9
@@ -1781,12 +1787,15 @@ $L_main_7:
   setg  draw_type 0
 $L_main_9:
   .line 56
+;     if(draw_type == 0)
   getg  draw_type 0
   bnz   $L_main_33
   .line 58
+;         for(u8 y = 0; y < 8; ++y)
   p0
 $L_main_11:
   .line 60
+;             u8[16] row = TM_ARRAY[y*16+:16];
   alloc 16
   push3 26586
   getl  20
@@ -1802,6 +1811,7 @@ $L_main_11:
   p0
   sys   memcpy_P
   .line 63
+;                 $draw_sprite(x * 16 + ox, y * 16 + oy, TILES, row[x]);
   getl  16
   push4 1296128
   getl  22
@@ -1998,6 +2008,7 @@ $L_main_11:
   sys   draw_sprite
   popn  16
   .line 58
+;         for(u8 y = 0; y < 8; ++y)
   inc
   dup
   p8
@@ -2005,27 +2016,33 @@ $L_main_11:
   bnz   $L_main_11
   pop
   .line 56
+;     if(draw_type == 0)
   jmp   $L_main_41
 $L_main_33:
   .line 67
+;     else if(draw_type == 1)
   getg  draw_type 0
   dec
   bnz   $L_main_34
   .line 69
+;         $draw_tilemap(ox, oy, TILES, TM_TILEMAP);
   push4 3338670914
   dupw2
   getg2 oy 0
   getg2 ox 0
   sys   draw_tilemap
   .line 67
+;     else if(draw_type == 1)
   jmp   $L_main_41
 $L_main_34:
   .line 71
+;     else if(draw_type == 2)
   getg  draw_type 0
   p2
   sub
   bnz   $L_main_35
   .line 73
+;         $draw_sprite_array(ox, oy, TILES, TM_ARRAY, 16);
   p16
   push4 2147510234
   p00
@@ -2034,14 +2051,17 @@ $L_main_34:
   getg2 ox 0
   sys   draw_sprite_array_P
   .line 71
+;     else if(draw_type == 2)
   jmp   $L_main_41
 $L_main_35:
   .line 75
+;     else if(draw_type == 3)
   getg  draw_type 0
   p3
   sub
   bnz   $L_main_36
   .line 77
+;         $draw_sprite_array(ox, oy, TILES, TM_ARRAY16, 16);
   p16
   push4 2147510362
   p00
@@ -2050,14 +2070,17 @@ $L_main_35:
   getg2 ox 0
   sys   draw_sprite_array16_P
   .line 75
+;     else if(draw_type == 3)
   jmp   $L_main_41
 $L_main_36:
   .line 79
+;     else if(draw_type == 4)
   getg  draw_type 0
   p4
   sub
   bnz   $L_main_41
   .line 81
+;         $draw_sprite_array(ox, oy, TILES, ram_array, 16);
   p16
   pushg ram_array 0
   p128
@@ -2067,15 +2090,18 @@ $L_main_36:
   sys   draw_sprite_array
 $L_main_41:
   .line 84
+;     $draw_filled_rect(3, 3, 45, 8, BLACK);
   p0
   p8
   push3 813
   dupw
   sys   draw_filled_rect
   .line 85
+;     $set_text_font(FONT_BR5D);
   push3 2791
   sys   set_text_font
   .line 86
+;     $draw_textf(4, 9, "Draw Type: %u", draw_type);
   getg  draw_type 0
   p000
   push4 234907596
@@ -2083,7 +2109,9 @@ $L_main_41:
   push4 262153
   sys   draw_textf
   .line 88
+;     $display();
   sys   display
   .line 45
+; void main()
   ret
 

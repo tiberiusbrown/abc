@@ -57,7 +57,7 @@ x4:
   .b 3 78 56 34 12
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 24
   p0
   p1
@@ -85,25 +85,33 @@ $globinit:
 main:
   .file prog.abc
   .line 36
+;     $debug_break();
   sys   debug_break
   .line 38
+;     $assert(x1 == 0x12);
   p1
   sys   assert
   .line 39
+;     $assert(x2 == 0x1234);
   p1
   sys   assert
   .line 40
+;     $assert(x3 == 0x123456);
   p1
   sys   assert
   .line 41
+;     $assert(x4 == 0x12345678);
   p1
   sys   assert
   .line 45
+;         u8 j = i + 1;
   p1
   .line 46
+;         $assert(a1[i] == j * 0x10);
   dup
   sys   assert
   .line 47
+;         $assert(a2[i] == j * 0x1000);
   p0
   p16
   p00
@@ -117,6 +125,7 @@ main:
   not
   sys   assert
   .line 48
+;         $assert(a3[i] == j * 0x100000);
   p00
   p16
   p0
@@ -131,6 +140,7 @@ main:
   not
   sys   assert
   .line 49
+;         $assert(a4[i] == j * 0x10000000);
   p000
   p16
   dup5
@@ -144,11 +154,14 @@ main:
   sys   assert
   pop
   .line 45
+;         u8 j = i + 1;
   p2
   .line 46
+;         $assert(a1[i] == j * 0x10);
   p1
   sys   assert
   .line 47
+;         $assert(a2[i] == j * 0x1000);
   p0
   p32
   p00
@@ -162,6 +175,7 @@ main:
   not
   sys   assert
   .line 48
+;         $assert(a3[i] == j * 0x100000);
   p00
   p32
   p0
@@ -176,6 +190,7 @@ main:
   not
   sys   assert
   .line 49
+;         $assert(a4[i] == j * 0x10000000);
   p000
   p32
   dup5
@@ -189,11 +204,14 @@ main:
   sys   assert
   pop
   .line 45
+;         u8 j = i + 1;
   p3
   .line 46
+;         $assert(a1[i] == j * 0x10);
   p1
   sys   assert
   .line 47
+;         $assert(a2[i] == j * 0x1000);
   push2 12288
   p00
   dup5
@@ -206,6 +224,7 @@ main:
   not
   sys   assert
   .line 48
+;         $assert(a3[i] == j * 0x100000);
   p00
   push2 48
   dup5
@@ -219,6 +238,7 @@ main:
   not
   sys   assert
   .line 49
+;         $assert(a4[i] == j * 0x10000000);
   p000
   push  48
   dup5
@@ -232,11 +252,14 @@ main:
   sys   assert
   pop
   .line 45
+;         u8 j = i + 1;
   p4
   .line 46
+;         $assert(a1[i] == j * 0x10);
   p1
   sys   assert
   .line 47
+;         $assert(a2[i] == j * 0x1000);
   p0
   p64
   p00
@@ -250,6 +273,7 @@ main:
   not
   sys   assert
   .line 48
+;         $assert(a3[i] == j * 0x100000);
   p00
   p64
   p0
@@ -264,6 +288,7 @@ main:
   not
   sys   assert
   .line 49
+;         $assert(a4[i] == j * 0x10000000);
   p000
   p64
   dup5
@@ -277,47 +302,56 @@ main:
   sys   assert
   pop
   .line 52
+;     $assert(ua == 0);
   getg2 ua 0
   bool2
   not
   sys   assert
   .line 53
+;     $assert(ub == 0);
   getg2 ub 0
   bool2
   not
   sys   assert
   .line 54
+;     $assert(uc == 0);
   getg2 uc 0
   bool2
   not
   sys   assert
   .line 55
+;     $assert(ud == 0);
   getg2 ud 0
   bool2
   not
   sys   assert
   .line 57
+;     grs[0] = 1;
   p1
   push2 10240
   dupw2
   getpn 2
   setr2
   .line 58
+;     grs[1] = 2;
   p2
   push4 76288
   getpn 2
   setr2
   .line 59
+;     grs[2] = 3;
   p3
   push4 76800
   getpn 2
   setr2
   .line 60
+;     grs[3] = 4;
   p4
   push4 77312
   getpn 2
   setr2
   .line 62
+;     $assert(ua == 1);
   getg2 ua 0
   p1
   sub2b
@@ -325,7 +359,9 @@ main:
   not
   sys   assert
   .line 82
+;     $debug_break();
   sys   debug_break
   .line 34
+; void main()
   ret
 

@@ -5,17 +5,20 @@ $PD_0:
   .b 2 25 75 30
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file format.abc
   .line 3
+;     char[16] buf;
   pz16
   .line 5
+;     $debug_break();
   sys   debug_break
   .line 7
+;     $format(buf, "%u", 1234567890u);
   push4 1234567890
   p0
   p1
@@ -27,8 +30,10 @@ main:
   p0
   sys   format
   .line 9
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   popn  16
   ret
 

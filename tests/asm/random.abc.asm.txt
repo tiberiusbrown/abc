@@ -4,7 +4,7 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   push4 3735928559
   setg4 my_seed 0
@@ -13,20 +13,27 @@ $globinit:
 main:
   .file random.abc
   .line 15
+;     $debug_break();
   sys   debug_break
   .line 17
+;     $set_random_seed(my_seed);
   getg4 my_seed 0
   sys   set_random_seed
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   p0
 $L_main_1:
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -34,6 +41,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -41,6 +49,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -48,11 +57,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -60,18 +72,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -79,6 +96,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -86,6 +104,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -93,11 +112,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -105,18 +127,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -124,6 +151,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -131,6 +159,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -138,11 +167,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -150,18 +182,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -169,6 +206,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -176,6 +214,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -183,11 +222,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -195,18 +237,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -214,6 +261,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -221,6 +269,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -228,11 +277,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -240,18 +292,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -259,6 +316,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -266,6 +324,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -273,11 +332,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -285,18 +347,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -304,6 +371,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -311,6 +379,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -318,11 +387,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -330,18 +402,23 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
   cult
   bz    $L_main_0
   .line 21
+;         u32 ra = $random();
   sys   random
   .line 22
+;         u32 rb = my_random();
   p0000
   .line 5
+;     u32 t = my_seed;
   getg4 my_seed 0
   .line 6
+;     t ^= t << 8;
   getl4 4
   getl4 8
   p8
@@ -349,6 +426,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 7
+;     t ^= t >> 9;
   getl4 4
   getl4 8
   push  9
@@ -356,6 +434,7 @@ $L_main_1:
   xor4
   setl4 4
   .line 8
+;     t ^= t << 23;
   getl4 4
   getl4 8
   push  23
@@ -363,11 +442,14 @@ $L_main_1:
   xor4
   setl4 4
   .line 9
+;     my_seed = t;
   getl4 4
   setg4 my_seed 0
   .line 10
+;     return t;
   setl4 4
   .line 23
+;         $assert(ra == rb);
   getln 8 8
   sub4
   bool4
@@ -375,6 +457,7 @@ $L_main_1:
   sys   assert
   popn  8
   .line 19
+;     for(u8 i = 0; i < 100; ++i)
   inc
   dup
   push  100
@@ -383,7 +466,9 @@ $L_main_1:
 $L_main_0:
   pop
   .line 26
+;     $debug_break();
   sys   debug_break
   .line 13
+; void main()
   ret
 

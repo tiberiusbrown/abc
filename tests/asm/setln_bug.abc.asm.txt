@@ -3,19 +3,23 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file setln_bug.abc
   .line 3
+;     $debug_break();
   sys   debug_break
   .line 9
+;     $assert(x == 0x999999);
   p1
   sys   assert
   .line 11
+;     $debug_break();
   sys   debug_break
   .line 1
+; void main()
   ret
 

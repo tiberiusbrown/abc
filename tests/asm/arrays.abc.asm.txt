@@ -3,17 +3,20 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file arrays.abc
   .line 25
+;     $debug_break();
   sys   debug_break
   .line 32
+;     n = { 5, 6, 7, 8 };
   p5
   .line 27
+;     u16[4] n = { 1, 2, 3, 4 };
   p0
   p2
   p0
@@ -22,9 +25,11 @@ main:
   p4
   p0
   .line 28
+;     $assert(n[0] == 1);
   p1
   sys   assert
   .line 29
+;     $assert(n[1] == 2);
   dupw5
   p2
   sub2b
@@ -32,6 +37,7 @@ main:
   not
   sys   assert
   .line 30
+;     $assert(n[2] == 3);
   dupw3
   p3
   sub2b
@@ -39,6 +45,7 @@ main:
   not
   sys   assert
   .line 31
+;     $assert(n[3] == 4);
   dupw
   p4
   sub2b
@@ -46,6 +53,7 @@ main:
   not
   sys   assert
   .line 32
+;     n = { 5, 6, 7, 8 };
   p0
   p6
   p0
@@ -55,6 +63,7 @@ main:
   p0
   setln 7 7
   .line 33
+;     $assert(n[0] == 5);
   dupw7
   p5
   sub2b
@@ -62,6 +71,7 @@ main:
   not
   sys   assert
   .line 34
+;     $assert(n[1] == 6);
   dupw5
   p6
   sub2b
@@ -69,6 +79,7 @@ main:
   not
   sys   assert
   .line 35
+;     $assert(n[2] == 7);
   dupw3
   p7
   sub2b
@@ -76,6 +87,7 @@ main:
   not
   sys   assert
   .line 36
+;     $assert(n[3] == 8);
   dupw
   p8
   sub2b
@@ -83,6 +95,7 @@ main:
   not
   sys   assert
   .line 37
+;     n = { 0x10001, 0x10002, 0x10003, 0x10004 };
   p1
   p0
   p2
@@ -93,6 +106,7 @@ main:
   p0
   setln 8 8
   .line 38
+;     $assert(n[0] == 1);
   dupw7
   p1
   sub2b
@@ -100,6 +114,7 @@ main:
   not
   sys   assert
   .line 39
+;     $assert(n[1] == 2);
   dupw5
   p2
   sub2b
@@ -107,6 +122,7 @@ main:
   not
   sys   assert
   .line 40
+;     $assert(n[2] == 3);
   dupw3
   p3
   sub2b
@@ -114,6 +130,7 @@ main:
   not
   sys   assert
   .line 41
+;     $assert(n[3] == 4);
   dupw
   p4
   sub2b
@@ -121,15 +138,19 @@ main:
   not
   sys   assert
   .line 42
+;     $assert(len(n) == 4);
   p1
   sys   assert
   .line 44
+;     f({ 42, -500, 30000, 0 });
   push4 1966145036
   p00
   .line 3
+;     $assert(x[0] == 42);
   p1
   sys   assert
   .line 4
+;     $assert(x[1] == -500);
   dupw5
   push2 65036
   sub2
@@ -137,6 +158,7 @@ main:
   not
   sys   assert
   .line 5
+;     $assert(x[2] == 30000);
   dupw3
   push2 30000
   sub2
@@ -144,16 +166,20 @@ main:
   not
   sys   assert
   .line 6
+;     $assert(x[3] == 0);
   dupw
   bool2
   not
   sys   assert
   .line 7
+;     $assert(len(x) == 4);
   p1
   sys   assert
   .line 1
+; void f(int[4] x)
   popn  6
   .line 46
+;     g({ { 1, 2, 3 }, { 4, 5, 6 } });
   p0
   p2
   p0
@@ -166,9 +192,11 @@ main:
   p6
   p0
   .line 12
+;     $assert(x[0][0] == 1);
   p1
   sys   assert
   .line 13
+;     $assert(x[0][1] == 2);
   getl2 10
   p2
   sub2b
@@ -176,6 +204,7 @@ main:
   not
   sys   assert
   .line 14
+;     $assert(x[0][2] == 3);
   dupw7
   p3
   sub2b
@@ -183,6 +212,7 @@ main:
   not
   sys   assert
   .line 15
+;     $assert(x[1][0] == 4);
   dupw5
   p4
   sub2b
@@ -190,6 +220,7 @@ main:
   not
   sys   assert
   .line 16
+;     $assert(x[1][1] == 5);
   dupw3
   p5
   sub2b
@@ -197,6 +228,7 @@ main:
   not
   sys   assert
   .line 17
+;     $assert(x[1][2] == 6);
   dupw
   p6
   sub2b
@@ -204,19 +236,25 @@ main:
   not
   sys   assert
   .line 18
+;     $assert(len(x) == 2);
   p1
   sys   assert
   .line 19
+;     $assert(len(x[0]) == 3);
   p1
   sys   assert
   .line 20
+;     $assert(len(x[1]) == 3);
   p1
   sys   assert
   .line 10
+; void g(int[3][2] x)
   popn  11
   .line 48
+;     $debug_break();
   sys   debug_break
   .line 23
+; void main()
   popn  8
   ret
 

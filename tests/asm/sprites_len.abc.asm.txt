@@ -1039,142 +1039,199 @@ $PD_5:
   .b 4 03 00 03 00 03
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file sprites_len.abc
   .line 25
+;     $debug_break();
   sys   debug_break
   .line 27
+;     $assert($sprites_width(s  ) == 128);
   p1
   sys   assert
   .line 28
+;     $assert($sprites_width(s64) == 64);
   p1
   sys   assert
   .line 29
+;     $assert($sprites_width(s32) == 32);
   p1
   sys   assert
   .line 30
+;     $assert($sprites_width(s16) == 16);
   p1
   sys   assert
   .line 31
+;     $assert($sprites_width(s8 ) == 8);
   p1
   sys   assert
   .line 32
+;     $assert($sprites_width(s4 ) == 4);
   p1
   sys   assert
   .line 34
+;     $assert($sprites_height(s  ) == 64);
   p1
   sys   assert
   .line 35
+;     $assert($sprites_height(s64) == 32);
   p1
   sys   assert
   .line 36
+;     $assert($sprites_height(s32) == 16);
   p1
   sys   assert
   .line 37
+;     $assert($sprites_height(s16) == 8);
   p1
   sys   assert
   .line 38
+;     $assert($sprites_height(s8 ) == 4);
   p1
   sys   assert
   .line 39
+;     $assert($sprites_height(s4 ) == 2);
   p1
   sys   assert
   .line 41
+;     $assert($sprites_frames(s  ) == 1);
   p1
   sys   assert
   .line 42
+;     $assert($sprites_frames(s64) == 4);
   p1
   sys   assert
   .line 43
+;     $assert($sprites_frames(s32) == 16);
   p1
   sys   assert
   .line 44
+;     $assert($sprites_frames(s16) == 64);
   p1
   sys   assert
   .line 45
+;     $assert($sprites_frames(s8 ) == 256);
   p1
   sys   assert
   .line 46
+;     $assert($sprites_frames(s4 ) == 1024);
   p1
   sys   assert
   .line 10
+;     return $sprites_width(s);
   p1
   .line 48
+;     $assert(get_w(s  ) == 128);
   sys   assert
   .line 10
+;     return $sprites_width(s);
   p1
   .line 49
+;     $assert(get_w(s64) == 64);
   sys   assert
   .line 10
+;     return $sprites_width(s);
   p1
   .line 50
+;     $assert(get_w(s32) == 32);
   sys   assert
   .line 10
+;     return $sprites_width(s);
   p1
   .line 51
+;     $assert(get_w(s16) == 16);
   sys   assert
   .line 10
+;     return $sprites_width(s);
   p1
   .line 52
+;     $assert(get_w(s8 ) == 8);
   sys   assert
   .line 10
+;     return $sprites_width(s);
   p1
   .line 53
+;     $assert(get_w(s4 ) == 4);
   sys   assert
   .line 15
+;     return $sprites_height(s);
   p1
   .line 55
+;     $assert(get_h(s  ) == 64);
   sys   assert
   .line 15
+;     return $sprites_height(s);
   p1
   .line 56
+;     $assert(get_h(s64) == 32);
   sys   assert
   .line 15
+;     return $sprites_height(s);
   p1
   .line 57
+;     $assert(get_h(s32) == 16);
   sys   assert
   .line 15
+;     return $sprites_height(s);
   p1
   .line 58
+;     $assert(get_h(s16) == 8);
   sys   assert
   .line 15
+;     return $sprites_height(s);
   p1
   .line 59
+;     $assert(get_h(s8 ) == 4);
   sys   assert
   .line 15
+;     return $sprites_height(s);
   p1
   .line 60
+;     $assert(get_h(s4 ) == 2);
   sys   assert
   .line 20
+;     return $sprites_frames(s);
   p1
   .line 62
+;     $assert(get_len(s  ) == 1);
   sys   assert
   .line 20
+;     return $sprites_frames(s);
   p1
   .line 63
+;     $assert(get_len(s64) == 4);
   sys   assert
   .line 20
+;     return $sprites_frames(s);
   p1
   .line 64
+;     $assert(get_len(s32) == 16);
   sys   assert
   .line 20
+;     return $sprites_frames(s);
   p1
   .line 65
+;     $assert(get_len(s16) == 64);
   sys   assert
   .line 20
+;     return $sprites_frames(s);
   p1
   .line 66
+;     $assert(get_len(s8 ) == 256);
   sys   assert
   .line 20
+;     return $sprites_frames(s);
   p1
   .line 67
+;     $assert(get_len(s4 ) == 1024);
   sys   assert
   .line 69
+;     $debug_break();
   sys   debug_break
   .line 23
+; void main()
   ret
 

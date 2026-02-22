@@ -18,7 +18,11 @@ void compiler_t::write_instr(
     if(file != instr.file && instr.file != 0)
     {
         file = instr.file;
-        f << "  .file " << filenames[instr.file - 1] << ".abc\n";
+        auto const& fname = filenames[file - 1];
+        if(auto it = compiled_files.find(fname); it != compiled_files.end())
+            f << "  .file " << it->second.short_filename << ".abc\n";
+        else
+            f << "  .file " << fname << "\n";
     }
     if(instr.is_label)
     {
@@ -30,6 +34,24 @@ void compiler_t::write_instr(
     {
         line = instr.line;
         f << "  .line " << instr.line << "\n";
+        if(file > 0 && file <= filenames.size())
+        {
+            auto it = compiled_files.find(filenames[file - 1]);
+            if(it != compiled_files.end())
+            {
+                auto const& cd = it->second;
+                if(line <= cd.lines.size())
+                {
+                    auto p = cd.lines[line - 1];
+                    if(p.first < cd.filedata.size() && p.second <= cd.filedata.size())
+                    {
+                        f << "; " << std::string_view(
+                            cd.filedata.data() + p.first,
+                            size_t(p.second - p.first)) << "\n";
+                    }
+                }
+            }
+        }
     }
     f << "  ";
     switch(instr.instr)

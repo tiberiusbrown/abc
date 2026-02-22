@@ -4,7 +4,7 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   p1
   p2
@@ -16,41 +16,50 @@ $globinit:
 main:
   .file array_ref_bug.abc
   .line 12
+;     $debug_break();
   sys   debug_break
   .line 7
+;     return r;
   getg4 a 0
   .line 15
+;     u8[4]& t = u;
   refl  4
   .line 17
+;     $assert(u[0] == 1);
   dup6
   dec
   not
   sys   assert
   .line 18
+;     $assert(u[1] == 2);
   dup5
   p2
   sub
   not
   sys   assert
   .line 19
+;     $assert(u[2] == 3);
   dup4
   p3
   sub
   not
   sys   assert
   .line 20
+;     $assert(u[3] == 4);
   dup3
   p4
   sub
   not
   sys   assert
   .line 22
+;     $assert(t[0] == 1);
   dupw
   getr
   dec
   not
   sys   assert
   .line 23
+;     $assert(t[1] == 2);
   dupw
   p1
   add2b
@@ -60,6 +69,7 @@ main:
   not
   sys   assert
   .line 24
+;     $assert(t[2] == 3);
   dupw
   p2
   add2b
@@ -69,6 +79,7 @@ main:
   not
   sys   assert
   .line 25
+;     $assert(t[3] == 4);
   dupw
   p3
   add2b
@@ -78,31 +89,37 @@ main:
   not
   sys   assert
   .line 27
+;     $assert(r[0] == 1);
   getg  a 0
   dec
   not
   sys   assert
   .line 28
+;     $assert(r[1] == 2);
   getg  a 1
   p2
   sub
   not
   sys   assert
   .line 29
+;     $assert(r[2] == 3);
   getg  a 2
   p3
   sub
   not
   sys   assert
   .line 30
+;     $assert(r[3] == 4);
   getg  a 3
   p4
   sub
   not
   sys   assert
   .line 32
+;     $debug_break();
   sys   debug_break
   .line 10
+; void main()
   popn  6
   ret
 

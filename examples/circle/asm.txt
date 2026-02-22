@@ -4,23 +4,27 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file main.abc
   .line 17
+;     $set_frame_rate(40);
   push  40
   sys   set_frame_rate
 $L_main_1:
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -29,22 +33,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -53,22 +63,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -77,22 +93,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -101,22 +123,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -125,22 +153,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -149,22 +183,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -173,22 +213,28 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 5
+;     ++r;
   getg  r 0
   inc
   setg  r 0
   .line 6
+;     int x = 40;
   push4 1966120
   .line 9
+;     $draw_filled_circle(x, y, r + 3, WHITE);
   p1
   getg  r 0
   p3
@@ -197,15 +243,19 @@ $L_main_1:
   dupw7
   sys   draw_filled_circle
   .line 10
+;     $draw_filled_circle(x, y, r, BLACK);
   p0
   getg  r 0
   dupw3
   dupw7
   sys   draw_filled_circle
   .line 12
+;     $display();
   sys   display
   .line 3
+; void loop()
   pop4
   .line 18
+;     while(true)
   jmp   $L_main_1
 

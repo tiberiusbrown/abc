@@ -4,17 +4,20 @@
 
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file array_index_cast.abc
   .line 5
+;     $debug_break();
   sys   debug_break
   .line 7
+;     u8 a;
   p0
   .line 8
+;     $assert(data[u8(a+a)][0] == 0);
   pushg data 0
   dup3
   dup4
@@ -24,8 +27,10 @@ main:
   not
   sys   assert
   .line 10
+;     $debug_break();
   sys   debug_break
   .line 3
+; void main()
   pop
   ret
 

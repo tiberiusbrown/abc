@@ -37,33 +37,41 @@ data:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 $globinit:
-  .file <internal>.abc
+  .file <internal>
   .line 1
   ret
 
 main:
   .file memcpy.abc
   .line 16
+;     $debug_break();
   sys   debug_break
   .line 20
+;         f.a = 42;
   push  42
   .line 19
+;         foo_t f;
   pz16
   pz16
   .line 21
+;         f.c = 42;
   push2 298
   .line 22
+;         $assert(f.a == 42);
   sys   assert
   .line 23
+;         $assert(f.c == 42);
   dup
   push  42
   sub
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   p0
 $L_main_1:
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -71,12 +79,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -84,12 +94,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -97,12 +109,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -110,12 +124,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -123,12 +139,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -136,12 +154,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -149,12 +169,14 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_0
   .line 25
+;             $assert(f.b[i] == 0);
   refl  34
   dup3
   aixb1 32
@@ -162,6 +184,7 @@ $L_main_1:
   not
   sys   assert
   .line 24
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
@@ -170,27 +193,32 @@ $L_main_1:
 $L_main_0:
   pop
   .line 27
+;         $memset(f.b, 3);
   p3
   refl  34
   p32
   p0
   sys   memset
   .line 28
+;         $assert(f.a == 42);
   getl  34
   push  42
   sub
   not
   sys   assert
   .line 29
+;         $assert(f.c == 42);
   dup
   push  42
   sub
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   p0
 $L_main_4:
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -200,12 +228,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -215,12 +245,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -230,12 +262,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -245,12 +279,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -260,12 +296,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -275,12 +313,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -290,12 +330,14 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
   cult
   bz    $L_main_3
   .line 31
+;             $assert(f.b[i] == 3);
   refl  34
   dup3
   aixb1 32
@@ -305,6 +347,7 @@ $L_main_4:
   not
   sys   assert
   .line 30
+;         for(u8 i = 0; i < len(f.b); ++i)
   inc
   dup
   p32
@@ -313,23 +356,27 @@ $L_main_4:
 $L_main_3:
   pop
   .line 33
+;         $memset(f.b[3:20], 5);
   p5
   refl  31
   push2 17
   sys   memset
   .line 34
+;         $assert(f.a == 42);
   getl  34
   push  42
   sub
   not
   sys   assert
   .line 35
+;         $assert(f.c == 42);
   dup
   push  42
   sub
   not
   sys   assert
   .line 37
+;             $assert(f.b[i] == 3);
   getl  33
   p3
   sub
@@ -346,6 +393,7 @@ $L_main_3:
   not
   sys   assert
   .line 39
+;             $assert(f.b[i] == 5);
   getl  30
   p5
   sub
@@ -432,6 +480,7 @@ $L_main_3:
   not
   sys   assert
   .line 41
+;             $assert(f.b[i] == 3);
   getl  13
   p3
   sub
@@ -493,24 +542,28 @@ $L_main_3:
   not
   sys   assert
   .line 43
+;         $memset(f.b[3], 7);
   p7
   refl  31
   p1
   p0
   sys   memset
   .line 44
+;         $assert(f.a == 42);
   getl  34
   push  42
   sub
   not
   sys   assert
   .line 45
+;         $assert(f.c == 42);
   dup
   push  42
   sub
   not
   sys   assert
   .line 47
+;             $assert(f.b[i] == 3);
   getl  33
   p3
   sub
@@ -527,12 +580,14 @@ $L_main_3:
   not
   sys   assert
   .line 48
+;         $assert(f.b[3] == 7);
   getl  30
   p7
   sub
   not
   sys   assert
   .line 50
+;             $assert(f.b[i] == 5);
   getl  29
   p5
   sub
@@ -614,6 +669,7 @@ $L_main_3:
   not
   sys   assert
   .line 52
+;             $assert(f.b[i] == 3);
   getl  13
   p3
   sub
@@ -676,22 +732,27 @@ $L_main_3:
   sys   assert
   popn  34
   .line 55
+;     $assert(copy[0] == 0);
   getg  copy 0
   not
   sys   assert
   .line 56
+;     $assert(copy[1] == 0);
   getg  copy 1
   not
   sys   assert
   .line 57
+;     $assert(copy[2] == 0);
   getg  copy 2
   not
   sys   assert
   .line 58
+;     $assert(copy[3] == 0);
   getg  copy 3
   not
   sys   assert
   .line 60
+;     $memcpy(copy, data);
   p0
   p1
   p00
@@ -702,32 +763,39 @@ $L_main_3:
   p2
   sys   memcpy_P
   .line 62
+;     $assert(copy[0] == 1);
   getg  copy 0
   dec
   not
   sys   assert
   .line 63
+;     $assert(copy[1] == 2);
   getg  copy 1
   p2
   sub
   not
   sys   assert
   .line 64
+;     $assert(copy[2] == 3);
   getg  copy 2
   p3
   sub
   not
   sys   assert
   .line 65
+;     $assert(copy[3] == 0);
   getg  copy 3
   not
   sys   assert
   .line 67
+;     int x = 42;
   push4 32768042
   .line 70
+;     $assert(y == 500);
   dup
   sys   assert
   .line 71
+;     $memcpy(y, x);
   refl  4
   p2
   p0
@@ -736,6 +804,7 @@ $L_main_3:
   p0
   sys   memcpy
   .line 72
+;     $assert(y == 42);
   dupw
   push  42
   sub2b
@@ -743,13 +812,17 @@ $L_main_3:
   not
   sys   assert
   .line 74
+;     blah a = { 600, 700 };
   push4 45875800
   .line 75
+;     blah b = { 800, 900 };
   p32
   push4 17007619
   .line 77
+;     $assert(a.a == 600);
   sys   assert
   .line 78
+;     $assert(a.b == 700);
   dupw5
   push2 700
   sub2
@@ -757,6 +830,7 @@ $L_main_3:
   not
   sys   assert
   .line 79
+;     $memcpy(a, b);
   refl  4
   p4
   p0
@@ -765,6 +839,7 @@ $L_main_3:
   p0
   sys   memcpy
   .line 80
+;     $assert(a.a == 800);
   dupw7
   p32
   p3
@@ -773,6 +848,7 @@ $L_main_3:
   not
   sys   assert
   .line 81
+;     $assert(a.b == 900);
   dupw5
   push2 900
   sub2
@@ -780,12 +856,15 @@ $L_main_3:
   not
   sys   assert
   .line 83
+;     u32 z = 0x87654321;
   push4 2271560481
   .line 84
+;     byte[]& zb = z;
   refl  4
   p4
   p0
   .line 85
+;     $assert(zb[3] == 0x87);
   getl4 4
   p3
   p0
@@ -796,6 +875,7 @@ $L_main_3:
   not
   sys   assert
   .line 86
+;     $assert(zb[2] == 0x65);
   getl4 4
   p2
   p0
@@ -806,6 +886,7 @@ $L_main_3:
   not
   sys   assert
   .line 87
+;     $assert(zb[1] == 0x43);
   getl4 4
   p1
   p0
@@ -816,6 +897,7 @@ $L_main_3:
   not
   sys   assert
   .line 88
+;     $assert(zb[0] == 0x21);
   getl4 4
   p00
   uaidx 1
@@ -825,8 +907,10 @@ $L_main_3:
   not
   sys   assert
   .line 90
+;     $debug_break();
   sys   debug_break
   .line 14
+; void main()
   popn  20
   ret
 
