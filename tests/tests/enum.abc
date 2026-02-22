@@ -10,6 +10,13 @@ enum
     BLAH4,
 };
 
+enum
+{
+    BLAH5 = -20,
+    BLAH6 = BLAH5 + 3,
+    BLAH7,
+};
+
 void main()
 {
     $debug_break();
@@ -18,6 +25,9 @@ void main()
     $assert(BLAH2 == 1);
     $assert(BLAH3 == 17);
     $assert(BLAH4 == 18);
+    $assert(BLAH5 == -20);
+    $assert(BLAH6 == -17);
+    $assert(BLAH7 == -16);
     
     $debug_break();
 }

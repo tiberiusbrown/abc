@@ -303,63 +303,11 @@ compiler_type_t compiler_t::resolve_type(ast_node_t const& n)
         t.prim_size = size;
         return t;
     }
+
     if(n.type == AST::ENUM_STMT)
     {
-        compiler_type_t t{};
-        t.type = compiler_type_t::PRIM;
-        t.prim_size = 1;
-        t.is_signed = false;
-        if(n.children.size() < 2)
-            return t;
-        int64_t v = 0;
-        for(auto const& c : n.children[1].children)
-        {
-            std::string ident = std::string(c.children[0].data);
-            if(globals.count(ident) != 0)
-            {
-                errs.push_back({
-                    "Duplicate symbol \"" + ident + "\"",
-                    c.children[0].line_info });
-                return {};
-            }
-            auto& g = globals[ident];
-            g.name = ident;
-            g.var.is_constexpr = true;
-            g.var.value = v;
-            if(c.children.size() >= 2)
-            {
-                if(c.children[1].type != AST::INT_CONST)
-                {
-                    errs.push_back({
-                        "Value for \"" + ident + "\" is not a constant integral expression",
-                        c.children[1].line_info });
-                    return {};
-                }
-                g.var.value = c.children[1].value;
-            }
-            v = g.var.value;
-            auto& gt = g.var.type;
-            gt.type = compiler_type_t::PRIM;
-            if(v < 0) gt.is_signed = true;
-            gt.prim_size = 1;
-            if(gt.is_signed)
-            {
-                if(v >= 0x100    ) gt.prim_size = std::max<size_t>(gt.prim_size, 2);
-                if(v >= 0x10000  ) gt.prim_size = std::max<size_t>(gt.prim_size, 3);
-                if(v >= 0x1000000) gt.prim_size = 4;
-            }
-            else
-            {
-                if(v < -0x80     || v >= 0x80    ) gt.prim_size = std::max<size_t>(gt.prim_size, 2);
-                if(v < -0x8000   || v >= 0x8000  ) gt.prim_size = std::max<size_t>(gt.prim_size, 3);
-                if(v < -0x800000 || v >= 0x800000) gt.prim_size = 4;
-            }
-            if(gt.is_signed) t.is_signed = true;
-            t.prim_size = std::max(t.prim_size, gt.prim_size);
-            v += 1;
-        }
-
-        return t;
+        assert(0);
+        return TYPE_NONE;
     }
 
     if(n.type == AST::TYPE_FUNC_REF)
@@ -1045,11 +993,62 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
                     n.line_info });
                 return;
             }
+            compiler_type_t t{};
+            t.type = compiler_type_t::PRIM;
+            t.prim_size = 1;
+            t.is_signed = false;
+            // temporarily set all children to i32
             if(n.children.size() >= 2)
+            {
+                int64_t v = 0;
                 for(auto& c : n.children[1].children)
+                {
+                    std::string ident = std::string(c.children[0].data);
+                    if(globals.count(ident) != 0)
+                    {
+                        errs.push_back({
+                            "Duplicate symbol \"" + ident + "\"",
+                            c.children[0].line_info });
+                        return;
+                    }
+                    auto& g = globals[ident];
+                    g.name = ident;
+                    g.var.is_constexpr = true;
+                    g.var.value = v;
                     if(c.children.size() >= 2)
+                    {
                         type_annotate(c.children[1], {});
-            auto t = resolve_type(n);
+                        if(c.children[1].type != AST::INT_CONST)
+                        {
+                            errs.push_back({
+                                "Value for \"" + ident + "\" is not a constant integral expression",
+                                c.children[1].line_info });
+                            return;
+                        }
+                        g.var.value = c.children[1].value;
+                    }
+                    v = g.var.value;
+                    auto& gt = g.var.type;
+                    gt.type = compiler_type_t::PRIM;
+                    if(v < 0) gt.is_signed = true;
+                    gt.prim_size = 1;
+                    if(gt.is_signed)
+                    {
+                        if(v >= 0x100) gt.prim_size = std::max<size_t>(gt.prim_size, 2);
+                        if(v >= 0x10000) gt.prim_size = std::max<size_t>(gt.prim_size, 3);
+                        if(v >= 0x1000000) gt.prim_size = 4;
+                    }
+                    else
+                    {
+                        if(v < -0x80 || v >= 0x80) gt.prim_size = std::max<size_t>(gt.prim_size, 2);
+                        if(v < -0x8000 || v >= 0x8000) gt.prim_size = std::max<size_t>(gt.prim_size, 3);
+                        if(v < -0x800000 || v >= 0x800000) gt.prim_size = 4;
+                    }
+                    if(gt.is_signed) t.is_signed = true;
+                    t.prim_size = std::max(t.prim_size, gt.prim_size);
+                    v += 1;
+                }
+            }
             if(!name.empty())
                 enums[name] = t;
         }

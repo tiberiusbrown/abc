@@ -9,29 +9,41 @@ $globinit:
 
 main:
   .file enum.abc
-  .line 15
-;     $debug_break();
-  sys   debug_break
-  .line 17
-;     $assert(BLAH == 0);
-  p1
-  sys   assert
-  .line 18
-;     $assert(BLAH2 == 1);
-  p1
-  sys   assert
-  .line 19
-;     $assert(BLAH3 == 17);
-  p1
-  sys   assert
-  .line 20
-;     $assert(BLAH4 == 18);
-  p1
-  sys   assert
   .line 22
 ;     $debug_break();
   sys   debug_break
-  .line 13
+  .line 24
+;     $assert(BLAH == 0);
+  p1
+  sys   assert
+  .line 25
+;     $assert(BLAH2 == 1);
+  p1
+  sys   assert
+  .line 26
+;     $assert(BLAH3 == 17);
+  p1
+  sys   assert
+  .line 27
+;     $assert(BLAH4 == 18);
+  p1
+  sys   assert
+  .line 28
+;     $assert(BLAH5 == -20);
+  p1
+  sys   assert
+  .line 29
+;     $assert(BLAH6 == -17);
+  p1
+  sys   assert
+  .line 30
+;     $assert(BLAH7 == -16);
+  p1
+  sys   assert
+  .line 32
+;     $debug_break();
+  sys   debug_break
+  .line 20
 ; void main()
   ret
 
