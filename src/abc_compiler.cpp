@@ -600,7 +600,7 @@ void compiler_t::compile(
     for(auto& [n, f] : funcs)
     {
         if(!errs.empty()) return;
-        current_file = f.filename;
+        current_file = f.short_filename;
         if(f.block.type == AST::NONE) continue;
         codegen_function(f);
     }
@@ -931,6 +931,7 @@ void compiler_t::compile_recurse(std::string const& fpath, std::string const& fn
             f.decl.return_type = resolve_type(n.children[0]);
             f.name = name;
             f.filename = filename;
+            f.short_filename = compile_data.short_filename;
             f.block = std::move(n.children[2]);
             f.line_info = n.line_info;
 

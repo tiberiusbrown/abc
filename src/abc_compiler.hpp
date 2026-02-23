@@ -579,6 +579,7 @@ struct compiler_func_t
     compiler_func_decl_t decl;
     std::string name;
     std::string filename;
+    std::string short_filename;
     std::vector<std::string> arg_names;
     std::vector<compiler_instr_t> instrs;
     std::pair<size_t, size_t> line_info;

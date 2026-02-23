@@ -126,10 +126,10 @@ int main(int argc, char** argv)
 
 #ifndef NDEBUG
     //psrc = "C:/Users/Brown/Documents/GitHub/abc_latin/main.abc";
-    psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/enum.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/enum.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/ardurogue2/src/main.abc";
+    psrc = "C:/Users/Brown/Documents/GitHub/ardurogue2/src/main.abc";
     //pbin = "C:/Users/Brown/Documents/GitHub/abc/examples/test/blah.bin";
     //parduboy = "C:/Users/Brown/Documents/GitHub/abc/examples/test/test.arduboy";
 #endif
@@ -174,6 +174,7 @@ int main(int argc, char** argv)
             << ": error: "
             << e.msg
             << std::endl;
+        break;
     }
     if(!c.errors().empty())
         return 1;
