@@ -2083,7 +2083,7 @@ static void strcpy_strcat_helper_P(bool cpy)
     uint16_t nr = n0;
     uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
-    if(n0 != 0)
+    if(n0 != 0 && n1 != 0)
     {
         if(!cpy)
         {
@@ -2096,7 +2096,7 @@ static void strcpy_strcat_helper_P(bool cpy)
                     break;
                 }
                 if(--n0 == 0)
-                    break;
+                    goto done;
             }
         }
         for(;;)
@@ -2108,6 +2108,7 @@ static void strcpy_strcat_helper_P(bool cpy)
             if(--n1 == 0) { st_inc(p0, 0); break; }
         }
     }
+done:
     (void)FX::readEnd();
     vm_push<uint16_t>(br);
     vm_push<uint16_t>(nr);
