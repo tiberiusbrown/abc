@@ -88,14 +88,14 @@ $L_main_1:
   .line 28
 ;         case(-3) { $assert(false); continue; }
   dup
-  push  253
-  sub
+  p3
+  add
   bz    $L_main_8
   .line 29
 ;         case(-7) { $assert(false); continue; }
   dup
-  push  249
-  sub
+  p7
+  add
   bz    $L_main_9
   .line 24
 ;         switch(x)

@@ -550,8 +550,7 @@ $L_main_9:
   getg  a1 1
   getg  a1 2
   or
-  push  255
-  sub
+  inc
   not
   sys   assert
   .line 70
@@ -713,8 +712,7 @@ $L_main_9:
   getg  a1 1
   getg  a1 3
   or
-  push  255
-  sub
+  inc
   not
   sys   assert
   .line 70
@@ -2674,8 +2672,8 @@ $L_main_9:
   dup
   p1
   asr
-  push  192
-  sub
+  p64
+  add
   not
   sys   assert
   .line 262
@@ -2683,8 +2681,8 @@ $L_main_9:
   dup
   p2
   asr
-  push  224
-  sub
+  p32
+  add
   not
   sys   assert
   .line 263
@@ -2692,8 +2690,8 @@ $L_main_9:
   dup
   p3
   asr
-  push  240
-  sub
+  p16
+  add
   not
   sys   assert
   .line 264
@@ -2701,8 +2699,8 @@ $L_main_9:
   dup
   p4
   asr
-  push  248
-  sub
+  p8
+  add
   not
   sys   assert
   .line 265
@@ -2710,8 +2708,8 @@ $L_main_9:
   dup
   p5
   asr
-  push  252
-  sub
+  p4
+  add
   not
   sys   assert
   .line 266
@@ -2719,8 +2717,8 @@ $L_main_9:
   dup
   p6
   asr
-  push  254
-  sub
+  p2
+  add
   not
   sys   assert
   .line 267
@@ -2728,8 +2726,7 @@ $L_main_9:
   dup
   p7
   asr
-  push  255
-  sub
+  inc
   not
   sys   assert
   .line 268
@@ -2737,8 +2734,7 @@ $L_main_9:
   dup
   p8
   asr
-  push  255
-  sub
+  inc
   not
   sys   assert
   .line 270

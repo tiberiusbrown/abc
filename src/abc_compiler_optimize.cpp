@@ -1821,6 +1821,31 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
             }
         }
 
+        // replace PUSH N; ADD/SUB with PUSH (256-N); SUB/ADD
+        if(i0.instr == I_PUSH && (i1.instr == I_ADD || i1.instr == I_SUB))
+        {
+            switch(i0.imm)
+            {
+            case 256 - 1:
+            case 256 - 2:
+            case 256 - 3:
+            case 256 - 4:
+            case 256 - 5:
+            case 256 - 6:
+            case 256 - 7:
+            case 256 - 8:
+            case 256 - 16:
+            case 256 - 32:
+            case 256 - 64:
+                i0.imm = 256 - i0.imm;
+                i1.instr = (i1.instr == I_ADD ? I_SUB : I_ADD);
+                t = true;
+                continue;
+            default:
+                break;
+            }
+        }
+
         // replace PUSH 1; ADD with INC
         if(i0.instr == I_PUSH && i0.imm == 1 && i1.instr == I_ADD)
         {

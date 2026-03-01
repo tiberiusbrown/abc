@@ -4526,8 +4526,8 @@ $L_process_map_tile_0:
   .line 107
 ;     if(t == TILE_PLAYER)
   dup3
-  push  240
-  sub
+  p16
+  add
   bnz   $L_process_map_tile_5
   .line 110
 ;         px = x * 16 + PXOFF;
@@ -4772,8 +4772,8 @@ $L_process_map_tile_9:
   .line 142
 ;         if(t == TILE_MOB_HELM)
   dup5
-  push  250
-  sub
+  p6
+  add
   bnz   $L_process_map_tile_11
   .line 144
 ;             xo = 2;
@@ -5219,8 +5219,8 @@ $L_process_map_tile_34:
   .line 160
 ;     else if(t == TILE_MOB_BAT)
   dup3
-  push  251
-  sub
+  p5
+  add
   bnz   $L_process_map_tile_35
   .line 162
 ;         u8 tt = ((x * 37 + y * 23) & 15) * 3;
@@ -5275,8 +5275,8 @@ $L_process_map_tile_35:
   .line 165
 ;     else if(t == TILE_MOB_FLY)
   dup3
-  push  252
-  sub
+  p4
+  add
   bnz   $L_process_map_tile_36
   .line 167
 ;         u8 tt = ((x * 37 + y * 23) & 15) * 3;
