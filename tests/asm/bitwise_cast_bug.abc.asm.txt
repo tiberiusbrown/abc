@@ -1,0 +1,122 @@
+.shades 2
+.saved 0
+
+
+$globinit:
+  .file <internal>
+  .line 1
+  ret
+
+main:
+  .file bitwise_cast_bug.abc
+  .line 14
+;     $debug_break();
+  sys   debug_break
+  .line 16
+;     bool m;
+  p00
+  .line 5
+;     i16 miss_chance = miss_chance_base;
+  p64
+  p0
+  .line 7
+;     u8 roll = $random() & 0xff;
+  sys   random
+  pop3
+  push  255
+  and
+  .line 9
+;     return roll < u8(miss_chance);
+  dup
+  dup4
+  cult
+  setl  4
+  pop3
+  .line 17
+;     m = attack_misses();
+  setl  1
+  .line 18
+;     m = attack_misses();
+  p0
+  .line 5
+;     i16 miss_chance = miss_chance_base;
+  p64
+  p0
+  .line 7
+;     u8 roll = $random() & 0xff;
+  sys   random
+  pop3
+  push  255
+  and
+  .line 9
+;     return roll < u8(miss_chance);
+  dup
+  dup4
+  cult
+  setl  4
+  pop3
+  .line 18
+;     m = attack_misses();
+  setl  1
+  .line 19
+;     m = attack_misses();
+  p0
+  .line 5
+;     i16 miss_chance = miss_chance_base;
+  p64
+  p0
+  .line 7
+;     u8 roll = $random() & 0xff;
+  sys   random
+  pop3
+  push  255
+  and
+  .line 9
+;     return roll < u8(miss_chance);
+  dup
+  dup4
+  cult
+  setl  4
+  pop3
+  .line 19
+;     m = attack_misses();
+  setl  1
+  .line 20
+;     m = attack_misses();
+  p0
+  .line 5
+;     i16 miss_chance = miss_chance_base;
+  p64
+  p0
+  .line 7
+;     u8 roll = $random() & 0xff;
+  sys   random
+  pop3
+  push  255
+  and
+  .line 9
+;     return roll < u8(miss_chance);
+  dup
+  dup4
+  cult
+  setl  4
+  pop3
+  .line 20
+;     m = attack_misses();
+  setl  1
+  .line 21
+;     $assert(m || !m);
+  dup
+  bnzp  $L_main_0
+  dup
+  not
+$L_main_0:
+  sys   assert
+  .line 23
+;     $debug_break();
+  sys   debug_break
+  .line 12
+; void main()
+  pop
+  ret
+

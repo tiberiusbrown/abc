@@ -21,6 +21,7 @@ array_ref_bug                           1864
 array_ref_bug2                           849
 basic                                   2225
 bitwise                               126819
+bitwise_cast_bug                        1710
 bubble1                              1579086
 compound_assignment                     8023
 comp_assign_bug                          494

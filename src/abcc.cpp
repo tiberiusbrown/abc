@@ -126,7 +126,7 @@ int main(int argc, char** argv)
 
 #ifndef NDEBUG
     //psrc = "C:/Users/Brown/Documents/GitHub/abc_latin/main.abc";
-    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/enum.abc";
+    //psrc = "C:/Users/Brown/Documents/GitHub/abc/tests/tests/bitwise_cast_bug.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/examples/platformer/main.abc";
     //psrc = "C:/Users/Brown/Documents/GitHub/abc/benchmarks/fibonacci/fibonacci.abc";
     psrc = "C:/Users/Brown/Documents/GitHub/ardurogue2/src/main.abc";

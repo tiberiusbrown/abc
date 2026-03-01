@@ -3685,6 +3685,10 @@ maps:
 $globinit:
   .file <internal>
   .line 1
+  p0
+  p1
+  p0
+  sys   set_text_font
   ret
 
 add_object:

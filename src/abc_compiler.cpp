@@ -498,6 +498,7 @@ void compiler_t::create_builtin_font(compiler_global_t& g)
         g.var.label_ref = g.constexpr_ref;
         return;
     }
+    font_label_cache[{0, g.name}] = label;
     for(auto const& f : ALL_FONTS)
     {
         if(g.name != f.name) continue;
@@ -646,12 +647,13 @@ void compiler_t::compile(
 
     // in case the program has calls to text functions but does not have
     // any font data, insert a call to set_text_font at the end of $globinit
-    if(font_label_cache.empty())
+    do
     {
         bool found_text_function = false;
 
         for(auto const& [n, f] : funcs)
         {
+            if(found_text_function) break;
             for(auto const& i : f.instrs)
             {
                 if(i.instr != I_SYS) continue;
@@ -672,9 +674,17 @@ void compiler_t::compile(
         }
         if(found_text_function)
         {
-            ast_node_t n{ {}, AST::IDENT };
-            n.data = "FONT_ADAFRUIT";
-            std::string label = resolve_label_ref({}, n, TYPE_FONT);
+            std::string label;
+            if(font_label_cache.empty())
+            {
+                ast_node_t n{ {}, AST::IDENT };
+                n.data = "FONT_ADAFRUIT";
+                label = resolve_label_ref({}, n, TYPE_FONT);
+            }
+            else
+            {
+                label = font_label_cache.begin()->second;
+            }
             auto& g = funcs[GLOBINIT_FUNC];
             if(!g.instrs.empty())
             {
@@ -688,7 +698,7 @@ void compiler_t::compile(
                 g.instrs.insert(g.instrs.begin() + g.instrs.size() - 1, { i0, i1 });
             }
         }
-    }
+    } while(0);
 
     optimize();
 

@@ -1111,7 +1111,7 @@ no_memcpy_optimization:
         if(t.prim_size == 3)
             t = TYPE_U32;
         codegen_expr(f, frame, a.children[0], false);
-        codegen_convert(f, frame, a, t, a.children[1].comp_type);
+        codegen_convert(f, frame, a, t, a.children[0].comp_type);
         codegen_expr(f, frame, a.children[1], false);
         codegen_convert(f, frame, a, t, a.children[1].comp_type);
         frame.size -= t.prim_size;

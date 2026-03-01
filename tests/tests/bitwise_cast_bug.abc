@@ -1,0 +1,24 @@
+bool attack_misses()
+{
+    constexpr u8 miss_chance_base = 0x40; // 25% base miss chance
+
+    i16 miss_chance = miss_chance_base;
+
+    u8 roll = $random() & 0xff;
+
+    return roll < u8(miss_chance);
+}
+
+void main()
+{
+    $debug_break();
+    
+    bool m;
+    m = attack_misses();
+    m = attack_misses();
+    m = attack_misses();
+    m = attack_misses();
+    $assert(m || !m);
+    
+    $debug_break();
+}
