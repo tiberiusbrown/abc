@@ -428,8 +428,8 @@ $L_game_loop_8:
 ;         if(((++frame) & 3) == 0)
   getg  frame 0
   inc
+  dup
   setg  frame 0
-  getg  frame 0
   p3
   and
   bnz   $L_game_loop_11
@@ -458,10 +458,10 @@ $L_game_loop_13:
   .line 87
 ;     dir = ndir;
   getg  ndir 0
+  dup
   setg  dir 0
   .line 88
 ;     if(dir == 0) p.x += 1;
-  getg  dir 0
   bnz   $L_game_loop_14
   linc  2
 $L_game_loop_14:
@@ -1382,11 +1382,11 @@ $L_main_17:
   .line 64
 ;     snake_tail = 4;
   p4
+  dup
   p0
   setg2 snake_tail 0
   .line 65
 ;     snake[0] = { snake_tail, H / 2 };
-  getg  snake_tail 0
   p7
   setg2 snake 0
   .line 66

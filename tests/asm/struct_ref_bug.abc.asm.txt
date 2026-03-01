@@ -20,8 +20,8 @@ main:
 ;     if(--foo.x == 0)
   getg  foo 1
   dec
+  dup
   setg  foo 1
-  getg  foo 1
   bnz   $L_main_0
   .line 14
 ;         foo.x = 42;

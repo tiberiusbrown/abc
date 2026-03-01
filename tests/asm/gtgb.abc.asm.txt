@@ -21,10 +21,10 @@ main:
   .line 8
 ;     a = 42;
   push  42
+  dup
   setg  a 0
   .line 9
 ;     $assert(a == 42);
-  getg  a 0
   push  42
   sub
   not

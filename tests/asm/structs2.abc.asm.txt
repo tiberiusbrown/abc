@@ -17,11 +17,11 @@ main:
   .line 10
 ;     t = 4;
   p4
+  dup
   p0
   setg2 t 0
   .line 11
 ;     p[0] = { t, 2 };
-  getg  t 0
   p2
   setg2 p 0
   .line 13

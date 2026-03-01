@@ -1619,8 +1619,8 @@ $L_main_7:
   p4
   getg  draw_type 0
   inc
+  dup
   setg  draw_type 0
-  getg  draw_type 0
   cult
   bz    $L_main_9
   p0

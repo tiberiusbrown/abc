@@ -59,10 +59,11 @@ main:
 ;     y = 2;
   p000
   p64
+  p000
+  p64
   setg4 y 0
   .line 20
 ;     $assert(y == 2);
-  getg4 y 0
   p000
   p64
   cfeq
@@ -165,10 +166,10 @@ main:
   p000
   p128
   xor4
+  getl4 4
   setg4 y 0
   .line 35
 ;     $assert(y == -2);
-  getg4 y 0
   p000
   push  192
   cfeq
@@ -345,8 +346,8 @@ main:
   p00
   push2 16256
   fadd
+  getl4 4
   setg4 x 0
-  getg4 x 0
   p00
   p32
   p64
@@ -397,8 +398,8 @@ main:
   p00
   push2 16256
   fsub
+  getl4 4
   setg4 x 0
-  getg4 x 0
   p00
   p32
   p64

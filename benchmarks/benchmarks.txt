@@ -20,7 +20,7 @@ array_md_slice                          3294
 array_ref_bug                           1864
 array_ref_bug2                           849
 basic                                   2225
-bitwise                               126587
+bitwise                               126463
 bitwise_cast_bug                        1710
 bubble1                              1579086
 compound_assignment                     8023
@@ -30,10 +30,10 @@ copy2d                                   937
 div                                   419982
 do_while                                1375
 enum                                     575
-float                                  13340
+float                                  13342
 func_ref                                1341
 globinit                                1690
-gtgb                                     402
+gtgb                                     385
 if_statement                            3793
 large_copy                             26379
 loops                                 170199
@@ -57,8 +57,8 @@ strcpy_bug                              1120
 strings                                50380
 string_append                           2714
 structs                                28183
-structs2                                 526
-struct_ref_bug                           464
+structs2                                 509
+struct_ref_bug                           447
 switch                                 15830
 switch_jump_table                     311391
 ternary                                 6340

@@ -755,10 +755,10 @@ $L_main_9:
   .line 75
 ;     a1[0] = 1;
   p1
+  dup
   setg  a1 0
   .line 76
 ;     $assert(a1[0] << 0 == 1u << 0);
-  getg  a1 0
   dec
   not
   sys   assert
@@ -836,10 +836,10 @@ $L_main_9:
 ;     a2[0] = 1;
   p1
   p0
+  dupw
   setg2 a2 0
   .line 87
 ;     $assert(a2[0] <<  0 == 1u <<  0);
-  getg2 a2 0
   p1
   sub2b
   bool2
@@ -1015,10 +1015,11 @@ $L_main_9:
 ;     a3[0] = 1;
   p1
   p00
+  dupw2
+  dup
   setgn 3 a3 0
   .line 106
 ;     $assert(a3[0] <<  0 == 1u <<  0);
-  getgn 3 a3 0
   p1
   p00
   sub3
@@ -1331,10 +1332,10 @@ $L_main_9:
 ;     a4[0] = 1;
   p1
   p000
+  getl4 4
   setg4 a4 0
   .line 133
 ;     $assert(a4[0] <<  0 == 1u <<  0);
-  getg4 a4 0
   p1
   p000
   sub4
@@ -1709,10 +1710,10 @@ $L_main_9:
   .line 167
 ;     a1[0] = 0x80;
   p128
+  dup
   setg  a1 0
   .line 168
 ;     $assert(a1[0] >> 0 == 0x80u >> 0);
-  getg  a1 0
   p128
   sub
   not
@@ -1790,10 +1791,10 @@ $L_main_9:
 ;     a2[0] = 0x8000;
   p0
   p128
+  dupw
   setg2 a2 0
   .line 179
 ;     $assert(a2[0] >>  0 == 0x8000u >>  0);
-  getg2 a2 0
   p0
   p128
   sub2
@@ -1969,10 +1970,11 @@ $L_main_9:
 ;     a3[0] = 0x800000;
   p00
   p128
+  p00
+  p128
   setgn 3 a3 0
   .line 198
 ;     $assert(a3[0] >>  0 == 0x800000u >>  0);
-  getgn 3 a3 0
   p00
   p128
   sub3
@@ -2285,10 +2287,11 @@ $L_main_9:
 ;     a4[0] = 0x80000000;
   p000
   p128
+  p000
+  p128
   setg4 a4 0
   .line 225
 ;     $assert(a4[0] >>  0 == 0x80000000u >>  0);
-  getg4 a4 0
   p000
   p128
   sub4

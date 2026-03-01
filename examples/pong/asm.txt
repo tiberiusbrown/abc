@@ -373,8 +373,8 @@ $L_loop_14:
   getg2 ai_serving_wait 0
   p1
   sub2b
+  dupw
   setg2 ai_serving_wait 0
-  getg2 ai_serving_wait 0
   cslt2
   bnz   $L_loop_15
   .line 56
@@ -407,10 +407,10 @@ $L_loop_16:
   getg4 by 0
   getg4 vy 0
   fadd
+  getl4 4
   setg4 by 0
   .line 65
 ;         if(by < TOP_Y)
-  getg4 by 0
   p00
   push2 16608
   cflt

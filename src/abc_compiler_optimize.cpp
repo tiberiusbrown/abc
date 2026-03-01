@@ -490,6 +490,18 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         auto& i1 = f.instrs[i + 1];
 
+        // replace SETGN; GETGN with GETLN; SETGN
+        if(i0.instr == I_SETGN && i1.instr == I_GETGN &&
+            i0.imm == i1.imm &&
+            i0.imm2 == i1.imm2 &&
+            i0.label == i1.label)
+        {
+            i1 = i0;
+            i0.instr = I_GETLN;
+            i0.imm2 = i0.imm;
+            i0.label.clear();
+        }
+
         // combine POPN + POPn
         if(i0.instr == I_POPN)
         {

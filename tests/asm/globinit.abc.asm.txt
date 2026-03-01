@@ -11,9 +11,9 @@ $globinit:
   .line 1
   p2
   p0
+  dupw
   setg2 a 0
   .line 3
-  getg2 a 0
   p5
   add2b
   setg2 b 0

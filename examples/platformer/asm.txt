@@ -9450,8 +9450,8 @@ $L_solid_4:
 ;     if(--hearts != 0)
   getg  hearts 0
   dec
+  dup
   setg  hearts 0
-  getg  hearts 0
   bz    $L_solid_15
   .line 719
 ;         invincibility_frames = INVINCIBILITY_DAMAGE;
@@ -9828,10 +9828,10 @@ $L_update_78:
 ;             sound_on = !sound_on;
   getg  sound_on 0
   not
+  dup
   setg  sound_on 0
   .line 160
 ;     if(sound_on != $audio_enabled())
-  getg  sound_on 0
   sys   audio_enabled
   sub
   bz    $L_update_79
@@ -10164,8 +10164,8 @@ $L_update_52:
   push  11
   getg  menu_sprite 0
   inc
+  dup
   setg  menu_sprite 0
-  getg  menu_sprite 0
   cult
   bz    $L_update_53
   .line 171
@@ -10263,10 +10263,10 @@ $L_update_59:
 ;             sound_on = !sound_on;
   getg  sound_on 0
   not
+  dup
   setg  sound_on 0
   .line 160
 ;     if(sound_on != $audio_enabled())
-  getg  sound_on 0
   sys   audio_enabled
   sub
   bz    $L_update_60
@@ -10562,8 +10562,8 @@ $L_update_29:
   bnz   $L_update_31
   getg  creditsy 0
   inc
+  dup
   setg  creditsy 0
-  getg  creditsy 0
   push2 35840
   sub2b
   bool2
@@ -11046,10 +11046,10 @@ $L_update_level_22:
 $L_update_level_61:
   .line 301
 ;     was_best_time = (
+  dup
   setg  was_best_time 0
   .line 304
 ;     if(was_best_time)
-  getg  was_best_time 0
   bz    $L_update_level_62
   .line 305
 ;         map_best_times[current_map] = time_taken;
@@ -11075,10 +11075,10 @@ $L_update_level_62:
   p0
   getln 3 6
   cult3
+  dup
   setg  was_high_score 0
   .line 309
 ;     if(was_high_score)
-  getg  was_high_score 0
   bz    $L_update_level_63
   .line 310
 ;         map_high_scores[current_map] = map_score;
@@ -11196,8 +11196,8 @@ $L_update_level_36:
 ;         if(--death_frames == 0)
   getg  death_frames 0
   dec
+  dup
   setg  death_frames 0
-  getg  death_frames 0
   bnz   $L_update_level_39
   .line 440
 ;             score = 0;
@@ -11910,8 +11910,8 @@ $L_update_level_132:
 ;     if(--hearts != 0)
   getg  hearts 0
   dec
+  dup
   setg  hearts 0
-  getg  hearts 0
   bz    $L_update_level_115
   .line 719
 ;         invincibility_frames = INVINCIBILITY_DAMAGE;
@@ -12301,8 +12301,8 @@ $L_update_level_85:
   getg2 level_frames_remaining 0
   p1
   sub2b
+  dupw
   setg2 level_frames_remaining 0
-  getg2 level_frames_remaining 0
   bool2
   bnz   $L_update_level_69
   .line 696
@@ -12553,10 +12553,10 @@ $L_update_score_tally_6:
   getg2 score 0
   p0
   add3
+  getln 3 3
   setgn 3 total_score 0
   .line 244
 ;         total_score += level_frames_remaining;
-  getgn 3 total_score 0
   getg2 level_frames_remaining 0
   p0
   add3
