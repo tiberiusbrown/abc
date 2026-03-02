@@ -1,0 +1,178 @@
+enum
+{
+    STATE_MENU,
+    STATE_HELP,
+    STATE_CREDITS,
+    STATE_SELECT_SET,
+    STATE_SELECT,
+    STATE_PLAY,
+    STATE_PAUSE,
+    STATE_HINT,
+    STATE_DEATH,
+    STATE_WIN,
+};
+u8 state;
+
+saved u8 select_set;
+
+i8 set_descy;
+u8 current_set;
+u16 current_level;
+
+u8 menu_index;
+
+constexpr sprites TILES8 = sprites{ 8x8 "img/tiles8.png" };
+constexpr sprites TILES6 = sprites{ 6x6 "img/tiles6.png" };
+constexpr sprites TILES4 = sprites{ 4x4 "img/tiles4.png" };
+constexpr sprites ARROWS = sprites{ 9x9 "img/arrows.png" };
+constexpr sprites LASERS = sprites{ 7x7 "img/lasers.png" };
+
+// tiles
+constexpr u8 T_TANK        = 0xdc;
+constexpr u8 T_DIRT        = 0x00;
+constexpr u8 T_ICE         = 0x40;
+constexpr u8 T_ICE_CRACKED = 0x44;
+constexpr u8 T_ANTITANK    = 0x90;
+constexpr u8 T_ANTITANK_B  = 0xa0;
+constexpr u8 T_FLAG        = 0x04;
+constexpr u8 T_WATER       = 0x50;
+constexpr u8 T_WATER_FILL  = 0x08;
+constexpr u8 T_BLOCK       = 0xb4;
+constexpr u8 T_BLOCK_MOVE  = 0xb8;
+constexpr u8 T_BLOCK_CRYS  = 0x60;
+constexpr u8 T_BLOCK_BRICK = 0xbc;
+constexpr u8 T_MIRROR      = 0x70;
+constexpr u8 T_MIRROR_ROT  = 0x80;
+constexpr u8 T_TUNNEL      = 0x20;
+constexpr u8 T_ONEWAY      = 0x10;
+constexpr u8 T_LETTERS     = 0xe0;
+constexpr u8 T_NUMBERS     = 0xf0;
+
+constexpr u8 T_FIRST_SOLID = 0x60; // blocks movement
+constexpr u8 T_FIRST_OPAQUE = 0x70; // blocks lasers
+
+// frame counter for animations
+u8 frame;
+
+// tank position
+u8 tankx, tanky;
+
+// tank direction
+enum
+{
+    DIR_U,
+    DIR_R,
+    DIR_D,
+    DIR_L
+};
+u8 tankdir;
+i8[4] prog DIRX = { 0, 1, 0, -1 };
+i8[4] prog DIRY = { -1, 0, 1, 0 };
+
+// animation state
+
+bool shooting;
+u8 shootx, shooty, shootdir;
+
+struct moving_obj_t { u8 pos, dir; };
+moving_obj_t[15] moving_objects;
+u8 num_moving_objects;
+
+saved bool tile_anim;
+
+u8 anim_frame;
+saved u8 anim_frames;
+
+bool first_move;
+bool in_water;
+bool victory;
+bool dead;
+bool just_moved;
+u8 just_moved_dir;
+
+// camera offset
+i8 offx, offy, targetx, targety;
+bool first_pan;
+
+// tile size
+enum {
+    TILESIZE_8,
+    TILESIZE_6,
+    TILESIZE_4,
+    TILESIZE_NUM,
+};
+saved u8 tilesize;
+
+// whether we can press B to pan
+bool can_pan;
+
+// arrow button repeat ticks
+u8[4] btn_ticks;
+u8[4] repeat_counts;
+u8 btns_pressed;
+constexpr u8 INITIAL_TICKS = 12;
+constexpr u8 REPEAT_TICKS = 4;
+
+constexpr u32 PAUSE_PRESS_MS = 300;
+u32 b_pressed_time;
+
+// RAM copy of level
+u8[256] tiles;
+u8[256] objects;
+u8[8] num_tunnels;
+u8[8] occupied_tunnels;
+u8[8] last_tunneled;
+bool tank_blocked_tunnel;
+// TODO: need to store whether tank is on a blocked tunnel?
+// (correct handling of trick 85)
+
+u16 moves;
+u16 shots;
+
+// compressed past level state for undo
+// (saved because it's used for saving completion state)
+// byte mapping:
+//    0        tank pos
+//    1        tank dir
+//    2-3      moves
+//    4-5      shots
+//    6-327    compressed level
+//    328      tank_blocked_tunnel
+//    329-336  last_tunneled;
+saved u8[2+2+2+326+1+8] undo_data;
+u8 undo_num_moves;
+
+saved bool en_audio;
+
+bool need_save;
+
+struct level_t
+{
+    u8[] prog& tiles;
+    char[] prog& name;
+    char[] prog& author;
+    char[] prog& hint;
+    u8 hint_lines;
+    u8 difficulty;
+    u16 hs_moves;
+    u16 hs_shots;
+    char[6] hs_name;
+};
+
+struct levelset_t
+{
+    char[] prog& name;
+    char[] prog& desc;
+    u8 desc_lines;
+    level_t[] prog& levels;
+};
+
+char[] prog&[6] prog DIFF_STRS =
+{
+    "Tutorial",
+    "Kids",
+    "Easy",
+    "Medium",
+    "Hard",
+    "Deadly",
+};

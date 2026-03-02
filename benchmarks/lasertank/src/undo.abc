@@ -1,0 +1,112 @@
+import vars;
+
+// worst case compression should be 322 bytes
+u16 undo_compress_buffer(u8[256]& src, u16 ci)
+{
+    u8 i = 0;
+    do
+    {
+        u8 t = src[i];
+        u8 n;
+        while(true)
+        {
+            if(n >= 3 || i+n >= 255 || src[i+n+1] != T_DIRT)
+                break;
+            n += 1;
+        }
+        //$debug_printf("ci=%u i=%u n=%u\n", ci, i, n);
+        undo_data[ci] = t + n;
+        ci += 1;
+        i += n + 1;
+    } while(i != 0);
+    return ci;
+}
+
+u16 undo_decompress_buffer(u8[256]& dst, u16 ci)
+{
+    u8 i = 0;
+    do
+    {
+        u8 t = undo_data[ci];
+        u8 n = t & 3;
+        dst[i] = t & 0xfc;
+        for(u8 k = 1; k <= n; ++k)
+            dst[i+k] = T_DIRT;
+        //$memset(dst[i+1+:n], T_DIRT);
+        ci += 1;
+        i += n + 1;
+    } while(i != 0);
+    return ci;
+}
+
+void undo_compress()
+{
+    undo_data[0] = tanky * 16 + tankx;
+    undo_data[1] = tankdir;
+
+    undo_data[2+0] = (moves >> (0 * 8));
+    undo_data[2+1] = (moves >> (1 * 8));
+    undo_data[4+0] = (shots >> (0 * 8));
+    undo_data[4+1] = (shots >> (1 * 8));
+
+    u16 ci = 6;
+    ci = undo_compress_buffer(tiles, ci);
+    ci = undo_compress_buffer(objects, ci);
+
+    undo_data[328] = tank_blocked_tunnel;
+    undo_data[329 +: 8] = last_tunneled;
+}
+
+void undo_decompress()
+{
+    tanky = undo_data[0] >> 4;
+    tankx = undo_data[0] & 15;
+    tankdir = undo_data[1];
+
+    moves  = undo_data[2] + undo_data[3] * 256;
+    shots  = undo_data[4] + undo_data[5] * 256;
+
+    u16 ci = 6;
+    ci = undo_decompress_buffer(tiles, ci);
+    ci = undo_decompress_buffer(objects, ci);
+
+    tank_blocked_tunnel = undo_data[328];
+    last_tunneled = undo_data[329 +: 8];
+
+    occupied_tunnels = {};
+    u8 i = 0;
+    do
+    {
+        u8 t= tiles[i];
+        if(t >= T_TUNNEL && t < T_TUNNEL + 32)
+            occupied_tunnels[u8(t - T_TUNNEL) >> 2] += 1;
+        i += 1;
+    } while(i != 0);
+}
+
+void undo_premove(u8 m)
+{
+    undo_compress();
+    undo_num_moves = 1;
+}
+
+void undo()
+{
+    if(undo_num_moves == 0)
+        return;
+
+    u8 n = undo_num_moves - 1;
+
+    undo_decompress();
+    
+    in_water = false;
+    just_moved = false;
+    victory = false;
+    dead = false;
+    anim_frame = 0;
+
+    shooting = false;
+    num_moving_objects = 0;
+
+    undo_num_moves = n;
+}

@@ -1,0 +1,273 @@
+u8[79] prog LEVELS_TUTORIAL_OBJECTS_0 =
+{
+    231,   5,  81, 228,   5, 232,  81, 224,  80,   5, 232,  81, 224,  81, 236,  81,
+    224,  81, 236,  81, 224,  81,   5, 235,  81, 224,  97, 232,   5, 226,  81, 224,
+     97, 231,  96,   5,  81, 224,  97, 231,  97, 229,  97,   5, 230,  97, 224, 182,
+     96,   4, 231,  97, 224, 181, 236, 181, 224, 181, 236, 181, 224, 181, 232,   5,
+    226, 181, 224, 181, 232, 180,   5, 224, 181, 232, 221, 228, 181,   5, 231,
+};
+u8[86] prog LEVELS_TUTORIAL_OBJECTS_1 =
+{
+      0,  28, 182,   5, 181, 235,   5, 181, 185, 181, 234, 181, 224, 185, 234, 181,
+    224, 181, 224, 182, 233,   5, 182, 185, 181, 233, 181, 224, 185, 225,   5, 181,
+    230, 181, 224, 181, 224, 183, 232,   5, 182, 185, 181, 233, 181, 224, 185, 225,
+      5, 181, 230, 181, 224, 181, 224, 183, 232,   5, 182, 185, 181, 233, 181, 224,
+    185, 225,   5, 181, 230,   5, 224, 181, 224, 183, 232, 183, 185, 181, 234, 221,
+    185, 225,   5, 181,   5, 232,
+};
+u8[123] prog LEVELS_TUTORIAL_OBJECTS_2 =
+{
+     80,   5, 221,  81, 227, 181,   5, 182, 224,  80,   5, 185,  81, 227, 181,  81,
+    185,  81, 224,  80,   7, 226, 182, 224, 182, 224,  80,   5, 185,  81, 224, 181,
+    224,  81, 185,  81, 181, 225,  80,   7, 226, 182, 224, 182, 224,  80,   5, 185,
+     81, 227, 181,  81, 185,  81, 224,  81, 185,  81, 224, 185,  82, 227, 181, 224,
+    182, 224, 185,  80,   6, 232,  80,   7, 180,   5, 224, 183, 185,  80,   6, 181,
+     81, 185, 225,  81, 181, 226,  80,   6, 181, 224, 180,   5, 226,  82, 180,   5,
+    185, 181, 230,  82, 181,  81, 185, 225,  81, 181, 230,  82, 181, 224, 180,   5,
+    230, 183, 185, 181, 233,  81, 185, 225,  81, 181, 233,
+};
+u8[136] prog LEVELS_TUTORIAL_OBJECTS_3 =
+{
+    224, 183,   5,  81, 181, 233, 183, 185,  81, 181, 224, 180,   7, 225, 181,  98,
+    185, 224, 181, 224,  81, 228, 181, 225, 183, 185, 224, 181, 224,  81, 228, 181,
+    225, 181,  97, 181, 185, 224, 181, 224,  81, 227, 182, 225,  97, 181,  97, 185,
+    224, 181, 224,  81, 226,  99, 225, 183, 185, 224, 181, 224,  81, 225, 180,   4,
+    225,  99, 185, 224, 182,  81, 225, 180,   4, 225,  97, 182, 185, 224, 181, 224,
+     81, 226, 183, 225, 183, 185, 224, 181, 224,  81, 227, 182, 225,  98, 181, 185,
+    224, 181, 224,  81, 227,  98, 225, 182,  97, 185, 224, 181, 224,  81, 228, 181,
+    225, 183, 185, 226,  81, 228, 181, 225, 183, 184,  10, 181, 225, 180,   4,  97,
+    183,  97, 182,  97, 182, 231, 221, 231,
+};
+u8[42] prog LEVELS_TUTORIAL_OBJECTS_4 =
+{
+      0,  52, 121, 227, 125, 233, 121, 227,  81, 113,   5, 232, 181, 225,  81, 224,
+    121,  81, 234,  80,   4, 234,  82, 185, 224,  82, 234,  82, 221,  82, 235,  83,
+    237,  81, 233, 117, 238, 117, 227, 113,   0,  54,
+};
+u8[54] prog LEVELS_TUTORIAL_OBJECTS_5 =
+{
+      0,  67,  80,  10, 229,  80,   7,   5,  82, 229,  81, 227,  80,   5, 229,  81,
+    224,  80,   8, 229,  81, 224,  81, 142,  81, 185, 224,  82, 229,  81, 224,  81,
+    142,  81, 185, 224,  82, 229,  81, 224,  80,   5, 224,  82, 229,  81, 229, 221,
+     82, 229,  80,  10,   0,  51,
+};
+u8[100] prog LEVELS_TUTORIAL_OBJECTS_6 =
+{
+      0,  17, 182, 157,  96,  11, 225, 182, 157, 226, 144,   4,  96,   4, 225, 182,
+    157, 147, 227, 144,   4, 225, 182, 157, 231, 149, 224, 185, 225, 181, 157, 232,
+    149, 224, 185, 225, 181, 157, 232, 149, 224, 185, 225, 181, 157, 233, 149, 185,
+    225, 181, 157, 233, 149, 185, 225, 181, 224, 157, 232, 149, 185, 225, 181, 224,
+    157, 232, 149, 185, 225, 181, 224, 157, 231, 149, 186, 225, 152,   4, 227, 155,
+    149, 186, 225,  80,   4, 152,   4, 226, 149, 186, 225,  80,  11, 149, 186, 224,
+    221, 233,   5, 227,
+};
+u8[28] prog LEVELS_TUTORIAL_OBJECTS_7 =
+{
+    221,   0,  17, 154, 236, 149, 238, 149,   0, 140, 157,  81, 236,  81, 157, 153,
+    238,   5, 231, 181, 149, 228,  81, 232,  81, 226, 146, 224,
+};
+u8[58] prog LEVELS_TUTORIAL_OBJECTS_8 =
+{
+      0,  67, 180,   9, 230, 181, 137, 129, 141,  82, 224,   5, 181, 230, 181,  81,
+    141,  83, 224, 157, 181, 230, 181,  83, 121,  81, 224, 157, 181, 230, 181, 230,
+    181, 230, 181, 226, 145, 181, 225, 181, 230, 181, 225, 117, 181, 226, 181, 230,
+    181, 224, 221, 228, 181, 230, 180,   9,   0,  52,
+};
+u8[79] prog LEVELS_TUTORIAL_OBJECTS_9 =
+{
+    236,  97,   5, 157, 236,  97, 224, 157, 236,  97, 224, 157, 236,  97, 224, 157,
+      0,  23, 180,   5, 234, 185, 224,   5, 157, 181, 234, 186, 224, 157, 181, 234,
+    185,  97, 224, 157, 181, 234, 185, 181, 224, 157, 181, 238, 181, 228, 180,   5,
+    228, 181, 228, 181,   5, 224, 157, 181, 228, 181, 228, 181, 225, 157, 181, 228,
+    181, 228, 181, 225, 157, 181, 228, 181, 227, 221, 227, 181, 228, 181, 227,
+};
+u8[59] prog LEVELS_TUTORIAL_OBJECTS_10 =
+{
+    188,  13,  82,   5, 188,  14,  82, 188,  15,  81, 188,   6, 144,   5, 188,  25,
+    157, 188,   7, 149, 188,   7, 157, 188,   7, 149, 188,   7, 157, 188,   7, 149,
+    188,   7, 157, 188,   7, 149, 188,   7, 157, 188,   7, 149, 188,  25, 152,   5,
+    188,  23, 185, 188,  14, 185, 188,  14, 221, 188,  15,
+};
+u8[185] prog LEVELS_TUTORIAL_OBJECTS_11 =
+{
+      5, 225,  22,  25,  81,  17,  81,   5,  81,  23,  25,  82, 225,  17,   5,  25,
+      5,  17,   5,  82,  17,  82,  25,  81,  17, 225,  17,  30,  81,  17,  81, 224,
+     81,  17,  81,  25,  29,  81,  17, 225,  17, 225,  81,  17,  81,  17,  81,  17,
+     81,  25,  82,  17, 225,  17, 225,  81,  17,  81,  17,  81,  17,  81,  22,  25,
+     17, 225,  17, 225,  81,  17,  81,  17,  81,  17,  83,  25,  17, 225,  17, 225,
+     81,  17,  81,  17,  81,  17,  30,  81,  25,  17, 225,  17, 225,  81,  17,  81,
+     17,  83,  17,  81,  25,  17,  30, 224,  21,  25,  81,  17,  29, 224,  21,  25,
+     81,  17,  81,  25, 149, 225,  17, 224,  25,  83,  17,  81,  22,  17,  81,  25,
+    226,  17, 224,  25,  83,  17,  80,   5,  25, 226,  17, 224,  17,  82,  21,  17,
+     81,  25,  28,   4, 226,  17, 224,   6,  81,  17,  82,  25,  80,   4, 226,  17,
+    225,  25,  81,  17,  82,  25,  21, 185,  81,  25, 226,  17,  30, 221,  21,  17,
+     81, 185,  25,  83,  25, 229,  80,   9,   5,
+};
+u8[84] prog LEVELS_TUTORIAL_OBJECTS_12 =
+{
+    149,  64,  18, 181,  64,  15, 181,  64,  15, 181,  65, 183,  64,   4,  97,  64,
+      6, 181,  65, 181,  64,  13, 181,  65, 181,  67, 183,  64,   9, 181,  67, 181,
+     67,  97,  64,   7, 183,  65, 182,  67, 221,  64,  10, 181,  64,   6, 145,  64,
+      8, 183,  64,   4, 149,  67,   5,  64,  11, 149,  64,   6,  81,  65,  81,  64,
+     14, 185,  64,   7, 149,  64,  15, 149,  81, 224,  64,   4, 185,  81,  64,   7,
+    149,  64,  14, 145,
+};
+u8[35] prog LEVELS_TUTORIAL_OBJECTS_13 =
+{
+     68,  35, 221,  68,   6, 185,  69,   5,  68,  12,   5,  68,  22, 149,  68,  35,
+      5,  69, 185, 224,  68,  55, 157,  68,  21, 185,  68,  13, 224,  69, 224,  69,
+    224,  68,  40,
+};
+u8[74] prog LEVELS_TUTORIAL_OBJECTS_14 =
+{
+      0,  21, 180,   6, 233, 183,  37, 182, 233, 183, 185, 182, 233, 183,  97, 182,
+    233, 182,  33, 224, 182, 233, 180,   6, 233, 181,  33, 224, 221, 224, 181, 233,
+    180,   4, 224, 181, 233, 181, 227, 181, 233, 181, 224, 181,  97, 182, 233, 181,
+    224, 181,  37, 182, 233, 181, 185, 224,  81, 224, 181, 233, 181,  41, 182, 224,
+    181, 233, 181,   5, 226, 181, 233, 180,   6, 228,
+};
+u8[143] prog LEVELS_TUTORIAL_OBJECTS_15 =
+{
+    183,  25,  31, 180,  11, 153,  25, 181,  21,  17, 180,   9,  25,  29,  33,  25,
+    181,  17,  33, 157, 180,   8,  25,  17,  30, 181,  17,  28,   5,  69,  28,   4,
+     25, 180,  14,  17,  23,  25, 181,  22,  25,  22,  25, 180,   4,  17, 181, 149,
+     33,  25, 181,  17,  33,  21,  17, 181,  25, 180,   4,  17, 182,  25,  29, 181,
+     17, 145, 182,  25,  29, 180,   4,  17, 182,  23,  17, 182,  25,  29, 180,   5,
+     17, 180,   7,  25,  29, 181, 229, 180,   7,  25, 181, 225, 153, 227, 180,   7,
+     25, 181, 225, 181, 224, 181, 157, 224, 180,   7,  69, 181, 225, 221,  33, 226,
+    181,  25,  30, 183,  25, 181, 224, 149, 181, 224, 181, 185, 224, 181,  25, 153,
+     17, 183,  25, 181, 227, 145, 225,   5,  81,  33, 224,  28,   4, 181, 230,
+};
+
+level_t[16] prog LEVELS_TUTORIAL_OBJECTS =
+{
+    {
+        LEVELS_TUTORIAL_OBJECTS_0,
+        "Boundaries for the tank",
+        "Yono in Jkt.",
+        "Naturally, the tank moves on the\nground. It can't swim. It can't go\nthrough solid or crystal block.\n\nThe flag is the target of the game.\nClick (left button of the mouse) on\nthe P1 flag. The tank will reach the\nflag. You win.\n\n30 moves & 0 shot.",
+        10, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_1,
+        "G-O: Movable blocks",
+        "Yono in Jkt.",
+        "Only O2 flag is reachable.\n\nThere are ten movable blocks in the\npath. To clear the path, your tank\nmust shoot the blocks. (Use\n\"arrow\" key to aim, and then hit\nthe \"space bar\" to shoot. Or: Click\n[right button] on the target.)\n\n28 moves & 28 shots.",
+        10, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_2,
+        "G-O: Bridges",
+        "Yono in Jkt.",
+        "If a movable block is pushed into\nwater, it will form a bridge. A\nbridge acts like ground.\n\nThere are water tiles in the tank's\npath to the flag, so you should\nmake the bridges by pushing the 15\nmovable blocks into the water.\n\n79 moves & 29 shots.",
+        10, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_3,
+        "G-O: Solid & crystal blocks",
+        "Yono in Jkt.",
+        "You need four movable blocks to\nmake the bridges.\n\nThe tank can't shoot through SOLID\nBLOCK, but it can shoot through\nCRYSTAL BLOCK.\n\nSo, the tank should shoot the\nselected movable blocks through\nhomogeneous crystal blocks.\n\n92 moves & 36 shots.",
+        12, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_4,
+        "G-O: Movable mirrors",
+        "Yono in Jkt.",
+        "Movable mirror can be used to\ndeflect a laser shot 90\xb0 when\nfired on the mirrored surface. If\nyou shoot the mirror base, the\nmirror will move. (Two possible\ndirections.)\n\nIf the mirror is pushed into the\nwater, it will sink.\n\n6 moves & 10 shots.",
+        11, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_5,
+        "G-O: Rotary mirrors",
+        "Yono in Jkt.",
+        "The rotary mirror can be used to\ndeflect a laser shot 90\xb0 when\nfired on the mirrored surface. If\nyou shoot the mirror base (the\nbackside), the mirror will rotate\n90\xb0 CLOCKWISE.\n\nThe rotary mirror can't be moved\nor destroyed.\n\n54 moves & 15 shots.",
+        11, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_6,
+        "Covering the anti-tanks",
+        "Yono in Jkt.",
+        "If the tank moves in front of an\nanti-tank, it will be shot.\n\nSolid, crystal, and movable blocks\ncan be used as covers because the\nanti-tank can't see through those\nobjects.\n\n(Water can't cover.)\n\nClick on M16, and then L16.\n\n49 moves & 0 shots.",
+        13, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_7,
+        "Pushing the anti-tanks",
+        "Yono in Jkt.",
+        "If the tank moves in front of an\nanti-tank, it will be shot.\n\nOther anti-tanks can be used as\ncovers because the anti-tank can't\nsee through them.\n\nIf you fire at one of their sides,\nyou can push them around even into\nwater.\n\n60 moves & 91 shots.",
+        12, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_8,
+        "Using mirrors to destroy A-T",
+        "Yono in Jkt.",
+        "If the tank shoots an A-T (anti-tank)\nin the gun barrel without the A-T\nseeing the tank, the A-T will be\ndestroyed. One way to do this is using\nmirrors. The tank shoots the mirrors\nthat deflect the laser to the A-T's gun\nbarrel.\n\n23 moves & 11 shots.",
+        9, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_9,
+        "Anti-tank behind crystal blk",
+        "Yono in Jkt.",
+        "CRYSTAL BLOCK can't be destroyed\nor moved. The tank can shoot\nthrough it, but anti-tanks can't see\nthe tank through it.\n\nClick on M4. From behind the\ncrystal blocks, shoot the four\nanti-tanks one at a time. Click on\nO1 flag.\n\n37 moves & 4 shots.",
+        11, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_10,
+        "G-O: Bricks",
+        "Yono in Jkt.",
+        "Bricks will be destroyed if they are\nhit with laser beam.\n\nTo reach the flag, your tank needs\nto push the two movable blocks\n(B15 and C14) into the water. But:\nFirst, the tank should make the\npath by destroying certain bricks.\n\n54 moves & 91 shots.",
+        10, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_11,
+        "G-O: Tank movers",
+        "Yono in Jkt.",
+        "TMs (Tank Movers) will quickly\nmove your tank from one place to\nanother. They won't move blocks,\nmirrors, and anti-tanks.\n\nIf you need to shoot or get off in\nthe middle of TMs, push a block\nonto one TM to stop before you get\non it.\n\n5 moves & 2 shots",
+        11, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_12,
+        "G-O: Ice",
+        "Yono in Jkt.",
+        "Anything that can move (including the\ntank) will slide across the slippery ice\nuntil it hits an object.\n\nIf an anti-tank sees the tank is\nSLIDING in front of it, it will shoot. If\nthe tank is too far, the laser will miss.\n\n14 moves & 2 shots.",
+        9, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_13,
+        "G-O: Thin ice",
+        "Yono in Jkt.",
+        "The \"thin ice\" is just like \"ice\" but\nonce something passes over it, it\nwill turn into water.\n\nThe tank too, can slide over the\nthin ice. However, don't let it stop\non thin ice because it will break the\nthin ice and it will sink.\n\n7 moves & 2 shots.",
+        10, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_14,
+        "G-O: Tunnels",
+        "Yono in Jkt.",
+        "Any movable object (including the\ntank) that enters a tunnel will exit\nthe other tunnel of the same color,\nif any. If there is no other tunnel\nof matching color, the object will\nvanish.\n\nThere can be up to eight different\ncolors.\n\n23 moves & 3 shots.",
+        11, 0,
+        0, 0, "",
+    },
+    {
+        LEVELS_TUTORIAL_OBJECTS_15,
+        "Many same color tunnels",
+        "Yono in Jkt.",
+        "Push the 5 objects into the entry\ntunnel (M13).\n\nExit tunnel priorities: Starting\nfrom the 1st row (highest) to the\n16th row. In the same row:\nStarting from left (higher priority)\nto the right.\n\nExit order: C3, G3, C7, G7, C16.\n\n54 moves & 16 shots",
+        12, 0,
+        0, 0, "",
+    },
+};
+

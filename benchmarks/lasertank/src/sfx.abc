@@ -1,0 +1,86 @@
+constexpr tones SFX_SHOOT = tones{
+    G5  4
+    F5# 4
+    F5  4
+    E5# 4
+    E5  4
+    D5# 4
+    D5  4
+    C5# 4
+    C5  4
+    B4  4
+    A4# 4
+    A4  4
+};
+
+constexpr tones SFX_MOVE = tones{
+    C3 24
+};
+
+constexpr tones SFX_VICTORY = tones{
+    C4 150
+    -  50
+    C4 70
+    -  30
+    C4 70
+    -  30
+    C5 300
+};
+
+constexpr tones SFX_DEFEAT = tones{
+    C5 70
+    -  30
+    A4 70
+    -  30
+    F4 70
+    -  30
+    D4 70
+    -  30
+    C4 300
+};
+
+constexpr tones SFX_TUNNEL = tones{
+    C3  8
+    C3# 8
+    D3  8
+    D3# 8
+    E3  8
+    E3# 8
+    F3  8
+    G3  8
+    G3# 8
+    A3  8
+    A3# 8
+    B3  8
+    C4  8
+};
+
+constexpr tones SFX_REFLECT = tones{
+    G6 30
+};
+
+constexpr tones SFX_PUSH = tones{
+    D3 30
+};
+
+constexpr tones SFX_MOVER = tones{
+    E3 16
+};
+
+constexpr tones SFX_BREAK = tones{
+    F3 4
+    -  4
+    F3 4
+    -  4
+    F3 4
+    -  4
+    F3 4
+    -  4
+    F3 4
+    -  4
+    F3 4
+    -  4
+    F3 4
+    -  4
+    F3 4
+};

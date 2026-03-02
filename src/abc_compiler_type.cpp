@@ -719,6 +719,9 @@ void compiler_t::type_annotate_recurse(ast_node_t& a, compiler_frame_t const& fr
         else
         {
             a.comp_type = t0.children[0].with_array_ref();
+            size_t t = t0.children[0].is_prog ? 3 : 2;
+            a.children[1].comp_type.prim_size = std::min(a.children[1].comp_type.prim_size, t);
+            a.children[2].comp_type.prim_size = std::min(a.children[2].comp_type.prim_size, t);
         }
         break;
     }

@@ -1,0 +1,220 @@
+import vars;
+import mapdata;
+
+struct map_info_t
+{
+    char[] prog& name;
+    u8[] prog& map;
+    u8 w, h;
+    sprites background;
+};
+
+constexpr sprites BACKGROUND_MOUNTAIN = sprites{ 128x64 "assets/background.png" };
+constexpr sprites BACKGROUND_CLOUDS = sprites{ 128x64 "assets/background_clouds.png" };
+constexpr sprites BACKGROUND_OVER_UNDER = sprites{ 128x64 "assets/background_over_under.png" };
+constexpr sprites BACKGROUND_CASTLE = sprites{ 128x64 "assets/background_castle.png" };
+constexpr sprites BACKGROUND_NONE = sprites{ 1x8 "assets/background_none.png" };
+
+map_info_t[NUM_MAPS] prog maps = {
+    { "Sleepy Meadow", map0, 32, 8, BACKGROUND_MOUNTAIN },
+    { "Daring Forest", map1, 32, 16, BACKGROUND_MOUNTAIN },
+    { "Construction Zone", map_construction, 32, 10, BACKGROUND_CASTLE },
+    { "Grand Old Tree", map2, 16, 32, BACKGROUND_MOUNTAIN },
+    { "Floating on Clouds", map_floating, 32, 16, BACKGROUND_CLOUDS },
+    { "Don't Forget a Hard Hat", map_hard_hats, 32, 12, BACKGROUND_CASTLE },
+    { "Easy Breezy", map_wind, 64, 8, BACKGROUND_NONE },
+    { "We Three Keys", map_we_three_keys, 32, 16, BACKGROUND_CASTLE },
+    { "Luke's Challenge", map_luke, 32, 8, BACKGROUND_MOUNTAIN },
+    { "The Hills Have Horns", map_luke2, 36, 8, BACKGROUND_MOUNTAIN },
+    { "Sky Strolling", map_luke5, 24, 18, BACKGROUND_CLOUDS },
+    { "Over and Under", map_over_under, 48, 28, BACKGROUND_OVER_UNDER },
+};
+
+u16 total_objects;
+
+void load_map()
+{
+    player_facing_right = true;
+    keys = 0;
+    invincibility_frames = INVINCIBILITY_LEVEL_START;
+    jump_frames_remaining = 0;
+    vx = 0;
+    vy = 0;
+    level_start_frames = LEVEL_START_FRAMES;
+    death_frames = 0;
+    state = STATE_LEVEL;
+    score = 0;
+    hearts = MAX_HEARTS;
+    level_frames_remaining = TIME_LIMIT_FRAMES;
+    keys_required = 0;
+    player_on_ground = true;
+
+    u8[] prog& map = maps[current_map].map;
+    u8 w = maps[current_map].w;
+    u8 h = maps[current_map].h;
+    map_width = w;
+    map_height = h;
+
+    // reset map objects
+    objects = {};
+
+    total_objects = 0;
+
+    // look through all map tiles for objects
+    for(u8 y = 0; y < h; ++y)
+    {
+        for(u8 x = 0; x < w; ++x)
+        {
+            u8 t = map[y * w + x] - 1;
+            process_map_tile(x, y, t);
+        }
+    }
+
+    if(w == 64 && h == 8)
+    {
+        process_map_tile(9, 5, TILE_MOB);
+        process_map_tile(14, 3, TILE_COIN);
+        process_map_tile(14, 6, TILE_MOB);
+        process_map_tile(19, 6, TILE_MOB);
+        process_map_tile(26, 6, TILE_MOB);
+        process_map_tile(26, 4, TILE_COIN);
+        process_map_tile(28, 6, TILE_MOB);
+        process_map_tile(18, 1, TILE_COIN);
+        process_map_tile(30, 1, TILE_HEART);
+        process_map_tile(21, 3, TILE_COIN);
+        process_map_tile(36, 6, TILE_MOB_HELM);
+        process_map_tile(44, 3, TILE_MOB);
+        process_map_tile(52, 1, TILE_SUPERCOIN);
+        process_map_tile(52, 6, TILE_MOB_HORN);
+        process_map_tile(60, 2, TILE_COIN);
+    }
+
+    if(total_objects > MAX_OBJECTS)
+    {
+        $debug_printf("Objects: %u\n", total_objects);
+        $assert(false);
+    }
+
+    $tones_play_primary(SOUND_LEVEL_START);
+
+    //$debug_printf("key_required=%u\n", keys_required);
+}
+
+void process_map_tile(u8 x, u8 y, u8 t)
+{
+    if(t < TILE_DOOR0) return;
+
+    if(t == TILE_PLAYER)
+    {
+        // set initial player/camera position
+        px = x * 16 + PXOFF;
+        py = y * 16 + PYOFF;
+        camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;
+        camy = py - CAMERA_OFFSET_Y;
+        float xmax = map_width * 16 - 129;
+        float ymax = map_height * 16 - 65;
+        if(camx < 0) camx = 0;
+        if(camy < 0) camy = 0;
+        if(camx > xmax) camx = xmax;
+        if(camy > ymax) camy = ymax;
+        dcamx = 0;
+    }
+    else if(t == TILE_COIN)
+    {
+        add_object({ OBJ_COIN, x * 16, y * 16, 3, 3, 10, 10 });
+    }
+    else if(t == TILE_SUPERCOIN)
+    {
+        add_object({ OBJ_SUPERCOIN, x * 16, y * 16, 3, 3, 10, 10 });
+    }
+    else if(t == TILE_KEY)
+    {
+        add_object({ OBJ_KEY, x * 16, y * 16, 2, 4, 12, 8 });
+    }
+    else if(t == TILE_HEART)
+    {
+        add_object({ OBJ_HEART, x * 16, y * 16, 2, 3, 12, 10 });
+    }
+    else if(t >= TILE_MOB && t <= TILE_MOB_HELM)
+    {
+        u8 xo = 3;
+        u8 yo = 5;
+        if(t == TILE_MOB_HELM)
+        {
+            xo = 2;
+            yo = 3;
+        }
+        u8 w = 16 - xo * 2;
+        i16 a = x * 16 + xo - 1;
+        i16 b = x * 16 + xo + w + 1;
+        i16 yc = y * 16 + 8;
+        i16 yd = y * 16 + 16;
+        while(!mob_solid(a, yc, false) && mob_solid(a, yd, true))
+            a -= 16;
+        a += 18 - xo * 2;
+        while(!mob_solid(b, yc, false) && mob_solid(b, yd, true))
+            b += 16;
+        b -= 34 - xo * 2;
+        add_object({ t - 240, x * 16, y * 16, xo, yo, w, 16 - yo, true, 0, a, b });
+    }
+    else if(t == TILE_MOB_BAT)
+    {
+        u8 tt = ((x * 37 + y * 23) & 15) * 3;
+        add_object({ OBJ_MOB_BAT, x * 16 + tt, y * 16, 1, 4, 14, 9, true, 0, x * 16, (x + 3) * 16 });
+    }
+    else if(t == TILE_MOB_FLY)
+    {
+        u8 tt = ((x * 37 + y * 23) & 15) * 3;
+        add_object({ OBJ_MOB_FLY, x * 16, y * 16 + tt, 2, 2, 12, 14, true, 0, y * 16, (y + 3) * 16 });
+    }
+    else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
+    {
+        keys_required = t - TILE_DOOR0;
+    }
+}
+
+bool mob_solid(i16 x, i16 y, bool bottom)
+{
+    // collision against left map edge
+    if(x < 0)
+        return true;
+    
+    // allow the mob to fly above the map
+    if(y < 0)
+        return false;
+
+    x >>= 4;
+    y >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(x >= w)
+        return true;
+
+    // allow the mob to fall through the floor
+    if(y >= map_height)
+        return false;
+    u8 t = maps[current_map].map[y * w + x];
+    t -= 1;
+    if(t >= 240) return false;
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
+}
+
+void add_object(map_object_t obj)
+{
+    ++total_objects;
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
+    {
+        if(objects[i].type == OBJ_NONE)
+        {
+            objects[i] = obj;
+            return;
+        }
+    }
+    
+    // too many items in the map!
+    //$assert(false);
+}

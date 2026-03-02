@@ -1,0 +1,128 @@
+#title "LaserTank: Arduboy FX Port"
+#description
+    "This is a puzzle game. "
+    "You must get your tank to the flag in every level. "
+    "Your tank can move in four directions and can fire a laser that is used to move objects."
+#author "Peter Brown"
+#version "1.0"
+#sourceUrl "https://github.com/tiberiusbrown/arduboy_lasertank"
+
+import level;
+
+import levels.standard;
+import levels.tutorial_objects;
+import levels.tutorial_beginner;
+import levels.tutorial_tricks;
+
+levelset_t[4] prog LEVELSETS =
+{
+    {
+        "LaserTank",
+        "The base set included with LaserTank\n"
+        "version 4.1.2 -- a total of 2030 levels.\n"
+        "\n"
+        "There are five difficulty levels:\n"
+        "    Kids, Easy, Normal, Hard, Deadly\n"
+        "\n"
+        "Press RIGHT for tutorial sets.",
+        7,
+        LEVELS_STANDARD
+    },
+    {
+        "Tutorial: Basic Objects",
+        "These sixteen levels are the basic\n"
+        "training levels for new players who\n"
+        "don't know the objects being used in\n"
+        "the game.\n"
+        "\n"
+        "The description of each game object\n"
+        "can be found in the in-game help, and\n"
+        "the basic uses of all game objects are\n"
+        "covered here.",
+        9,
+        LEVELS_TUTORIAL_OBJECTS
+    },
+    {
+        "Tutorial: Beginner",
+        "These tutorial levels were designed\n"
+        "for complete beginners in  LaserTank.\n"
+        "\n"
+        "The levels were arranged in\n"
+        "accordance with the tutorial concept.\n"
+        "\n"
+        "The players should have read the help\n"
+        "information available from the main\n"
+        "menu. It is also suggested that the\n"
+        "new players have tried/played\n"
+        "\"Tutorial: Basic Objects\", the sixteen\n"
+        "levels that introduce the LaserTank\n"
+        "game objects.",
+        13,
+        LEVELS_TUTORIAL_BEGINNER
+    },
+    {
+        "Tutorial: Tricks",
+        "This is a collection of levels that shows\n"
+        "tricks used in some levels of the\n"
+        "existing level sets. Some levels can't\n"
+        "be solved without using the tricks.\n\n"
+        "There are also levels to show\n"
+        "LaserTank rules that can be different\n"
+        "with beginners' logical expectation.\n\n"
+        "All levels in this set are usually very\n"
+        "short because the authors have\n"
+        "arranged the relevant objects to be\n"
+        "ready for the trick. The solution and\n"
+        "the explanation of each level are\n"
+        "given by the author in the \"Hint\" box.",
+        15,
+        LEVELS_TUTORIAL_TRICKS
+    },
+};
+
+constexpr u8 NUM_LEVELSETS = len(LEVELSETS);
+saved u16[NUM_LEVELSETS] select_levels;
+
+import play;
+import pause;
+import hint;
+import menu;
+import help;
+import credits;
+import select;
+import saveload;
+
+void loop()
+{
+    btns_pressed = 0;
+    process_button_repeat(   UP_BUTTON, $pressed(   UP_BUTTON), 0);
+    process_button_repeat(RIGHT_BUTTON, $pressed(RIGHT_BUTTON), 1);
+    process_button_repeat( DOWN_BUTTON, $pressed( DOWN_BUTTON), 2);
+    process_button_repeat( LEFT_BUTTON, $pressed( LEFT_BUTTON), 3);
+    
+    switch(state)
+    {
+        case(STATE_MENU      ) menu();
+        case(STATE_HELP      ) help();
+        case(STATE_CREDITS   ) credits();
+        case(STATE_SELECT_SET) select_set_ui();
+        case(STATE_SELECT    ) select_level_ui();
+        case(STATE_PLAY      ) play();
+        case(STATE_PAUSE     ) pause();
+        case(STATE_HINT      ) hint();
+    }
+
+    ++frame;
+    $display();
+}
+
+void main()
+{
+    $set_frame_rate(30);
+    do_load();
+
+    state = STATE_MENU;
+    
+    while(true)
+        loop();
+}

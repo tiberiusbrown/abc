@@ -1,0 +1,813 @@
+void update()
+{
+    switch(state)
+    {
+    case(STATE_LEVEL)          update_level();
+    case(STATE_INTRO)          update_intro();
+    case(STATE_LEVEL_COMPLETE) update_level_complete();
+    case(STATE_PAUSE)          update_pause();
+    case(STATE_CONFIRM)        update_confirm();
+    case(STATE_SCORE_TALLY)    update_score_tally();
+    case(STATE_MENU)           update_menu();
+    case(STATE_LEVEL_SELECT)   update_level_select();
+    case(STATE_VICTORY)        update_victory();
+    case(STATE_GAME_OVER)      update_game_over();
+    case(STATE_CREDITS)        update_credits();
+    }
+    ++frame_count;
+}
+
+void update_credits()
+{
+    if($just_pressed(B_BUTTON))
+        main_menu();
+    if(!(frame_count & 3) && ++creditsy == 140)
+        creditsy = 0;
+}
+
+void update_confirm()
+{
+    if($just_pressed(UP_BUTTON))
+    {
+        if(pause_menui > 0)
+            pause_menui -= 1;
+    }
+    else if($just_pressed(DOWN_BUTTON))
+    {
+        if(pause_menui < 1)
+            pause_menui += 1;
+    }
+    else if($just_pressed(A_BUTTON))
+    {
+        if(pause_menui == 0)
+        {
+            state = STATE_LEVEL;
+        }
+        else if(pause_menui == 1)
+        {
+            if(save_exists)
+            {
+                save_exists = false;
+                $save();
+            }
+            main_menu();
+        }
+    }
+    else if($just_pressed(B_BUTTON))
+    {
+        pause_menui = 3;
+        state = STATE_PAUSE;
+    }
+    --frame_count;
+}
+
+void update_pause()
+{
+    if($just_pressed(UP_BUTTON))
+    {
+        if(pause_menui > 0)
+            pause_menui -= 1;
+    }
+    else if($just_pressed(DOWN_BUTTON))
+    {
+        if(pause_menui < 3)
+            pause_menui += 1;
+    }
+    else if($just_pressed(A_BUTTON))
+    {
+        if(pause_menui == 0)
+            state = STATE_LEVEL;
+        else if(pause_menui == 1)
+        {
+            sound_on = !sound_on;
+            update_sound();
+        }
+        else if(pause_menui == 2)
+            main_menu();
+        else if(pause_menui == 3)
+        {
+            if(single_level)
+            {
+                u8 level = current_map;
+                new_game();
+                current_map = level;
+                single_level = true;
+                lives = 99;
+                state = STATE_INTRO;
+            }
+            else
+            {
+                pause_menui = 0;
+                state = STATE_CONFIRM;
+            }
+        }
+    }
+    else if($just_pressed(B_BUTTON))
+        state = STATE_LEVEL;
+    --frame_count;
+}
+
+void update_game_over()
+{
+    if($just_pressed(B_BUTTON))
+        main_menu();
+}
+
+void update_victory()
+{
+    if($just_pressed(B_BUTTON))
+        main_menu();
+}
+
+void update_level_select()
+{
+    if($just_pressed(UP_BUTTON))
+    {
+        if(levelseli == 0)
+        {
+            if(levelseloff > 0)
+                levelseloff -= 1;
+        }
+        else
+            levelseli -= 1;
+        frame_count = 0;
+    }
+    else if($just_pressed(DOWN_BUTTON))
+    {
+        if(levelseli == LEVEL_SELECT_ROWS - 1)
+        {
+            if(levelseloff < NUM_MAPS - LEVEL_SELECT_ROWS)
+                levelseloff += 1;
+        }
+        else if(levelseli + levelseloff + 1 < NUM_MAPS)
+            levelseli += 1;
+        frame_count = 0;
+    }
+    else if($just_pressed(B_BUTTON))
+        main_menu();
+    else if($just_pressed(A_BUTTON))
+    {
+        new_game();
+        current_map = levelseli + levelseloff;
+        single_level = true;
+        lives = 99;
+        state = STATE_INTRO;
+    }
+}
+
+void update_sound()
+{
+    if(sound_on != $audio_enabled())
+        $audio_toggle();
+}
+
+void update_menu()
+{
+    if(frame_count & 1)
+        menu_spritex += 1;
+    if(menu_spritex > 160)
+    {
+        if(++menu_sprite > 11)
+            menu_sprite = 8;
+        menu_spritex = 0;
+    }
+    if($just_pressed(A_BUTTON))
+    {
+        if(menui == 0)
+        {
+            single_level = false;
+            if(!save_exists)
+                new_game();
+            else
+            {
+                current_map = saved_current_map;
+                total_score = saved_total_score;
+                total_time = saved_total_time;
+                score = 0;
+                level_frames_remaining = 0;
+                lives = saved_lives;
+            }
+            state = STATE_INTRO;
+        }
+        else if(menui == 1)
+        {
+            levelseli = 0;
+            levelseloff = 0;
+            frame_count = 0;
+            state = STATE_LEVEL_SELECT;
+        }
+        else if(menui == 2)
+        {
+            sound_on = !sound_on;
+            update_sound();
+        }
+        else if(menui == 3)
+        {
+            frame_count = 0;
+            creditsy = 0;
+            state = STATE_CREDITS;
+        }
+    }
+    if($just_pressed(UP_BUTTON) && menui > 0)
+        menui -= 1;
+    if($just_pressed(DOWN_BUTTON) && menui < 3)
+        menui += 1;
+}
+
+void update_score_tally()
+{
+    if(score > 0)
+    {
+        constexpr u8 STEP = 197;
+        u8 t = STEP;
+        if(score < STEP)
+            t = score;
+        score -= t;
+        total_score += t;
+        if((frame_count & 3) == 0)
+            $tones_play(tones{G4 12});
+    }
+    else if(level_frames_remaining > 0)
+    {
+        constexpr u8 STEP = 117;
+        u8 t = STEP;
+        if(level_frames_remaining < STEP)
+            t = level_frames_remaining;
+        level_frames_remaining -= t;
+        total_score += t;
+        if((frame_count & 3) == 0)
+            $tones_play(tones{G4 12});
+    }
+    if($just_pressed(A_BUTTON))
+    {
+        total_score += score;
+        total_score += level_frames_remaining;
+        if(single_level)
+        {
+            frame_count = 0;
+            state = STATE_LEVEL_SELECT;
+        }
+        else if(current_map < NUM_MAPS)
+            load_map();
+        else
+        {
+            was_high_score = (total_score > high_score);
+            was_best_time = (best_time == 0 || total_time < best_time);
+            if(was_high_score)
+                high_score = total_score;
+            if(was_best_time)
+                best_time = total_time;
+            current_map = 0;
+            save_exists = false;
+            $save();
+            state = STATE_VICTORY;
+        }
+    }
+    else if($just_pressed(B_BUTTON))
+        main_menu();
+}
+
+void update_intro()
+{
+    if($just_pressed(A_BUTTON))
+    {
+        if(score == 0 || level_frames_remaining == 0)
+            load_map();
+        else
+            state = STATE_SCORE_TALLY;
+    }
+    else if($just_pressed(B_BUTTON))
+        main_menu();
+}
+
+void update_level_complete()
+{
+    if(frame_count == 80)
+    {
+        state = STATE_INTRO;
+        frame_count = 0;
+        current_map += 1;
+    }
+}
+
+void level_complete()
+{
+    state = STATE_LEVEL_COMPLETE;
+    frame_count = 0;
+    player_moving = false;
+
+    u16 time_taken = TIME_LIMIT_FRAMES - level_frames_remaining;
+    total_time += time_taken;
+    was_best_time = (
+        map_best_times[current_map] == 0 ||
+        time_taken < map_best_times[current_map]);
+    if(was_best_time)
+        map_best_times[current_map] = time_taken;
+
+    u24 map_score = score + level_frames_remaining;
+    was_high_score = (map_score > map_high_scores[current_map]);
+    if(was_high_score)
+        map_high_scores[current_map] = map_score;
+
+    if(!single_level)
+    {
+        saved_current_map = current_map + 1;
+        saved_total_score = total_score + map_score;
+        saved_total_time = total_time;
+        saved_lives = lives;
+        save_exists = (saved_current_map < NUM_MAPS);
+    }
+    $save();
+
+    $tones_play_primary(SOUND_LEVEL_COMPLETE);
+}
+
+void update_level()
+{
+    // player acceleration
+    float ax = 0;
+    float ay = 0;
+
+    player_moving = (vx < -0.3 || vx > 0.3);
+
+    // apply user input: move left and right
+    {
+        float a = PLAYER_MOVE_AIR_ACCEL;
+        if(player_on_ground)
+            a = PLAYER_MOVE_ACCEL;
+
+        if($pressed(LEFT_BUTTON ))
+        {
+            ax -= a;
+            if(vx < -PLAYER_MAX_MOVE_VEL_X && ax < 0)
+                ax = 0;
+            player_facing_right = false;
+            player_moving = true;
+        }
+        if($pressed(RIGHT_BUTTON))
+        {
+            ax += a;
+            if(vx > PLAYER_MAX_MOVE_VEL_X && ax > 0)
+                ax = 0;
+            player_facing_right = true;
+            player_moving = true;
+        }
+    }
+
+    // apply user input: jump
+    if(player_on_ground && $just_pressed(A_BUTTON))
+    {
+        jump_frames_remaining = PLAYER_JUMP_FRAMES;
+        $tones_play_auto(SOUND_JUMP);
+    }
+
+    if(!$pressed(A_BUTTON))
+        jump_frames_remaining = 0;
+    else if(jump_frames_remaining != 0)
+    {
+        --jump_frames_remaining;
+        if(vx < -PLAYER_FAST_VEL || vx > PLAYER_FAST_VEL)
+            vy = -PLAYER_JUMP_VEL_FAST;
+        else
+            vy = -PLAYER_JUMP_VEL;
+    }
+
+    // tile effects of the player's centered tile
+    {
+        u8 ix = u16($floor(px)) >> 4;
+        u8 iy = u16($floor(py)) >> 4;
+        u8 w = map_width;
+        u8 h = map_height;
+        if(ix < w && iy < h)
+        {
+            u8 t = maps[current_map].map[iy * w + ix];
+            if(t != 0)
+            {
+                --t;
+                if(t == TILE_AIR_UP)
+                    vy += (-FAN_AIR_VEL - vy) * FAN_AIR_FACTOR;
+                else if(t == TILE_AIR_RIGHT)
+                    vx += (FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
+                else if(t == TILE_AIR_LEFT)
+                    vx += (-FAN_AIR_VEL - vx) * FAN_AIR_FACTOR;
+                else if(t == TILE_SPRING)
+                {
+                    vy = -PLAYER_SPRING_VEL;
+                    $tones_play_primary(SOUND_SPRING);
+                }
+                else if(t == TILE_SPRING_R)
+                {
+                    vx = PLAYER_SPRING_VEL_H;
+                    $tones_play_primary(SOUND_SPRING);
+                }
+                else if(t == TILE_SPRING_L)
+                {
+                    vx = -PLAYER_SPRING_VEL_H;
+                    $tones_play_primary(SOUND_SPRING);
+                }
+                else if(t >= TILE_DOOR0 && t <= TILE_DOOR3)
+                {
+                    if(player_on_ground && keys >= t - TILE_DOOR0)
+                    {
+                        level_complete();
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    // apply friction
+    if(player_on_ground)
+        ax += (-PLAYER_FRICTION * vx);
+    else
+        ax += (-PLAYER_FRICTION_AIR * vx);
+
+    // apply gravity
+    ay += GRAVITY;
+
+    // player velocity update
+    vx += ax;
+    vy += ay;
+
+    if(death_frames != 0)
+    {
+        ax = 0;
+        ay = 0;
+        vx = 0;
+        if(--death_frames == 0)
+        {
+            score = 0;
+            if(!single_level)
+                lives -= 1;
+            level_frames_remaining = 0;
+            state = STATE_INTRO;
+            frame_count = 0;
+            if(lives == 0)
+                state = STATE_GAME_OVER;
+            return;
+        }
+        else if(death_frames > DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
+            vy = 0;
+        else if(death_frames == DEATH_TOTAL_FRAMES - DEATH_PAUSE_FRAMES)
+            vy = -DEATH_VEL;
+    }
+
+    // clamp velocity
+    if     (vx < -PLAYER_MAX_VEL_X) vx = -PLAYER_MAX_VEL_X;
+    else if(vx >  PLAYER_MAX_VEL_X) vx =  PLAYER_MAX_VEL_X;
+    if     (vy < -PLAYER_MAX_VEL_Y) vy = -PLAYER_MAX_VEL_Y;
+    else if(vy >  PLAYER_MAX_VEL_Y) vy =  PLAYER_MAX_VEL_Y;
+
+    // player position update
+    px += vx;
+    py += vy;
+
+    // just to be safe, clamp player position to the left and right
+    {
+        float xmax = map_width * 16 - PHEH;
+        if(px < PHEH) px = PHEH;
+        if(px > xmax) px = xmax;
+    }
+
+    if(player_on_ground != 0)
+        --player_on_ground;
+
+    if(death_frames == 0)
+    {
+        resolve_player_collision();
+        update_map_objects();
+        update_camera_position();
+
+        if(--level_frames_remaining == 0)
+        {
+            player_death();
+        }
+    }
+
+    if(invincibility_frames != 0)
+        --invincibility_frames;
+
+    // check if player has fallen out of the bottom of the level
+    if(py > map_height * 16)
+        player_death();
+    
+    if(level_start_frames != 0)
+        --level_start_frames;
+    
+    if($just_pressed(B_BUTTON))
+    {
+        pause_menui = 0;
+        state = STATE_PAUSE;
+    }
+}
+
+void resolve_player_collision()
+{
+    u8[] prog& mapdata = maps[current_map].map;
+
+    // resolve collision: left
+    if(vx < 0 && (
+        solid(mapdata, px - PHEH, py - (PHEV - 1), false) ||
+        solid(mapdata, px - PHEH, py + (PHEV - 1), false) ))
+    {
+        float t = 16 - $mod(px - (PHEH - 0.1 - 16), 16);
+        if(t <= PLAYER_MAX_VEL_X)
+            px += t;
+    }
+
+    // resolve collision: left
+    else if(vx > 0 && (
+        solid(mapdata, px + PHEH, py - (PHEV - 1), false) ||
+        solid(mapdata, px + PHEH, py + (PHEV - 1), false) ))
+    {
+        float t = $mod(px + (PHEH - 0.1), 16);
+        if(t <= PLAYER_MAX_VEL_X)
+            px -= t;
+    }
+
+    // resolve collision: top
+    if(vy < 0 && (
+        solid(mapdata, px - (PHEH - 1), py - PHEV, false) ||
+        solid(mapdata, px + (PHEH - 1), py - PHEV, false) ))
+    {
+        float t = 16 - $mod(py - (PHEV - 0.1 - 16), 16);
+        if(t <= PLAYER_MAX_VEL_Y)
+        {
+            vy = 0;
+            jump_frames_remaining = 0;
+            py += t;
+        }
+    }
+
+    // resolve collision: bottom
+    else if(vy > 0 && (
+        solid(mapdata, px - (PHEH - 1), py + PHEV, true) ||
+        solid(mapdata, px + (PHEH - 1), py + PHEV, true) ))
+    {
+        float t = $mod(py + (PHEV - 0.1), 16);
+        if(t <= PLAYER_MAX_VEL_Y)
+        {
+            vy = 0;
+            py -= t;
+            //if(!player_on_ground)
+            //    $tones_play_auto(SOUND_LANDING);
+            player_on_ground = PLAYER_ON_GROUND_FRAMES;
+        }
+    }
+}
+
+void update_map_objects()
+{
+    i16 px0 = i16($round(px)) + i16(-PXOFF + 1);
+    i16 py0 = i16($round(py)) + i16(-PYOFF + 1);
+    i16 px1 = px0 + i16(PHEH * 2 - 1);
+    i16 py1 = py0 + i16(PHEV * 2 - 1);
+    mob_jumped = false;
+    for(u8 i = 0; i < MAX_OBJECTS; ++i)
+    {
+        map_object_t& obj = objects[i];
+        u8 type = obj.type;
+        if(type == OBJ_NONE)
+            continue;
+
+        if(type >= OBJ_MOB && (frame_count & 1))
+        {
+            if(obj.death_frames != 0)
+            {
+                if(--obj.death_frames == 0)
+                    obj.type = OBJ_NONE;
+                continue;
+            }
+            if(type <= OBJ_MOB_BAT)
+            {
+                i16 x = obj.x;
+                if(obj.moving_right)
+                {
+                    i16 b = obj.b;
+                    x += 1;
+                    if(x > b)
+                    {
+                        x = b;
+                        obj.moving_right = false;
+                    };
+                }
+                else
+                {
+                    i16 a = obj.a;
+                    x -= 1;
+                    if(x < a)
+                    {
+                        x = a;
+                        obj.moving_right = true;
+                    };
+                }
+                obj.x = x;
+            }
+            else if(type == OBJ_MOB_FLY)
+            {
+                i16 y = obj.y;
+                if(obj.moving_right)
+                {
+                    i16 b = obj.b;
+                    y += 1;
+                    if(y > b)
+                    {
+                        y = b;
+                        obj.moving_right = false;
+                    };
+                }
+                else
+                {
+                    i16 a = obj.a;
+                    y -= 1;
+                    if(y < a)
+                    {
+                        y = a;
+                        obj.moving_right = true;
+                    };
+                }
+                obj.y = y;
+            }
+        }
+
+        // test if player is colliding with object
+        i16 x = obj.x + obj.xo;
+        i16 y = obj.y + obj.xo;
+        if( px1 >= x &&
+            py1 >= y &&
+            px0 < i16(x + obj.w) &&
+            py0 < i16(y + obj.h))
+        {
+            touch_object(obj);
+        }
+    }
+    if(mob_jumped)
+    {
+        vy = -2.0;
+        jump_frames_remaining = PLAYER_JUMP_FRAMES;
+        $tones_play_auto(SOUND_MOB_JUMP);
+    }
+}
+
+void update_camera_position()
+{
+    float tcamy = py - CAMERA_OFFSET_Y;
+    float tcamx = px - CAMERA_OFFSET_X;
+    float xmax = map_width * 16 - 129;
+    float ymax = map_height * 16 - 65;
+
+    tcamx += vx * (CAMERA_OFFSET_X_VEL_DELTA / PLAYER_MAX_MOVE_VEL_X);
+
+    if(player_facing_right)
+        tcamx += CAMERA_OFFSET_X_DELTA;
+    else
+        tcamx -= CAMERA_OFFSET_X_DELTA;
+    
+    {
+        float dy = tcamy - camy;
+        if(dy > CAMERA_Y_HYSTERESIS)
+            tcamy -= CAMERA_Y_HYSTERESIS;
+        else if(dy < -CAMERA_Y_HYSTERESIS)
+            tcamy += CAMERA_Y_HYSTERESIS;
+        else
+            tcamy = camy;
+    }
+    
+    if($pressed(UP_BUTTON))
+        tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
+    if($pressed(DOWN_BUTTON))
+        tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
+    if(tcamx < 0) tcamx = 0;
+    if(tcamy < 0) tcamy = 0;
+    if(tcamx > xmax) tcamx = xmax;
+    if(tcamy > ymax) tcamy = ymax;
+    camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
+
+    float d2camx =
+        (tcamx - camx) * CAMERA_UPDATE_X_ALPHA -
+        dcamx * CAMERA_UPDATE_X_BETA;
+    camx += dcamx * CAMERA_UPDATE_X_DT;
+    dcamx += d2camx * CAMERA_UPDATE_X_DT;
+}
+
+void player_death()
+{
+    if(death_frames != 0)
+        return;
+    death_frames = DEATH_TOTAL_FRAMES;
+    if(!single_level)
+    {
+        saved_current_map = current_map;
+        saved_total_score = total_score;
+        saved_total_time = total_time;
+        saved_lives = lives - 1;
+        save_exists = (saved_lives > 0);
+        $save();
+    }
+    $tones_play_auto(SOUND_DEATH);
+}
+
+void player_take_damage()
+{
+    if(invincibility_frames != 0)
+        return;
+    if(death_frames != 0)
+        return;
+    if(--hearts != 0)
+    {
+        invincibility_frames = INVINCIBILITY_DAMAGE;
+        $tones_play_auto(SOUND_DAMAGE);
+        vy = -1.5;
+        vx = 1.5;
+        if(player_facing_right) vx = -1.5;
+        return;
+    }
+    player_death();
+}
+
+bool solid(u8[] prog& mapdata, float x, float y, bool bottom)
+{
+    int ix = $floor(x);
+    int iy = $floor(y);
+
+    // collision against left map edge
+    if(ix < 0)
+        return true;
+    
+    // allow the player to shoot into the sky
+    if(iy < 0)
+        return false;
+
+    ix >>= 4;
+    iy >>= 4;
+    u8 w = map_width;
+
+    // collision against right map edge
+    if(ix >= w)
+        return true;
+
+    // allow the player to fall through the floor
+    if(iy >= map_height)
+        return false;
+    u8 t = mapdata[u16(iy * w + ix)] - 1;
+    if(t >= 240) return false;
+    if(t == TILE_SPIKE)
+        player_take_damage();
+    if(t < 64) return true;
+    if(bottom && t < 96) return true;
+    if(t >= 176 && (t & 15) >= 8) return true;
+    return false;
+}
+
+void touch_object(map_object_t& obj)
+{
+    u8 type = obj.type;
+    if(type == OBJ_COIN)
+    {
+        score += SCORE_COIN;
+        obj.type = OBJ_NONE;
+        $tones_play_primary(SOUND_COIN);
+    }
+    else if(type == OBJ_KEY)
+    {
+        keys += 1;
+        obj.type = OBJ_NONE;
+        $tones_play_auto(SOUND_KEY);
+    }
+    else if(type == OBJ_SUPERCOIN)
+    {
+        score += SCORE_SUPERCOIN;
+        obj.type = OBJ_NONE;
+        $tones_play_auto(SOUND_SUPERCOIN);
+    }
+    else if(type == OBJ_HEART)
+    {
+        if(lives < 99)
+            lives += 1;
+        obj.type = OBJ_NONE;
+        $tones_play_auto(SOUND_HEAL);
+    }
+    else if(type >= OBJ_MOB && type <= OBJ_MOB_FLY)
+    {
+        if(obj.death_frames != 0)
+            return;
+        if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
+        {
+            if(obj.death_frames == 0)
+                player_take_damage();
+        }
+        else if(!mob_jumped)
+        {
+            mob_jumped = true;
+            py -= vy;
+            if(type == OBJ_MOB_HELM)
+                obj.type = OBJ_MOB;
+            else
+            {
+                obj.death_frames = MOB_DEATH_FRAMES;
+                score += SCORE_MOB;
+            }
+        }
+    }
+}

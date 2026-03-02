@@ -1,0 +1,65 @@
+#title "Dazzle Dash"
+#description "A cute fast-paced platformer for speedrunning!"
+#author "Peter Brown"
+#version "1.1"
+#url "https://community.arduboy.com/t/dazzle-dash-cute-speedrunning-platformer/11772"
+#sourceUrl "https://github.com/tiberiusbrown/abc/tree/master/examples/platformer"
+
+import map;
+import update;
+import render;
+import sounds;
+import vars;
+
+void main_menu()
+{
+    if(!$load())
+    {
+        total_score = 0;
+        total_time = 0;
+        current_map = 0;
+    }
+    if(current_map >= NUM_MAPS)
+        save_exists = false;
+    update_sound();
+    state = STATE_MENU;
+}
+
+void new_game()
+{
+    current_map = 0;
+    lives = STARTING_LIVES;
+    total_score = 0;
+    total_time = 0;
+    score = 0;
+    level_frames_remaining = 0;
+    single_level = false;
+}
+
+void setup()
+{
+    $set_frame_rate(50);
+    menu_spritex = 0;
+    menu_sprite = 8;
+    main_menu();
+    if(!$load())
+    {
+        sound_on = true;
+        update_sound();
+    }
+}
+
+void loop()
+{
+    update();
+    render();
+    
+    $display();
+}
+
+void main()
+{
+    setup();
+    while(true)
+        loop();
+}

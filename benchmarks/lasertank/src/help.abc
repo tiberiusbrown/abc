@@ -1,0 +1,473 @@
+import vars;
+
+void draw_help_map(u8[16] m)
+{
+    constexpr u8 X = 95;
+    constexpr u8 Y = 20;
+    u8 off = (frame >> 2) & 3;
+    if(!tile_anim) off = 0;
+    $draw_rect(X-2, Y-2, 35, 35, WHITE);
+    for(u8 r = 0; r < 4; ++r)
+        for(u8 c = 0; c < 4; ++c)
+            $draw_sprite(c*8+X, r*8+Y, TILES8, m[r*4+c] + off);
+}
+
+void draw_help_tank(u8 x, u8 y, u8 dir)
+{
+    constexpr u8 X = 95;
+    constexpr u8 Y = 20;
+    $draw_sprite(x*8+X, y*8+Y, TILES8, T_TANK + dir);
+}
+
+void help()
+{
+    constexpr u8 NUM_PAGES = 26;
+    u8 arrow_off = ((frame >> 4) & 1);
+
+    $set_text_font(FONT_PIXELOIDSANSBOLD);
+    $draw_text(20, 7, "LaserTank Help");
+    $draw_filled_rect(0, 11, 128, 2, WHITE);
+
+    $set_text_font(FONT_BR5D);
+
+    // use undo_data[0] as the page index
+    switch(undo_data[0])
+    {
+        case(0)
+            $draw_text(
+                0, 20,
+                "This is a puzzle game. You must get\n"
+                "your tank to the flag in every level.\n"
+                "\n"
+                "Your tank can move in four directions\n"
+                "and can fire a laser that is used to\n"
+                "move objects."
+            );
+        case(1)
+            $draw_text(
+                0, 20,
+                "Controls for the Arduboy FX port:\n"
+                "\n"
+                "Use the directional buttons to rotate\n"
+                "and move.\n"
+                "\n"
+                "Press the A button to fire your laser."
+            );
+        case(2)
+            $draw_text(
+                0, 20,
+                "Controls for the Arduboy FX port:\n"
+                "\n"
+                "Press the B button to pause the game,\n"
+                "view the level's hint, and change\n"
+                "settings."
+            );
+        case(3)
+            $draw_text(
+                0, 20,
+                "Controls for the Arduboy FX port:\n"
+                "\n"
+                "LaserTank levels are 16x16 tiles.\n"
+                "\n"
+                "At some tile sizes, part of the level is\n"
+                "not visible. Press and hold the B button\n"
+                "to pan over the level."
+            );
+        case(4)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "This is the ground.\n"
+                "\n"
+                "You can move on it, push\n"
+                "things over it, and shoot\n"
+                "over it."
+            );
+        }
+        case(5)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+            });
+            draw_help_tank(1, 1, 1);
+            $draw_text(
+                0, 20,
+                "This is you.\n"
+                "You can move in four\n"
+                "directions and fire a laser.\n"
+                "Tanks cannot travel over\n"
+                "water, and cannot drive\n"
+                "through solid objects\n"
+                "other than the flag."
+            );
+        }
+        case(6)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_FLAG, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "FLAG\n"
+                "This is the target that you\n"
+                "must reach to end each\n"
+                "level."
+            );
+        }
+        case(7)
+        {
+            draw_help_map({
+                T_WATER, T_WATER, T_WATER, T_WATER,
+                T_WATER, T_WATER, T_WATER, T_WATER,
+                T_WATER, T_WATER, T_WATER, T_WATER,
+                T_WATER, T_WATER, T_WATER, T_WATER,
+            });
+            $draw_text(
+                0, 20,
+                "WATER\n"
+                "The only thing that can\n"
+                "swim in this game are the\n"
+                "movable blocks;\n"
+                "everything else will sink.\n"
+                "You can shoot over water."
+            );
+        }
+        case(8)
+        {
+            draw_help_map({
+                T_DIRT, T_BLOCK, T_BLOCK, T_DIRT,
+                T_DIRT, T_BLOCK, T_BLOCK, T_DIRT,
+                T_DIRT, T_BLOCK, T_BLOCK, T_DIRT,
+                T_DIRT, T_BLOCK, T_BLOCK, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "SOLID BLOCK\n"
+                "This type of block cannot\n"
+                "be shot through,\n"
+                "destroyed, or moved."
+            );
+        }
+        case(9)
+        {
+            draw_help_map({
+                T_DIRT, T_BLOCK_MOVE, T_BLOCK_MOVE, T_DIRT,
+                T_DIRT, T_BLOCK_MOVE, T_BLOCK_MOVE, T_DIRT,
+                T_DIRT, T_BLOCK_MOVE, T_BLOCK_MOVE, T_DIRT,
+                T_DIRT, T_BLOCK_MOVE, T_BLOCK_MOVE, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "MOVABLE BLOCK\n"
+                "This type of block can be\n"
+                "moved by being shot at\n"
+                "with a laser. If it is\n"
+                "pushed into water, it will\n"
+                "form a bridge. A bridge\n"
+                "acts like dirt."
+            );
+        }
+        case(10)
+        {
+            draw_help_map({
+                T_DIRT, T_BLOCK_CRYS, T_BLOCK_CRYS, T_DIRT,
+                T_DIRT, T_BLOCK_CRYS, T_BLOCK_CRYS, T_DIRT,
+                T_DIRT, T_BLOCK_CRYS, T_BLOCK_CRYS, T_DIRT,
+                T_DIRT, T_BLOCK_CRYS, T_BLOCK_CRYS, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "CRYSTAL BLOCK\n"
+                "This type of block cannot\n"
+                "be destroyed or moved.\n"
+                "You can shoot through it,\n"
+                "but anti-tanks cannot see\n"
+                "you through the crystal\n"
+                "block."
+            );
+        }
+        case(11)
+        {
+            draw_help_map({
+                T_DIRT, T_BLOCK_BRICK, T_BLOCK_BRICK, T_DIRT,
+                T_DIRT, T_BLOCK_BRICK, T_BLOCK_BRICK, T_DIRT,
+                T_DIRT, T_BLOCK_BRICK, T_BLOCK_BRICK, T_DIRT,
+                T_DIRT, T_BLOCK_BRICK, T_BLOCK_BRICK, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "BRICKS\n"
+                "This type of block will be\n"
+                "destroyed if you shoot it."
+            );
+        }
+        case(12)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_ANTITANK + 8,
+                T_ANTITANK + 4, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_ANTITANK + 12, T_ANTITANK + 0, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "ANTI-TANK GUNS (1/2)\n"
+                "These are enemy laser\n"
+                "guns that will shoot you if\n"
+                "you get in front of them.\n"
+                "If you fire at one of their\n"
+                "sides you can push them\n"
+                "around, even into water."
+            );
+        }
+        case(13)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_ANTITANK + 8,
+                T_ANTITANK + 4, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_ANTITANK + 12, T_ANTITANK + 0, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "ANTI-TANK GUNS (2/2)\n"
+                "If you shoot one of them\n"
+                "in the gun barrel without\n"
+                "them seeing you, you will\n"
+                "destroy them."
+            );
+        }
+        case(14)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_MIRROR + 8, T_DIRT, T_MIRROR + 12,
+                T_DIRT, T_DIRT, T_DIRT, T_MIRROR + 4,
+                T_DIRT, T_MIRROR + 0, T_DIRT, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "MIRRORS\n"
+                "These can be used to\n"
+                "deflect a laser shot when\n"
+                "fired on the mirrored\n"
+                "surface. If you shoot the\n"
+                "mirror base, the mirror\n"
+                "will move."
+            );
+        }
+        case(15)
+        {
+            draw_help_map({
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_MIRROR_ROT + 8, T_DIRT, T_MIRROR_ROT + 12,
+                T_DIRT, T_DIRT, T_DIRT, T_MIRROR_ROT + 4,
+                T_DIRT, T_MIRROR_ROT + 0, T_DIRT, T_DIRT,
+            });
+            $draw_text(
+                0, 20,
+                "ROTARY MIRRORS\n"
+                "These can be used to\n"
+                "deflect a laser shot when\n"
+                "fired on the mirrored\n"
+                "surface. If you shoot the\n"
+                "mirror base, the mirror\n"
+                "will rotate a quarter turn."
+            );
+        }
+        case(16)
+        {
+            draw_help_map({
+                T_ONEWAY + 4, T_ONEWAY + 4, T_ONEWAY + 4, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_DIRT, T_DIRT, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_DIRT, T_DIRT, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_ONEWAY + 12, T_ONEWAY + 12, T_ONEWAY + 12,
+            });
+            $draw_text(
+                0, 20,
+                "TANKMOVERS (1/3)\n"
+                "These will quickly move\n"
+                "your tank from one place\n"
+                "to another. They won't\n"
+                "move anything else; i.e.,\n"
+                "mirrors, blocks, and\n"
+                "anti-tanks."
+            );
+        }
+        case(17)
+        {
+            draw_help_map({
+                T_ONEWAY + 4, T_ONEWAY + 4, T_ONEWAY + 4, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_DIRT, T_DIRT, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_DIRT, T_DIRT, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_ONEWAY + 12, T_ONEWAY + 12, T_ONEWAY + 12,
+            });
+            $draw_text(
+                0, 20,
+                "TANKMOVERS (2/3)\n"
+                "You will NOT be able to\n"
+                "fire your laser cannon or\n"
+                "move while riding on the\n"
+                "tankmover."
+            );
+        }
+        case(18)
+        {
+            draw_help_map({
+                T_ONEWAY + 4, T_ONEWAY + 4, T_ONEWAY + 4, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_DIRT, T_DIRT, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_DIRT, T_DIRT, T_ONEWAY + 8,
+                T_ONEWAY + 0, T_ONEWAY + 12, T_ONEWAY + 12, T_ONEWAY + 12,
+            });
+            $draw_text(
+                0, 20,
+                "TANKMOVERS (3/3)\n"
+                "If you need to shoot\n"
+                "something while on them\n"
+                "or get off in the middle of\n"
+                "one, then push a block\n"
+                "onto the tankmovers to\n"
+                "stop before you get on it."
+            );
+        }
+        case(19)
+        {
+            draw_help_map({
+                T_DIRT, T_TUNNEL + 0, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_TUNNEL + 24,
+                T_TUNNEL + 24, T_DIRT, T_DIRT, T_TUNNEL + 0,
+            });
+            $draw_text(
+                0, 20,
+                "TUNNELS (1/3)\n"
+                "Either the tank or any\n"
+                "movable object can enter\n"
+                "a tunnel. When you enter\n"
+                "one of them you will exit\n"
+                "the other end."
+            );
+        }
+        case(20)
+        {
+            draw_help_map({
+                T_DIRT, T_TUNNEL + 0, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_TUNNEL + 24,
+                T_TUNNEL + 24, T_DIRT, T_DIRT, T_TUNNEL + 0,
+            });
+            $draw_text(
+                0, 20,
+                "TUNNELS (2/3)\n"
+                "There can be up to 8 pairs\n"
+                "of tunnels; they are\n"
+                "designated by their\n"
+                "number. If there is not a\n"
+                "matching number tunnel,\n"
+                "then do not enter it: it is a black hole."
+            );
+        }
+        case(21)
+        {
+            draw_help_map({
+                T_TUNNEL + 24, T_TUNNEL + 0, T_DIRT, T_DIRT,
+                T_TUNNEL + 24, T_DIRT, T_DIRT, T_DIRT,
+                T_DIRT, T_DIRT, T_DIRT, T_TUNNEL + 24,
+                T_TUNNEL + 24, T_DIRT, T_DIRT, T_TUNNEL + 0,
+            });
+            $draw_text(
+                0, 20,
+                "TUNNELS (3/3)\n"
+                "If there are more than\n"
+                "two tunnels with a\n"
+                "matching number, then it\n"
+                "gets real interesting."
+            );
+        }
+        case(22)
+        {
+            draw_help_map({
+                T_ICE, T_ICE, T_ICE, T_ICE,
+                T_ICE, T_ICE, T_ICE, T_ICE,
+                T_ICE, T_ICE, T_ICE, T_ICE,
+                T_ICE, T_ICE, T_ICE, T_ICE,
+            });
+            $draw_text(
+                0, 20,
+                "ICE\n"
+                "Ice is very slippery.\n"
+                "Anything that can move\n"
+                "will slide across the ice\n"
+                "until it hits an object. This\n"
+                "includes the tank."
+            );
+        }
+        case(23)
+        {
+            draw_help_map({
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+            });
+            $draw_text(
+                0, 20,
+                "THIN ICE (1/2)\n"
+                "It is just like ice but once\n"
+                "something passes over it,\n"
+                "it will turn to water."
+            );
+        }
+        case(24)
+        {
+            draw_help_map({
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+                T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED, T_ICE_CRACKED,
+            });
+            $draw_text(
+                0, 20,
+                "THIN ICE (2/2)\n"
+                "The tank can slide over\n"
+                "the thin ice without any\n"
+                "problems but there is no\n"
+                "standing on thin ice or it\n"
+                "will break and you will\n"
+                "fall in."
+            );
+        }
+        case(25)
+        {
+            $set_text_font(FONT_PIXELOIDSANSBOLD);
+            $draw_text(33, 32, "Good Luck!");
+            $set_text_font(FONT_BR5D);
+            $draw_text(34, 41, "Press B to return.");
+            $draw_sprite(frame & 0xf8, 57, TILES8, T_TANK + 1);
+        }
+    }
+    if(undo_data[0] > 0)
+        $draw_sprite(  0 - arrow_off, -1, ARROWS, 3);
+    if(undo_data[0] < NUM_PAGES - 1)
+        $draw_sprite(119 + arrow_off, -1, ARROWS, 1);
+
+    if(undo_data[0] > 0 && btn_just_pressed(LEFT_BUTTON))
+        undo_data[0] -= 1;
+    if(undo_data[0] < NUM_PAGES - 1 && btn_just_pressed(RIGHT_BUTTON))
+        undo_data[0] += 1;
+    
+    if($just_pressed(B_BUTTON))
+        state = STATE_MENU;
+}

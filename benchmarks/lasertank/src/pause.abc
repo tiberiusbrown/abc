@@ -1,0 +1,104 @@
+import vars;
+
+import hint;
+import undo;
+import saveload;
+
+char[] prog&[3] SIZE_STRS = { "Normal", "Small", "Tiny" };
+char[] prog&[2] OFF_ON_STRS = { "Off", "On" };
+char[] prog&[4] SPEED_STRS = { "Turtle", "Slow", "Normal", "Fast" };
+
+u8[4] prog SPEEDS = { 7, 4, 2, 1 };
+
+u8 pause_i;
+
+void pause()
+{
+    if(pause_i > 0 && btn_just_pressed(UP_BUTTON))
+        pause_i -= 1;
+    if(pause_i < 6 && btn_just_pressed(DOWN_BUTTON))
+        pause_i += 1;
+
+    u8 speed;
+    switch(anim_frames)
+    {
+        case(1) speed = 3;
+        case(2) speed = 2;
+        case(4) speed = 1;
+        case(7) speed = 0;
+    }
+
+    render_level();
+    $draw_filled_rect(64, 0, 64, 64, BLACK);
+
+    $draw_vline(64, 0, 64, WHITE);
+
+    $set_text_font(FONT_BR5D);
+
+    {
+        char[32] buf;
+        $format(buf, "M: %u   S: %u", moves, shots);
+        u8 w = $text_width(buf);
+        $draw_text(98 - w / 2, 5, buf);
+    }
+    $draw_hline(66, 7, 62, WHITE);
+
+    constexpr u8 X2 = 104;
+
+    $draw_textf(75, 15, "Undo (%u)", undo_num_moves);
+    $draw_text(75, 22, "Hint");
+    $draw_text(75, 29, "Exit Level");
+    $draw_hline(66, 31, 62, WHITE);
+    $draw_text(75, 39, "Tiles:"); $draw_text(X2, 39, SIZE_STRS[tilesize]);
+    $draw_text(75, 46, "Anim:");  $draw_text(X2, 46, OFF_ON_STRS[tile_anim]);
+    $draw_text(75, 53, "Speed:"); $draw_text(X2, 53, SPEED_STRS[speed]);
+    $draw_text(75, 60, "Sound:"); $draw_text(X2, 60, OFF_ON_STRS[en_audio]);
+
+    u8 cy = pause_i * 7 + 15;
+    if(pause_i >= 3) cy += 3;
+    $draw_text(68, cy, ">");
+
+    if($just_pressed(A_BUTTON))
+    {
+        if(pause_i >= 3)
+            need_save = true;
+        switch(pause_i)
+        {
+            case(0) { state = STATE_PLAY; undo(); }
+            case(1) { state = STATE_HINT; }
+            case(2)
+            {
+                state = STATE_SELECT;
+                if(need_save)
+                    do_save(0xff, 0xff);
+            }
+            case(3)
+            {
+                if(++tilesize >= TILESIZE_NUM)
+                    tilesize = 0;
+                adjust_to_tank();
+                offx = targetx;
+                offy = targety;
+            }
+            case(4) tile_anim = !tile_anim;
+            case(5) if(++speed >= len(SPEEDS)) speed = 0;
+            case(6)
+            {
+                en_audio = !en_audio;
+                if(en_audio != $audio_enabled())
+                    $audio_toggle();
+            }
+        }
+        if(pause_i <= 2)
+            pause_i = 0;
+
+        anim_frames = SPEEDS[speed];
+    }
+
+    if($just_pressed(B_BUTTON))
+    {
+        pause_i = 0;
+        state = STATE_PLAY;
+        can_pan = false;
+    }
+}

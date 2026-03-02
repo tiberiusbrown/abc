@@ -1,0 +1,555 @@
+import input;
+import level;
+import render;
+import moving;
+import saveload;
+import undo;
+import sfx;
+
+// returns dir if laser reflected
+// returns 4 otherwise
+u8 mirror_reflect(u8 mirror_dir, u8 laser_dir)
+{
+    // 0: reflects 1->0, 2->3
+    // 1: reflects 2->1, 3->0
+    // 2: reflects 3->2, 0->1
+    // 3: reflects 0->3, 1->2
+    u8 t = (u8(laser_dir - mirror_dir - 1) & 3);
+    if(t <= 1)
+        return t == 0 ? u8(laser_dir - 1) & 3 : u8(laser_dir + 1) & 3;
+    return 4;
+}
+
+void do_victory()
+{
+    if(dead) return;
+    frame = 0;
+    $tones_play_primary(SFX_VICTORY);
+    if(need_save || !is_completed(current_set, current_level))
+        do_save(current_set, current_level);
+    victory = true;
+}
+
+void do_defeat()
+{
+    if(victory) return;
+    frame = 0;
+    $tones_play_primary(SFX_DEFEAT);
+    dead = true;
+}
+
+void at_scan(u8 dir)
+{
+    if(shooting)
+        return;
+    if(objects[tanky * 16 + tankx] >= T_FIRST_SOLID)
+        return;
+
+    // scan from tankx, tanky for obj
+    i8 dx = DIRX[dir];
+    i8 dy = DIRY[dir];
+    dir = (dir + 2) & 3;
+    u8 obj = T_ANTITANK + dir * 4;
+    u8 x = tankx + dx;
+    u8 y = tanky + dy;
+    while(x < 16 && y < 16)
+    {
+        u8 i = y * 16 + x;
+        if(tiles[i] >= T_FIRST_SOLID)
+            break;
+        if(objects[i] == obj)
+        {
+            shootx = x - dx;
+            shooty = y - dy;
+            if(shootx == tankx && shooty == tanky)
+                do_defeat();
+            shootdir = dir;
+            shooting = true;
+            $tones_play_auto(SFX_SHOOT);
+            return;
+        }
+        if(objects[i] >= T_FIRST_SOLID)
+            break;
+        x += dx;
+        y += dy;
+    }
+}
+
+void all_at_scans()
+{
+    at_scan(DIR_R);
+    at_scan(DIR_L);
+    at_scan(DIR_D);
+    at_scan(DIR_U);
+}
+
+void process_tank_oneway()
+{
+    u8 tanki = tanky * 16 + tankx;
+    if(objects[tanki] >= T_FIRST_SOLID)
+        return;
+    u8 t = tiles[tanki];
+    switch(t)
+    {
+        case(T_ONEWAY ... T_ONEWAY + 15)
+        {
+            u8 dir = u8(t - T_ONEWAY) >> 2;
+            u8 nx = tankx + DIRX[dir];
+            u8 ny = tanky + DIRY[dir];
+            if(!solid(nx, ny))
+            {
+                tankx = nx;
+                tanky = ny;
+                just_moved = true;
+                just_moved_dir = dir;
+                process_tank_tunnel();
+                anim_frame = anim_frames;
+                $tones_play_auto(SFX_MOVER);
+            }
+        }
+    }
+}
+
+void process_tank_tunnel()
+{
+    u8 tanki = tanky * 16 + tankx;
+    if(objects[tanki] >= T_FIRST_SOLID)
+        return;
+    u8 t = tiles[tanki];
+    switch(t)
+    {
+        case(T_TUNNEL ... T_TUNNEL + 31)
+        {
+            if(!just_moved) break;
+            just_moved = false;
+            u8 ti = find_other_tunnel(tanki);
+            if(ti != tanki)
+            {
+                if(objects[ti] < T_FIRST_SOLID)
+                {
+                    tanky = ti >> 4;
+                    tankx = ti & 15;
+                    $tones_play_auto(SFX_TUNNEL);
+                }
+            }
+            else if(num_tunnels[u8(t - T_TUNNEL) >> 2] == 1)
+            {
+                // black hole
+                do_defeat();
+            }
+            else
+            {
+                // blocked tunnel
+                tank_blocked_tunnel = true;
+            }
+        }
+    }
+}
+
+void tank_update()
+{
+    u8 tanki = tanky * 16 + tankx;
+    u8 t = tiles[tanki];
+    process_tank_tunnel();
+    bool prev_just_moved = just_moved;
+    just_moved = false;
+    switch(t)
+    {
+        case(T_ICE, T_ICE_CRACKED)
+        {
+            if(!prev_just_moved) break;
+            if(t == T_ICE_CRACKED)
+            {
+                tiles[tanki] = T_WATER;
+                just_moved = true;
+            }
+            u8 nx = tankx + DIRX[just_moved_dir];
+            u8 ny = tanky + DIRY[just_moved_dir];
+            if(!solid(nx, ny))
+            {
+                all_at_scans();
+                tankx = nx;
+                tanky = ny;
+                anim_frame = anim_frames;
+                just_moved = true;
+            }
+        }
+    }
+    if(tiles[tanky * 16 + tankx] == T_FLAG)
+        do_victory();
+    all_at_scans();
+    process_tank_oneway();
+    all_at_scans();
+}
+
+void process_laser()
+{
+    if(!shooting)
+        return;
+
+    u8 si = shooty * 16 + shootx;
+    u8 t = tiles[si];
+    u8 obj = objects[si];
+    u8 nx = shootx + DIRX[shootdir];
+    u8 ny = shooty + DIRY[shootdir];
+    if(nx == tankx && ny == tanky)
+    {
+        do_defeat();
+        return;
+    }
+    shootx = nx;
+    shooty = ny;
+    if(!opaque(shootx, shooty))
+    {
+        anim_frame = anim_frames;
+    }
+    else if(shootx >= 16 || shooty >= 16)
+    {
+        shooting = false;
+        anim_frame = anim_frames;
+        just_moved = true;
+    }
+    else
+    {
+        u8 si = shooty * 16 + shootx;
+        u8 obj = objects[si];
+        if(obj == T_DIRT)
+            obj = tiles[si];
+        u8 d;
+
+        // special case: reflection off of a moving mirror gains an extra laser tick
+        // relevant tricks: 87, 88
+        while(is_moving_object_index(si) &&
+            obj >= T_MIRROR && obj < T_MIRROR_ROT + 16 &&
+            (d = mirror_reflect((obj >> 2) & 3, shootdir)) < 4)
+        {
+            shootdir = d;
+            shootx += DIRX[d];
+            shooty += DIRY[d];
+            if(shootx >= 16 || shooty >= 16)
+            {
+                shooting = false;
+                return;
+            }
+        }
+
+        shooting = false;
+        switch(obj)
+        {
+            case(T_BLOCK_MOVE)
+            {
+                add_moving_object({ shooty * 16 + shootx, shootdir });
+                $tones_play_auto(SFX_PUSH);
+            }
+            case(T_BLOCK_BRICK)
+            {
+                tiles[si] = T_DIRT;
+                $tones_play_auto(SFX_BREAK);
+            }
+            case(T_MIRROR ... T_MIRROR + 15)
+            {
+                d = mirror_reflect((obj >> 2) & 3, shootdir);
+                if(d < 4)
+                {
+                    shooting = true;
+                    shootdir = d;
+                    $tones_play_auto(SFX_REFLECT);
+                }
+                else
+                {
+                    add_moving_object({ shooty * 16 + shootx, shootdir });
+                    $tones_play_auto(SFX_PUSH);
+                }
+            }
+            case(T_MIRROR_ROT ... T_MIRROR_ROT + 15)
+            {
+                u8 d = mirror_reflect((obj >> 2) & 3, shootdir);
+                if(d < 4)
+                {
+                    shooting = true;
+                    shootdir = d;
+                    $tones_play_auto(SFX_REFLECT);
+                }
+                else
+                {
+                    // rotate clockwise
+                    tiles[si] = (obj & 0xf0) + ((obj + 4) & 0xc);
+                }
+            }
+            case(T_ANTITANK ... T_ANTITANK + 15)
+            {
+                u8 tdir = u8(obj - T_ANTITANK) >> 2;
+                if(((tdir + 2) & 3) == shootdir)
+                {
+                    objects[si] = T_ANTITANK_B + tdir * 4;
+                    $tones_play_auto(SFX_BREAK);
+                }
+                else
+                {
+                    add_moving_object({ shooty * 16 + shootx, shootdir });
+                    $tones_play_auto(SFX_PUSH);
+                }
+            }
+            case(T_ANTITANK_B ... T_ANTITANK_B + 15)
+            {
+                // Broken Anti-Tank braking (tricks 81-84)
+                delete_moving_object_pos(shootx, shooty);
+            }
+        }
+    }
+}
+
+void process_tick()
+{
+    bool was_shooting = shooting;
+
+    process_laser();
+
+    process_moving_objects();
+
+    all_at_scans();
+
+    if(shooting || was_shooting || (num_moving_objects != 0) || just_moved)
+        tank_update();
+
+    if(tiles[tanky * 16 + tankx] == T_WATER)
+    {
+        // detecting a drowning tank is delayed by one tick
+        // relevant trick level: "8. Actually, Tanks Sink Slowly!"
+        if(in_water)
+            do_defeat();
+        in_water = true;
+    }
+    else
+        in_water = false;
+}
+
+void play()
+{
+
+    if(victory)
+    {
+        adjust_to_tank();
+        render_level();
+        constexpr u8 W = 44;
+        constexpr u8 H = 15;
+        constexpr u8 X = 64 - W / 2;
+        constexpr u8 Y = 32 - H / 2;
+        if((frame & 0x3f) < 45)
+        {
+            $draw_filled_rect(X, Y, W, H, BLACK);
+            $draw_filled_rect(X + 1, Y + 1, W - 2, H - 2, WHITE);
+            $draw_filled_rect(X + 3, Y + 3, W - 6, H - 6, BLACK);
+            $set_text_font(FONT_PIXELOIDSANSBOLD);
+            $draw_text(46, 36, "Bravo!");
+        }
+        if($just_pressed(B_BUTTON))
+            state = STATE_SELECT;
+        else if($just_pressed(A_BUTTON))
+        {
+            current_level += 1;
+            if(current_level >= len(LEVELSETS[current_set].levels))
+            {
+                current_level -= 1;
+                state = STATE_SELECT;
+            }
+            else
+            {
+                load_level();
+            }
+            select_levels[current_set] = current_level;
+        }
+        return;
+    }
+
+    if(dead)
+    {
+        adjust_to_tank();
+        render_level();
+        constexpr u8 W = 94;
+        constexpr u8 H = 23;
+        constexpr u8 X = 64 - W / 2;
+        constexpr u8 Y = 32 - H / 2;
+        if((frame & 0x3f) < 45)
+        {
+            $draw_filled_rect(X, Y, W, H, BLACK);
+            $draw_filled_rect(X + 1, Y + 1, W - 2, H - 2, WHITE);
+            $draw_filled_rect(X + 3, Y + 3, W - 6, H - 6, BLACK);
+            $set_text_font(FONT_PIXELOIDSANSBOLD);
+            $draw_text(21, 32, "YOU ARE DEAD!!!");
+            $set_text_font(FONT_BR5D);
+            $draw_text(21, 40, "A: Undo");
+            $draw_text(75, 40, "B: Restart");
+        }
+        if($just_pressed(B_BUTTON))
+            load_level();
+        else if($just_pressed(A_BUTTON))
+        {
+            if(undo_num_moves == 0)
+                load_level();
+            else
+                undo();
+        }
+        return;
+    }
+
+    ////////////////////////////////////
+    // LOGIC UPDATES
+    ////////////////////////////////////
+
+    if(anim_frame != 0)
+        anim_frame -= 1;
+    bool anim = anim_frame == 0;
+
+    if(anim)
+    {
+        process_tick();
+    }
+
+    ////////////////////////////////////
+    // INPUT AND RENDERING
+    ////////////////////////////////////
+
+    bool busy = in_water || shooting || (num_moving_objects != 0) || just_moved;
+
+    if(!busy && !$pressed(B_BUTTON))
+    {
+        if($just_pressed(A_BUTTON))
+        {
+            undo_premove(tankdir + 4);
+            shootx = tankx;
+            shooty = tanky;
+            shootdir = tankdir;
+            shooting = shootx < 16 && shooty < 16;
+            if(shooting)
+                busy = true;
+            first_move = true;
+            shots += 1;
+            $tones_play_auto(SFX_SHOOT);
+        }
+        else if(btn_just_pressed(UP_BUTTON))
+            process_tank_move(DIR_U);
+        else if(btn_just_pressed(RIGHT_BUTTON))
+            process_tank_move(DIR_R);
+        else if(btn_just_pressed(DOWN_BUTTON))
+            process_tank_move(DIR_D);
+        else if(btn_just_pressed(LEFT_BUTTON))
+            process_tank_move(DIR_L);
+    }
+
+    if(can_pan && $pressed(B_BUTTON))
+    {
+        constexpr i8 PAN_SPEED = 3;
+        if($pressed(   UP_BUTTON)) { first_pan = true; targety -= PAN_SPEED; }
+        if($pressed( DOWN_BUTTON)) { first_pan = true; targety += PAN_SPEED; }
+        if($pressed( LEFT_BUTTON)) { first_pan = true; targetx -= PAN_SPEED; }
+        if($pressed(RIGHT_BUTTON)) { first_pan = true; targetx += PAN_SPEED; }
+    }
+    else
+    {
+        first_pan = false;
+        adjust_to_tank();
+    }
+
+    if(tilesize == TILESIZE_8)
+    {
+        i8 AX = -10;
+        i8 AY = -10;
+        i8 BX = 10;
+        i8 BY = 74;
+        if(!first_pan)
+        {
+            AX = 0;
+            AY = 0;
+            BX = 0;
+            BY = 64;
+        }
+        if(targetx < AX) targetx = AX;
+        if(targetx > BX) targetx = BX;
+        if(targety < AY) targety = AY;
+        if(targety > BY) targety = BY;
+    }
+    else if(tilesize == TILESIZE_6)
+    {
+        i8 AX = -8;
+        i8 AY = -8;
+        i8 BX = -8;
+        i8 BY = 39;
+        if(!first_pan)
+        {
+            AX = 0;
+            AY = 0;
+            BX = 0;
+            BY = 31;
+        }
+        if(targetx < AX) targetx = AX;
+        if(targetx > BX) targetx = BX;
+        if(targety < AY) targety = AY;
+        if(targety > BY) targety = BY;
+    }
+
+    if(offx < targetx) offx += (targetx - offx + 3) / 4;
+    if(offx > targetx) offx -= (offx - targetx + 3) / 4;
+    if(offy < targety) offy += (targety - offy + 3) / 4;
+    if(offy > targety) offy -= (offy - targety + 3) / 4;
+
+    render_level();
+
+    if(tilesize == TILESIZE_4)
+    {
+        if($just_pressed(B_BUTTON))
+            state = STATE_PAUSE;
+    }
+    else
+    {
+        if($just_pressed(B_BUTTON))
+        {
+            can_pan = true;
+            first_pan = false;
+            b_pressed_time = $millis();
+        }
+        if($just_released(B_BUTTON) && $millis() < b_pressed_time + PAUSE_PRESS_MS)
+        {
+            state = STATE_PAUSE;
+        }
+    }
+}
+
+void process_tank_move(u8 dir)
+{
+    $tones_play_auto(SFX_MOVE);
+
+    first_move = true;
+
+    if(tankdir != dir)
+    {
+        undo_premove(dir);
+        tankdir = dir;
+        tank_update();
+        return;
+    }
+
+    i8 dx = DIRX[dir];
+    i8 dy = DIRY[dir];
+    u8 nx = tankx + dx;
+    u8 ny = tanky + dy;
+
+    if(solid(nx, ny))
+    {
+        return;
+    }
+
+    undo_premove(dir);
+
+    tankx = nx;
+    tanky = ny;
+
+    just_moved = true;
+    just_moved_dir = dir;
+
+    tank_blocked_tunnel = false;
+
+    moves += 1;
+
+    tank_update();
+}

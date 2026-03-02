@@ -1,0 +1,233 @@
+void render_level()
+{
+    u8 off = (frame >> 2) & 3;
+    if(!tile_anim) off = 0;
+
+    if(tilesize == TILESIZE_4)
+    {
+        for(u8 r = 0; r < 16; ++r)
+        {
+            i16 y = r * 4;
+            u8[16] row = tiles[r*16 +: 16];
+            u8[16] row2 = objects[r*16 +: 16];
+            for(u8 c = 0; c < 16; ++c)
+            {
+                u8 f = row[c];
+                if(f != 0)
+                    $draw_sprite(c * 4, y, TILES4, f + off);
+                f = row2[c];
+                if(f != 0)
+                    $draw_sprite(c * 4, y, TILES4, f + off);
+            }
+        }
+
+        if(shooting)
+        {
+            u8 f = shootdir;
+            switch(objects[shooty * 16 + shootx])
+            {
+                case(T_MIRROR + 0x0) f = 4;
+                case(T_MIRROR + 0x4) f = 5;
+                case(T_MIRROR + 0x8) f = 6;
+                case(T_MIRROR + 0xc) f = 7;
+            }
+            switch(tiles[shooty * 16 + shootx])
+            {
+                case(T_MIRROR_ROT + 0x0) f = 4;
+                case(T_MIRROR_ROT + 0x4) f = 5;
+                case(T_MIRROR_ROT + 0x8) f = 6;
+                case(T_MIRROR_ROT + 0xc) f = 7;
+            }
+            $draw_sprite(shootx * 4, shooty * 4, TILES4, 0xd0 + f);
+        }
+        
+        if(!dead && (first_move || (frame & 15) >= 5))
+            $draw_sprite(tankx * 4, tanky * 4, TILES4, T_TANK + tankdir);
+
+        if(state != STATE_PAUSE)
+        {
+            $draw_vline(64, 0, 64, WHITE);
+
+            $set_text_font(FONT_BR5D);
+            char[32] buf;
+            $format(buf, "Level %u/%u", current_level + 1, len(LEVELSETS[current_set].levels));
+            u8 w = $text_width(buf);
+            $draw_text(97 - w/2, 5, buf);
+            buf = DIFF_STRS[LEVELSETS[current_set].levels[current_level].difficulty];
+            w = $text_width(buf);
+            $draw_text(97 - w/2, 12, buf);
+            $draw_hline(66, 14, 62, WHITE);
+            $draw_text(66, 24, "Moves:");
+            $draw_text(69, 35, "Shots:");
+            $set_text_font(FONT_PIXELOIDSANS);
+            $draw_textf(93, 25, "%u", moves);
+            $draw_textf(93, 36, "%u", shots);
+        }
+    }
+    else if(tilesize == TILESIZE_6)
+    {
+        for(u8 r = 0; r < 16; ++r)
+        {
+            i16 y = r * 6 - offy;
+            if(y <= -6) continue;
+            if(y >= 64) break;
+            u8[16] row = tiles[r*16 +: 16];
+            u8[16] row2 = objects[r*16 +: 16];
+            i16 x = -offx;
+            for(u8 c = 0; c < 16; ++c)
+            {
+                $draw_sprite(x, y, TILES6, row[c] + off);
+                u8 f = row2[c];
+                if(f != 0)
+                    $draw_sprite(x, y, TILES6, f + off);
+                x += 6;
+            }
+        }
+
+        if(shooting)
+        {
+            u8 f = shootdir;
+            switch(objects[shooty * 16 + shootx])
+            {
+                case(T_MIRROR + 0x0) f = 4;
+                case(T_MIRROR + 0x4) f = 5;
+                case(T_MIRROR + 0x8) f = 6;
+                case(T_MIRROR + 0xc) f = 7;
+            }
+            switch(tiles[shooty * 16 + shootx])
+            {
+                case(T_MIRROR_ROT + 0x0) f = 4;
+                case(T_MIRROR_ROT + 0x4) f = 5;
+                case(T_MIRROR_ROT + 0x8) f = 6;
+                case(T_MIRROR_ROT + 0xc) f = 7;
+            }
+            $draw_sprite(shootx * 6 - offx, shooty * 6 - offy, TILES6, 0xd0 + f);
+        }
+
+        if(!dead && (first_move || (frame & 15) >= 5))
+            $draw_sprite(tankx * 6 - offx, tanky * 6 - offy, TILES6, T_TANK + tankdir);
+
+        if(can_pan && first_pan && $pressed(B_BUTTON))
+        {
+            {
+                $draw_vline(-offx + 96, -offy - 1, 97, WHITE);
+                i16 x = -offx + 98, y = -offy;
+                for(u8 i = 0; i < 16; ++i)
+                    $draw_sprite(x, y + i * 6, TILES6, 0xf0 + i);
+            }
+            {
+                i16 y = -offy;
+                $draw_filled_rect(0, y - 1, 8, 97, BLACK);
+                $draw_vline(6, y - 1, 97, WHITE);
+                for(u8 i = 0; i < 16; ++i)
+                    $draw_sprite(0, y + i * 6, TILES6, 0xf0 + i);
+            }
+            if(offy > 31)
+            {
+                $draw_hline(-offx - 1, -offy + 96, 97, WHITE);
+                i16 x = -offx, y = -offy + 98;
+                for(u8 i = 0; i < 16; ++i)
+                    $draw_sprite(x + i * 6, y, TILES6, 0xe0 + i);
+            }
+            else
+            {
+                i16 x = -offx;
+                $draw_filled_rect(x - 1, 0, 97, 8, BLACK);
+                $draw_hline(x - 1, 6, 97, WHITE);
+                for(u8 i = 0; i < 16; ++i)
+                    $draw_sprite(x + i * 6, 0, TILES6, 0xe0 + i);
+            }
+        }
+        else
+        {
+            $draw_vline(96, 0, 64, WHITE);
+            $set_text_font(FONT_BR5D);
+            char[16] buf;
+            $format(buf, "%u", current_level + 1);
+            u8 w = $text_width(buf);
+            $draw_text(113-w/2, 5, buf);
+            buf = DIFF_STRS[LEVELSETS[current_set].levels[current_level].difficulty];
+            w = $text_width(buf);
+            $draw_text(113-w/2, 12, buf);
+            $draw_hline(98, 14, 30, WHITE);
+            $draw_textf(98, 22, "M: %u", moves);
+            $draw_textf(100, 29, "S: %u", shots);
+        }
+    }
+    else if(tilesize == TILESIZE_8)
+    {
+        for(u8 r = 0; r < 16; ++r)
+        {
+            i16 y = r * 8 - offy;
+            if(y <= -8) continue;
+            if(y >= 64) break;
+            u8[16] row = tiles[r*16 +: 16];
+            u8[16] row2 = objects[r*16 +: 16];
+            i16 x = -offx;
+            for(u8 c = 0; c < 16; ++c)
+            {
+                $draw_sprite(x, y, TILES8, row[c] + off);
+                u8 f = row2[c];
+                if(f != 0)
+                    $draw_sprite(x, y, TILES8, f + off);
+                x += 8;
+            }
+        }
+
+        if(shooting)
+        {
+            u8 f = shootdir;
+            switch(objects[shooty * 16 + shootx])
+            {
+                case(T_MIRROR + 0x0) f = 4;
+                case(T_MIRROR + 0x4) f = 5;
+                case(T_MIRROR + 0x8) f = 6;
+                case(T_MIRROR + 0xc) f = 7;
+            }
+            switch(tiles[shooty * 16 + shootx])
+            {
+                case(T_MIRROR_ROT + 0x0) f = 4;
+                case(T_MIRROR_ROT + 0x4) f = 5;
+                case(T_MIRROR_ROT + 0x8) f = 6;
+                case(T_MIRROR_ROT + 0xc) f = 7;
+            }
+            $draw_sprite(shootx * 8 - offx, shooty * 8 - offy, LASERS, f);
+        }
+
+        if(!dead && (first_move || (frame & 15) >= 5))
+            $draw_sprite(tankx * 8 - offx, tanky * 8 - offy, TILES8, T_TANK + tankdir);
+        
+        bool panning = can_pan && first_pan && $pressed(B_BUTTON);
+
+        if(offx > 0)
+        {
+            $draw_vline(-offx + 128, -offy - 1, 129, WHITE);
+            i16 x = -offx + 130, y = -offy;
+            for(u8 i = 0; i < 16; ++i)
+                $draw_sprite(x, y + i * 8, TILES8, 0xf0 + i);
+        }
+        else if(panning)
+        {
+            i16 y = -offy;
+            $draw_filled_rect(0, y - 1, 10, 129, BLACK);
+            $draw_vline(8, y - 1, 129, WHITE);
+            for(u8 i = 0; i < 16; ++i)
+                $draw_sprite(0, y + i * 8, TILES8, 0xf0 + i);
+        }
+        if(offy > 64)
+        {
+            $draw_hline(-offx - 1, -offy + 128, 129, WHITE);
+            i16 x = -offx, y = -offy + 130;
+            for(u8 i = 0; i < 16; ++i)
+                $draw_sprite(x + i * 8, y, TILES8, 0xe0 + i);
+        }
+        else if(panning)
+        {
+            i16 x = -offx;
+            $draw_filled_rect(x - 1, 0, 129, 10, BLACK);
+            $draw_hline(x - 1, 8, 129, WHITE);
+            for(u8 i = 0; i < 16; ++i)
+                $draw_sprite(x + i * 8, 0, TILES8, 0xe0 + i);
+        }
+    }
+}

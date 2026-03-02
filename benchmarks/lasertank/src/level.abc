@@ -1,0 +1,146 @@
+import vars;
+
+void adjust_to_tank()
+{
+    if(tilesize == TILESIZE_8)
+    {
+        constexpr u8 D = 36;
+        i16 dy = tanky * 8;
+        i16 dx = tankx * 8;
+        i16 miny = dy - 64 + D;
+        i16 maxy = dy + 8 - D;
+        if(targety < miny) targety = miny;
+        if(targety > maxy) targety = maxy;
+        if(targety < 0) targety = 0;
+        if(targety > 64) targety = 64;
+        targetx = 0;
+    }
+    else if(tilesize == TILESIZE_6)
+    {
+        constexpr u8 D = 36;
+        i16 dy = tanky * 6;
+        i16 dx = tankx * 6;
+        i16 miny = dy - 64 + D;
+        i16 maxy = dy + 6 - D;
+        if(targety < miny) targety = miny;
+        if(targety > maxy) targety = maxy;
+        if(targety < 0) targety = 0;
+        if(targety > 31) targety = 31;
+        targetx = 0;
+    }
+}
+
+bool solid(u8 x, u8 y)
+{
+    if(x >= 16 || y >= 16)
+        return true;
+    u8 i = y * 16 + x;
+    return tiles[i] >= T_FIRST_SOLID || objects[i] >= T_FIRST_SOLID;
+}
+
+// whether a block can be pushed here
+bool pushable(u8 x, u8 y)
+{
+    if(x >= 16 || y >= 16)
+        return false;
+    u8 i = y * 16 + x;
+    return tiles[i] == T_WATER || tiles[i] < T_FIRST_SOLID || objects[i] < T_FIRST_SOLID;
+}
+
+bool opaque(u8 x, u8 y)
+{
+    if(x >= 16 || y >= 16)
+        return true;
+    u8 i = y * 16 + x;
+    return tiles[i] >= T_FIRST_OPAQUE || objects[i] >= T_FIRST_OPAQUE;
+}
+
+u8 find_other_tunnel(u8 i)
+{
+    u8 t = tiles[i];
+    u8 ti = 0;
+    do
+    {
+        if(ti != i && tiles[ti] == t && objects[ti] < T_FIRST_SOLID)
+            return ti;
+        ti += 1;
+    } while(ti != 0);
+    return i;
+}
+
+void load_level()
+{
+    level_t prog& level = LEVELSETS[current_set].levels[current_level];
+    
+    // decompress level data
+    {
+        u8[] prog& ts = level.tiles;
+        u8 i = 0;
+        u16 j = 0;
+        do
+        {
+            u8 t = ts[j++];
+            u8 n = (t & 3);
+            if(t >= 0xe0)
+            {
+                n = t - 0xdf;
+                t = 0;
+            }
+            else
+            {
+                t &= 0xfc;
+                if(n == 0)
+                    n = ts[j++];
+            }
+            for(u8 k = 0; k < n; ++k)
+                tiles[i + k] = t;
+            i += n;
+        } while(i != 0);
+    }
+
+    $memset(objects, T_DIRT);
+    num_tunnels = {};
+    occupied_tunnels = {};
+    last_tunneled = {};
+    tankdir = DIR_U;
+    for(u16 i = 0; i < 256; ++i)
+    {
+        u8 t = tiles[i];
+        switch(t)
+        {
+            case(T_TANK)
+            {
+                tiles[i] = T_DIRT;
+                tankx = i & 15;
+                tanky = i >> 4;
+            }
+            case(T_BLOCK_MOVE, T_ANTITANK ... T_ANTITANK + 15, T_MIRROR ... T_MIRROR + 15)
+            {
+                objects[i] = t;
+                tiles[i] = T_DIRT;
+            }
+            case(T_TUNNEL ... T_TUNNEL + 31)
+            {
+                num_tunnels[u8(t - T_TUNNEL) >> 2] += 1;
+            }
+        }
+    }
+    offy = 32;
+    targety = 0;
+    adjust_to_tank();
+    if(targety <  0) targety =  0;
+    if(targety > 64) targety = 64;
+    offy = targety;
+    shooting = false;
+    num_moving_objects = 0;
+    first_move = false;
+    in_water = false;
+    dead = false;
+    victory = false;
+    just_moved = false;
+    moves = 0;
+    shots = 0;
+    undo_num_moves = 0;
+    need_save = false;
+    tank_blocked_tunnel = false;
+}

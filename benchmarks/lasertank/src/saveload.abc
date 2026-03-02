@@ -1,0 +1,111 @@
+import vars;
+
+u16 get_completion_index(u8 set, u16 level)
+{
+    u16 t = 0;
+    for(u8 i = 0; i < set; ++i)
+        t += len(LEVELSETS[i].levels);
+    return t + level;
+}
+
+bool is_completed(u8 set, u16 level)
+{
+    if(set < NUM_LEVELSETS && level < len(LEVELSETS[set].levels))
+    {
+        u16 index = get_completion_index(set, level);
+        
+        // preserve existing settings
+        u8 t_select_set = select_set;
+        u16[NUM_LEVELSETS] t_select_levels = select_levels;
+        bool t_tile_anim = tile_anim;
+        u8 t_anim_frames = anim_frames;
+        u8 t_tilesize = tilesize;
+        bool t_en_audio = en_audio;
+        
+        if(!$load())
+            undo_data = {};
+        
+        select_set = t_select_set;
+        select_levels = t_select_levels;
+        tile_anim = t_tile_anim;
+        anim_frames = t_anim_frames;
+        tilesize = t_tilesize;
+        en_audio = t_en_audio;
+       
+        return undo_data[index >> 3] & (1u << (index & 7));
+    }
+    return false;
+}
+
+void do_save(u8 completed_set, u16 completed_level)
+{
+    // preserve existing settings
+    u8 t_select_set = select_set;
+    u16[NUM_LEVELSETS] t_select_levels = select_levels;
+    bool t_tile_anim = tile_anim;
+    u8 t_anim_frames = anim_frames;
+    u8 t_tilesize = tilesize;
+    bool t_en_audio = en_audio;
+
+    if(!$load())
+        undo_data = {};
+
+    select_set = t_select_set;
+    select_levels = t_select_levels;
+    tile_anim = t_tile_anim;
+    anim_frames = t_anim_frames;
+    tilesize = t_tilesize;
+    en_audio = t_en_audio;
+
+    if(completed_set < NUM_LEVELSETS &&
+        completed_level < len(LEVELSETS[completed_set].levels))
+    {
+        u16 index = get_completion_index(completed_set, completed_level);
+        if(index < len(undo_data) * 8)
+        {
+            undo_data[index >> 3] |= (1u << (index & 7));
+        }
+    }
+
+    $save();
+
+    need_save = false;
+}
+
+void do_load()
+{
+    if($load())
+    {
+        // sanitize in case of corrupted savefile
+        if(tilesize >= TILESIZE_NUM)
+            tilesize = TILESIZE_8;
+        switch(anim_frames)
+        {
+            case(1, 2, 4, 7) {}
+            default anim_frames = 2;
+        }
+        if(select_set >= len(LEVELSETS))
+            select_set = 0;
+        for(u8 i = 0; i < len(select_levels); ++i)
+        {
+            if(select_levels[i] >= len(LEVELSETS[i].levels))
+                select_levels[i] = 0;
+        }
+    }
+    else
+    {
+        // defaults
+        tilesize = TILESIZE_8;
+        anim_frames = 2;
+        tile_anim = true;
+        select_set = 0;
+        select_levels = {};
+        undo_data = {};
+        en_audio = true;
+    }
+
+    if(en_audio != $audio_enabled())
+        $audio_toggle();
+
+    need_save = false;
+}

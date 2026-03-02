@@ -1,0 +1,236 @@
+// frame counter: increments each frame
+u8 frame_count;
+
+enum state_t
+{
+    STATE_MENU,
+    STATE_INTRO,
+    STATE_LEVEL,
+    STATE_PAUSE,
+    STATE_GAME_OVER,
+    STATE_LEVEL_COMPLETE,
+    STATE_SCORE_TALLY,
+    STATE_VICTORY,
+    STATE_LEVEL_SELECT,
+    STATE_CONFIRM,
+    STATE_CREDITS,
+};
+state_t state;
+
+u8 menui;
+u8 menu_sprite;
+i16 menu_spritex;
+
+u8 creditsy;
+
+u8 pause_menui;
+
+u8 levelseli;
+u8 levelseloff;
+constexpr u8 LEVEL_SELECT_ROWS = 5;
+
+// camera position and velocity
+float camx, camy, dcamx;
+
+// current score in the level playing
+u16 score;
+
+bool single_level;
+
+constexpr u8 NUM_MAPS = 12;
+
+// index of current map
+u8 current_map;
+u24 total_score;
+u24 total_time;
+
+saved bool save_exists;
+saved u8 saved_lives;
+saved u8 saved_current_map;
+saved u24 saved_total_score;
+saved u24 saved_total_time;
+
+saved u24 high_score;
+saved u24 best_time;
+saved u16[NUM_MAPS] map_high_scores;
+saved u16[NUM_MAPS] map_best_times;
+
+u8 lives;
+constexpr u8 STARTING_LIVES = 5;
+
+saved bool sound_on;
+
+bool was_high_score;
+bool was_best_time;
+
+// cached for performance
+u8 map_width;
+u8 map_height;
+
+// how many keys the player is holding
+u8 keys;
+
+// how many keys needed to open the current level's exit door
+u8 keys_required;
+
+// player health
+u8 hearts;
+constexpr u8 MAX_HEARTS = 3;
+
+// time remaining to complete level
+u16 level_frames_remaining;
+constexpr u16 TIME_LIMIT_SECONDS = 180;
+constexpr u16 TIME_LIMIT_FRAMES = TIME_LIMIT_SECONDS * 50;
+
+constexpr u16 SCORE_COIN = 500;
+constexpr u16 SCORE_MOB = 1000;
+constexpr u16 SCORE_SUPERCOIN = 5000;
+
+u8 invincibility_frames;
+constexpr u8 INVINCIBILITY_LEVEL_START = 75;
+constexpr u8 INVINCIBILITY_DAMAGE = 75;
+
+u8 jump_frames_remaining;
+
+// animation showing at level start
+u8 level_start_frames;
+constexpr u8 LEVEL_START_FRAMES = 90;
+
+// death animation
+u8 death_frames;
+constexpr u8 DEATH_PAUSE_FRAMES = 30;
+constexpr u8 DEATH_JUMP_FRAMES = 70;
+constexpr u8 DEATH_TOTAL_FRAMES = DEATH_PAUSE_FRAMES + DEATH_JUMP_FRAMES;
+constexpr float DEATH_VEL = 3.25;
+
+// after mob processing, whether the player jumped on a mob
+bool mob_jumped;
+
+//
+// tiles
+//
+
+constexpr u8 TILE_SPIKE     =  15;
+constexpr u8 TILE_DOOR0     = 156;
+constexpr u8 TILE_DOOR1     = 157;
+constexpr u8 TILE_DOOR2     = 158;
+constexpr u8 TILE_DOOR3     = 159;
+
+constexpr u8 TILE_AIR_UP    = 177;
+constexpr u8 TILE_AIR_RIGHT = 178;
+constexpr u8 TILE_AIR_LEFT  = 179;
+constexpr u8 TILE_SPRING    = 180;
+constexpr u8 TILE_SPRING_R  = 181;
+constexpr u8 TILE_SPRING_L  = 182;
+
+constexpr u8 TILE_PLAYER    = 240;
+constexpr u8 TILE_COIN      = 241;
+constexpr u8 TILE_KEY       = 242;
+constexpr u8 TILE_SUPERCOIN = 243;
+constexpr u8 TILE_HEART     = 246;
+constexpr u8 TILE_MOB       = 248;
+constexpr u8 TILE_MOB_HORN  = 249;
+constexpr u8 TILE_MOB_HELM  = 250;
+constexpr u8 TILE_MOB_BAT   = 251;
+constexpr u8 TILE_MOB_FLY   = 252;
+
+// map objects
+constexpr u8 MAX_OBJECTS = 20;
+constexpr u8 OBJ_NONE      = 0;
+constexpr u8 OBJ_COIN      = 1;
+constexpr u8 OBJ_KEY       = 2;
+constexpr u8 OBJ_SUPERCOIN = 3;
+constexpr u8 OBJ_HEART     = 6;
+constexpr u8 OBJ_MOB       = 8;
+constexpr u8 OBJ_MOB_HORN  = 9;
+constexpr u8 OBJ_MOB_HELM  = 10;
+constexpr u8 OBJ_MOB_BAT   = 11;
+constexpr u8 OBJ_MOB_FLY   = 12;
+struct map_object_t
+{
+    u8 type;
+    i16 x, y; // sprite position
+    u8 xo, yo, w, h; // bounding box
+
+    // for mobs
+    bool moving_right;
+    u8 death_frames;
+    i16 a, b; // min and max x/y coords
+};
+map_object_t[MAX_OBJECTS] objects;
+
+constexpr u8 MOB_DEATH_FRAMES = 20;
+
+// player position and velocity
+float px, py, vx, vy;
+
+// flags for rendering player
+bool player_facing_right;
+bool player_moving;
+u8 player_on_ground;
+
+//
+// Constants for player rendering
+//
+
+// player half extents (sides)
+constexpr float PHEH = 7;
+
+// player half extents (top/bottom)
+constexpr float PHEV = 6;
+
+// player sprite offset
+constexpr float PXOFF = 8;
+constexpr float PYOFF = 10;
+
+constexpr float CAMERA_OFFSET_X = 64;
+constexpr float CAMERA_OFFSET_X_DELTA = 8;
+constexpr float CAMERA_OFFSET_X_VEL_DELTA = 100;
+constexpr float CAMERA_OFFSET_Y = 28;
+constexpr float CAMERA_OFFSET_Y_DELTA_UP = 22;
+constexpr float CAMERA_OFFSET_Y_DELTA_DOWN = 24;
+constexpr float CAMERA_Y_HYSTERESIS = 7;
+
+// camera motion smoothing parameters
+constexpr float CAMERA_UPDATE_X_OMEGA = 25;
+constexpr float CAMERA_UPDATE_X_ZETA = 1;
+constexpr float CAMERA_UPDATE_X_ALPHA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_OMEGA;
+constexpr float CAMERA_UPDATE_X_BETA = CAMERA_UPDATE_X_OMEGA * CAMERA_UPDATE_X_ZETA * 2;
+constexpr float CAMERA_UPDATE_X_DT = 0.004;
+constexpr float CAMERA_UPDATE_Y_FACTOR = 0.2;
+
+//
+// Constants for player dynamics
+//
+
+constexpr float GRAVITY = 0.2;
+
+constexpr float FAN_AIR_VEL = 1.5;
+constexpr float FAN_AIR_FACTOR = 0.25;
+
+// player horizontal acceleration: on the ground or in the air
+constexpr float PLAYER_MOVE_ACCEL = 0.25;
+constexpr float PLAYER_MOVE_AIR_ACCEL = 0.125;
+
+// vertical velocity when jumping and not moving fast
+constexpr float PLAYER_JUMP_VEL = 1.9;
+constexpr float PLAYER_JUMP_VEL_FAST = 2.3;
+constexpr float PLAYER_FAST_VEL = 1.7;
+
+constexpr float PLAYER_SPRING_VEL = 5.2;
+constexpr float PLAYER_SPRING_VEL_H = 3.6;
+
+// frames that the player can hold down A to extend jump
+constexpr u8 PLAYER_JUMP_FRAMES = 15;
+
+// velocity clamps
+constexpr float PLAYER_MAX_MOVE_VEL_X = 4.0;
+constexpr float PLAYER_MAX_VEL_X = 4.0;
+constexpr float PLAYER_MAX_VEL_Y = 6.0;
+
+// friction: coefficient of velocity applied to acceleration
+constexpr float PLAYER_FRICTION = 0.15;
+constexpr float PLAYER_FRICTION_AIR = 0.05;
+
+// grace frames for allowing jumps after a player leaves ground
+constexpr u8 PLAYER_ON_GROUND_FRAMES = 5;

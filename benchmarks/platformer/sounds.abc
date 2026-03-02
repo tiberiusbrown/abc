@@ -1,0 +1,87 @@
+// jump
+constexpr tones SOUND_JUMP = tones{
+    C5 20 C5# 20 D5 20 D5# 20 E5 20
+};
+
+// landing on the ground
+//constexpr tones SOUND_LANDING = tones{ G3 20 };
+
+// jump on a mob
+constexpr tones SOUND_MOB_JUMP = tones{
+    E5 20 D5 20 C5 20 D5 20 E5 20
+};
+
+// spring
+constexpr tones SOUND_SPRING = tones{
+    C5 20 C5# 20 D5 20 D5# 20 E5 20
+    D5# 20 D5 20 C5# 20 C5 20
+    C5 20 C5# 20 D5 20 D5# 20 E5 20
+};
+
+// coin collection sfx
+constexpr tones SOUND_COIN = tones{ B5 100 E6 200 };
+
+// supercoin collection sfx
+constexpr tones SOUND_SUPERCOIN = tones{ B5 100 E6 200 D6 100 G6 200 };
+
+// key pickup sfx
+constexpr tones SOUND_KEY = tones{ C4 70 G4 70 E5 70 };
+
+constexpr tones SOUND_LEVEL_START = tones{
+    C5 100
+    E5 100
+    G5 100
+    -  100
+    E5 100
+    G5 300
+};
+
+// player was damaged
+constexpr tones SOUND_DAMAGE = tones{
+    G4  100
+    C4  200
+};
+
+// player picked up a heart
+constexpr tones SOUND_HEAL = tones{
+    C4  100
+    G4  200
+};
+
+// player death
+constexpr tones SOUND_DEATH = tones{
+    G4  100
+    C4  200
+    -   500
+
+    G4  50
+    G4# 50
+    A4  50
+    A4# 50
+    A4  50
+    G4# 50
+
+    G4  50
+    F4# 50
+    F4  50
+    E4  50
+    D4# 50
+    D4  50
+    C4# 50
+    C4  50
+};
+
+// level complete
+constexpr tones SOUND_LEVEL_COMPLETE = tones{
+    G5 180
+    -   20
+    G5  80
+    -   20
+    G5  80
+    -   20
+    G5 200
+    F5 200
+    D5 200
+    F5 200
+    G5 400
+};

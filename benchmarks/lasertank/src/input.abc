@@ -1,0 +1,24 @@
+import vars;
+
+void process_button_repeat(u8 btn, bool pressed, u8 i)
+{
+    if(!pressed)
+    {
+        btn_ticks[i] = INITIAL_TICKS;
+        repeat_counts[i] = 0;
+        return;
+    }
+    if(btn_ticks[i] == 0)
+    {
+        btn_ticks[i] = REPEAT_TICKS;
+        if(repeat_counts[i] < 255)
+            repeat_counts[i] += 1;
+        btns_pressed |= btn;
+    }
+    btn_ticks[i] -= 1;
+}
+
+bool btn_just_pressed(u8 btn)
+{
+    return $just_pressed(btn) || (btns_pressed & btn);
+}

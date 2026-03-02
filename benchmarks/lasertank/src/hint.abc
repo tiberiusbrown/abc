@@ -1,0 +1,33 @@
+import vars;
+
+u8 hint_y;
+
+void hint()
+{
+    level_t prog& level = LEVELSETS[current_set].levels[current_level];
+
+    u8 num_lines = level.hint_lines;
+    u8 max_y = 0;
+    if(num_lines > 9)
+        max_y = (num_lines - 9) * 7 - 2;
+    
+    if(hint_y > 0 && $pressed(UP_BUTTON))
+        hint_y -= 1;
+    if(hint_y < max_y && $pressed(DOWN_BUTTON))
+        hint_y += 1;
+    
+    $set_text_font(FONT_BR5D);
+    $draw_text(0, 5 - i16(hint_y), level.hint);
+
+    u8 arrow_off = ((frame >> 4) & 1);
+    if(hint_y > 0)
+        $draw_sprite(120, 1 - arrow_off, ARROWS, 0);
+    if(hint_y < max_y)
+        $draw_sprite(120, 55 + arrow_off, ARROWS, 2);
+
+    if($just_pressed(B_BUTTON))
+    {
+        hint_y = 0;
+        state = STATE_PLAY;
+    }
+}

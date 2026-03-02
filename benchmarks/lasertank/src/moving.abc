@@ -1,0 +1,163 @@
+void add_moving_object(moving_obj_t m)
+{
+    if(num_moving_objects < len(moving_objects))
+    {
+        for(u8 i = 0; i < num_moving_objects; ++i)
+        {
+            if(m.pos == moving_objects[i].pos)
+            {
+                moving_objects[i] = m;
+                process_moving_object(i);
+                return;
+            }
+        }
+        moving_objects[num_moving_objects++] = m;
+        process_moving_object(num_moving_objects - 1);
+    }
+}
+
+void delete_moving_object(u8 index)
+{
+    for(u8 i = index + 1; i < num_moving_objects; ++i)
+        moving_objects[i - 1] = moving_objects[i];
+    num_moving_objects -= 1;
+}
+
+void delete_moving_object_pos(u8 x, u8 y)
+{
+    u8 pos = y * 16 + x;
+    for(u8 i = 0; i < num_moving_objects; ++i)
+        if(moving_objects[i].pos == pos)
+        {
+            delete_moving_object(i);
+            return;
+        }
+}
+
+bool is_moving_object_index(u8 index)
+{
+    for(u8 i = 0; i < num_moving_objects; ++i)
+        if(moving_objects[i].pos == index)
+            return true;
+    return false;
+}
+
+void process_moving_objects()
+{
+    for(i8 i = num_moving_objects - 1; i >= 0; --i)
+    {
+        u8 prev_num = num_moving_objects;
+        process_moving_object(i);
+        if(prev_num > num_moving_objects)
+            --i;
+    }
+}
+
+void process_moving_object(u8 index)
+{
+    moving_obj_t m = moving_objects[index];
+    u8 mi = m.pos;
+    u8 movex = mi & 15;
+    u8 movey = mi >> 4;
+    u8 movedir = m.dir;
+    bool moving = false;
+
+    switch(tiles[mi])
+    {
+        case(T_ICE_CRACKED)
+        {
+            tiles[mi] = T_WATER;
+            moving = true;
+        }
+        case(T_WATER)
+        {
+            if(objects[mi] == T_BLOCK_MOVE)
+                tiles[mi] = T_WATER_FILL;
+            objects[mi] = T_DIRT;
+        }
+    }
+    u8 nx = movex + DIRX[movedir];
+    u8 ny = movey + DIRY[movedir];
+    if(!solid(nx, ny))
+    {
+        u8 ni = ny * 16 + nx;
+        u8& obj0 = objects[mi];
+        u8& obj1 = objects[ny * 16 + nx];
+        obj1 = obj0;
+        obj0 = T_DIRT;
+        switch(tiles[ni])
+        {
+            case(T_WATER)
+            {
+                if(obj1 == T_BLOCK_MOVE)
+                    tiles[ni] = T_WATER_FILL;
+                obj1 = T_DIRT;
+            }
+            case(T_TUNNEL ... T_TUNNEL + 31)
+            {
+                u8 tnum = u8(tiles[ni] - T_TUNNEL) >> 2;
+                if(obj1 >= T_FIRST_SOLID)
+                    occupied_tunnels[tnum] += 1;
+                u8 ti = find_other_tunnel(ni);
+                if(ti != ni)
+                {
+                    objects[ti] = obj1;
+                    obj1 = T_DIRT;
+                    $tones_play_auto(SFX_TUNNEL);
+                }
+                last_tunneled[tnum] = ti;
+            }
+            case(T_ICE, T_ICE_CRACKED)
+            {
+                movex = nx;
+                movey = ny;
+                moving = true;
+            }
+        }
+        all_at_scans();
+
+        // trick 25
+        if(nx + DIRX[movedir] == tankx && ny + DIRY[movedir] == tanky)
+            moving = false;
+    }
+    switch(tiles[mi])
+    {
+        case(T_TUNNEL ... T_TUNNEL + 31)
+        {
+            // relevant tricks: 16, 26
+            u8 ti = tiles[mi];
+            u8 tnum = u8(ti - T_TUNNEL) >> 2;
+            u8 obji = last_tunneled[tnum];
+            if(objects[obji] >= T_FIRST_SOLID &&
+                tiles[obji] == ti &&
+                occupied_tunnels[tnum] == num_tunnels[tnum])
+            {
+                objects[mi] = objects[obji];
+                objects[obji] = T_DIRT;
+                $tones_play_auto(SFX_TUNNEL);
+            }
+            else if(tank_blocked_tunnel &&
+                occupied_tunnels[tnum] == num_tunnels[tnum] &&
+                tiles[tanky * 16 + tankx] == ti)
+            {
+                // relevant trick: 85
+                tanky = mi >> 4;
+                tankx = mi & 15;
+                just_moved = false;
+                tank_blocked_tunnel = false;
+                $tones_play_auto(SFX_TUNNEL);
+            }
+            else
+                occupied_tunnels[tnum] -= 1;
+        }
+    }
+
+    if(moving)
+    {
+        m.pos = movey * 16 + movex;
+        m.dir = movedir;
+        moving_objects[index] = m;
+    }
+    else
+        delete_moving_object(index);
+}

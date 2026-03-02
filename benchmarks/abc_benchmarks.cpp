@@ -240,41 +240,37 @@ int abc_benchmarks()
 #endif
 
 #if 1
-    if(compile(PLATFORMER_DIR "/../basic/main.abc"  ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../circle/main.abc" ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../font/main.abc"   ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../gray/main.abc"   ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../midi/main.abc"   ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../pong/main.abc"   ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../snake/main.abc"  ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../sprite/main.abc" ).empty()) return 1;
-    if(compile(PLATFORMER_DIR "/../tilemap/main.abc").empty()) return 1;
-#endif
-
-#if 1
-    fout = fopen(PLATFORMER_DIR "/benchmark.txt", "w");
-    if(!fout) return 1;
+    printf("\n");
+    for(auto const& name : std::vector<std::string>{
+        "platformer", "lasertank" })
     {
-        printf("\n");
-        out_txt("Running platformer benchmark...\n");
-        auto binary = compile(PLATFORMER_DIR "/benchmark.abc");
-        assert(!binary.empty());
+        std::string path = BENCHMARKS_DIR;
+        path += "/";
+        path += name;
+        fout = fopen((path + "/benchmark.txt").c_str(), "w");
+        if(!fout) return 1;
         {
-            std::ifstream vmhex(VMHEX_FILE);
-            auto t = arduboy->load_file("vm.hex", vmhex);
-            assert(t.empty());
+            out_txt("Running %s benchmark...\n", name.c_str());
+            auto binary = compile(path + "/benchmark.abc");
+            assert(!binary.empty());
+            {
+                std::ifstream vmhex(VMHEX_FILE);
+                auto t = arduboy->load_file("vm.hex", vmhex);
+                assert(t.empty());
+            }
+            {
+                std::istrstream ss((char const*)binary.data(), (int)binary.size());
+                auto t = arduboy->load_file("fxdata.bin", ss);
+                assert(t.empty());
+            }
+            (void)measure();
+            out_txt("    %" PRIu64 "\n", measure());
         }
-        {
-            std::istrstream ss((char const*)binary.data(), (int)binary.size());
-            auto t = arduboy->load_file("fxdata.bin", ss);
-            assert(t.empty());
-        }
-        (void)measure();
-        out_txt("    %" PRIu64 "\n", measure());
+        fclose(fout);
     }
-    fclose(fout);
 #endif
 
+    printf("\n");
     printf("Running instruction benchmarks...\n");
 
     fout = fopen(BENCHMARKS_DIR "/cycles_instruction.txt", "w");

@@ -1,0 +1,37 @@
+import vars;
+
+void credits()
+{
+    i16 y = 70;
+    while(true)
+    {
+        $set_text_font(FONT_BR5D);
+        $draw_text(41, y + 0, "Original Game");
+        $set_text_font(FONT_PIXELOIDSANSBOLD);
+        $draw_text(33, y + 10, "Jim Kindley");
+        $draw_text(26, y + 20, "JEK Software");
+
+        $set_text_font(FONT_BR5D);
+        $draw_text(37, y + 40, "Arduboy FX Port");
+        $set_text_font(FONT_PIXELOIDSANSBOLD);
+        $draw_text(28, y + 50, "Peter Brown");
+
+        $set_text_font(FONT_THIRDDIMENSION);
+        $draw_filled_rect(0, 0, 128, 17, BLACK);
+        $draw_text(16, 12, "LaserTank");
+        $draw_filled_rect(0, 14, 128, 2, WHITE);
+
+        if($just_pressed(B_BUTTON))
+        {
+            state = STATE_MENU;
+            return;
+        }
+
+        $display();
+
+        frame += 1;
+        if(frame & 1) y -= 1;
+
+        if(y < -40) y = 79;
+    }
+}
