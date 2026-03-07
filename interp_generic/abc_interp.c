@@ -1565,6 +1565,11 @@ static abc_result_t strcpy_strcat_helper(abc_interp_t* interp, uint8_t cpy)
     if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
     if(n0 != 0)
     {
+        if(n1 == 0)
+        {
+            if(cpy) *p0 = '\0';
+            goto done;
+        }
         if(!cpy)
         {
             for(;;)
@@ -1588,6 +1593,7 @@ static abc_result_t strcpy_strcat_helper(abc_interp_t* interp, uint8_t cpy)
             if(--n1 == 0) { *p0++ = 0; break; }
         }
     }
+done:
     push16(interp, br);
     push16(interp, nr);
     return ABC_RESULT_NORMAL;
@@ -1617,6 +1623,11 @@ static abc_result_t strcpy_strcat_helper_P(
     if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
     if(n0 != 0)
     {
+        if(n1 == 0)
+        {
+            if(cpy) *p0 = '\0';
+            goto done;
+        }
         if(!cpy)
         {
             for(;;)
@@ -1640,6 +1651,7 @@ static abc_result_t strcpy_strcat_helper_P(
             if(--n1 == 0) { *p0++ = 0; break; }
         }
     }
+done:
     push16(interp, br);
     push16(interp, nr);
     return ABC_RESULT_NORMAL;

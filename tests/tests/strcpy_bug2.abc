@@ -1,0 +1,13 @@
+void main()
+{
+    $debug_break();
+    
+    char[4] t;
+    t = "a";
+    $assert(t == "a");
+    t = "";
+    $assert(t == "");
+    $assert(t[0] == '\0');
+    
+    $debug_break();
+}

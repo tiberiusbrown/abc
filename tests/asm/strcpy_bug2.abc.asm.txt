@@ -1,0 +1,79 @@
+.shades 2
+.saved 0
+
+$PD_0:
+$PD_1:
+  .b 0 61
+$PD_2:
+$PD_3:
+
+$globinit:
+  .file <internal>
+  .line 1
+  ret
+
+main:
+  .file strcpy_bug2.abc
+  .line 3
+;     $debug_break();
+  sys   debug_break
+  .line 5
+;     char[4] t;
+  p0000
+  .line 6
+;     t = "a";
+  dup
+  p1
+  dupw
+  p00
+  refl  10
+  p4
+  p0
+  sys   strcpy_P
+  pop4
+  .line 7
+;     $assert(t == "a");
+  p0
+  p1
+  dupw
+  p00
+  refl  10
+  p4
+  p0
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 8
+;     t = "";
+  p1
+  dup
+  p0000
+  refl  10
+  p4
+  p0
+  sys   strcpy_P
+  pop4
+  .line 9
+;     $assert(t == "");
+  p1
+  dup
+  p0000
+  refl  10
+  p4
+  p0
+  sys   strcmp_P
+  not
+  sys   assert
+  .line 10
+;     $assert(t[0] == '\0');
+  dup4
+  not
+  sys   assert
+  .line 12
+;     $debug_break();
+  sys   debug_break
+  .line 1
+; void main()
+  pop4
+  ret
+
