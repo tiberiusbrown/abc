@@ -3963,8 +3963,8 @@ I_BZP1:
     .align 6
 
 I_BNZP:
-    ldi  r16, 3
-    add  r6, r16
+    ldi  r18, 3
+    add  r6, r18
     adc  r7, r2
     adc  r8, r2
     rjmp .+0
