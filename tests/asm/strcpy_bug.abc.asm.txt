@@ -1,8 +1,9 @@
 .shades 2
 .saved 0
 
+; string literal: "Hello!!"
 $PD_0:
-  .b 6 48 65 6c 6c 6f 21 21
+  .b 6 48 65 6c 6c 6f 21 21                               ; Hello!!
 
 $globinit:
   .file <internal>

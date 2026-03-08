@@ -306,6 +306,20 @@ void compiler_t::write(std::ostream& f)
     {
         if(pd.merged)
             continue;
+        if(!pd.comment.empty())
+        {
+            f << "; ";
+            std::string t;
+            if(pd.comment.size() > 70)
+                t = pd.comment.substr(0, 70);
+            else
+                t = pd.comment;
+            for(char& c : t)
+                if(c < 32 || c >= 128)
+                    c = ' ';
+            f << t;
+            f << "\n";
+        }
         f << label << ":\n";
         if(pd.data.empty())
             continue;
@@ -358,6 +372,17 @@ void compiler_t::write(std::ostream& f)
                 {
                     snprintf(hex, sizeof(hex), " %02x", pd.data[i + j]);
                     f << hex;
+                }
+                for(int j = 0; j < 16 - num; ++j)
+                    f << "   ";
+                f << "    ; ";
+                for(int j = 0; j < num; ++j)
+                {
+                    char c = pd.data[i + j];
+                    if(c >= 32 && c <= 127)
+                        f << c;
+                    else
+                        f << ".";
                 }
                 f << "\n";
                 i += num - 1;

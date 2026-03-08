@@ -1,12 +1,15 @@
 .shades 2
 .saved 0
 
+; string literal: "Hello"
 $PD_0:
-  .b 4 48 65 6c 6c 6f
+  .b 4 48 65 6c 6c 6f                                     ; Hello
+; string literal: " World!"
 $PD_1:
-  .b 6 20 57 6f 72 6c 64 21
+  .b 6 20 57 6f 72 6c 64 21                               ;  World!
+; string literal: "Hello World!"
 $PD_2:
-  .b b 48 65 6c 6c 6f 20 57 6f 72 6c 64 21
+  .b b 48 65 6c 6c 6f 20 57 6f 72 6c 64 21                ; Hello World!
 
 $globinit:
   .file <internal>

@@ -1,16 +1,17 @@
 .shades 2
 .saved 0
 
+; tilemap: <literal>
 $PD_0:
-  .b f 01 08 00 10 00 12 13 92 3b 86 9b aa 06 ab 25 25
-  .b f 26 1b 11 13 2b 23 a1 a2 a3 1c 86 9b 9a 07 07 07
-  .b f 87 4a 34 34 4b 1b b1 b2 b3 0b 0b 86 87 51 4a 34
-  .b f 34 db 32 32 33 1b c1 c2 c3 11 03 11 13 4a db 32
-  .b f 32 ca 35 35 5b 1c d1 80 d3 11 23 8e 4a db ca 35
-  .b f 35 5b 9c 9d 9e 13 3b 4a 34 34 34 34 db ca 5b 11
-  .b f 13 76 ac ad ae 01 03 5a cb 32 32 ca 35 5b 76 06
-  .b f 06 bb cc cd ce 22 22 2b 5a 35 35 5b 3b 76 ab 72
-  .b 4 9a 87 dc dd de
+  .b f 01 08 00 10 00 12 13 92 3b 86 9b aa 06 ab 25 25    ; ........;.....%%
+  .b f 26 1b 11 13 2b 23 a1 a2 a3 1c 86 9b 9a 07 07 07    ; &...+#..........
+  .b f 87 4a 34 34 4b 1b b1 b2 b3 0b 0b 86 87 51 4a 34    ; .J44K........QJ4
+  .b f 34 db 32 32 33 1b c1 c2 c3 11 03 11 13 4a db 32    ; 4.223........J.2
+  .b f 32 ca 35 35 5b 1c d1 80 d3 11 23 8e 4a db ca 35    ; 2.55[.....#.J..5
+  .b f 35 5b 9c 9d 9e 13 3b 4a 34 34 34 34 db ca 5b 11    ; 5[....;J4444..[.
+  .b f 13 76 ac ad ae 01 03 5a cb 32 32 ca 35 5b 76 06    ; .v.....Z.22.5[v.
+  .b f 06 bb cc cd ce 22 22 2b 5a 35 35 5b 3b 76 ab 72    ; .....""+Z55[;v.r
+  .b 4 9a 87 dc dd de                                     ; .....
 
 $globinit:
   .file <internal>

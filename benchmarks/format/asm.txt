@@ -1,8 +1,9 @@
 .shades 2
 .saved 0
 
+; format string: "%u0"
 $PD_0:
-  .b 2 25 75 30
+  .b 2 25 75 30                                           ; %u0
 
 $globinit:
   .file <internal>

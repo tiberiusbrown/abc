@@ -438,7 +438,9 @@ std::string compiler_t::resolve_label_ref(
         else
         {
             label = font_label_cache[key] = progdata_label();
-            add_progdata(label, TYPE_FONT, n);
+            add_progdata(
+                label, TYPE_FONT, n,
+                fmt::format("font: \"{}\" ({})", key.second, key.first));
         }
         return label;
     }
@@ -508,7 +510,9 @@ void compiler_t::create_builtin_font(compiler_global_t& g)
         std::vector<uint8_t> data;
         data.resize(f.size);
         memcpy(data.data(), f.data, data.size());
-        add_custom_progdata(label, data);
+        add_custom_progdata(
+            label, data,
+            fmt::format("builtin font: {} ({})", f.name, f.pixels));
         break;
     }
 }

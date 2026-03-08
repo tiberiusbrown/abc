@@ -2,6 +2,8 @@
 
 #include <assert.h>
 
+#include <fmt/format.h>
+
 namespace abc
 {
 
@@ -555,7 +557,9 @@ void compiler_t::codegen_expr(
                 assert(expr.children[0].type == AST::STRING_LITERAL);
                 std::string label = progdata_label();
                 std::vector<uint8_t> data(format_str.begin(), format_str.end());
-                add_custom_progdata(label, data);
+                add_custom_progdata(
+                    label, data,
+                    fmt::format("format string: {:?}", format_str));
                 f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
                 f.instrs.push_back({ I_PUSH, a.line(), uint8_t(format_str.size() >> 0) });
                 f.instrs.push_back({ I_PUSH, a.line(), uint8_t(format_str.size() >> 8) });
@@ -1310,7 +1314,9 @@ no_memcpy_optimization:
     {
         std::string label = progdata_label();
         std::vector<uint8_t> data = strlit_data(a);
-        add_custom_progdata(label, data);
+        add_custom_progdata(
+            label, data,
+            fmt::format("string literal: {:?}", std::string(data.begin(), data.end())));
         f.instrs.push_back({ I_PUSHL, a.line(), 0, 0, label });
         frame.size += 3;
         return;

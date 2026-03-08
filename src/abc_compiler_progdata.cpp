@@ -6,6 +6,7 @@
 #include <cassert>
 
 #include <rapidjson/document.h>
+#include <fmt/format.h>
 
 namespace abc
 {
@@ -18,19 +19,24 @@ std::string compiler_t::progdata_label()
     return ss.str();
 }
 
-void compiler_t::add_custom_progdata(std::string const& label, std::vector<uint8_t>& data)
+void compiler_t::add_custom_progdata(
+    std::string const& label, std::vector<uint8_t>& data,
+    std::string const& comment)
 {
     auto& pdata = progdata[label];
     assert(pdata.data.empty());
+    pdata.comment = comment;
     pdata.data = std::move(data);
     try_merge_progdata(label, pdata);
 }
 
 void compiler_t::add_progdata(
-    std::string const& label, compiler_type_t const& t, ast_node_t const& n)
+    std::string const& label, compiler_type_t const& t, ast_node_t const& n,
+    std::string const& comment)
 {
     auto& pdata = progdata[label];
     assert(pdata.data.empty());
+    pdata.comment = comment;
     progdata_expr(n, t, pdata);
     try_merge_progdata(label, pdata);
 }
@@ -213,7 +219,9 @@ void compiler_t::progdata_expr(
     }
     case compiler_type_t::MUSIC:
     {
-        std::string error = encode_tones_midi(pd.data, n.children[0].string_literal(), true);
+        std::string filename = n.children[0].string_literal();
+        pd.comment = fmt::format("music: {:?}", filename);
+        std::string error = encode_tones_midi(pd.data, filename, true);
         if(!error.empty())
             errs.push_back({ error, n.line_info });
         break;
@@ -223,15 +231,22 @@ void compiler_t::progdata_expr(
         std::string error;
         if(n.children[0].type == AST::STRING_LITERAL)
         {
+            std::string filename = n.children[0].string_literal();
             std::string layer_name;
             if(n.children.size() == 2)
+            {
                 layer_name = n.children[1].string_literal();
+                pd.comment = fmt::format("tilemap: {:?}, {:?}", filename, layer_name);
+            }
+            else
+                pd.comment = fmt::format("tilemap: {:?}", filename);
             error = encode_tilemap_tmx(
-                pd.data, n.children[0].string_literal(), layer_name);
+                pd.data, filename, layer_name);
         }
         else
         {
             error = encode_tilemap_literal(pd.data, n);
+            pd.comment = "tilemap: <literal>";
         }
         if(!error.empty())
             errs.push_back({ error, n.line_info });
@@ -297,7 +312,9 @@ void compiler_t::progdata_expr(
         {
             auto data = strlit_data(n);
             auto size = data.size();
-            add_custom_progdata(name, data);
+            add_custom_progdata(
+                name, data,
+                fmt::format("string literal: {:?}", std::string(data.begin(), data.end())));
             pd.data.push_back(uint8_t(size >> 0));
             pd.data.push_back(uint8_t(size >> 8));
             pd.data.push_back(uint8_t(size >> 16));
