@@ -1,18 +1,16 @@
 .shades 2
 .saved 0
 
-; string literal: "Hello"
 $PD_0:
   .b 4 48 65 6c 6c 6f                                     ; Hello
-; string literal: "Bye"
 $PD_1:
   .b 2 42 79 65                                           ; Bye
 BLAH:
   .b 1 2a 00                                              ; *.
   .rp $PD_0
-  .b 4 05 00 00 25 00                                     ; ...%.
+  .b 2 00 25 00                                           ; .%.
   .rp $PD_1
-  .b 2 03 00 00                                           ; ...
+  .b 0 00                                                 ; .
 
 $globinit:
   .file <internal>
@@ -30,11 +28,17 @@ main:
   sys   assert
   .line 14
 ;     $assert(len(BLAH[0].str) == 5);
-  p1
+  p0
   sys   assert
   .line 15
 ;     $assert(len(BLAH[1].str) == 3);
-  p1
+  push3 277
+  getpn 3
+  p3
+  p00
+  sub3
+  bool3
+  not
   sys   assert
   .line 17
 ;     char[] prog& str = BLAH[0].str;

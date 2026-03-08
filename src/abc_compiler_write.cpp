@@ -315,7 +315,7 @@ void compiler_t::write(std::ostream& f)
             else
                 t = pd.comment;
             for(char& c : t)
-                if(c < 32 || c >= 128)
+                if(c < 32 || c >= 127)
                     c = ' ';
             f << t;
             f << "\n";
@@ -379,7 +379,7 @@ void compiler_t::write(std::ostream& f)
                 for(int j = 0; j < num; ++j)
                 {
                     char c = pd.data[i + j];
-                    if(c >= 32 && c <= 127)
+                    if(c >= 32 && c <= 126)
                         f << c;
                     else
                         f << ".";

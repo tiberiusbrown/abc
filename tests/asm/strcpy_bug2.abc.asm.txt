@@ -1,13 +1,10 @@
 .shades 2
 .saved 0
 
-; string literal: "a"
 $PD_0:
 $PD_1:
   .b 0 61                                                 ; a
-; string literal: ""
 $PD_2:
-; string literal: ""
 $PD_3:
 
 $globinit:

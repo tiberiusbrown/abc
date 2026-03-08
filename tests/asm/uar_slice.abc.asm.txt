@@ -1,7 +1,6 @@
 .shades 2
 .saved 0
 
-; string literal: "Hello"
 $PD_0:
   .b 0 48                                                 ; H
 $PD_1:

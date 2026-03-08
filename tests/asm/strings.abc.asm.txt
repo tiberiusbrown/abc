@@ -1,106 +1,81 @@
 .shades 2
 .saved 0
 
-; string literal: "hello"
 $PD_0:
   .b 4 68 65 6c 6c 6f                                     ; hello
-; string literal: "  hi"
 $PD_1:
   .b 1 20 20                                              ;   
 $PD_12:
 $PD_13:
   .b 1 68 69                                              ; hi
-; string literal: "longer"
 $PD_14:
 $PD_15:
   .b 5 6c 6f 6e 67 65 72                                  ; longer
-; string literal: "wheezy"
 $PD_16:
 $PD_17:
   .b 5 77 68 65 65 7a 79                                  ; wheezy
-; format string: "%u0"
 $PD_18:
 $PD_21:
   .b 2 25 75 30                                           ; %u0
-; string literal: "4200"
 $PD_19:
 $PD_22:
   .b 3 34 32 30 30                                        ; 4200
-; string literal: "what"
 $PD_2:
 $PD_10:
 $PD_5:
   .b 3 77 68 61 74                                        ; what
-; format string: "%u3"
 $PD_23:
   .b 2 25 75 33                                           ; %u3
-; string literal: "042"
 $PD_24:
   .b 2 30 34 32                                           ; 042
-; format string: "%u4"
 $PD_25:
   .b 2 25 75 34                                           ; %u4
-; string literal: "0042"
 $PD_26:
   .b 3 30 30 34 32                                        ; 0042
-; format string: "%f2"
 $PD_27:
 $PD_29:
 $PD_31:
   .b 2 25 66 32                                           ; %f2
-; string literal: "2.51"
 $PD_28:
   .b 3 32 2e 35 31                                        ; 2.51
-; string literal: "blah"
 $PD_3:
 $PD_4:
 $PD_7:
 $PD_9:
   .b 3 62 6c 61 68                                        ; blah
-; string literal: "3.51"
 $PD_30:
   .b 3 33 2e 35 31                                        ; 3.51
-; string literal: "4.52"
 $PD_32:
   .b 3 34 2e 35 32                                        ; 4.52
-; format string: "%f1"
 $PD_33:
 $PD_35:
   .b 2 25 66 31                                           ; %f1
-; string literal: "5.5"
 $PD_34:
   .b 2 35 2e 35                                           ; 5.5
-; string literal: "6.6"
 $PD_36:
   .b 2 36 2e 36                                           ; 6.6
-; string literal: "What"
 $PD_37:
 $PD_38:
 $PD_39:
 $PD_40:
 $PD_41:
   .b 3 57 68 61 74                                        ; What
-; string literal: "What?"
 $PD_42:
   .b 4 57 68 61 74 3f                                     ; What?
-; string literal: "the quick brown fox jumps over the lazy dog"
 $PD_43:
 $PD_44:
   .b f 74 68 65 20 71 75 69 63 6b 20 62 72 6f 77 6e 20    ; the quick brown 
   .b f 66 6f 78 20 6a 75 6d 70 73 20 6f 76 65 72 20 74    ; fox jumps over t
   .b a 68 65 20 6c 61 7a 79 20 64 6f 67                   ; he lazy dog
-; string literal: "THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG"
 $PD_45:
 $PD_46:
   .b f 54 48 45 20 51 55 49 43 4b 20 42 52 4f 57 4e 20    ; THE QUICK BROWN 
   .b f 46 4f 58 20 4a 55 4d 50 53 20 4f 56 45 52 20 54    ; FOX JUMPS OVER T
   .b a 48 45 20 4c 41 5a 59 20 44 4f 47                   ; HE LAZY DOG
-; string literal: "aaaa"
 $PD_6:
 $PD_11:
 $PD_20:
   .b 3 61 61 61 61                                        ; aaaa
-; string literal: "blah2"
 $PD_8:
   .b 4 62 6c 61 68 32                                     ; blah2
 

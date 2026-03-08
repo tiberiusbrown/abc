@@ -1,7 +1,6 @@
 .shades 2
 .saved 0
 
-; string literal: "Hello"
 $PD_0:
 $PD_1:
 $PD_10:
@@ -23,26 +22,20 @@ $PD_15:
 $PD_3:
 $PD_8:
   .b 3 65 6c 6c 6f                                        ; ello
-; string literal: "Boppy"
 $PD_21:
   .b 0 42                                                 ; B
 $PD_26:
   .b 3 6f 70 70 79                                        ; oppy
-; string literal: "Hoooo"
 $PD_30:
   .b 4 48 6f 6f 6f 6f                                     ; Hoooo
-; string literal: "Hyyyo"
 $PD_31:
   .b 4 48 79 79 79 6f                                     ; Hyyyo
-; string literal: "Hzzzo"
 $PD_32:
   .b 4 48 7a 7a 7a 6f                                     ; Hzzzo
-; string literal: "opp"
 $PD_5:
 $PD_11:
 $PD_18:
   .b 2 6f 70 70                                           ; opp
-; string literal: "Hoppo"
 $PD_6:
 $PD_12:
 $PD_13:
