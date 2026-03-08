@@ -128,7 +128,7 @@ bool compiler_t::convertible(compiler_type_t const& dst, compiler_type_t const& 
     if(dst.is_array_ref() && src.is_ref() && rsrc.is_array())
         return dst.children[0] == rsrc.children[0];
     if(dst.is_ref())
-        return dst == src;
+        return dst == rsrc.with_ref();
     return dst == rsrc;
 }
 

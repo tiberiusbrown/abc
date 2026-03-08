@@ -96,6 +96,11 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
     // store return value
     if(!n.children.empty())
     {
+        if(f.decl.return_type == TYPE_VOID)
+        {
+            errs.push_back({ "Function \"" + f.name + "\" does not return a value", n.line_info });
+            return;
+        }
         if(n.children[0].type == AST::COMPOUND_LITERAL)
         {
             codegen_expr_compound(f, frame, n.children[0], f.decl.return_type);
