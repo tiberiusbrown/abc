@@ -1,5 +1,7 @@
 #include "abc_compiler.hpp"
 
+#include <algorithm>
+
 namespace abc
 {
 

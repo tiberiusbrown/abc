@@ -319,20 +319,20 @@ enum
     *(p__)++ = (uint8_t)((x__) >> 16); \
 } while(0)
 
-static uint16_t ld_inc2(uint8_t** p)
+static uint16_t ld_inc2(uint8_t const** p)
 {
     uint16_t r = 0;
-    uint8_t* t = *p;
+    uint8_t const* t = *p;
     r += ((uint16_t)(*t++) << 0);
     r += ((uint16_t)(*t++) << 8);
     *p = t;
     return r;
 }
 
-static uint32_t ld_inc3(uint8_t** p)
+static uint32_t ld_inc3(uint8_t const** p)
 {
     uint32_t r = 0;
-    uint8_t* t = *p;
+    uint8_t const* t = *p;
     r += ((uint32_t)(*t++) << 0);
     r += ((uint32_t)(*t++) << 8);
     r += ((uint32_t)(*t++) << 16);
@@ -2579,7 +2579,7 @@ static void shades_draw_sprite(
         if(frame >= 256) goto unbatchable;
         if(b == NULL) goto start_new_batch;
         if(*b++ != SHADES_CMD_SPRITE_BATCH) goto start_new_batch;
-        if(ld_inc3(&b) != img) goto start_new_batch;
+        if(ld_inc3((uint8_t const**)(&b)) != img) goto start_new_batch;
         uint8_t n = *b;
         n += 1;
         if(n == 0) goto start_new_batch;
