@@ -146,7 +146,12 @@ add_executable(abc_interpreter_sokol ${EXE_TYPE}
     .editorconfig
     interp_generic/abc_interpreter_sokol.c
     )
-target_link_libraries(abc_interpreter_sokol abc_interp)
+target_link_libraries(abc_interpreter_sokol PRIVATE abc_interp)
+if(WIN32)
+    target_link_libraries(abc_interpreter_sokol PRIVATE d3d11)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
+    target_link_libraries(abc_interpreter_sokol PRIVATE X11 Xi Xcursor GL asound dl m pthread)
+endif()
 
 add_library(abc_compiler STATIC
     .editorconfig
