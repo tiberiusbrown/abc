@@ -162,16 +162,13 @@ $PDF_FONT_ADAFRUIT:
   .b f 40 44 4a 51 40 ff 01 03 e0 80 ff 08 08 6b 6b 08    ; @DJQ@........kk.
   .b f 1b 09 1b 12 1b 06 0f 09 0f 06 30 40 ff 01 01 1f    ; ..........0@....
   .b 6 01 01 1e 19 1d 17 12                               ; .......
-; format string: "Running: %u0 seconds"
 $PD_0:
   .b f 52 75 6e 6e 69 6e 67 3a 20 25 75 30 20 73 65 63    ; Running: %u0 sec
   .b 3 6f 6e 64 73                                        ; onds
-; string literal: "the quick brown fox\njumps over the lazy\ndog"
 $PD_1:
   .b f 74 68 65 20 71 75 69 63 6b 20 62 72 6f 77 6e 20    ; the quick brown 
   .b f 66 6f 78 0a 6a 75 6d 70 73 20 6f 76 65 72 20 74    ; fox.jumps over t
   .b a 68 65 20 6c 61 7a 79 0a 64 6f 67                   ; he lazy.dog
-; string literal: "THE QUICK BROWN FOX\nJUMPS OVER THE LAZY\nDOG"
 $PD_2:
   .b f 54 48 45 20 51 55 49 43 4b 20 42 52 4f 57 4e 20    ; THE QUICK BROWN 
   .b f 46 4f 58 0a 4a 55 4d 50 53 20 4f 56 45 52 20 54    ; FOX.JUMPS OVER T

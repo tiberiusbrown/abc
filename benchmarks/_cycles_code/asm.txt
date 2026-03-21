@@ -9734,7 +9734,6 @@ $PD_1:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b 4 00 00 00 00 00                                     ; .....
-; format string: "%f8 * %f8\n"
 $PD_106:
 $PD_107:
 $PD_108:
@@ -9797,7 +9796,6 @@ $PD_611:
 $PD_613:
 $PD_615:
   .b 9 25 66 38 20 2a 20 25 66 38 0a                      ; %f8 * %f8.
-; format string: "%f8 / %f8\n"
 $PD_156:
 $PD_157:
 $PD_158:
@@ -11387,7 +11385,6 @@ $PD_2:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b 4 00 00 00 00 00                                     ; .....
-; format string: "$mod(%f8, %f8)\n"
 $PD_206:
 $PD_207:
 $PD_208:
@@ -11439,7 +11436,6 @@ $PD_253:
 $PD_254:
 $PD_255:
   .b e 24 6d 6f 64 28 25 66 38 2c 20 25 66 38 29 0a       ; $mod(%f8, %f8).
-; format string: "$pow(%f8, %f8)\n"
 $PD_256:
 $PD_257:
 $PD_258:
@@ -11494,7 +11490,6 @@ $PD_305:
 $PD_3:
   .b f 08 08 01 01 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b 4 00 00 00 00 00                                     ; .....
-; format string: "$atan2(%f8, %f8)\n"
 $PD_306:
 $PD_307:
 $PD_308:
@@ -11547,7 +11542,6 @@ $PD_354:
 $PD_355:
   .b f 24 61 74 61 6e 32 28 25 66 38 2c 20 25 66 38 29    ; $atan2(%f8, %f8)
   .b 0 0a                                                 ; .
-; format string: "$sin(%f8)\n"
 $PD_356:
 $PD_357:
 $PD_358:
@@ -11560,7 +11554,6 @@ $PD_364:
 $PD_365:
 $PD_366:
   .b 9 24 73 69 6e 28 25 66 38 29 0a                      ; $sin(%f8).
-; format string: "$cos(%f8)\n"
 $PD_367:
 $PD_368:
 $PD_369:
@@ -11573,7 +11566,6 @@ $PD_375:
 $PD_376:
 $PD_377:
   .b 9 24 63 6f 73 28 25 66 38 29 0a                      ; $cos(%f8).
-; format string: "$tan(%f8)\n"
 $PD_378:
 $PD_379:
 $PD_380:
@@ -11586,7 +11578,6 @@ $PD_386:
 $PD_387:
 $PD_388:
   .b 9 24 74 61 6e 28 25 66 38 29 0a                      ; $tan(%f8).
-; format string: "$sqrt(%f8)\n"
 $PD_389:
 $PD_390:
 $PD_391:
@@ -11605,7 +11596,6 @@ $PD_4:
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b f 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00    ; ................
   .b 4 00 00 00 00 00                                     ; .....
-; format string: "$floor(%f8)\n"
 $PD_400:
 $PD_401:
 $PD_402:
@@ -11618,7 +11608,6 @@ $PD_408:
 $PD_409:
 $PD_410:
   .b b 24 66 6c 6f 6f 72 28 25 66 38 29 0a                ; $floor(%f8).
-; format string: "$ceil(%f8)\n"
 $PD_411:
 $PD_412:
 $PD_413:
@@ -11631,7 +11620,6 @@ $PD_419:
 $PD_420:
 $PD_421:
   .b a 24 63 65 69 6c 28 25 66 38 29 0a                   ; $ceil(%f8).
-; format string: "$round(%f8)\n"
 $PD_422:
 $PD_423:
 $PD_424:
@@ -11644,7 +11632,6 @@ $PD_430:
 $PD_431:
 $PD_432:
   .b b 24 72 6f 75 6e 64 28 25 66 38 29 0a                ; $round(%f8).
-; format string: "$log(%f8)\n"
 $PD_433:
 $PD_434:
 $PD_435:
@@ -11657,7 +11644,6 @@ $PD_441:
 $PD_442:
 $PD_443:
   .b 9 24 6c 6f 67 28 25 66 38 29 0a                      ; $log(%f8).
-; format string: "$log10(%f8)\n"
 $PD_444:
 $PD_445:
 $PD_446:
@@ -11670,34 +11656,26 @@ $PD_452:
 $PD_453:
 $PD_454:
   .b b 24 6c 6f 67 31 30 28 25 66 38 29 0a                ; $log10(%f8).
-; format string: "nothing (baseline)\n"
 $PD_455:
   .b f 6e 6f 74 68 69 6e 67 20 28 62 61 73 65 6c 69 6e    ; nothing (baselin
   .b 2 65 29 0a                                           ; e).
-; format string: "$assert(1)\n"
 $PD_456:
   .b a 24 61 73 73 65 72 74 28 31 29 0a                   ; $assert(1).
-; format string: "$set_frame_rate(60)\n"
 $PD_457:
   .b f 24 73 65 74 5f 66 72 61 6d 65 5f 72 61 74 65 28    ; $set_frame_rate(
   .b 3 36 30 29 0a                                        ; 60).
-; format string: "$set_frame_rate(0)\n"
 $PD_458:
   .b f 24 73 65 74 5f 66 72 61 6d 65 5f 72 61 74 65 28    ; $set_frame_rate(
   .b 2 30 29 0a                                           ; 0).
-; format string: "$draw_pixel(3, 3, BLACK)\n"
 $PD_459:
   .b f 24 64 72 61 77 5f 70 69 78 65 6c 28 33 2c 20 33    ; $draw_pixel(3, 3
   .b 8 2c 20 42 4c 41 43 4b 29 0a                         ; , BLACK).
-; format string: "$draw_pixel(3, 3, WHITE)\n"
 $PD_460:
   .b f 24 64 72 61 77 5f 70 69 78 65 6c 28 33 2c 20 33    ; $draw_pixel(3, 3
   .b 8 2c 20 57 48 49 54 45 29 0a                         ; , WHITE).
-; format string: "$get_pixel(3, 3)\n"
 $PD_461:
   .b f 24 67 65 74 5f 70 69 78 65 6c 28 33 2c 20 33 29    ; $get_pixel(3, 3)
   .b 0 0a                                                 ; .
-; format string: "$draw_filled_rect(0, %u0, %u0, %u0);\n"
 $PD_462:
 $PD_463:
 $PD_464:
@@ -11715,7 +11693,6 @@ $PD_567:
 $PD_569:
 $PD_571:
   .b f 25 75 30 2c 20 25 75 30 2c 20 25 75 30 29 3b 0a    ; %u0, %u0, %u0);.
-; format string: "$draw_rect(0, %u0, %u0, %u0);\n"
 $PD_471:
 $PD_472:
 $PD_473:
@@ -11727,7 +11704,6 @@ $PD_478:
 $PD_479:
   .b f 24 64 72 61 77 5f 72 65 63 74 28 30 2c 20 25 75    ; $draw_rect(0, %u
   .b d 30 2c 20 25 75 30 2c 20 25 75 30 29 3b 0a          ; 0, %u0, %u0);.
-; format string: "$draw_filled_circle(64, 32, %u0);\n"
 $PD_480:
 $PD_481:
 $PD_482:
@@ -11748,7 +11724,6 @@ $PD_496:
   .b f 24 64 72 61 77 5f 66 69 6c 6c 65 64 5f 63 69 72    ; $draw_filled_cir
   .b f 63 6c 65 28 36 34 2c 20 33 32 2c 20 25 75 30 29    ; cle(64, 32, %u0)
   .b 1 3b 0a                                              ; ;.
-; format string: "$draw_circle(64, 32, %u0);\n"
 $PD_497:
 $PD_498:
 $PD_499:
@@ -11780,7 +11755,6 @@ $PD_5:
   .b f 32 ca 35 5b 76 06 06 bb cc cd ce de 22 22 2b 5a    ; 2.5[v.......""+Z
   .b f 35 35 5b 3b 76 ab 72 9a 87 dc dd de de 22 22 2b    ; 55[;v.r......""+
   .b d 5a 35 35 5b 3b 76 ab 72 9a 87 dc dd de de          ; Z55[;v.r......
-; format string: "$draw_line(64, 32, %u0, %u0);\n"
 $PD_514:
 $PD_515:
 $PD_516:
@@ -11793,52 +11767,42 @@ $PD_522:
 $PD_523:
   .b f 24 64 72 61 77 5f 6c 69 6e 65 28 36 34 2c 20 33    ; $draw_line(64, 3
   .b d 32 2c 20 25 75 30 2c 20 25 75 30 29 3b 0a          ; 2, %u0, %u0);.
-; format string: "$draw_hline(x=0, w=%u0);\n"
 $PD_524:
 $PD_526:
 $PD_528:
 $PD_530:
   .b f 24 64 72 61 77 5f 68 6c 69 6e 65 28 78 3d 30 2c    ; $draw_hline(x=0,
   .b 8 20 77 3d 25 75 30 29 3b 0a                         ;  w=%u0);.
-; format string: "$draw_hline(x=1, w=%u0);\n"
 $PD_525:
 $PD_527:
 $PD_529:
 $PD_531:
   .b f 24 64 72 61 77 5f 68 6c 69 6e 65 28 78 3d 31 2c    ; $draw_hline(x=1,
   .b 8 20 77 3d 25 75 30 29 3b 0a                         ;  w=%u0);.
-; format string: "$draw_vline(y=0, h=%u0);\n"
 $PD_532:
 $PD_534:
 $PD_536:
 $PD_538:
   .b f 24 64 72 61 77 5f 76 6c 69 6e 65 28 79 3d 30 2c    ; $draw_vline(y=0,
   .b 8 20 68 3d 25 75 30 29 3b 0a                         ;  h=%u0);.
-; format string: "$draw_vline(y=1, h=%u0);\n"
 $PD_533:
 $PD_535:
 $PD_537:
 $PD_539:
   .b f 24 64 72 61 77 5f 76 6c 69 6e 65 28 79 3d 31 2c    ; $draw_vline(y=1,
   .b 8 20 68 3d 25 75 30 29 3b 0a                         ;  h=%u0);.
-; format string: "$display()\n"
 $PD_540:
   .b a 24 64 69 73 70 6c 61 79 28 29 0a                   ; $display().
-; format string: "$display_noclear()\n"
 $PD_541:
   .b f 24 64 69 73 70 6c 61 79 5f 6e 6f 63 6c 65 61 72    ; $display_noclear
   .b 2 28 29 0a                                           ; ().
-; format string: "$random()\n"
 $PD_542:
   .b 9 24 72 61 6e 64 6f 6d 28 29 0a                      ; $random().
-; format string: "$millis()\n"
 $PD_543:
   .b 9 24 6d 69 6c 6c 69 73 28 29 0a                      ; $millis().
-; format string: "$format(b, \"%%d\", 0)\n"
 $PD_544:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b 4 2c 20 30 29 0a                                     ; , 0).
-; format string: "%d0"
 $PD_545:
 $PD_547:
 $PD_549:
@@ -11849,35 +11813,27 @@ $PD_557:
 $PD_559:
 $PD_561:
   .b 2 25 64 30                                           ; %d0
-; format string: "$format(b, \"%%d\", 100)\n"
 $PD_546:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b 6 2c 20 31 30 30 29 0a                               ; , 100).
-; format string: "$format(b, \"%%d\", 10000)\n"
 $PD_548:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b 8 2c 20 31 30 30 30 30 29 0a                         ; , 10000).
-; format string: "$format(b, \"%%d\", 1000000)\n"
 $PD_550:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b a 2c 20 31 30 30 30 30 30 30 29 0a                   ; , 1000000).
-; format string: "$format(b, \"%%d\", 100000000)\n"
 $PD_552:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a             ; , 100000000).
-; format string: "$format(b, \"%%d\", -100)\n"
 $PD_554:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b 7 2c 20 2d 31 30 30 29 0a                            ; , -100).
-; format string: "$format(b, \"%%d\", -10000)\n"
 $PD_556:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b 9 2c 20 2d 31 30 30 30 30 29 0a                      ; , -10000).
-; format string: "$format(b, \"%%d\", -1000000)\n"
 $PD_558:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b b 2c 20 2d 31 30 30 30 30 30 30 29 0a                ; , -1000000).
-; format string: "%f8 - %f8\n"
 $PD_56:
 $PD_100:
 $PD_101:
@@ -11929,31 +11885,24 @@ $PD_97:
 $PD_98:
 $PD_99:
   .b 9 25 66 38 20 2d 20 25 66 38 0a                      ; %f8 - %f8.
-; format string: "$format(b, \"%%d\", -100000000)\n"
 $PD_560:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 64 22    ; $format(b, "%%d"
   .b d 2c 20 2d 31 30 30 30 30 30 30 30 30 29 0a          ; , -100000000).
-; format string: "$format(b, \"%%u\", 0)\n"
 $PD_562:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22    ; $format(b, "%%u"
   .b 4 2c 20 30 29 0a                                     ; , 0).
-; format string: "$format(b, \"%%u\", 100)\n"
 $PD_564:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22    ; $format(b, "%%u"
   .b 6 2c 20 31 30 30 29 0a                               ; , 100).
-; format string: "$format(b, \"%%u\", 10000)\n"
 $PD_566:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22    ; $format(b, "%%u"
   .b 8 2c 20 31 30 30 30 30 29 0a                         ; , 10000).
-; format string: "$format(b, \"%%u\", 1000000)\n"
 $PD_568:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22    ; $format(b, "%%u"
   .b a 2c 20 31 30 30 30 30 30 30 29 0a                   ; , 1000000).
-; format string: "$format(b, \"%%u\", 100000000)\n"
 $PD_570:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 75 22    ; $format(b, "%%u"
   .b c 2c 20 31 30 30 30 30 30 30 30 30 29 0a             ; , 100000000).
-; format string: "$format(b, \"%%.1f\", %f8)\n"
 $PD_572:
 $PD_574:
 $PD_576:
@@ -11967,7 +11916,6 @@ $PD_590:
 $PD_592:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 31    ; $format(b, "%%.1
   .b 8 66 22 2c 20 25 66 38 29 0a                         ; f", %f8).
-; format string: "%f1"
 $PD_573:
 $PD_575:
 $PD_577:
@@ -11980,7 +11928,6 @@ $PD_589:
 $PD_591:
 $PD_593:
   .b 2 25 66 31                                           ; %f1
-; format string: "$format(b, \"%%.8f\", %f8)\n"
 $PD_594:
 $PD_596:
 $PD_598:
@@ -11994,7 +11941,6 @@ $PD_612:
 $PD_614:
   .b f 24 66 6f 72 6d 61 74 28 62 2c 20 22 25 25 2e 38    ; $format(b, "%%.8
   .b 8 66 22 2c 20 25 66 38 29 0a                         ; f", %f8).
-; format string: "%f8 + %f8\n"
 $PD_6:
 $PD_10:
 $PD_11:
@@ -12046,87 +11992,70 @@ $PD_7:
 $PD_8:
 $PD_9:
   .b 9 25 66 38 20 2b 20 25 66 38 0a                      ; %f8 + %f8.
-; format string: "for(u8  i = 10; i != 0; --i) { $assert(1); }\n"
 $PD_616:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20    ; for(u8  i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24    ; i != 0; --i) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u16 i = 10; i != 0; --i) { $assert(1); }\n"
 $PD_617:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 31 30 3b 20    ; for(u16 i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24    ; i != 0; --i) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u24 i = 10; i != 0; --i) { $assert(1); }\n"
 $PD_618:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 31 30 3b 20    ; for(u24 i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24    ; i != 0; --i) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u32 i = 10; i != 0; --i) { $assert(1); }\n"
 $PD_619:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 31 30 3b 20    ; for(u32 i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 2d 2d 69 29 20 7b 20 24    ; i != 0; --i) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u8  i = 10; i != 0; i--) { $assert(1); }\n"
 $PD_620:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 31 30 3b 20    ; for(u8  i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24    ; i != 0; i--) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u16 i = 10; i != 0; i--) { $assert(1); }\n"
 $PD_621:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 31 30 3b 20    ; for(u16 i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24    ; i != 0; i--) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u24 i = 10; i != 0; i--) { $assert(1); }\n"
 $PD_622:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 31 30 3b 20    ; for(u24 i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24    ; i != 0; i--) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u32 i = 10; i != 0; i--) { $assert(1); }\n"
 $PD_623:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 31 30 3b 20    ; for(u32 i = 10; 
   .b f 69 20 21 3d 20 30 3b 20 69 2d 2d 29 20 7b 20 24    ; i != 0; i--) { $
   .b c 61 73 73 65 72 74 28 31 29 3b 20 7d 0a             ; assert(1); }.
-; format string: "for(u8  i = 0; i < 10; ++i) { $assert(1); }\n"
 $PD_624:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69    ; for(u8  i = 0; i
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61    ;  < 10; ++i) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u16 i = 0; i < 10; ++i) { $assert(1); }\n"
 $PD_625:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69    ; for(u16 i = 0; i
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61    ;  < 10; ++i) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u24 i = 0; i < 10; ++i) { $assert(1); }\n"
 $PD_626:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69    ; for(u24 i = 0; i
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61    ;  < 10; ++i) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u32 i = 0; i < 10; ++i) { $assert(1); }\n"
 $PD_627:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69    ; for(u32 i = 0; i
   .b f 20 3c 20 31 30 3b 20 2b 2b 69 29 20 7b 20 24 61    ;  < 10; ++i) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u8  i = 0; i < 10; i++) { $assert(1); }\n"
 $PD_628:
   .b f 66 6f 72 28 75 38 20 20 69 20 3d 20 30 3b 20 69    ; for(u8  i = 0; i
   .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61    ;  < 10; i++) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u16 i = 0; i < 10; i++) { $assert(1); }\n"
 $PD_629:
   .b f 66 6f 72 28 75 31 36 20 69 20 3d 20 30 3b 20 69    ; for(u16 i = 0; i
   .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61    ;  < 10; i++) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u24 i = 0; i < 10; i++) { $assert(1); }\n"
 $PD_630:
   .b f 66 6f 72 28 75 32 34 20 69 20 3d 20 30 3b 20 69    ; for(u24 i = 0; i
   .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61    ;  < 10; i++) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "for(u32 i = 0; i < 10; i++) { $assert(1); }\n"
 $PD_631:
   .b f 66 6f 72 28 75 33 32 20 69 20 3d 20 30 3b 20 69    ; for(u32 i = 0; i
   .b f 20 3c 20 31 30 3b 20 69 2b 2b 29 20 7b 20 24 61    ;  < 10; i++) { $a
   .b b 73 73 65 72 74 28 31 29 3b 20 7d 0a                ; ssert(1); }.
-; format string: "udiv4 : %u0 / %u0\n"
 $PD_632:
 $PD_633:
 $PD_634:
@@ -12139,7 +12068,6 @@ $PD_640:
 $PD_641:
   .b f 75 64 69 76 34 20 3a 20 25 75 30 20 2f 20 25 75    ; udiv4 : %u0 / %u
   .b 1 30 0a                                              ; 0.
-; format string: "div4  : %d0 / %d0\n"
 $PD_642:
 $PD_643:
 $PD_644:
@@ -12152,45 +12080,34 @@ $PD_650:
 $PD_651:
   .b f 64 69 76 34 20 20 3a 20 25 64 30 20 2f 20 25 64    ; div4  : %d0 / %d
   .b 1 30 0a                                              ; 0.
-; format string: "udiv2 : %u0 / %u0\n"
 $PD_652:
 $PD_653:
 $PD_654:
   .b f 75 64 69 76 32 20 3a 20 25 75 30 20 2f 20 25 75    ; udiv2 : %u0 / %u
   .b 1 30 0a                                              ; 0.
-; format string: "div2  : %d0 / %d0\n"
 $PD_655:
 $PD_656:
 $PD_657:
   .b f 64 69 76 32 20 20 3a 20 25 64 30 20 2f 20 25 64    ; div2  : %d0 / %d
   .b 1 30 0a                                              ; 0.
-; format string: "memset(1)\n"
 $PD_658:
   .b 9 6d 65 6d 73 65 74 28 31 29 0a                      ; memset(1).
-; format string: "memcpy(1)\n"
 $PD_659:
   .b 9 6d 65 6d 63 70 79 28 31 29 0a                      ; memcpy(1).
-; format string: "memcpy_P(1)\n"
 $PD_660:
   .b b 6d 65 6d 63 70 79 5f 50 28 31 29 0a                ; memcpy_P(1).
-; format string: "memset(100)\n"
 $PD_661:
   .b b 6d 65 6d 73 65 74 28 31 30 30 29 0a                ; memset(100).
-; format string: "memcpy(100)\n"
 $PD_662:
   .b b 6d 65 6d 63 70 79 28 31 30 30 29 0a                ; memcpy(100).
-; format string: "memcpy_P(100)\n"
 $PD_663:
   .b d 6d 65 6d 63 70 79 5f 50 28 31 30 30 29 0a          ; memcpy_P(100).
-; format string: "tilemap_get(TMAP8);\n"
 $PD_664:
   .b f 74 69 6c 65 6d 61 70 5f 67 65 74 28 54 4d 41 50    ; tilemap_get(TMAP
   .b 3 38 29 3b 0a                                        ; 8);.
-; format string: "tilemap_get(TMAP16);\n"
 $PD_665:
   .b f 74 69 6c 65 6d 61 70 5f 67 65 74 28 54 4d 41 50    ; tilemap_get(TMAP
   .b 4 31 36 29 3b 0a                                     ; 16);.
-; format string: "draw_sprite(%d0, 0) [8x8 unmasked]\n"
 $PD_666:
 $PD_668:
 $PD_670:
@@ -12204,7 +12121,6 @@ $PD_684:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 30 29 20 5b 38 78 38 20 75 6e 6d 61 73 6b 65    ;  0) [8x8 unmaske
   .b 2 64 5d 0a                                           ; d].
-; format string: "draw_sprite(%d0, 1) [8x8 unmasked]\n"
 $PD_667:
 $PD_669:
 $PD_671:
@@ -12218,7 +12134,6 @@ $PD_685:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 31 29 20 5b 38 78 38 20 75 6e 6d 61 73 6b 65    ;  1) [8x8 unmaske
   .b 2 64 5d 0a                                           ; d].
-; format string: "draw_sprite(%d0, 0) [8x8 masked]\n"
 $PD_686:
 $PD_688:
 $PD_690:
@@ -12232,7 +12147,6 @@ $PD_704:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 30 29 20 5b 38 78 38 20 6d 61 73 6b 65 64 5d    ;  0) [8x8 masked]
   .b 0 0a                                                 ; .
-; format string: "draw_sprite(%d0, 1) [8x8 masked]\n"
 $PD_687:
 $PD_689:
 $PD_691:
@@ -12246,7 +12160,6 @@ $PD_705:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 31 29 20 5b 38 78 38 20 6d 61 73 6b 65 64 5d    ;  1) [8x8 masked]
   .b 0 0a                                                 ; .
-; format string: "draw_sprite(%d0, 0) [16x16 unmasked]\n"
 $PD_706:
 $PD_708:
 $PD_710:
@@ -12260,7 +12173,6 @@ $PD_724:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 30 29 20 5b 31 36 78 31 36 20 75 6e 6d 61 73    ;  0) [16x16 unmas
   .b 4 6b 65 64 5d 0a                                     ; ked].
-; format string: "draw_sprite(%d0, 1) [16x16 unmasked]\n"
 $PD_707:
 $PD_709:
 $PD_711:
@@ -12274,7 +12186,6 @@ $PD_725:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 31 29 20 5b 31 36 78 31 36 20 75 6e 6d 61 73    ;  1) [16x16 unmas
   .b 4 6b 65 64 5d 0a                                     ; ked].
-; format string: "draw_sprite(%d0, 0) [16x16 masked]\n"
 $PD_726:
 $PD_728:
 $PD_730:
@@ -12288,7 +12199,6 @@ $PD_744:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 30 29 20 5b 31 36 78 31 36 20 6d 61 73 6b 65    ;  0) [16x16 maske
   .b 2 64 5d 0a                                           ; d].
-; format string: "draw_sprite(%d0, 1) [16x16 masked]\n"
 $PD_727:
 $PD_729:
 $PD_731:
@@ -12302,177 +12212,145 @@ $PD_745:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 28 25 64 30 2c    ; draw_sprite(%d0,
   .b f 20 31 29 20 5b 31 36 78 31 36 20 6d 61 73 6b 65    ;  1) [16x16 maske
   .b 2 64 5d 0a                                           ; d].
-; format string: "draw_tilemap(TMAP8 ,  0,  0) [16x16]\n"
 $PD_746:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 20 30 2c 20 20 30 29 20 5b 31 36    ; P8 ,  0,  0) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP16,  0,  0) [16x16]\n"
 $PD_747:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 20 30 2c 20 20 30 29 20 5b 31 36    ; P16,  0,  0) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP8 , -1,  0) [16x16]\n"
 $PD_748:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 2d 31 2c 20 20 30 29 20 5b 31 36    ; P8 , -1,  0) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP16, -1,  0) [16x16]\n"
 $PD_749:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 2d 31 2c 20 20 30 29 20 5b 31 36    ; P16, -1,  0) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP8 ,  0, -1) [16x16]\n"
 $PD_750:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 20 30 2c 20 2d 31 29 20 5b 31 36    ; P8 ,  0, -1) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP16,  0, -1) [16x16]\n"
 $PD_751:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 20 30 2c 20 2d 31 29 20 5b 31 36    ; P16,  0, -1) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP8 , -1, -1) [16x16]\n"
 $PD_752:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 2d 31 2c 20 2d 31 29 20 5b 31 36    ; P8 , -1, -1) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP16, -1, -1) [16x16]\n"
 $PD_753:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 2d 31 2c 20 2d 31 29 20 5b 31 36    ; P16, -1, -1) [16
   .b 4 78 31 36 5d 0a                                     ; x16].
-; format string: "draw_tilemap(TMAP8 ,  0,  0) [8x8]\n"
 $PD_754:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 20 30 2c 20 20 30 29 20 5b 38 78    ; P8 ,  0,  0) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP16,  0,  0) [8x8]\n"
 $PD_755:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 20 30 2c 20 20 30 29 20 5b 38 78    ; P16,  0,  0) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP8 , -1,  0) [8x8]\n"
 $PD_756:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 2d 31 2c 20 20 30 29 20 5b 38 78    ; P8 , -1,  0) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP16, -1,  0) [8x8]\n"
 $PD_757:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 2d 31 2c 20 20 30 29 20 5b 38 78    ; P16, -1,  0) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP8 ,  0, -1) [8x8]\n"
 $PD_758:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 20 30 2c 20 2d 31 29 20 5b 38 78    ; P8 ,  0, -1) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP16,  0, -1) [8x8]\n"
 $PD_759:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 20 30 2c 20 2d 31 29 20 5b 38 78    ; P16,  0, -1) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP8 , -1, -1) [8x8]\n"
 $PD_760:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 38 20 2c 20 2d 31 2c 20 2d 31 29 20 5b 38 78    ; P8 , -1, -1) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_tilemap(TMAP16, -1, -1) [8x8]\n"
 $PD_761:
   .b f 64 72 61 77 5f 74 69 6c 65 6d 61 70 28 54 4d 41    ; draw_tilemap(TMA
   .b f 50 31 36 2c 20 2d 31 2c 20 2d 31 29 20 5b 38 78    ; P16, -1, -1) [8x
   .b 2 38 5d 0a                                           ; 8].
-; format string: "draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [16x16]
 $PD_762:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 20 30    ; y(TM_ARRAY8 ,  0
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [16x16]
 $PD_763:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 20 30    ; y(TM_ARRAY16,  0
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [16x16]
 $PD_764:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 2d 31    ; y(TM_ARRAY8 , -1
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [16x16]
 $PD_765:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 2d 31    ; y(TM_ARRAY16, -1
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [16x16]
 $PD_766:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 20 30    ; y(TM_ARRAY8 ,  0
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [16x16]
 $PD_767:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 20 30    ; y(TM_ARRAY16,  0
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [16x16]
 $PD_768:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 2d 31    ; y(TM_ARRAY8 , -1
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [16x16]
 $PD_769:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 2d 31    ; y(TM_ARRAY16, -1
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 6 31 36 78 31 36 5d 0a                               ; 16x16].
-; format string: "draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [8x8]\n
 $PD_770:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 20 30    ; y(TM_ARRAY8 ,  0
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [8x8]\n
 $PD_771:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 20 30    ; y(TM_ARRAY16,  0
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [8x8]\n
 $PD_772:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 2d 31    ; y(TM_ARRAY8 , -1
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [8x8]\n
 $PD_773:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 2d 31    ; y(TM_ARRAY16, -1
   .b f 2c 20 20 30 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; ,  0, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [8x8]\n
 $PD_774:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 20 30    ; y(TM_ARRAY8 ,  0
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [8x8]\n
 $PD_775:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 20 30    ; y(TM_ARRAY16,  0
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [8x8]\n
 $PD_776:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 38 20 2c 20 2d 31    ; y(TM_ARRAY8 , -1
   .b f 2c 20 2d 31 2c 20 6e 63 6f 6c 3d 31 36 29 20 5b    ; , -1, ncol=16) [
   .b 4 38 78 38 5d 0a                                     ; 8x8].
-; format string: "draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [8x8]\n
 $PD_777:
   .b f 64 72 61 77 5f 73 70 72 69 74 65 5f 61 72 72 61    ; draw_sprite_arra
   .b f 79 28 54 4d 5f 41 52 52 41 59 31 36 2c 20 2d 31    ; y(TM_ARRAY16, -1

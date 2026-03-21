@@ -869,36 +869,27 @@ $PD_1:
   .b f 00 00 00 00 00 00 00 00 40 80 00 80 00 80 40 80    ; ........@.....@.
   .b f 40 80 00 80 00 80 00 00 00 00 00 00 00 00 00 00    ; @...............
   .b 4 00 00 00 00 00                                     ; .....
-; string literal: "Don't Forget a Hard Hat"
 $PD_10:
   .b f 44 6f 6e 27 74 20 46 6f 72 67 65 74 20 61 20 48    ; Don't Forget a H
   .b 6 61 72 64 20 48 61 74                               ; ard Hat
-; string literal: "New High Score!"
 $PD_102:
   .b e 4e 65 77 20 48 69 67 68 20 53 63 6f 72 65 21       ; New High Score!
-; string literal: "New Best Time!"
 $PD_103:
   .b d 4e 65 77 20 42 65 73 74 20 54 69 6d 65 21          ; New Best Time!
 $PD_104:
 $PD_105:
   .b 3 43 03 ff 00                                        ; C...
-; string literal: "Easy Breezy"
 $PD_11:
   .b a 45 61 73 79 20 42 72 65 65 7a 79                   ; Easy Breezy
-; string literal: "We Three Keys"
 $PD_12:
   .b c 57 65 20 54 68 72 65 65 20 4b 65 79 73             ; We Three Keys
-; string literal: "Luke's Challenge"
 $PD_13:
   .b f 4c 75 6b 65 27 73 20 43 68 61 6c 6c 65 6e 67 65    ; Luke's Challenge
-; string literal: "The Hills Have Horns"
 $PD_14:
   .b f 54 68 65 20 48 69 6c 6c 73 20 48 61 76 65 20 48    ; The Hills Have H
   .b 3 6f 72 6e 73                                        ; orns
-; string literal: "Sky Strolling"
 $PD_15:
   .b c 53 6b 79 20 53 74 72 6f 6c 6c 69 6e 67             ; Sky Strolling
-; string literal: "Over and Under"
 $PD_16:
   .b d 4f 76 65 72 20 61 6e 64 20 55 6e 64 65 72          ; Over and Under
 $PD_17:
@@ -3001,50 +2992,38 @@ $PD_33:
 $PD_34:
   .b f 4f 2d 00 05 4f 14 00 05 4f 14 00 05 4f 32 4d 32    ; O-..O...O...O2M2
   .b 7 4a 32 4d 32 4f 64 ff 00                            ; J2M2Od..
-; format string: "Objects: %u0\n"
 $PD_35:
   .b c 4f 62 6a 65 63 74 73 3a 20 25 75 30 0a             ; Objects: %u0.
-; string literal: "Programming"
 $PD_36:
   .b a 50 72 6f 67 72 61 6d 6d 69 6e 67                   ; Programming
-; string literal: "Tiles and Sprites"
 $PD_37:
   .b f 54 69 6c 65 73 20 61 6e 64 20 53 70 72 69 74 65    ; Tiles and Sprite
   .b 0 73                                                 ; s
-; string literal: "Levels"
 $PD_38:
   .b 5 4c 65 76 65 6c 73                                  ; Levels
-; string literal: "Peter Brown"
 $PD_39:
 $PD_42:
   .b a 50 65 74 65 72 20 42 72 6f 77 6e                   ; Peter Brown
 $PD_4:
   .b 8 01 08 00 04 00 00 00 00 00                         ; .........
-; string literal: "Kenney.nl"
 $PD_40:
   .b 8 4b 65 6e 6e 65 79 2e 6e 6c                         ; Kenney.nl
-; string literal: "Luke Brown"
 $PD_41:
   .b 9 4c 75 6b 65 20 42 72 6f 77 6e                      ; Luke Brown
-; string literal: "Game Over..."
 $PD_43:
   .b b 47 61 6d 65 20 4f 76 65 72 2e 2e 2e                ; Game Over...
-; format string: "%u6"
 $PD_44:
 $PD_100:
 $PD_73:
 $PD_75:
   .b 2 25 75 36                                           ; %u6
-; string literal: "Level Complete!"
 $PD_45:
   .b e 4c 65 76 65 6c 20 43 6f 6d 70 6c 65 74 65 21       ; Level Complete!
-; format string: "%u5"
 $PD_46:
 $PD_57:
 $PD_60:
 $PD_67:
   .b 2 25 75 35                                           ; %u5
-; format string: "%u0.%u2"
 $PD_47:
 $PD_101:
 $PD_51:
@@ -3055,80 +3034,57 @@ $PD_79:
   .b 3 25 75 30 2e                                        ; %u0.
 $PD_66:
   .b 2 25 75 32                                           ; %u2
-; string literal: "Congratulations!"
 $PD_48:
   .b f 43 6f 6e 67 72 61 74 75 6c 61 74 69 6f 6e 73 21    ; Congratulations!
-; string literal: "Get Ready!"
 $PD_49:
   .b 9 47 65 74 20 52 65 61 64 79 21                      ; Get Ready!
-; string literal: "Sleepy Meadow"
 $PD_5:
   .b c 53 6c 65 65 70 79 20 4d 65 61 64 6f 77             ; Sleepy Meadow
-; string literal: "Total Time"
 $PD_50:
   .b 9 54 6f 74 61 6c 20 54 69 6d 65                      ; Total Time
-; string literal: "New Level"
 $PD_52:
 $PD_55:
   .b 8 4e 65 77 20 4c 65 76 65 6c                         ; New Level
-; string literal: "Best Time!"
 $PD_53:
 $PD_64:
   .b 9 42 65 73 74 20 54 69 6d 65 21                      ; Best Time!
-; string literal: "High Score!"
 $PD_56:
 $PD_63:
   .b a 48 69 67 68 20 53 63 6f 72 65 21                   ; High Score!
-; format string: "x%u0"
 $PD_58:
   .b 3 78 25 75 30                                        ; x%u0
-; string literal: "Press A"
 $PD_59:
   .b 6 50 72 65 73 73 20 41                               ; Press A
-; string literal: "Daring Forest"
 $PD_6:
   .b c 44 61 72 69 6e 67 20 46 6f 72 65 73 74             ; Daring Forest
-; format string: "%u3"
 $PD_61:
   .b 2 25 75 33                                           ; %u3
-; string literal: "Name"
 $PD_62:
   .b 3 4e 61 6d 65                                        ; Name
-; string literal: "->"
 $PD_65:
   .b 1 2d 3e                                              ; ->
-; string literal: "Construction Zone"
 $PD_7:
   .b f 43 6f 6e 73 74 72 75 63 74 69 6f 6e 20 5a 6f 6e    ; Construction Zon
   .b 0 65                                                 ; e
-; string literal: "Entire Game"
 $PD_71:
   .b a 45 6e 74 69 72 65 20 47 61 6d 65                   ; Entire Game
-; string literal: "Sum of Best"
 $PD_72:
   .b a 53 75 6d 20 6f 66 20 42 65 73 74                   ; Sum of Best
-; string literal: "Grand Old Tree"
 $PD_8:
   .b d 47 72 61 6e 64 20 4f 6c 64 20 54 72 65 65          ; Grand Old Tree
-; string literal: "Resume Game"
 $PD_81:
 $PD_92:
   .b a 52 65 73 75 6d 65 20 47 61 6d 65                   ; Resume Game
-; string literal: "New Game"
 $PD_82:
   .b 7 4e 65 77 20 47 61 6d 65                            ; New Game
-; string literal: "Level Select"
 $PD_83:
   .b b 4c 65 76 65 6c 20 53 65 6c 65 63 74                ; Level Select
-; string literal: "Sound: On"
 $PD_84:
 $PD_93:
   .b 8 53 6f 75 6e 64 3a 20 4f 6e                         ; Sound: On
-; string literal: "Sound: Off"
 $PD_85:
 $PD_94:
   .b 9 53 6f 75 6e 64 3a 20 4f 66 66                      ; Sound: Off
-; string literal: "Credits"
 $PD_86:
   .b 6 43 72 65 64 69 74 73                               ; Credits
 $PD_87:
@@ -3261,32 +3217,23 @@ $PD_87:
   .b f ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00    ; ................
   .b f ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00 ff 00    ; ................
   .b 4 ff 00 ff 00 ff                                     ; .....
-; string literal: "Delete Save"
 $PD_88:
   .b a 44 65 6c 65 74 65 20 53 61 76 65                   ; Delete Save
-; string literal: "No"
 $PD_89:
   .b 1 4e 6f                                              ; No
-; string literal: "Floating on Clouds"
 $PD_9:
   .b f 46 6c 6f 61 74 69 6e 67 20 6f 6e 20 43 6c 6f 75    ; Floating on Clou
   .b 1 64 73                                              ; ds
-; string literal: "Yes"
 $PD_90:
   .b 2 59 65 73                                           ; Yes
-; string literal: "Paused"
 $PD_91:
   .b 5 50 61 75 73 65 64                                  ; Paused
-; string literal: "Main Menu"
 $PD_95:
   .b 8 4d 61 69 6e 20 4d 65 6e 75                         ; Main Menu
-; string literal: "Restart"
 $PD_96:
   .b 6 52 65 73 74 61 72 74                               ; Restart
-; string literal: "End Game"
 $PD_97:
   .b 7 45 6e 64 20 47 61 6d 65                            ; End Game
-; string literal: "Game Complete!"
 $PD_99:
   .b d 47 61 6d 65 20 43 6f 6d 70 6c 65 74 65 21          ; Game Complete!
 GAME_OVER_TILES:
