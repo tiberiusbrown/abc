@@ -313,6 +313,8 @@ void compiler_t::progdata_expr(
             auto data = strlit_data(n);
             auto size = data.size();
             add_custom_progdata(name, data);
+            pd.data.push_back(uint8_t(size >> 0));
+            pd.data.push_back(uint8_t(size >> 8));
             pd.data.push_back(uint8_t(size >> 16));
             assert(t.children[0].is_prog);
         }
