@@ -827,10 +827,7 @@ $L_main_9:
   sys   assert
   .line 84
 ;     $assert(a1[0] << 8 == 0);
-  getg  a1 0
-  p8
-  lsl
-  not
+  p1
   sys   assert
   .line 86
 ;     a2[0] = 1;
@@ -1005,11 +1002,7 @@ $L_main_9:
   sys   assert
   .line 103
 ;     $assert(a2[0] << 16 == 0);
-  getg2 a2 0
-  p16
-  lsl2
-  bool2
-  not
+  p1
   sys   assert
   .line 105
 ;     a3[0] = 1;
@@ -1701,11 +1694,7 @@ $L_main_9:
   sys   assert
   .line 165
 ;     $assert(a4[0] << 32 == 0);
-  getg4 a4 0
-  p32
-  lsl4
-  bool4
-  not
+  p1
   sys   assert
   .line 167
 ;     a1[0] = 0x80;
@@ -1782,10 +1771,7 @@ $L_main_9:
   sys   assert
   .line 176
 ;     $assert(a1[0] >> 8 == 0);
-  getg  a1 0
-  p8
-  lsr
-  not
+  p1
   sys   assert
   .line 178
 ;     a2[0] = 0x8000;
@@ -1960,11 +1946,7 @@ $L_main_9:
   sys   assert
   .line 195
 ;     $assert(a2[0] >> 16 == 0);
-  getg2 a2 0
-  p16
-  lsr2
-  bool2
-  not
+  p1
   sys   assert
   .line 197
 ;     a3[0] = 0x800000;
@@ -2657,11 +2639,7 @@ $L_main_9:
   sys   assert
   .line 257
 ;     $assert(a4[0] >> 32 == 0);
-  getg4 a4 0
-  p32
-  lsr4
-  bool4
-  not
+  p1
   sys   assert
   .line 259
 ;     i8 s1 = 0x80;

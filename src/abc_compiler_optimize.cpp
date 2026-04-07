@@ -5,6 +5,13 @@
 namespace abc
 {
 
+static compiler_instr_t instr(compiler_instr_t i, instr_t ii, uint32_t imm = 0)
+{
+    i.instr = ii;
+    i.imm = imm;
+    return i;
+}
+
 void compiler_t::optimize()
 {
 #ifndef NDEBUG
@@ -489,6 +496,46 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         }
 
         auto& i1 = f.instrs[i + 1];
+
+        // replace PUSH 8+; LSR/LSL with POP; PUSH 0
+        if(i0.instr == I_PUSH && i0.imm >= 8 &&
+            (i1.instr == I_LSL || i1.instr == I_LSR))
+        {
+            i0.instr = I_POP;
+            i0.imm = 0;
+            i1.instr = I_PUSH;
+            i1.imm = 0;
+            t = true;
+            continue;
+        }
+
+        // replace PUSH 16+; LSR2/LSL2 with POP; POP; PUSH 0; PUSH 0
+        if(i0.instr == I_PUSH && i0.imm >= 16 &&
+            (i1.instr == I_LSL2 || i1.instr == I_LSR2))
+        {
+            i0.instr = I_POP;
+            i0.imm = 0;
+            i1.instr = I_POP;
+            i1.imm = 0;
+            auto ti = instr(i0, I_PUSH, 0);
+            f.instrs.insert(f.instrs.begin() + i + 2, { ti, ti });
+            t = true;
+            continue;
+        }
+
+        // replace PUSH 32+; LSR4/LSL4 with POP4; P0000
+        if(i0.instr == I_PUSH && i0.imm >= 32 &&
+            (i1.instr == I_LSL4 || i1.instr == I_LSR4))
+        {
+            i0.instr = I_POP;
+            i0.imm = 0;
+            i1.instr = I_POP;
+            i1.imm = 0;
+            auto ti = instr(i0, I_PUSH, 0);
+            f.instrs.insert(f.instrs.begin() + i + 2, { i0, i0, ti, ti, ti, ti });
+            t = true;
+            continue;
+        }
 
         // replace SETGN; GETGN with GETLN; SETGN
         if(i0.instr == I_SETGN && i1.instr == I_GETGN &&
@@ -2140,13 +2187,6 @@ bool compiler_t::peephole_compress_push_sequence(compiler_func_t& f)
     }
     clear_removed_instrs(f.instrs);
     return t;
-}
-
-static compiler_instr_t instr(compiler_instr_t i, instr_t ii, uint32_t imm = 0)
-{
-    i.instr = ii;
-    i.imm = imm;
-    return i;
 }
 
 void compiler_t::push_compression2(
