@@ -327,8 +327,7 @@ main:
   sys   assert
   .line 57
 ;     grs[0] = 1;
-  p1
-  push2 10240
+  push3 2621441
   dupw2
   getpn 2
   setr2

@@ -897,9 +897,12 @@ private:
 
     bool peephole_compress_push_sequence(compiler_func_t& f);
     static void push_compression(
-        std::vector< compiler_instr_t>& pi,
+        std::vector<compiler_instr_t>& pi,
         compiler_instr_t const* b,
         compiler_instr_t const* d, size_t n);
+    static void push_compression2(
+        std::vector<compiler_instr_t>& dst,
+        std::vector<compiler_instr_t> const& src);
 
     void tail_call_optimization();
 

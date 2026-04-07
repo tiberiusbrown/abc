@@ -852,8 +852,7 @@ main:
   .line 130
 ;     $assert(a % 256 == 208);
   getln 3 9
-  p0
-  push  255
+  push2 65280
   p000
   and4
   push  208

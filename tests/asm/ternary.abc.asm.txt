@@ -20,13 +20,11 @@ main:
   p000
   .line 15
 ;     float fa = 1;
-  p128
-  push  63
+  push2 16256
   .line 16
 ;     float fb = -3;
   p00
-  p64
-  push  192
+  push2 49216
   .line 17
 ;     $assert((fa < fb ? fa : fb) == -3);
   p00

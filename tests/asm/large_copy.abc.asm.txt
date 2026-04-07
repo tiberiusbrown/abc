@@ -28,8 +28,7 @@ $globinit:
   .file <internal>
   .line 20
   p0
-  p1
-  push2 11264
+  push3 2883585
   dupw2
   pushg a 0
   push2 300
@@ -108,8 +107,7 @@ main:
   .line 39
 ;     b = c;
   p0
-  p1
-  push2 11264
+  push3 2883585
   dupw2
   pushg b 0
   push2 300
@@ -147,8 +145,7 @@ main:
   .line 49
 ;     a = b = c;
   p0
-  p1
-  push2 11264
+  push3 2883585
   dupw2
   pushg b 0
   push2 300
@@ -218,8 +215,7 @@ main:
   .line 63
 ;         d = c[0:100];
   p0
-  p1
-  push2 25600
+  push3 6553601
   p00
   refl  106
   push2 100
@@ -248,8 +244,7 @@ main:
   .line 70
 ;         u8[100] d = c[0:100];
   p0
-  p1
-  push2 25600
+  push3 6553601
   p00
   refl  106
   push2 100

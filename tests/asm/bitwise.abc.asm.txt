@@ -3014,8 +3014,7 @@ $L_main_9:
   p8
   asr4
   pop
-  p0
-  push2 65408
+  push3 16744448
   sub3
   bool3
   not
@@ -3713,8 +3712,7 @@ $L_main_9:
   getl4 4
   p16
   asr4
-  p0
-  push2 65408
+  push3 16744448
   dup
   sub4
   bool4

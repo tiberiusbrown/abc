@@ -12441,8 +12441,7 @@ main:
   sys   debug_break
   .line 90
 ;     $debug_printf("$set_frame_rate(0)\n");
-  p64
-  push3 1245890
+  push4 318947904
   p00
   sys   debug_printf
   .line 91
@@ -13965,8 +13964,7 @@ $L_main_108:
 ;         $debug_printf("$draw_vline(y=0, h=%u);\n", n);
   dup
   p000
-  p4
-  push3 1639108
+  push4 419611652
   p00
   sys   debug_printf
   .line 180
@@ -14013,8 +14011,7 @@ $L_main_108:
 ;         $debug_printf("$draw_vline(y=0, h=%u);\n", n);
   dup
   p000
-  p4
-  push3 1639108
+  push4 419611652
   p00
   sys   debug_printf
   .line 180
@@ -14061,8 +14058,7 @@ $L_main_108:
 ;         $debug_printf("$draw_vline(y=0, h=%u);\n", n);
   dup
   p000
-  p4
-  push3 1639108
+  push4 419611652
   p00
   sys   debug_printf
   .line 180
@@ -14109,8 +14105,7 @@ $L_main_108:
 ;         $debug_printf("$draw_vline(y=0, h=%u);\n", n);
   dup
   p000
-  p4
-  push3 1639108
+  push4 419611652
   p00
   sys   debug_printf
   .line 180
@@ -14239,8 +14234,7 @@ $L_main_107:
   sys   debug_break
   .line 217
 ;         $debug_printf("$format(b, \"%%d\", 100)\n");
-  p128
-  push3 1508036
+  push4 386057344
   p00
   sys   debug_printf
   .line 218
@@ -14269,8 +14263,7 @@ $L_main_107:
   sys   debug_break
   .line 224
 ;         $format(b, "%d", 10000);
-  p16
-  push  39
+  push2 10000
   p00
   push4 50513021
   p00
@@ -14347,8 +14340,7 @@ $L_main_107:
   sys   debug_break
   .line 242
 ;         $debug_printf("$format(b, \"%%d\", -10000)\n");
-  p0
-  push3 1704645
+  push4 436389120
   p00
   sys   debug_printf
   .line 243
@@ -14389,8 +14381,7 @@ $L_main_107:
   sys   debug_break
   .line 252
 ;         $debug_printf("$format(b, \"%%d\", -100000000)\n");
-  p64
-  push3 1966789
+  push4 503498048
   p00
   sys   debug_printf
   .line 253
@@ -14460,8 +14451,7 @@ $L_main_107:
   sys   debug_break
   .line 269
 ;         $format(b, "%u", 10000);
-  p16
-  push  39
+  push2 10000
   p00
   push4 50512555
   p00
@@ -15453,8 +15443,7 @@ $L_main_107:
   sys   debug_break
   .line 367
 ;     $debug_printf("for(u32 i = 0; i < 10; ++i) { $assert(1); }\n");
-  p6
-  push3 2884296
+  push4 738379782
   p00
   sys   debug_printf
   .line 368
@@ -15794,8 +15783,7 @@ $L_main_107:
   popn  12
   .line 407
 ;     a = 0xffffff10; b = 0xffffffc1; $debug_printf("div4  : %d / %d\n", a, b); $debug_break(); q = a / b; $debug_break();
-  p16
-  push  255
+  push2 65296
   dup
   dup
   push  193
@@ -15979,8 +15967,7 @@ $L_main_107:
   getl4 4
   push  169
   p000
-  p6
-  push3 1180361
+  push4 302172422
   p00
   sys   debug_printf
   sys   debug_break
@@ -16002,8 +15989,7 @@ $L_main_107:
   p00
   getl2 10
   p00
-  p6
-  push3 1180361
+  push4 302172422
   p00
   sys   debug_printf
   sys   debug_break
@@ -16025,8 +16011,7 @@ $L_main_107:
   p00
   getl2 10
   p00
-  p6
-  push3 1180361
+  push4 302172422
   p00
   sys   debug_printf
   sys   debug_break
@@ -16229,8 +16214,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16253,8 +16237,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16277,8 +16260,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16301,114 +16283,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 24
-;                 $debug_break();
-  sys   debug_break
-  .line 25
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 26
-;                 $debug_break();
-  sys   debug_break
-  .line 27
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 29
-;             x *= BF;
-  getl4 12
-  push4 1152098304
-  fmul
-  setl4 12
-  pop4
-  .line 20
-;             float y = BB2;
-  push4 966609234
-  .line 23
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 24
-;                 $debug_break();
-  sys   debug_break
-  .line 25
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 26
-;                 $debug_break();
-  sys   debug_break
-  .line 27
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 23
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 24
-;                 $debug_break();
-  sys   debug_break
-  .line 25
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 26
-;                 $debug_break();
-  sys   debug_break
-  .line 27
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 23
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 24
-;                 $debug_break();
-  sys   debug_break
-  .line 25
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 26
-;                 $debug_break();
-  sys   debug_break
-  .line 27
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 23
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16441,8 +16316,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16465,8 +16339,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16489,8 +16362,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16513,8 +16385,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16547,8 +16418,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16571,8 +16441,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16595,8 +16464,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16619,8 +16487,109 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 24
+;                 $debug_break();
+  sys   debug_break
+  .line 25
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 26
+;                 $debug_break();
+  sys   debug_break
+  .line 27
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 29
+;             x *= BF;
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 20
+;             float y = BB2;
+  push4 966609234
+  .line 23
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 24
+;                 $debug_break();
+  sys   debug_break
+  .line 25
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 26
+;                 $debug_break();
+  sys   debug_break
+  .line 27
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 23
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 24
+;                 $debug_break();
+  sys   debug_break
+  .line 25
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 26
+;                 $debug_break();
+  sys   debug_break
+  .line 27
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 23
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 24
+;                 $debug_break();
+  sys   debug_break
+  .line 25
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 26
+;                 $debug_break();
+  sys   debug_break
+  .line 27
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 23
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
   p00
   sys   debug_printf
   .line 24
@@ -16659,8 +16628,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16683,8 +16651,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16707,8 +16674,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16731,114 +16697,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 42
-;                 $debug_break();
-  sys   debug_break
-  .line 43
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 44
-;                 $debug_break();
-  sys   debug_break
-  .line 45
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 47
-;             x *= BF;
-  getl4 12
-  push4 1152098304
-  fmul
-  setl4 12
-  pop4
-  .line 38
-;             float y = BB2;
-  push4 966609234
-  .line 41
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 42
-;                 $debug_break();
-  sys   debug_break
-  .line 43
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 44
-;                 $debug_break();
-  sys   debug_break
-  .line 45
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 41
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 42
-;                 $debug_break();
-  sys   debug_break
-  .line 43
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 44
-;                 $debug_break();
-  sys   debug_break
-  .line 45
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 41
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
-  p00
-  sys   debug_printf
-  .line 42
-;                 $debug_break();
-  sys   debug_break
-  .line 43
-;                 z = x + y;
-  getl4 12
-  getl4 8
-  fadd
-  setl4 8
-  .line 44
-;                 $debug_break();
-  sys   debug_break
-  .line 45
-;                 y *= BF;
-  push4 1152098304
-  fmul
-  .line 41
-;                 $debug_printf("%.8f + %.8f\n", x, y);
-  getl4 4
-  getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16871,8 +16730,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16895,8 +16753,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16919,8 +16776,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16943,8 +16799,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -16977,8 +16832,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -17001,8 +16855,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -17025,8 +16878,7 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -17049,8 +16901,109 @@ $L_main_107:
 ;                 $debug_printf("%.8f + %.8f\n", x, y);
   getl4 4
   getl4 16
-  p16
-  push3 656070
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 42
+;                 $debug_break();
+  sys   debug_break
+  .line 43
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 44
+;                 $debug_break();
+  sys   debug_break
+  .line 45
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 47
+;             x *= BF;
+  getl4 12
+  push4 1152098304
+  fmul
+  setl4 12
+  pop4
+  .line 38
+;             float y = BB2;
+  push4 966609234
+  .line 41
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 42
+;                 $debug_break();
+  sys   debug_break
+  .line 43
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 44
+;                 $debug_break();
+  sys   debug_break
+  .line 45
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 41
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 42
+;                 $debug_break();
+  sys   debug_break
+  .line 43
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 44
+;                 $debug_break();
+  sys   debug_break
+  .line 45
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 41
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
+  p00
+  sys   debug_printf
+  .line 42
+;                 $debug_break();
+  sys   debug_break
+  .line 43
+;                 z = x + y;
+  getl4 12
+  getl4 8
+  fadd
+  setl4 8
+  .line 44
+;                 $debug_break();
+  sys   debug_break
+  .line 45
+;                 y *= BF;
+  push4 1152098304
+  fmul
+  .line 41
+;                 $debug_printf("%.8f + %.8f\n", x, y);
+  getl4 4
+  getl4 16
+  push4 167953936
   p00
   sys   debug_printf
   .line 42
@@ -24029,8 +23982,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24054,8 +24006,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24079,8 +24030,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24104,8 +24054,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24129,8 +24078,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24154,8 +24102,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24179,8 +24126,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24204,8 +24150,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24229,8 +24174,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24254,8 +24198,7 @@ $L_main_107:
   .line 376
 ;             $debug_printf("$log10(%.8f)\n", x);
   getl4 8
-  p2
-  push3 787138
+  push4 201507330
   p00
   sys   debug_printf
   .line 377
@@ -24716,8 +24659,7 @@ $L_main_107:
   push2 65528
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -24758,8 +24700,7 @@ $L_main_107:
   push2 65529
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -24800,8 +24741,7 @@ $L_main_107:
   push2 65530
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -24842,8 +24782,7 @@ $L_main_107:
   push2 65531
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -24884,8 +24823,7 @@ $L_main_107:
   push2 65532
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -24926,8 +24864,7 @@ $L_main_107:
   push2 65533
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -24968,8 +24905,7 @@ $L_main_107:
   push2 65534
   dup
   dup
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -25011,8 +24947,7 @@ $L_main_107:
   push  255
   dup
   dupw
-  p0
-  push3 2163402
+  push4 553830912
   p00
   sys   debug_printf
   .line 488
@@ -25105,8 +25040,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16773120
+  push4 4293918721
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25151,8 +25085,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16773632
+  push4 4294049793
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25197,8 +25130,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16774144
+  push4 4294180865
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25243,8 +25175,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16774656
+  push4 4294311937
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25289,8 +25220,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16775168
+  push4 4294443009
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25335,8 +25265,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16775680
+  push4 4294574081
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25381,8 +25310,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16776192
+  push4 4294705153
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25427,8 +25355,7 @@ $L_main_107:
   p5
   p1
   p2
-  p1
-  push3 16776704
+  push4 4294836225
   sys   draw_sprite
   .line 502
 ;         $debug_break();
@@ -25887,8 +25814,7 @@ $L_main_107:
   sys   debug_break
   .line 523
 ;     $debug_printf("draw_tilemap(TMAP16, -1,  0) [16x16]\n");
-  p32
-  push3 2425547
+  push4 620940064
   p00
   sys   debug_printf
   .line 524
@@ -25915,8 +25841,7 @@ $L_main_107:
   sys   debug_break
   push4 84067094
   p1
-  p2
-  push  255
+  push2 65282
   dup
   p00
   sys   draw_tilemap
@@ -25934,8 +25859,7 @@ $L_main_107:
   p0
   p5
   p1
-  p2
-  push  255
+  push2 65282
   dup
   p00
   sys   draw_tilemap
@@ -25950,8 +25874,7 @@ $L_main_107:
   sys   debug_break
   push4 84067094
   p1
-  p2
-  push  255
+  push2 65282
   dup
   dupw
   sys   draw_tilemap
@@ -25969,8 +25892,7 @@ $L_main_107:
   p0
   p5
   p1
-  p2
-  push  255
+  push2 65282
   dup
   dupw
   sys   draw_tilemap
@@ -25998,8 +25920,7 @@ $L_main_107:
   sys   debug_break
   p0
   p1
-  p0
-  push3 155934
+  push4 39919104
   p0000
   sys   draw_tilemap
   sys   debug_break
@@ -26028,8 +25949,7 @@ $L_main_107:
   sys   debug_break
   p0
   p1
-  p0
-  push3 155934
+  push4 39919104
   p00
   push  255
   dup
@@ -26182,16 +26102,14 @@ $L_main_107:
   p00
   p5
   p1
-  p2
-  push  255
+  push2 65282
   dup
   p00
   sys   draw_sprite_array_P
   sys   debug_break
   .line 561
 ;     $debug_printf("draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [16x16]\n");
-  p4
-  push3 3605198
+  push4 922930692
   p00
   sys   debug_printf
   .line 562
@@ -26202,8 +26120,7 @@ $L_main_107:
   p00
   p5
   p1
-  p2
-  push  255
+  push2 65282
   dup
   p00
   sys   draw_sprite_array16_P
@@ -26221,8 +26138,7 @@ $L_main_107:
   p00
   p5
   p1
-  p2
-  push  255
+  push2 65282
   dup
   dupw
   sys   draw_sprite_array_P
@@ -26240,8 +26156,7 @@ $L_main_107:
   p00
   p5
   p1
-  p2
-  push  255
+  push2 65282
   dup
   dupw
   sys   draw_sprite_array16_P

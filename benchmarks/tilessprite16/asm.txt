@@ -271,15 +271,13 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   getg2 offx 0
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   p16
@@ -288,8 +286,7 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   p32
@@ -298,8 +295,7 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   push2 48
@@ -307,8 +303,7 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   p64
@@ -317,8 +312,7 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   push2 80
@@ -326,8 +320,7 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   push2 96
@@ -335,8 +328,7 @@ main:
   add2
   sys   draw_sprite
   p000
-  p1
-  push3 12288
+  push4 3145729
   getg2 offy 0
   add2
   push2 112

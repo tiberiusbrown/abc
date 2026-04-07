@@ -298,8 +298,7 @@ main:
   sys   assert
   .line 34
 ;     $format(str, "%u", 42000);
-  p16
-  push  164
+  push2 42000
   p00
   push4 50331925
   p00

@@ -28,12 +28,12 @@ main:
   dupw4
   .line 4
 ;     if(a && b) t = true;
-  bz    $L_main_15
+  bz    $L_main_35
   dup3
-  bz    $L_main_15
+  bz    $L_main_35
   p1
   setl  1
-$L_main_15:
+$L_main_35:
   .line 5
 ;     $assert(t == result);
   dup
@@ -53,12 +53,12 @@ $L_main_15:
   dupw
   .line 4
 ;     if(a && b) t = true;
-  bz    $L_main_19
+  bz    $L_main_39
   dup3
-  bz    $L_main_19
+  bz    $L_main_39
   p1
   setl  1
-$L_main_19:
+$L_main_39:
   .line 5
 ;     $assert(t == result);
   dup
@@ -76,12 +76,12 @@ $L_main_19:
   p000
   .line 4
 ;     if(a && b) t = true;
-  bz    $L_main_23
+  bz    $L_main_43
   dup3
-  bz    $L_main_23
+  bz    $L_main_43
   p1
   setl  1
-$L_main_23:
+$L_main_43:
   .line 5
 ;     $assert(t == result);
   dup
@@ -98,12 +98,12 @@ $L_main_23:
   .line 4
 ;     if(a && b) t = true;
   dup
-  bz    $L_main_27
+  bz    $L_main_47
   dup3
-  bz    $L_main_27
+  bz    $L_main_47
   p1
   setl  1
-$L_main_27:
+$L_main_47:
   .line 5
 ;     $assert(t == result);
   dup
@@ -127,11 +127,11 @@ $L_main_27:
   p1
   bnz   $L_main_53
   dup3
-  bz    $L_main_39
+  bz    $L_main_15
 $L_main_53:
   p1
   setl  1
-$L_main_39:
+$L_main_15:
   .line 12
 ;     $assert(t == result);
   dup
@@ -152,11 +152,11 @@ $L_main_39:
   p1
   bnz   $L_main_54
   dup3
-  bz    $L_main_43
+  bz    $L_main_19
 $L_main_54:
   p1
   setl  1
-$L_main_43:
+$L_main_19:
   .line 12
 ;     $assert(t == result);
   dup
@@ -176,11 +176,11 @@ $L_main_43:
 ;     if(a || b) t = true;
   bnz   $L_main_55
   dup3
-  bz    $L_main_47
+  bz    $L_main_23
 $L_main_55:
   p1
   setl  1
-$L_main_47:
+$L_main_23:
   .line 12
 ;     $assert(t == result);
   dup
@@ -199,11 +199,11 @@ $L_main_47:
   dup
   bnz   $L_main_56
   dup3
-  bz    $L_main_51
+  bz    $L_main_27
 $L_main_56:
   p1
   setl  1
-$L_main_51:
+$L_main_27:
   .line 12
 ;     $assert(t == result);
   dup

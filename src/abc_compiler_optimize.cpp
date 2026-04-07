@@ -2111,7 +2111,7 @@ bool compiler_t::peephole_compress_push_sequence(compiler_func_t& f)
 {
     bool t = false;
 
-    std::vector< compiler_instr_t> pi;
+    std::vector<compiler_instr_t> pi, pi2;
 
     for(size_t i = 0; i < f.instrs.size(); ++i)
     {
@@ -2121,20 +2121,22 @@ bool compiler_t::peephole_compress_push_sequence(compiler_func_t& f)
         if(n == 0)
             continue;
         pi.clear();
+        pi2.clear();
 
         push_compression(pi, f.instrs.data() + i, f.instrs.data() + i, n);
+        push_compression2(pi2, pi);
 
-        if(pi.size() > n)
+        if(pi2.size() > n)
         {
             f.instrs.insert(
                 f.instrs.begin() + i + n,
-                size_t(pi.size() - n),
+                size_t(pi2.size() - n),
                 {});
         }
 
-        for(size_t j = 0; j < pi.size(); ++j)
-            f.instrs[i + j] = pi[j];
-        i += std::max(n, pi.size());
+        for(size_t j = 0; j < pi2.size(); ++j)
+            f.instrs[i + j] = pi2[j];
+        i += std::max(n, pi2.size());
     }
     clear_removed_instrs(f.instrs);
     return t;
@@ -2145,6 +2147,65 @@ static compiler_instr_t instr(compiler_instr_t i, instr_t ii, uint32_t imm = 0)
     i.instr = ii;
     i.imm = imm;
     return i;
+}
+
+void compiler_t::push_compression2(
+    std::vector<compiler_instr_t>& dst,
+    std::vector<compiler_instr_t> const& src)
+{
+    for(size_t i = 0; i < src.size(); ++i)
+    {
+        auto const& i0 = src[i + 0];
+
+        if(i + 1 < src.size() && i0.instr >= I_P0 && i0.instr <= I_P128)
+        {
+            auto const& i1 = src[i + 1];
+            uint32_t imm = 0;
+            switch(i0.instr)
+            {
+            case I_P0  : imm = 0  ; break;
+            case I_P1  : imm = 1  ; break;
+            case I_P2  : imm = 2  ; break;
+            case I_P3  : imm = 3  ; break;
+            case I_P4  : imm = 4  ; break;
+            case I_P5  : imm = 5  ; break;
+            case I_P6  : imm = 6  ; break;
+            case I_P7  : imm = 7  ; break;
+            case I_P8  : imm = 8  ; break;
+            case I_P16 : imm = 16 ; break;
+            case I_P32 : imm = 32 ; break;
+            case I_P64 : imm = 64 ; break;
+            case I_P128: imm = 128; break;
+            default: assert(0);
+            }
+            auto ti = i1;
+            switch(i1.instr)
+            {
+            case I_PUSH:
+                ti.imm = (ti.imm << 8) + imm;
+                ti.instr = I_PUSH2;
+                dst.push_back(ti);
+                ++i;
+                continue;
+            case I_PUSH2:
+                ti.imm = (ti.imm << 8) + imm;
+                ti.instr = I_PUSH3;
+                dst.push_back(ti);
+                ++i;
+                continue;
+            case I_PUSH3:
+                ti.imm = (ti.imm << 8) + imm;
+                ti.instr = I_PUSH4;
+                dst.push_back(ti);
+                ++i;
+                continue;
+            default:
+                break;
+            }
+        }
+
+        dst.push_back(i0);
+    }
 }
 
 void compiler_t::push_compression(

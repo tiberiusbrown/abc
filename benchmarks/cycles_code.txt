@@ -312,7 +312,7 @@
      94    $millis()
     952    $format(b, "%d", 0)
    1383    $format(b, "%d", 100)
-   1950    $format(b, "%d", 10000)
+   1949    $format(b, "%d", 10000)
    3195    $format(b, "%d", 1000000)
    4562    $format(b, "%d", 100000000)
    1452    $format(b, "%d", -100)
@@ -321,7 +321,7 @@
    4600    $format(b, "%d", -100000000)
     960    $format(b, "%u", 0)
    1391    $format(b, "%u", 100)
-   1958    $format(b, "%u", 10000)
+   1957    $format(b, "%u", 10000)
    3203    $format(b, "%u", 1000000)
    4570    $format(b, "%u", 100000000)
    1649    $format(b, "%.1f", 0.00000001)
@@ -745,21 +745,21 @@
     865    draw_sprite(0, 0) [8x8 masked]
     880    draw_sprite(0, 1) [8x8 masked]
     472    draw_sprite(-16, 0) [16x16 unmasked]
-    489    draw_sprite(-16, 1) [16x16 unmasked]
+    488    draw_sprite(-16, 1) [16x16 unmasked]
     809    draw_sprite(-14, 0) [16x16 unmasked]
-    826    draw_sprite(-14, 1) [16x16 unmasked]
+    825    draw_sprite(-14, 1) [16x16 unmasked]
     881    draw_sprite(-12, 0) [16x16 unmasked]
-    898    draw_sprite(-12, 1) [16x16 unmasked]
+    897    draw_sprite(-12, 1) [16x16 unmasked]
     953    draw_sprite(-10, 0) [16x16 unmasked]
-    970    draw_sprite(-10, 1) [16x16 unmasked]
+    969    draw_sprite(-10, 1) [16x16 unmasked]
    1025    draw_sprite(-8, 0) [16x16 unmasked]
-   1042    draw_sprite(-8, 1) [16x16 unmasked]
+   1041    draw_sprite(-8, 1) [16x16 unmasked]
    1097    draw_sprite(-6, 0) [16x16 unmasked]
-   1114    draw_sprite(-6, 1) [16x16 unmasked]
+   1113    draw_sprite(-6, 1) [16x16 unmasked]
    1169    draw_sprite(-4, 0) [16x16 unmasked]
-   1186    draw_sprite(-4, 1) [16x16 unmasked]
+   1185    draw_sprite(-4, 1) [16x16 unmasked]
    1241    draw_sprite(-2, 0) [16x16 unmasked]
-   1258    draw_sprite(-2, 1) [16x16 unmasked]
+   1257    draw_sprite(-2, 1) [16x16 unmasked]
    1170    draw_sprite(0, 0) [16x16 unmasked]
    1186    draw_sprite(0, 1) [16x16 unmasked]
     486    draw_sprite(-16, 0) [16x16 masked]
@@ -784,14 +784,14 @@
   30934    draw_tilemap(TMAP16,  0,  0) [16x16]
   32986    draw_tilemap(TMAP8 , -1,  0) [16x16]
   34621    draw_tilemap(TMAP16, -1,  0) [16x16]
-  35867    draw_tilemap(TMAP8 ,  0, -1) [16x16]
-  35904    draw_tilemap(TMAP16,  0, -1) [16x16]
-  38189    draw_tilemap(TMAP8 , -1, -1) [16x16]
-  40236    draw_tilemap(TMAP16, -1, -1) [16x16]
+  35866    draw_tilemap(TMAP8 ,  0, -1) [16x16]
+  35903    draw_tilemap(TMAP16,  0, -1) [16x16]
+  38188    draw_tilemap(TMAP8 , -1, -1) [16x16]
+  40235    draw_tilemap(TMAP16, -1, -1) [16x16]
   60126    draw_tilemap(TMAP8 ,  0,  0) [8x8]
-  63464    draw_tilemap(TMAP16,  0,  0) [8x8]
+  63463    draw_tilemap(TMAP16,  0,  0) [8x8]
   65823    draw_tilemap(TMAP8 , -1,  0) [8x8]
-  69185    draw_tilemap(TMAP16, -1,  0) [8x8]
+  69184    draw_tilemap(TMAP16, -1,  0) [8x8]
   67333    draw_tilemap(TMAP8 ,  0, -1) [8x8]
   71098    draw_tilemap(TMAP16,  0, -1) [8x8]
   73681    draw_tilemap(TMAP8 , -1, -1) [8x8]
@@ -800,10 +800,10 @@
   31006    draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [16x16]
   33025    draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [16x16]
   34673    draw_sprite_array(TM_ARRAY16, -1,  0, ncol=16) [16x16]
-  35886    draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [16x16]
-  35936    draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [16x16]
-  38183    draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [16x16]
-  40243    draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [16x16]
+  35885    draw_sprite_array(TM_ARRAY8 ,  0, -1, ncol=16) [16x16]
+  35935    draw_sprite_array(TM_ARRAY16,  0, -1, ncol=16) [16x16]
+  38182    draw_sprite_array(TM_ARRAY8 , -1, -1, ncol=16) [16x16]
+  40242    draw_sprite_array(TM_ARRAY16, -1, -1, ncol=16) [16x16]
   59696    draw_sprite_array(TM_ARRAY8 ,  0,  0, ncol=16) [8x8]
   63048    draw_sprite_array(TM_ARRAY16,  0,  0, ncol=16) [8x8]
   59812    draw_sprite_array(TM_ARRAY8 , -1,  0, ncol=16) [8x8]

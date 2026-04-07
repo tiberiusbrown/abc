@@ -881,7 +881,7 @@ void main()
 <details><summary>tilessprite16: 0.64x slowdown (1.57x speedup)</summary>
 <table>
 <tr><th>Native</th><th>ABC</th></tr>
-<tr><td>Cycles: 65088</td><td>Cycles: 41478</td></tr>
+<tr><td>Cycles: 65088</td><td>Cycles: 41470</td></tr>
 <tr>
 <td>
 
