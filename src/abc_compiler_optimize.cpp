@@ -501,8 +501,8 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i0.instr == I_PUSH && i0.imm >= 8 &&
             (i1.instr == I_LSL || i1.instr == I_LSR))
         {
-            i0.instr = I_POP;
-            i0.imm = 0;
+            i0.instr = I_POPN;
+            i0.imm = 1;
             i1.instr = I_PUSH;
             i1.imm = 0;
             t = true;
@@ -513,12 +513,11 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i0.instr == I_PUSH && i0.imm >= 16 &&
             (i1.instr == I_LSL2 || i1.instr == I_LSR2))
         {
-            i0.instr = I_POP;
-            i0.imm = 0;
-            i1.instr = I_POP;
+            i0.instr = I_POPN;
+            i0.imm = 2;
+            i1.instr = I_PUSH;
             i1.imm = 0;
-            auto ti = instr(i0, I_PUSH, 0);
-            f.instrs.insert(f.instrs.begin() + i + 2, { ti, ti });
+            f.instrs.insert(f.instrs.begin() + i + 2, { i1 });
             t = true;
             continue;
         }
@@ -527,12 +526,11 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         if(i0.instr == I_PUSH && i0.imm >= 32 &&
             (i1.instr == I_LSL4 || i1.instr == I_LSR4))
         {
-            i0.instr = I_POP;
-            i0.imm = 0;
-            i1.instr = I_POP;
+            i0.instr = I_POPN;
+            i0.imm = 4;
+            i1.instr = I_PUSH;
             i1.imm = 0;
-            auto ti = instr(i0, I_PUSH, 0);
-            f.instrs.insert(f.instrs.begin() + i + 2, { i0, i0, ti, ti, ti, ti });
+            f.instrs.insert(f.instrs.begin() + i + 2, { i1, i1, i1 });
             t = true;
             continue;
         }
