@@ -377,35 +377,36 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
     {
 
         // replace:
-        //     PUSH <M times>
-        //     PUSH <N times>
+        //     PUSH  <N values>
         //     SETLN N M
-        //     POPN <M-N times>
+        //     POPN  <M-N>
         // with:
-        //     PUSH <N times>
+        //     POPN  M
+        //     PUSH  <N values>
+        do
         {
             size_t num_pushes = 0;
             for(size_t j = i; j + 2 < f.instrs.size(); ++j, ++num_pushes)
                 if(f.instrs[j].instr != I_PUSH) break;
-            if(num_pushes >= 3)
-            {
-                auto& isetln = f.instrs[i + num_pushes];
-                size_t m = isetln.imm2;
-                size_t n = isetln.imm;
-                auto& ipopn = f.instrs[i + num_pushes + 1];
-                if(isetln.instr == I_SETLN && m >= n && num_pushes >= m + n &&
-                    ipopn.instr == I_POPN && ipopn.imm == m - n)
-                {
-                    size_t istart = i + num_pushes - m - n;
-                    for(size_t j = 0; j < m; ++j)
-                        f.instrs[istart + j].instr = I_REMOVE;
-                    isetln.instr = I_REMOVE;
-                    ipopn.instr = I_REMOVE;
-                    t = true;
-                    continue;
-                }
-            }
-        }
+            if(num_pushes == 0)
+                break;
+            auto& isetln = f.instrs[i + num_pushes];
+            auto& ipopn = f.instrs[i + num_pushes + 1];
+            size_t m = isetln.imm2;
+            size_t n = isetln.imm;
+            if(!(isetln.instr == I_SETLN && num_pushes >= n && m >= n &&
+                ipopn.instr == I_POPN && ipopn.imm >= m - n))
+                break;
+            auto ti = ipopn;
+            ti.imm = m;
+            isetln.instr = I_REMOVE;
+            ipopn.imm -= (m - n);
+            if(ipopn.imm == 0)
+                ipopn.instr = I_REMOVE;
+            f.instrs.insert(f.instrs.begin() + i + num_pushes - n, ti);
+            t = true;
+        } while(0);
+        if(t) continue;
 
         // replace the GETLN with PUSHs in:
         //     PUSH <N times>; GETLN K M;  (M+K <= N)

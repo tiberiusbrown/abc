@@ -48,7 +48,7 @@ references                             11339
 ref_to_uar                              1674
 save_load                              29943
 setln_bug                                125
-sieve                               18647577
+sieve                               18642273
 slices                                 23463
 slice_bug                                344
 slice_len                                494
@@ -60,8 +60,8 @@ string_append                           2716
 structs                                28183
 structs2                                 509
 struct_ref_bug                           447
-switch                                 15830
-switch_jump_table                     311391
+switch                                 15779
+switch_jump_table                     302687
 ternary                                 6338
 tilemap                                 6385
 uar_slice                               1155

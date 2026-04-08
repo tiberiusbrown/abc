@@ -158,12 +158,10 @@ $L_is_prime_8:
   cult2
   bz    $L_is_prime_1
 $L_is_prime_0:
-  pop2
+  popn  7
   .line 13
 ;     return true;
   p1
-  setl  5
-  pop4
   ret
 
 main:

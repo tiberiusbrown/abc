@@ -3122,9 +3122,8 @@ $L_is_moving_object_index_1:
   bnz   $L_is_moving_object_index_2
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_2:
   .line 39
@@ -3145,9 +3144,8 @@ $L_is_moving_object_index_2:
   bnz   $L_is_moving_object_index_4
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_4:
   .line 39
@@ -3168,9 +3166,8 @@ $L_is_moving_object_index_4:
   bnz   $L_is_moving_object_index_5
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_5:
   .line 39
@@ -3191,9 +3188,8 @@ $L_is_moving_object_index_5:
   bnz   $L_is_moving_object_index_6
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_6:
   .line 39
@@ -3214,9 +3210,8 @@ $L_is_moving_object_index_6:
   bnz   $L_is_moving_object_index_7
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_7:
   .line 39
@@ -3237,9 +3232,8 @@ $L_is_moving_object_index_7:
   bnz   $L_is_moving_object_index_8
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_8:
   .line 39
@@ -3260,9 +3254,8 @@ $L_is_moving_object_index_8:
   bnz   $L_is_moving_object_index_9
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_9:
   .line 39
@@ -3283,9 +3276,8 @@ $L_is_moving_object_index_9:
   bnz   $L_is_moving_object_index_10
   .line 41
 ;             return true;
+  pop3
   p1
-  setl  3
-  pop2
   ret
 $L_is_moving_object_index_10:
   .line 39
@@ -3296,12 +3288,10 @@ $L_is_moving_object_index_10:
   cult
   bnz   $L_is_moving_object_index_1
 $L_is_moving_object_index_0:
-  pop
+  pop3
   .line 42
 ;     return false;
   p0
-  setl  2
-  pop
   ret
 
 load_level:
@@ -5952,9 +5942,8 @@ $L_process_laser_2:
 $L_process_laser_76:
   .line 53
 ;         return true;
+  pop3
   p1
-  setl  3
-  pop2
   .file play.abc
   .line 202
 ;     if(!opaque(shootx, shooty))
@@ -6134,9 +6123,8 @@ $L_process_laser_47:
 $L_process_laser_49:
   .line 20
 ;     return 4;
+  pop4
   p4
-  setl  4
-  pop3
 $L_process_laser_50:
   .line 224
 ;             (d = mirror_reflect((obj >> 2) & 3, shootdir)) < 4)
@@ -6256,9 +6244,8 @@ $L_process_laser_52:
 $L_process_laser_54:
   .line 20
 ;     return 4;
+  pop4
   p4
-  setl  4
-  pop3
 $L_process_laser_55:
   .line 224
 ;             (d = mirror_reflect((obj >> 2) & 3, shootdir)) < 4)
@@ -6377,9 +6364,8 @@ $L_process_laser_57:
 $L_process_laser_59:
   .line 20
 ;     return 4;
+  pop4
   p4
-  setl  4
-  pop3
 $L_process_laser_60:
   .line 224
 ;             (d = mirror_reflect((obj >> 2) & 3, shootdir)) < 4)
@@ -6498,9 +6484,8 @@ $L_process_laser_62:
 $L_process_laser_64:
   .line 20
 ;     return 4;
+  pop4
   p4
-  setl  4
-  pop3
 $L_process_laser_65:
   .line 224
 ;             (d = mirror_reflect((obj >> 2) & 3, shootdir)) < 4)
@@ -6668,9 +6653,8 @@ $L_process_laser_67:
 $L_process_laser_69:
   .line 20
 ;     return 4;
+  pop4
   p4
-  setl  4
-  pop3
 $L_process_laser_70:
   .line 251
 ;                 d = mirror_reflect((obj >> 2) & 3, shootdir);
@@ -6767,9 +6751,8 @@ $L_process_laser_72:
 $L_process_laser_74:
   .line 20
 ;     return 4;
+  pop4
   p4
-  setl  4
-  pop3
 $L_process_laser_75:
   .line 267
 ;                 if(d < 4)
@@ -7025,9 +7008,8 @@ $L_process_moving_object_0:
 $L_process_moving_object_31:
   .line 36
 ;         return true;
+  pop3
   p1
-  setl  3
-  pop2
   jmp   $L_process_moving_object_30
 $L_process_moving_object_28:
   .line 37
@@ -8211,9 +8193,8 @@ $L_process_tank_move_0:
 $L_process_tank_move_51:
   .line 36
 ;         return true;
+  pop3
   p1
-  setl  3
-  pop2
   .file play.abc
   .line 537
 ;     if(solid(nx, ny))
@@ -11896,9 +11877,8 @@ $L_tank_update_3:
 $L_tank_update_65:
   .line 36
 ;         return true;
+  pop3
   p1
-  setl  3
-  pop2
   jmp   $L_tank_update_10
 $L_tank_update_8:
   .line 37
@@ -12231,9 +12211,8 @@ $L_tank_update_53:
 $L_tank_update_54:
   .line 37
 ;     return false;
+  pop4
   p0
-  setl  4
-  pop3
 $L_tank_update_55:
   .file play.abc
   .line 28
@@ -12614,9 +12593,8 @@ $L_tank_update_14:
 $L_tank_update_67:
   .line 36
 ;         return true;
+  pop3
   p1
-  setl  3
-  pop2
   jmp   $L_tank_update_18
 $L_tank_update_16:
   .line 37

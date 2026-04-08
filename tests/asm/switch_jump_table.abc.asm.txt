@@ -281,499 +281,428 @@ f:
 $L_f_1:
   .line 5
 ;         case( 0) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_2:
   .line 6
 ;         case( 1) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_3:
   .line 7
 ;         case( 2) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_4:
   .line 8
 ;         case( 3) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_5:
   .line 9
 ;         case( 4) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_6:
   .line 10
 ;         case( 5) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_7:
   .line 11
 ;         case( 6) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_8:
   .line 12
 ;         case( 7) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_9:
   .line 13
 ;         case( 8) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_10:
   .line 14
 ;         case( 9) return 0;
+  pop2
   p0
-  setl  2
-  pop
   ret
 $L_f_11:
   .line 15
 ;         case(10) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_12:
   .line 16
 ;         case(11) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_13:
   .line 17
 ;         case(12) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_14:
   .line 18
 ;         case(13) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_15:
   .line 19
 ;         case(14) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_16:
   .line 20
 ;         case(15) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_17:
   .line 21
 ;         case(16) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_18:
   .line 22
 ;         case(17) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_19:
   .line 23
 ;         case(18) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_20:
   .line 24
 ;         case(19) return 1;
+  pop2
   p1
-  setl  2
-  pop
   ret
 $L_f_21:
   .line 25
 ;         case(20) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_22:
   .line 26
 ;         case(21) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_23:
   .line 27
 ;         case(22) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_24:
   .line 28
 ;         case(23) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_25:
   .line 29
 ;         case(24) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_26:
   .line 30
 ;         case(25) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_27:
   .line 31
 ;         case(26) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_28:
   .line 32
 ;         case(27) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_29:
   .line 33
 ;         case(28) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_30:
   .line 34
 ;         case(29) return 2;
+  pop2
   p2
-  setl  2
-  pop
   ret
 $L_f_31:
   .line 35
 ;         case(30) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_32:
   .line 36
 ;         case(31) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_33:
   .line 37
 ;         case(32) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_34:
   .line 38
 ;         case(33) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_35:
   .line 39
 ;         case(34) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_36:
   .line 40
 ;         case(35) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_37:
   .line 41
 ;         case(36) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_38:
   .line 42
 ;         case(37) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_39:
   .line 43
 ;         case(38) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_40:
   .line 44
 ;         case(39) return 3;
+  pop2
   p3
-  setl  2
-  pop
   ret
 $L_f_41:
   .line 45
 ;         case(40) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_42:
   .line 46
 ;         case(41) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_43:
   .line 47
 ;         case(42) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_44:
   .line 48
 ;         case(43) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_45:
   .line 49
 ;         case(44) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_46:
   .line 50
 ;         case(45) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_47:
   .line 51
 ;         case(46) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_48:
   .line 52
 ;         case(47) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_49:
   .line 53
 ;         case(48) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_50:
   .line 54
 ;         case(49) return 4;
+  pop2
   p4
-  setl  2
-  pop
   ret
 $L_f_51:
   .line 55
 ;         case(50) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_52:
   .line 56
 ;         case(51) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_53:
   .line 57
 ;         case(52) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_54:
   .line 58
 ;         case(53) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_55:
   .line 59
 ;         case(54) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_56:
   .line 60
 ;         case(55) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_57:
   .line 61
 ;         case(56) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_58:
   .line 62
 ;         case(57) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_59:
   .line 63
 ;         case(58) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_60:
   .line 64
 ;         case(59) return 5;
+  pop2
   p5
-  setl  2
-  pop
   ret
 $L_f_61:
   .line 65
 ;         case(60) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_62:
   .line 66
 ;         case(61) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_63:
   .line 67
 ;         case(62) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_64:
   .line 68
 ;         case(63) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_65:
   .line 69
 ;         case(64) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_66:
   .line 70
 ;         case(65) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_67:
   .line 71
 ;         case(66) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_68:
   .line 72
 ;         case(67) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_69:
   .line 73
 ;         case(68) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_70:
   .line 74
 ;         case(69) return 6;
+  pop2
   p6
-  setl  2
-  pop
   ret
 $L_f_0:
   .line 76
 ;     return 42;
+  pop2
   push  42
-  setl  2
-  pop
   ret
 
 main:
