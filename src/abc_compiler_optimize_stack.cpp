@@ -5,7 +5,7 @@
 namespace abc
 {
 
-static bool is_pop(compiler_instr_t const& i)
+bool compiler_t::is_pop(compiler_instr_t const& i)
 {
     switch(i.instr)
     {
@@ -20,10 +20,12 @@ static bool is_pop(compiler_instr_t const& i)
     }
 }
 
-static bool is_branch_jmp_call(compiler_instr_t const& i)
+bool compiler_t::is_branch_jmp_call(compiler_instr_t const& i)
 {
     switch(i.instr)
     {
+    case I_IJMP:
+    case I_ICALL:
     case I_JMP:
     case I_JMP1:
     case I_CALL:
@@ -44,7 +46,7 @@ static bool is_branch_jmp_call(compiler_instr_t const& i)
     }
 }
 
-static bool is_stack_eliminatable(compiler_instr_t const& i)
+bool compiler_t::is_stack_eliminatable(compiler_instr_t const& i)
 {
     switch(i.instr)
     {
@@ -247,9 +249,6 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
 
             size_t setln_off = iend.imm + iend.imm2 - n;
 
-            // NOTE TO SELF:
-            // THESE MOVES NEED TO BE ROTATES
-
             // move pushes in place of original instruction
             {
                 assert(int(iend.imm + iend.imm2) >= n);
@@ -261,10 +260,6 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
                     instrs.begin() + isrc,
                     instrs.begin() + isrc + size
                 );
-                //std::move(
-                //    instrs.begin() + isrc,
-                //    instrs.begin() + isrc + size,
-                //    instrs.begin() + idst);
             }
 
             // move orig instr to behind setln
@@ -273,10 +268,6 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
                 instrs.begin() + i + 1,
                 instrs.begin() + j
             );
-            //std::move_backward(
-            //    instrs.begin() + i,
-            //    instrs.begin() + i + 1,
-            //    instrs.begin() + j);
 
             // split setln
             auto& iend0 = instrs[j - 1];
@@ -290,7 +281,6 @@ bool compiler_t::optimize_stack_func(std::vector<compiler_instr_t>& instrs)
             if(iend1.imm == 0) iend1.instr = I_REMOVE;
             t = true;
             continue;
-            //__debugbreak();
         }
 
         static_assert(I_POP2 == I_POP + 1, "");

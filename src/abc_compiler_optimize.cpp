@@ -383,54 +383,51 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         // with:
         //     POPN  M
         //     PUSH  <N values>
-        do
         {
-            size_t num_pushes = 0;
-            for(size_t j = i; j + 2 < f.instrs.size(); ++j, ++num_pushes)
-                if(f.instrs[j].instr != I_PUSH) break;
-            if(num_pushes == 0)
-                break;
-            auto& isetln = f.instrs[i + num_pushes];
-            auto& ipopn = f.instrs[i + num_pushes + 1];
-            size_t m = isetln.imm2;
+            auto& isetln = f.instrs[i];
+            auto& ipopn = f.instrs[i + 1];
             size_t n = isetln.imm;
-            if(!(isetln.instr == I_SETLN && num_pushes >= n && m >= n &&
-                ipopn.instr == I_POPN && ipopn.imm >= m - n))
-                break;
-            auto ti = ipopn;
-            ti.imm = m;
-            isetln.instr = I_REMOVE;
-            ipopn.imm -= (m - n);
-            if(ipopn.imm == 0)
-                ipopn.instr = I_REMOVE;
-            f.instrs.insert(f.instrs.begin() + i + num_pushes - n, ti);
-            t = true;
-        } while(0);
-        if(t) continue;
-
-        // replace the GETLN with PUSHs in:
-        //     PUSH <N times>; GETLN K M;  (M+K <= N)
-        {
-            size_t num_pushes = 0;
-            for(size_t j = i; j + 1 < f.instrs.size(); ++j, ++num_pushes)
-                if(f.instrs[j].instr != I_PUSH) break;
-            if(num_pushes >= 2)
+            size_t m = isetln.imm2;
+            if(isetln.instr == I_SETLN && ipopn.instr == I_POPN &&
+                m >= n && ipopn.imm >= size_t(m - n))
             {
-                auto& ig = f.instrs[i + num_pushes];
-                size_t k = ig.imm;
-                size_t m = ig.imm2;
-                if(ig.instr == I_GETLN && m + k <= num_pushes && k >= 1)
+                // find range of stack add instrs
+                size_t a = i;
+                int tn = 0;
+
+                while(a > 0)
                 {
-                    ig.instr = I_REMOVE;
-                    if(k > 1)
-                        f.instrs.insert(f.instrs.begin() + i + num_pushes, k - 1, ig);
-                    for(size_t j = 0; j < k; ++j)
-                    {
-                        auto& idst = f.instrs[i + num_pushes + j];
-                        auto& isrc = f.instrs[i + num_pushes + j - m];
-                        idst.instr = I_PUSH;
-                        idst.imm = isrc.imm;
-                    }
+                    auto& ti = f.instrs[a - 1];
+
+#if 1
+                    if(ti.instr != I_PUSH)
+                        break;
+                    constexpr int stack_mod = 1;
+#else
+                    if(ti.is_label || is_branch_jmp_call(ti))
+                        break;
+
+                    auto stack_acc = instr_accesses_stack(ti, 0).second;
+                    auto stack_mod = instr_stack_mod(ti);
+
+                    if(stack_acc > 0)
+                        break;
+#endif
+
+                    --a;
+                    if((tn += stack_mod) == n)
+                        break;
+                }
+
+                // perform substitution
+                if(tn == (int)n && a < i)
+                {
+                    auto ti = ipopn;
+                    ti.imm = m;
+                    if((ipopn.imm -= (m - n)) == 0)
+                        ipopn.instr = I_REMOVE;
+                    isetln.instr = I_REMOVE;
+                    f.instrs.insert(f.instrs.begin() + a, ti);
                     t = true;
                     continue;
                 }
@@ -1824,6 +1821,14 @@ bool compiler_t::peephole_pre_push_compress(compiler_func_t& f)
                 t = true;
                 continue;
             }
+        }
+
+        // replace AIDX 1 256 with ADD2
+        if(i0.instr == I_AIDX && i0.imm == 1 && i0.imm2 == 256)
+        {
+            i0.instr = I_ADD2;
+            t = true;
+            continue;
         }
 
         if(i + 1 >= f.instrs.size()) continue;

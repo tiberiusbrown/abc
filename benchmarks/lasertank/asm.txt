@@ -2181,7 +2181,7 @@ $L_at_scan_0:
   mul2b
   getg  tankx 0
   add2b
-  aidx  1 256
+  add2
   getr
   push  96
   cult
@@ -2250,8 +2250,7 @@ $L_at_scan_4:
 ;         if(tiles[i] >= T_FIRST_SOLID)
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2267,8 +2266,7 @@ $L_at_scan_5:
 ;         if(objects[i] == obj)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup5
   sub
@@ -2333,8 +2331,7 @@ $L_at_scan_8:
 ;         if(objects[i] >= T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2380,8 +2377,7 @@ $L_at_scan_9:
 ;         if(tiles[i] >= T_FIRST_SOLID)
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2397,8 +2393,7 @@ $L_at_scan_11:
 ;         if(objects[i] == obj)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup5
   sub
@@ -2463,8 +2458,7 @@ $L_at_scan_14:
 ;         if(objects[i] >= T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2871,8 +2865,7 @@ find_other_tunnel:
 ;     u8 t = tiles[i];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 61
 ;     u8 ti = 0;
@@ -2886,16 +2879,14 @@ $L_find_other_tunnel_1:
   bz    $L_find_other_tunnel_3
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup3
   sub
   bnz   $L_find_other_tunnel_3
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2922,16 +2913,14 @@ $L_find_other_tunnel_3:
   bz    $L_find_other_tunnel_5
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup3
   sub
   bnz   $L_find_other_tunnel_5
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2958,16 +2947,14 @@ $L_find_other_tunnel_5:
   bz    $L_find_other_tunnel_7
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup3
   sub
   bnz   $L_find_other_tunnel_7
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -2994,16 +2981,14 @@ $L_find_other_tunnel_7:
   bz    $L_find_other_tunnel_9
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup3
   sub
   bnz   $L_find_other_tunnel_9
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -3030,16 +3015,14 @@ $L_find_other_tunnel_9:
   bz    $L_find_other_tunnel_11
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup3
   sub
   bnz   $L_find_other_tunnel_11
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -3066,16 +3049,14 @@ $L_find_other_tunnel_11:
   bz    $L_find_other_tunnel_13
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup3
   sub
   bnz   $L_find_other_tunnel_13
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -3381,7 +3362,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3398,7 +3379,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3415,7 +3396,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3432,7 +3413,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3449,7 +3430,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3466,7 +3447,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3483,7 +3464,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3500,7 +3481,7 @@ $L_load_level_6:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 95
 ;             for(u8 k = 0; k < n; ++k)
@@ -3554,7 +3535,7 @@ $L_load_level_9:
 ;         u8 t = tiles[i];
   pushg tiles 0
   dupw3
-  aidx  1 256
+  add2
   getr
   .line 109
 ;         switch(t)
@@ -3609,7 +3590,7 @@ $L_load_level_12:
   p0
   pushg tiles 0
   dupw6
-  aidx  1 256
+  add2
   setr
   .line 114
 ;                 tankx = i & 15;
@@ -3633,14 +3614,14 @@ $L_load_level_13:
   dup2
   pushg objects 0
   dupw6
-  aidx  1 256
+  add2
   setr
   .line 120
 ;                 tiles[i] = T_DIRT;
   p0
   pushg tiles 0
   dupw6
-  aidx  1 256
+  add2
   setr
   .line 109
 ;         switch(t)
@@ -3678,7 +3659,7 @@ $L_load_level_11:
 ;         u8 t = tiles[i];
   pushg tiles 0
   dupw3
-  aidx  1 256
+  add2
   getr
   .line 109
 ;         switch(t)
@@ -3733,7 +3714,7 @@ $L_load_level_19:
   p0
   pushg tiles 0
   dupw6
-  aidx  1 256
+  add2
   setr
   .line 114
 ;                 tankx = i & 15;
@@ -3757,14 +3738,14 @@ $L_load_level_20:
   dup2
   pushg objects 0
   dupw6
-  aidx  1 256
+  add2
   setr
   .line 120
 ;                 tiles[i] = T_DIRT;
   p0
   pushg tiles 0
   dupw6
-  aidx  1 256
+  add2
   setr
   .line 109
 ;         switch(t)
@@ -4185,8 +4166,7 @@ $L_play_98:
   push  252
   and
   getln 3 6
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4202,7 +4182,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4217,7 +4197,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4232,7 +4212,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4247,7 +4227,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4262,7 +4242,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4277,7 +4257,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4292,7 +4272,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4307,7 +4287,7 @@ $L_play_99:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4369,8 +4349,7 @@ $L_play_101:
   push  252
   and
   getln 3 6
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4386,7 +4365,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4401,7 +4380,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4416,7 +4395,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4431,7 +4410,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4446,7 +4425,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4461,7 +4440,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4476,7 +4455,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4491,7 +4470,7 @@ $L_play_102:
   p0
   dup6
   add2b
-  aidx  1 256
+  add2
   setr
   .line 33
 ;         for(u8 k = 1; k <= n; ++k)
@@ -4548,8 +4527,7 @@ $L_play_104:
 ;         u8 t= tiles[i];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 81
 ;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
@@ -4589,8 +4567,7 @@ $L_play_106:
 ;         u8 t= tiles[i];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 81
 ;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
@@ -4630,8 +4607,7 @@ $L_play_108:
 ;         u8 t= tiles[i];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 81
 ;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
@@ -4671,8 +4647,7 @@ $L_play_110:
 ;         u8 t= tiles[i];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 81
 ;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
@@ -4712,8 +4687,7 @@ $L_play_112:
 ;         u8 t= tiles[i];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 81
 ;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
@@ -4894,8 +4868,7 @@ $L_play_78:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 10
 ;         u8 n;
@@ -4920,7 +4893,7 @@ $L_play_79:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -4948,7 +4921,7 @@ $L_play_79:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -4977,7 +4950,7 @@ $L_play_79:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5006,7 +4979,7 @@ $L_play_79:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5035,7 +5008,7 @@ $L_play_79:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5093,8 +5066,7 @@ $L_play_87:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 10
 ;         u8 n;
@@ -5119,7 +5091,7 @@ $L_play_88:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5147,7 +5119,7 @@ $L_play_88:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5176,7 +5148,7 @@ $L_play_88:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5205,7 +5177,7 @@ $L_play_88:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5234,7 +5206,7 @@ $L_play_88:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -5857,15 +5829,13 @@ $L_process_laser_0:
 ;     u8 t = tiles[si];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 192
 ;     u8 obj = objects[si];
   pushg objects 0
   dup4
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 193
 ;     u8 nx = shootx + DIRX[shootdir];
@@ -5969,8 +5939,7 @@ $L_process_laser_43:
 ;     return tiles[i] >= T_FIRST_OPAQUE || objects[i] >= T_FIRST_OPAQUE;
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  112
   cult
@@ -5978,8 +5947,7 @@ $L_process_laser_43:
   bnzp  $L_process_laser_44
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  112
   cult
@@ -6039,8 +6007,7 @@ $L_process_laser_5:
 ;         u8 obj = objects[si];
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 216
 ;         if(obj == T_DIRT)
@@ -6050,8 +6017,7 @@ $L_process_laser_5:
 ;             obj = tiles[si];
   pushg tiles 0
   dup4
-  p0
-  aidx  1 256
+  add2b
   getr
   setl  1
 $L_process_laser_6:
@@ -6595,8 +6561,7 @@ $L_process_laser_21:
   p0
   pushg tiles 0
   dup7
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 247
 ;                 $tones_play_auto(SFX_BREAK);
@@ -6792,8 +6757,7 @@ $L_process_laser_32:
   add
   pushg tiles 0
   dup8
-  p0
-  aidx  1 256
+  add2b
   setr
   popn  10
   .line 185
@@ -6829,8 +6793,7 @@ $L_process_laser_24:
   add
   pushg objects 0
   dup8
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 285
 ;                     $tones_play_auto(SFX_BREAK);
@@ -6907,8 +6870,7 @@ process_moving_object:
 ;     switch(tiles[mi])
   pushg tiles 0
   dup7
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 67
 ;         case(T_ICE_CRACKED)
@@ -6931,8 +6893,7 @@ $L_process_moving_object_1:
   push  80
   pushg tiles 0
   getl  9
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 70
 ;             moving = true;
@@ -6946,8 +6907,7 @@ $L_process_moving_object_2:
 ;             if(objects[mi] == T_BLOCK_MOVE)
   pushg objects 0
   dup8
-  p0
-  aidx  1 256
+  add2b
   getr
   push  184
   sub
@@ -6957,8 +6917,7 @@ $L_process_moving_object_2:
   p8
   pushg tiles 0
   getl  9
-  p0
-  aidx  1 256
+  add2b
   setr
 $L_process_moving_object_3:
   .line 76
@@ -6966,8 +6925,7 @@ $L_process_moving_object_3:
   p0
   pushg objects 0
   getl  9
-  p0
-  aidx  1 256
+  add2b
   setr
 $L_process_moving_object_0:
   .line 65
@@ -7023,8 +6981,7 @@ $L_process_moving_object_28:
 ;     return tiles[i] >= T_FIRST_SOLID || objects[i] >= T_FIRST_SOLID;
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -7032,8 +6989,7 @@ $L_process_moving_object_28:
   bnzp  $L_process_moving_object_29
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -7057,8 +7013,7 @@ $L_process_moving_object_30:
 ;         u8& obj0 = objects[mi];
   pushg objects 0
   getl  10
-  p0
-  aidx  1 256
+  add2b
   .line 85
 ;         u8& obj1 = objects[ny * 16 + nx];
   pushg objects 0
@@ -7068,7 +7023,7 @@ $L_process_moving_object_30:
   mul2b
   getl  9
   add2b
-  aidx  1 256
+  add2
   .line 86
 ;         obj1 = obj0;
   dupw3
@@ -7084,8 +7039,7 @@ $L_process_moving_object_30:
 ;         switch(tiles[ni])
   pushg tiles 0
   dup7
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 90
 ;             case(T_WATER)
@@ -7130,8 +7084,7 @@ $L_process_moving_object_5:
   p8
   pushg tiles 0
   getl  9
-  p0
-  aidx  1 256
+  add2b
   setr
 $L_process_moving_object_9:
   .line 94
@@ -7147,8 +7100,7 @@ $L_process_moving_object_6:
 ;                 u8 tnum = u8(tiles[ni] - T_TUNNEL) >> 2;
   pushg tiles 0
   dup8
-  p0
-  aidx  1 256
+  add2b
   getr
   p32
   sub
@@ -7190,8 +7142,7 @@ $L_process_moving_object_10:
   getr
   pushg objects 0
   dup4
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 105
 ;                     obj1 = T_DIRT;
@@ -7269,8 +7220,7 @@ $L_process_moving_object_14:
 ;     switch(tiles[mi])
   pushg tiles 0
   getl  9
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 125
 ;         case(T_TUNNEL ... T_TUNNEL + 31)
@@ -7291,8 +7241,7 @@ $L_process_moving_object_16:
 ;             u8 ti = tiles[mi];
   pushg tiles 0
   getl  10
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 129
 ;             u8 tnum = u8(ti - T_TUNNEL) >> 2;
@@ -7311,8 +7260,7 @@ $L_process_moving_object_16:
 ;             if(objects[obji] >= T_FIRST_SOLID &&
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -7321,8 +7269,7 @@ $L_process_moving_object_16:
 ;                 tiles[obji] == ti &&
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   dup4
   sub
@@ -7347,21 +7294,18 @@ $L_process_moving_object_16:
 ;                 objects[mi] = objects[obji];
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   pushg objects 0
   getl  14
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 136
 ;                 objects[obji] = T_DIRT;
   p0
   pushg objects 0
   dup4
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 137
 ;                 $tones_play_auto(SFX_TUNNEL);
@@ -7398,7 +7342,7 @@ $L_process_moving_object_19:
   mul2b
   getg  tankx 0
   add2b
-  aidx  1 256
+  add2
   getr
   dup4
   sub
@@ -7735,8 +7679,7 @@ $L_process_tank_move_12:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 10
 ;         u8 n;
@@ -7761,7 +7704,7 @@ $L_process_tank_move_13:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -7789,7 +7732,7 @@ $L_process_tank_move_13:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -7818,7 +7761,7 @@ $L_process_tank_move_13:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -7847,7 +7790,7 @@ $L_process_tank_move_13:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -7876,7 +7819,7 @@ $L_process_tank_move_13:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -7934,8 +7877,7 @@ $L_process_tank_move_21:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 10
 ;         u8 n;
@@ -7960,7 +7902,7 @@ $L_process_tank_move_22:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -7988,7 +7930,7 @@ $L_process_tank_move_22:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8017,7 +7959,7 @@ $L_process_tank_move_22:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8046,7 +7988,7 @@ $L_process_tank_move_22:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8075,7 +8017,7 @@ $L_process_tank_move_22:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8216,8 +8158,7 @@ $L_process_tank_move_4:
 ;     return tiles[i] >= T_FIRST_SOLID || objects[i] >= T_FIRST_SOLID;
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -8225,8 +8166,7 @@ $L_process_tank_move_4:
   bnzp  $L_process_tank_move_5
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -8296,8 +8236,7 @@ $L_process_tank_move_32:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 10
 ;         u8 n;
@@ -8322,7 +8261,7 @@ $L_process_tank_move_33:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8350,7 +8289,7 @@ $L_process_tank_move_33:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8379,7 +8318,7 @@ $L_process_tank_move_33:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8408,7 +8347,7 @@ $L_process_tank_move_33:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8437,7 +8376,7 @@ $L_process_tank_move_33:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8495,8 +8434,7 @@ $L_process_tank_move_41:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 10
 ;         u8 n;
@@ -8521,7 +8459,7 @@ $L_process_tank_move_42:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8549,7 +8487,7 @@ $L_process_tank_move_42:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8578,7 +8516,7 @@ $L_process_tank_move_42:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8607,7 +8545,7 @@ $L_process_tank_move_42:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8636,7 +8574,7 @@ $L_process_tank_move_42:
   add2b
   p1
   add2b
-  aidx  1 256
+  add2
   getr
   .line 14
 ;                 break;
@@ -8773,7 +8711,7 @@ $L_process_tick_1:
   mul2b
   getg  tankx 0
   add2b
-  aidx  1 256
+  add2
   getr
   push  80
   sub
@@ -9080,7 +9018,7 @@ $L_render_level_4:
   mul2b
   getg  shootx 0
   add2b
-  aidx  1 256
+  add2
   getr
   .line 29
 ;                 case(T_MIRROR + 0x0) f = 4;
@@ -9151,7 +9089,7 @@ $L_render_level_13:
   mul2b
   getg  shootx 0
   add2b
-  aidx  1 256
+  add2
   getr
   .line 36
 ;                 case(T_MIRROR_ROT + 0x0) f = 4;
@@ -9705,7 +9643,7 @@ $L_render_level_29:
   mul2b
   getg  shootx 0
   add2b
-  aidx  1 256
+  add2
   getr
   .line 92
 ;                 case(T_MIRROR + 0x0) f = 4;
@@ -9776,7 +9714,7 @@ $L_render_level_41:
   mul2b
   getg  shootx 0
   add2b
-  aidx  1 256
+  add2
   getr
   .line 99
 ;                 case(T_MIRROR_ROT + 0x0) f = 4;
@@ -10868,7 +10806,7 @@ $L_render_level_141:
   mul2b
   getg  shootx 0
   add2b
-  aidx  1 256
+  add2
   getr
   .line 182
 ;                 case(T_MIRROR + 0x0) f = 4;
@@ -10939,7 +10877,7 @@ $L_render_level_153:
   mul2b
   getg  shootx 0
   add2b
-  aidx  1 256
+  add2
   getr
   .line 189
 ;                 case(T_MIRROR_ROT + 0x0) f = 4;
@@ -11652,8 +11590,7 @@ tank_update:
 ;     u8 t = tiles[tanki];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 115
 ;     u8 tanki = tanky * 16 + tankx;
@@ -11666,8 +11603,7 @@ tank_update:
 ;     if(objects[tanki] >= T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -11681,8 +11617,7 @@ $L_tank_update_23:
 ;     u8 t = tiles[tanki];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 119
 ;     switch(t)
@@ -11725,8 +11660,7 @@ $L_tank_update_25:
 ;                 if(objects[ti] < T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -11834,8 +11768,7 @@ $L_tank_update_1:
   push  80
   pushg tiles 0
   dup7
-  p0
-  aidx  1 256
+  add2b
   setr
   .line 164
 ;                 just_moved = true;
@@ -11892,8 +11825,7 @@ $L_tank_update_8:
 ;     return tiles[i] >= T_FIRST_SOLID || objects[i] >= T_FIRST_SOLID;
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -11901,8 +11833,7 @@ $L_tank_update_8:
   bnzp  $L_tank_update_9
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -11949,7 +11880,7 @@ $L_tank_update_0:
   mul2b
   getg  tankx 0
   add2b
-  aidx  1 256
+  add2
   getr
   p4
   sub
@@ -12502,8 +12433,7 @@ $L_tank_update_64:
 ;     if(objects[tanki] >= T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -12523,8 +12453,7 @@ $L_tank_update_12:
 ;     u8 t = tiles[tanki];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 92
 ;     switch(t)
@@ -12608,8 +12537,7 @@ $L_tank_update_16:
 ;     return tiles[i] >= T_FIRST_SOLID || objects[i] >= T_FIRST_SOLID;
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -12617,8 +12545,7 @@ $L_tank_update_16:
   bnzp  $L_tank_update_17
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -12658,8 +12585,7 @@ $L_tank_update_18:
 ;     if(objects[tanki] >= T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult
@@ -12673,8 +12599,7 @@ $L_tank_update_36:
 ;     u8 t = tiles[tanki];
   pushg tiles 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   .line 119
 ;     switch(t)
@@ -12717,8 +12642,7 @@ $L_tank_update_38:
 ;                 if(objects[ti] < T_FIRST_SOLID)
   pushg objects 0
   dup3
-  p0
-  aidx  1 256
+  add2b
   getr
   push  96
   cult

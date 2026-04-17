@@ -724,6 +724,10 @@ private:
 
     friend struct assembler_t;
 
+    static bool is_pop(compiler_instr_t const& i);
+    static bool is_branch_jmp_call(compiler_instr_t const& i);
+    static bool is_stack_eliminatable(compiler_instr_t const& i);
+
     void init_parser();
     void parse(std::vector<char> const& fi, ast_node_t& ast);
 
