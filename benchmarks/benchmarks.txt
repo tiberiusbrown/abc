@@ -59,6 +59,7 @@ strings                                50396
 string_append                           2716
 structs                                28183
 structs2                                 509
+structs3                                 265
 struct_ref_bug                           447
 switch                                 15779
 switch_jump_table                     302687

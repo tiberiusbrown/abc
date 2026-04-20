@@ -1,0 +1,17 @@
+struct st { u8 x; };
+
+void f(st t)
+{
+	$assert(t.x);
+}
+
+u8 y = 3;
+
+void main()
+{
+    $debug_break();
+    
+    f({ y + 4 });
+    
+    $debug_break();
+}

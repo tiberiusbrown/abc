@@ -1,0 +1,39 @@
+.shades 2
+.saved 0
+.global y 1
+
+
+$globinit:
+  .file <internal>
+  .line 8
+  p3
+  setg  y 0
+  ret
+
+main:
+  .file structs3.abc
+  .line 12
+;     $debug_break();
+  sys   debug_break
+  .line 14
+;     f({ y + 4 });
+  getg  y 0
+  p0
+  p4
+  add2b
+  pop
+  .line 5
+; 	$assert(t.x);
+  dup
+  bool
+  sys   assert
+  .line 3
+; void f(st t)
+  pop
+  .line 16
+;     $debug_break();
+  sys   debug_break
+  .line 10
+; void main()
+  ret
+
