@@ -904,7 +904,7 @@ private:
         std::vector<compiler_instr_t>& pi,
         compiler_instr_t const* b,
         compiler_instr_t const* d, size_t n);
-    static void push_compression2(
+    static bool push_compression2(
         std::vector<compiler_instr_t>& dst,
         std::vector<compiler_instr_t> const& src);
 

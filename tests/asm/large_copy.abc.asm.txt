@@ -27,8 +27,7 @@ c:
 $globinit:
   .file <internal>
   .line 20
-  p0
-  push3 2883585
+  push4 738197760
   dupw2
   pushg a 0
   push2 300
@@ -106,8 +105,7 @@ main:
   sys   assert
   .line 39
 ;     b = c;
-  p0
-  push3 2883585
+  push4 738197760
   dupw2
   pushg b 0
   push2 300
@@ -144,8 +142,7 @@ main:
   setg  b 299
   .line 49
 ;     a = b = c;
-  p0
-  push3 2883585
+  push4 738197760
   dupw2
   pushg b 0
   push2 300
@@ -214,8 +211,7 @@ main:
   sys   assert
   .line 63
 ;         d = c[0:100];
-  p0
-  push3 6553601
+  push4 1677721856
   p00
   refl  106
   push2 100
@@ -243,8 +239,7 @@ main:
   sys   assert
   .line 70
 ;         u8[100] d = c[0:100];
-  p0
-  push3 6553601
+  push4 1677721856
   p00
   refl  106
   push2 100

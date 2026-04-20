@@ -25840,8 +25840,7 @@ $L_main_107:
 ;     $debug_break(); $draw_tilemap(0, -1, TILES, TMAP8); $debug_break();
   sys   debug_break
   push4 84067094
-  p1
-  push2 65282
+  push3 16712193
   dup
   p00
   sys   draw_tilemap
@@ -25857,9 +25856,7 @@ $L_main_107:
   p0
   p1
   p0
-  p5
-  p1
-  push2 65282
+  push4 4278321413
   dup
   p00
   sys   draw_tilemap
@@ -25873,8 +25870,7 @@ $L_main_107:
 ;     $debug_break(); $draw_tilemap(-1, -1, TILES, TMAP8); $debug_break();
   sys   debug_break
   push4 84067094
-  p1
-  push2 65282
+  push3 16712193
   dup
   dupw
   sys   draw_tilemap
@@ -25890,9 +25886,7 @@ $L_main_107:
   p0
   p1
   p0
-  p5
-  p1
-  push2 65282
+  push4 4278321413
   dup
   dupw
   sys   draw_tilemap
@@ -26100,9 +26094,7 @@ $L_main_107:
   p16
   push4 2147668049
   p00
-  p5
-  p1
-  push2 65282
+  push4 4278321413
   dup
   p00
   sys   draw_sprite_array_P
@@ -26118,9 +26110,7 @@ $L_main_107:
   p16
   push4 2147668177
   p00
-  p5
-  p1
-  push2 65282
+  push4 4278321413
   dup
   p00
   sys   draw_sprite_array16_P
@@ -26136,9 +26126,7 @@ $L_main_107:
   p16
   push4 2147668049
   p00
-  p5
-  p1
-  push2 65282
+  push4 4278321413
   dup
   dupw
   sys   draw_sprite_array_P
@@ -26154,9 +26142,7 @@ $L_main_107:
   p16
   push4 2147668177
   p00
-  p5
-  p1
-  push2 65282
+  push4 4278321413
   dup
   dupw
   sys   draw_sprite_array16_P

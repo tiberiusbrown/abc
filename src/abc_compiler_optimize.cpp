@@ -2175,7 +2175,11 @@ bool compiler_t::peephole_compress_push_sequence(compiler_func_t& f)
         pi2.clear();
 
         push_compression(pi, f.instrs.data() + i, f.instrs.data() + i, n);
-        push_compression2(pi2, pi);
+        while(push_compression2(pi2, pi))
+        {
+            std::swap(pi, pi2);
+            pi2.clear();
+        }
 
         if(pi2.size() > n)
         {
@@ -2193,10 +2197,11 @@ bool compiler_t::peephole_compress_push_sequence(compiler_func_t& f)
     return t;
 }
 
-void compiler_t::push_compression2(
+bool compiler_t::push_compression2(
     std::vector<compiler_instr_t>& dst,
     std::vector<compiler_instr_t> const& src)
 {
+    bool t = false;
     for(size_t i = 0; i < src.size(); ++i)
     {
         auto const& i0 = src[i + 0];
@@ -2229,19 +2234,19 @@ void compiler_t::push_compression2(
                 ti.imm = (ti.imm << 8) + imm;
                 ti.instr = I_PUSH2;
                 dst.push_back(ti);
-                ++i;
+                ++i, t = true;
                 continue;
             case I_PUSH2:
                 ti.imm = (ti.imm << 8) + imm;
                 ti.instr = I_PUSH3;
                 dst.push_back(ti);
-                ++i;
+                ++i, t = true;
                 continue;
             case I_PUSH3:
                 ti.imm = (ti.imm << 8) + imm;
                 ti.instr = I_PUSH4;
                 dst.push_back(ti);
-                ++i;
+                ++i, t = true;
                 continue;
             default:
                 break;
@@ -2250,6 +2255,7 @@ void compiler_t::push_compression2(
 
         dst.push_back(i0);
     }
+    return t;
 }
 
 void compiler_t::push_compression(

@@ -4717,8 +4717,7 @@ $L_process_map_tile_7:
   p0
   p16
   mul2b
-  p2
-  push3 527364
+  push4 135005186
   p0000
   p00
   call  add_object
@@ -4744,8 +4743,7 @@ $L_process_map_tile_8:
   p0
   p16
   mul2b
-  p2
-  push3 658435
+  push4 168559362
   p0000
   p00
   call  add_object
@@ -6115,9 +6113,7 @@ $L_render_6:
   sys   draw_sprite
   .line 284
 ;     $draw_filled_rect(0, 14, 128, 2, WHITE);
-  p1
-  p2
-  push2 3712
+  push4 243270145
   p000
   sys   draw_filled_rect
   .line 288
@@ -6882,14 +6878,12 @@ $L_render_99:
   sys   draw_hline
   .line 224
 ;         $draw_hline(0, y, 128, WHITE);
-  p1
-  push2 11392
+  push3 2916353
   p000
   sys   draw_hline
   .line 225
 ;         $draw_hline(0, y2, 128, WHITE);
-  p1
-  push2 15488
+  push3 3964929
   p000
   sys   draw_hline
   .line 226
@@ -7761,9 +7755,7 @@ $L_render_10:
   sys   draw_sprite
   .line 45
 ;     $draw_filled_rect(0, 14, 128, 2, WHITE);
-  p1
-  p2
-  push2 3712
+  push4 243270145
   p000
   sys   draw_filled_rect
   .line 28
@@ -8866,14 +8858,12 @@ $L_render_level_73:
   pop
   .line 501
 ;     $draw_filled_rect(0, 0, 20, 6, BLACK);
-  p0
-  push2 5126
+  push3 1312256
   p0000
   sys   draw_filled_rect
   .line 502
 ;     $draw_filled_rect(57, 0, 13, 6, BLACK);
-  p0
-  push2 3334
+  push3 853504
   p00
   push2 57
   sys   draw_filled_rect

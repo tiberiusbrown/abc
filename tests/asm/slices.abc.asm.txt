@@ -62,8 +62,7 @@ main:
   p3
   p4
   p5
-  p6
-  push3 591879
+  push4 151521030
   .line 16
 ;             u8[]& slice = a[1:4];
   refl  9
