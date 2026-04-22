@@ -3,6 +3,6 @@ i8 blah = 42;
 void main()
 {
     $debug_break();
-	//$assert(-blah + 43 == 1);
+	$assert(-blah == -42);
     $debug_break();
 }

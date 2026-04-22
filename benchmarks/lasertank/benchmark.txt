@@ -1,2 +1,2 @@
 Running lasertank benchmark...
-    724384
+    724344

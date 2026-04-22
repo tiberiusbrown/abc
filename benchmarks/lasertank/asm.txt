@@ -9415,9 +9415,9 @@ $L_render_level_33:
   sys   memcpy
   .line 76
 ;             i16 x = -offx;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   .line 77
 ;             for(u8 c = 0; c < 16; ++c)
@@ -9845,31 +9845,30 @@ $L_render_level_54:
   bz    $L_render_level_138
   .line 113
 ;                 $draw_vline(-offx + 96, -offy - 1, 97, WHITE);
-  push2 24833
-  p00
+  push3 24833
   getg  offy 0
-  sub2
+  sub
   sext
   p1
   sub2b
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   push  96
   add2b
   sys   draw_vline
   .line 114
 ;                 i16 x = -offx + 98, y = -offy;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   push  98
   add2b
-  p00
+  p0
   getg  offy 0
-  sub2
+  sub
   sext
   .line 116
 ;                     $draw_sprite(x, y + i * 6, TILES6, 0xf0 + i);
@@ -9986,9 +9985,9 @@ $L_render_level_54:
   pop4
   .line 119
 ;                 i16 y = -offy;
-  p00
+  p0
   getg  offy 0
-  sub2
+  sub
   sext
   .line 120
 ;                 $draw_filled_rect(0, y - 1, 8, 97, BLACK);
@@ -10128,29 +10127,28 @@ $L_render_level_54:
   bz    $L_render_level_116
   .line 127
 ;                 $draw_hline(-offx - 1, -offy + 96, 97, WHITE);
-  push2 24833
-  p00
+  push3 24833
   getg  offy 0
-  sub2
+  sub
   sext
   push  96
   add2b
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   p1
   sub2b
   sys   draw_hline
   .line 128
 ;                 i16 x = -offx, y = -offy + 98;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
-  p00
+  p0
   getg  offy 0
-  sub2
+  sub
   sext
   push  98
   add2b
@@ -10273,9 +10271,9 @@ $L_render_level_54:
 $L_render_level_116:
   .line 134
 ;                 i16 x = -offx;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   .line 135
 ;                 $draw_filled_rect(x - 1, 0, 97, 8, BLACK);
@@ -10578,9 +10576,9 @@ $L_render_level_145:
   sys   memcpy
   .line 166
 ;             i16 x = -offx;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   .line 167
 ;             for(u8 c = 0; c < 16; ++c)
@@ -11012,31 +11010,30 @@ $L_render_level_167:
   bz    $L_render_level_188
   .line 204
 ;             $draw_vline(-offx + 128, -offy - 1, 129, WHITE);
-  push2 33025
-  p00
+  push3 33025
   getg  offy 0
-  sub2
+  sub
   sext
   p1
   sub2b
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   p128
   add2b
   sys   draw_vline
   .line 205
 ;             i16 x = -offx + 130, y = -offy;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   push  130
   add2b
-  p00
+  p0
   getg  offy 0
-  sub2
+  sub
   sext
   .line 207
 ;                 $draw_sprite(x, y + i * 8, TILES8, 0xf0 + i);
@@ -11161,9 +11158,9 @@ $L_render_level_188:
   bz    $L_render_level_210
   .line 211
 ;             i16 y = -offy;
-  p00
+  p0
   getg  offy 0
-  sub2
+  sub
   sext
   .line 212
 ;             $draw_filled_rect(0, y - 1, 10, 129, BLACK);
@@ -11304,29 +11301,28 @@ $L_render_level_210:
   bz    $L_render_level_231
   .line 219
 ;             $draw_hline(-offx - 1, -offy + 128, 129, WHITE);
-  push2 33025
-  p00
+  push3 33025
   getg  offy 0
-  sub2
+  sub
   sext
   p128
   add2b
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   p1
   sub2b
   sys   draw_hline
   .line 220
 ;             i16 x = -offx, y = -offy + 130;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
-  p00
+  p0
   getg  offy 0
-  sub2
+  sub
   sext
   push  130
   add2b
@@ -11453,9 +11449,9 @@ $L_render_level_231:
   bz    $L_render_level_253
   .line 226
 ;             i16 x = -offx;
-  p00
+  p0
   getg  offx 0
-  sub2
+  sub
   sext
   .line 227
 ;             $draw_filled_rect(x - 1, 0, 129, 10, BLACK);

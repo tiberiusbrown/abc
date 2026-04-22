@@ -15,6 +15,15 @@ main:
   .line 5
 ;     $debug_break();
   sys   debug_break
+  .line 6
+; 	$assert(-blah == -42);
+  p0
+  getg  blah 0
+  sub
+  push  214
+  sub
+  not
+  sys   assert
   .line 7
 ;     $debug_break();
   sys   debug_break

@@ -379,7 +379,7 @@ void compiler_t::codegen_expr(
         }
         else if(op == "-")
         {
-            auto size = a.children[1].comp_type.prim_size;
+            auto size = a.comp_type.prim_size;
             for(size_t i = 0; i < size; ++i)
                 f.instrs.push_back({ I_PUSH, a.children[1].line(), 0 });
             frame.size += size;

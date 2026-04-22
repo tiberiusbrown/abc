@@ -23,7 +23,7 @@ basic                                   2225
 bitwise                               125842
 bitwise_cast_bug                        1710
 bubble1                              1579086
-codegen_neg                               50
+codegen_neg                              244
 compound_assignment                     7999
 comp_assign_bug                          494
 constexpr                               3320
