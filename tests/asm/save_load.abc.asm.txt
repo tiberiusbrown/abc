@@ -39,7 +39,7 @@ main:
   getg2 x 0
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 16
@@ -47,7 +47,7 @@ main:
   getg2 y 0
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 18
@@ -76,7 +76,7 @@ main:
   getg2 x 0
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 28
@@ -84,7 +84,7 @@ main:
   getg2 y 0
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 30
@@ -118,7 +118,7 @@ main:
   getg2 x 0
   p5
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 41
@@ -126,7 +126,7 @@ main:
   getg2 y 0
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 43

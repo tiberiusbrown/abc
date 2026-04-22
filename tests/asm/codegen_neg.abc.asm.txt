@@ -1,0 +1,24 @@
+.shades 2
+.saved 0
+.global blah 1
+
+
+$globinit:
+  .file <internal>
+  .line 1
+  push  42
+  setg  blah 0
+  ret
+
+main:
+  .file codegen_neg.abc
+  .line 5
+;     $debug_break();
+  sys   debug_break
+  .line 7
+;     $debug_break();
+  sys   debug_break
+  .line 3
+; void main()
+  ret
+

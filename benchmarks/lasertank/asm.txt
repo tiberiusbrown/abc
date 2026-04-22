@@ -6782,7 +6782,7 @@ $L_process_laser_24:
   and2
   getg  shootdir 0
   sub2b
-  bool2
+  or
   bnz   $L_process_laser_34
   .line 284
 ;                     objects[si] = T_ANTITANK_B + tdir * 4;
@@ -7196,7 +7196,7 @@ $L_process_moving_object_4:
   add2
   getg  tankx 0
   sub2b
-  bool2
+  or
   bnz   $L_process_moving_object_13
   dup6
   push4 5445888
@@ -7207,7 +7207,7 @@ $L_process_moving_object_4:
   add2
   getg  tanky 0
   sub2b
-  bool2
+  or
   bnz   $L_process_moving_object_13
   .line 121
 ;             moving = false;

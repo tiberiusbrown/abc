@@ -42,7 +42,7 @@ main:
   pop2
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 17
@@ -52,7 +52,7 @@ main:
   pop2
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 18
@@ -157,7 +157,7 @@ main:
   pop2
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 34
@@ -241,7 +241,7 @@ main:
   pop2
   p2
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 47

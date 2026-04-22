@@ -43,7 +43,7 @@ main:
   getr2
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 11
@@ -55,7 +55,7 @@ main:
   getr2
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 12
@@ -67,7 +67,7 @@ main:
   getr2
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 13
@@ -79,7 +79,7 @@ main:
   getr2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 14
@@ -91,7 +91,7 @@ main:
   getr2
   p5
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 15
@@ -103,7 +103,7 @@ main:
   getr2
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -124,7 +124,7 @@ main:
   getr2
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 23
@@ -136,7 +136,7 @@ main:
   getr2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 24
@@ -148,7 +148,7 @@ main:
   getr2
   p5
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 25
@@ -160,7 +160,7 @@ main:
   getr2
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4

@@ -304,25 +304,25 @@ main:
   .line 52
 ;     $assert(ua == 0);
   getg2 ua 0
-  bool2
+  or
   not
   sys   assert
   .line 53
 ;     $assert(ub == 0);
   getg2 ub 0
-  bool2
+  or
   not
   sys   assert
   .line 54
 ;     $assert(uc == 0);
   getg2 uc 0
-  bool2
+  or
   not
   sys   assert
   .line 55
 ;     $assert(ud == 0);
   getg2 ud 0
-  bool2
+  or
   not
   sys   assert
   .line 57
@@ -354,7 +354,7 @@ main:
   getg2 ua 0
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 82

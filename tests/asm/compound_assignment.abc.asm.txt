@@ -32,7 +32,7 @@ main:
   dupw3
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 11
@@ -40,7 +40,7 @@ main:
   dupw
   p7
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -66,7 +66,7 @@ main:
   dupw5
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 19
@@ -74,7 +74,7 @@ main:
   dupw3
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 20
@@ -82,7 +82,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 21
@@ -99,7 +99,7 @@ main:
   getl2 10
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 23
@@ -107,7 +107,7 @@ main:
   dupw7
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 24
@@ -115,7 +115,7 @@ main:
   dupw5
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 25
@@ -123,7 +123,7 @@ main:
   dupw3
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 26
@@ -131,7 +131,7 @@ main:
   dupw
   p7
   sub2b
-  bool2
+  or
   not
   sys   assert
   popn  10
@@ -155,7 +155,7 @@ main:
   dupw3
   p2
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 35
@@ -163,7 +163,7 @@ main:
   dupw
   p1
   add2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -187,7 +187,7 @@ main:
   dupw3
   push  12
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 44
@@ -195,7 +195,7 @@ main:
   dupw
   push  13
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -220,7 +220,7 @@ main:
   dupw3
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 53
@@ -228,7 +228,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -253,7 +253,7 @@ main:
   dupw3
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 62
@@ -261,7 +261,7 @@ main:
   dupw
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -283,7 +283,7 @@ main:
   dupw3
   push  12
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 71
@@ -291,7 +291,7 @@ main:
   dupw
   push  13
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -313,7 +313,7 @@ main:
   dupw3
   push  13
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 80
@@ -321,7 +321,7 @@ main:
   dupw
   push  12
   add2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -345,7 +345,7 @@ main:
   dupw3
   p16
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 89
@@ -353,7 +353,7 @@ main:
   dupw
   push  17
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4

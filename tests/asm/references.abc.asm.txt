@@ -48,7 +48,7 @@ main:
   .line 18
 ;     $assert(a2[2] == 0);
   getg2 a2 4
-  bool2
+  or
   not
   sys   assert
   .line 19
@@ -147,7 +147,7 @@ main:
   getg2 a2 4
   push2 16896
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 32
@@ -327,7 +327,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -355,7 +355,7 @@ main:
   getr2
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 71
@@ -367,7 +367,7 @@ main:
   getr2
   p7
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 72
@@ -375,7 +375,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -425,7 +425,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -475,7 +475,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -488,7 +488,7 @@ main:
   getg2 ra1 2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 101
@@ -496,7 +496,7 @@ main:
   getg2 ra2 2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 102
@@ -504,7 +504,7 @@ main:
   getg2 ra3 2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 103
@@ -512,7 +512,7 @@ main:
   getg2 ra4 2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 105

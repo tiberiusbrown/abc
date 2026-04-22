@@ -177,7 +177,7 @@ $L_main_3:
   dupw
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 17

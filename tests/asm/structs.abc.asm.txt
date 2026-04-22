@@ -55,13 +55,13 @@ main:
   .line 27
 ;     $assert(e.x == 0);
   getg2 e 0
-  bool2
+  or
   not
   sys   assert
   .line 28
 ;     $assert(e.y == 0);
   getg2 e 2
-  bool2
+  or
   not
   sys   assert
   .line 30
@@ -595,7 +595,7 @@ $L_main_52:
   getg2 enemies 32
   push  42
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 55
@@ -603,7 +603,7 @@ $L_main_52:
   getg2 enemies 34
   push  65
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 57
@@ -625,7 +625,7 @@ $L_main_52:
   getg2 enemies 32
   push  42
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 59
@@ -633,7 +633,7 @@ $L_main_52:
   getg2 enemies 34
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 61
@@ -652,7 +652,7 @@ $L_main_52:
   getg2 enemies 32
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 63
@@ -660,7 +660,7 @@ $L_main_52:
   getg2 enemies 34
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 64

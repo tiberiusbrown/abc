@@ -808,7 +808,7 @@ $L_main_3:
   dupw
   push  42
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 74
@@ -826,7 +826,7 @@ $L_main_3:
   dupw5
   push2 700
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 79
@@ -844,7 +844,7 @@ $L_main_3:
   p32
   p3
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 81
@@ -852,7 +852,7 @@ $L_main_3:
   dupw5
   push2 900
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 83

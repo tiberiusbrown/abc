@@ -100,7 +100,7 @@ main:
   getg  b 299
   push2 51200
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 39

@@ -33,7 +33,7 @@ main:
   dupw5
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 30
@@ -41,7 +41,7 @@ main:
   dupw3
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 31
@@ -49,7 +49,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 32
@@ -67,7 +67,7 @@ main:
   dupw7
   p5
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 34
@@ -75,7 +75,7 @@ main:
   dupw5
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 35
@@ -83,7 +83,7 @@ main:
   dupw3
   p7
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 36
@@ -91,7 +91,7 @@ main:
   dupw
   p8
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 37
@@ -110,7 +110,7 @@ main:
   dupw7
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 39
@@ -118,7 +118,7 @@ main:
   dupw5
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 40
@@ -126,7 +126,7 @@ main:
   dupw3
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 41
@@ -134,7 +134,7 @@ main:
   dupw
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 42
@@ -154,7 +154,7 @@ main:
   dupw5
   push2 65036
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 5
@@ -162,13 +162,13 @@ main:
   dupw3
   push2 30000
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 6
 ;     $assert(x[3] == 0);
   dupw
-  bool2
+  or
   not
   sys   assert
   .line 7
@@ -200,7 +200,7 @@ main:
   getl2 10
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 14
@@ -208,7 +208,7 @@ main:
   dupw7
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 15
@@ -216,7 +216,7 @@ main:
   dupw5
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 16
@@ -224,7 +224,7 @@ main:
   dupw3
   p5
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 17
@@ -232,7 +232,7 @@ main:
   dupw
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 18

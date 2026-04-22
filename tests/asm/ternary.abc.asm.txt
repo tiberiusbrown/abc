@@ -96,7 +96,7 @@ $L_main_5:
   dupw3
   push  42
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 25
@@ -104,7 +104,7 @@ $L_main_5:
   dupw
   push  56
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 26

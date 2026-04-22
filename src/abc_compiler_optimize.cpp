@@ -495,6 +495,14 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         auto& i1 = f.instrs[i + 1];
 
+        // replace BOOL2; NOT with OR; NOT
+        if(i0.instr == I_BOOL2 && i1.instr == I_NOT)
+        {
+            i0.instr = I_OR;
+            t = true;
+            continue;
+        }
+
         // replace PUSH 8+; LSR/LSL with POP; PUSH 0
         if(i0.instr == I_PUSH && i0.imm >= 8 &&
             (i1.instr == I_LSL || i1.instr == I_LSR))

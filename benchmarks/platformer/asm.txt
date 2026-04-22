@@ -5717,7 +5717,7 @@ $L_render_5:
   .line 306
 ;     if(level_frames_remaining != 0)
   getg2 level_frames_remaining 0
-  bool2
+  or
   bz    $L_render_34
   .line 308
 ;         $set_text_font(MAIN_FONT);
@@ -5893,7 +5893,7 @@ $L_render_37:
   dec
   bnz   $L_render_40
   getg2 level_frames_remaining 0
-  bool2
+  or
   bz    $L_render_40
   .line 344
 ;         $set_text_font(FONT_BR5D);
@@ -6767,7 +6767,7 @@ $L_render_93:
   dup4
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_94
   .line 204
 ;             $draw_textf(67, y, "%05u", map_high_scores[j]);
@@ -6799,7 +6799,7 @@ $L_render_95:
   dup4
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_96
   .line 210
 ;             u16 t = map_best_times[j];
@@ -6936,7 +6936,7 @@ $L_render_100:
   dup3
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_101
   .line 239
 ;                 sum_score += map_high_scores[i];
@@ -6963,7 +6963,7 @@ $L_render_102:
   dup3
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_103
   .line 243
 ;                 sum_time += map_best_times[i];
@@ -6997,7 +6997,7 @@ $L_render_104:
   dup3
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_105
   .line 239
 ;                 sum_score += map_high_scores[i];
@@ -7024,7 +7024,7 @@ $L_render_106:
   dup3
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_107
   .line 243
 ;                 sum_time += map_best_times[i];
@@ -7058,7 +7058,7 @@ $L_render_108:
   dup3
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_109
   .line 239
 ;                 sum_score += map_high_scores[i];
@@ -7085,7 +7085,7 @@ $L_render_110:
   dup3
   aidxb 2 12
   getr2
-  bool2
+  or
   bz    $L_render_111
   .line 243
 ;                 sum_time += map_best_times[i];
@@ -10518,7 +10518,7 @@ $L_update_50:
   setg  creditsy 0
   push2 35840
   sub2b
-  bool2
+  or
   bnz   $L_update_52
   .line 25
 ;         creditsy = 0;
@@ -10547,10 +10547,10 @@ update_intro:
   .line 274
 ;         if(score == 0 || level_frames_remaining == 0)
   getg2 score 0
-  bool2
+  or
   bz    $L_update_intro_8
   getg2 level_frames_remaining 0
-  bool2
+  or
   bnz   $L_update_intro_1
 $L_update_intro_8:
   .line 275
@@ -10984,7 +10984,7 @@ $L_update_level_22:
   getg  current_map 0
   aidxb 2 12
   getr2
-  bool2
+  or
   not
   bnzp  $L_update_level_91
   .line 303
@@ -12254,7 +12254,7 @@ $L_update_level_129:
   sub2b
   dupw
   setg2 level_frames_remaining 0
-  bool2
+  or
   bnz   $L_update_level_85
   .line 696
 ;     if(death_frames != 0)

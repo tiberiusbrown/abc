@@ -91,7 +91,7 @@ main:
   dupw
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   pop4
@@ -133,7 +133,7 @@ main:
   dupw
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   popn  6

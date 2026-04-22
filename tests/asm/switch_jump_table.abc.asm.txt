@@ -724,7 +724,7 @@ $L_main_1:
   push3 2560
   udiv2
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 83

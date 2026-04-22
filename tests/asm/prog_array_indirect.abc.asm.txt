@@ -35,7 +35,7 @@ main:
   getpn 2
   push  100
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 28
@@ -48,7 +48,7 @@ main:
   getpn 2
   push  200
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 29
@@ -61,7 +61,7 @@ main:
   getpn 2
   push2 300
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 30
@@ -74,7 +74,7 @@ main:
   getpn 2
   push2 400
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 32
@@ -86,7 +86,7 @@ main:
   getr2
   push2 1000
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 33
@@ -99,7 +99,7 @@ main:
   getr2
   push2 2000
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 34
@@ -112,7 +112,7 @@ main:
   getr2
   push2 3000
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 35
@@ -125,7 +125,7 @@ main:
   getr2
   push2 4000
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 37

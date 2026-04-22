@@ -177,7 +177,7 @@ main:
   sys   strlen
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 20

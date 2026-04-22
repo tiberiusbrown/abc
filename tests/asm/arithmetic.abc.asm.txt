@@ -26,7 +26,7 @@ main:
   add2b
   push  52
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 7
@@ -37,7 +37,7 @@ main:
   sub2b
   push  38
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 8
@@ -48,7 +48,7 @@ main:
   sub2b
   push  38
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 9
@@ -59,7 +59,7 @@ main:
   mul2b
   push2 315
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 10
@@ -71,7 +71,7 @@ main:
   udiv2
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 11
@@ -83,7 +83,7 @@ main:
   umod2
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 12
@@ -219,7 +219,7 @@ main:
   dup2
   push2 11520
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 34
@@ -227,7 +227,7 @@ main:
   dup2
   push2 11520
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 36
@@ -235,7 +235,7 @@ main:
   dup2
   push2 11520
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 37
@@ -243,7 +243,7 @@ main:
   dup2
   push2 11520
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 1
@@ -264,7 +264,7 @@ main:
   add2
   push  52
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 46
@@ -276,7 +276,7 @@ main:
   sub2
   push  38
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 47
@@ -288,7 +288,7 @@ main:
   sub2
   push  38
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 48
@@ -300,7 +300,7 @@ main:
   mul2
   push2 315
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 49
@@ -312,7 +312,7 @@ main:
   div2
   p6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 50
@@ -324,7 +324,7 @@ main:
   mod2
   p3
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 51
@@ -441,7 +441,7 @@ main:
   sext
   push  45
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 71
@@ -450,7 +450,7 @@ main:
   sext
   push  45
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 73
@@ -459,7 +459,7 @@ main:
   sext
   push  45
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 74
@@ -468,7 +468,7 @@ main:
   sext
   push  45
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 40
@@ -562,7 +562,7 @@ main:
   lsl2
   push2 9000
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 89
@@ -572,7 +572,7 @@ main:
   lsr2
   push2 2250
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 90
@@ -590,7 +590,7 @@ main:
   dupw3
   push2 4500
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 93
@@ -602,7 +602,7 @@ main:
   dupw3
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 94
@@ -610,7 +610,7 @@ main:
   dupw3
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 96
@@ -618,7 +618,7 @@ main:
   dupw3
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 97
@@ -627,7 +627,7 @@ main:
   pdec2
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 98
@@ -635,7 +635,7 @@ main:
   dupw3
   push2 4498
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 100
@@ -643,7 +643,7 @@ main:
   dupw3
   push2 4498
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 101
@@ -655,7 +655,7 @@ main:
   dupw3
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 102
@@ -663,7 +663,7 @@ main:
   dupw3
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 104
@@ -671,7 +671,7 @@ main:
   dupw3
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 105
@@ -680,7 +680,7 @@ main:
   pinc2
   push2 4499
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 106
@@ -688,7 +688,7 @@ main:
   dupw3
   push2 4500
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 108

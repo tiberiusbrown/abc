@@ -25,7 +25,7 @@ main:
   .line 13
 ;     $assert(a2[2] == 0);
   getg2 a2 4
-  bool2
+  or
   not
   sys   assert
   .line 14
@@ -145,7 +145,7 @@ $L_main_9:
   aidxb 2 4
   getr2
   and2
-  bool2
+  or
   not
   sys   assert
   .line 34
@@ -182,7 +182,7 @@ $L_main_9:
   aidxb 2 4
   getr2
   and2
-  bool2
+  or
   not
   sys   assert
   .line 37
@@ -277,7 +277,7 @@ $L_main_9:
   aidxb 2 4
   getr2
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 45
@@ -329,7 +329,7 @@ $L_main_9:
   aidxb 2 4
   getr2
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 48
@@ -444,7 +444,7 @@ $L_main_9:
   and2
   getg2 a2 4
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 59
@@ -478,7 +478,7 @@ $L_main_9:
   and2
   getg  a2 4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 63
@@ -560,7 +560,7 @@ $L_main_9:
   or2
   p1
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 71
@@ -606,7 +606,7 @@ $L_main_9:
   and2
   getg2 a2 6
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 59
@@ -640,7 +640,7 @@ $L_main_9:
   and2
   getg  a2 6
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 63
@@ -722,7 +722,7 @@ $L_main_9:
   or2
   p1
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 71
@@ -839,7 +839,7 @@ $L_main_9:
 ;     $assert(a2[0] <<  0 == 1u <<  0);
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 88
@@ -849,7 +849,7 @@ $L_main_9:
   lsl2
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 89
@@ -859,7 +859,7 @@ $L_main_9:
   lsl2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 90
@@ -869,7 +869,7 @@ $L_main_9:
   lsl2
   p8
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 91
@@ -879,7 +879,7 @@ $L_main_9:
   lsl2
   p16
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 92
@@ -889,7 +889,7 @@ $L_main_9:
   lsl2
   p32
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 93
@@ -899,7 +899,7 @@ $L_main_9:
   lsl2
   p64
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 94
@@ -909,7 +909,7 @@ $L_main_9:
   lsl2
   p128
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 95
@@ -920,7 +920,7 @@ $L_main_9:
   p0
   p1
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 96
@@ -931,7 +931,7 @@ $L_main_9:
   p0
   p2
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 97
@@ -942,7 +942,7 @@ $L_main_9:
   p0
   p4
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 98
@@ -953,7 +953,7 @@ $L_main_9:
   p0
   p8
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 99
@@ -964,7 +964,7 @@ $L_main_9:
   p0
   p16
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 100
@@ -975,7 +975,7 @@ $L_main_9:
   p0
   p32
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 101
@@ -986,7 +986,7 @@ $L_main_9:
   p0
   p64
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 102
@@ -997,7 +997,7 @@ $L_main_9:
   p0
   p128
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 103
@@ -1784,7 +1784,7 @@ $L_main_9:
   p0
   p128
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 180
@@ -1795,7 +1795,7 @@ $L_main_9:
   p0
   p64
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 181
@@ -1806,7 +1806,7 @@ $L_main_9:
   p0
   p32
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 182
@@ -1817,7 +1817,7 @@ $L_main_9:
   p0
   p16
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 183
@@ -1828,7 +1828,7 @@ $L_main_9:
   p0
   p8
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 184
@@ -1839,7 +1839,7 @@ $L_main_9:
   p0
   p4
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 185
@@ -1850,7 +1850,7 @@ $L_main_9:
   p0
   p2
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 186
@@ -1861,7 +1861,7 @@ $L_main_9:
   p0
   p1
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 187
@@ -1871,7 +1871,7 @@ $L_main_9:
   lsr2
   p128
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 188
@@ -1881,7 +1881,7 @@ $L_main_9:
   lsr2
   p64
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 189
@@ -1891,7 +1891,7 @@ $L_main_9:
   lsr2
   p32
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 190
@@ -1901,7 +1901,7 @@ $L_main_9:
   lsr2
   p16
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 191
@@ -1911,7 +1911,7 @@ $L_main_9:
   lsr2
   p8
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 192
@@ -1921,7 +1921,7 @@ $L_main_9:
   lsr2
   p4
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 193
@@ -1931,7 +1931,7 @@ $L_main_9:
   lsr2
   p2
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 194
@@ -1941,7 +1941,7 @@ $L_main_9:
   lsr2
   p1
   sub2b
-  bool2
+  or
   not
   sys   assert
   .line 195
@@ -2733,7 +2733,7 @@ $L_main_9:
   asr2
   push2 49152
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 273
@@ -2743,7 +2743,7 @@ $L_main_9:
   asr2
   push2 57344
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 274
@@ -2753,7 +2753,7 @@ $L_main_9:
   asr2
   push2 61440
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 275
@@ -2763,7 +2763,7 @@ $L_main_9:
   asr2
   push2 63488
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 276
@@ -2773,7 +2773,7 @@ $L_main_9:
   asr2
   push2 64512
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 277
@@ -2783,7 +2783,7 @@ $L_main_9:
   asr2
   push2 65024
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 278
@@ -2793,7 +2793,7 @@ $L_main_9:
   asr2
   push2 65280
   sub2
-  bool2
+  or
   not
   sys   assert
   .line 279
@@ -2803,7 +2803,7 @@ $L_main_9:
   asr2
   p128
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 280
@@ -2813,7 +2813,7 @@ $L_main_9:
   asr2
   p64
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 281
@@ -2823,7 +2823,7 @@ $L_main_9:
   asr2
   p32
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 282
@@ -2833,7 +2833,7 @@ $L_main_9:
   asr2
   p16
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 283
@@ -2843,7 +2843,7 @@ $L_main_9:
   asr2
   p8
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 284
@@ -2853,7 +2853,7 @@ $L_main_9:
   asr2
   p4
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 285
@@ -2863,7 +2863,7 @@ $L_main_9:
   asr2
   p2
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 286
@@ -2873,7 +2873,7 @@ $L_main_9:
   asr2
   p1
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 287
@@ -2883,7 +2883,7 @@ $L_main_9:
   asr2
   p1
   add2b
-  bool2
+  or
   not
   sys   assert
   .line 289
