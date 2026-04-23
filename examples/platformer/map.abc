@@ -109,7 +109,7 @@ void process_map_tile(u8 x, u8 y, u8 t)
         // set initial player/camera position
         px = x * 16 + PXOFF;
         py = y * 16 + PYOFF;
-        camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;
+        camx = px - (CAMERA_OFFSET_X - CAMERA_OFFSET_X_DELTA);
         camy = py - CAMERA_OFFSET_Y;
         float xmax = map_width * 16 - 129;
         float ymax = map_height * 16 - 65;

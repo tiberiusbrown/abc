@@ -4557,14 +4557,11 @@ $L_process_map_tile_0:
   fadd
   setg4 py 0
   .line 112
-;         camx = px - CAMERA_OFFSET_X + CAMERA_OFFSET_X_DELTA;
+;         camx = px - (CAMERA_OFFSET_X - CAMERA_OFFSET_X_DELTA);
   getg4 px 0
   p00
-  push2 17024
+  push2 16992
   fsub
-  p000
-  push  65
-  fadd
   setg4 camx 0
   .line 113
 ;         camy = py - CAMERA_OFFSET_Y;
