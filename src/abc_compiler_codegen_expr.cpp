@@ -998,6 +998,41 @@ no_memcpy_optimization:
             return;
         }
 
+        if(a.data == "*")
+        {
+            int i0 = 0, i1 = 1;
+            if( is_constant<(1<< 8)>(a.children[0]) ||
+                is_constant<(1<<16)>(a.children[0]) ||
+                is_constant<(1<<24)>(a.children[0]))
+                std::swap(i0, i1);
+            if(is_constant<(1<<8)>(a.children[i1]))
+            {
+                f.instrs.push_back({ I_PUSH, a.line(), 0 });
+                codegen_expr(f, frame, a.children[i0], false);
+                codegen_convert(f, frame, a, a.comp_type, a.children[i0].comp_type);
+                f.instrs.push_back({ I_POPN, a.line(), 1 });
+                return;
+            }
+            if(is_constant<(1<<16)>(a.children[i1]))
+            {
+                for(int i = 0; i < 2; ++i)
+                    f.instrs.push_back({ I_PUSH, a.line(), 0 });
+                codegen_expr(f, frame, a.children[i0], false);
+                codegen_convert(f, frame, a, a.comp_type, a.children[i0].comp_type);
+                f.instrs.push_back({ I_POPN, a.line(), 2 });
+                return;
+            }
+            if(is_constant<(1<<24)>(a.children[i1]))
+            {
+                for(int i = 0; i < 3; ++i)
+                    f.instrs.push_back({ I_PUSH, a.line(), 0 });
+                codegen_expr(f, frame, a.children[i0], false);
+                codegen_convert(f, frame, a, a.comp_type, a.children[i0].comp_type);
+                f.instrs.push_back({ I_POPN, a.line(), 3 });
+                return;
+            }
+        }
+
         c0 = a.data == "*" && is_constant<1>(a.children[0]);
         c1 = is_constant<1>(a.children[1]);
 

@@ -39,6 +39,7 @@ if_statement                            3793
 large_copy                             26370
 loops                                 170199
 memcpy                                 43739
+mul_opt                                  931
 pre_incdec                              6088
 prog                                    6902
 prog_array_indirect                     5838

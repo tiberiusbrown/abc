@@ -4120,21 +4120,15 @@ $L_play_7:
   .line 66
 ;     moves  = undo_data[2] + undo_data[3] * 256;
   getg  undo_data 2
-  p0
-  getg  undo_data 3
   p00
-  p1
-  mul2
+  getg  undo_data 3
   add2
   setg2 moves 0
   .line 67
 ;     shots  = undo_data[4] + undo_data[5] * 256;
   getg  undo_data 4
-  p0
-  getg  undo_data 5
   p00
-  p1
-  mul2
+  getg  undo_data 5
   add2
   setg2 shots 0
   .line 69
