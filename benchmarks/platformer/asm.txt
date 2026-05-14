@@ -8433,8 +8433,8 @@ $L_render_level_47:
 $L_render_level_49:
   .line 461
 ;                 index = t;
-  dup2
-  setl  1
+  pop
+  dup
   .line 462
 ;                 if(death_frames == 0)
   getg  death_frames 0
@@ -8539,8 +8539,8 @@ $L_render_level_54:
 $L_render_level_56:
   .line 461
 ;                 index = t;
-  dup2
-  setl  1
+  pop
+  dup
   .line 462
 ;                 if(death_frames == 0)
   getg  death_frames 0

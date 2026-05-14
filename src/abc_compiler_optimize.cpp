@@ -495,8 +495,9 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
 
         auto& i1 = f.instrs[i + 1];
 
-        // replace BOOL2; NOT with OR; NOT
-        if(i0.instr == I_BOOL2 && i1.instr == I_NOT)
+        // replace BOOL2; (NOT|BZ|BNZ) with OR; (NOT|BZ|BNZ)
+        if(i0.instr == I_BOOL2 &&
+            (i1.instr == I_NOT || i1.instr == I_BZ || i1.instr == I_BNZ))
         {
             i0.instr = I_OR;
             t = true;
@@ -794,8 +795,10 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
             continue;
         }
 
-        // replace BOOL; BOOL with BOOL
-        if(i0.instr == I_BOOL && i1.instr == I_BOOL)
+        // replace BOOLn; BOOL with BOOLn
+        if((i0.instr == I_BOOL || i0.instr == I_BOOL2 ||
+            i0.instr == I_BOOL3 || i0.instr == I_BOOL4) &&
+            i1.instr == I_BOOL)
         {
             i1.instr = I_REMOVE;
             t = true;
@@ -895,17 +898,32 @@ bool compiler_t::peephole_reduce(compiler_func_t& f)
         }
 
         // replace:
-        //     GETGN/GETLN N M
+        //     GETGN N M
         //     SETLN N N
         // with:
         //     POPN N
-        //     GETGN/GETLN N M
-        if((i0.instr == I_GETGN) &&// || i0.instr == I_GETLN) &&
-            i1.instr == I_SETLN &&
+        //     GETGN N M
+        if(i0.instr == I_GETGN && i1.instr == I_SETLN &&
             i0.imm == i1.imm && i0.imm == i1.imm2)
         {
             i1 = i0;
             i0.instr = I_POPN;
+            t = true;
+            continue;
+        }
+
+        // replace:
+        //     GETLN N M
+        //     SETLN N N
+        // with:
+        //     POPN N
+        //     GETLN N M-N
+        if(i0.instr == I_GETLN && i1.instr == I_SETLN &&
+            i0.imm == i1.imm && i0.imm == i1.imm2)
+        {
+            i1 = i0;
+            i0.instr = I_POPN;
+            i1.imm2 -= i0.imm;
             t = true;
             continue;
         }
