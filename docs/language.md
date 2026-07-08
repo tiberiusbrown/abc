@@ -1,574 +1,779 @@
 # Language
 
+ABC is a C-like, statically typed language for the Arduboy FX. It aims to be memory-safe: array access is bounds-checked, arrays do not decay to pointers, and there are no pointers at all. The language keeps the syntax familiar, but deliberately leaves out the unsafe or ambiguous parts of C and C++.
+
+This reference is organized from the surface syntax down to the runtime model.
+
 - [Language](#language)
   - [Introduction](#introduction)
+  - [Source Form](#source-form)
+    - [Comments](#comments)
+    - [Identifiers and Keywords](#identifiers-and-keywords)
+    - [Literals](#literals)
   - [Types](#types)
     - [Primitive Numeric Types](#primitive-numeric-types)
-      - [The `bool` type](#the-bool-type)
-      - [The `byte` type](#the-byte-type)
-      - [The `char` type](#the-char-type)
-    - [The `prog` Type Attribute](#the-prog-type-attribute)
-    - [Arrays](#arrays)
-      - [Multidimensional Arrays](#multidimensional-arrays)
-      - [Strings](#strings)
-    - [Aggregates: `struct`](#aggregates-struct)
-      - [`union`](#union)
+    - [Storage Qualifiers](#storage-qualifiers)
+    - [Arrays and Strings](#arrays-and-strings)
+    - [Structs and Unions](#structs-and-unions)
     - [References](#references)
-      - [Unsized Array References](#unsized-array-references)
-      - [Function References](#function-references)
-    - [Assets (sprites, fonts, etc)](#assets-sprites-fonts-etc)
-      - [Sprite Sets](#sprite-sets)
-      - [Tilemaps](#tilemaps)
-      - [Fonts](#fonts)
-      - [Tones](#tones)
-      - [Music](#music)
-    - [`constexpr` Variables](#constexpr-variables)
-  - [Language](#language-1)
-    - [Flow Control](#flow-control)
-      - [The `switch` Statement](#the-switch-statement)
-    - [Arrays as Value Types](#arrays-as-value-types)
-    - [Array Slices](#array-slices)
-  - [The `main` Function](#the-main-function)
-  - [System Functions](#system-functions)
+    - [Function References](#function-references)
+    - [Asset Handles](#asset-handles)
+      - [`sprites`](#sprites)
+      - [`font`](#font)
+      - [`tones`](#tones)
+      - [`music`](#music)
+      - [`tilemap`](#tilemap)
+    - [Enums](#enums)
+  - [Declarations](#declarations)
+    - [Imports](#imports)
+    - [Compound Literals](#compound-literals)
+  - [Expressions](#expressions)
+    - [Operator Precedence](#operator-precedence)
+    - [Casts](#casts)
+    - [Indexing, Members, and Slices](#indexing-members-and-slices)
+    - [String Operations](#string-operations)
+    - [Constant Expressions](#constant-expressions)
+  - [Statements](#statements)
+    - [Blocks and Scope](#blocks-and-scope)
+    - [Conditionals and Loops](#conditionals-and-loops)
+    - [Switch](#switch)
+    - [Return, Break, and Continue](#return-break-and-continue)
+  - [Program Structure](#program-structure)
+  - [Built-in Constants](#built-in-constants)
   - [Compiler Directives](#compiler-directives)
+    - [Metadata Directives](#metadata-directives)
     - [The `#shades` Directive](#the-shades-directive)
-  - [Planned to Include in ABC (TODO)](#planned-to-include-in-abc-todo)
-  - [Intentionally Excluded from ABC](#intentionally-excluded-from-abc)
+  - [System Functions](#system-functions)
+  - [Intentionally Excluded](#intentionally-excluded)
 
 ## Introduction
 
-ABC's language design is inspired primarily from C/C++. It is designed to be [memory safe](https://en.wikipedia.org/wiki/Memory_safety): all array accesses are bounds-checked and pointers are excluded in favor of reference semantics. If you find an instance in which a compiled ABC program is able to violate memory safety, please let me know as I'd consider that a bug.
+ABC is designed around a few simple rules:
 
-Language features:
-- Functions
-- Floating point type and built-in mathematical functions
-- Asset types: sprites, fonts, tones
-- Limited `constexpr` variables (numeric and asset handle types only)
-- Essential arithmetic, bitwise, and (short-circuiting) logical operators with same precedence as C
-- Structs
-- Multidimensional arrays (some small syntax differences noted below)
-- References
-  - Function arguments can be [passed by reference](https://en.wikipedia.org/wiki/Evaluation_strategy#Call_by_reference)
-  - Structs and arrays can contain references, but are then noncopyable
-- Control: `for`, `while`, `do`-`while`, `if`, `switch`
+- It is statically typed and mostly C-like in expression syntax and control flow.
+- Arrays are value types, not pointers.
+- References are explicit in the type system and cannot be re-seated.
+- Global data can live in RAM, in program memory, or in persistent save data.
+- The compiler folds many constant expressions at compile time.
+
+Top-level names all share one namespace. Functions, globals, structs, enums, and imported definitions must therefore have unique names.
+
+The compiler collects top-level declarations before generating code, so forward references are allowed in normal source order.
+
+## Source Form
+
+### Comments
+
+ABC uses ordinary C-style comments.
+
+```c
+// line comment
+/* block comment */
+```
+
+### Identifiers and Keywords
+
+Identifiers are made from letters, digits, and underscores, and may optionally begin with `$`. The `$` prefix is conventionally used for system functions.
+
+The reserved keywords are:
+
+`u8`, `i8`, `u16`, `i16`, `u24`, `i24`, `u32`, `i32`, `void`, `bool`, `char`, `uint`, `int`, `ulong`, `long`, `sprites`, `font`, `tones`, `music`, `tilemap`, `constexpr`, `saved`, `prog`, `if`, `else`, `while`, `for`, `return`, `break`, `continue`, `struct`, `import`, `len`, `float`, `byte`, `enum`, `do`, `switch`, `case`, and `default`.
+
+The parser also reserves `uchar`, but it is not currently accepted as a usable primitive type alias.
+
+### Literals
+
+Numeric literals, character literals, and string literals are the basic literal forms.
+
+Numeric literals:
+
+- Decimal integers use digits only, with an optional `u` suffix, for example `42` or `42u`.
+- Hex integers use the `0x` prefix, for example `0xff` or `0xffu`.
+- Floating-point literals support a decimal point and/or exponent, for example `1.5`, `.5`, `1.`, `1e3`, or `2.0e-1`.
+
+Integer literals are automatically given the smallest fitting primitive integer type. Decimal literals default to signed; hex literals default to signed only while the signed range fits.
+
+Character literals are single-quoted and use the same escape sequences as strings.
+
+String literals are double-quoted. The supported escapes are `\0`, `\n`, `\r`, `\t`, `\"`, `\'`, `\\`, and `\xHH`.
+
+Adjacent quoted string literal pieces are concatenated by the parser, so `"Hello" " World"` is one literal.
+
+A string literal expression has type `char[N] prog&`, where `N` is the number of characters after escape processing and before any terminator is added by assignment into a larger destination.
 
 ## Types
 
 ### Primitive Numeric Types
-The following keyword types are exposed in ABC.
 
-| Keyword | Usage     | Bit Width |
-|:-------:|-----------|:---------:|
-| `bool`  | boolean   | 8         |
-| `byte`  | byte      | 8         |
-| `char`  | character | 8         |
-| `i8`    | signed    | 8         |
-| `i16`   | signed    | 16        |
-| `i24`   | signed    | 24        |
-| `i32`   | signed    | 32        |
-| `short` | signed    | 8         |
-| `int`   | signed    | 16        |
-| `long`  | signed    | 32        |
-| `u8`    | unsigned  | 8         |
-| `u16`   | unsigned  | 16        |
-| `u24`   | unsigned  | 24        |
-| `u32`   | unsigned  | 32        |
-| `ushort`| unsigned  | 8         |
-| `uint`  | unsigned  | 16        |
-| `ulong` | unsigned  | 32        |
-| `float` | float     | 32        |
+| Type | Bits | Notes |
+|---|---:|---|
+| `void` | 0 | Only valid as a function return type. |
+| `bool` | 8 | Logical false/true. Converts to `0` or `1`. |
+| `byte` | 8 | Raw unsigned byte type, useful for memory views. |
+| `char` | 8 | Character type used for strings. |
+| `u8` | 8 | Unsigned integer. |
+| `u16` | 16 | Unsigned integer. |
+| `u24` | 24 | Unsigned integer. |
+| `u32` | 32 | Unsigned integer. |
+| `i8` | 8 | Signed integer. |
+| `i16` | 16 | Signed integer. |
+| `i24` | 24 | Signed integer. |
+| `i32` | 32 | Signed integer. |
+| `float` | 32 | IEEE-754 single-precision floating point. |
 
-#### The `bool` type
+Common aliases:
 
-The `bool` type is the type of relational and boolean operations (such as `a == b` or `a && b`). It can only contain the values `true` or `false`, which convert to `1` and `0`, respectively, when cast to another numeric type. When converted to `bool`, values of a non-`bool` type convert to `false` when zero, and `true` otherwise.
+`short` = `i8`, `int` = `i16`, `long` = `i32`, `ushort` = `u8`, `uint` = `u16`, and `ulong` = `u32`.
 
-Unlike C, bitwise operators may not operate on `bool`. This prevents mistakes such as the following:
+Notes:
+
+- `bool` is a real 8-bit type, not a C++-style special case.
+- `char` is an unsigned 8-bit type and is treated specially in string contexts.
+- `byte` is intended for raw memory and byte-oriented operations.
+- `float` arithmetic is 32-bit single precision.
+- `bool` may participate in arithmetic like other primitives, but bitwise operators do not accept `bool`.
+
+### Storage Qualifiers
+
+ABC has three important storage modifiers.
+
+`prog`
+
+- `prog` stores the value in program memory instead of RAM.
+- It is a postfix type modifier, so write `T[N] prog`, not `T prog[N]`.
+- `prog` globals must be initialized.
+- `prog` values are read-only at runtime from the language's point of view.
+- `prog` is a global-only concept; local variables may not be `prog`.
+
+`constexpr`
+
+- `constexpr` values are compile-time only and occupy no storage.
+- `constexpr` is allowed on primitive numeric types and asset-handle types.
+- `constexpr` values can be local or global.
+- `constexpr` declarations must be initialized.
+
+`saved`
+
+- `saved` marks a global value that is persisted in save data.
+- `saved` is global-only.
+- `saved` values may not be references or contain references of any kind.
+- `saved` values participate in the runtime save/load system.
+
+Ordinary non-`prog`, non-`constexpr` variables without initializers are zero-initialized.
+
+### Arrays and Strings
+
+Arrays are written as `T[N]`, where `N` is the number of elements. Multidimensional arrays are written inside-out compared with C: `u8[MAX_ITEMS][COLS][ROWS] map` in ABC corresponds to `u8 map[ROWS][COLS][MAX_ITEMS]` in C.
+
+Arrays are value types:
+
+- They do not decay to pointers.
+- Passing an array to a function passes a copy.
+- Arrays can be returned from functions if the type is copyable and not `prog`.
+
+Array indices are zero-based and bounds-checked.
+
+Arrays can be nested and sliced through their contiguous storage. For example:
+
 ```c
-// Intent:  call f() if the lowest three bits of x are cleared
-// Reality: never call f(), as the condition is actually "x & (7 == 0)"
-if(x & 7 == 0)
-    f();
+u16[2][3] a = { {1, 2}, {3, 4}, {5, 6} };
+u16[]& r = a;
+$assert(len(r) == 6);
+$assert(r[0] == 1);
+$assert(r[5] == 6);
 ```
 
-#### The `byte` type
+Strings are `char` arrays.
 
-Any reference to a copyable type may be converted to an [unsized array reference](#unsized-array-references) of `byte` type.
+- A string's capacity is the array length.
+- `len(s)` returns the capacity, not the runtime NUL-terminated length.
+- Use `$strlen(s)` from the system functions to measure the current NUL-terminated text length.
+- String literals live in program memory and behave like `char[N] prog&`.
+- Assigning one `char` array to another can resize the destination logically; other array types must match exactly.
+- String equality and inequality are supported directly.
+- String concatenation is supported through `+` and `+=` in assignment contexts.
 
-#### The `char` type
-
-Arrays of type `char` are allowed to resize when assigned to each other. This reflects the intended usage of `char` values as characters in strings.
+Examples:
 
 ```c
-int[4] a_int;
-int[6] b_int;
-
-a_int = b_int; // ERROR! array sizes differ
-
-char[4] a_char;
-char[6] b_char;
-
-a_char = b_char; // OK
+char[20] s = "Hello";
+s += " World!";
+$assert(s == "Hello World!");
 ```
 
-### The `prog` Type Attribute
+### Structs and Unions
 
-For any type `T`, the type `T prog` indicates storage in program memory.
-
-### Arrays
-
-In general, ABC strives to maintain consistent behavior across the syntax for different types: in a variable declaration `T x;` the syntax `T` should convey the complete type of variable `x`.
-
-Because of this principle, an ABC array is declared as below, with both the number of array elements and the element type kept together in the same type syntax.
-```c
-u16[4] values;
-```
-
-The equivalent C declaration separates the type from the array size.
-```c
-uint16_t values[4];
-```
-
-#### Multidimensional Arrays
-Type syntax in ABC is intended to be consistent and easy to parse. For any type `T`, the type `T[N]` should always represent an array of `N` elements of type `T`. Thus, in ABC, the type `int[2][3]` represents an array of 3 elements of type `int[2]`. This leads to a reversal of the dimension order from C syntax for multidimensional arrays.
+`struct` and `union` define aggregate types.
 
 ```c
-// C syntax
-uint8_t map_items[MAP_ROWS][MAP_COLS][MAX_ITEMS];
-
-// ABC syntax
-u8[MAX_ITEMS][MAP_COLS][MAP_ROWS] map_items;
-```
-
-#### Strings
-
-Strings in ABC are `char` arrays, where the length of the array is the capacity (maximum length) of the string. An ABC string does not require null termination if it occupies the full capacity of its array.
-
-```c
-// str1 will contain the 5 characters "Hello" followed by a null terminator.
-char[12] str1 = "Hello";
-
-// str2 will contain the 12 characters "Hello World!" and no null terminator.
-char[12] str2 = "Hello World!";
-
-// str3 will contain the 12 characters "abcdefghijkl" and no null terminator.
-char[12] str3 = "abcdefghijklmnop";
-```
-
-A string literal is of type `char[N] prog`, where `N` is the length of the string, *not* including a null terminator.
-
-### Aggregates: `struct`
-
-As in C/C++, the `struct` keyword may be used to define an aggregate type.
-
-```c
-struct my_type_t
+struct enemy_t
 {
     int x;
-    float f;
-    char[10] str;
+    int y;
+    char[12] attrs;
 };
-
-// ...
-
-my_type_t foo = { 42, 3.5, "Hello" };
-
-my_type_t[3] foo_array;
-foo_array[1].f = -2.25;
 ```
 
-#### `union`
+Rules:
 
-The `union` keyword may be used to create unions, also as in C/C++. In ABC, unions may only have copyable members (e.g., a non-`prog` reference may not be a member of a union).
+- `struct` and `union` members may not be declared `prog`.
+- `union` members must be copyable.
+- `union` initializers may contain only one element.
+- Missing trailing members are zero-initialized when the type allows it.
+- Any member that is a reference must be explicitly initialized.
 
 ### References
-ABC has references (like C++) but not pointers. For any type `T`, the type `T&` is a reference to `T`. As in C++, references cannot be reassigned and must be initialized when declared.
 
-```c
-int x = 2;
-int& a = x;
+ABC has references, but not pointers.
 
-// Error: references must be initialized
-// int& b;
+- `T&` is a reference to `T`.
+- References must be initialized.
+- References cannot be re-seated.
+- There is no address-of operator in expression syntax.
+- A reference to a reference is not allowed.
 
-$assert(x == 2);
-a = 3;
-$assert(x == 3);
-```
+Unsized array references are written as `T[]&`.
 
-#### Unsized Array References
-Normally, creating a reference to an array requires knowledge of the length of the array in the reference's type to enable bounds-checking for all array accesses through the reference.
+- They store the referenced array's length as well as the reference itself.
+- They are useful for functions that accept arrays of any length.
+- `T[] prog&` is the prog-memory variant.
+- `byte[]&` is a raw byte view and can be created from any copyable referenced value.
 
-```c
-int[4] a = { 1, 2, 3, 4 };
+Non-`prog` references make a composite value noncopyable. `prog` references and function references are copyable.
 
-// All accesses to 'a' through 'r' are bounds-checked.
-int[4]& r = a;
-```
-
-However, it is possible to create a reference to an array of unspecified size, or an unsized array reference (UAR). Internally, a UAR also stores the size of the array it references (and are thus double the size of a normal reference), so bounds-checking is still possible. UARs are conceptually similar to C++20's `std::span` with dynamic extent.
-
-For some array of type `T[N]`, the type of its UAR is `T[]&`. For a `prog` array of type `T[N] prog`, its UAR type is `T[] prog&`. This syntax was intentionally chosen to easily allow changing standard array references to UARs by simply removing the array size.
-
-```c
-int[4] a = { 1, 2, 3, 4 };
-
-// All accesses to 'a' through 'r' are bounds-checked.
-// However, the storage for 'r' is double that of a sized array reference.
-int[]& r = a;
-```
-
-UARs can be useful for defining an array of strings. The below example declares a `prog` array of 3 elements, each of which is a reference to a `prog` unsized array of `char`:
-
-```c
-char[] prog&[3] prog MY_STRINGS = {
-    "Short",
-    "A somewhat longer string",
-    "?"
-};
-```
-
-UARs are also useful in defining functions that can take arrays of any length:
+Example:
 
 ```c
 int sum(int[]& a)
 {
     int t = 0;
-    for(int i = 0; i < len(a); ++i)
-        t += a[i];
+    for(u16 i = 0; i < len(a); i = i + 1)
+        t = t + a[i];
     return t;
 }
 ```
 
-UARs may be created from multidimensional arrays:
+### Function References
 
-```
-u16[2][3] a = { {1, 2}, {3, 4}, {5, 6} };
-u16[]& r = a;
-$assert(len(r) == 6);
-$assert(r[0] == 1);
-$assert(r[1] == 2);
-$assert(r[2] == 3);
-$assert(r[3] == 4);
-$assert(r[4] == 5);
-$assert(r[5] == 6);
-```
+Function references are a special copyable reference-like type. Their syntax is:
 
-#### Function References
+` :return_type(arg_types_list)& `
 
-References to functions are a special type of reference that is copyable and reassignable.
+The argument names in the type syntax are optional and ignored.
+
+Examples:
 
 ```c
 u8 f(u8 x, i8 y) { return x + y + 2; }
 u8 g(u8 x, i8 y) { return x + y + 3; }
-u8 h(u8 x, u8 y) { return 0; }
 
 void main()
 {
-    // 'r' is a reference to function 'f'
     :u8(u8 x, i8 y)& r = f;
-
-    // indirect call to 'f' through 'r'
     $assert(r(0, 0) == 2);
-
-    // function references can be reassigned
     r = g;
-
-    // indirect call to 'g' through 'r'
     $assert(r(0, 0) == 3);
-
-    // ERROR: function signature of 'h' differs from 'r'
-    // the second argument of 'h' is 'u8' instead of 'i8'
-    r = h;
 }
 ```
 
-The type syntax of a function reference is `:return_type(arg_types_list)&`.
+Notes:
 
-### Assets (sprites, fonts, etc)
-Various asset types each have their own dedicated type, which acts as a handle to a location in program memory. These handles are copyable but cannot be otherwise inspected or used in arithmetic expressions.
+- A bare function name in expression position evaluates to a function reference.
+- Function references are reassignable.
+- The referenced function signatures must match exactly.
 
-#### Sprite Sets
-The `sprites` type identifies a set of sprites. Sprites can be defined inline via a kind of ASCII-art or loaded by specifying a path to an image file. Both masked and unmasked sprites are supported, and the same drawing methods (e.g., $draw_sprite) can be used for both.
+### Asset Handles
 
-Examples of ASCII-art style sprite set initialization:
+ABC has five opaque asset-handle types:
+
+- `sprites`
+- `font`
+- `tones`
+- `music`
+- `tilemap`
+
+These values identify data stored in program memory. They are copyable and can be `constexpr`, but they are not numeric values and may not be used in arithmetic expressions.
+
+Same-type comparisons are allowed, but the handle value itself is otherwise opaque.
+
+Asset literal file paths are resolved relative to the current source file.
+
+#### `sprites`
+
+`sprites{ ... }` creates a sprite-set handle.
+
+Two forms are supported:
+
 ```c
-// In ASCII-art sprite literals, characters have the following meaning:
-//     '-' -- transparency
-//     '.' -- black
-//     Any other non-whitespace character indicates white.
 constexpr sprites DIGITS = sprites{
-    3x5 // ASCII-art sprite literals need to know how large one sprite is
-    .X.  .X.  XX.  XX.  X.X  XXX  .X.  XXX  .X.  .X.
-    X.X  XX.  ..X  ..X  X.X  X..  X..  ..X  X.X  X.X
-    X.X  .X.  .X.  .X.  XXX  XX.  XX.  ..X  .X.  .XX
-    X.X  .X.  X..  ..X  ..X  ..X  X.X  .X.  X.X  ..X
-    .X.  XXX  XXX  XX.  ..X  XX.  .X.  .X.  .X.  .X.
+    3x5
+    .X.  .X.  XX.
+    X.X  XX.  ..X
+    X.X  .X.  .X.
+    X.X  .X.  X..
+    .X.  XXX  XXX
 };
 
-constexpr sprites MASKED_BALL = sprites{
-    8x8
-    --XXXX--
-    -X....X-
-    X......X
-    X......X
-    X......X
-    X......X
-    -X....X-
-    --XXXX--
-};
-```
-
-Examples of declaring sprites from a file:
-```c
-// Specifying sprite size for a set of sprites
+constexpr sprites TITLE = sprites{ "assets/title.png" };
 constexpr sprites TILES = sprites{ 16x16 "assets/tileset.png" };
-
-// Leaving out the size is allowed when loading from a file. In this case,
-// there will be just one sprite the same size as the image.
-constexpr sprites TITLE_IMG = sprites{ "assets/title.png" };
 ```
 
-#### Tilemaps
-The `tilemap` type identifies a sized 2D-array of sprite indices, which can be used for drawing with the `$draw_tilemap` system function.
+Notes:
+
+- The size fields are decimal literals, not general expressions.
+- If width and height are omitted for a file-backed sprite literal, the image is treated as a single sprite.
+- If width and height are given, the loaded image must be a multiple of that sprite size.
+- In ASCII-art sprite data, whitespace is ignored, `-` is transparent, `.` is the darkest visible shade, `1` and `2` step through brighter shades, and any other non-whitespace character becomes the brightest shade for the active `#shades` mode.
+
+#### `font`
+
+`font{ size "file.ttf" }` loads a font from a TTF file.
 
 ```c
-// TMX tilemaps (e.g., from Tiled Map Editor) are supported
-$draw_tilemap(x, y, sprites{ 16x16 "tiles.png" }, tilemap{ "world.tmx" });
-```
-
-#### Fonts
-The `font` type identifies a font that can be used to draw text (e.g., with the `$draw_text` family of system functions).
-
-```c
-// To load a font from a TTF file, specify the font size and the filename.
 constexpr font f = font{ 12 "assets/font.ttf" };
-
-$draw_text_P(x, y, f, "Hello World!");
 ```
 
-There are a number of built-in fonts that are automatically included when used. See the full list [here](https://github.com/tiberiusbrown/abc/blob/master/docs/builtin_fonts.md).
+Builtin fonts are also exposed as `constexpr font` globals. See [builtin_fonts.md](builtin_fonts.md).
 
-#### Tones
-The `tones` type identifies a monophonic sequence of musical tones. Each tone is defined by a musical note and a duration in milliseconds.
+#### `tones`
+
+`tones` describes a monophonic sequence of notes.
 
 ```c
-// A two-tone note: B5 for 100 ms followed by E6 for 200 ms (e.g., platformer coin sound)
 constexpr tones my_sfx = tones{ B5 100 E6 200 };
-
-// MIDI import is supported
-constexpr tones my_song = tones{ "assets/song.mid" };
-
-$tones_play(my_sfx);
-
-// As with other resource handle types, you can use a literal directly:
-$tones_play(tones{ C4# 50 C4 50 C4b 50 });
+constexpr tones from_midi = tones{ "assets/sound.mid" };
 ```
 
-#### Music
-The `music` type identifies a sequence of musical tones in which up to two notes may play simultaneously.
+Notes:
+
+- Inline tones use note-duration pairs, where the duration is in milliseconds.
+- RTTTL strings are also accepted.
+- `-` and `P` denote silence/rest.
+
+#### `music`
+
+`music` is like `tones`, except the encoded sequence may contain up to two simultaneous notes.
 
 ```c
-// song.mid may have up to two notes playing at once
 constexpr music my_song = music{ "assets/song.mid" };
 ```
 
-### `constexpr` Variables
-Numeric or asset handle variables can be declared `constexpr`. When declared `constexpr`, a variable occupies no storage and its value (calculated at compile time) is inserted directly into any expression in which the variable is used.
+#### `tilemap`
 
-```cpp
-// Numeric types may be declared constexpr
-constexpr i16 X = 3;
-constexpr float Y = X + 2;
+`tilemap` is a 2D array of tile indices.
 
-// Asset handles may be declared constexpr as well
-constexpr font MY_FONT = font{ 8 "assets/font.ttf" };
+```c
+constexpr tilemap TM = tilemap{
+    16x8
+    18,19,146,59,134,155,170,6,171,37,37,38,27,17,19,43,
+    35,161,162,163,28,134,155,154,7,7,7,135,74,52,52,75
+    // ...
+};
+
+$draw_tilemap(x, y, sprites{ 16x16 "tiles.png" }, tilemap{ "world.tmx" });
 ```
 
-Certain language features, such as [array slices](#array-slices), have behavior that depends on whether or not an integral expression's value is computable at compile-time. Integer literals,  `constexpr` variables, and the `len()` operator on arrays and array references are guaranteed to produce compile-time constants.
+Notes:
 
-## Language
+- Inline tilemaps use decimal width and height literals followed by row-major tile data.
+- TMX imports can optionally name the tile layer. If no layer name is given, the first tile layer is used.
 
-### Flow Control
+### Enums
 
-The following standard flow control elements exist in ABC and behave just as in C:
-- `if`-`else`
+ABC supports named and anonymous enums.
+
+```c
+enum foo_t
+{
+    BLAH,
+    BLAH2,
+};
+
+enum
+{
+    BLAH3 = 17,
+    BLAH4,
+};
+```
+
+Rules:
+
+- Enumerator names are introduced into the global namespace as compile-time constants.
+- Enumerator values may be explicit or auto-incremented.
+- Explicit values must be constant expressions.
+- Enum values may be negative.
+- The underlying integer type is chosen automatically to fit the values.
+
+## Declarations
+
+The basic declaration forms are:
+
+```c
+T x;
+T x = expr;
+constexpr T x = expr;
+saved T x;
+```
+
+Multiple declarators can share one type:
+
+```c
+int x, y, z;
+```
+
+Declaration rules:
+
+- `constexpr` and `prog` variables must be initialized.
+- `prog` variables must be global.
+- `saved` variables must be global.
+- A local `saved` variable is invalid.
+- A local `prog` variable is invalid.
+- Non-`constexpr`, non-`prog` variables without initializers are zero-initialized.
+- Top-level names share one namespace, so duplicate names across functions, globals, structs, enums, and imports are not allowed.
+
+Functions are declared with the usual C-like syntax:
+
+```c
+u8 f(u8 x, i8 y) { return x + y + 2; }
+```
+
+User-defined functions are uniquely named; overloading is not supported.
+
+### Imports
+
+Imports are top-level statements:
+
+```c
+import math.fixed;
+```
+
+Rules:
+
+- The import path is dot-separated identifiers.
+- `import math.fixed;` loads `math/fixed.abc` relative to the current source file's directory.
+- Imported files are compiled once, even if imported multiple times.
+- Import loops are rejected.
+
+### Compound Literals
+
+Compound literals use braces and are positional.
+
+```c
+enemy_t e = { 42, 7, "blue" };
+u8[4] a = { 1, 2, 3, 4 };
+u8[2][3] m = { {1, 2}, {3, 4}, {5, 6} };
+```
+
+Rules:
+
+- `{}` is allowed and zero-initializes where the target type permits it.
+- Nested aggregates use nested braces.
+- Missing trailing array or struct elements are zero-initialized when the type is copyable and does not require references.
+- Reference members must be explicitly initialized.
+- Unions accept only one element.
+- Compound literals are positional; designated initializers are not supported.
+
+## Expressions
+
+### Operator Precedence
+
+Higher rows bind tighter.
+
+| Level | Operators | Associativity |
+|---|---|---|
+| 1 | postfix `()`, `[]`, `[:]`, `.`, `++`, `--` | left to right |
+| 2 | prefix `++`, `--`, `!`, `-`, `~`, casts | right to left |
+| 3 | `*`, `/`, `%` | left to right |
+| 4 | `+`, `-` | left to right |
+| 5 | `<<`, `>>` | left to right |
+| 6 | `<`, `<=`, `>`, `>=` | left to right |
+| 7 | `==`, `!=` | left to right |
+| 8 | `&` | left to right |
+| 9 | `^` | left to right |
+| 10 | `|` | left to right |
+| 11 | `&&` | left to right |
+| 12 | `||` | left to right |
+| 13 | `?:` | right to left |
+| 14 | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`, `<<=`, `>>=` | right to left |
+
+Notes:
+
+- Logical operators short-circuit.
+- Bitwise operators do not accept `bool` or floating-point operands.
+- Right shift is arithmetic for signed values and logical for unsigned values.
+- Mixed numeric expressions use C-like implicit conversions.
+
+### Casts
+
+Primitive type names used in call position are treated as casts.
+
+```c
+u8 x = u8(300);
+float y = float(x);
+```
+
+Rules:
+
+- Primitive casts take exactly one argument.
+- Casts are only for primitive numeric types.
+- Function-like syntax with a non-primitive name remains a normal function call.
+
+### Indexing, Members, and Slices
+
+Array indexing uses `[]`, struct/union member access uses `.`, and slices use either `start:stop` or `start+:length`.
+
+Examples:
+
+```c
+u8[10] a;
+u8 x = a[3];
+u8 y = a[2:5][1];
+u8 z = a[2+:3][0];
+```
+
+Rules:
+
+- Array indices are zero-based.
+- Array and slice access is bounds-checked.
+- Constant indices into fixed arrays can be folded to a constant offset.
+- Slice bounds must not be floating-point values.
+- A slice with compile-time-known bounds can become a sized array reference.
+- Slices on multidimensional arrays operate on the flattened contiguous storage.
+
+### String Operations
+
+String values are `char` arrays or references to `char` arrays.
+
+Supported operations:
+
+- `==` and `!=` compare strings lexicographically.
+- `+` and `+=` concatenate strings in assignment contexts.
+- Assigning one string to another copies the bytes, truncating or zero-filling as needed by the destination capacity.
+
+For ordering comparisons, use `$strcmp` from the system functions.
+
+### Constant Expressions
+
+ABC folds many expressions at compile time.
+
+Constant expressions are used for:
+
+- `constexpr` initializers
+- array dimensions
+- enum values
+- `switch` case values and ranges
+- some slices and `len()` results
+
+The compiler recognizes integer literals, floating-point literals, enum values, `constexpr` values, and `len()` on statically sized arrays as compile-time constants.
+
+## Statements
+
+### Blocks and Scope
+
+Blocks are written with braces.
+
+```c
+{
+    int x = 1;
+    int y = x + 2;
+}
+```
+
+Rules:
+
+- A block introduces a new local scope.
+- Locals declared without an initializer are zero-initialized.
+- Declarations can appear alongside statements inside a block.
+
+### Conditionals and Loops
+
+ABC supports the usual C-like control flow forms:
+
+- `if` / `else`
 - `while`
-- `do`-`while`
+- `do` / `while`
 - `for`
 
-Additionally, for these control flow elements, the `break` and `continue` statements operate as in C.
+Examples:
 
-There are no labels or `goto` statements in ABC.
+```c
+if(t) foo();
+else bar();
 
-#### The `switch` Statement
+while(cond)
+    step();
 
-Since ABC lacks labels and `goto`, there is a departure from C in the syntax and behavior of the `switch` statement.
+do
+    step();
+while(cond);
 
-ABC's switch statement has new syntax for cases which is more similar to `if`-statements. ABC also includes support for case ranges and multiple values per `case` statement.
+for(int i = 0; i < 10; ++i)
+    step();
+```
+
+Rules:
+
+- Conditions are converted to `bool`.
+- `for` allows a declaration or an empty statement in the init clause.
+- `for` bodies can be a single statement or a block.
+- `break` and `continue` work as in C for loops.
+
+### Switch
+
+ABC's `switch` syntax is not C's syntax.
 
 ```c
 switch(x)
 {
 case(1 ... 3, 7) f();
 case(8 ... 10)   g();
+default          h();
 }
 ```
 
-Additionally, unlike C, fallthrough is explicit in ABC. The `continue` statement is used to fall through to the next case, while the `break` statement retains its original behavior of breaking out of the switch statement.
+Rules:
 
-```c
-switch(state)
-{
-case(STATE_SETUP)
-{
-    setup();
-    state = STATE_PLAY;
-    continue;
-}
-case(STATE_PLAY)
-    play();
-// ...
-}
-```
+- The switch expression must be a primitive non-floating value.
+- Case values must be integral constant expressions.
+- Multiple case values may appear in one `case(...)`.
+- Inclusive ranges use `...`.
+- `default` is optional and may appear anywhere, but only one `default` is allowed.
+- Overlapping case values or ranges are errors.
+- A case body is any single statement, including a block.
+- There is no implicit fallthrough. Use `continue` to fall through to the next case.
+- `break` exits the switch.
 
-### Arrays as Value Types
+### Return, Break, and Continue
 
-In C, an array decays to a pointer to its first element when it is used as part of an expression. Furthermore, passing a sized array as a function parameter in C merely passes a pointer, effectively passing the array "by reference" to the function. Neither of these behaviors are shared with structs, another class of compound types, and the design philosophy of ABC considers them inconsistencies.
+`return` may appear with or without an expression depending on the function return type.
 
-Instead, arrays in ABC are always value types in the same way as structs. They never decay to pointers or references, and passing an array to a function passes it by value.
+Rules:
 
-```c
-int[2] sum(int[2] a)
-{
-    a[0] += a[1];
-    return a;
-}
+- Returning a value from a `void` function is an error.
+- Omitting a value from a non-`void` function is an error.
+- `break` and `continue` are only valid inside an active loop or `switch`.
+- In a `switch`, `continue` means fall through to the next case, not "continue the enclosing loop".
 
-void main()
-{
-    int[2] a = { 1, 2 };
-    int[2] b = sum(a);
-    $assert(a[0] == 1 && a[1] == 2);
-    $assert(b[0] == 3 && b[1] == 2);
-}
-```
+## Program Structure
 
-Furthermore, arrays are copyable.
-
-```c
-int[4] x = { 1, 2, 3, 4 };
-int[4] y = { 5, 6, 7, 8 };
-
-$assert(x[2] == 3);
-x = y;
-y[2] = 3;
-$assert(x[2] == 7);
-```
-
-### Array Slices
-
-Given some array, array [reference](#references), or [UAR](#unsized-array-references) `a`, the syntax `a[start+:length]` or `a[start:stop]` is a slice into `a` including indices in the range `[start, start+length)` or `[start, stop)`. If the array elements are type `T`, the type of the array slice is
-- `T[length]&` or `T[stop-start]&` if `length` or both `start` and `stop` are compile-time integral constants, or
-- `T[]&` otherwise (see the section on [unsized array references](#unsized-array-references)).
-
-Array slices are useful when accessing `prog` data, which incurs overhead per access. Consider the following approach to rendering a 8x8 section of a 32x32 tilemap:
-
-```c
-void draw_tilemap(u8[32][32] prog& m, u8 r, u8 c)
-{
-    for(u8 row = 0; row < 8; ++row)
-        for(u8 col = 0; col < 8; ++col)
-            $draw_sprite(col * 8, row * 8, TILE_IMG, m[r + row][c + col]);
-}
-```
-
-The above will perform 64 individual `prog` accesses, one for each tile. Performance can be improved by batching the accesses in each row, reducing the number of `prog` accesses from 64 to 8:
-
-```c
-void draw_tilemap(u8[32][32] prog& m, u8 r, u8 c)
-{
-    for(u8 row = 0; row < 8; ++row)
-    {
-        u8[16] rowdata = m[row][c +: 8];
-        for(u8 col = 0; col < 8; ++col)
-            $draw_sprite(col * 8, row * 8, TILE_IMG, rowdata[col]);
-    }
-}
-```
-
-## The `main` Function
-
-Every ABC program must define a function called `main` accepting no arguments and returning `void`. The execution of an ABC program is structured as below.
-
-1. Initialize global variables according to their initializers.
-2. Loop forever:
-   1. Call `main`. 
-
-Because the `main` function automatically loops if it returns, it may be used for the game loop itself.
+Every program must define:
 
 ```c
 void main()
 {
-    $draw_text(30, 36, "Hello World!");
-    $display();
+    // ...
 }
 ```
 
-![Hello World screenshot](img/helloworld.png)
+Rules:
 
-## System Functions
-See [here](https://github.com/tiberiusbrown/abc/blob/master/docs/system.md) for the current list of system functions and predefined constants.
+- `main` must return `void`.
+- `main` must take no arguments.
+- Global variables are initialized before the first call to `main`.
+- After `main` returns, the runtime calls it again, so `main` naturally forms the game loop.
+
+## Built-in Constants
+
+ABC provides a small set of predefined `constexpr` globals.
+
+Palette constants:
+
+- `BLACK`
+- `DARK_GRAY` and `DARK_GREY`
+- `GRAY` and `GREY`
+- `LIGHT_GRAY` and `LIGHT_GREY`
+- `WHITE`
+
+Other predefined constants:
+
+- `SHADES` - the active grayscale mode count
+- `A_BUTTON`
+- `B_BUTTON`
+- `UP_BUTTON`
+- `DOWN_BUTTON`
+- `LEFT_BUTTON`
+- `RIGHT_BUTTON`
+- `PI`
+
+Notes:
+
+- The palette constants are remapped by `#shades`.
+- The button constants are bit masks.
+- `PI` is a `float`.
 
 ## Compiler Directives
 
-Compiler directives affect the metadata packaged with the compiled ABC program. When exporting to `.arduboy` files, these directives may be used to populate various fields within the `info.json` file.
+Compiler directives affect exported metadata and a few build-time settings.
 
-All compiler directives must occur before any variable, function, or `struct` definitions.
+Rules:
 
-```c
-// Defaults to "Untitled Arduboy Game"
-#title "My Game"
+- Directives must appear before any non-directive top-level statement in the file.
+- Directive values must be string literals.
+- The compiler accepts the directives listed below.
 
-// Defaults to "Unknown Author"
-#author "Joe Smith"
+### Metadata Directives
 
-// Defaults to "1.0"
-#version "1.2"
+The metadata directives populate the exported `.arduboy` `info.json` fields:
 
-// Defaults to date at time of compilation
-#date "2020-04-16"
+- `#title`
+- `#author`
+- `#version`
+- `#description`
+- `#date`
+- `#genre`
+- `#publisher`
+- `#idea`
+- `#code`
+- `#art`
+- `#sound`
+- `#url`
+- `#sourceUrl`
+- `#email`
+- `#companion`
 
-#description "This is a really cool game!"
-#genre "Action"
-#publisher "Joe Smith Inc"
-#idea "Joe Smith"
-#code "Joe Smith"
-#art "Joe Smith"
-#sound "Joe Smith"
-#url "https://joesmith.com/arduboygame"
-#sourceUrl "https://github.com/joesmith/arduboygame"
-#email "joe@joesmith.com"
-#companion "https://github.com/joesmith/arduboygame_editor"
-```
+Defaults:
+
+- `#title` defaults to `"Untitled Arduboy Game"`.
+- `#author` defaults to `"Unknown Author"`.
+- `#version` defaults to `"1.0"`.
+- `#date` defaults to the current local date in `YYYY-MM-DD` form.
+- The remaining metadata fields default to empty/unset.
 
 ### The `#shades` Directive
 
-ABC has basic support for grayscale games with the `#shades` directive. Valid values of this directive are "2" (the default), "3", and "4". These values indicate how many shades of gray the game has available to use: the default value of "2" indicates a `BLACK` and `WHITE` game, while "3" adds `GRAY` and "4" adds `DARK_GRAY` and `LIGHT_GRAY`.
+ABC has basic support for grayscale games through `#shades`.
 
-The `#shades` directive also affects how `sprites` data is encoded in the compiled program.
+Accepted values:
 
-Note that enabling grayscale with `#shades "3"` or `#shades "4"` will reduce the amount of memory available for global variables from 1024 to 256 bytes. Additionally, for performance reasons, only the following system methods are available in grayscale modes:
-- `$draw_filled_rect`
-- `$draw_rect`
-- `$draw_sprite`
-- `$draw_text`
+- `"2"` - the default classic black and white mode
+- `"3"` - three-shade grayscale
+- `"4"` - four-shade grayscale
 
-## Planned to Include in ABC (TODO)
-- Function references
+Effects:
 
-## Intentionally Excluded from ABC
+- The palette constants are remapped to match the active mode.
+- Sprite data is encoded for the selected shade count.
+- Available RAM for globals drops from 1024 bytes to 256 bytes in grayscale modes.
+
+See [docs/system.md](system.md) for the per-function grayscale behavior of the built-in system functions.
+
+## System Functions
+
+System functions are the built-in `$`-prefixed functions such as `$draw_sprite`, `$save`, and `$assert`.
+
+For the full catalog, signatures, and detailed behavior, see [docs/system.md](system.md).
+
+## Intentionally Excluded
+
+ABC intentionally leaves out several C/C++ features:
+
 - Pointers
-- Comma operator
+- Pointer arithmetic
+- The address-of and dereference operators
+- `goto` and labels
 - Macros and preprocessor directives
-- Variadic functions (except for system methods like `$format` which have special support)
-- `goto`
+- Variadic user-defined functions
+- The comma operator
+- C-style `const`
+- User-defined function overloading
+
