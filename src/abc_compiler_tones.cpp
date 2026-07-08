@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <sstream>
 #include <strstream>
 #include <tuple>
 
@@ -54,7 +55,7 @@ std::string compiler_t::encode_tones_midi(
 
     smf::MidiFile f;
     {
-        std::istrstream ss(d.data(), (int)d.size());
+        std::istringstream ss(std::string(d.data(), d.size()));
         if(!f.read(ss))
             return "An error occurred while reading MIDI file \"" + filename + "\"";
     }

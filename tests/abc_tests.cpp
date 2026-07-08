@@ -62,7 +62,7 @@ static bool test(std::string const& fpath, std::string const& fname)
             return false;
     }
     {
-        std::istrstream ss((char const*)binary.data(), binary.size());
+        std::istringstream ss(std::string((char const*)binary.data(), binary.size()));
         auto t = arduboy->load_file("fxdata.bin", ss);
         assert(t.empty());
         if(!t.empty())
@@ -70,19 +70,19 @@ static bool test(std::string const& fpath, std::string const& fname)
     }
 
     arduboy->reset();
-    arduboy->allow_nonstep_breakpoints = true;
-    arduboy->cpu.enabled_autobreaks.reset();
-    arduboy->breakpoints_wr.reset();
-    arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
+    arduboy->debugger_state.allow_nonstep_breakpoints = true;
+    arduboy->core_state.cpu.enabled_autobreaks.reset();
+    arduboy->debugger_state.breakpoints_wr.reset();
+    arduboy->core_state.cpu.enabled_autobreaks.set(absim::AB_BREAK);
     arduboy->advance(1'000'000'000'000ull); // up to 1 second
-    if(!arduboy->paused)
+    if(!arduboy->debugger_state.paused)
         return false;
-    arduboy->paused = false;
-    arduboy->breakpoints_wr.set(0x0665); // set breakpoint when writing to vm::error
+    arduboy->debugger_state.paused = false;
+    arduboy->debugger_state.breakpoints_wr.set(0x0665); // set breakpoint when writing to vm::error
     arduboy->advance(1'000'000'000'000ull); // up to 1 second
-    if(!arduboy->paused)
+    if(!arduboy->debugger_state.paused)
         return false;
-    if(arduboy->cpu.data[0x0635] != 0)
+    if(arduboy->core_state.cpu.data[0x0635] != 0)
         return false;
 #endif
 

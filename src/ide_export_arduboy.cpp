@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <fstream>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <strstream>
 #include <unordered_map>
@@ -169,22 +170,20 @@ void export_arduboy(
         do
         {
             auto a = std::make_unique<absim::arduboy_t>();
-            {
-                std::istrstream ss(
-                    (char const*)binary.data(),
-                    (int)binary.size());
-                auto t = a->load_file("fxdata.bin", ss);
-                if(!t.empty()) break;
-            }
-            {
-                auto r = extract_interp_build(ids[0].c_str());
-                std::istrstream ss(
-                    (char const*)r.data(),
-                    (int)r.size());
-                auto t = a->load_file("interp.hex", ss);
-                if(!t.empty()) break;
-            }
-            a->display.enable_filter = (shades != 2);
+        {
+            std::istringstream ss(
+                std::string((char const*)binary.data(), binary.size()));
+            auto t = a->load_file("fxdata.bin", ss);
+            if(!t.empty()) break;
+        }
+        {
+            auto r = extract_interp_build(ids[0].c_str());
+            std::istringstream ss(
+                std::string((char const*)r.data(), r.size()));
+            auto t = a->load_file("interp.hex", ss);
+            if(!t.empty()) break;
+        }
+            a->peripherals.display.enable_filter = (shades != 2);
             constexpr uint64_t MS = 1000000000ull;
             a->advance(MS * 100);
 
@@ -194,7 +193,7 @@ void export_arduboy(
                 for(int j = 0; j < 128; ++j, ++n)
                 {
                     idata[n * 3 + 0] = idata[n * 3 + 1] = idata[n * 3 + 2] =
-                        (a->display.filtered_pixels[n] >= 96 ? 255 : 0);
+                        (a->peripherals.display.filtered_pixels[n] >= 96 ? 255 : 0);
                 }
 
             int len = 0;

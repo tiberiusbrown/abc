@@ -9,13 +9,13 @@ void display_contents()
     if(!display_texture)
         display_texture = std::make_unique<texture_t>(128, 64);
 
-    if(display_texture && arduboy && arduboy->cpu.decoded)
+    if(display_texture && arduboy && arduboy->core_state.cpu.decoded)
     {
         std::vector<uint8_t> pixels;
         pixels.resize(128 * 64 * 4);
         for(size_t i = 0; i < 128 * 64; ++i)
         {
-            auto t = arduboy->display.filtered_pixels[i];
+            auto t = arduboy->peripherals.display.filtered_pixels[i];
             pixels[i * 4 + 0] = t;
             pixels[i * 4 + 1] = t;
             pixels[i * 4 + 2] = t;

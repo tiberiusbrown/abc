@@ -27,11 +27,13 @@ static void take_screenshot()
     std::vector<uint8_t> idata;
     idata.resize(128 * 64 * 3);
     for(int i = 0, n = 0; i < 64; ++i)
+    {
         for(int j = 0; j < 128; ++j, ++n)
         {
             idata[n * 3 + 0] = idata[n * 3 + 1] = idata[n * 3 + 2] =
-                arduboy->display.filtered_pixels[n];
+            arduboy->peripherals.display.filtered_pixels[n];
         }
+    }
 
     screenshot_png.clear();
     stbi_write_png_to_func(
@@ -55,7 +57,7 @@ void player_run()
     if(player_active)
     {
         arduboy->reset();
-        arduboy->paused = true;
+        arduboy->debugger_state.paused = true;
         player_active = false;
     }
     if(!compile_all())
@@ -67,23 +69,22 @@ void player_run()
         char buf[64];
         snprintf(buf, sizeof(buf), "s%d_ArduboyFX", project.shades);
         auto r = extract_interp_build(buf);
-        std::istrstream ss((char const*)r.data(), (int)r.size());
+        std::istringstream ss(std::string((char const*)r.data(), r.size()));
         err = arduboy->load_file("vm.hex", ss);
         assert(err.empty());
     }
     if(!err.empty())
         return;
     {
-        std::istrstream ss(
-            (char const*)project.binary.data(),
-            (int)project.binary.size());
+        std::istringstream ss(
+            std::string((char const*)project.binary.data(), project.binary.size()));
         err = arduboy->load_file("fxdata.bin", ss);
     }
-    arduboy->paused = true;
+    arduboy->debugger_state.paused = true;
     if(!err.empty())
         return;
-    arduboy->paused = false;
-    arduboy->profiler_enabled = true;
+    arduboy->debugger_state.paused = false;
+    arduboy->profiler_state.enabled = true;
     player_active = true;
     if(gif_recording)
         toggle_gif();
@@ -96,12 +97,13 @@ void player_window_contents(uint64_t dt)
     if(!display_texture)
         display_texture = std::make_unique<texture_t>(128, 64);
 
-    if(arduboy && arduboy->cpu.decoded && !arduboy->paused && player_active)
+    if(arduboy && arduboy->core_state.cpu.decoded &&
+        !arduboy->debugger_state.paused && player_active)
     {
-        arduboy->cpu.enabled_autobreaks.reset();
-        arduboy->allow_nonstep_breakpoints = false;
-        arduboy->display.enable_filter = true;
-        arduboy->display.enable_current_limiting = false;
+        arduboy->core_state.cpu.enabled_autobreaks.reset();
+        arduboy->debugger_state.allow_nonstep_breakpoints = false;
+        arduboy->peripherals.display.enable_filter = true;
+        arduboy->peripherals.display.enable_current_limiting = false;
 
         uint8_t pinf = 0xf0;
         uint8_t pine = 0x40;
@@ -124,11 +126,11 @@ void player_window_contents(uint64_t dt)
             if(IsKeyDown(ImGuiKey_A)) pine &= ~0x40;
             if(IsKeyDown(ImGuiKey_B) || ImGui::IsKeyDown(ImGuiKey_S)) pinb &= ~0x10;
         }
-        arduboy->cpu.data[0x23] = pinb;
-        arduboy->cpu.data[0x2c] = pine;
-        arduboy->cpu.data[0x2f] = pinf;
+        arduboy->core_state.cpu.data[0x23] = pinb;
+        arduboy->core_state.cpu.data[0x2c] = pine;
+        arduboy->core_state.cpu.data[0x2f] = pinf;
 
-        arduboy->frame_bytes_total = 1024;
+        arduboy->profiler_state.frame_bytes_total = 1024;
 
         constexpr uint64_t MS_TO_PS = 1000000000ull;
         uint64_t tdt = std::min<uint64_t>(dt, 30);
@@ -137,21 +139,21 @@ void player_window_contents(uint64_t dt)
             arduboy->advance(dtps);
     }
 
-    if(arduboy && !arduboy->cpu.sound_buffer.empty())
+    if(arduboy && !arduboy->core_state.cpu.sound_buffer.empty())
     {
         platform_send_sound();
-        arduboy->cpu.sound_buffer.clear();
+        arduboy->core_state.cpu.sound_buffer.clear();
     }
 
     if(display_texture && arduboy)
     {
-        if(player_active && arduboy->cpu.decoded)
+        if(player_active && arduboy->core_state.cpu.decoded)
         {
             std::vector<uint8_t> pixels;
             pixels.resize(128 * 64 * 4);
             for(size_t i = 0; i < 128 * 64; ++i)
             {
-                auto t = arduboy->display.filtered_pixels[i];
+                auto t = arduboy->peripherals.display.filtered_pixels[i];
                 pixels[i * 4 + 0] = t;
                 pixels[i * 4 + 1] = t;
                 pixels[i * 4 + 2] = t;
@@ -173,7 +175,7 @@ void player_window_contents(uint64_t dt)
         constexpr ImVec4 COLOR = { C, C, C, 1 };
 
         SetCursorPosX(GetCursorPosX() + offset);
-        if(player_active && arduboy->cpu.decoded)
+        if(player_active && arduboy->core_state.cpu.decoded)
         {
             ImVec2 a = GetCursorScreenPos();
             Image(
@@ -221,7 +223,7 @@ void player_window_contents(uint64_t dt)
         if(Button(ICON_FA_STOP_CIRCLE " Stop", button_size))
         {
             arduboy->reset();
-            arduboy->paused = true;
+            arduboy->debugger_state.paused = true;
             player_active = false;
             if(gif_recording)
                 toggle_gif();
@@ -256,11 +258,11 @@ void player_window_contents(uint64_t dt)
         Separator();
 
         float fps = 0.f;
-        if(arduboy->prev_frame_cycles != 0)
+        if(arduboy->profiler_state.prev_frame_cycles != 0)
         {
             static std::array<float, 16> fps_queue{};
             static size_t fps_i = 0;
-            fps = 16e6f / float(arduboy->prev_frame_cycles);
+            fps = 16e6f / float(arduboy->profiler_state.prev_frame_cycles);
             fps_queue[fps_i] = fps;
             fps_i = (fps_i + 1) % fps_queue.size();
             fps = std::accumulate(fps_queue.begin(), fps_queue.end(), 0.f) * (1.f / fps_queue.size());
@@ -270,7 +272,7 @@ void player_window_contents(uint64_t dt)
         float usage = 0.f;
         size_t i;
         constexpr size_t n = 16;
-        auto const& d = arduboy->frame_cpu_usage;
+        auto const& d = arduboy->profiler_state.frame_cpu_usage;
         for(i = 0; i < n; ++i)
         {
             if(i >= d.size())

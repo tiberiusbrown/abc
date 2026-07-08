@@ -5459,7 +5459,7 @@ $L_render_3:
   .line 56
 ;     if(confirm)
   dup
-  bz    $L_render_74
+  bz    $L_render_110
   .line 58
 ;         $draw_text(68, 8, "Delete Save");
   push4 184598101
@@ -5480,8 +5480,8 @@ $L_render_3:
   sys   draw_text_P
   .line 56
 ;     if(confirm)
-  jmp   $L_render_78
-$L_render_74:
+  jmp   $L_render_114
+$L_render_110:
   .line 64
 ;         $draw_text(80, 8, "Paused");
   push4 100712055
@@ -5497,7 +5497,7 @@ $L_render_74:
   .line 66
 ;         if(sound_on)
   getg  sound_on 0
-  bz    $L_render_75
+  bz    $L_render_111
   .line 67
 ;             $draw_text(x, y + h * 1, "Sound: On");
   push4 151041590
@@ -5506,15 +5506,15 @@ $L_render_74:
   sys   draw_text_P
   .line 66
 ;         if(sound_on)
-  jmp   $L_render_76
-$L_render_75:
+  jmp   $L_render_112
+$L_render_111:
   .line 69
 ;             $draw_text(x, y + h * 1, "Sound: Off");
   push4 167818815
   p00
   push4 4915236
   sys   draw_text_P
-$L_render_76:
+$L_render_112:
   .line 70
 ;         $draw_text(x, y + h * 2, "Main Menu");
   push4 151043709
@@ -5524,7 +5524,7 @@ $L_render_76:
   .line 71
 ;         if(single_level)
   getg  single_level 0
-  bz    $L_render_77
+  bz    $L_render_113
   .line 72
 ;             $draw_text(x, y + h * 3, "Restart");
   push4 117489286
@@ -5533,15 +5533,15 @@ $L_render_76:
   sys   draw_text_P
   .line 71
 ;         if(single_level)
-  jmp   $L_render_78
-$L_render_77:
+  jmp   $L_render_114
+$L_render_113:
   .line 74
 ;             $draw_text(x, y + h * 3, "End Game");
   push4 134266509
   p00
   push4 4915260
   sys   draw_text_P
-$L_render_78:
+$L_render_114:
   .line 76
 ;     $draw_text(66, y + h * pause_menui, ">");
   p7
@@ -5589,7 +5589,7 @@ $L_render_4:
   .line 56
 ;     if(confirm)
   dup
-  bz    $L_render_81
+  bz    $L_render_117
   .line 58
 ;         $draw_text(68, 8, "Delete Save");
   push4 184598101
@@ -5610,8 +5610,8 @@ $L_render_4:
   sys   draw_text_P
   .line 56
 ;     if(confirm)
-  jmp   $L_render_85
-$L_render_81:
+  jmp   $L_render_121
+$L_render_117:
   .line 64
 ;         $draw_text(80, 8, "Paused");
   push4 100712055
@@ -5627,7 +5627,7 @@ $L_render_81:
   .line 66
 ;         if(sound_on)
   getg  sound_on 0
-  bz    $L_render_82
+  bz    $L_render_118
   .line 67
 ;             $draw_text(x, y + h * 1, "Sound: On");
   push4 151041590
@@ -5636,15 +5636,15 @@ $L_render_81:
   sys   draw_text_P
   .line 66
 ;         if(sound_on)
-  jmp   $L_render_83
-$L_render_82:
+  jmp   $L_render_119
+$L_render_118:
   .line 69
 ;             $draw_text(x, y + h * 1, "Sound: Off");
   push4 167818815
   p00
   push4 4915236
   sys   draw_text_P
-$L_render_83:
+$L_render_119:
   .line 70
 ;         $draw_text(x, y + h * 2, "Main Menu");
   push4 151043709
@@ -5654,7 +5654,7 @@ $L_render_83:
   .line 71
 ;         if(single_level)
   getg  single_level 0
-  bz    $L_render_84
+  bz    $L_render_120
   .line 72
 ;             $draw_text(x, y + h * 3, "Restart");
   push4 117489286
@@ -5663,15 +5663,15 @@ $L_render_83:
   sys   draw_text_P
   .line 71
 ;         if(single_level)
-  jmp   $L_render_85
-$L_render_84:
+  jmp   $L_render_121
+$L_render_120:
   .line 74
 ;             $draw_text(x, y + h * 3, "End Game");
   push4 134266509
   p00
   push4 4915260
   sys   draw_text_P
-$L_render_85:
+$L_render_121:
   .line 76
 ;     $draw_text(66, y + h * pause_menui, ">");
   p7
@@ -6120,7 +6120,7 @@ $L_render_6:
   .line 289
 ;     if(save_exists)
   getg  save_exists 0
-  bz    $L_render_66
+  bz    $L_render_82
   .line 290
 ;         $draw_text(x, y, "Resume Game");
   push4 184595991
@@ -6129,15 +6129,15 @@ $L_render_6:
   sys   draw_text_P
   .line 289
 ;     if(save_exists)
-  jmp   $L_render_67
-$L_render_66:
+  jmp   $L_render_83
+$L_render_82:
   .line 292
 ;         $draw_text(x, y, "New Game");
   push4 134264354
   p00
   push4 2162717
   sys   draw_text_P
-$L_render_67:
+$L_render_83:
   .line 293
 ;     $draw_text(x, y + h * 1, "Level Select");
   push4 201373226
@@ -6147,7 +6147,7 @@ $L_render_67:
   .line 294
 ;     if(sound_on)
   getg  sound_on 0
-  bz    $L_render_68
+  bz    $L_render_84
   .line 295
 ;         $draw_text(x, y + h * 2, "Sound: On");
   push4 151041590
@@ -6156,15 +6156,15 @@ $L_render_67:
   sys   draw_text_P
   .line 294
 ;     if(sound_on)
-  jmp   $L_render_69
-$L_render_68:
+  jmp   $L_render_85
+$L_render_84:
   .line 297
 ;         $draw_text(x, y + h * 2, "Sound: Off");
   push4 167818815
   p00
   push4 2162739
   sys   draw_text_P
-$L_render_69:
+$L_render_85:
   .line 298
 ;     $draw_text(x, y + h * 3, "Credits");
   push4 117487177
@@ -6199,7 +6199,7 @@ $L_render_7:
   .line 133
 ;     for(u8 i = 0; i < 5; ++i)
   p0
-$L_render_44:
+$L_render_88:
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
@@ -6216,7 +6216,7 @@ $L_render_44:
   dup
   push  240
   cult
-  bz    $L_render_45
+  bz    $L_render_89
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6229,7 +6229,7 @@ $L_render_44:
   sub2b
   p00
   sys   draw_sprite
-$L_render_45:
+$L_render_89:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6249,7 +6249,7 @@ $L_render_45:
   dup
   push  240
   cult
-  bz    $L_render_47
+  bz    $L_render_91
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6263,7 +6263,7 @@ $L_render_45:
   p16
   p0
   sys   draw_sprite
-$L_render_47:
+$L_render_91:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6283,7 +6283,7 @@ $L_render_47:
   dup
   push  240
   cult
-  bz    $L_render_49
+  bz    $L_render_93
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6297,7 +6297,7 @@ $L_render_47:
   p32
   p0
   sys   draw_sprite
-$L_render_49:
+$L_render_93:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6317,7 +6317,7 @@ $L_render_49:
   dup
   push  240
   cult
-  bz    $L_render_51
+  bz    $L_render_95
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6330,7 +6330,7 @@ $L_render_49:
   sub2b
   push2 48
   sys   draw_sprite
-$L_render_51:
+$L_render_95:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6350,7 +6350,7 @@ $L_render_51:
   dup
   push  240
   cult
-  bz    $L_render_53
+  bz    $L_render_97
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6364,7 +6364,7 @@ $L_render_51:
   p64
   p0
   sys   draw_sprite
-$L_render_53:
+$L_render_97:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6384,7 +6384,7 @@ $L_render_53:
   dup
   push  240
   cult
-  bz    $L_render_55
+  bz    $L_render_99
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6397,7 +6397,7 @@ $L_render_53:
   sub2b
   push2 80
   sys   draw_sprite
-$L_render_55:
+$L_render_99:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6417,7 +6417,7 @@ $L_render_55:
   dup
   push  240
   cult
-  bz    $L_render_57
+  bz    $L_render_101
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6430,7 +6430,7 @@ $L_render_55:
   sub2b
   push2 96
   sys   draw_sprite
-$L_render_57:
+$L_render_101:
   pop
   .line 136
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
@@ -6450,7 +6450,7 @@ $L_render_57:
   dup
   push  240
   cult
-  bz    $L_render_59
+  bz    $L_render_103
   .line 138
 ;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
   dup
@@ -6463,7 +6463,7 @@ $L_render_57:
   sub2b
   push2 112
   sys   draw_sprite
-$L_render_59:
+$L_render_103:
   pop
   .line 133
 ;     for(u8 i = 0; i < 5; ++i)
@@ -6471,7 +6471,7 @@ $L_render_59:
   dup
   p5
   cult
-  bnz   $L_render_44
+  bnz   $L_render_88
   pop
   .line 141
 ;     $set_text_font(MAIN_FONT);
@@ -6548,18 +6548,18 @@ $L_render_59:
   .line 157
 ;     if(was_high_score)
   getg  was_high_score 0
-  bz    $L_render_62
+  bz    $L_render_106
   .line 158
 ;         $draw_text(x, y + 17, "New High Score!");
   push4 251671449
   p00
   push4 851997
   sys   draw_text_P
-$L_render_62:
+$L_render_106:
   .line 159
 ;     if(was_best_time)
   getg  was_best_time 0
-  bz    $L_render_63
+  bz    $L_render_107
   .line 160
 ;         $draw_text(x + 1, y + 40, "New Best Time!");
   push4 234894248
@@ -6568,7 +6568,7 @@ $L_render_62:
   dupw4
   p0
   sys   draw_text_P
-$L_render_63:
+$L_render_107:
   .line 163
 ;         u8 i = (frame_count >> 3) & 7;
   getg  frame_count 0
@@ -6623,7 +6623,7 @@ $L_render_8:
   .line 176
 ;     for(u8 i = 0; i < LEVEL_SELECT_ROWS; ++i)
   p0
-$L_render_88:
+$L_render_46:
   .line 178
 ;         u8 j = i + levelseloff;
   dup
@@ -6634,10 +6634,10 @@ $L_render_88:
   dup
   push  12
   cult
-  bnz   $L_render_89
+  bnz   $L_render_47
   pop
-  jmp   $L_render_99
-$L_render_89:
+  jmp   $L_render_57
+$L_render_47:
   .line 180
 ;         u8 y = i * 7 + 14;
   dup2
@@ -6650,7 +6650,7 @@ $L_render_89:
   dup3
   getg  levelseli 0
   sub
-  bnz   $L_render_92
+  bnz   $L_render_50
   .line 184
 ;             i16 x = 0;
   p00
@@ -6667,11 +6667,11 @@ $L_render_89:
   push  48
   dup2
   cult
-  bz    $L_render_91
+  bz    $L_render_49
   getg  frame_count 0
   push  50
   cult
-  bnz   $L_render_91
+  bnz   $L_render_49
   .line 188
 ;                 x = (frame_count - 50) >> 2;
   getg  frame_count 0
@@ -6687,14 +6687,14 @@ $L_render_89:
   sub2b
   dupw4
   cslt2
-  bz    $L_render_91
+  bz    $L_render_49
   .line 190
 ;                     x = w - 48;
   dup
   push2 12288
   sub2b
   setl2 3
-$L_render_91:
+$L_render_49:
   .line 192
 ;             $draw_text(10 - x, y, maps[j].name);
   push3 54731
@@ -6725,8 +6725,8 @@ $L_render_91:
   pop3
   .line 182
 ;         if(i == levelseli)
-  jmp   $L_render_93
-$L_render_92:
+  jmp   $L_render_51
+$L_render_50:
   .line 198
 ;             $draw_text(10, y, maps[j].name);
   push3 54731
@@ -6748,7 +6748,7 @@ $L_render_92:
   getl  11
   p000
   sys   draw_textf
-$L_render_93:
+$L_render_51:
   .line 201
 ;         $draw_filled_rect(57, y - 5, 71, 6, BLACK);
   push3 4654592
@@ -6765,7 +6765,7 @@ $L_render_93:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_94
+  bz    $L_render_52
   .line 204
 ;             $draw_textf(67, y, "%05u", map_high_scores[j]);
   pushg map_high_scores 0
@@ -6780,8 +6780,8 @@ $L_render_93:
   sys   draw_textf
   .line 203
 ;         if(map_high_scores[j] != 0)
-  jmp   $L_render_95
-$L_render_94:
+  jmp   $L_render_53
+$L_render_52:
   .line 206
 ;             $draw_text(75, y, "-");
   push4 16790890
@@ -6789,7 +6789,7 @@ $L_render_94:
   dup7
   push3 19200
   sys   draw_text_P
-$L_render_95:
+$L_render_53:
   .line 208
 ;         if(map_best_times[j] != 0)
   pushg map_best_times 0
@@ -6797,7 +6797,7 @@ $L_render_95:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_96
+  bz    $L_render_54
   .line 210
 ;             u16 t = map_best_times[j];
   pushg map_best_times 0
@@ -6846,8 +6846,8 @@ $L_render_95:
   popn  13
   .line 208
 ;         if(map_best_times[j] != 0)
-  jmp   $L_render_97
-$L_render_96:
+  jmp   $L_render_55
+$L_render_54:
   .line 217
 ;             $draw_text(110, y, "-");
   push4 16790890
@@ -6855,7 +6855,7 @@ $L_render_96:
   dup7
   push3 28160
   sys   draw_text_P
-$L_render_97:
+$L_render_55:
   pop2
   .line 176
 ;     for(u8 i = 0; i < LEVEL_SELECT_ROWS; ++i)
@@ -6863,8 +6863,8 @@ $L_render_97:
   dup
   p5
   cult
-  bnz   $L_render_88
-$L_render_99:
+  bnz   $L_render_46
+$L_render_57:
   pop
   .line 223
 ;         $draw_hline(0, 7, 128, WHITE);
@@ -6926,7 +6926,7 @@ $L_render_99:
   .line 235
 ;         u24 sum_time = 0;
   p000
-$L_render_100:
+$L_render_58:
   .line 238
 ;             if(map_high_scores[i] != 0)
   pushg map_high_scores 0
@@ -6934,7 +6934,7 @@ $L_render_100:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_101
+  bz    $L_render_59
   .line 239
 ;                 sum_score += map_high_scores[i];
   getln 3 7
@@ -6947,13 +6947,13 @@ $L_render_100:
   setln 3 7
   .line 238
 ;             if(map_high_scores[i] != 0)
-  jmp   $L_render_102
-$L_render_101:
+  jmp   $L_render_60
+$L_render_59:
   .line 241
 ;                 has_sum_score = false;
   p0
   setl  9
-$L_render_102:
+$L_render_60:
   .line 242
 ;             if(map_best_times[i] != 0)
   pushg map_best_times 0
@@ -6961,7 +6961,7 @@ $L_render_102:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_103
+  bz    $L_render_61
   .line 243
 ;                 sum_time += map_best_times[i];
   getln 3 4
@@ -6974,20 +6974,20 @@ $L_render_102:
   setln 3 4
   .line 242
 ;             if(map_best_times[i] != 0)
-  jmp   $L_render_104
-$L_render_103:
+  jmp   $L_render_62
+$L_render_61:
   .line 245
 ;                 has_sum_time = false;
   p0
   setl  8
-$L_render_104:
+$L_render_62:
   .line 236
 ;         for(u8 i = 0; i < NUM_MAPS; ++i)
   inc
   dup
   push  12
   cult
-  bz    $L_render_113
+  bz    $L_render_71
   .line 238
 ;             if(map_high_scores[i] != 0)
   pushg map_high_scores 0
@@ -6995,7 +6995,7 @@ $L_render_104:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_105
+  bz    $L_render_63
   .line 239
 ;                 sum_score += map_high_scores[i];
   getln 3 7
@@ -7008,13 +7008,13 @@ $L_render_104:
   setln 3 7
   .line 238
 ;             if(map_high_scores[i] != 0)
-  jmp   $L_render_106
-$L_render_105:
+  jmp   $L_render_64
+$L_render_63:
   .line 241
 ;                 has_sum_score = false;
   p0
   setl  9
-$L_render_106:
+$L_render_64:
   .line 242
 ;             if(map_best_times[i] != 0)
   pushg map_best_times 0
@@ -7022,7 +7022,7 @@ $L_render_106:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_107
+  bz    $L_render_65
   .line 243
 ;                 sum_time += map_best_times[i];
   getln 3 4
@@ -7035,20 +7035,20 @@ $L_render_106:
   setln 3 4
   .line 242
 ;             if(map_best_times[i] != 0)
-  jmp   $L_render_108
-$L_render_107:
+  jmp   $L_render_66
+$L_render_65:
   .line 245
 ;                 has_sum_time = false;
   p0
   setl  8
-$L_render_108:
+$L_render_66:
   .line 236
 ;         for(u8 i = 0; i < NUM_MAPS; ++i)
   inc
   dup
   push  12
   cult
-  bz    $L_render_113
+  bz    $L_render_71
   .line 238
 ;             if(map_high_scores[i] != 0)
   pushg map_high_scores 0
@@ -7056,7 +7056,7 @@ $L_render_108:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_109
+  bz    $L_render_67
   .line 239
 ;                 sum_score += map_high_scores[i];
   getln 3 7
@@ -7069,13 +7069,13 @@ $L_render_108:
   setln 3 7
   .line 238
 ;             if(map_high_scores[i] != 0)
-  jmp   $L_render_110
-$L_render_109:
+  jmp   $L_render_68
+$L_render_67:
   .line 241
 ;                 has_sum_score = false;
   p0
   setl  9
-$L_render_110:
+$L_render_68:
   .line 242
 ;             if(map_best_times[i] != 0)
   pushg map_best_times 0
@@ -7083,7 +7083,7 @@ $L_render_110:
   aidxb 2 12
   getr2
   or
-  bz    $L_render_111
+  bz    $L_render_69
   .line 243
 ;                 sum_time += map_best_times[i];
   getln 3 4
@@ -7096,27 +7096,27 @@ $L_render_110:
   setln 3 4
   .line 242
 ;             if(map_best_times[i] != 0)
-  jmp   $L_render_112
-$L_render_111:
+  jmp   $L_render_70
+$L_render_69:
   .line 245
 ;                 has_sum_time = false;
   p0
   setl  8
-$L_render_112:
+$L_render_70:
   .line 236
 ;         for(u8 i = 0; i < NUM_MAPS; ++i)
   inc
   dup
   push  12
   cult
-  bnz   $L_render_100
-$L_render_113:
+  bnz   $L_render_58
+$L_render_71:
   pop
   .line 248
 ;         if(high_score != 0)
   getgn 3 high_score 0
   bool3
-  bz    $L_render_114
+  bz    $L_render_72
   .line 249
 ;             $draw_textf(65, y + 7, "%06u", high_score);
   getgn 3 high_score 0
@@ -7127,19 +7127,19 @@ $L_render_113:
   sys   draw_textf
   .line 248
 ;         if(high_score != 0)
-  jmp   $L_render_115
-$L_render_114:
+  jmp   $L_render_73
+$L_render_72:
   .line 251
 ;             $draw_text(75, y + 7, "-");
   push4 16790890
   p00
   push4 4915251
   sys   draw_text_P
-$L_render_115:
+$L_render_73:
   .line 253
 ;         if(has_sum_score)
   dup8
-  bz    $L_render_116
+  bz    $L_render_74
   .line 254
 ;             $draw_textf(65, y + 14, "%06u", sum_score);
   getln 3 6
@@ -7150,20 +7150,20 @@ $L_render_115:
   sys   draw_textf
   .line 253
 ;         if(has_sum_score)
-  jmp   $L_render_117
-$L_render_116:
+  jmp   $L_render_75
+$L_render_74:
   .line 256
 ;             $draw_text(75, y + 14, "-");
   push4 16790890
   p00
   push4 4915258
   sys   draw_text_P
-$L_render_117:
+$L_render_75:
   .line 258
 ;         if(best_time != 0)
   getgn 3 best_time 0
   bool3
-  bz    $L_render_118
+  bz    $L_render_76
   .line 260
 ;             char[10] buf;
   pz8
@@ -7203,19 +7203,19 @@ $L_render_117:
   popn  11
   .line 258
 ;         if(best_time != 0)
-  jmp   $L_render_119
-$L_render_118:
+  jmp   $L_render_77
+$L_render_76:
   .line 266
 ;             $draw_text(110, y + 7, "-");
   push4 16790890
   p00
   push4 7209011
   sys   draw_text_P
-$L_render_119:
+$L_render_77:
   .line 268
 ;         if(has_sum_time)
   dup7
-  bz    $L_render_120
+  bz    $L_render_78
   .line 270
 ;             char[10] buf;
   pz8
@@ -7256,7 +7256,7 @@ $L_render_119:
   .line 11
 ; void render()
   ret
-$L_render_120:
+$L_render_78:
   .line 276
 ;             $draw_text(110, y + 14, "-");
   push4 16790890
@@ -7271,7 +7271,7 @@ $L_render_9:
   .line 90
 ;     for(u8 i = 0; i < 5; ++i)
   p0
-$L_render_14:
+$L_render_12:
   .line 93
 ;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
   push3 48851
@@ -7280,6 +7280,39 @@ $L_render_14:
   p8
   p00
   mul3
+  pidx  1 40
+  getp
+  dec
+  .line 94
+;             if(t < 240)
+  dup
+  push  240
+  cult
+  bz    $L_render_13
+  .line 95
+;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
+  dup
+  push4 3412224
+  dup7
+  p0
+  p16
+  mul2b
+  p8
+  sub2b
+  p00
+  sys   draw_sprite
+$L_render_13:
+  pop
+  .line 93
+;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
+  push3 48851
+  dup4
+  p00
+  p8
+  p00
+  mul3
+  p1
+  add3b
   pidx  1 40
   getp
   dec
@@ -7299,7 +7332,8 @@ $L_render_14:
   mul2b
   p8
   sub2b
-  p00
+  p16
+  p0
   sys   draw_sprite
 $L_render_15:
   pop
@@ -7311,7 +7345,7 @@ $L_render_15:
   p8
   p00
   mul3
-  p1
+  p2
   add3b
   pidx  1 40
   getp
@@ -7332,7 +7366,7 @@ $L_render_15:
   mul2b
   p8
   sub2b
-  p16
+  p32
   p0
   sys   draw_sprite
 $L_render_17:
@@ -7345,7 +7379,7 @@ $L_render_17:
   p8
   p00
   mul3
-  p2
+  p3
   add3b
   pidx  1 40
   getp
@@ -7366,8 +7400,7 @@ $L_render_17:
   mul2b
   p8
   sub2b
-  p32
-  p0
+  push2 48
   sys   draw_sprite
 $L_render_19:
   pop
@@ -7379,7 +7412,7 @@ $L_render_19:
   p8
   p00
   mul3
-  p3
+  p4
   add3b
   pidx  1 40
   getp
@@ -7400,7 +7433,8 @@ $L_render_19:
   mul2b
   p8
   sub2b
-  push2 48
+  p64
+  p0
   sys   draw_sprite
 $L_render_21:
   pop
@@ -7412,7 +7446,7 @@ $L_render_21:
   p8
   p00
   mul3
-  p4
+  p5
   add3b
   pidx  1 40
   getp
@@ -7433,8 +7467,7 @@ $L_render_21:
   mul2b
   p8
   sub2b
-  p64
-  p0
+  push2 80
   sys   draw_sprite
 $L_render_23:
   pop
@@ -7446,7 +7479,7 @@ $L_render_23:
   p8
   p00
   mul3
-  p5
+  p6
   add3b
   pidx  1 40
   getp
@@ -7467,7 +7500,7 @@ $L_render_23:
   mul2b
   p8
   sub2b
-  push2 80
+  push2 96
   sys   draw_sprite
 $L_render_25:
   pop
@@ -7479,7 +7512,7 @@ $L_render_25:
   p8
   p00
   mul3
-  p6
+  p7
   add3b
   pidx  1 40
   getp
@@ -7500,42 +7533,9 @@ $L_render_25:
   mul2b
   p8
   sub2b
-  push2 96
-  sys   draw_sprite
-$L_render_27:
-  pop
-  .line 93
-;             u8 t = VICTORY_TILES[i * 8 + j] - 1;
-  push3 48851
-  dup4
-  p00
-  p8
-  p00
-  mul3
-  p7
-  add3b
-  pidx  1 40
-  getp
-  dec
-  .line 94
-;             if(t < 240)
-  dup
-  push  240
-  cult
-  bz    $L_render_29
-  .line 95
-;                 $draw_sprite(j * 16, i * 16 - 8, TILES, t);
-  dup
-  push4 3412224
-  dup7
-  p0
-  p16
-  mul2b
-  p8
-  sub2b
   push2 112
   sys   draw_sprite
-$L_render_29:
+$L_render_27:
   pop
   .line 90
 ;     for(u8 i = 0; i < 5; ++i)
@@ -7543,7 +7543,7 @@ $L_render_29:
   dup
   p5
   cult
-  bnz   $L_render_14
+  bnz   $L_render_12
   pop
   .line 98
 ;     $set_text_font(MAIN_FONT);
@@ -9382,19 +9382,19 @@ $L_solid_4:
   dup
   push  15
   sub
-  bnz   $L_solid_20
+  bnz   $L_solid_18
   .line 713
 ;     if(invincibility_frames != 0)
   getg  invincibility_frames 0
   .line 714
 ;         return;
-  bnz   $L_solid_20
+  bnz   $L_solid_18
   .line 715
 ;     if(death_frames != 0)
   getg  death_frames 0
   .line 716
 ;         return;
-  bnz   $L_solid_20
+  bnz   $L_solid_18
   .line 717
 ;     if(--hearts != 0)
   getg  hearts 0
@@ -9443,7 +9443,7 @@ $L_solid_15:
   getg  death_frames 0
   .line 697
 ;         return;
-  bnz   $L_solid_20
+  bnz   $L_solid_18
   .line 698
 ;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
@@ -9451,7 +9451,7 @@ $L_solid_15:
   .line 699
 ;     if(!single_level)
   getg  single_level 0
-  bnz   $L_solid_19
+  bnz   $L_solid_17
   .line 701
 ;         saved_current_map = current_map;
   getg  current_map 0
@@ -9478,12 +9478,12 @@ $L_solid_15:
   .line 706
 ;         $save();
   sys   save
-$L_solid_19:
+$L_solid_17:
   .line 708
 ;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
-$L_solid_20:
+$L_solid_18:
   .line 757
 ;     if(t < 64) return true;
   dup
@@ -9643,7 +9643,7 @@ $L_update_3:
   getg  frame_count 0
   push  80
   sub
-  bnz   $L_update_44
+  bnz   $L_update_13
   .line 287
 ;         state = STATE_INTRO;
   p1
@@ -9657,7 +9657,7 @@ $L_update_3:
   getg  current_map 0
   inc
   setg  current_map 0
-$L_update_44:
+$L_update_13:
   .line 3
 ;     switch(state)
   pop
@@ -9674,19 +9674,19 @@ $L_update_4:
 ;     if($just_pressed(UP_BUTTON))
   p128
   sys   just_pressed
-  bz    $L_update_17
+  bz    $L_update_75
   .line 68
 ;         if(pause_menui > 0)
   p0
   getg  pause_menui 0
   cult
-  bz    $L_update_16
+  bz    $L_update_74
   .line 69
 ;             pause_menui -= 1;
   getg  pause_menui 0
   dec
   setg  pause_menui 0
-$L_update_16:
+$L_update_74:
   .line 107
 ;     --frame_count;
   getg  frame_count 0
@@ -9703,24 +9703,24 @@ $L_update_16:
   .line 1
 ; void update()
   ret
-$L_update_17:
+$L_update_75:
   .line 71
 ;     else if($just_pressed(DOWN_BUTTON))
   p16
   sys   just_pressed
-  bz    $L_update_19
+  bz    $L_update_77
   .line 73
 ;         if(pause_menui < 3)
   getg  pause_menui 0
   p3
   cult
-  bz    $L_update_18
+  bz    $L_update_76
   .line 74
 ;             pause_menui += 1;
   getg  pause_menui 0
   inc
   setg  pause_menui 0
-$L_update_18:
+$L_update_76:
   .line 107
 ;     --frame_count;
   getg  frame_count 0
@@ -9737,16 +9737,16 @@ $L_update_18:
   .line 1
 ; void update()
   ret
-$L_update_19:
+$L_update_77:
   .line 76
 ;     else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
-  bz    $L_update_25
+  bz    $L_update_87
   .line 78
 ;         if(pause_menui == 0)
   getg  pause_menui 0
-  bnz   $L_update_20
+  bnz   $L_update_78
   .line 79
 ;             state = STATE_LEVEL;
   p2
@@ -9767,12 +9767,12 @@ $L_update_19:
   .line 1
 ; void update()
   ret
-$L_update_20:
+$L_update_78:
   .line 80
 ;         else if(pause_menui == 1)
   getg  pause_menui 0
   dec
-  bnz   $L_update_21
+  bnz   $L_update_81
   .line 82
 ;             sound_on = !sound_on;
   getg  sound_on 0
@@ -9783,11 +9783,11 @@ $L_update_20:
 ;     if(sound_on != $audio_enabled())
   sys   audio_enabled
   sub
-  bz    $L_update_67
+  bz    $L_update_79
   .line 161
 ;         $audio_toggle();
   sys   audio_toggle
-$L_update_67:
+$L_update_79:
   .line 107
 ;     --frame_count;
   getg  frame_count 0
@@ -9804,23 +9804,23 @@ $L_update_67:
   .line 1
 ; void update()
   ret
-$L_update_21:
+$L_update_81:
   .line 85
 ;         else if(pause_menui == 2)
   getg  pause_menui 0
   p2
   sub
-  bz    $L_update_24
+  bz    $L_update_86
   .line 87
 ;         else if(pause_menui == 3)
   getg  pause_menui 0
   p3
   sub
-  bnz   $L_update_24
+  bnz   $L_update_86
   .line 89
 ;             if(single_level)
   getg  single_level 0
-  bz    $L_update_23
+  bz    $L_update_85
   .line 91
 ;                 u8 level = current_map;
   getg  current_map 0
@@ -9857,7 +9857,7 @@ $L_update_21:
   .line 1
 ; void update()
   ret
-$L_update_23:
+$L_update_85:
   .line 100
 ;                 pause_menui = 0;
   p0
@@ -9866,7 +9866,7 @@ $L_update_23:
 ;                 state = STATE_CONFIRM;
   push  9
   setg  state 0
-$L_update_24:
+$L_update_86:
   .line 107
 ;     --frame_count;
   getg  frame_count 0
@@ -9883,17 +9883,17 @@ $L_update_24:
   .line 1
 ; void update()
   ret
-$L_update_25:
+$L_update_87:
   .line 105
 ;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
-  bz    $L_update_26
+  bz    $L_update_88
   .line 106
 ;         state = STATE_LEVEL;
   p2
   setg  state 0
-$L_update_26:
+$L_update_88:
   .line 107
 ;     --frame_count;
   getg  frame_count 0
@@ -9915,19 +9915,19 @@ $L_update_5:
 ;     if($just_pressed(UP_BUTTON))
   p128
   sys   just_pressed
-  bz    $L_update_90
+  bz    $L_update_17
   .line 32
 ;         if(pause_menui > 0)
   p0
   getg  pause_menui 0
   cult
-  bz    $L_update_89
+  bz    $L_update_16
   .line 33
 ;             pause_menui -= 1;
   getg  pause_menui 0
   dec
   setg  pause_menui 0
-$L_update_89:
+$L_update_16:
   .line 61
 ;     --frame_count;
   getg  frame_count 0
@@ -9944,24 +9944,24 @@ $L_update_89:
   .line 1
 ; void update()
   ret
-$L_update_90:
+$L_update_17:
   .line 35
 ;     else if($just_pressed(DOWN_BUTTON))
   p16
   sys   just_pressed
-  bz    $L_update_92
+  bz    $L_update_19
   .line 37
 ;         if(pause_menui < 1)
   getg  pause_menui 0
   p1
   cult
-  bz    $L_update_91
+  bz    $L_update_18
   .line 38
 ;             pause_menui += 1;
   getg  pause_menui 0
   inc
   setg  pause_menui 0
-$L_update_91:
+$L_update_18:
   .line 61
 ;     --frame_count;
   getg  frame_count 0
@@ -9978,16 +9978,16 @@ $L_update_91:
   .line 1
 ; void update()
   ret
-$L_update_92:
+$L_update_19:
   .line 40
 ;     else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
-  bz    $L_update_97
+  bz    $L_update_24
   .line 42
 ;         if(pause_menui == 0)
   getg  pause_menui 0
-  bnz   $L_update_93
+  bnz   $L_update_20
   .line 44
 ;             state = STATE_LEVEL;
   p2
@@ -10008,16 +10008,16 @@ $L_update_92:
   .line 1
 ; void update()
   ret
-$L_update_93:
+$L_update_20:
   .line 46
 ;         else if(pause_menui == 1)
   getg  pause_menui 0
   dec
-  bnz   $L_update_94
+  bnz   $L_update_21
   .line 48
 ;             if(save_exists)
   getg  save_exists 0
-  bz    $L_update_94
+  bz    $L_update_21
   .line 50
 ;                 save_exists = false;
   p0
@@ -10025,7 +10025,7 @@ $L_update_93:
   .line 51
 ;                 $save();
   sys   save
-$L_update_94:
+$L_update_21:
   .line 61
 ;     --frame_count;
   getg  frame_count 0
@@ -10042,12 +10042,12 @@ $L_update_94:
   .line 1
 ; void update()
   ret
-$L_update_97:
+$L_update_24:
   .line 56
 ;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
-  bz    $L_update_98
+  bz    $L_update_25
   .line 58
 ;         pause_menui = 3;
   p3
@@ -10056,7 +10056,7 @@ $L_update_97:
 ;         state = STATE_PAUSE;
   p3
   setg  state 0
-$L_update_98:
+$L_update_25:
   .line 61
 ;     --frame_count;
   getg  frame_count 0
@@ -10094,20 +10094,20 @@ $L_update_7:
   getg  frame_count 0
   p1
   and
-  bz    $L_update_29
+  bz    $L_update_52
   .line 167
 ;         menu_spritex += 1;
   getg2 menu_spritex 0
   p1
   add2b
   setg2 menu_spritex 0
-$L_update_29:
+$L_update_52:
   .line 168
 ;     if(menu_spritex > 160)
   push2 160
   getg2 menu_spritex 0
   cslt2
-  bz    $L_update_31
+  bz    $L_update_54
   .line 170
 ;         if(++menu_sprite > 11)
   push  11
@@ -10116,26 +10116,26 @@ $L_update_29:
   dup
   setg  menu_sprite 0
   cult
-  bz    $L_update_30
+  bz    $L_update_53
   .line 171
 ;             menu_sprite = 8;
   p8
   setg  menu_sprite 0
-$L_update_30:
+$L_update_53:
   .line 172
 ;         menu_spritex = 0;
   p00
   setg2 menu_spritex 0
-$L_update_31:
+$L_update_54:
   .line 174
 ;     if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
-  bz    $L_update_37
+  bz    $L_update_63
   .line 176
 ;         if(menui == 0)
   getg  menui 0
-  bnz   $L_update_34
+  bnz   $L_update_58
   .line 178
 ;             single_level = false;
   p0
@@ -10143,7 +10143,7 @@ $L_update_31:
   .line 179
 ;             if(!save_exists)
   getg  save_exists 0
-  bz    $L_update_33
+  bz    $L_update_57
   .line 183
 ;                 current_map = saved_current_map;
   getg  saved_current_map 0
@@ -10168,20 +10168,20 @@ $L_update_31:
 ;                 lives = saved_lives;
   getg  saved_lives 0
   setg  lives 0
-$L_update_33:
+$L_update_57:
   .line 190
 ;             state = STATE_INTRO;
   p1
   setg  state 0
   .line 176
 ;         if(menui == 0)
-  jmp   $L_update_37
-$L_update_34:
+  jmp   $L_update_63
+$L_update_58:
   .line 192
 ;         else if(menui == 1)
   getg  menui 0
   dec
-  bnz   $L_update_35
+  bnz   $L_update_59
   .line 194
 ;             levelseli = 0;
   p0
@@ -10200,14 +10200,14 @@ $L_update_34:
   setg  state 0
   .line 192
 ;         else if(menui == 1)
-  jmp   $L_update_37
-$L_update_35:
+  jmp   $L_update_63
+$L_update_59:
   .line 199
 ;         else if(menui == 2)
   getg  menui 0
   p2
   sub
-  bnz   $L_update_36
+  bnz   $L_update_62
   .line 201
 ;             sound_on = !sound_on;
   getg  sound_on 0
@@ -10218,21 +10218,21 @@ $L_update_35:
 ;     if(sound_on != $audio_enabled())
   sys   audio_enabled
   sub
-  bz    $L_update_70
+  bz    $L_update_60
   .line 161
 ;         $audio_toggle();
   sys   audio_toggle
-$L_update_70:
+$L_update_60:
   .line 199
 ;         else if(menui == 2)
-  jmp   $L_update_37
-$L_update_36:
+  jmp   $L_update_63
+$L_update_62:
   .line 204
 ;         else if(menui == 3)
   getg  menui 0
   p3
   sub
-  bnz   $L_update_37
+  bnz   $L_update_63
   .line 206
 ;             frame_count = 0;
   p0
@@ -10245,37 +10245,37 @@ $L_update_36:
 ;             state = STATE_CREDITS;
   push  10
   setg  state 0
-$L_update_37:
+$L_update_63:
   .line 211
 ;     if($just_pressed(UP_BUTTON) && menui > 0)
   p128
   sys   just_pressed
-  bz    $L_update_39
+  bz    $L_update_65
   p0
   getg  menui 0
   cult
-  bz    $L_update_39
+  bz    $L_update_65
   .line 212
 ;         menui -= 1;
   getg  menui 0
   dec
   setg  menui 0
-$L_update_39:
+$L_update_65:
   .line 213
 ;     if($just_pressed(DOWN_BUTTON) && menui < 3)
   p16
   sys   just_pressed
-  bz    $L_update_41
+  bz    $L_update_67
   getg  menui 0
   p3
   cult
-  bz    $L_update_41
+  bz    $L_update_67
   .line 214
 ;         menui += 1;
   getg  menui 0
   inc
   setg  menui 0
-$L_update_41:
+$L_update_67:
   .line 3
 ;     switch(state)
   pop
@@ -10292,23 +10292,23 @@ $L_update_8:
 ;     if($just_pressed(UP_BUTTON))
   p128
   sys   just_pressed
-  bz    $L_update_58
+  bz    $L_update_41
   .line 126
 ;         if(levelseli == 0)
   getg  levelseli 0
-  bnz   $L_update_56
+  bnz   $L_update_39
   .line 128
 ;             if(levelseloff > 0)
   p0
   getg  levelseloff 0
   cult
-  bz    $L_update_55
+  bz    $L_update_38
   .line 129
 ;                 levelseloff -= 1;
   getg  levelseloff 0
   dec
   setg  levelseloff 0
-$L_update_55:
+$L_update_38:
   .line 133
 ;         frame_count = 0;
   p0
@@ -10324,7 +10324,7 @@ $L_update_55:
   .line 1
 ; void update()
   ret
-$L_update_56:
+$L_update_39:
   .line 132
 ;             levelseli -= 1;
   getg  levelseli 0
@@ -10345,30 +10345,30 @@ $L_update_56:
   .line 1
 ; void update()
   ret
-$L_update_58:
+$L_update_41:
   .line 135
 ;     else if($just_pressed(DOWN_BUTTON))
   p16
   sys   just_pressed
-  bz    $L_update_62
+  bz    $L_update_45
   .line 137
 ;         if(levelseli == LEVEL_SELECT_ROWS - 1)
   getg  levelseli 0
   p4
   sub
-  bnz   $L_update_60
+  bnz   $L_update_43
   .line 139
 ;             if(levelseloff < NUM_MAPS - LEVEL_SELECT_ROWS)
   getg  levelseloff 0
   p7
   cult
-  bz    $L_update_59
+  bz    $L_update_42
   .line 140
 ;                 levelseloff += 1;
   getg  levelseloff 0
   inc
   setg  levelseloff 0
-$L_update_59:
+$L_update_42:
   .line 144
 ;         frame_count = 0;
   p0
@@ -10384,7 +10384,7 @@ $L_update_59:
   .line 1
 ; void update()
   ret
-$L_update_60:
+$L_update_43:
   .line 142
 ;         else if(levelseli + levelseloff + 1 < NUM_MAPS)
   getg  levelseli 0
@@ -10397,13 +10397,13 @@ $L_update_60:
   push  12
   p00
   cslt3
-  bz    $L_update_61
+  bz    $L_update_44
   .line 143
 ;             levelseli += 1;
   getg  levelseli 0
   inc
   setg  levelseli 0
-$L_update_61:
+$L_update_44:
   .line 144
 ;         frame_count = 0;
   p0
@@ -10419,17 +10419,17 @@ $L_update_61:
   .line 1
 ; void update()
   ret
-$L_update_62:
+$L_update_45:
   .line 146
 ;     else if($just_pressed(B_BUTTON))
   p4
   sys   just_pressed
-  bnz   $L_update_64
+  bnz   $L_update_49
   .line 148
 ;     else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
-  bz    $L_update_64
+  bz    $L_update_49
   .line 151
 ;         current_map = levelseli + levelseloff;
   getg  levelseli 0
@@ -10448,7 +10448,7 @@ $L_update_62:
 ;         state = STATE_INTRO;
   p1
   setg  state 0
-$L_update_64:
+$L_update_49:
   .line 3
 ;     switch(state)
   pop
@@ -10466,7 +10466,7 @@ $L_update_9:
   p4
   sys   just_pressed
   pop
-$L_update_13:
+$L_update_71:
   .line 3
 ;     switch(state)
   pop
@@ -10484,7 +10484,7 @@ $L_update_10:
   p4
   sys   just_pressed
   pop
-$L_update_47:
+$L_update_35:
   .line 3
 ;     switch(state)
   pop
@@ -10502,13 +10502,13 @@ $L_update_11:
   p4
   sys   just_pressed
   pop
-$L_update_50:
+$L_update_29:
   .line 24
 ;     if(!(frame_count & 3) && ++creditsy == 140)
   getg  frame_count 0
   p3
   and
-  bnz   $L_update_52
+  bnz   $L_update_31
   getg  creditsy 0
   inc
   dup
@@ -10516,12 +10516,12 @@ $L_update_50:
   push2 35840
   sub2b
   or
-  bnz   $L_update_52
+  bnz   $L_update_31
   .line 25
 ;         creditsy = 0;
   p0
   setg  creditsy 0
-$L_update_52:
+$L_update_31:
   .line 3
 ;     switch(state)
   pop
@@ -10723,12 +10723,12 @@ $L_update_level_10:
   getg4 vx 0
   push4 3218708890
   cflt
-  bnz   $L_update_level_131
+  bnz   $L_update_level_130
   push4 1071225242
   getg4 vx 0
   cflt
   bz    $L_update_level_12
-$L_update_level_131:
+$L_update_level_130:
   .line 370
 ;             vy = -PLAYER_JUMP_VEL_FAST;
   push  51
@@ -10983,7 +10983,7 @@ $L_update_level_22:
   getr2
   or
   not
-  bnzp  $L_update_level_91
+  bnzp  $L_update_level_61
   .line 303
 ;         time_taken < map_best_times[current_map]);
   dupw
@@ -10992,14 +10992,14 @@ $L_update_level_22:
   aidxb 2 12
   getr2
   cult2
-$L_update_level_91:
+$L_update_level_61:
   .line 301
 ;     was_best_time = (
   dup
   setg  was_best_time 0
   .line 304
 ;     if(was_best_time)
-  bz    $L_update_level_92
+  bz    $L_update_level_62
   .line 305
 ;         map_best_times[current_map] = time_taken;
   dupw
@@ -11007,7 +11007,7 @@ $L_update_level_91:
   getg  current_map 0
   aidxb 2 12
   setr2
-$L_update_level_92:
+$L_update_level_62:
   .line 307
 ;     u24 map_score = score + level_frames_remaining;
   getg2 score 0
@@ -11028,7 +11028,7 @@ $L_update_level_92:
   setg  was_high_score 0
   .line 309
 ;     if(was_high_score)
-  bz    $L_update_level_93
+  bz    $L_update_level_63
   .line 310
 ;         map_high_scores[current_map] = map_score;
   dupw2
@@ -11036,11 +11036,11 @@ $L_update_level_92:
   getg  current_map 0
   aidxb 2 12
   setr2
-$L_update_level_93:
+$L_update_level_63:
   .line 312
 ;     if(!single_level)
   getg  single_level 0
-  bnz   $L_update_level_94
+  bnz   $L_update_level_64
   .line 314
 ;         saved_current_map = current_map + 1;
   getg  current_map 0
@@ -11066,7 +11066,7 @@ $L_update_level_93:
   push  12
   cult
   setg  save_exists 0
-$L_update_level_94:
+$L_update_level_64:
   .line 320
 ;     $save();
   sys   save
@@ -11321,7 +11321,7 @@ $L_update_level_53:
   .line 476
 ;     if(death_frames == 0)
   getg  death_frames 0
-  bnz   $L_update_level_85
+  bnz   $L_update_level_69
   .line 478
 ;         resolve_player_collision();
   call  resolve_player_collision
@@ -11358,7 +11358,7 @@ $L_update_level_53:
   .line 567
 ;     for(u8 i = 0; i < MAX_OBJECTS; ++i)
   p0
-$L_update_level_61:
+$L_update_level_88:
   .line 569
 ;         map_object_t& obj = objects[i];
   pushg objects 0
@@ -11370,29 +11370,29 @@ $L_update_level_61:
   getr
   .line 571
 ;         if(type == OBJ_NONE)
-  bnzp  $L_update_level_62
+  bnzp  $L_update_level_89
   .line 572
 ;             continue;
   pop2
-  jmp   $L_update_level_78
-$L_update_level_62:
+  jmp   $L_update_level_126
+$L_update_level_89:
   .line 574
 ;         if(type >= OBJ_MOB && (frame_count & 1))
   dup
   p8
   cult
-  bnz   $L_update_level_75
+  bnz   $L_update_level_102
   getg  frame_count 0
   p1
   and
-  bz    $L_update_level_75
+  bz    $L_update_level_102
   .line 576
 ;             if(obj.death_frames != 0)
   dupw2
   push  10
   add2b
   getr
-  bz    $L_update_level_65
+  bz    $L_update_level_92
   .line 578
 ;                 if(--obj.death_frames == 0)
   dupw2
@@ -11404,24 +11404,24 @@ $L_update_level_62:
   dupw2
   setr
   getr
-  bnz   $L_update_level_64
+  bnz   $L_update_level_91
   .line 579
 ;                     obj.type = OBJ_NONE;
   p0
   dupw3
   setr
-$L_update_level_64:
+$L_update_level_91:
   .line 580
 ;                 continue;
   pop3
-  jmp   $L_update_level_78
-$L_update_level_65:
+  jmp   $L_update_level_126
+$L_update_level_92:
   .line 582
 ;             if(type <= OBJ_MOB_BAT)
   push  11
   dup2
   cult
-  bnz   $L_update_level_70
+  bnz   $L_update_level_97
   .line 584
 ;                 i16 x = obj.x;
   dupw2
@@ -11434,7 +11434,7 @@ $L_update_level_65:
   push  9
   add2b
   getr
-  bz    $L_update_level_67
+  bz    $L_update_level_94
   .line 587
 ;                     i16 b = obj.b;
   dupw4
@@ -11452,7 +11452,7 @@ $L_update_level_65:
   dupw
   dupw5
   cslt2
-  bz    $L_update_level_66
+  bz    $L_update_level_93
   .line 591
 ;                         x = b;
   dupw
@@ -11464,7 +11464,7 @@ $L_update_level_65:
   push  9
   add2b
   setr
-$L_update_level_66:
+$L_update_level_93:
   pop2
   .line 605
 ;                 obj.x = x;
@@ -11476,8 +11476,8 @@ $L_update_level_66:
   pop2
   .line 582
 ;             if(type <= OBJ_MOB_BAT)
-  jmp   $L_update_level_75
-$L_update_level_67:
+  jmp   $L_update_level_102
+$L_update_level_94:
   .line 597
 ;                     i16 a = obj.a;
   dupw4
@@ -11494,7 +11494,7 @@ $L_update_level_67:
 ;                     if(x < a)
   getl4 4
   cslt2
-  bz    $L_update_level_68
+  bz    $L_update_level_95
   .line 601
 ;                         x = a;
   dupw
@@ -11506,7 +11506,7 @@ $L_update_level_67:
   push  9
   add2b
   setr
-$L_update_level_68:
+$L_update_level_95:
   pop2
   .line 605
 ;                 obj.x = x;
@@ -11518,14 +11518,14 @@ $L_update_level_68:
   pop2
   .line 582
 ;             if(type <= OBJ_MOB_BAT)
-  jmp   $L_update_level_75
-$L_update_level_70:
+  jmp   $L_update_level_102
+$L_update_level_97:
   .line 607
 ;             else if(type == OBJ_MOB_FLY)
   dup
   push  12
   sub
-  bnz   $L_update_level_75
+  bnz   $L_update_level_102
   .line 609
 ;                 i16 y = obj.y;
   dupw2
@@ -11538,7 +11538,7 @@ $L_update_level_70:
   push  9
   add2b
   getr
-  bz    $L_update_level_72
+  bz    $L_update_level_99
   .line 612
 ;                     i16 b = obj.b;
   dupw4
@@ -11556,7 +11556,7 @@ $L_update_level_70:
   dupw
   dupw5
   cslt2
-  bz    $L_update_level_71
+  bz    $L_update_level_98
   .line 616
 ;                         y = b;
   dupw
@@ -11568,12 +11568,12 @@ $L_update_level_70:
   push  9
   add2b
   setr
-$L_update_level_71:
+$L_update_level_98:
   pop2
   .line 610
 ;                 if(obj.moving_right)
-  jmp   $L_update_level_74
-$L_update_level_72:
+  jmp   $L_update_level_101
+$L_update_level_99:
   .line 622
 ;                     i16 a = obj.a;
   dupw4
@@ -11590,7 +11590,7 @@ $L_update_level_72:
 ;                     if(y < a)
   getl4 4
   cslt2
-  bz    $L_update_level_73
+  bz    $L_update_level_100
   .line 626
 ;                         y = a;
   dupw
@@ -11602,9 +11602,9 @@ $L_update_level_72:
   push  9
   add2b
   setr
-$L_update_level_73:
+$L_update_level_100:
   pop2
-$L_update_level_74:
+$L_update_level_101:
   .line 630
 ;                 obj.y = y;
   dupw
@@ -11613,7 +11613,7 @@ $L_update_level_74:
   add2b
   setr2
   pop2
-$L_update_level_75:
+$L_update_level_102:
   .line 635
 ;         i16 x = obj.x + obj.xo;
   dupw2
@@ -11641,7 +11641,7 @@ $L_update_level_75:
   getl2 12
   dupw5
   cslt2
-  bnz   $L_update_level_117
+  bnz   $L_update_level_124
   .line 638
 ;             py1 >= y &&
   getl2 10
@@ -11649,7 +11649,7 @@ $L_update_level_75:
   cslt2
   .line 637
 ;         if( px1 >= x &&
-  bnz   $L_update_level_117
+  bnz   $L_update_level_124
   .line 639
 ;             px0 < i16(x + obj.w) &&
   getl2 16
@@ -11662,7 +11662,7 @@ $L_update_level_75:
   cslt2
   .line 637
 ;         if( px1 >= x &&
-  bz    $L_update_level_117
+  bz    $L_update_level_124
   .line 640
 ;             py0 < i16(y + obj.h))
   getl2 14
@@ -11675,7 +11675,7 @@ $L_update_level_75:
   cslt2
   .line 637
 ;         if( px1 >= x &&
-  bz    $L_update_level_117
+  bz    $L_update_level_124
   .line 642
 ;             touch_object(obj);
   dupw6
@@ -11687,7 +11687,7 @@ $L_update_level_75:
 ;     if(type == OBJ_COIN)
   dup
   dec
-  bnz   $L_update_level_97
+  bnz   $L_update_level_104
   .line 768
 ;         score += SCORE_COIN;
   getg2 score 0
@@ -11705,14 +11705,14 @@ $L_update_level_75:
   sys   tones_play_primary
   .line 766
 ;     if(type == OBJ_COIN)
-  jmp   $L_update_level_116
-$L_update_level_97:
+  jmp   $L_update_level_123
+$L_update_level_104:
   .line 772
 ;     else if(type == OBJ_KEY)
   dup
   p2
   sub
-  bnz   $L_update_level_98
+  bnz   $L_update_level_105
   .line 774
 ;         keys += 1;
   getg  keys 0
@@ -11729,14 +11729,14 @@ $L_update_level_97:
   sys   tones_play_auto
   .line 772
 ;     else if(type == OBJ_KEY)
-  jmp   $L_update_level_116
-$L_update_level_98:
+  jmp   $L_update_level_123
+$L_update_level_105:
   .line 778
 ;     else if(type == OBJ_SUPERCOIN)
   dup
   p3
   sub
-  bnz   $L_update_level_99
+  bnz   $L_update_level_106
   .line 780
 ;         score += SCORE_SUPERCOIN;
   getg2 score 0
@@ -11754,26 +11754,26 @@ $L_update_level_98:
   sys   tones_play_auto
   .line 778
 ;     else if(type == OBJ_SUPERCOIN)
-  jmp   $L_update_level_116
-$L_update_level_99:
+  jmp   $L_update_level_123
+$L_update_level_106:
   .line 784
 ;     else if(type == OBJ_HEART)
   dup
   p6
   sub
-  bnz   $L_update_level_101
+  bnz   $L_update_level_108
   .line 786
 ;         if(lives < 99)
   getg  lives 0
   push  99
   cult
-  bz    $L_update_level_100
+  bz    $L_update_level_107
   .line 787
 ;             lives += 1;
   getg  lives 0
   inc
   setg  lives 0
-$L_update_level_100:
+$L_update_level_107:
   .line 788
 ;         obj.type = OBJ_NONE;
   p0
@@ -11785,36 +11785,36 @@ $L_update_level_100:
   sys   tones_play_auto
   .line 784
 ;     else if(type == OBJ_HEART)
-  jmp   $L_update_level_116
-$L_update_level_101:
+  jmp   $L_update_level_123
+$L_update_level_108:
   .line 791
 ;     else if(type >= OBJ_MOB && type <= OBJ_MOB_FLY)
   dup
   p8
   cult
-  bnz   $L_update_level_116
+  bnz   $L_update_level_123
   push  12
   dup2
   cult
-  bnz   $L_update_level_116
+  bnz   $L_update_level_123
   .line 793
 ;         if(obj.death_frames != 0)
   dupw2
   push  10
   add2b
   getr
-  bz    $L_update_level_103
+  bz    $L_update_level_110
   .line 794
 ;             return;
   pop3
-  jmp   $L_update_level_117
-$L_update_level_103:
+  jmp   $L_update_level_124
+$L_update_level_110:
   .line 795
 ;         if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
   dup
   push  9
   sub
-  bz    $L_update_level_133
+  bz    $L_update_level_132
   dupw2
   p3
   add2b
@@ -11830,38 +11830,38 @@ $L_update_level_103:
   i2f
   getg4 py 0
   cflt
-  bnz   $L_update_level_133
+  bnz   $L_update_level_132
   p0000
   getg4 vy 0
   cslt4
-  bnz   $L_update_level_114
-$L_update_level_133:
+  bnz   $L_update_level_121
+$L_update_level_132:
   .line 797
 ;             if(obj.death_frames == 0)
   dupw2
   push  10
   add2b
   getr
-  bnz   $L_update_level_111
+  bnz   $L_update_level_118
   .line 713
 ;     if(invincibility_frames != 0)
   getg  invincibility_frames 0
   .line 714
 ;         return;
-  bnz   $L_update_level_111
+  bnz   $L_update_level_118
   .line 715
 ;     if(death_frames != 0)
   getg  death_frames 0
   .line 716
 ;         return;
-  bnz   $L_update_level_111
+  bnz   $L_update_level_118
   .line 717
 ;     if(--hearts != 0)
   getg  hearts 0
   dec
   dup
   setg  hearts 0
-  bz    $L_update_level_108
+  bz    $L_update_level_115
   .line 719
 ;         invincibility_frames = INVINCIBILITY_DAMAGE;
   push  75
@@ -11883,21 +11883,21 @@ $L_update_level_133:
   .line 723
 ;         if(player_facing_right) vx = -1.5;
   getg  player_facing_right 0
-  bz    $L_update_level_107
+  bz    $L_update_level_114
   p00
   push2 49088
   setg4 vx 0
-$L_update_level_107:
+$L_update_level_114:
   .line 795
 ;         if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
-  jmp   $L_update_level_116
-$L_update_level_108:
+  jmp   $L_update_level_123
+$L_update_level_115:
   .line 696
 ;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
 ;         return;
-  bnz   $L_update_level_111
+  bnz   $L_update_level_118
   .line 698
 ;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
@@ -11905,7 +11905,7 @@ $L_update_level_108:
   .line 699
 ;     if(!single_level)
   getg  single_level 0
-  bnz   $L_update_level_110
+  bnz   $L_update_level_117
   .line 701
 ;         saved_current_map = current_map;
   getg  current_map 0
@@ -11932,20 +11932,20 @@ $L_update_level_108:
   .line 706
 ;         $save();
   sys   save
-$L_update_level_110:
+$L_update_level_117:
   .line 708
 ;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
-$L_update_level_111:
+$L_update_level_118:
   .line 795
 ;         if(type == OBJ_MOB_HORN || py > i16(obj.y + obj.yo + 4) || vy <= 0)
-  jmp   $L_update_level_116
-$L_update_level_114:
+  jmp   $L_update_level_123
+$L_update_level_121:
   .line 800
 ;         else if(!mob_jumped)
   getg  mob_jumped 0
-  bnz   $L_update_level_116
+  bnz   $L_update_level_123
   .line 802
 ;             mob_jumped = true;
   p1
@@ -11961,7 +11961,7 @@ $L_update_level_114:
   dup
   push  10
   sub
-  bnz   $L_update_level_115
+  bnz   $L_update_level_122
   .line 805
 ;                 obj.type = OBJ_MOB;
   p8
@@ -11969,8 +11969,8 @@ $L_update_level_114:
   setr
   .line 804
 ;             if(type == OBJ_MOB_HELM)
-  jmp   $L_update_level_116
-$L_update_level_115:
+  jmp   $L_update_level_123
+$L_update_level_122:
   .line 808
 ;                 obj.death_frames = MOB_DEATH_FRAMES;
   push  20
@@ -11984,27 +11984,27 @@ $L_update_level_115:
   push2 1000
   add2
   setg2 score 0
-$L_update_level_116:
+$L_update_level_123:
   .line 763
 ; void touch_object(map_object_t& obj)
   pop3
-$L_update_level_117:
+$L_update_level_124:
   .line 642
 ;             touch_object(obj);
   popn  7
-$L_update_level_78:
+$L_update_level_126:
   .line 567
 ;     for(u8 i = 0; i < MAX_OBJECTS; ++i)
   inc
   dup
   push  20
   cult
-  bnz   $L_update_level_61
+  bnz   $L_update_level_88
   pop
   .line 645
 ;     if(mob_jumped)
   getg  mob_jumped 0
-  bz    $L_update_level_80
+  bz    $L_update_level_128
   .line 647
 ;         vy = -2.0;
   p000
@@ -12018,7 +12018,7 @@ $L_update_level_78:
 ;         $tones_play_auto(SOUND_MOB_JUMP);
   push3 42071
   sys   tones_play_auto
-$L_update_level_80:
+$L_update_level_128:
   .line 560
 ; void update_map_objects()
   popn  8
@@ -12070,7 +12070,7 @@ $L_update_level_80:
   .line 662
 ;     if(player_facing_right)
   getg  player_facing_right 0
-  bz    $L_update_level_119
+  bz    $L_update_level_75
   .line 663
 ;         tcamx += CAMERA_OFFSET_X_DELTA;
   getl4 12
@@ -12080,8 +12080,8 @@ $L_update_level_80:
   setl4 12
   .line 662
 ;     if(player_facing_right)
-  jmp   $L_update_level_120
-$L_update_level_119:
+  jmp   $L_update_level_76
+$L_update_level_75:
   .line 665
 ;         tcamx -= CAMERA_OFFSET_X_DELTA;
   getl4 12
@@ -12089,7 +12089,7 @@ $L_update_level_119:
   push  65
   fsub
   setl4 12
-$L_update_level_120:
+$L_update_level_76:
   .line 668
 ;         float dy = tcamy - camy;
   getl4 16
@@ -12101,7 +12101,7 @@ $L_update_level_120:
   push2 16608
   getl4 8
   cflt
-  bz    $L_update_level_121
+  bz    $L_update_level_77
   .line 670
 ;             tcamy -= CAMERA_Y_HYSTERESIS;
   getl4 20
@@ -12111,15 +12111,15 @@ $L_update_level_120:
   setl4 20
   .line 669
 ;         if(dy > CAMERA_Y_HYSTERESIS)
-  jmp   $L_update_level_123
-$L_update_level_121:
+  jmp   $L_update_level_79
+$L_update_level_77:
   .line 671
 ;         else if(dy < -CAMERA_Y_HYSTERESIS)
   getl4 4
   p00
   push2 49376
   cflt
-  bz    $L_update_level_122
+  bz    $L_update_level_78
   .line 672
 ;             tcamy += CAMERA_Y_HYSTERESIS;
   getl4 20
@@ -12129,19 +12129,19 @@ $L_update_level_121:
   setl4 20
   .line 671
 ;         else if(dy < -CAMERA_Y_HYSTERESIS)
-  jmp   $L_update_level_123
-$L_update_level_122:
+  jmp   $L_update_level_79
+$L_update_level_78:
   .line 674
 ;             tcamy = camy;
   getg4 camy 0
   setl4 20
-$L_update_level_123:
+$L_update_level_79:
   pop4
   .line 677
 ;     if($pressed(UP_BUTTON))
   p128
   sys   pressed
-  bz    $L_update_level_124
+  bz    $L_update_level_80
   .line 678
 ;         tcamy -= CAMERA_OFFSET_Y_DELTA_UP;
   getl4 16
@@ -12149,12 +12149,12 @@ $L_update_level_123:
   push2 16816
   fsub
   setl4 16
-$L_update_level_124:
+$L_update_level_80:
   .line 679
 ;     if($pressed(DOWN_BUTTON))
   p16
   sys   pressed
-  bz    $L_update_level_125
+  bz    $L_update_level_81
   .line 680
 ;         tcamy += CAMERA_OFFSET_Y_DELTA_DOWN;
   getl4 16
@@ -12162,43 +12162,43 @@ $L_update_level_124:
   push2 16832
   fadd
   setl4 16
-$L_update_level_125:
+$L_update_level_81:
   .line 681
 ;     if(tcamx < 0) tcamx = 0;
   getl4 12
   p0000
   cslt4
-  bz    $L_update_level_126
+  bz    $L_update_level_82
   p0000
   setl4 12
-$L_update_level_126:
+$L_update_level_82:
   .line 682
 ;     if(tcamy < 0) tcamy = 0;
   getl4 16
   p0000
   cslt4
-  bz    $L_update_level_127
+  bz    $L_update_level_83
   p0000
   setl4 16
-$L_update_level_127:
+$L_update_level_83:
   .line 683
 ;     if(tcamx > xmax) tcamx = xmax;
   getl4 8
   getl4 16
   cflt
-  bz    $L_update_level_128
+  bz    $L_update_level_84
   getl4 8
   setl4 12
-$L_update_level_128:
+$L_update_level_84:
   .line 684
 ;     if(tcamy > ymax) tcamy = ymax;
   getl4 4
   getl4 20
   cflt
-  bz    $L_update_level_129
+  bz    $L_update_level_85
   getl4 4
   setl4 16
-$L_update_level_129:
+$L_update_level_85:
   .line 685
 ;     camy += (tcamy - camy) * CAMERA_UPDATE_Y_FACTOR;
   getg4 camy 0
@@ -12252,13 +12252,13 @@ $L_update_level_129:
   dupw
   setg2 level_frames_remaining 0
   or
-  bnz   $L_update_level_85
+  bnz   $L_update_level_69
   .line 696
 ;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
 ;         return;
-  bnz   $L_update_level_85
+  bnz   $L_update_level_69
   .line 698
 ;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
@@ -12266,7 +12266,7 @@ $L_update_level_129:
   .line 699
 ;     if(!single_level)
   getg  single_level 0
-  bnz   $L_update_level_84
+  bnz   $L_update_level_68
   .line 701
 ;         saved_current_map = current_map;
   getg  current_map 0
@@ -12293,12 +12293,12 @@ $L_update_level_129:
   .line 706
 ;         $save();
   sys   save
-$L_update_level_84:
+$L_update_level_68:
   .line 708
 ;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
-$L_update_level_85:
+$L_update_level_69:
   .line 488
 ;     if(invincibility_frames != 0)
   getg  invincibility_frames 0
@@ -12319,13 +12319,13 @@ $L_update_level_56:
   i2f
   getg4 py 0
   cflt
-  bz    $L_update_level_89
+  bz    $L_update_level_73
   .line 696
 ;     if(death_frames != 0)
   getg  death_frames 0
   .line 697
 ;         return;
-  bnz   $L_update_level_89
+  bnz   $L_update_level_73
   .line 698
 ;     death_frames = DEATH_TOTAL_FRAMES;
   push  100
@@ -12333,7 +12333,7 @@ $L_update_level_56:
   .line 699
 ;     if(!single_level)
   getg  single_level 0
-  bnz   $L_update_level_88
+  bnz   $L_update_level_72
   .line 701
 ;         saved_current_map = current_map;
   getg  current_map 0
@@ -12360,12 +12360,12 @@ $L_update_level_56:
   .line 706
 ;         $save();
   sys   save
-$L_update_level_88:
+$L_update_level_72:
   .line 708
 ;     $tones_play_auto(SOUND_DEATH);
   push3 46264
   sys   tones_play_auto
-$L_update_level_89:
+$L_update_level_73:
   .line 495
 ;     if(level_start_frames != 0)
   getg  level_start_frames 0

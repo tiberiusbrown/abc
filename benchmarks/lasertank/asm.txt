@@ -4083,7 +4083,7 @@ $L_play_7:
 ;         else if($just_pressed(A_BUTTON))
   p8
   sys   just_pressed
-  bz    $L_play_74
+  bz    $L_play_76
   .line 388
 ;             if(undo_num_moves == 0)
   getg  undo_num_moves 0
@@ -4096,7 +4096,7 @@ $L_play_7:
   getg  undo_num_moves 0
   .line 96
 ;         return;
-  bz    $L_play_74
+  bz    $L_play_76
   .line 98
 ;     u8 n = undo_num_moves - 1;
   getg  undo_num_moves 0
@@ -4142,7 +4142,7 @@ $L_play_7:
   .line 27
 ;     u8 i = 0;
   p0
-$L_play_98:
+$L_play_96:
   .line 30
 ;         u8 t = undo_data[ci];
   pushg undo_data 0
@@ -4167,8 +4167,8 @@ $L_play_98:
   p1
   dupw
   cult
-  bnz   $L_play_100
-$L_play_99:
+  bnz   $L_play_98
+$L_play_97:
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4183,7 +4183,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4198,7 +4198,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4213,7 +4213,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4228,7 +4228,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4243,7 +4243,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4258,7 +4258,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4273,7 +4273,7 @@ $L_play_99:
   inc
   dupw
   cult
-  bnz   $L_play_100
+  bnz   $L_play_98
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4288,8 +4288,8 @@ $L_play_99:
   inc
   dupw
   cult
-  bz    $L_play_99
-$L_play_100:
+  bz    $L_play_97
+$L_play_98:
   pop
   .line 36
 ;         ci += 1;
@@ -4308,7 +4308,7 @@ $L_play_100:
   .line 38
 ;     } while(i != 0);
   dup
-  bnz   $L_play_98
+  bnz   $L_play_96
   .line 39
 ;     return ci;
   dupw4
@@ -4325,7 +4325,7 @@ $L_play_100:
   .line 27
 ;     u8 i = 0;
   p0
-$L_play_101:
+$L_play_99:
   .line 30
 ;         u8 t = undo_data[ci];
   pushg undo_data 0
@@ -4350,8 +4350,8 @@ $L_play_101:
   p1
   dupw
   cult
-  bnz   $L_play_103
-$L_play_102:
+  bnz   $L_play_101
+$L_play_100:
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4366,7 +4366,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4381,7 +4381,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4396,7 +4396,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4411,7 +4411,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4426,7 +4426,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4441,7 +4441,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4456,7 +4456,7 @@ $L_play_102:
   inc
   dupw
   cult
-  bnz   $L_play_103
+  bnz   $L_play_101
   .line 34
 ;             dst[i+k] = T_DIRT;
   p0
@@ -4471,8 +4471,8 @@ $L_play_102:
   inc
   dupw
   cult
-  bz    $L_play_102
-$L_play_103:
+  bz    $L_play_100
+$L_play_101:
   pop
   .line 36
 ;         ci += 1;
@@ -4491,7 +4491,7 @@ $L_play_103:
   .line 38
 ;     } while(i != 0);
   dup
-  bnz   $L_play_101
+  bnz   $L_play_99
   .line 39
 ;     return ci;
   dupw4
@@ -4516,7 +4516,47 @@ $L_play_103:
   .line 77
 ;     u8 i = 0;
   p0
+$L_play_102:
+  .line 80
+;         u8 t= tiles[i];
+  pushg tiles 0
+  dup3
+  add2b
+  getr
+  .line 81
+;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
+  dup
+  p32
+  cult
+  bnz   $L_play_104
+  dup
+  p64
+  cult
+  bz    $L_play_104
+  .line 82
+;             occupied_tunnels[u8(t - T_TUNNEL) >> 2] += 1;
+  pushg occupied_tunnels 0
+  dup3
+  p32
+  sub
+  p2
+  lsr
+  aixb1 8
+  dupw
+  getr
+  inc
+  dupw2
+  setr
+  pop2
 $L_play_104:
+  .line 83
+;         i += 1;
+  linc  2
+  pop
+  .line 84
+;     } while(i != 0);
+  dup
+  bz    $L_play_113
   .line 80
 ;         u8 t= tiles[i];
   pushg tiles 0
@@ -4556,7 +4596,7 @@ $L_play_106:
   .line 84
 ;     } while(i != 0);
   dup
-  bz    $L_play_115
+  bz    $L_play_113
   .line 80
 ;         u8 t= tiles[i];
   pushg tiles 0
@@ -4596,7 +4636,7 @@ $L_play_108:
   .line 84
 ;     } while(i != 0);
   dup
-  bz    $L_play_115
+  bz    $L_play_113
   .line 80
 ;         u8 t= tiles[i];
   pushg tiles 0
@@ -4636,7 +4676,7 @@ $L_play_110:
   .line 84
 ;     } while(i != 0);
   dup
-  bz    $L_play_115
+  bz    $L_play_113
   .line 80
 ;         u8 t= tiles[i];
   pushg tiles 0
@@ -4676,48 +4716,8 @@ $L_play_112:
   .line 84
 ;     } while(i != 0);
   dup
-  bz    $L_play_115
-  .line 80
-;         u8 t= tiles[i];
-  pushg tiles 0
-  dup3
-  add2b
-  getr
-  .line 81
-;         if(t >= T_TUNNEL && t < T_TUNNEL + 32)
-  dup
-  p32
-  cult
-  bnz   $L_play_114
-  dup
-  p64
-  cult
-  bz    $L_play_114
-  .line 82
-;             occupied_tunnels[u8(t - T_TUNNEL) >> 2] += 1;
-  pushg occupied_tunnels 0
-  dup3
-  p32
-  sub
-  p2
-  lsr
-  aixb1 8
-  dupw
-  getr
-  inc
-  dupw2
-  setr
-  pop2
-$L_play_114:
-  .line 83
-;         i += 1;
-  linc  2
-  pop
-  .line 84
-;     } while(i != 0);
-  dup
-  bnz   $L_play_104
-$L_play_115:
+  bnz   $L_play_102
+$L_play_113:
   .line 60
 ; void undo_decompress()
   pop3
@@ -4756,7 +4756,7 @@ $L_play_115:
   .line 93
 ; void undo()
   pop
-$L_play_74:
+$L_play_76:
   .file play.abc
   .line 393
 ;         return;
@@ -5056,7 +5056,7 @@ $L_play_85:
   .line 6
 ;     u8 i = 0;
   p0
-$L_play_87:
+$L_play_86:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
@@ -5065,20 +5065,20 @@ $L_play_87:
   .line 10
 ;         u8 n;
   p0
-$L_play_88:
+$L_play_87:
   .line 13
 ;             if(n >= 3 || i+n >= 255 || src[i+n+1] != T_DIRT)
   dup
   p3
   cult
-  bz    $L_play_94
+  bz    $L_play_93
   dup3
   p0
   dup3
   add2b
   push2 255
   cult2
-  bz    $L_play_94
+  bz    $L_play_93
   getln 3 5
   p0
   dup5
@@ -5089,7 +5089,7 @@ $L_play_88:
   getr
   .line 14
 ;                 break;
-  bnz   $L_play_94
+  bnz   $L_play_93
   .line 15
 ;             n += 1;
   inc
@@ -5098,7 +5098,7 @@ $L_play_88:
   dup
   p3
   cult
-  bz    $L_play_94
+  bz    $L_play_93
   dup3
   p00
   dup4
@@ -5106,7 +5106,7 @@ $L_play_88:
   push  255
   p00
   cult3
-  bz    $L_play_94
+  bz    $L_play_93
   getln 3 5
   p0
   dup5
@@ -5117,7 +5117,7 @@ $L_play_88:
   getr
   .line 14
 ;                 break;
-  bnz   $L_play_94
+  bnz   $L_play_93
   .line 15
 ;             n += 1;
   inc
@@ -5126,7 +5126,7 @@ $L_play_88:
   dup
   p3
   cult
-  bz    $L_play_94
+  bz    $L_play_93
   dup3
   p000
   dup5
@@ -5135,7 +5135,7 @@ $L_play_88:
   push  255
   p000
   cult4
-  bz    $L_play_94
+  bz    $L_play_93
   getln 3 5
   p0
   dup5
@@ -5146,7 +5146,7 @@ $L_play_88:
   getr
   .line 14
 ;                 break;
-  bnz   $L_play_94
+  bnz   $L_play_93
   .line 15
 ;             n += 1;
   inc
@@ -5155,7 +5155,7 @@ $L_play_88:
   dup
   p3
   cult
-  bz    $L_play_94
+  bz    $L_play_93
   dup3
   p000
   dup5
@@ -5164,7 +5164,7 @@ $L_play_88:
   push  255
   p000
   cult4
-  bz    $L_play_94
+  bz    $L_play_93
   getln 3 5
   p0
   dup5
@@ -5175,7 +5175,7 @@ $L_play_88:
   getr
   .line 14
 ;                 break;
-  bnz   $L_play_94
+  bnz   $L_play_93
   .line 15
 ;             n += 1;
   inc
@@ -5184,7 +5184,7 @@ $L_play_88:
   dup
   p3
   cult
-  bz    $L_play_94
+  bz    $L_play_93
   dup3
   p000
   dup5
@@ -5193,7 +5193,7 @@ $L_play_88:
   push  255
   p000
   cult4
-  bz    $L_play_94
+  bz    $L_play_93
   getln 3 5
   p0
   dup5
@@ -5204,14 +5204,14 @@ $L_play_88:
   getr
   .line 14
 ;                 break;
-  bnz   $L_play_94
+  bnz   $L_play_93
   .line 15
 ;             n += 1;
   inc
   .line 11
 ;         while(true)
-  jmp   $L_play_88
-$L_play_94:
+  jmp   $L_play_87
+$L_play_93:
   .line 18
 ;         undo_data[ci] = t + n;
   dupw
@@ -5237,7 +5237,7 @@ $L_play_94:
   .line 21
 ;     } while(i != 0);
   dup
-  bnz   $L_play_87
+  bnz   $L_play_86
   .line 22
 ;     return ci;
   dupw4
@@ -7867,7 +7867,7 @@ $L_process_tank_move_19:
   .line 6
 ;     u8 i = 0;
   p0
-$L_process_tank_move_21:
+$L_process_tank_move_20:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
@@ -7876,20 +7876,20 @@ $L_process_tank_move_21:
   .line 10
 ;         u8 n;
   p0
-$L_process_tank_move_22:
+$L_process_tank_move_21:
   .line 13
 ;             if(n >= 3 || i+n >= 255 || src[i+n+1] != T_DIRT)
   dup
   p3
   cult
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   dup3
   p0
   dup3
   add2b
   push2 255
   cult2
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   getln 3 5
   p0
   dup5
@@ -7900,7 +7900,7 @@ $L_process_tank_move_22:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_28
+  bnz   $L_process_tank_move_27
   .line 15
 ;             n += 1;
   inc
@@ -7909,7 +7909,7 @@ $L_process_tank_move_22:
   dup
   p3
   cult
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   dup3
   p00
   dup4
@@ -7917,7 +7917,7 @@ $L_process_tank_move_22:
   push  255
   p00
   cult3
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   getln 3 5
   p0
   dup5
@@ -7928,7 +7928,7 @@ $L_process_tank_move_22:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_28
+  bnz   $L_process_tank_move_27
   .line 15
 ;             n += 1;
   inc
@@ -7937,7 +7937,7 @@ $L_process_tank_move_22:
   dup
   p3
   cult
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   dup3
   p000
   dup5
@@ -7946,7 +7946,7 @@ $L_process_tank_move_22:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   getln 3 5
   p0
   dup5
@@ -7957,7 +7957,7 @@ $L_process_tank_move_22:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_28
+  bnz   $L_process_tank_move_27
   .line 15
 ;             n += 1;
   inc
@@ -7966,7 +7966,7 @@ $L_process_tank_move_22:
   dup
   p3
   cult
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   dup3
   p000
   dup5
@@ -7975,7 +7975,7 @@ $L_process_tank_move_22:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   getln 3 5
   p0
   dup5
@@ -7986,7 +7986,7 @@ $L_process_tank_move_22:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_28
+  bnz   $L_process_tank_move_27
   .line 15
 ;             n += 1;
   inc
@@ -7995,7 +7995,7 @@ $L_process_tank_move_22:
   dup
   p3
   cult
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   dup3
   p000
   dup5
@@ -8004,7 +8004,7 @@ $L_process_tank_move_22:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_28
+  bz    $L_process_tank_move_27
   getln 3 5
   p0
   dup5
@@ -8015,14 +8015,14 @@ $L_process_tank_move_22:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_28
+  bnz   $L_process_tank_move_27
   .line 15
 ;             n += 1;
   inc
   .line 11
 ;         while(true)
-  jmp   $L_process_tank_move_22
-$L_process_tank_move_28:
+  jmp   $L_process_tank_move_21
+$L_process_tank_move_27:
   .line 18
 ;         undo_data[ci] = t + n;
   dupw
@@ -8048,7 +8048,7 @@ $L_process_tank_move_28:
   .line 21
 ;     } while(i != 0);
   dup
-  bnz   $L_process_tank_move_21
+  bnz   $L_process_tank_move_20
   .line 22
 ;     return ci;
   dupw4
@@ -8121,12 +8121,12 @@ $L_process_tank_move_0:
   dup
   p16
   cult
-  bz    $L_process_tank_move_51
+  bz    $L_process_tank_move_47
   dup2
   p16
   cult
   bnz   $L_process_tank_move_4
-$L_process_tank_move_51:
+$L_process_tank_move_47:
   .line 36
 ;         return true;
   pop3
@@ -8226,7 +8226,7 @@ $L_process_tank_move_1:
   .line 6
 ;     u8 i = 0;
   p0
-$L_process_tank_move_32:
+$L_process_tank_move_30:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
@@ -8235,20 +8235,20 @@ $L_process_tank_move_32:
   .line 10
 ;         u8 n;
   p0
-$L_process_tank_move_33:
+$L_process_tank_move_31:
   .line 13
 ;             if(n >= 3 || i+n >= 255 || src[i+n+1] != T_DIRT)
   dup
   p3
   cult
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   dup3
   p0
   dup3
   add2b
   push2 255
   cult2
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   getln 3 5
   p0
   dup5
@@ -8259,7 +8259,7 @@ $L_process_tank_move_33:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_39
+  bnz   $L_process_tank_move_37
   .line 15
 ;             n += 1;
   inc
@@ -8268,7 +8268,7 @@ $L_process_tank_move_33:
   dup
   p3
   cult
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   dup3
   p00
   dup4
@@ -8276,7 +8276,7 @@ $L_process_tank_move_33:
   push  255
   p00
   cult3
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   getln 3 5
   p0
   dup5
@@ -8287,7 +8287,7 @@ $L_process_tank_move_33:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_39
+  bnz   $L_process_tank_move_37
   .line 15
 ;             n += 1;
   inc
@@ -8296,7 +8296,7 @@ $L_process_tank_move_33:
   dup
   p3
   cult
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   dup3
   p000
   dup5
@@ -8305,7 +8305,7 @@ $L_process_tank_move_33:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   getln 3 5
   p0
   dup5
@@ -8316,7 +8316,7 @@ $L_process_tank_move_33:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_39
+  bnz   $L_process_tank_move_37
   .line 15
 ;             n += 1;
   inc
@@ -8325,7 +8325,7 @@ $L_process_tank_move_33:
   dup
   p3
   cult
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   dup3
   p000
   dup5
@@ -8334,7 +8334,7 @@ $L_process_tank_move_33:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   getln 3 5
   p0
   dup5
@@ -8345,7 +8345,7 @@ $L_process_tank_move_33:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_39
+  bnz   $L_process_tank_move_37
   .line 15
 ;             n += 1;
   inc
@@ -8354,7 +8354,7 @@ $L_process_tank_move_33:
   dup
   p3
   cult
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   dup3
   p000
   dup5
@@ -8363,7 +8363,7 @@ $L_process_tank_move_33:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_39
+  bz    $L_process_tank_move_37
   getln 3 5
   p0
   dup5
@@ -8374,14 +8374,14 @@ $L_process_tank_move_33:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_39
+  bnz   $L_process_tank_move_37
   .line 15
 ;             n += 1;
   inc
   .line 11
 ;         while(true)
-  jmp   $L_process_tank_move_33
-$L_process_tank_move_39:
+  jmp   $L_process_tank_move_31
+$L_process_tank_move_37:
   .line 18
 ;         undo_data[ci] = t + n;
   dupw
@@ -8407,7 +8407,7 @@ $L_process_tank_move_39:
   .line 21
 ;     } while(i != 0);
   dup
-  bnz   $L_process_tank_move_32
+  bnz   $L_process_tank_move_30
   .line 22
 ;     return ci;
   dupw4
@@ -8424,7 +8424,7 @@ $L_process_tank_move_39:
   .line 6
 ;     u8 i = 0;
   p0
-$L_process_tank_move_41:
+$L_process_tank_move_38:
   .line 9
 ;         u8 t = src[i];
   getln 3 3
@@ -8433,20 +8433,20 @@ $L_process_tank_move_41:
   .line 10
 ;         u8 n;
   p0
-$L_process_tank_move_42:
+$L_process_tank_move_39:
   .line 13
 ;             if(n >= 3 || i+n >= 255 || src[i+n+1] != T_DIRT)
   dup
   p3
   cult
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   dup3
   p0
   dup3
   add2b
   push2 255
   cult2
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   getln 3 5
   p0
   dup5
@@ -8457,7 +8457,7 @@ $L_process_tank_move_42:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_48
+  bnz   $L_process_tank_move_45
   .line 15
 ;             n += 1;
   inc
@@ -8466,7 +8466,7 @@ $L_process_tank_move_42:
   dup
   p3
   cult
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   dup3
   p00
   dup4
@@ -8474,7 +8474,7 @@ $L_process_tank_move_42:
   push  255
   p00
   cult3
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   getln 3 5
   p0
   dup5
@@ -8485,7 +8485,7 @@ $L_process_tank_move_42:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_48
+  bnz   $L_process_tank_move_45
   .line 15
 ;             n += 1;
   inc
@@ -8494,7 +8494,7 @@ $L_process_tank_move_42:
   dup
   p3
   cult
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   dup3
   p000
   dup5
@@ -8503,7 +8503,7 @@ $L_process_tank_move_42:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   getln 3 5
   p0
   dup5
@@ -8514,7 +8514,7 @@ $L_process_tank_move_42:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_48
+  bnz   $L_process_tank_move_45
   .line 15
 ;             n += 1;
   inc
@@ -8523,7 +8523,7 @@ $L_process_tank_move_42:
   dup
   p3
   cult
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   dup3
   p000
   dup5
@@ -8532,7 +8532,7 @@ $L_process_tank_move_42:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   getln 3 5
   p0
   dup5
@@ -8543,7 +8543,7 @@ $L_process_tank_move_42:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_48
+  bnz   $L_process_tank_move_45
   .line 15
 ;             n += 1;
   inc
@@ -8552,7 +8552,7 @@ $L_process_tank_move_42:
   dup
   p3
   cult
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   dup3
   p000
   dup5
@@ -8561,7 +8561,7 @@ $L_process_tank_move_42:
   push  255
   p000
   cult4
-  bz    $L_process_tank_move_48
+  bz    $L_process_tank_move_45
   getln 3 5
   p0
   dup5
@@ -8572,14 +8572,14 @@ $L_process_tank_move_42:
   getr
   .line 14
 ;                 break;
-  bnz   $L_process_tank_move_48
+  bnz   $L_process_tank_move_45
   .line 15
 ;             n += 1;
   inc
   .line 11
 ;         while(true)
-  jmp   $L_process_tank_move_42
-$L_process_tank_move_48:
+  jmp   $L_process_tank_move_39
+$L_process_tank_move_45:
   .line 18
 ;         undo_data[ci] = t + n;
   dupw
@@ -8605,7 +8605,7 @@ $L_process_tank_move_48:
   .line 21
 ;     } while(i != 0);
   dup
-  bnz   $L_process_tank_move_41
+  bnz   $L_process_tank_move_38
   .line 22
 ;     return ci;
   dupw4
@@ -11597,12 +11597,12 @@ tank_update:
   getr
   push  96
   cult
-  bnz   $L_tank_update_23
+  bnz   $L_tank_update_7
   .line 117
 ;         return;
   pop
-  jmp   $L_tank_update_34
-$L_tank_update_23:
+  jmp   $L_tank_update_18
+$L_tank_update_7:
   .line 118
 ;     u8 t = tiles[tanki];
   pushg tiles 0
@@ -11617,20 +11617,20 @@ $L_tank_update_23:
   dup
   p32
   cult
-  bnz   $L_tank_update_24
+  bnz   $L_tank_update_8
   push  63
   dup2
   cult
-  bz    $L_tank_update_25
-$L_tank_update_24:
+  bz    $L_tank_update_9
+$L_tank_update_8:
   .line 119
 ;     switch(t)
-  jmp   $L_tank_update_33
-$L_tank_update_25:
+  jmp   $L_tank_update_17
+$L_tank_update_9:
   .line 123
 ;             if(!just_moved) break;
   getg  just_moved 0
-  bz    $L_tank_update_33
+  bz    $L_tank_update_17
   .line 124
 ;             just_moved = false;
   p0
@@ -11645,7 +11645,7 @@ $L_tank_update_25:
   dup
   dup5
   sub
-  bz    $L_tank_update_28
+  bz    $L_tank_update_12
   .line 128
 ;                 if(objects[ti] < T_FIRST_SOLID)
   pushg objects 0
@@ -11654,7 +11654,7 @@ $L_tank_update_25:
   getr
   push  96
   cult
-  bz    $L_tank_update_27
+  bz    $L_tank_update_11
   .line 130
 ;                     tanky = ti >> 4;
   dup
@@ -11671,11 +11671,11 @@ $L_tank_update_25:
 ;                     $tones_play_auto(SFX_TUNNEL);
   push3 21072
   sys   tones_play_auto
-$L_tank_update_27:
+$L_tank_update_11:
   .line 126
 ;             if(ti != tanki)
-  jmp   $L_tank_update_32
-$L_tank_update_28:
+  jmp   $L_tank_update_16
+$L_tank_update_12:
   .line 135
 ;             else if(num_tunnels[u8(t - T_TUNNEL) >> 2] == 1)
   pushg num_tunnels 0
@@ -11687,11 +11687,11 @@ $L_tank_update_28:
   aixb1 8
   getr
   dec
-  bnz   $L_tank_update_31
+  bnz   $L_tank_update_15
   .line 35
 ;     if(victory) return;
   getg  victory 0
-  bnz   $L_tank_update_30
+  bnz   $L_tank_update_14
   .line 36
 ;     frame = 0;
   p0
@@ -11704,22 +11704,22 @@ $L_tank_update_28:
 ;     dead = true;
   p1
   setg  dead 0
-$L_tank_update_30:
+$L_tank_update_14:
   .line 135
 ;             else if(num_tunnels[u8(t - T_TUNNEL) >> 2] == 1)
-  jmp   $L_tank_update_32
-$L_tank_update_31:
+  jmp   $L_tank_update_16
+$L_tank_update_15:
   .line 143
 ;                 tank_blocked_tunnel = true;
   p1
   setg  tank_blocked_tunnel 0
-$L_tank_update_32:
+$L_tank_update_16:
   pop
-$L_tank_update_33:
+$L_tank_update_17:
   .line 119
 ;     switch(t)
   pop3
-$L_tank_update_34:
+$L_tank_update_18:
   .line 154
 ;     bool prev_just_moved = just_moved;
   getg  just_moved 0
@@ -11796,14 +11796,14 @@ $L_tank_update_3:
   dup2
   p16
   cult
-  bnz   $L_tank_update_8
+  bnz   $L_tank_update_40
 $L_tank_update_65:
   .line 36
 ;         return true;
   pop3
   p1
-  jmp   $L_tank_update_10
-$L_tank_update_8:
+  jmp   $L_tank_update_42
+$L_tank_update_40:
   .line 37
 ;     u8 i = y * 16 + x;
   dup2
@@ -11820,7 +11820,7 @@ $L_tank_update_8:
   push  96
   cult
   not
-  bnzp  $L_tank_update_9
+  bnzp  $L_tank_update_41
   pushg objects 0
   dup3
   add2b
@@ -11828,10 +11828,10 @@ $L_tank_update_8:
   push  96
   cult
   not
-$L_tank_update_9:
+$L_tank_update_41:
   setl  4
   pop3
-$L_tank_update_10:
+$L_tank_update_42:
   .file play.abc
   .line 168
 ;             if(!solid(nx, ny))
@@ -12427,7 +12427,7 @@ $L_tank_update_64:
   getr
   push  96
   cult
-  bnz   $L_tank_update_12
+  bnz   $L_tank_update_20
   .line 90
 ;         return;
   pop
@@ -12438,7 +12438,7 @@ $L_tank_update_64:
 ; void tank_update()
   pop3
   ret
-$L_tank_update_12:
+$L_tank_update_20:
   .line 91
 ;     u8 t = tiles[tanki];
   pushg tiles 0
@@ -12453,12 +12453,12 @@ $L_tank_update_12:
   dup
   p16
   cult
-  bnz   $L_tank_update_13
+  bnz   $L_tank_update_21
   push  31
   dup2
   cult
-  bz    $L_tank_update_14
-$L_tank_update_13:
+  bz    $L_tank_update_22
+$L_tank_update_21:
   .line 92
 ;     switch(t)
   pop3
@@ -12469,7 +12469,7 @@ $L_tank_update_13:
 ; void tank_update()
   pop3
   ret
-$L_tank_update_14:
+$L_tank_update_22:
   .line 96
 ;             u8 dir = u8(t - T_ONEWAY) >> 2;
   dup2
@@ -12508,14 +12508,14 @@ $L_tank_update_14:
   dup2
   p16
   cult
-  bnz   $L_tank_update_16
+  bnz   $L_tank_update_45
 $L_tank_update_67:
   .line 36
 ;         return true;
   pop3
   p1
-  jmp   $L_tank_update_18
-$L_tank_update_16:
+  jmp   $L_tank_update_47
+$L_tank_update_45:
   .line 37
 ;     u8 i = y * 16 + x;
   dup2
@@ -12532,7 +12532,7 @@ $L_tank_update_16:
   push  96
   cult
   not
-  bnzp  $L_tank_update_17
+  bnzp  $L_tank_update_46
   pushg objects 0
   dup3
   add2b
@@ -12540,14 +12540,14 @@ $L_tank_update_16:
   push  96
   cult
   not
-$L_tank_update_17:
+$L_tank_update_46:
   setl  4
   pop3
-$L_tank_update_18:
+$L_tank_update_47:
   .file play.abc
   .line 99
 ;             if(!solid(nx, ny))
-  bnz   $L_tank_update_19
+  bnz   $L_tank_update_35
   .line 101
 ;                 tankx = nx;
   dup2
@@ -12579,12 +12579,12 @@ $L_tank_update_18:
   getr
   push  96
   cult
-  bnz   $L_tank_update_36
+  bnz   $L_tank_update_23
   .line 117
 ;         return;
   pop
-  jmp   $L_tank_update_47
-$L_tank_update_36:
+  jmp   $L_tank_update_34
+$L_tank_update_23:
   .line 118
 ;     u8 t = tiles[tanki];
   pushg tiles 0
@@ -12599,20 +12599,20 @@ $L_tank_update_36:
   dup
   p32
   cult
-  bnz   $L_tank_update_37
+  bnz   $L_tank_update_24
   push  63
   dup2
   cult
-  bz    $L_tank_update_38
-$L_tank_update_37:
+  bz    $L_tank_update_25
+$L_tank_update_24:
   .line 119
 ;     switch(t)
-  jmp   $L_tank_update_46
-$L_tank_update_38:
+  jmp   $L_tank_update_33
+$L_tank_update_25:
   .line 123
 ;             if(!just_moved) break;
   getg  just_moved 0
-  bz    $L_tank_update_46
+  bz    $L_tank_update_33
   .line 124
 ;             just_moved = false;
   p0
@@ -12627,7 +12627,7 @@ $L_tank_update_38:
   dup
   dup5
   sub
-  bz    $L_tank_update_41
+  bz    $L_tank_update_28
   .line 128
 ;                 if(objects[ti] < T_FIRST_SOLID)
   pushg objects 0
@@ -12636,7 +12636,7 @@ $L_tank_update_38:
   getr
   push  96
   cult
-  bz    $L_tank_update_40
+  bz    $L_tank_update_27
   .line 130
 ;                     tanky = ti >> 4;
   dup
@@ -12653,11 +12653,11 @@ $L_tank_update_38:
 ;                     $tones_play_auto(SFX_TUNNEL);
   push3 21072
   sys   tones_play_auto
-$L_tank_update_40:
+$L_tank_update_27:
   .line 126
 ;             if(ti != tanki)
-  jmp   $L_tank_update_45
-$L_tank_update_41:
+  jmp   $L_tank_update_32
+$L_tank_update_28:
   .line 135
 ;             else if(num_tunnels[u8(t - T_TUNNEL) >> 2] == 1)
   pushg num_tunnels 0
@@ -12669,11 +12669,11 @@ $L_tank_update_41:
   aixb1 8
   getr
   dec
-  bnz   $L_tank_update_44
+  bnz   $L_tank_update_31
   .line 35
 ;     if(victory) return;
   getg  victory 0
-  bnz   $L_tank_update_43
+  bnz   $L_tank_update_30
   .line 36
 ;     frame = 0;
   p0
@@ -12686,22 +12686,22 @@ $L_tank_update_41:
 ;     dead = true;
   p1
   setg  dead 0
-$L_tank_update_43:
+$L_tank_update_30:
   .line 135
 ;             else if(num_tunnels[u8(t - T_TUNNEL) >> 2] == 1)
-  jmp   $L_tank_update_45
-$L_tank_update_44:
+  jmp   $L_tank_update_32
+$L_tank_update_31:
   .line 143
 ;                 tank_blocked_tunnel = true;
   p1
   setg  tank_blocked_tunnel 0
-$L_tank_update_45:
+$L_tank_update_32:
   pop
-$L_tank_update_46:
+$L_tank_update_33:
   .line 119
 ;     switch(t)
   pop3
-$L_tank_update_47:
+$L_tank_update_34:
   .line 106
 ;                 anim_frame = anim_frames;
   getg  anim_frames 0
@@ -12710,7 +12710,7 @@ $L_tank_update_47:
 ;                 $tones_play_auto(SFX_MOVER);
   push3 21108
   sys   tones_play_auto
-$L_tank_update_19:
+$L_tank_update_35:
   popn  6
   .line 182
 ;     all_at_scans();

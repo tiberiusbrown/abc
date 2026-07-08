@@ -44,33 +44,35 @@ static uint64_t measure(bool abc = false)
     uint64_t cycle_a, cycle_b;
 
     // HACK: disable all interrupts
-    arduboy->cpu.sreg() &= ~absim::SREG_I;
-    arduboy->cpu.data[0x6e] = 0;
-    arduboy->cpu.data[0x6f] = 0;
-    arduboy->cpu.data[0x71] = 0;
-    arduboy->cpu.data[0x72] = 0;
+    arduboy->core_state.cpu.data[absim::reg::addr::SREG] &=
+        ~absim::reg::bit::SREG::I;
+    arduboy->core_state.cpu.data[0x6e] = 0;
+    arduboy->core_state.cpu.data[0x6f] = 0;
+    arduboy->core_state.cpu.data[0x71] = 0;
+    arduboy->core_state.cpu.data[0x72] = 0;
 
-    arduboy->allow_nonstep_breakpoints = true;
-    arduboy->paused = false;
-    arduboy->cpu.enabled_autobreaks.set(absim::AB_BREAK);
+    arduboy->debugger_state.allow_nonstep_breakpoints = true;
+    arduboy->debugger_state.paused = false;
+    arduboy->core_state.cpu.enabled_autobreaks.set(absim::AB_BREAK);
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds init
 
-    arduboy->cpu.sreg() &= ~absim::SREG_I;
-    arduboy->cpu.data[0x6e] = 0;
-    arduboy->cpu.data[0x6f] = 0;
-    arduboy->cpu.data[0x71] = 0;
-    arduboy->cpu.data[0x72] = 0;
+    arduboy->core_state.cpu.data[absim::reg::addr::SREG] &=
+        ~absim::reg::bit::SREG::I;
+    arduboy->core_state.cpu.data[0x6e] = 0;
+    arduboy->core_state.cpu.data[0x6f] = 0;
+    arduboy->core_state.cpu.data[0x71] = 0;
+    arduboy->core_state.cpu.data[0x72] = 0;
 
-    if(abc && arduboy->cpu.data[0x0635] != 0)
+    if(abc && arduboy->core_state.cpu.data[0x0635] != 0)
         return 0;
-    assert(arduboy->paused);
-    cycle_a = arduboy->cpu.cycle_count;
-    arduboy->paused = false;
+    assert(arduboy->debugger_state.paused);
+    cycle_a = arduboy->core_state.cpu.cycle_count;
+    arduboy->debugger_state.paused = false;
     arduboy->advance(10'000'000'000'000ull); // up to 10 seconds
-    assert(arduboy->paused);
-    cycle_b = arduboy->cpu.cycle_count;
+    assert(arduboy->debugger_state.paused);
+    cycle_b = arduboy->core_state.cpu.cycle_count;
 
-    if(abc && arduboy->cpu.data[0x0635] != 0)
+    if(abc && arduboy->core_state.cpu.data[0x0635] != 0)
         return 0;
     return cycle_b - cycle_a;
 }
@@ -125,7 +127,7 @@ static void bench(char const* name, bool test = false)
         assert(t.empty());
     }
     {
-        std::istrstream ss((char const*)binary.data(), (int)binary.size());
+        std::istringstream ss(std::string((char const*)binary.data(), binary.size()));
         auto t = arduboy->load_file("fxdata.bin", ss);
         assert(t.empty());
     }
@@ -259,7 +261,7 @@ int abc_benchmarks()
                 assert(t.empty());
             }
             {
-                std::istrstream ss((char const*)binary.data(), (int)binary.size());
+                std::istringstream ss(std::string((char const*)binary.data(), binary.size()));
                 auto t = arduboy->load_file("fxdata.bin", ss);
                 assert(t.empty());
             }
@@ -299,7 +301,7 @@ int abc_benchmarks()
         }
         {
             std::vector<uint8_t> binary = a.data();
-            std::istrstream ss((char const*)binary.data(), (int)binary.size());
+            std::istringstream ss(std::string((char const*)binary.data(), binary.size()));
             auto t = arduboy->load_file("fxdata.bin", ss);
             assert(t.empty());
         }
@@ -468,7 +470,7 @@ int abc_benchmarks()
             assert(t.empty());
         }
         {
-            std::istrstream ss((char const*)d.data(), (int)d.size());
+            std::istringstream ss(std::string((char const*)d.data(), d.size()));
             auto t = arduboy->load_file("fxdata.bin", ss);
             assert(t.empty());
         }
@@ -485,9 +487,9 @@ int abc_benchmarks()
 
         std::vector<std::string> lines;
         {
-            std::istrstream ss(
-                (char const*)arduboy->cpu.serial_bytes.data(),
-                (int)arduboy->cpu.serial_bytes.size());
+            std::istringstream ss(std::string(
+                (char const*)arduboy->core_state.cpu.serial_bytes.data(),
+                arduboy->core_state.cpu.serial_bytes.size()));
             std::string line;
             while(std::getline(ss, line))
                 lines.push_back(line);

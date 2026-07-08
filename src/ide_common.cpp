@@ -429,11 +429,11 @@ void init()
     default_style = style;
 
     arduboy = std::make_unique<absim::arduboy_t>();
-    arduboy->fx.erase_all_data();
+    arduboy->peripherals.fx.erase_all_data();
     arduboy->reset();
-    arduboy->paused = true;
-    arduboy->fx.min_page = 0xffff;
-    arduboy->fx.max_page = 0xffff;
+    arduboy->debugger_state.paused = true;
+    arduboy->peripherals.fx.min_page = 0xffff;
+    arduboy->peripherals.fx.max_page = 0xffff;
 
     asm_editor.SetReadOnly(true);
     asm_editor.SetShowWhitespaces(false);
