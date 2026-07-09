@@ -51,8 +51,8 @@ int main(void)
     abc_debug_printf(
         fmt_output,
         text_a,
-        (unsigned long)len,
-        (long)cmp,
+        len,
+        cmp,
         text_b,
         pad,
         trunc_buf,
