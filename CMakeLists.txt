@@ -109,21 +109,7 @@ set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
 set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
 add_subdirectory(deps/Ardens EXCLUDE_FROM_ALL)
 
-option(ABC_LLVM_PROJECT "Fetch the ABC-specific llvm-project fork" OFF)
-
-if(ABC_LLVM_PROJECT AND NOT EMSCRIPTEN)
-    include(FetchContent)
-
-    message(STATUS "Fetching llvm-project from the ABC fork")
-    FetchContent_Declare(
-        abc_llvm_project
-        EXCLUDE_FROM_ALL
-        GIT_REPOSITORY https://github.com/tiberiusbrown/llvm-project-abc.git
-        GIT_TAG main
-        GIT_SHALLOW TRUE
-        SOURCE_SUBDIR llvm
-    )
-
+if(NOT EMSCRIPTEN)
     set(LLVM_BUILD_TESTS                   OFF CACHE BOOL   "" FORCE)
     set(LLVM_BUILD_TOOLS                   OFF CACHE BOOL   "" FORCE)
     set(LLVM_BUILD_UTILS                   OFF CACHE BOOL   "" FORCE)
@@ -148,7 +134,7 @@ if(ABC_LLVM_PROJECT AND NOT EMSCRIPTEN)
     set(LLVM_TARGETS_TO_BUILD              ";" CACHE STRING "" FORCE)
     set(LLVM_EXPERIMENTAL_TARGETS_TO_BUILD "ABC" CACHE STRING "" FORCE)
 
-    FetchContent_MakeAvailable(abc_llvm_project)
+    add_subdirectory(deps/llvm-project-abc/llvm EXCLUDE_FROM_ALL)
     add_custom_target(abc-llvm-tools ALL DEPENDS
         clang lld llvm-mc llvm-objdump llvm-readobj llvm-size
         abc-as abc-objdump abc-readobj abc-size
