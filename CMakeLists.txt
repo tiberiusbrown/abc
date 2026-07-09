@@ -143,13 +143,16 @@ if(ABC_LLVM_PROJECT AND NOT EMSCRIPTEN)
     set(LLVM_ENABLE_ZLIB                   OFF CACHE BOOL   "" FORCE)
     set(LLVM_ENABLE_ZSTD                   OFF CACHE BOOL   "" FORCE)
     set(LLVM_ENABLE_LIBXML2                OFF CACHE BOOL   "" FORCE)
-    set(LLVM_ENABLE_PROJECTS           "clang" CACHE STRING "" FORCE)
+    set(LLVM_ENABLE_PROJECTS           "clang;lld" CACHE STRING "" FORCE)
     set(_ENABLE_LLVM_NATIVE_BUILD          OFF CACHE BOOL   "" FORCE)
     set(LLVM_TARGETS_TO_BUILD              ";" CACHE STRING "" FORCE)
-    set(LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ";" CACHE STRING "" FORCE)
+    set(LLVM_EXPERIMENTAL_TARGETS_TO_BUILD "ABC" CACHE STRING "" FORCE)
 
     FetchContent_MakeAvailable(abc_llvm_project)
-    add_custom_target(abc-clang ALL DEPENDS clang)
+    add_custom_target(abc-llvm-tools ALL DEPENDS
+        clang lld llvm-mc llvm-objdump llvm-readobj llvm-size
+        abc-as abc-objdump abc-readobj abc-size
+        )
 endif()
 
 set(TMXLITE_STATIC_LIB     ON  CACHE BOOL "" FORCE)
