@@ -66,7 +66,8 @@ if(MSVC)
     add_compile_options(
         /W4
         /D_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-        /Zc:__cplusplus
+        # MSVC's MASM tool treats this as an invalid option, so keep it off ASM_MASM.
+        $<$<COMPILE_LANGUAGE:CXX>:/Zc:__cplusplus>
         /utf-8
         /D_CRT_SECURE_NO_DEPRECATE
         $<$<NOT:$<CONFIG:DEBUG>>:/GL>
@@ -107,6 +108,49 @@ set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
 set(ARDENS_LIB      ON  CACHE BOOL "" FORCE)
 set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
 add_subdirectory(deps/Ardens EXCLUDE_FROM_ALL)
+
+option(ABC_LLVM_PROJECT "Fetch the ABC-specific llvm-project fork" OFF)
+
+if(ABC_LLVM_PROJECT AND NOT EMSCRIPTEN)
+    include(FetchContent)
+
+    message(STATUS "Fetching llvm-project from the ABC fork")
+    FetchContent_Declare(
+        abc_llvm_project
+        EXCLUDE_FROM_ALL
+        GIT_REPOSITORY https://github.com/tiberiusbrown/llvm-project-abc.git
+        GIT_TAG main
+        GIT_SHALLOW TRUE
+        SOURCE_SUBDIR llvm
+    )
+
+    set(LLVM_BUILD_TESTS                   OFF CACHE BOOL   "" FORCE)
+    set(LLVM_BUILD_TOOLS                   OFF CACHE BOOL   "" FORCE)
+    set(LLVM_BUILD_UTILS                   OFF CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_TESTS                 OFF CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_TOOLS                 ON  CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_UTILS                 OFF CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_BENCHMARKS            OFF CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_DOCS                  OFF CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_EXAMPLES              OFF CACHE BOOL   "" FORCE)
+    set(LLVM_INCLUDE_RUNTIMES              OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_BINDINGS               OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_LIBEDIT                OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_LIBPFM                 OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_OCAMLDOC               OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_TIMESTAMPS             OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_TERMINFO               OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_ZLIB                   OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_ZSTD                   OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_LIBXML2                OFF CACHE BOOL   "" FORCE)
+    set(LLVM_ENABLE_PROJECTS           "clang" CACHE STRING "" FORCE)
+    set(_ENABLE_LLVM_NATIVE_BUILD          OFF CACHE BOOL   "" FORCE)
+    set(LLVM_TARGETS_TO_BUILD              ";" CACHE STRING "" FORCE)
+    set(LLVM_EXPERIMENTAL_TARGETS_TO_BUILD ";" CACHE STRING "" FORCE)
+
+    FetchContent_MakeAvailable(abc_llvm_project)
+    add_custom_target(abc-clang ALL DEPENDS clang)
+endif()
 
 set(TMXLITE_STATIC_LIB     ON  CACHE BOOL "" FORCE)
 set(PROJECT_STATIC_RUNTIME ON  CACHE BOOL "" FORCE)
