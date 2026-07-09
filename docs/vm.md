@@ -252,9 +252,13 @@ For system functions:
 2. `SYS` dispatches to a native implementation.
 3. The native implementation pops its own arguments and pushes any return value.
 
-Format syscalls (`draw_textf`, `format`, and `debug_printf`) have compiler-
-resolved varargs. The compiler records the total argument byte count for stack
-analysis and rewrites the format string to a VM-friendly form.
+Format syscalls (`draw_textf`, `format`, and `debug_printf`) consume a raw
+NUL-terminated format pointer plus explicitly pushed arguments. The interpreters
+implement only a minimal `printf`-style parser for the conversions already used
+by the runtime (`%%`, `%c`, `%s`, `%S`, `%d`, `%u`, `%x`, `%f`, plus the
+existing single-digit zero-pad / precision forms). `format` now treats its
+destination capacity as total buffer size and reserves space for a terminating
+NUL whenever the capacity is nonzero.
 
 ## Instruction Set
 
@@ -344,14 +348,10 @@ runtime reports `ERR_IDX`.
 | `0x4f` | `PIDX` | `u16 elem_size, u24 count` | `pref24 i24 -> pref24` | Program array index with 24-bit index/count. |
 | `0x50` | `UAIDX` | `u16 elem_size` | `ref16 len16 i16 -> ref16` | RAM unsized-array index. |
 | `0x51` | `UPIDX` | `u16 elem_size` | `pref24 len24 i24 -> pref24` | Program unsized-array index. |
-| `0x52` | `ASLC` | `u16 elem_size` | `ref16 len16 start16 stop16 -> ref16 len16` | RAM unsized-array slice. |
-| `0x53` | `PSLC` | `u16 elem_size` | `pref24 len24 start24 stop24 -> pref24 len24` | Program unsized-array slice. |
 
-`ASLC` and `PSLC` check `start >= len` and `stop > len`. They compute the
-returned pointer as `base + start * elem_size` and the returned length as
-`stop - start`. They do not separately check `stop < start`; the compiler rejects
-statically known negative slices, but malformed dynamic bytecode can produce a
-wrapped length.
+Opcode slots `0x52` and `0x53` are reserved in the abc-clang-only VM profile.
+Older slice opcodes were removed; slice bytecode is no longer part of the
+supported ISA.
 
 ### Increment And Decrement
 
@@ -518,15 +518,15 @@ Real syscalls are:
 | `0x26` | `memset` | Utility |
 | `0x27` | `memcpy` | Utility |
 | `0x28` | `memcpy_P` | Utility |
-| `0x29` | `strlen` | Strings |
-| `0x2a` | `strlen_P` | Strings |
-| `0x2b` | `strcmp` | Strings |
-| `0x2c` | `strcmp_P` | Strings |
-| `0x2d` | `strcmp_PP` | Strings |
-| `0x2e` | `strcpy` | Strings |
-| `0x2f` | `strcpy_P` | Strings |
-| `0x30` | `strcat` | Strings |
-| `0x31` | `strcat_P` | Strings |
+| `0x29` | `strnlen` | Strings |
+| `0x2a` | `strnlen_P` | Strings |
+| `0x2b` | `strncmp` | Strings |
+| `0x2c` | `strncmp_P` | Strings |
+| `0x2d` | `strncmp_PP` | Strings |
+| `0x2e` | `strncpy` | Strings |
+| `0x2f` | `strncpy_P` | Strings |
+| `0x30` | `strncat` | Strings |
+| `0x31` | `strncat_P` | Strings |
 | `0x32` | `format` | Strings |
 | `0x33` | `music_play` | Sound |
 | `0x34` | `music_playing` | Sound |

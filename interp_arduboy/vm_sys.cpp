@@ -1671,40 +1671,10 @@ static void sys_wrap_text()
 static void sys_draw_text()
 {
     auto ptr = vm_pop_begin();
-#if 1
-    int16_t  x;
-    int16_t  y;
-    uint24_t font;
-    uint16_t tn;
-    uint16_t tb;
-    asm volatile(R"(
-        ld  %B[x], -%a[ptr]
-        ld  %A[x], -%a[ptr]
-        ld  %B[y], -%a[ptr]
-        ld  %A[y], -%a[ptr]
-        lds %C[font], %[vmfont]+2
-        lds %B[font], %[vmfont]+1
-        lds %A[font], %[vmfont]+0
-        ld  %B[tn], -%a[ptr]
-        ld  %A[tn], -%a[ptr]
-        ld  %B[tb], -%a[ptr]
-        ld  %A[tb], -%a[ptr]
-        )"
-        : [ptr]    "+&e" (ptr)
-        , [x]      "=&r" (x)
-        , [y]      "=&r" (y)
-        , [font]   "=&r" (font)
-        , [tn]     "=&r" (tn)
-        , [tb]     "=&r" (tb)
-        : [vmfont] ""    (&ards::vm.text_font)
-    );
-#else
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
     uint24_t font = ards::vm.text_font;
-    uint16_t tn   = vm_pop<uint16_t>(ptr);
     uint16_t tb   = vm_pop<uint16_t>(ptr);
-#endif
     vm_pop_end(ptr);
     
     FX::disable();
@@ -1719,9 +1689,8 @@ static void sys_draw_text()
     
     char const* p = reinterpret_cast<char const*>(tb);
     char c;
-    while((c = ld_inc(p)) != '\0' && tn != 0)
+    while((c = ld_inc(p)) != '\0')
     {
-        --tn;
 #if ABC_SHADES == 2
         if(c == '\n')
         {
@@ -1746,42 +1715,10 @@ static void sys_draw_text()
 static void sys_draw_text_P()
 {
     auto ptr = vm_pop_begin();
-#if 1
-    int16_t  x;
-    int16_t  y;
-    uint24_t font;
-    uint24_t tn;
-    uint24_t tb;
-    asm volatile(R"(
-        ld  %B[x], -%a[ptr]
-        ld  %A[x], -%a[ptr]
-        ld  %B[y], -%a[ptr]
-        ld  %A[y], -%a[ptr]
-        lds %C[font], %[vmfont]+2
-        lds %B[font], %[vmfont]+1
-        lds %A[font], %[vmfont]+0
-        ld  %C[tn], -%a[ptr]
-        ld  %B[tn], -%a[ptr]
-        ld  %A[tn], -%a[ptr]
-        ld  %C[tb], -%a[ptr]
-        ld  %B[tb], -%a[ptr]
-        ld  %A[tb], -%a[ptr]
-        )"
-        : [ptr]    "+&e" (ptr)
-        , [x]      "=&r" (x)
-        , [y]      "=&r" (y)
-        , [font]   "=&r" (font)
-        , [tn]     "=&r" (tn)
-        , [tb]     "=&r" (tb)
-        : [vmfont] ""    (&ards::vm.text_font)
-    );
-#else
     int16_t  x    = vm_pop<int16_t> (ptr);
     int16_t  y    = vm_pop<int16_t> (ptr);
     uint24_t font = ards::vm.text_font;
-    uint24_t tn   = vm_pop<uint24_t>(ptr);
     uint24_t tb   = vm_pop<uint24_t>(ptr);
-#endif
     vm_pop_end(ptr);
     
     FX::disable();
@@ -1800,7 +1737,7 @@ static void sys_draw_text_P()
 #endif
     
     char c;
-    while(tn != 0)
+    for(;;)
     {
 #if DRAW_TEXT_P_BUFSIZE != 0
         if(bp == &buf[DRAW_TEXT_P_BUFSIZE])
@@ -1814,8 +1751,7 @@ static void sys_draw_text_P()
         c = fx_read_byte_inc(tb);
 #endif
         if(c == '\0') break;
-        --tn;
-        
+
 #if ABC_SHADES == 2
         if(c == '\n')
         {
@@ -1906,40 +1842,36 @@ static void sys_text_width_P()
     seek_to_pc();
 }
 
-static void sys_strlen()
+static void sys_strnlen()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n = vm_pop<uint16_t>(ptr);
     uint16_t b = vm_pop<uint16_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     char const* p = reinterpret_cast<char const*>(b);
     uint16_t t = 0;
-    if(n != 0)
+    while(t < n)
     {
-        while(*p++ != '\0')
-        {
-            ++t;
-            if(--n == 0) break;
-        }
+        if(ld_inc(p) == '\0') break;
+        ++t;
     }
     vm_push(t);
 }
 
-static void sys_strlen_P()
+static void sys_strnlen_P()
 {
     auto ptr = vm_pop_begin();
-    uint24_t n = vm_pop<uint24_t>(ptr);
     uint24_t b = vm_pop<uint24_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    uint24_t t = 0;
+    uint16_t t = 0;
     if(n != 0)
     {
         FX::disable();
         fx_seek_data(b);
-        while(FX::readPendingUInt8() != '\0')
+        while(t < n && FX::readPendingUInt8() != '\0')
         {
             ++t;
-            if(--n == 0) break;
         }
         (void)FX::readEnd();
     }
@@ -1947,193 +1879,195 @@ static void sys_strlen_P()
     seek_to_pc();
 }
 
-static void sys_strcmp()
+static void sys_strncmp()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
     uint16_t b1 = vm_pop<uint16_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
     uint8_t const* p1 = reinterpret_cast<uint8_t const*>(b1);
-    uint8_t c0, c1;
-    for(;;)
+    for(uint16_t i = 0; i < n; ++i)
     {
-        c0 = ld_inc(p0);
-        c1 = ld_inc(p1);
-        if(n0 == 0) c0 = '\0'; else --n0;
-        if(n1 == 0) c1 = '\0'; else --n1;
-        if(c1 == '\0') break;
-        if(c0 != c1) break;
+        uint8_t c0 = ld_inc(p0);
+        uint8_t c1 = ld_inc(p1);
+        if(c0 != c1)
+        {
+            vm_push_u8(c0 < c1 ? -1 : 1);
+            return;
+        }
+        if(c0 == '\0')
+        {
+            vm_push_u8(0);
+            return;
+        }
     }
-    vm_push_u8(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+    vm_push_u8(0);
 }
 
-static void sys_strcmp_P()
+static void sys_strncmp_P()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     FX::disable();
     fx_seek_data(b1);
     uint8_t const* p0 = reinterpret_cast<uint8_t const*>(b0);
-    uint8_t c0, c1;
-    for(;;)
+    for(uint16_t i = 0; i < n; ++i)
     {
-        c0 = ld_inc(p0);
-        c1 = FX::readPendingUInt8();
-        if(n0 == 0) c0 = '\0'; else --n0;
-        if(n1 == 0) c1 = '\0'; else --n1;
-        if(c1 == '\0') break;
-        if(c0 != c1) break;
+        uint8_t c0 = ld_inc(p0);
+        uint8_t c1 = FX::readPendingUInt8();
+        if(c0 != c1)
+        {
+            vm_push_u8(c0 < c1 ? -1 : 1);
+            (void)FX::readEnd();
+            seek_to_pc();
+            return;
+        }
+        if(c0 == '\0')
+        {
+            vm_push_u8(0);
+            (void)FX::readEnd();
+            seek_to_pc();
+            return;
+        }
     }
-    vm_push_u8(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+    vm_push_u8(0);
     (void)FX::readEnd();
     seek_to_pc();
 }
 
-static void sys_strcmp_PP()
+static void sys_strncmp_PP()
 {
     auto ptr = vm_pop_begin();
-    uint24_t n0 = vm_pop<uint24_t>(ptr);
     uint24_t b0 = vm_pop<uint24_t>(ptr);
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     FX::disable();
-    uint8_t c0, c1;
-    for(;;)
+    for(uint16_t i = 0; i < n; ++i)
     {
-        c0 = fx_read_byte_inc(b0);
-        c1 = fx_read_byte_inc(b1);
-        if(n0 == 0) c0 = '\0'; else --n0;
-        if(n1 == 0) c1 = '\0'; else --n1;
-        if(c1 == '\0') break;
-        if(c0 != c1) break;
+        uint8_t c0 = fx_read_byte_inc(b0);
+        uint8_t c1 = fx_read_byte_inc(b1);
+        if(c0 != c1)
+        {
+            vm_push_u8(c0 < c1 ? -1 : 1);
+            seek_to_pc();
+            return;
+        }
+        if(c0 == '\0')
+        {
+            vm_push_u8(0);
+            seek_to_pc();
+            return;
+        }
     }
-    vm_push_u8(c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
+    vm_push_u8(0);
     seek_to_pc();
 }
 
-static void strcpy_strcat_helper(bool cpy)
+static void strncpy_strncat_helper(bool copy_mode)
 {
     auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
     uint16_t b1 = vm_pop<uint16_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    uint16_t nr = n0;
-    uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
     char const* p1 = reinterpret_cast<char const*>(b1);
-    if(n0 != 0)
+    if(!copy_mode)
     {
-        if(n1 == 0)
-        {
-            if(cpy) *p0 = '\0';
-            goto done;
-        }
-        if(!cpy)
-        {
-            for(;;)
-            {
-                uint8_t c = ld_inc(p0);
-                if(c == '\0')
-                {
-                    --p0;
-                    break;
-                }
-                if(--n0 == 0)
-                    break;
-            }
-        }
         for(;;)
         {
-            uint8_t c = ld_inc(p1);
-            st_inc(p0, c);
-            if(c == 0) break;
-            if(--n0 == 0) break;
-            if(--n1 == 0) { st_inc(p0, 0); break; }
+            uint8_t c = ld_inc(p0);
+            if(c == '\0')
+            {
+                --p0;
+                break;
+            }
         }
     }
-done:
-    vm_push<uint16_t>(br);
-    vm_push<uint16_t>(nr);
+    for(uint16_t i = 0; i < n; ++i)
+    {
+        uint8_t c = ld_inc(p1);
+        st_inc(p0, c);
+        if(c == '\0')
+        {
+            vm_push<uint16_t>(b0);
+            return;
+        }
+    }
+    if(copy_mode)
+        st_inc(p0, 0);
+    else
+        *p0 = '\0';
+    vm_push<uint16_t>(b0);
 }
 
-static void sys_strcpy()
+static void sys_strncpy()
 {
-    strcpy_strcat_helper(true);
+    strncpy_strncat_helper(true);
 }
 
-static void sys_strcat()
+static void sys_strncat()
 {
-    strcpy_strcat_helper(false);
+    strncpy_strncat_helper(false);
 }
 
-static void strcpy_strcat_helper_P(bool cpy)
+static void strncpy_strncat_helper_P(bool copy_mode)
 {
     auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
+    uint16_t n = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     FX::disable();
     fx_seek_data(b1);
-    uint16_t nr = n0;
-    uint16_t br = b0;
     char* p0 = reinterpret_cast<char*>(b0);
-    if(n0 != 0)
+    if(!copy_mode)
     {
-        if(n1 == 0)
-        {
-            if(cpy) *p0 = '\0';
-            goto done;
-        }
-        if(!cpy)
-        {
-            for(;;)
-            {
-                uint8_t c = ld_inc(p0);
-                if(c == '\0')
-                {
-                    --p0;
-                    break;
-                }
-                if(--n0 == 0)
-                    goto done;
-            }
-        }
         for(;;)
         {
-            uint8_t c = FX::readPendingUInt8();
-            st_inc(p0, c);
-            if(c == 0) break;
-            if(--n0 == 0) break;
-            if(--n1 == 0) { st_inc(p0, 0); break; }
+            uint8_t c = ld_inc(p0);
+            if(c == '\0')
+            {
+                --p0;
+                break;
+            }
         }
     }
-done:
+    for(uint16_t i = 0; i < n; ++i)
+    {
+        uint8_t c = FX::readPendingUInt8();
+        st_inc(p0, c);
+        if(c == '\0')
+        {
+            (void)FX::readEnd();
+            vm_push<uint16_t>(b0);
+            seek_to_pc();
+            return;
+        }
+    }
+    if(copy_mode)
+        st_inc(p0, 0);
+    else
+        *p0 = '\0';
     (void)FX::readEnd();
-    vm_push<uint16_t>(br);
-    vm_push<uint16_t>(nr);
+    vm_push<uint16_t>(b0);
     seek_to_pc();
 }
 
-static void sys_strcpy_P()
+static void sys_strncpy_P()
 {
-    strcpy_strcat_helper_P(true);
+    strncpy_strncat_helper_P(true);
 }
 
-static void sys_strcat_P()
+static void sys_strncat_P()
 {
-    strcpy_strcat_helper_P(false);
+    strncpy_strncat_helper_P(false);
 }
 
 #if 1
@@ -2142,9 +2076,9 @@ extern "C" void sys_memset();
 static void sys_memset()
 {
     auto ptr = vm_pop_begin();
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
     uint8_t val = vm_pop<uint8_t>(ptr);
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     memset(
         reinterpret_cast<void*>(b0),
@@ -2156,36 +2090,10 @@ static void sys_memset()
 static void sys_memcpy()
 {
     auto ptr = vm_pop_begin();
-#if 1
-    uint16_t n0;
-    uint16_t b0;
-    uint16_t n1;
-    uint16_t b1;
-    asm volatile(R"(
-            ld %B[n0], -%a[p]
-            ld %A[n0], -%a[p]
-            ld %B[b0], -%a[p]
-            ld %A[b0], -%a[p]
-            ld %B[n1], -%a[p]
-            ld %A[n1], -%a[p]
-            ld %B[b1], -%a[p]
-            ld %A[b1], -%a[p]
-        )"
-        : [p]  "+&e" (ptr)
-        , [n0] "=&r" (n0)
-        , [n1] "=&r" (n1)
-        , [b0] "=&r" (b0)
-        , [b1] "=&r" (b1)
-    );
-#else
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint16_t n1 = vm_pop<uint16_t>(ptr);
     uint16_t b1 = vm_pop<uint16_t>(ptr);
-#endif
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
-    if(n0 != n1)
-        vm_error(ards::ERR_CPY);
     memcpy(
         reinterpret_cast<void*>(b0),
         reinterpret_cast<void const*>(b1),
@@ -2195,47 +2103,9 @@ static void sys_memcpy()
 static void sys_memcpy_P()
 {
     auto ptr = vm_pop_begin();
-#if 1
-    uint16_t n0;
-    uint16_t b0;
-    uint24_t b1;
-    asm volatile(R"(
-            ld   %B[n0], -%a[p]
-            ld   %A[n0], -%a[p]
-            ld   %B[b0], -%a[p]
-            ld   %A[b0], -%a[p]
-
-            ; load and compare n1 against n0
-            ld   r0, -%a[p]
-            cp   r0, __zero_reg__
-            ld   r0, -%a[p]
-            cpc  r0, %B[n0]
-            ld   r0, -%a[p]
-            cpc  r0, %A[n0]
-            
-            ld   %C[b1], -%a[p]
-            ld   %B[b1], -%a[p]
-            ld   %A[b1], -%a[p]
-
-            ; if n1 != n0, error
-            breq 1f
-            ldi  r24, %[ERR_CPY]
-            jmp  %x[vm_error]
-        1:
-        )"
-        : [p]        "+&e" (ptr)
-        , [n0]       "=&r" (n0)
-        , [b0]       "=&r" (b0)
-        , [b1]       "=&r" (b1)
-        : [ERR_CPY]  "I"   (ards::ERR_CPY)
-        , [vm_error] ""    (vm_error)
-    );
-#else
-    uint16_t n0 = vm_pop<uint16_t>(ptr);
     uint16_t b0 = vm_pop<uint16_t>(ptr);
-    uint24_t n1 = vm_pop<uint24_t>(ptr);
     uint24_t b1 = vm_pop<uint24_t>(ptr);
-#endif
+    uint16_t n0 = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     FX::disable();
     ards::detail::fx_read_data_bytes(
@@ -2245,25 +2115,23 @@ static void sys_memcpy_P()
 
 using format_char_func = void(*)(char c);
 
-static void format_add_string(format_char_func f, char* tb, uint16_t tn)
+static void format_add_string(format_char_func f, char* tb)
 {
-    while(tn != 0)
+    for(;;)
     {
         uint8_t c = ld_inc(tb);
         if(c == '\0') return;
         f(c);
-        --tn;
     }
 }
 
-static void format_add_prog_string(format_char_func f, uint24_t tb, uint24_t tn)
+static void format_add_prog_string(format_char_func f, uint24_t tb)
 {
-    while(tn != 0)
+    for(;;)
     {
         uint8_t c = fx_read_byte_inc(tb);
         if(c == '\0') return;
         f(c);
-        --tn;
     }
 }
 
@@ -2591,27 +2459,10 @@ static char format_exec_read_char(char* buf, char*& fbp, uint24_t& fb)
 [[gnu::flatten]]
 static void format_exec(format_char_func f)
 {
-    uint24_t fn;
     uint24_t fb;
     {
         auto ptr = vm_pop_begin();
-#if 1
-        asm volatile(R"(
-                ld %C[fn], -%a[ptr]
-                ld %B[fn], -%a[ptr]
-                ld %A[fn], -%a[ptr]
-                ld %C[fb], -%a[ptr]
-                ld %B[fb], -%a[ptr]
-                ld %A[fb], -%a[ptr]
-            )"
-            : [fn]  "=&r" (fn)
-            , [fb]  "=&r" (fb)
-            , [ptr] "+&e" (ptr)
-        );
-#else
-        fn = vm_pop<uint24_t>(ptr);
         fb = vm_pop<uint24_t>(ptr);
-#endif
         vm_pop_end(ptr);
     }
 
@@ -2620,21 +2471,44 @@ static void format_exec(format_char_func f)
     char* fbp = &format_buf[FORMAT_EXEC_BUFFER_SIZE];
 #endif
   
-    while(fn != 0)
+    for(;;)
     {
 #if ABC_SHADES != 2
         if(ards::vm.needs_render)
             shades_display();
 #endif
         char c = FORMAT_EXEC_NEXT_CHAR;
-        --fn;
+        if(c == '\0')
+            return;
         if(c != '%')
         {
             f(c);
             continue;
         }
         c = FORMAT_EXEC_NEXT_CHAR;
-        --fn;
+        uint8_t zero_pad = 0;
+        int8_t width = 0;
+        uint8_t precision = 0;
+        uint8_t has_precision = 0;
+        if(c == '0')
+        {
+            zero_pad = 1;
+            c = FORMAT_EXEC_NEXT_CHAR;
+        }
+        if(c >= '0' && c <= '9')
+        {
+            width = (int8_t)(c - '0');
+            c = FORMAT_EXEC_NEXT_CHAR;
+        }
+        if(c == '.')
+        {
+            has_precision = 1;
+            c = FORMAT_EXEC_NEXT_CHAR;
+            if(c < '0' || c > '9')
+                continue;
+            precision = (uint8_t)(c - '0');
+            c = FORMAT_EXEC_NEXT_CHAR;
+        }
         switch(c)
         {
         case 'c':
@@ -2649,56 +2523,20 @@ static void format_exec(format_char_func f)
             break;
         case 's':
         {
-            uint16_t tn;
             uint16_t tb;
-            {
-                auto ptr = vm_pop_begin();
-#if 1
-                asm volatile(R"(
-                        ld %B[tn], -%a[ptr]
-                        ld %A[tn], -%a[ptr]
-                        ld %B[tb], -%a[ptr]
-                        ld %A[tb], -%a[ptr]
-                    )"
-                    : [tn]  "=&r" (tn)
-                    , [tb]  "=&r" (tb)
-                    , [ptr] "+&e" (ptr)
-                );
-#else
-                tn = vm_pop<uint16_t>(ptr);
-                tb = vm_pop<uint16_t>(ptr);
-#endif
-                vm_pop_end(ptr);
-            }
-            format_add_string(f, reinterpret_cast<char*>(tb), tn);
+            auto ptr = vm_pop_begin();
+            tb = vm_pop<uint16_t>(ptr);
+            vm_pop_end(ptr);
+            format_add_string(f, reinterpret_cast<char*>(tb));
             break;
         }
         case 'S':
         {
-            uint24_t tn;
             uint24_t tb;
-            {
-                auto ptr = vm_pop_begin();
-#if 1
-                asm volatile(R"(
-                        ld %C[tn], -%a[ptr]
-                        ld %B[tn], -%a[ptr]
-                        ld %A[tn], -%a[ptr]
-                        ld %C[tb], -%a[ptr]
-                        ld %B[tb], -%a[ptr]
-                        ld %A[tb], -%a[ptr]
-                    )"
-                    : [tn]  "=&r" (tn)
-                    , [tb]  "=&r" (tb)
-                    , [ptr] "+&e" (ptr)
-                );
-#else
-                tn = vm_pop<uint24_t>(ptr);
-                tb = vm_pop<uint24_t>(ptr);
-#endif
-                vm_pop_end(ptr);
-            }
-            format_add_prog_string(f, tb, tn);
+            auto ptr = vm_pop_begin();
+            tb = vm_pop<uint24_t>(ptr);
+            vm_pop_end(ptr);
+            format_add_prog_string(f, tb);
             break;
         }
         case 'd':
@@ -2711,9 +2549,7 @@ static void format_exec(format_char_func f)
                 x = vm_pop<uint32_t>(ptr);
                 vm_pop_end(ptr);
             }
-            int8_t w = (int8_t)(FORMAT_EXEC_NEXT_CHAR - '0');
-            --fn;
-            format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, w);
+            format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, zero_pad ? width : 0);
             break;
         }
         case 'f':
@@ -2724,9 +2560,7 @@ static void format_exec(format_char_func f)
                 x = vm_pop<float>(ptr);
                 vm_pop_end(ptr);
             }
-            uint8_t prec = FORMAT_EXEC_NEXT_CHAR - '0';
-            --fn;
-            format_add_float(f, x, prec);
+            format_add_float(f, x, has_precision ? precision : 0);
             break;
         }
         default:
@@ -2813,18 +2647,18 @@ static void format_exec_debug_printf(char c)
 static void sys_format()
 {
     auto ptr = vm_pop_begin();
-    uint16_t dn = vm_pop<uint16_t>(ptr);
     uint16_t db = vm_pop<uint16_t>(ptr);
+    uint16_t capacity = vm_pop<uint16_t>(ptr);
     vm_pop_end(ptr);
     FX::disable();
     
     format_user_buffer user;
     user.p = reinterpret_cast<char*>(db);
-    user.n = dn;
+    user.n = capacity == 0 ? 0 : uint16_t(capacity - 1);
     format_user = &user;
     format_exec(format_exec_to_buffer);
     
-    if(user.n != 0)
+    if(capacity != 0)
         *user.p = '\0';
     
     seek_to_pc();
@@ -3926,15 +3760,15 @@ sys_func_t const SYS_FUNCS[] PROGMEM =
     sys_memset,
     sys_memcpy,
     sys_memcpy_P,
-    sys_strlen,
-    sys_strlen_P,
-    sys_strcmp,
-    sys_strcmp_P,
-    sys_strcmp_PP,
-    sys_strcpy,
-    sys_strcpy_P,
-    sys_strcat,
-    sys_strcat_P,
+    sys_strnlen,
+    sys_strnlen_P,
+    sys_strncmp,
+    sys_strncmp_P,
+    sys_strncmp_PP,
+    sys_strncpy,
+    sys_strncpy_P,
+    sys_strncat,
+    sys_strncat_P,
     sys_format,
     
     sys_music_play,

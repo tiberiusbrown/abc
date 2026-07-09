@@ -48,15 +48,15 @@ enum sysfunc_t : uint8_t
     SYS_MEMSET,
     SYS_MEMCPY,
     SYS_MEMCPY_P,
-    SYS_STRLEN,
-    SYS_STRLEN_P,
-    SYS_STRCMP,
-    SYS_STRCMP_P,
-    SYS_STRCMP_PP,
-    SYS_STRCPY,
-    SYS_STRCPY_P,
-    SYS_STRCAT,
-    SYS_STRCAT_P,
+    SYS_STRNLEN,
+    SYS_STRNLEN_P,
+    SYS_STRNCMP,
+    SYS_STRNCMP_P,
+    SYS_STRNCMP_PP,
+    SYS_STRNCPY,
+    SYS_STRNCPY_P,
+    SYS_STRNCAT,
+    SYS_STRNCAT_P,
     SYS_FORMAT,
     SYS_MUSIC_PLAY,
     SYS_MUSIC_PLAYING,
@@ -217,14 +217,8 @@ enum instr_t : uint8_t
              //           imm: 16-bit
              //           i:   24-bit
 
-    I_ASLC,  // aref start stop | (ref+start*imm) (stop-start) with bounds checking
-             //           imm:   16-bit
-             //           start: 16-bit
-             //           stop:  16-bit
-    I_PSLC,  // aref start stop | (ref+start*imm) (stop-start) with bounds checking
-             //           imm:   16-bit
-             //           start: 24-bit
-             //           stop:  24-bit
+    I_RSVD_52, // reserved (slice opcodes removed for abc-clang-only ABI)
+    I_RSVD_53, // reserved (slice opcodes removed for abc-clang-only ABI)
 
     I_REFL,  // imm8 -> pointer to local var
     I_REFGB, // imm8 -> pointer to global var

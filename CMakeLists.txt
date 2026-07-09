@@ -99,9 +99,6 @@ if(EMSCRIPTEN)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE=['$autoResumeAudioContext','$dynCall']")
 endif()
 
-set(STATIC_CRT      ON  CACHE BOOL "" FORCE)
-add_subdirectory(deps/midifile EXCLUDE_FROM_ALL)
-
 set(ARDENS_LLVM     OFF CACHE BOOL "" FORCE)
 set(ARDENS_DEBUGGER OFF CACHE BOOL "" FORCE)
 set(ARDENS_PLAYER   OFF CACHE BOOL "" FORCE)
@@ -141,20 +138,6 @@ if(NOT EMSCRIPTEN)
         )
 endif()
 
-set(TMXLITE_STATIC_LIB     ON  CACHE BOOL "" FORCE)
-set(PROJECT_STATIC_RUNTIME ON  CACHE BOOL "" FORCE)
-set(USE_RTTI               OFF CACHE BOOL "" FORCE)
-set(USE_EXTLIBS            OFF CACHE BOOL "" FORCE)
-set(USE_ZSTD               OFF CACHE BOOL "" FORCE)
-add_subdirectory(deps/tmxlite)
-target_link_libraries(tmxlite PUBLIC miniz)
-target_compile_definitions(tmxlite PUBLIC -DPUGIXML_NO_EXCEPTIONS)
-
-set(EM_FILE_BROWSER_SOURCES)
-if(EMSCRIPTEN)
-    set(EM_FILE_BROWSER_SOURCES deps/emscripten-browser-file/emscripten_browser_file.h)
-endif()
-
 add_library(abc_interp STATIC
     .editorconfig
     interp_generic/abc_interp.h
@@ -186,180 +169,29 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_link_libraries(abc_interpreter_sokol PRIVATE X11 Xi Xcursor GL asound dl m pthread)
 endif()
 
-add_library(abc_compiler STATIC
-    .editorconfig
-    interp_arduboy/abc_instr.hpp
-    src/abc_assembler.cpp
-    src/abc_assembler.hpp
-    src/abc_compiler.cpp
-    src/abc_compiler.hpp
-    src/abc_compiler_codegen.cpp
-    src/abc_compiler_codegen_expr.cpp
-    src/abc_compiler_decl.cpp
-    src/abc_compiler_font.cpp
-    src/abc_compiler_instr_info.cpp
-    src/abc_compiler_optimize.cpp
-    src/abc_compiler_optimize_stack.cpp
-    src/abc_compiler_parse.cpp
-    src/abc_compiler_progdata.cpp
-    src/abc_compiler_sprites.cpp
-    src/abc_compiler_tilemap.cpp
-    src/abc_compiler_tones.cpp
-    src/abc_compiler_transforms.cpp
-    src/abc_compiler_type.cpp
-    src/abc_compiler_unroll.cpp
-    src/abc_compiler_write.cpp
-    src/abc_error.hpp
-    src/abc_sysfuncs.cpp
-    deps/peglib/peglib.h
-    )
-target_include_directories(abc_compiler PUBLIC
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy"
-    "${CMAKE_CURRENT_SOURCE_DIR}/deps/peglib"
-    "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
-    "${CMAKE_CURRENT_SOURCE_DIR}/deps/Ardens/deps/rapidjson/include"
-    )
-string(TIMESTAMP ABC_YEAR "%Y")
-target_compile_definitions(abc_compiler PUBLIC -DABC_YEAR="${ABC_YEAR}")
-target_include_directories(abc_compiler PRIVATE "${GENHEADER_DIR}")
-target_include_directories(abc_compiler PRIVATE deps/midifile/include)
-target_link_libraries(abc_compiler PRIVATE fmt midifile tmxlite)
-
-add_executable(abcc
-    src/abcc.cpp
-    src/ide_export_arduboy.cpp
-    )
-target_link_libraries(abcc abc_compiler ardenslib)
-target_include_directories(abcc PRIVATE
-    "${GENHEADER_DIR}"
-    deps/argparse/include
-    )
-
-file(GLOB IMGUI_SOURCES deps/imgui/*.h deps/imgui/*.cpp)
-file(GLOB SOKOL_SOURCES deps/sokol/*.h)
-file(GLOB TEXTEDIT_SOURCES deps/ImGuiColorTextEdit/*.h deps/ImGuiColorTextEdit/*.cpp)
-
-set(GENFONTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src/fonts")
 if(NOT EMSCRIPTEN)
-    add_executable(convert_font
-        src/convert_font.cpp
-        src/abc_compiler.hpp
-        src/abc_compiler_font.cpp
-        src/abc_compiler_sprites.cpp
+    add_executable(abc_clang_tests
+        .editorconfig
+        tests/abc_clang_tests.cpp
         )
-    target_include_directories(convert_font PRIVATE
-        "${CMAKE_CURRENT_SOURCE_DIR}/src"
-        "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy"
-        "${CMAKE_CURRENT_SOURCE_DIR}/deps/stb"
+    add_dependencies(abc_clang_tests abc-llvm-tools)
+    target_include_directories(abc_clang_tests PRIVATE
+        "${GENHEADER_DIR}"
         )
-    
-    file(GLOB ABC_FONTS "fonts/*.ttf")
-    set(ABC_FONT_HEADERS)
-    set(ABC_FONT_MASTER "${GENFONTS_DIR}/all_fonts.hpp")
-    list(APPEND ABC_FONT_HEADERS "${ABC_FONT_MASTER}")
-    file(WRITE "${ABC_FONT_MASTER}" "#pragma once\n")
-    file(APPEND "${ABC_FONT_MASTER}" "#include <stdint.h>\n")
-    file(APPEND "${ABC_FONT_MASTER}" "struct font_info_t {\n")
-    file(APPEND "${ABC_FONT_MASTER}" "    char const* name;\n")
-    file(APPEND "${ABC_FONT_MASTER}" "    size_t pixels;\n")
-    file(APPEND "${ABC_FONT_MASTER}" "    unsigned char const* data;\n")
-    file(APPEND "${ABC_FONT_MASTER}" "    size_t size;\n};\n")
-    foreach(F ${ABC_FONTS})
-        get_filename_component(FB "${F}" NAME_WE)
-        string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
-        file(APPEND "${ABC_FONT_MASTER}" "#include \"${FB}.hpp\"\n")
-    endforeach()
-    file(APPEND "${ABC_FONT_MASTER}" "static font_info_t const ALL_FONTS[] = {\n")
-    foreach(F ${ABC_FONTS})
-        get_filename_component(FB "${F}" NAME_WE)
-        string(REGEX MATCH "[0-9]+$" FN "${FB}")
-        string(REGEX REPLACE "_x[0-9]+$" "" FB "${FB}")
-        string(TOUPPER "${FB}" FBU)
-        add_custom_command(
-            OUTPUT "${GENFONTS_DIR}/${FB}.hpp"
-            COMMAND convert_font
-            ARGS "${FBU}" "${FN}" "${F}" "${GENFONTS_DIR}/${FB}.hpp"
-            DEPENDS convert_font "${F}"
-            COMMENT "Generating font data for ${FBU}"
-            )
-        target_sources(abc_compiler PRIVATE "${GENFONTS_DIR}/${FB}.hpp")
-        source_group("Fonts" FILES "${GENFONTS_DIR}/${FB}.hpp")
-        file(APPEND "${ABC_FONT_MASTER}" "    { \"${FBU}\", ${FN}, ${FBU}, sizeof(${FBU}) },\n")
-    endforeach()
-    file(APPEND "${ABC_FONT_MASTER}" "};\n")
-endif()
-
-add_executable(abc ${EXE_TYPE}
-    src/ctrl2o.hpp
-    src/font.cpp
-    src/font_icons.cpp
-    src/font_icons.hpp
-    src/ide_common.cpp
-    src/ide_common.hpp
-    src/ide_compile.cpp
-    src/ide_editor.cpp
-    src/ide_export.cpp
-    src/ide_export_arduboy.cpp
-    src/ide_import.cpp
-    src/ide_main.cpp
-    src/ide_player.cpp
-    src/ide_project.cpp
-    src/ide_sys.cpp
-    src/ide_texture.cpp
-    src/ide_welcome.cpp
-
-    "${GENHEADER_DIR}/vm_hex_arduboyfx.hpp"
-    "${GENHEADER_DIR}/basic_main.hpp"
-    
-    ${EM_FILE_BROWSER_SOURCES}
-    ${IMGUI_SOURCES}
-    ${SOKOL_SOURCES}
-    ${TEXTEDIT_SOURCES}
-    )
-target_link_libraries(abc PRIVATE ardensdebuggerlib abc_compiler)
-if(WIN32)
-    target_link_libraries(abc PRIVATE d3d11)
-elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
-    target_link_libraries(abc PRIVATE X11 Xi Xcursor GL asound dl m pthread)
-endif()
-target_include_directories(abc PRIVATE
-    deps/sokol
-    deps/imgui
-    deps/ImGuiColorTextEdit
-    deps/emscripten-browser-file
-    "${GENHEADER_DIR}"
-    )
-    
-if((WIN32 OR APPLE OR UNIX) AND NOT EMSCRIPTEN)
-    add_subdirectory(deps/nativefiledialog-extended)
-    target_link_libraries(abc PRIVATE nfd)
-endif()
-
-add_executable(abc_integration
-    benchmarks/abc_benchmarks.cpp
-    docs/abc_docs.cpp
-    tests/abc_tests.cpp
-    src/abc_integration.cpp
-    )
-target_link_libraries(abc_integration PRIVATE ardensdebuggerlib abc_compiler abc_interp)
-target_include_directories(abc_integration PRIVATE "${GENHEADER_DIR}")
-target_include_directories(abc_integration PRIVATE "${GENFONTS_DIR}")
-target_compile_definitions(abc_integration PRIVATE
-    -DVMHEX_FILE="${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build_s2_ArduboyFX/interp_arduboy.ino.hex"
-    -DBENCHMARKS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/benchmarks"
-    -DDOCS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/docs"
-    -DTESTS_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/tests"
-    -DPLATFORMER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/examples/platformer"
-    )
-    
-set_source_files_properties(
-    src/ide_common.cpp
-    src/abcc.cpp
-    PROPERTIES
-        COMPILE_OPTIONS "-DABC_VERSION=\"${ABC_VERSION}\""
-    )
-    
-if(EMSCRIPTEN)
-    target_link_options(abc PRIVATE "-lidbfs.js")
+    target_link_libraries(abc_clang_tests PRIVATE
+        abc_interp
+        ardenslib
+        )
+    target_compile_definitions(abc_clang_tests PRIVATE
+        ABC_CLANG_PATH="$<TARGET_FILE:clang>"
+        ABC_LLVM_MC_PATH="$<TARGET_FILE:llvm-mc>"
+        ABC_LLD_PATH="$<TARGET_FILE_DIR:lld>/abc-ld${CMAKE_EXECUTABLE_SUFFIX}"
+        ABC_TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/abc_clang"
+        ABC_TEST_WORK_DIR="${CMAKE_CURRENT_BINARY_DIR}/abc_clang_tests"
+        )
+    add_custom_target(check-abc-clang
+        COMMAND abc_clang_tests
+        DEPENDS abc_clang_tests
+        USES_TERMINAL
+        )
 endif()

@@ -2109,114 +2109,16 @@ aslc_part2:
     rjmp slc_dispatch
     .align 6
 
-I_ASLC:
+I_RSVD_52:
 
-    ; addr:   r16:r17
-    ; length: r18:r19
-    ; start:  r20:r21
-    ; stop:   r22:r9
-    ; imm:    r24:r25
-
-    ld   r22, -Y
-    ld   r21, -Y
-    ld   r20, -Y
-    ld   r19, -Y
-    in   r24, %[spdr]
-    out  %[spdr], r2
-    ld   r18, -Y
-    ld   r17, -Y
-    ld   r16, -Y
-
-    ; test start: error if start >= length
-    cp   r20, r18
-    cpc  r21, r19
-    brsh aslc_error
-    ; test stop: error if length < stop
-    cp   r18, r22
-    cpc  r19, r9
-    brlo aslc_error
-
-    ; addr += start*imm
-    mul  r20, r24
-    add  r16, r0
-    adc  r17, r1
-    in   r25, %[spdr]
-    out  %[spdr], r2
-    mul  r21, r24
-    add  r17, r1
-    mul  r20, r25
-    add  r17, r1
-
-    ; compute length = stop - start and test for negative length
-    sub  r22, r20
-    sbc  r9, r21
-    brlt aslc_error
-
-    ldi  r27, 2
-    add  r6, r27
-    adc  r7, r2
-    adc  r8, r2
-
-    rjmp aslc_part2
+    ldi  r24, 2
+    jmp call_vm_error
     .align 6
 
-I_PSLC:
+I_RSVD_53:
 
-    ; addr:   r10:r11:r12
-    ; length: r13:r14:r15
-    ; start:  r16:r17:r18
-    ; stop:   r19:r20:r9
-    ; imm:    r24:r25
-
-    ld   r20, -Y
-    ld   r19, -Y
-    ld   r18, -Y
-    ld   r17, -Y
-    in   r24, %[spdr]
-    out  %[spdr], r2
-    ld   r16, -Y
-    ld   r15, -Y
-    ld   r14, -Y
-    ld   r13, -Y
-    ld   r12, -Y
-    ld   r11, -Y
-    ld   r10, -Y
-
-    ; test start: error if start >= length
-    cp   r16, r13
-    cpc  r17, r14
-    cpc  r18, r15
-    brsh pslc_error
-
-    in   r25, %[spdr]
-    out  %[spdr], r2
-
-    ; test stop: error if length < stop
-    cp   r13, r19
-    cpc  r14, r20
-    cpc  r15, r9
-    brlo pslc_error
-
-    ; addr += start*imm
-    ;    A2 A1 A0 start
-    ;       B1 B0 imm
-    ;    ========
-    ;       A0*B0
-    ;    A1*B0
-    ;    A0*B1
-    ; A2*B0
-    ; A1*B1
-    ; ===========
-    ;    C2 C1 C0
-    mul  r16, r24
-    add  r10, r0
-    adc  r11, r1
-    adc  r12, r2
-    mul  r17, r24
-    add  r11, r0
-    adc  r12, r1
-    mul  r16, r25
-    rjmp pslc_part2
+    ldi  r24, 2
+    jmp call_vm_error
     .align 6
 
 I_REFL:

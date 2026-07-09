@@ -72,15 +72,15 @@ enum
     SYS_MEMSET,
     SYS_MEMCPY,
     SYS_MEMCPY_P,
-    SYS_STRLEN,
-    SYS_STRLEN_P,
-    SYS_STRCMP,
-    SYS_STRCMP_P,
-    SYS_STRCMP_PP,
-    SYS_STRCPY,
-    SYS_STRCPY_P,
-    SYS_STRCAT,
-    SYS_STRCAT_P,
+    SYS_STRNLEN,
+    SYS_STRNLEN_P,
+    SYS_STRNCMP,
+    SYS_STRNCMP_P,
+    SYS_STRNCMP_PP,
+    SYS_STRNCPY,
+    SYS_STRNCPY_P,
+    SYS_STRNCAT,
+    SYS_STRNCAT_P,
     SYS_FORMAT,
     SYS_MUSIC_PLAY,
     SYS_MUSIC_PLAYING,
@@ -201,8 +201,8 @@ enum
     I_PIDX,
     I_UAIDX,
     I_UPIDX,
-    I_ASLC,
-    I_PSLC,
+    I_RSVD_52,
+    I_RSVD_53,
     I_REFL,
     I_REFGB,
     I_INC,
@@ -1311,28 +1311,11 @@ static abc_result_t upidx(abc_interp_t* interp, abc_host_t const* h)
     return push24(interp, p + i * b);
 }
 
-static abc_result_t aslc(abc_interp_t* interp, abc_host_t const* h)
+static abc_result_t removed_slice_opcode(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint16_t stop = pop16(interp);
-    uint16_t start = pop16(interp);
-    uint16_t n = pop16(interp);
-    uint16_t p = pop16(interp);
-    uint16_t b = imm16(interp, h);
-    if(start >= n || stop > n) RETURN_ERROR;
-    push16(interp, p + start * b);
-    return push16(interp, stop - start);
-}
-
-static abc_result_t pslc(abc_interp_t* interp, abc_host_t const* h)
-{
-    uint32_t stop = pop24(interp);
-    uint32_t start = pop24(interp);
-    uint32_t n = pop24(interp);
-    uint32_t p = pop24(interp);
-    uint16_t b = imm16(interp, h);
-    if(start >= n || stop > n) RETURN_ERROR;
-    push24(interp, p + start * b);
-    return push24(interp, stop - start);
+    (void)interp;
+    (void)h;
+    RETURN_ERROR;
 }
 
 static abc_result_t bz(abc_interp_t* interp, abc_host_t const* h)
@@ -1444,262 +1427,216 @@ static abc_result_t sys_assert(abc_interp_t* interp)
     return ABC_RESULT_NORMAL;
 }
 
+static uint8_t* ram_ptr_range(abc_interp_t* interp, uint16_t b, uint16_t n)
+{
+    uint8_t* p = refptr(interp, b);
+    if(!p) return NULL;
+    if(n != 0 && !refptr(interp, b + n - 1)) return NULL;
+    return p;
+}
+
+static uint16_t scan_ram_cstr(abc_interp_t* interp, uint16_t b)
+{
+    uint16_t n = 0;
+    for(;; ++n)
+    {
+        uint8_t* p = refptr(interp, b + n);
+        if(!p) return UINT16_MAX;
+        if(*p == '\0') return n;
+    }
+}
+
+static uint16_t scan_prog_cstr(abc_host_t const* h, uint32_t b)
+{
+    uint16_t n = 0;
+    while(h->prog(h->user, b + n) != '\0')
+    {
+        if(n == UINT16_MAX) return UINT16_MAX;
+        ++n;
+    }
+    return n;
+}
+
 static abc_result_t sys_memset(abc_interp_t* interp)
 {
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
+    uint16_t b = pop16(interp);
     uint8_t val = pop8(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    if(!p0) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    memset(p0, val, n0);
+    uint16_t n = pop16(interp);
+    uint8_t* p = ram_ptr_range(interp, b, n);
+    if(!p) RETURN_ERROR;
+    memset(p, val, n);
     return ABC_RESULT_NORMAL;
 }
 
 static abc_result_t sys_memcpy(abc_interp_t* interp)
 {
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
-    uint16_t n1 = pop16(interp);
-    uint16_t b1 = pop16(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    uint8_t* p1 = refptr(interp, b1);
-    if(n0 != n1 || !p0 || !p1) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
-    memcpy(p0, p1, n0);
+    uint16_t dst_b = pop16(interp);
+    uint16_t src_b = pop16(interp);
+    uint16_t n = pop16(interp);
+    uint8_t* dst = ram_ptr_range(interp, dst_b, n);
+    uint8_t* src = ram_ptr_range(interp, src_b, n);
+    if(!dst || !src) RETURN_ERROR;
+    memcpy(dst, src, n);
     return ABC_RESULT_NORMAL;
 }
 
 static abc_result_t sys_memcpy_P(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
-    uint32_t n1 = pop24(interp);
-    uint32_t b1 = pop24(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    if(n0 != n1 || !p0) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    for(uint16_t n = 0; n < n0; ++n)
-        p0[n] = h->prog(h->user, b1 + n);
-    return ABC_RESULT_NORMAL;
-}
-
-static abc_result_t sys_strcmp(abc_interp_t* interp)
-{
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
-    uint16_t n1 = pop16(interp);
-    uint16_t b1 = pop16(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    uint8_t* p1 = refptr(interp, b1);
-    if(!p0 || !p1) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
-    uint8_t c0, c1;
-    for(;;)
-    {
-        c0 = *p0++;
-        c1 = *p1++;
-        if(n0 == 0) c0 = '\0'; else --n0;
-        if(n1 == 0) c1 = '\0'; else --n1;
-        if(c1 == '\0') break;
-        if(c0 != c1) break;
-    }
-    return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
-}
-
-static abc_result_t sys_strcmp_P(abc_interp_t* interp, abc_host_t const* h)
-{
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
-    uint32_t n1 = pop24(interp);
-    uint32_t b1 = pop24(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    if(!p0) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    uint8_t c0, c1;
-    for(;;)
-    {
-        c0 = *p0++;
-        c1 = h->prog(h->user, b1++);
-        if(n0 == 0) c0 = '\0'; else --n0;
-        if(n1 == 0) c1 = '\0'; else --n1;
-        if(c1 == '\0') break;
-        if(c0 != c1) break;
-    }
-    return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
-}
-
-static abc_result_t sys_strcmp_PP(abc_interp_t* interp, abc_host_t const* h)
-{
-    uint32_t n0 = pop24(interp);
-    uint32_t b0 = pop24(interp);
-    uint32_t n1 = pop24(interp);
-    uint32_t b1 = pop24(interp);
-    uint8_t c0, c1;
-    for(;;)
-    {
-        c0 = h->prog(h->user, b0++);
-        c1 = h->prog(h->user, b1++);
-        if(n0 == 0) c0 = '\0'; else --n0;
-        if(n1 == 0) c1 = '\0'; else --n1;
-        if(c1 == '\0') break;
-        if(c0 != c1) break;
-    }
-    return push(interp, c0 < c1 ? -1 : c1 < c0 ? 1 : 0);
-}
-
-static abc_result_t strcpy_strcat_helper(abc_interp_t* interp, uint8_t cpy)
-{
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
-    uint16_t n1 = pop16(interp);
-    uint16_t b1 = pop16(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    uint8_t* p1 = refptr(interp, b1);
-    uint16_t nr = n0;
-    uint16_t br = b0;
-    if(!p0 || !p1) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    if(!refptr(interp, b1 + n1 - 1)) RETURN_ERROR;
-    if(n0 != 0)
-    {
-        if(n1 == 0)
-        {
-            if(cpy) *p0 = '\0';
-            goto done;
-        }
-        if(!cpy)
-        {
-            for(;;)
-            {
-                uint8_t c = *p0++;
-                if(c == '\0')
-                {
-                    --p0;
-                    break;
-                }
-                if(--n0 == 0)
-                    break;
-            }
-        }
-        for(;;)
-        {
-            uint8_t c = *p1++;
-            *p0++ = c;
-            if(c == 0) break;
-            if(--n0 == 0) break;
-            if(--n1 == 0) { *p0++ = 0; break; }
-        }
-    }
-done:
-    push16(interp, br);
-    push16(interp, nr);
-    return ABC_RESULT_NORMAL;
-}
-
-static abc_result_t sys_strcpy(abc_interp_t* interp)
-{
-    return strcpy_strcat_helper(interp, 1);
-}
-
-static abc_result_t sys_strcat(abc_interp_t* interp)
-{
-    return strcpy_strcat_helper(interp, 0);
-}
-
-static abc_result_t strcpy_strcat_helper_P(
-    abc_interp_t* interp, abc_host_t const* h, uint8_t cpy)
-{
-    uint16_t n0 = pop16(interp);
-    uint16_t b0 = pop16(interp);
-    uint32_t n1 = pop24(interp);
-    uint32_t b1 = pop24(interp);
-    uint8_t* p0 = refptr(interp, b0);
-    uint16_t nr = n0;
-    uint16_t br = b0;
-    if(!p0) RETURN_ERROR;
-    if(!refptr(interp, b0 + n0 - 1)) RETURN_ERROR;
-    if(n0 != 0)
-    {
-        if(n1 == 0)
-        {
-            if(cpy) *p0 = '\0';
-            goto done;
-        }
-        if(!cpy)
-        {
-            for(;;)
-            {
-                uint8_t c = *p0++;
-                if(c == '\0')
-                {
-                    --p0;
-                    break;
-                }
-                if(--n0 == 0)
-                    break;
-            }
-        }
-        for(;;)
-        {
-            uint8_t c = h->prog(h->user, b1++);
-            *p0++ = c;
-            if(c == 0) break;
-            if(--n0 == 0) break;
-            if(--n1 == 0) { *p0++ = 0; break; }
-        }
-    }
-done:
-    push16(interp, br);
-    push16(interp, nr);
-    return ABC_RESULT_NORMAL;
-}
-
-static abc_result_t sys_strcpy_P(abc_interp_t* interp, abc_host_t const* h)
-{
-    return strcpy_strcat_helper_P(interp, h, 1);
-}
-
-static abc_result_t sys_strcat_P(abc_interp_t* interp, abc_host_t const* h)
-{
-    return strcpy_strcat_helper_P(interp, h, 0);
-}
-
-static abc_result_t sys_strlen(abc_interp_t* interp)
-{
+    uint16_t dst_b = pop16(interp);
+    uint32_t src_b = pop24(interp);
     uint16_t n = pop16(interp);
-    uint16_t b = pop16(interp);
-    uint8_t* p = refptr(interp, b);
-    if(!p) RETURN_ERROR;
-    if(!refptr(interp, b + n - 1)) RETURN_ERROR;
-    uint16_t t = 0;
-    if(n != 0)
+    uint8_t* dst = ram_ptr_range(interp, dst_b, n);
+    if(!dst) RETURN_ERROR;
+    for(uint16_t i = 0; i < n; ++i)
+        dst[i] = h->prog(h->user, src_b + i);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_strncmp(abc_interp_t* interp)
+{
+    uint16_t b0 = pop16(interp);
+    uint16_t b1 = pop16(interp);
+    uint16_t n = pop16(interp);
+    for(uint16_t i = 0; i < n; ++i)
     {
-        while(*p++ != '\0')
+        uint8_t* p0 = refptr(interp, b0 + i);
+        uint8_t* p1 = refptr(interp, b1 + i);
+        if(!p0 || !p1) RETURN_ERROR;
+        uint8_t c0 = *p0;
+        uint8_t c1 = *p1;
+        if(c0 != c1)
+            return push(interp, c0 < c1 ? -1 : 1);
+        if(c0 == '\0')
+            return push(interp, 0);
+    }
+    return push(interp, 0);
+}
+
+static abc_result_t sys_strncmp_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint16_t b0 = pop16(interp);
+    uint32_t b1 = pop24(interp);
+    uint16_t n = pop16(interp);
+    for(uint16_t i = 0; i < n; ++i)
+    {
+        uint8_t* p0 = refptr(interp, b0 + i);
+        if(!p0) RETURN_ERROR;
+        uint8_t c0 = *p0;
+        uint8_t c1 = h->prog(h->user, b1 + i);
+        if(c0 != c1)
+            return push(interp, c0 < c1 ? -1 : 1);
+        if(c0 == '\0')
+            return push(interp, 0);
+    }
+    return push(interp, 0);
+}
+
+static abc_result_t sys_strncmp_PP(abc_interp_t* interp, abc_host_t const* h)
+{
+    uint32_t b0 = pop24(interp);
+    uint32_t b1 = pop24(interp);
+    uint16_t n = pop16(interp);
+    for(uint16_t i = 0; i < n; ++i)
+    {
+        uint8_t c0 = h->prog(h->user, b0 + i);
+        uint8_t c1 = h->prog(h->user, b1 + i);
+        if(c0 != c1)
+            return push(interp, c0 < c1 ? -1 : 1);
+        if(c0 == '\0')
+            return push(interp, 0);
+    }
+    return push(interp, 0);
+}
+
+static abc_result_t strncpy_strncat_helper(
+    abc_interp_t* interp, abc_host_t const* h, uint8_t copy_mode, uint8_t prog_mode)
+{
+    uint16_t dst_b = pop16(interp);
+    uint32_t src_b = prog_mode ? pop24(interp) : pop16(interp);
+    uint16_t n = pop16(interp);
+    uint8_t* base = refptr(interp, dst_b);
+    uint8_t* dst = base;
+    if(!dst) RETURN_ERROR;
+    if(!copy_mode)
+    {
+        uint16_t off = scan_ram_cstr(interp, dst_b);
+        if(off == UINT16_MAX) RETURN_ERROR;
+        dst += off;
+    }
+    for(uint16_t i = 0; i < n; ++i)
+    {
+        uint16_t dst_off = (uint16_t)(dst - base);
+        uint8_t* d = refptr(interp, (uint16_t)(dst_b + dst_off));
+        uint8_t* s = prog_mode ? NULL : refptr(interp, (uint16_t)(src_b + i));
+        uint8_t c = prog_mode ? h->prog(h->user, src_b + i) : *s;
+        if(!d || (!prog_mode && !s)) RETURN_ERROR;
+        *dst++ = c;
+        if(c == '\0')
         {
-            ++t;
-            if(--n == 0) break;
+            return push16(interp, dst_b);
         }
+    }
+    if(copy_mode)
+    {
+        uint8_t* d = refptr(interp, dst_b + n);
+        if(!d) RETURN_ERROR;
+        *d = '\0';
+    }
+    else
+    {
+        uint8_t* d = refptr(interp, (uint16_t)(dst_b + (uint16_t)(dst - base)));
+        if(d) *d = '\0';
+    }
+    push16(interp, dst_b);
+    return ABC_RESULT_NORMAL;
+}
+
+static abc_result_t sys_strncpy(abc_interp_t* interp, abc_host_t const* h)
+{
+    return strncpy_strncat_helper(interp, h, 1, 0);
+}
+
+static abc_result_t sys_strncpy_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    return strncpy_strncat_helper(interp, h, 1, 1);
+}
+
+static abc_result_t sys_strncat(abc_interp_t* interp, abc_host_t const* h)
+{
+    return strncpy_strncat_helper(interp, h, 0, 0);
+}
+
+static abc_result_t sys_strncat_P(abc_interp_t* interp, abc_host_t const* h)
+{
+    return strncpy_strncat_helper(interp, h, 0, 1);
+}
+
+static abc_result_t sys_strnlen(abc_interp_t* interp)
+{
+    uint16_t b = pop16(interp);
+    uint16_t n = pop16(interp);
+    uint16_t t = 0;
+    while(t < n)
+    {
+        uint8_t* p = refptr(interp, b + t);
+        if(!p) RETURN_ERROR;
+        if(*p == '\0') break;
+        ++t;
     }
     return push16(interp, t);
 }
 
-static abc_result_t sys_strlen_P(abc_interp_t* interp, abc_host_t const* h)
+static abc_result_t sys_strnlen_P(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint32_t n = pop24(interp);
     uint32_t b = pop24(interp);
-    uint32_t t = 0;
-    if(n != 0)
+    uint16_t n = pop16(interp);
+    uint16_t t = 0;
+    while(t < n)
     {
-        while(h->prog(h->user, b++) != '\0')
-        {
-            ++t;
-            if(--n == 0) break;
-        }
+        if(h->prog(h->user, b + t) == '\0') break;
+        ++t;
     }
-    return push24(interp, t);
+    return push16(interp, t);
 }
 
 static uint16_t max_save_size(abc_interp_t* interp)
@@ -1829,24 +1766,75 @@ static void format_add_float(
     }
 }
 
+static uint8_t format_is_digit(char c)
+{
+    return c >= '0' && c <= '9';
+}
+
+static void format_add_ram_string(
+    abc_interp_t* interp, void(*f)(void* u, char c), void* u, uint16_t b)
+{
+    uint16_t n = scan_ram_cstr(interp, b);
+    if(n == UINT16_MAX) return;
+    for(uint16_t i = 0; i < n; ++i)
+    {
+        uint8_t* p = refptr(interp, b + i);
+        if(!p) return;
+        f(u, (char)*p);
+    }
+}
+
+static void format_add_prog_string(
+    abc_host_t const* h, void(*f)(void* u, char c), void* u, uint32_t b)
+{
+    for(;; ++b)
+    {
+        uint8_t c = h->prog(h->user, b);
+        if(c == '\0') return;
+        f(u, (char)c);
+    }
+}
+
 static void format_exec(
     abc_interp_t* interp, abc_host_t const* h,
     void(*f)(void* u, char c), void* u)
 {
-    uint32_t fn = pop24(interp);
     uint32_t fb = pop24(interp);
 
-    while(fn != 0)
+    for(;;)
     {
         char c = (char)h->prog(h->user, fb++);
-        --fn;
+        if(c == '\0')
+            return;
         if(c != '%')
         {
             f(u, c);
             continue;
         }
+        uint8_t zero_pad = 0;
+        int8_t width = 0;
+        uint8_t precision = 0;
+        uint8_t has_precision = 0;
         c = (char)h->prog(h->user, fb++);
-        --fn;
+        if(c == '0')
+        {
+            zero_pad = 1;
+            c = (char)h->prog(h->user, fb++);
+        }
+        if(format_is_digit(c))
+        {
+            width = (int8_t)(c - '0');
+            c = (char)h->prog(h->user, fb++);
+        }
+        if(c == '.')
+        {
+            has_precision = 1;
+            c = (char)h->prog(h->user, fb++);
+            if(!format_is_digit(c))
+                continue;
+            precision = (uint8_t)(c - '0');
+            c = (char)h->prog(h->user, fb++);
+        }
         switch(c)
         {
         case 'c':
@@ -1857,30 +1845,14 @@ static void format_exec(
             break;
         case 's':
         {
-            uint16_t tn = pop16(interp);
             uint16_t tb = pop16(interp);
-            uint8_t* p = refptr(interp, tb);
-            if(!p) break;
-            while(tn != 0)
-            {
-                uint8_t tc = *p++;
-                if(tc == '\0') break;
-                f(u, (char)tc);
-                --tn;
-            }
+            format_add_ram_string(interp, f, u, tb);
             break;
         }
         case 'S':
         {
-            uint32_t tn = pop24(interp);
             uint32_t tb = pop24(interp);
-            while(tn != 0)
-            {
-                uint8_t tc = h->prog(h->user, tb++);
-                if(tc == '\0') break;
-                f(u, (char)tc);
-                --tn;
-            }
+            format_add_prog_string(h, f, u, tb);
             break;
         }
         case 'd':
@@ -1888,17 +1860,13 @@ static void format_exec(
         case 'x':
         {
             uint32_t x = pop32(interp);
-            int8_t w = (int8_t)(h->prog(h->user, fb++) - '0');
-            --fn;
-            format_add_int(f, u, x, c == 'd', c == 'x' ? 16 : 10, w);
+            format_add_int(f, u, x, c == 'd', c == 'x' ? 16 : 10, zero_pad ? width : 0);
             break;
         }
         case 'f':
         {
             float x = popf(interp);
-            uint8_t prec = h->prog(h->user, fb++) - '0';
-            --fn;
-            format_add_float(f, u, x, prec);
+            format_add_float(f, u, x, has_precision ? precision : 0);
             break;
         }
         default:
@@ -1925,14 +1893,14 @@ static void format_exec_to_buffer(void* user, char c)
 
 static abc_result_t sys_format(abc_interp_t* interp, abc_host_t const* h)
 {
-    uint16_t n = pop16(interp);
     uint16_t b = pop16(interp);
+    uint16_t capacity = pop16(interp);
     format_user_buffer u;
-    u.p = (char*)refptr(interp, b);
-    if(!u.p || !refptr(interp, b + n - 1)) RETURN_ERROR;
-    u.n = n;
+    u.p = (char*)ram_ptr_range(interp, b, capacity == 0 ? 0 : capacity);
+    if(!u.p) RETURN_ERROR;
+    u.n = capacity == 0 ? 0 : (uint16_t)(capacity - 1);
     format_exec(interp, h, format_exec_to_buffer, &u);
-    if(u.n != 0)
+    if(capacity != 0)
         *u.p = '\0';
     return ABC_RESULT_NORMAL;
 }
@@ -3132,7 +3100,6 @@ static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
 {
     int16_t x = (int16_t)pop16(interp);
     int16_t y = (int16_t)pop16(interp);
-    uint16_t tn = pop16(interp);
     uint16_t tb = pop16(interp);
     if(interp->text_font >= 0xff000000) RETURN_ERROR;
     uint8_t line_height = font_get_line_height(interp, host);
@@ -3142,13 +3109,12 @@ static abc_result_t sys_draw_text(abc_interp_t* interp, abc_host_t const* host)
         shades_draw_chars_begin(interp, x, y);
 
     char c;
-    while(tn != 0)
+    for(uint16_t i = 0;; ++i)
     {
-        uint8_t* ptr = refptr(interp, tb++);
+        uint8_t* ptr = refptr(interp, tb + i);
         if(!ptr) RETURN_ERROR;
         c = *ptr;
         if(c == '\0') break;
-        --tn;
         if(interp->shades == 2)
         {
             if(c == '\n')
@@ -3173,7 +3139,6 @@ static abc_result_t sys_draw_text_P(abc_interp_t* interp, abc_host_t const* host
 {
     int16_t x = (int16_t)pop16(interp);
     int16_t y = (int16_t)pop16(interp);
-    uint32_t tn = pop24(interp);
     uint32_t tb = pop24(interp);
     if(interp->text_font >= 0xff000000) RETURN_ERROR;
     uint8_t line_height = font_get_line_height(interp, host);
@@ -3183,11 +3148,10 @@ static abc_result_t sys_draw_text_P(abc_interp_t* interp, abc_host_t const* host
         shades_draw_chars_begin(interp, x, y);
 
     char c;
-    while(tn != 0)
+    for(;; ++tb)
     {
-        c = (char)prog8(host, tb++);
+        c = (char)prog8(host, tb);
         if(c == '\0') break;
-        --tn;
         if(interp->shades == 2)
         {
             if(c == '\n')
@@ -3683,15 +3647,15 @@ static abc_result_t sys(abc_interp_t* interp, abc_host_t const* h)
     case SYS_MEMSET:                return sys_memset(interp);
     case SYS_MEMCPY:                return sys_memcpy(interp);
     case SYS_MEMCPY_P:              return sys_memcpy_P(interp, h);
-    case SYS_STRLEN:                return sys_strlen(interp);
-    case SYS_STRLEN_P:              return sys_strlen_P(interp, h);
-    case SYS_STRCMP:                return sys_strcmp(interp);
-    case SYS_STRCMP_P:              return sys_strcmp_P(interp, h);
-    case SYS_STRCMP_PP:             return sys_strcmp_PP(interp, h);
-    case SYS_STRCPY:                return sys_strcpy(interp);
-    case SYS_STRCPY_P:              return sys_strcpy_P(interp, h);
-    case SYS_STRCAT:                return sys_strcat(interp);
-    case SYS_STRCAT_P:              return sys_strcat_P(interp, h);
+    case SYS_STRNLEN:               return sys_strnlen(interp);
+    case SYS_STRNLEN_P:             return sys_strnlen_P(interp, h);
+    case SYS_STRNCMP:               return sys_strncmp(interp);
+    case SYS_STRNCMP_P:             return sys_strncmp_P(interp, h);
+    case SYS_STRNCMP_PP:            return sys_strncmp_PP(interp, h);
+    case SYS_STRNCPY:               return sys_strncpy(interp, h);
+    case SYS_STRNCPY_P:             return sys_strncpy_P(interp, h);
+    case SYS_STRNCAT:               return sys_strncat(interp, h);
+    case SYS_STRNCAT_P:             return sys_strncat_P(interp, h);
     case SYS_FORMAT:                return sys_format(interp, h);
     case SYS_MUSIC_PLAY:            return sys_music_play(interp, h);
     case SYS_MUSIC_PLAYING:         return sys_music_playing(interp);
@@ -3871,8 +3835,8 @@ abc_result_t abc_run(abc_interp_t* interp, abc_host_t const* h)
     case I_PIDX:  return pidx(interp, h);
     case I_UAIDX: return uaidx(interp, h);
     case I_UPIDX: return upidx(interp, h);
-    case I_ASLC:  return aslc(interp, h);
-    case I_PSLC:  return pslc(interp, h);
+    case I_RSVD_52: return removed_slice_opcode(interp, h);
+    case I_RSVD_53: return removed_slice_opcode(interp, h);
     case I_REFL:  return push16(interp, 0x100 + interp->sp - imm8(interp, h));
     case I_REFGB: return push16(interp, 0x200 + imm8(interp, h));
     case I_INC:   return linc(interp, 1, +1);

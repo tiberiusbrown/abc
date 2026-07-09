@@ -62,10 +62,10 @@
   - [`$tan`](#tan)
 - [Strings](#strings)
   - [`$format`](#format)
-  - [`$strcat`](#strcat)
-  - [`$strcmp`](#strcmp)
-  - [`$strcpy`](#strcpy)
-  - [`$strlen`](#strlen)
+  - [`$strncat`](#strncat)
+  - [`$strncmp`](#strncmp)
+  - [`$strncpy`](#strncpy)
+  - [`$strnlen`](#strnlen)
 - [Utility](#utility)
   - [`$assert`](#assert)
   - [`$debug_break`](#debug_break)
@@ -265,8 +265,8 @@ Draw a sprite to the display buffer. If the sprite is unmasked, the sprite is ma
 ## `$draw_text`
 
 ```c
-void $draw_text(i16 x, i16 y, char[]& text);
-void $draw_text(i16 x, i16 y, char[] prog& text);
+void $draw_text(i16 x, i16 y, char* text);
+void $draw_text(i16 x, i16 y, char prog* text);
 ```
 
 Draw some text to the display buffer. The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. 
@@ -280,7 +280,7 @@ Draw some text to the display buffer. The font and color that were previously se
 ## `$draw_textf`
 
 ```c
-void $draw_textf(i16 x, i16 y, char[] prog& fmt, ...);
+void $draw_textf(i16 x, i16 y, char prog* fmt, ...);
 ```
 
 Draw some formatted text to the display buffer. The formatting supports a limited subset of `printf`-style format strings.
@@ -293,7 +293,8 @@ Draw some formatted text to the display buffer. The formatting supports a limite
 | `%x` | An unsigned hexadecimal integer (`u32`). |
 | `%f` | A floating-point number (`float`). |
 | `%c` | A single character (`char`). |
-| `%s` | A text string (`char[]&` or `char[] prog&`). |
+| `%s` | A NUL-terminated RAM text pointer (`char*`). |
+| `%S` | A NUL-terminated program text pointer (`char prog*`). |
 
 The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to 9; for example, `%04u` would print 42 as "0042". The `%f` specifier supports a precision modifier of up to 9 digits for decimal fractions; for example, `.3f` would print 3.14159 as "3.142". The font and color that were previously set by `$set_text_font` and `$set_text_color` are used. 
 
@@ -874,10 +875,13 @@ Get the tangent of an angle.
 
 # Strings
 
+These string syscalls use raw pointers. RAM strings use `char*` and program
+strings use `char prog*`. Bounded operations take an explicit character count.
+
 ## `$format`
 
 ```c
-void $format(char[]& dst, char[] prog& fmt, ...);
+void $format(char* dst, u16 capacity, char prog* fmt, ...);
 ```
 
 Copy formatted text into a text string. The formatting supports a limited subset of `printf`-style format strings.
@@ -890,76 +894,84 @@ Copy formatted text into a text string. The formatting supports a limited subset
 | `%x` | An unsigned hexadecimal integer (`u32`). |
 | `%f` | A floating-point number (`float`). |
 | `%c` | A single character (`char`). |
-| `%s` | A text string (`char[]&` or `char[] prog&`). |
+| `%s` | A NUL-terminated RAM text pointer (`char*`). |
+| `%S` | A NUL-terminated program text pointer (`char prog*`). |
 
-The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to 9; for example, `%04u` would print 42 as "0042". The `%f` specifier supports a precision modifier of up to 9 digits for decimal fractions; for example, `.3f` would print 3.14159 as "3.142".
+The `%d`, `%u`, and `%x` specifiers support zero-padding to a given width, up to 9; for example, `%04u` would print 42 as "0042". The `%f` specifier supports a precision modifier of up to 9 digits for decimal fractions; for example, `.3f` would print 3.14159 as "3.142". If `capacity` is nonzero, `$format` always writes a terminating NUL.
 
 | Parameter | Description |
 | :-- | :-- |
-| **dst** | The destination text string. |
+| **dst** | The destination character buffer. |
+| **capacity** | The destination buffer capacity in bytes, including space for the terminating NUL. |
 | **fmt** | The format string to use for constructing the destination text string. |
 
-## `$strcat`
+## `$strncat`
 
 ```c
-char[]& $strcat(char[]& dst, char[]& src);
-char[]& $strcat(char[]& dst, char[] prog& src);
+char* $strncat(char* dst, char* src, u16 n);
+char* $strncat(char* dst, char prog* src, u16 n);
 ```
 
-Append a copy of one text string to another.
+Append at most `n` bytes from one NUL-terminated string to another and then
+terminate the destination.
 
 | Parameter | Description |
 | :-- | :-- |
-| **dst** | The destination text string. |
+| **dst** | The destination text buffer. |
 | **src** | The text string to append. |
+| **n** | The maximum number of source bytes to consume. |
 
-**Returns:** A reference to the destination text string.
+**Returns:** The destination pointer.
 
-## `$strcmp`
+## `$strncmp`
 
 ```c
-i8 $strcmp(char[]& str0, char[]& str1);
-i8 $strcmp(char[]& str0, char[] prog& str1);
-i8 $strcmp(char[] prog& str0, char[] prog& str1);
+i8 $strncmp(char* str0, char* str1, u16 n);
+i8 $strncmp(char* str0, char prog* str1, u16 n);
+i8 $strncmp(char prog* str0, char prog* str1, u16 n);
 ```
 
-Compare two text strings against each other lexicographically.
+Compare two text strings lexicographically, inspecting at most `n` bytes and
+stopping earlier at a NUL byte.
 
 | Parameter | Description |
 | :-- | :-- |
 | **str0** | The first string to compare. |
 | **str1** | The second string to compare. |
+| **n** | The maximum number of bytes to inspect. |
 
 **Returns:** An integral value indicating the result of the comparison. A zero value indicates the two strings are equal. A negative or positive value indicates the first string is lexicographically less than or greater than the second string, respectively.
 
-## `$strcpy`
+## `$strncpy`
 
 ```c
-char[]& $strcpy(char[]& dst, char[]& src);
-char[]& $strcpy(char[]& dst, char[] prog& src);
+char* $strncpy(char* dst, char* src, u16 n);
+char* $strncpy(char* dst, char prog* src, u16 n);
 ```
 
-Copy one text string to another. The two text strings may be different lengths or capacities.
+Copy at most `n` bytes from a NUL-terminated source string into the destination.
 
 | Parameter | Description |
 | :-- | :-- |
-| **dst** | The destination text string. |
+| **dst** | The destination text buffer. |
 | **src** | The source text string. |
+| **n** | The maximum number of source bytes to consume. |
 
-**Returns:** A reference to the destination text string.
+**Returns:** The destination pointer.
 
-## `$strlen`
+## `$strnlen`
 
 ```c
-u16 $strlen(char[]& str);
-u24 $strlen(char[] prog& str);
+u16 $strnlen(char* str, u16 n);
+u16 $strnlen(char prog* str, u16 n);
 ```
 
-Get the length of a text string in characters. Use the `len` operator to get the capacity of a text string in characters.
+Get the length of a text string in characters, up to a maximum of `n` bytes.
 
 | Parameter | Description |
 | :-- | :-- |
 | **str** | The text string. |
+| **n** | The maximum number of bytes to inspect. |
 
 **Returns:** The length of the text string in characters.
 
@@ -989,7 +1001,7 @@ Issue an AVR `break` instruction. This can be useful for debugging with an emula
 ## `$debug_printf`
 
 ```c
-void $debug_printf(char[] prog& fmt, ...);
+void $debug_printf(char prog* fmt, ...);
 ```
 
 Output some formatted text to the serial console. This function does not work on a physical Arduboy FX, as the interpreter does not include a USB software stack.
@@ -1009,29 +1021,31 @@ Do nothing for a short time (one millisecond or less) and the CPU in a low power
 ## `$memcpy`
 
 ```c
-void $memcpy(byte[]& dst, byte[]& src);
-void $memcpy(byte[]& dst, byte[] prog& src);
+void $memcpy(void* dst, void* src, u16 n);
+void $memcpy(void* dst, void prog* src, u16 n);
 ```
 
-Copy one byte array to another. The two byte arrays must be the same size.
+Copy `n` bytes from one location to another.
 
 | Parameter | Description |
 | :-- | :-- |
-| **dst** | The destination byte array. |
-| **src** | The source byte array. |
+| **dst** | The destination buffer. |
+| **src** | The source buffer. |
+| **n** | The number of bytes to copy. |
 
 ## `$memset`
 
 ```c
-void $memset(byte[]& dst, u8 val);
+void $memset(void* dst, u8 val, u16 n);
 ```
 
-Set each byte of some byte array to a single value.
+Set `n` bytes of memory to a single value.
 
 | Parameter | Description |
 | :-- | :-- |
-| **dst** | The byte array to modify. |
+| **dst** | The buffer to modify. |
 | **val** | The value to copy to each byte. |
+| **n** | The number of bytes to write. |
 
 ## `$millis`
 
