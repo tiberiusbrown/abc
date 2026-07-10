@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iterator>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -99,25 +100,25 @@ static generic_result_t run_generic(std::vector<uint8_t> const& binary)
 static ardens_result_t run_ardens(std::vector<uint8_t> const& binary)
 {
     ardens_result_t result;
-    absim::arduboy_t arduboy;
+    std::unique_ptr<absim::arduboy_t> arduboy = std::make_unique<absim::arduboy_t>();
 
     std::string vm_hex(reinterpret_cast<char const*>(VM_HEX_ARDUBOYFX), sizeof(VM_HEX_ARDUBOYFX));
     std::istringstream vm_stream(vm_hex);
-    if(!arduboy.load_file("vm.hex", vm_stream).empty())
+    if(!arduboy->load_file("vm.hex", vm_stream).empty())
         return result;
 
     std::istringstream fx_stream(std::string(reinterpret_cast<char const*>(binary.data()), binary.size()));
-    if(!arduboy.load_file("fxdata.bin", fx_stream).empty())
+    if(!arduboy->load_file("fxdata.bin", fx_stream).empty())
         return result;
 
-    arduboy.reset();
-    arduboy.debugger_state.allow_nonstep_breakpoints = true;
-    arduboy.core_state.cpu.enabled_autobreaks.reset();
-    arduboy.core_state.cpu.enabled_autobreaks.set(absim::AB_BREAK);
-    arduboy.advance(1'000'000'000'000ull);
+    arduboy->reset();
+    arduboy->debugger_state.allow_nonstep_breakpoints = true;
+    arduboy->core_state.cpu.enabled_autobreaks.reset();
+    arduboy->core_state.cpu.enabled_autobreaks.set(absim::AB_BREAK);
+    arduboy->advance(1'000'000'000'000ull);
 
-    result.broke = arduboy.debugger_state.paused;
-    result.error = arduboy.core_state.cpu.data[0x0635];
+    result.broke = arduboy->debugger_state.paused;
+    result.error = arduboy->core_state.cpu.data[0x0635];
     return result;
 }
 
@@ -137,9 +138,13 @@ int main()
     fs::path work_dir = ABC_TEST_WORK_DIR;
     fs::path source_dir = ABC_TEST_SOURCE_DIR;
 
-    std::array<test_case_t, 2> tests{{
-        {"format_strings", "A:cater|L:5|C:0|M:cater|P:XXX|T:cate|E:ok\n"},
-        {"printf_minimal", "W:0042|S:zap|%\n"},
+    std::array<test_case_t, 7> tests{{
+        {"printf_static", "static"},
+        {"printf_char", "char:C"},
+        {"printf_ram_string", "ram:ram"},
+        {"printf_prog_string", "prog:prog"},
+        {"printf_mixed_strings", "strings:ram|prog"},
+        {"printf_integers", "ints:-42|42|abcd|0007"},
     }};
 
     int failures = 0;
@@ -174,7 +179,7 @@ int main()
         generic_result_t generic = run_generic(binary);
         if(!generic.broke || generic.errored || generic.debug_output != test.expected_output)
         {
-            std::printf("%s generic mismatch\nexpected: %sactual: %s\n",
+            std::printf("%s generic mismatch\n   expected: <%s>\n   actual: <%s>\n",
                         test.name, test.expected_output, generic.debug_output.c_str());
             ++failures;
             continue;
