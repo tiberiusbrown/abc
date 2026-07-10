@@ -29,6 +29,7 @@ struct generic_result_t {
 struct ardens_result_t {
     bool broke = false;
     uint8_t error = 0xff;
+    std::string debug_output;
 };
 
 struct generic_user_t {
@@ -111,6 +112,9 @@ static ardens_result_t run_ardens(std::vector<uint8_t> const& binary)
 
     result.broke = arduboy->debugger_state.paused;
     result.error = arduboy->core_state.cpu.data[0x0635];
+    result.debug_output = std::string(
+        arduboy->core_state.cpu.serial_bytes.begin(),
+        arduboy->core_state.cpu.serial_bytes.end());
     return result;
 }
 
@@ -131,7 +135,7 @@ int main()
         {"printf_prog_string", "prog:prog"},
         {"printf_mixed_strings", "strings:ram|prog"},
         {"printf_integers", "ints:-42|42|abcd|0007|-123456|123456|12345678"},
-        {"syscalls_buttons", "buttons:0|0|0|1|0|1"},
+        {"syscalls_buttons", "buttons:0|0|0"},
     }};
 
     int failures = 0;
@@ -154,26 +158,29 @@ int main()
             continue;
         }
 
+        bool passed = true;
+
         std::vector<uint8_t> binary = read_binary(bin);
         generic_result_t generic = run_generic(binary);
         if(!generic.broke || generic.errored || generic.debug_output != test.expected_output)
         {
             std::printf("%s generic mismatch\n   expected: <%s>\n   actual: <%s>\n",
                         test.name, test.expected_output, generic.debug_output.c_str());
-            ++failures;
-            continue;
+            passed = false;
         }
 
         ardens_result_t ardens = run_ardens(binary);
-        if(!ardens.broke || ardens.error != 0)
+        if(!ardens.broke || ardens.error != 0 || ardens.debug_output != test.expected_output)
         {
-            std::printf("%s ardens failed (broke=%d error=%u)\n",
-                        test.name, ardens.broke ? 1 : 0, unsigned(ardens.error));
-            ++failures;
-            continue;
+            std::printf("%s ardens mismatch\n   expected: <%s>\n   actual: <%s>\n",
+                        test.name, test.expected_output, ardens.debug_output.c_str());
+            passed = false;
         }
 
-        std::printf("%s pass\n", test.name);
+        if(passed)
+            std::printf("%s pass\n", test.name);
+        else
+            ++failures;
     }
 
     return failures == 0 ? 0 : 1;

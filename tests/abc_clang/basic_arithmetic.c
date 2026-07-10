@@ -7,6 +7,14 @@ int array_sum(int* x, int n)
 {
     int t = 0;
     for(int i = 0; i < n; ++i)
+        t += x[i];
+    return t;
+}
+
+int array_sum_prog(int __prog* x, int n)
+{
+    int t = 0;
+    for(int i = 0; i < n; ++i)
     {
         t += x[i];
     }
