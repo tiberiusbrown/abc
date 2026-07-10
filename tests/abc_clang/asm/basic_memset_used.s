@@ -15,7 +15,7 @@ main.entry:
 push2	8
 p00
 pushg	buf
-sys	76
+sys	memset
 setl2	4
 getl2	2
 setg2	result

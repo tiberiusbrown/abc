@@ -21,13 +21,13 @@ main.entry:
 push2	4
 pushl	ram_text_init
 pushg	ram_text
-sys	94
+sys	strncpy_P
 popn	2
 pushl	prog_text
 pushg	ram_text
 pushl	fmt_output
-sys	58
-sys	56
+sys	debug_printf
+sys	debug_break
 p00
 setl2	4
 ret

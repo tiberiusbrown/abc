@@ -18,13 +18,13 @@ main.entry:
 push2	16
 pushl	lit_text
 pushg	text
-sys	94
+sys	strncpy_P
 popn	2
 pushl	lit_text
 push2	42
 pushl	fmt_output
-sys	58
-sys	56
+sys	debug_printf
+sys	debug_break
 p00
 setl2	4
 ret

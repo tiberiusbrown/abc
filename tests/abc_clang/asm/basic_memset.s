@@ -11,6 +11,6 @@ main.entry:
 push2	8
 p00
 pushg	buf
-sys	76
+sys	memset
 popn	2
 ret
