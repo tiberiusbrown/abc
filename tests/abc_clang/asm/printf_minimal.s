@@ -1,12 +1,15 @@
 	.type	text,@object
+	.section	.bss,"aw",@nobits
 text:
 	.zero	16
 	.type	lit_text,@object
+	.section	.rodata,"a",@progbits
 lit_text:
 	.asciz	"zap"
 	.type	fmt_output,@object
 fmt_output:
 	.asciz	"W:%04u|S:%s|%%\n"
+	.section	.text,"ax",@progbits
 	.globl	main
 	.type	main,@function
 main:
