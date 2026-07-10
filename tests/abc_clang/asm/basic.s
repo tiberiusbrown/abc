@@ -1,3 +1,4 @@
+	.section	.text,"ax",@progbits
 	.globl	main
 	.type	main,@function
 main:

@@ -19,14 +19,13 @@ main.entry:
 pushg	16
 pushl	lit_text
 pushg	text
-p00
-sys	47
+sys	94
 setl2	4
 pushg	text
 pushg	42
 pushl	fmt_output
-sys	29
-sys	28
+sys	58
+sys	56
 p00
 setl2	6
 popn	2
