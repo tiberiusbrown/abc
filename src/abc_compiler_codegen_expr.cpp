@@ -487,26 +487,6 @@ void compiler_t::codegen_expr(
 
         // TODO: test for reference return type (not allowed)
 
-        // system functions don't need space reserved for return value
-        if(!func.is_sys)
-        {
-            auto const& ref_type = func.name.empty() ?
-                a.children[0].comp_type.without_ref() :
-                func.ref_type;
-            // reserve space for return value
-            frame.size += ref_type.children[0].prim_size;
-            auto n = (uint8_t)ref_type.children[0].prim_size;
-            if(n > 8)
-            {
-                f.instrs.push_back({ I_ALLOC, a.line(), n });
-            }
-            else
-            {
-                for(size_t i = 0; i < ref_type.children[0].prim_size; ++i)
-                    f.instrs.push_back({ I_PUSH, a.line(), 0 });
-            }
-        }
-
         auto const* arg_types = func.is_sys ?
             func.decl.arg_types.data() :
             a.children[0].comp_type.without_ref().children.data() + 1;
@@ -631,12 +611,16 @@ void compiler_t::codegen_expr(
         else
             f.instrs.push_back({ I_CALL, a.line(), 0, 0, std::string(a.children[0].data) });
 
-        // called function should pop stack
+        // The called function creates and owns its return slot.
         frame.size = prev_size;
 
         // system functions push return value onto stack
         if(func.is_sys)
             frame.size += func.decl.return_type.prim_size;
+        else
+            frame.size += (func.name.empty() ?
+                a.children[0].comp_type.without_ref().children[0].prim_size :
+                func.ref_type.children[0].prim_size);
 
         return;
     }

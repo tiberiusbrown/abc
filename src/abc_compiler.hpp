@@ -497,6 +497,7 @@ struct compiler_scope_t
 struct compiler_frame_t
 {
     size_t size;
+    size_t return_frame_size;
     std::vector<compiler_scope_t> scopes; // in-order
     void push()
     {

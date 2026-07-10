@@ -6,6 +6,7 @@ fmt_output:
 	.globl	main
 	.type	main,@function
 main:
+p00
 $__abc.main.retbytes = 2
 main.entry:
 push4	305419896
@@ -19,5 +20,5 @@ pushl	fmt_output
 sys	debug_printf
 sys	debug_break
 p00
-setl2	4
+setl2	0
 ret

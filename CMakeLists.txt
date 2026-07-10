@@ -237,7 +237,7 @@ if(NOT EMSCRIPTEN)
     add_abc_clang_fixture(syscalls_buttons)
     add_abc_clang_asm_fixture(basic)
     add_abc_clang_asm_fixture(basic_void)
-    add_abc_clang_asm_fixture(basic_arithmetic)
+    add_abc_clang_fixture(basic_arithmetic)
 
     get_property(ABC_CLANG_FIXTURE_OUTPUTS GLOBAL PROPERTY ABC_CLANG_FIXTURE_OUTPUTS)
     add_custom_target(abc_clang_fixtures DEPENDS ${ABC_CLANG_FIXTURE_OUTPUTS})

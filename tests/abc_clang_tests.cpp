@@ -128,7 +128,7 @@ int main()
     fs::path work_dir = ABC_TEST_WORK_DIR;
     fs::path source_dir = ABC_TEST_SOURCE_DIR;
 
-    std::array<test_case_t, 7> tests{{
+    std::array<test_case_t, 8> tests{{
         {"printf_static", "static"},
         {"printf_char", "char:C"},
         {"printf_ram_string", "ram:ram"},
@@ -136,6 +136,7 @@ int main()
         {"printf_mixed_strings", "strings:ram|prog"},
         {"printf_integers", "ints:-42|42|abcd|0007|-123456|123456|12345678"},
         {"syscalls_buttons", "buttons:0|0|0"},
+        {"basic_arithmetic", "arith:5|3|7|4"},
     }};
 
     int failures = 0;

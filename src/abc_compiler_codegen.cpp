@@ -87,7 +87,8 @@ void compiler_t::codegen_store_return(
 {
     compiler_lvalue_t t{};
     auto const& type = f.decl.return_type;
-    f.instrs.push_back({ I_SETLN, a.line(), (uint8_t)type.prim_size, (uint8_t)frame.size });
+    size_t offset = frame.size - frame.return_frame_size - type.prim_size;
+    f.instrs.push_back({ I_SETLN, a.line(), (uint8_t)type.prim_size, (uint8_t)offset });
     frame.size -= type.prim_size;
 }
 
@@ -124,8 +125,10 @@ void compiler_t::codegen_return(compiler_func_t& f, compiler_frame_t& frame, ast
 
     // pop remaining func args
     assert(frame.size < 256);
-    if(frame.size != 0)
-        f.instrs.push_back({ I_POPN, n.line(), uint8_t(frame.size) });
+    size_t return_size = f.decl.return_type.prim_size;
+    size_t pop_size = frame.size - return_size;
+    if(pop_size != 0)
+        f.instrs.push_back({ I_POPN, n.line(), uint8_t(pop_size) });
     f.instrs.push_back({ I_RET, n.line() });
 }
 
@@ -164,6 +167,20 @@ void compiler_t::codegen_function(compiler_func_t& f)
         scope.size += size;
         frame.size += size;
     }
+
+    auto return_size = f.decl.return_type.prim_size;
+    if(return_size)
+    {
+        if(return_size > 8)
+            f.instrs.push_back({ I_ALLOC, f.line_info.first, (uint8_t)return_size });
+        else
+            for(size_t i = 0; i < return_size; ++i)
+                f.instrs.push_back({ I_PUSH, f.line_info.first, 0 });
+        frame.size += return_size;
+        for(auto& [name, local] : scope.locals)
+            local.frame_offset += return_size;
+    }
+    frame.return_frame_size = frame.size;
 
     frame.push();
 
