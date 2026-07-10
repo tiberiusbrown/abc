@@ -4,5 +4,7 @@
         "bugprone-*",
         "modernize-*",
         "performance-*"
-    ]
+    ],
+    "cmake.generator": "Ninja",
+    "cmake.buildDirectory": "${workspaceFolder}/build"
 }

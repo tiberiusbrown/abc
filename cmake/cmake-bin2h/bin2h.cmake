@@ -78,6 +78,15 @@ function(BIN2H)
     if(BIN2H_APPEND)
         file(APPEND ${BIN2H_HEADER_FILE} "${declarations}")
     else()
-        file(WRITE ${BIN2H_HEADER_FILE} "${declarations}")
+        # CMake may re-run this function during an otherwise harmless
+        # configure.  Do not touch the header when its contents are already
+        # identical; generated-header timestamps are build dependencies.
+        set(existing_declarations "")
+        if(EXISTS "${BIN2H_HEADER_FILE}")
+            file(READ "${BIN2H_HEADER_FILE}" existing_declarations)
+        endif()
+        if(NOT existing_declarations STREQUAL declarations)
+            file(WRITE "${BIN2H_HEADER_FILE}" "${declarations}")
+        endif()
     endif()
 endfunction()

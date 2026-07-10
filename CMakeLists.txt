@@ -13,16 +13,29 @@ file(MAKE_DIRECTORY "${GENHEADER_DIR}")
 file(GLOB INTERP_BUILDS "${CMAKE_CURRENT_SOURCE_DIR}/interp_arduboy/build_*")
 set(BUILDZIP "${CMAKE_CURRENT_BINARY_DIR}/interp_builds.zip")
 set(BUILDZIPDIR "${CMAKE_CURRENT_BINARY_DIR}/interp_builds")
-file(REMOVE_RECURSE "${BUILDZIPDIR}")
 file(MAKE_DIRECTORY "${BUILDZIPDIR}")
+set(INTERP_BUILDS_CHANGED FALSE)
 foreach(B ${INTERP_BUILDS})
     get_filename_component(BB "${B}" NAME)
-    file(COPY_FILE "${B}/interp_arduboy.ino.hex" "${BUILDZIPDIR}/${BB}.hex")
+    set(SRC_HEX "${B}/interp_arduboy.ino.hex")
+    set(DST_HEX "${BUILDZIPDIR}/${BB}.hex")
+    file(SHA256 "${SRC_HEX}" SRC_HEX_HASH)
+    if(EXISTS "${DST_HEX}")
+        file(SHA256 "${DST_HEX}" DST_HEX_HASH)
+    else()
+        set(DST_HEX_HASH "")
+    endif()
+    if(NOT SRC_HEX_HASH STREQUAL DST_HEX_HASH)
+        set(INTERP_BUILDS_CHANGED TRUE)
+        file(COPY_FILE "${SRC_HEX}" "${DST_HEX}")
+    endif()
+endforeach()
+if(INTERP_BUILDS_CHANGED OR NOT EXISTS "${BUILDZIP}")
     execute_process(
         COMMAND ${CMAKE_COMMAND} -E tar cf "${BUILDZIP}" --format=zip -- "interp_builds"
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         )
-endforeach()
+endif()
 bin2h(
     SOURCE_FILE   "${BUILDZIP}"
     HEADER_FILE   "${GENHEADER_DIR}/interp_builds.hpp"
@@ -133,7 +146,7 @@ if(NOT EMSCRIPTEN)
     set(LLVM_EXPERIMENTAL_TARGETS_TO_BUILD "ABC" CACHE STRING "" FORCE)
 
     add_subdirectory(deps/llvm-project-abc/llvm EXCLUDE_FROM_ALL)
-    add_custom_target(abc-llvm-tools ALL DEPENDS
+    add_custom_target(abc-llvm-tools DEPENDS
         clang lld llvm-mc llvm-objdump llvm-readobj llvm-size
         abc-as abc-objdump abc-readobj abc-size
         )
@@ -228,13 +241,15 @@ if(NOT EMSCRIPTEN)
 
     get_property(ABC_CLANG_FIXTURE_OUTPUTS GLOBAL PROPERTY ABC_CLANG_FIXTURE_OUTPUTS)
     add_custom_target(abc_clang_fixtures DEPENDS ${ABC_CLANG_FIXTURE_OUTPUTS})
-    add_dependencies(abc_clang_fixtures abc-llvm-tools)
+    # The fixture commands invoke only clang and lld.  Keep the dependency
+    # graph limited to those tools instead of pulling in the aggregate target
+    # (which also builds every LLVM/ABC utility listed above).
+    add_dependencies(abc_clang_fixtures clang lld)
 
     add_executable(abc_clang_tests
         .editorconfig
         tests/abc_clang_tests.cpp
         )
-    add_dependencies(abc_clang_tests abc-llvm-tools)
     add_dependencies(abc_clang_tests abc_clang_fixtures)
     target_include_directories(abc_clang_tests PRIVATE
         "${GENHEADER_DIR}"
