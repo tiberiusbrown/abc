@@ -37,7 +37,7 @@ fmt_output:
 	.globl	main
 	.type	main,@function
 main:
-alloc	14
+alloc	4
 $__abc.main.retbytes = 2
 main.entry:
 pushg	32
@@ -83,18 +83,12 @@ popn	2
 pushg	32
 pushg	text_a
 sys	82
-setl2	12
-getl2	10
-setl2	16
-getl2	14
-setl2	10
-getl2	8
+setl2	6
+getl2	4
 pushg	text_b
 pushg	text_a
 sys	86
-setl2	8
-getl2	6
-setl2	14
+setl2	4
 pushg	6
 pushg	text_a
 pushg	text_b
@@ -115,10 +109,6 @@ pushl	lit_embedded
 pushg	embedded_buf
 sys	80
 popn	2
-getl2	14
-setl2	6
-getl2	12
-setl2	4
 pushg	embedded_buf
 pushg	trunc_buf
 pushg	pad
@@ -130,6 +120,6 @@ pushl	fmt_output
 sys	58
 sys	56
 p00
-setl2	18
-popn	14
+setl2	8
+popn	4
 ret
