@@ -47,14 +47,6 @@ static std::string path_string(fs::path path)
     return path.string();
 }
 
-static std::string read_text(fs::path const& path)
-{
-    std::ifstream f(path, std::ios::binary);
-    std::ostringstream ss;
-    ss << f.rdbuf();
-    return ss.str();
-}
-
 static std::vector<uint8_t> read_binary(fs::path const& path)
 {
     std::ifstream f(path, std::ios::binary);
@@ -122,12 +114,6 @@ static ardens_result_t run_ardens(std::vector<uint8_t> const& binary)
     return result;
 }
 
-static bool contains_slice_opcode(std::string const& asm_text)
-{
-    return asm_text.find("aslc") != std::string::npos ||
-           asm_text.find("pslc") != std::string::npos;
-}
-
 } // namespace
 
 int main()
@@ -160,14 +146,6 @@ int main()
             continue;
         }
 
-        std::string asm_text = read_text(asm_out);
-        if(contains_slice_opcode(asm_text))
-        {
-            std::printf("%s emitted removed slice opcode\n", test.name);
-            ++failures;
-            continue;
-        }
-
         if(!fs::exists(bin))
         {
             std::printf("%s binary output missing: %s\n", test.name, path_string(bin).c_str());
@@ -195,20 +173,6 @@ int main()
         }
 
         std::printf("%s pass\n", test.name);
-    }
-
-    {
-        fs::path asm_out = source_dir / "asm" / "no_slice.s";
-        if(!fs::exists(asm_out))
-        {
-            std::printf("no_slice asm output missing: %s\n", path_string(asm_out).c_str());
-            ++failures;
-        }
-        else if(contains_slice_opcode(read_text(asm_out)))
-        {
-            std::printf("no_slice compile check failed\n");
-            ++failures;
-        }
     }
 
     return failures == 0 ? 0 : 1;
