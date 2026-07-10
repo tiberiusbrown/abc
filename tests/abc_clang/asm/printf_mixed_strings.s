@@ -1,17 +1,18 @@
-	.type	ram_text,@object
-	.section	.bss,"aw",@nobits
-ram_text:
-	.zero	4
 	.type	ram_text_init,@object
 	.section	.rodata,"a",@progbits
 ram_text_init:
 	.asciz	"ram"
+	.type	ram_text,@object
+	.section	.bss,"aw",@nobits
+ram_text:
+	.zero	4
+	.type	prog_text,@object
+	.section	.rodata,"a",@progbits
+prog_text:
+	.asciz	"prog"
 	.type	fmt_output,@object
 fmt_output:
 	.asciz	"strings:%s|%S"
-	.type	prog_text,@object
-prog_text:
-	.asciz	"prog"
 	.section	.text,"ax",@progbits
 	.globl	main
 	.type	main,@function

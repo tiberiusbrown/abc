@@ -11,14 +11,14 @@ extern bool abc_not_pressed(u8 buttons) asm("$not_pressed");
 extern void abc_debug_break(void) asm("$debug_break");
 extern void abc_debug_printf(const prog_char *fmt, ...) asm("$debug_printf");
 
-static const prog_char fmt_output[] = "buttons:%u|%d|%d";
+static const prog_char fmt_output[] = "buttons:%d|%d|%d";
 
 int main(void)
 {
     abc_debug_printf(fmt_output,
-        abc_buttons(),
         abc_just_pressed(0),
-        abc_just_released(0));
+        abc_just_pressed(0),
+        abc_just_pressed(0));
     abc_debug_break();
     return 0;
 }

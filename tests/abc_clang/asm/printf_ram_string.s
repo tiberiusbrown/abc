@@ -1,12 +1,13 @@
-	.type	text,@object
-	.section	.bss,"aw",@nobits
-text:
-	.zero	4
 	.type	text_init,@object
 	.section	.rodata,"a",@progbits
 text_init:
 	.asciz	"ram"
+	.type	text,@object
+	.section	.bss,"aw",@nobits
+text:
+	.zero	4
 	.type	fmt_output,@object
+	.section	.rodata,"a",@progbits
 fmt_output:
 	.asciz	"ram:%s"
 	.section	.text,"ax",@progbits
