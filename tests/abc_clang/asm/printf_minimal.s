@@ -14,14 +14,14 @@ alloc	2
 $__abc.main.retbytes = 2
 main.entry:
 pushg	16
-pushl	<MCOperand Expr:lit_text>
-pushg	<MCOperand Expr:text>
+pushl	lit_text
+pushg	text
 p00
 sys	47
 setl2	4
-pushg	<MCOperand Expr:text>
+pushg	text
 pushg	42
-pushl	<MCOperand Expr:fmt_output>
+pushl	fmt_output
 sys	29
 sys	28
 p00
