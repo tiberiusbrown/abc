@@ -107,6 +107,7 @@ set(ARDENS_LIBRETRO OFF CACHE BOOL "" FORCE)
 add_subdirectory(deps/Ardens EXCLUDE_FROM_ALL)
 
 if(NOT EMSCRIPTEN)
+    set(LLVM_BUILD_LLVM_DYLIB              ON  CACHE BOOL   "" FORCE)
     set(LLVM_BUILD_TESTS                   OFF CACHE BOOL   "" FORCE)
     set(LLVM_BUILD_TOOLS                   OFF CACHE BOOL   "" FORCE)
     set(LLVM_BUILD_UTILS                   OFF CACHE BOOL   "" FORCE)
@@ -170,11 +171,65 @@ elseif(CMAKE_SYSTEM_NAME MATCHES "Linux")
 endif()
 
 if(NOT EMSCRIPTEN)
+    set(ABC_CLANG_FIXTURE_ASM_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/abc_clang/asm")
+    set(ABC_CLANG_TEST_WORK_DIR "${CMAKE_CURRENT_BINARY_DIR}/abc_clang_tests")
+
+    function(add_abc_clang_fixture name source_file)
+        set(src "${CMAKE_CURRENT_SOURCE_DIR}/tests/abc_clang/${source_file}")
+        set(asm_out "${ABC_CLANG_FIXTURE_ASM_DIR}/${name}.s")
+        set(obj_out "${ABC_CLANG_TEST_WORK_DIR}/${name}.obj")
+        set(bin_out "${ABC_CLANG_TEST_WORK_DIR}/${name}.bin")
+
+        add_custom_command(
+            OUTPUT "${asm_out}" "${obj_out}" "${bin_out}"
+            COMMAND "${CMAKE_COMMAND}" -E make_directory "${ABC_CLANG_FIXTURE_ASM_DIR}"
+            COMMAND "${CMAKE_COMMAND}" -E make_directory "${ABC_CLANG_TEST_WORK_DIR}"
+            COMMAND $<TARGET_FILE:clang> --target=abc -O0 -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
+            COMMAND $<TARGET_FILE:clang> --target=abc -O0 -ffreestanding -fno-builtin -nostdlib -c "${src}" -o "${obj_out}"
+            COMMAND $<TARGET_FILE_DIR:lld>/abc-ld${CMAKE_EXECUTABLE_SUFFIX} "${obj_out}" -o "${bin_out}"
+            DEPENDS "${src}"
+            VERBATIM
+            COMMENT "Generating abc_clang fixture ${name}"
+        )
+
+        set_property(GLOBAL APPEND PROPERTY ABC_CLANG_FIXTURE_OUTPUTS
+            "${asm_out}"
+            "${obj_out}"
+            "${bin_out}"
+            )
+    endfunction()
+
+    function(add_abc_clang_asm_fixture name source_file)
+        set(src "${CMAKE_CURRENT_SOURCE_DIR}/tests/abc_clang/${source_file}")
+        set(asm_out "${ABC_CLANG_FIXTURE_ASM_DIR}/${name}.s")
+
+        add_custom_command(
+            OUTPUT "${asm_out}"
+            COMMAND "${CMAKE_COMMAND}" -E make_directory "${ABC_CLANG_FIXTURE_ASM_DIR}"
+            COMMAND $<TARGET_FILE:clang> --target=abc -O0 -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
+            DEPENDS "${src}"
+            VERBATIM
+            COMMENT "Generating abc_clang assembly ${name}"
+        )
+
+        set_property(GLOBAL APPEND PROPERTY ABC_CLANG_FIXTURE_OUTPUTS "${asm_out}")
+    endfunction()
+
+    add_abc_clang_fixture(format_strings format_strings.c)
+    add_abc_clang_fixture(printf_minimal printf_minimal.c)
+    add_abc_clang_asm_fixture(no_slice no_slice.c)
+    add_abc_clang_asm_fixture(basic basic.c)
+
+    get_property(ABC_CLANG_FIXTURE_OUTPUTS GLOBAL PROPERTY ABC_CLANG_FIXTURE_OUTPUTS)
+    add_custom_target(abc_clang_fixtures DEPENDS ${ABC_CLANG_FIXTURE_OUTPUTS})
+    add_dependencies(abc_clang_fixtures abc-llvm-tools)
+
     add_executable(abc_clang_tests
         .editorconfig
         tests/abc_clang_tests.cpp
         )
     add_dependencies(abc_clang_tests abc-llvm-tools)
+    add_dependencies(abc_clang_tests abc_clang_fixtures)
     target_include_directories(abc_clang_tests PRIVATE
         "${GENHEADER_DIR}"
         )
@@ -183,11 +238,8 @@ if(NOT EMSCRIPTEN)
         ardenslib
         )
     target_compile_definitions(abc_clang_tests PRIVATE
-        ABC_CLANG_PATH="$<TARGET_FILE:clang>"
-        ABC_LLVM_MC_PATH="$<TARGET_FILE:llvm-mc>"
-        ABC_LLD_PATH="$<TARGET_FILE_DIR:lld>/abc-ld${CMAKE_EXECUTABLE_SUFFIX}"
         ABC_TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/abc_clang"
-        ABC_TEST_WORK_DIR="${CMAKE_CURRENT_BINARY_DIR}/abc_clang_tests"
+        ABC_TEST_WORK_DIR="${ABC_CLANG_TEST_WORK_DIR}"
         )
     add_custom_target(check-abc-clang
         COMMAND abc_clang_tests

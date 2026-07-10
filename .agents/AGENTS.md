@@ -1,0 +1,1 @@
+When building or running any target, always use Debug configuration.
