@@ -2487,6 +2487,7 @@ static void format_exec(format_char_func f)
         }
         c = FORMAT_EXEC_NEXT_CHAR;
         uint8_t zero_pad = 0;
+        uint8_t long_arg = 0;
         int8_t width = 0;
         uint8_t precision = 0;
         uint8_t has_precision = 0;
@@ -2507,6 +2508,11 @@ static void format_exec(format_char_func f)
             if(c < '0' || c > '9')
                 continue;
             precision = (uint8_t)(c - '0');
+            c = FORMAT_EXEC_NEXT_CHAR;
+        }
+        if(c == 'l')
+        {
+            long_arg = 1;
             c = FORMAT_EXEC_NEXT_CHAR;
         }
         switch(c)
@@ -2548,9 +2554,11 @@ static void format_exec(format_char_func f)
             uint32_t x;
             {
                 auto ptr = vm_pop_begin();
-                x = vm_pop<uint32_t>(ptr);
+                x = long_arg ? vm_pop<uint32_t>(ptr) : vm_pop<uint16_t>(ptr);
                 vm_pop_end(ptr);
             }
+            if(!long_arg && c == 'd')
+                x = (uint32_t)(int32_t)(int16_t)x;
             format_add_int(f, x, c == 'd', c == 'x' ? 16 : 10, zero_pad ? width : 0);
             break;
         }

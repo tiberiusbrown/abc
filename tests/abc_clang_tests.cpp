@@ -130,7 +130,7 @@ int main()
         {"printf_ram_string", "ram:ram"},
         {"printf_prog_string", "prog:prog"},
         {"printf_mixed_strings", "strings:ram|prog"},
-        {"printf_integers", "ints:-42|42|abcd|0007"},
+        {"printf_integers", "ints:-42|42|abcd|0007|-123456|123456|12345678"},
     }};
 
     int failures = 0;

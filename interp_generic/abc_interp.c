@@ -1812,6 +1812,7 @@ static void format_exec(
             continue;
         }
         uint8_t zero_pad = 0;
+        uint8_t long_arg = 0;
         int8_t width = 0;
         uint8_t precision = 0;
         uint8_t has_precision = 0;
@@ -1833,6 +1834,11 @@ static void format_exec(
             if(!format_is_digit(c))
                 continue;
             precision = (uint8_t)(c - '0');
+            c = (char)h->prog(h->user, fb++);
+        }
+        if(c == 'l')
+        {
+            long_arg = 1;
             c = (char)h->prog(h->user, fb++);
         }
         switch(c)
@@ -1861,7 +1867,9 @@ static void format_exec(
         case 'u':
         case 'x':
         {
-            uint32_t x = pop32(interp);
+            uint32_t x = long_arg ? pop32(interp) : pop16(interp);
+            if(!long_arg && c == 'd')
+                x = (uint32_t)(int32_t)(int16_t)x;
             format_add_int(f, u, x, c == 'd', c == 'x' ? 16 : 10, zero_pad ? width : 0);
             break;
         }
