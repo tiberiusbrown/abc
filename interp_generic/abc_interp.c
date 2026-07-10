@@ -1844,7 +1844,8 @@ static void format_exec(
         switch(c)
         {
         case 'c':
-            f(u, (char)pop8(interp));
+            // C varargs promote char to int. ABC int is 16 bits.
+            f(u, (char)pop16(interp));
             break;
         case '%':
             f(u, c);

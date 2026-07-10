@@ -2520,7 +2520,9 @@ static void format_exec(format_char_func f)
         case 'c':
         {
             auto ptr = vm_pop_begin();
-            c = vm_pop<char>(ptr);
+            // C varargs promote char to int.  ABC int is 16 bits, so consume
+            // the complete promoted argument before narrowing for output.
+            c = (char)vm_pop<int16_t>(ptr);
             vm_pop_end(ptr);
         }
             // fallthrough
