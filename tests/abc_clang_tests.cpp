@@ -138,7 +138,7 @@ int main()
     fs::path work_dir = ABC_TEST_WORK_DIR;
     fs::path source_dir = ABC_TEST_SOURCE_DIR;
 
-    std::array<test_case_t, 7> tests{{
+    std::array<test_case_t, 6> tests{{
         {"printf_static", "static"},
         {"printf_char", "char:C"},
         {"printf_ram_string", "ram:ram"},

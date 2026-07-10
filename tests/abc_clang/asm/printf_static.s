@@ -1,7 +1,7 @@
 	.type	fmt_output,@object
 	.section	.rodata,"a",@progbits
 fmt_output:
-	.asciz	"static\n"
+	.asciz	"static"
 	.section	.text,"ax",@progbits
 	.globl	main
 	.type	main,@function

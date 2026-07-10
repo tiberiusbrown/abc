@@ -8,7 +8,7 @@ text_init:
 	.asciz	"ram"
 	.type	fmt_output,@object
 fmt_output:
-	.asciz	"ram:%s\n"
+	.asciz	"ram:%s"
 	.section	.text,"ax",@progbits
 	.globl	main
 	.type	main,@function

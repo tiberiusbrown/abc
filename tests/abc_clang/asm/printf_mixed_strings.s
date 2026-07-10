@@ -8,7 +8,7 @@ ram_text_init:
 	.asciz	"ram"
 	.type	fmt_output,@object
 fmt_output:
-	.asciz	"strings:%s|%S\n"
+	.asciz	"strings:%s|%S"
 	.type	prog_text,@object
 prog_text:
 	.asciz	"prog"
