@@ -184,8 +184,8 @@ if(NOT EMSCRIPTEN)
             OUTPUT "${asm_out}" "${obj_out}" "${bin_out}"
             COMMAND "${CMAKE_COMMAND}" -E make_directory "${ABC_CLANG_FIXTURE_ASM_DIR}"
             COMMAND "${CMAKE_COMMAND}" -E make_directory "${ABC_CLANG_TEST_WORK_DIR}"
-            COMMAND $<TARGET_FILE:clang> --target=abc -O0 -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
-            COMMAND $<TARGET_FILE:clang> --target=abc -O0 -ffreestanding -fno-builtin -nostdlib -c "${src}" -o "${obj_out}"
+            COMMAND $<TARGET_FILE:clang> --target=abc -Os -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
+            COMMAND $<TARGET_FILE:clang> --target=abc -Os -ffreestanding -fno-builtin -nostdlib -c "${src}" -o "${obj_out}"
             COMMAND $<TARGET_FILE_DIR:lld>/abc-ld${CMAKE_EXECUTABLE_SUFFIX} "${obj_out}" -o "${bin_out}"
             DEPENDS "${src}" clang
             VERBATIM
@@ -206,7 +206,7 @@ if(NOT EMSCRIPTEN)
         add_custom_command(
             OUTPUT "${asm_out}"
             COMMAND "${CMAKE_COMMAND}" -E make_directory "${ABC_CLANG_FIXTURE_ASM_DIR}"
-            COMMAND $<TARGET_FILE:clang> --target=abc -O0 -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
+            COMMAND $<TARGET_FILE:clang> --target=abc -Os -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
             DEPENDS "${src}" clang
             VERBATIM
             COMMENT "Generating abc_clang assembly ${name}"
@@ -221,6 +221,7 @@ if(NOT EMSCRIPTEN)
     add_abc_clang_asm_fixture(basic)
     add_abc_clang_asm_fixture(basic_void)
     add_abc_clang_asm_fixture(basic_memset)
+    add_abc_clang_asm_fixture(basic_memset_used)
 
     get_property(ABC_CLANG_FIXTURE_OUTPUTS GLOBAL PROPERTY ABC_CLANG_FIXTURE_OUTPUTS)
     add_custom_target(abc_clang_fixtures DEPENDS ${ABC_CLANG_FIXTURE_OUTPUTS})

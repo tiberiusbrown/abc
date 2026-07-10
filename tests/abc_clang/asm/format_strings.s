@@ -37,74 +37,74 @@ fmt_output:
 	.globl	main
 	.type	main,@function
 main:
-alloc	36
+alloc	14
 $__abc.main.retbytes = 2
 main.entry:
 pushg	32
 p00
 pushg	text_a
 sys	76
-setl2	34
+popn	2
 pushg	32
 p00
 pushg	text_b
 sys	76
-setl2	32
+popn	2
 pushg	8
 p00
 pushg	pad
 sys	76
-setl2	30
+popn	2
 pushg	5
 p00
 pushg	trunc_buf
 sys	76
-setl2	28
+popn	2
 pushg	8
 p00
 pushg	embedded_buf
 sys	76
-setl2	26
+popn	2
 pushg	32
 pushl	lit_head
 pushg	text_a
 sys	94
-setl2	24
+popn	2
 pushg	2
 pushl	lit_tail
 pushg	text_a
 sys	98
-setl2	22
+popn	2
 pushg	32
 pushl	lit_exact
 pushg	text_b
 sys	94
-setl2	20
+popn	2
 pushg	32
 pushg	text_a
 sys	82
-setl2	18
-getl2	16
-setl2	38
-getl2	36
+setl2	12
+getl2	10
 setl2	16
 getl2	14
+setl2	10
+getl2	8
 pushg	text_b
 pushg	text_a
 sys	86
+setl2	8
+getl2	6
 setl2	14
-getl2	12
-setl2	36
 pushg	6
 pushg	text_a
 pushg	text_b
 sys	78
-setl2	12
+popn	2
 pushg	3
 pushg	88
 pushg	pad
 sys	76
-setl2	10
+popn	2
 pushg	text_a
 pushl	fmt_string
 pushg	5
@@ -114,10 +114,10 @@ pushg	6
 pushl	lit_embedded
 pushg	embedded_buf
 sys	80
-setl2	8
-getl2	36
+popn	2
+getl2	14
 setl2	6
-getl2	34
+getl2	12
 setl2	4
 pushg	embedded_buf
 pushg	trunc_buf
@@ -130,6 +130,6 @@ pushl	fmt_output
 sys	58
 sys	56
 p00
-setl2	40
-popn	36
+setl2	18
+popn	14
 ret

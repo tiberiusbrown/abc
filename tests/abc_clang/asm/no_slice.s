@@ -10,16 +10,14 @@ lit_text:
 	.globl	main
 	.type	main,@function
 main:
-alloc	2
 $__abc.main.retbytes = 2
 main.entry:
 pushg	8
 pushl	lit_text
 pushg	text
 sys	94
-setl2	4
+popn	2
 sys	56
 p00
-setl2	6
-popn	2
+setl2	4
 ret
