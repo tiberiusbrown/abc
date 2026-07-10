@@ -8,20 +8,20 @@ lit_text:
 	.asciz	"zap"
 	.type	fmt_output,@object
 fmt_output:
-	.asciz	"W:%04u|S:%s|%%\n"
+	.asciz	"W:%04u|S:%S|%%\n"
 	.section	.text,"ax",@progbits
 	.globl	main
 	.type	main,@function
 main:
 $__abc.main.retbytes = 2
 main.entry:
-pushg	16
+push2	16
 pushl	lit_text
 pushg	text
 sys	94
 popn	2
-pushg	text
-pushg	42
+pushl	lit_text
+push2	42
 pushl	fmt_output
 sys	58
 sys	56

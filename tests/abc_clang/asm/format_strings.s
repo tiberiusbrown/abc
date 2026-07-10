@@ -40,47 +40,47 @@ main:
 alloc	4
 $__abc.main.retbytes = 2
 main.entry:
-pushg	32
+push2	32
 p00
 pushg	text_a
 sys	76
 popn	2
-pushg	32
+push2	32
 p00
 pushg	text_b
 sys	76
 popn	2
-pushg	8
+push2	8
 p00
 pushg	pad
 sys	76
 popn	2
-pushg	5
+push2	5
 p00
 pushg	trunc_buf
 sys	76
 popn	2
-pushg	8
+push2	8
 p00
 pushg	embedded_buf
 sys	76
 popn	2
-pushg	32
+push2	32
 pushl	lit_head
 pushg	text_a
 sys	94
 popn	2
-pushg	2
+push2	2
 pushl	lit_tail
 pushg	text_a
 sys	98
 popn	2
-pushg	32
+push2	32
 pushl	lit_exact
 pushg	text_b
 sys	94
 popn	2
-pushg	32
+push2	32
 pushg	text_a
 sys	82
 setl2	6
@@ -89,22 +89,22 @@ pushg	text_b
 pushg	text_a
 sys	86
 setl2	4
-pushg	6
+push2	6
 pushg	text_a
 pushg	text_b
 sys	78
 popn	2
-pushg	3
-pushg	88
+push2	3
+push2	88
 pushg	pad
 sys	76
 popn	2
 pushg	text_a
 pushl	fmt_string
-pushg	5
+push2	5
 pushg	trunc_buf
 sys	100
-pushg	6
+push2	6
 pushl	lit_embedded
 pushg	embedded_buf
 sys	80

@@ -2523,6 +2523,7 @@ static void format_exec(format_char_func f)
             break;
         case 's':
         {
+            // RAM strings use 16-bit pointers.
             uint16_t tb;
             auto ptr = vm_pop_begin();
             tb = vm_pop<uint16_t>(ptr);
@@ -2532,6 +2533,7 @@ static void format_exec(format_char_func f)
         }
         case 'S':
         {
+            // Program strings use 24-bit pointers.
             uint24_t tb;
             auto ptr = vm_pop_begin();
             tb = vm_pop<uint24_t>(ptr);

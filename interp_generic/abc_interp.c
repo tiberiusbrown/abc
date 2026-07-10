@@ -1845,12 +1845,14 @@ static void format_exec(
             break;
         case 's':
         {
+            // RAM strings use 16-bit pointers.
             uint16_t tb = pop16(interp);
             format_add_ram_string(interp, f, u, tb);
             break;
         }
         case 'S':
         {
+            // Program strings use 24-bit pointers.
             uint32_t tb = pop24(interp);
             format_add_prog_string(h, f, u, tb);
             break;

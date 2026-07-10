@@ -12,7 +12,7 @@ lit_text:
 main:
 $__abc.main.retbytes = 2
 main.entry:
-pushg	8
+push2	8
 pushl	lit_text
 pushg	text
 sys	94

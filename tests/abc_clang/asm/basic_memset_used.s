@@ -12,7 +12,7 @@ main:
 alloc	2
 $__abc.main.retbytes = 0
 main.entry:
-pushg	8
+push2	8
 p00
 pushg	buf
 sys	76
