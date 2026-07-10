@@ -7,7 +7,7 @@ static const prog_char fmt_output[] = "char:%c";
 
 int main(void)
 {
-    abc_debug_printf(fmt_output, 'C');
+    abc_debug_printf(fmt_output, (char)'C');
     abc_debug_break();
     return 0;
 }

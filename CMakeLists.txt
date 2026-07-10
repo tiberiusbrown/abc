@@ -200,7 +200,7 @@ if(NOT EMSCRIPTEN)
             COMMAND $<TARGET_FILE:clang> --target=abc -Os -ffreestanding -fno-builtin -nostdlib -S "${src}" -o "${asm_out}"
             COMMAND $<TARGET_FILE:clang> --target=abc -Os -ffreestanding -fno-builtin -nostdlib -c "${src}" -o "${obj_out}"
             COMMAND $<TARGET_FILE_DIR:lld>/abc-ld${CMAKE_EXECUTABLE_SUFFIX} "${obj_out}" -o "${bin_out}"
-            DEPENDS "${src}" clang
+            DEPENDS "${src}" clang lld
             VERBATIM
             COMMENT "Generating abc_clang fixture ${name}"
         )
@@ -256,7 +256,7 @@ if(NOT EMSCRIPTEN)
         )
     target_link_libraries(abc_clang_tests PRIVATE
         abc_interp
-        ardenslib
+        ardensdebuggerlib
         )
     target_compile_definitions(abc_clang_tests PRIVATE
         ABC_TEST_SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/abc_clang"

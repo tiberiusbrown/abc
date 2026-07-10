@@ -8,7 +8,7 @@ fmt_output:
 main:
 $__abc.main.retbytes = 2
 main.entry:
-push2	67
+push	67
 pushl	fmt_output
 sys	58
 sys	56
