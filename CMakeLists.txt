@@ -145,7 +145,7 @@ if(NOT EMSCRIPTEN)
     set(LLVM_TARGETS_TO_BUILD              ";" CACHE STRING "" FORCE)
     set(LLVM_EXPERIMENTAL_TARGETS_TO_BUILD "ABC" CACHE STRING "" FORCE)
 
-    add_subdirectory(deps/llvm-project-abc/llvm EXCLUDE_FROM_ALL)
+    add_subdirectory(deps/llvm-project/llvm EXCLUDE_FROM_ALL)
     add_custom_target(abc-llvm-tools DEPENDS
         clang lld llvm-mc llvm-objdump llvm-readobj llvm-size
         abc-as abc-objdump abc-readobj abc-size

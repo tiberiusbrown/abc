@@ -8,6 +8,6 @@
 	path = deps/SDL
 	url = https://github.com/libsdl-org/SDL.git
 [submodule "deps/llvm-project-abc"]
-	path = deps/llvm-project-abc
-	url = https://github.com/tiberiusbrown/llvm-project-abc.git
+	path = deps/llvm-project
+	url = https://github.com/tiberiusbrown/llvm-project.git
 	shallow = true
